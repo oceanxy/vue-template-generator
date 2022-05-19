@@ -4,7 +4,7 @@
 
 import ULLoginForm from '@/views/Login/components/ULLoginForm'
 import './assets/styles/index.scss'
-import { Tabs } from 'ant-design-vue'
+import { Button, Tabs } from 'ant-design-vue'
 import ULLoginTabPane from '@/views/Login/components/ULLoginTabPane'
 import config from '@/config'
 
@@ -21,34 +21,35 @@ export default {
   render() {
     return (
       <div class="uni-log-login">
-        <div class="login-logo">
-          <span>{config.systemName}</span>
-        </div>
         <div class="login-center">
-          {/* 左侧动画 */}
-          <div class="login-animate">
-            <div
-              ref="loginCanvas"
-              class="login-canvas"
-            />
-          </div>
-          {/* 右侧登录框 */}
+          <div class="login-logo">{config.systemName}竭诚为您服务</div>
+          {/* 登录框 */}
           <div class="login-box">
+            <div class="login-subtitle">Welcome Login!</div>
             <Tabs
               activeKey={this.activeKey}
               size="large"
               onTabClick={this.handleTabClick}
             >
               <ULLoginTabPane
-                name="普通登录"
+                name="帐号密码登录"
                 tabKey={1}
-                icon="user"
+              >
+                <ULLoginForm />
+              </ULLoginTabPane>
+              <ULLoginTabPane
+                name="负责人手机号码登录"
+                tabKey={2}
               >
                 <ULLoginForm />
               </ULLoginTabPane>
             </Tabs>
+            <div class="login-log-on">
+              <Button type="link">企业还未入驻？点击立即申请</Button>
+            </div>
           </div>
         </div>
+        <div class='copyright'>©2022 巴南智慧园区版权所有 | ICP备案号：28391283921 | 技术支持：重庆誉存科技有限公司</div>
       </div>
     )
   }

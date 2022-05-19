@@ -50,9 +50,12 @@ export default Form.create({ name: 'ULLoginForm' })({
             this.form.getFieldDecorator('username', {
               rules: [{ required: true, message: '请输入用户名!', trigger: '' }]
             })(
-              <Input placeholder="请输入用户名">
+              <Input placeholder="请输入账号">
                 <template slot="prefix">
-                  <a-icon style={{ color: 'rgba(0, 0, 0, .25)' }} type="user" />
+                  <a-icon
+                    style={{ color: '#1890ff' }}
+                    type="user"
+                  />
                 </template>
               </Input>
             )
@@ -61,9 +64,15 @@ export default Form.create({ name: 'ULLoginForm' })({
         <Form.Item>
           {
             this.form.getFieldDecorator('password', { rules: [{ required: true, message: '请输入密码!' }] })(
-              <Input placeholder="请输入密码" type="password">
+              <Input
+                placeholder="请输入密码"
+                type="password"
+              >
                 <template slot="prefix">
-                  <Icon style={{ color: 'rgba(0, 0, 0, .25)' }} type="lock" />
+                  <Icon
+                    style={{ color: '#1890ff' }}
+                    type="lock"
+                  />
                 </template>
               </Input>
             )
@@ -74,20 +83,28 @@ export default Form.create({ name: 'ULLoginForm' })({
             this.form.getFieldDecorator('picCode', { rules: [{ required: true, message: '请输入验证码!' }] })(
               <Input placeholder="请输入验证码">
                 <template slot="prefix">
-                  <Icon style={{ color: 'rgba(0, 0, 0, .25)' }} type="code" />
+                  <Icon
+                    style={{ color: '#1890ff' }}
+                    type="code"
+                  />
                 </template>
               </Input>
             )
           }
-          <img src={this.picCodePath} alt="" onClick={this.genCode} />
+          <img
+            src={this.picCodePath}
+            alt=""
+            onClick={this.genCode}
+          />
         </Form.Item>
         <Form.Item>
           <Button
+            class='login-submit'
             loading={this.loading}
             htmlType="submit"
             type="primary"
           >
-            登录
+            立即登录
           </Button>
         </Form.Item>
       </Form>

@@ -14,9 +14,9 @@ body {
   color: #2c3e50;
 
   // 可视化项目
-  width: 1920px;
-  height: 1080px;
-  overflow: hidden;
+  //width: 1920px;
+  //height: 1080px;
+  //overflow: hidden;
 }
 
 #nav {
@@ -30,6 +30,30 @@ body {
 
 #nav a.router-link-exact-active {
   color: #42b983;
+}
+
+@font-face {
+  font-family: 'PangMenZhengDao';
+  src: url('../fonts/PangMenZhengDao.ttf');
+  src: url('../fonts/PangMenZhengDao.ttf') format('woff'),
+  url('../fonts/PangMenZhengDao.ttf') format('truetype'),
+  url('../fonts/PangMenZhengDao.ttf') format('svg');
+}
+
+@font-face {
+  font-family: 'SourceHanSerifCN-Regular';
+  src: url('../fonts/SourceHanSerifCN-Regular.otf');
+  src: url('../fonts/SourceHanSerifCN-Regular.otf') format('woff'),
+  url('../fonts/SourceHanSerifCN-Regular.otf') format('truetype'),
+  url('../fonts/SourceHanSerifCN-Regular.otf') format('svg');
+}
+
+@font-face {
+  font-family: 'PingFang SC';
+  src: url('../fonts/PingFangSC.ttf');
+  src: url('../fonts/PingFangSC.ttf') format('woff'),
+  url('../fonts/PingFangSC.ttf') format('truetype'),
+  url('../fonts/PingFangSC.ttf') format('svg');
 }
 
 .uni-log-search-form,

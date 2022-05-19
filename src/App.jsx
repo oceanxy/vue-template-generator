@@ -43,10 +43,10 @@ export default {
     return (
       <div
         id="app"
-        style={{
-          transform: `scale(${this.ratioX}, ${this.ratioY})`,
-          transformOrigin: 'left top'
-        }}
+        // style={{
+        //   transform: `scale(${this.ratioX}, ${this.ratioY})`,
+        //   transformOrigin: 'left top'
+        // }}
       >
         <ConfigProvider locale={zhCN}>
           {
