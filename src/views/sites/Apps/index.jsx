@@ -1,4 +1,4 @@
-import ULContainers from '@/layouts/ULContainers'
+import TGContainers from '@/layouts/components/TGContainers'
 import ULAppForm from './components/ULAppForm'
 import ULAppTable from './components/ULAppTable'
 import ULAppButtons from './components/ULAppButtons'
@@ -12,14 +12,14 @@ export default {
   mixins: [dynamicState],
   render() {
     return (
-      <ULContainers class="uni-log-sites-apps">
+      <TGContainers class="uni-log-sites-apps">
         <ULAppForm slot="form" />
         <ULAppButtons slot="buttons" />
         <ULAppTable slot="table" />
         <ULAppPagination slot="pagination" />
 
         <ULAppModalForEdit slot="modals" />
-      </ULContainers>
+      </TGContainers>
     )
   }
 }

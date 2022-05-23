@@ -69,7 +69,7 @@ export default {
           defaultMenuUrl: defaultMenuUrl
         })
 
-        await router.replace({ name: 'home' })
+        await router.replace({ name: 'directory' })
       }
 
       return Promise.resolve(response)

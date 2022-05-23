@@ -10,19 +10,6 @@ Vue.use(VueRouter)
  */
 export const routes = [
   {
-    path: '/login',
-    name: 'login',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */'@/views/Login'),
-    meta: {
-      title: '登录',
-      keepAlive: false,
-      requiresAuth: false
-    }
-  },
-  {
     path: '/',
     // 选择布局组件
     // component: () => import('@/layouts/TGVisualScreenLayout'),
@@ -232,6 +219,57 @@ export const routes = [
     ]
   },
   {
+    path: '/',
+    component: () => import('@/layouts/BNLogin'),
+    meta: {
+      title: '登录',
+      keepAlive: false,
+      requiresAuth: false
+    },
+    children: [
+      {
+        path: '/guide',
+        name: 'guide',
+        component: () => import('@/views/Login'),
+        meta: {
+          title: '目录',
+          keepAlive: false,
+          requiresAuth: false
+        }
+      },
+      {
+        path: '/login',
+        name: 'login',
+        component: () => import('@/views/Login/Login'),
+        meta: {
+          title: '登录',
+          keepAlive: false,
+          requiresAuth: false
+        }
+      },
+      {
+        path: '/logon',
+        name: 'logon',
+        component: () => import('@/views/Login/Logon'),
+        meta: {
+          title: '企业注册',
+          keepAlive: false,
+          requiresAuth: false
+        }
+      },
+      {
+        path: '/directory',
+        name: 'directory',
+        component: () => import('@/views/Login/Directory'),
+        meta: {
+          title: '目录',
+          keepAlive: true,
+          requiresAuth: true
+        }
+      }
+    ]
+  },
+  {
     path: '/404',
     name: 'NotFound',
     component: () => import('@/views/NotFound'),
@@ -288,7 +326,7 @@ router.beforeEach((to, from, next) => {
       next()
     } else {
       next({
-        name: 'login',
+        name: 'guide',
         query: {
           // 将跳转的路由path作为参数，登录成功后跳转到该路由
           redirect: to.path,
@@ -297,9 +335,9 @@ router.beforeEach((to, from, next) => {
       })
     }
   } else {
-    if (to.name === 'login' && token) {
+    if ((to.name === 'guide' || to.name === 'login') && token) {
       next({
-        name: from.name || 'home'
+        name: from.name || 'directory'
       })
     } else {
       next()

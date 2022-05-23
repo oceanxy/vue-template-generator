@@ -3,7 +3,7 @@ import { Button, Form, Icon, Input } from 'ant-design-vue'
 
 const { mapState, mapActions, mapMutations } = createNamespacedHelpers('login')
 
-export default Form.create({ name: 'ULLoginForm' })({
+export default Form.create({ name: 'TGLoginForm' })({
   data: () => ({ picCodePath: '' }),
   computed: mapState({ loading: 'loading' }),
   mounted() {

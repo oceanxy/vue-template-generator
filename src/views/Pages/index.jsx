@@ -1,5 +1,5 @@
 import './assets/styles/index.scss'
-import ULContainers from '@/layouts/ULContainers'
+import TGContainers from '@/layouts/components/TGContainers'
 import ULPageForm from './components/ULPageForm'
 import ULPageTable from './components/ULPageTable'
 import ULPagePagination from './components/ULPagePagination'
@@ -13,7 +13,7 @@ export default {
   mixins: [dynamicState],
   render() {
     return (
-      <ULContainers class="uni-log-pages">
+      <TGContainers class="uni-log-pages">
         <ULPageForm slot="form" />
         <ULPageButtons slot="buttons" />
         <ULPageTable slot="table" />
@@ -23,7 +23,7 @@ export default {
           <ULPageModalForEdit />
           <ULPageModalForConflictPage />
         </div>
-      </ULContainers>
+      </TGContainers>
     )
   }
 }

@@ -1,0 +1,55 @@
+.directory-container {
+  display: flex;
+  gap: 16px;
+}
+
+.list-container {
+  gap: 10px;
+
+  .list-serial-number {
+    width: 18px;
+    height: 18px;
+    line-height: 18px;
+    text-align: center;
+    font-size: 16px;
+    font-family: PingFang SC, serif;
+    font-weight: 500;
+    color: #ffffff;
+    background: var(--theme-color);
+    border-radius: 2px;
+  }
+
+  .list-text {
+    flex: auto;
+    font-size: 14px;
+    font-family: PingFang SC, serif;
+    font-weight: 500;
+    color: #141414;
+    line-height: 18px;
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .list-datetime {
+    font-size: 12px;
+    font-family: PingFang SC, serif;
+    font-weight: 500;
+    color: #bfbfbf;
+    line-height: 18px;
+  }
+
+  .list-icon {
+
+  }
+}
+
+.corporate-services {
+  font-size: 20px;
+  font-family: PingFang SC, serif;
+  font-weight: 700;
+  color: #000000;
+  line-height: 40px;
+}

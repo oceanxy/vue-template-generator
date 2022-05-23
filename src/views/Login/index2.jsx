@@ -1,6 +1,7 @@
 /**
- * 获取第三方token登录
+ * 获取第三方token登录的登录组件
  */
+
 import './assets/styles/index.scss'
 import { Spin } from 'ant-design-vue'
 
@@ -30,7 +31,7 @@ export default {
     const tip = this.token ? '正在初始化，请稍后...' : '登录验证失败，请返回主系统重试！'
 
     return (
-      <div class="tg-login">
+      <div class="login-third-part">
         <Spin tip={tip} size="large" spinning={!!this.token} />
       </div>
     )
