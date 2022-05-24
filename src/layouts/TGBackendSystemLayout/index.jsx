@@ -13,7 +13,7 @@ export default {
   methods: {},
   render() {
     return (
-      <Layout id="tg-layout-responsive">
+      <Layout id="tg-responsive-layout">
         <Layout.Sider
           v-model={this.collapsed}
           trigger={''}

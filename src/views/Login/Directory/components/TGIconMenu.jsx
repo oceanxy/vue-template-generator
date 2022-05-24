@@ -1,35 +1,46 @@
 import { List } from 'ant-design-vue'
 
 export default {
-  props: {
-    themeColor: {
-      type: String,
-      default: '#ffffff'
+  methods: {
+    onClick(item) {
+      if (item.name === 'log-out') {
+        this.$store.dispatch('login/logout')
+      } else {
+        this.$router.push({ name: item.name })
+      }
     }
   },
   render() {
     return (
       <List
-        grid={{ gutter: 16, column: 4 }}
+        grid={{ gutter: 18, column: 4 }}
         dataSource={
           [
-            { a: '关于停电', b: '05-23 16:02:00' },
-            { a: '关于停电', b: '05-23 16:02:00' },
-            { a: '关于停电', b: '05-23 16:02:00' },
-            { a: '关于停电', b: '05-23 16:02:00' },
-            { a: '关于停电', b: '05-23 16:02:00' },
-            { a: '关于停电', b: '05-23 16:02:00' },
-            { a: '关于停电', b: '05-23 16:02:00' }
+            { a: '我的报表', name: 'report-form' },
+            { a: '政策申报', name: 'policy-declaration' },
+            { a: '我的资料', name: 'my-profile' },
+            { a: '我的合同', name: 'my-contract' },
+            { a: '我的账单', name: 'my-bill' },
+            { a: '我的发票', name: 'my-invoice' },
+            { a: '会议室预约', name: 'meeting-room-reservation' },
+            { a: '物业保修', name: 'property-warranty' },
+            { a: '在线投诉', name: 'online-complaint' },
+            { a: '退出登录', name: 'log-out' }
           ]
         }
         {
           ...{
             scopedSlots: {
-              renderItem: (item, index) => (
+              renderItem: item => (
                 <List.Item
-                  class="list-container"
+                  class="list-container icon-menu"
                 >
-                  <div class="list-icon">{item.a}</div>
+                  <div
+                    class={`list-icon ${item.name}`}
+                    onClick={() => this.onClick(item)}
+                  >
+                    {item.a}
+                  </div>
                 </List.Item>
               )
             }

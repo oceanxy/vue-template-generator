@@ -38,12 +38,14 @@ export default {
         class="login-box"
         style={{ '--box-width': `${this.width}px` }}
       >
-        <div class="login-box-title">
-          {this.title}
-          {
-            this.showMore ? <Button icon="right" /> : null
-          }
-        </div>
+        {
+          this.title ? (
+            <div class="login-box-title">
+              {this.title}
+              {this.showMore ? <Button icon="right" /> : null}
+            </div>
+          ) : null
+        }
         <div class={`login-box-content${this.contentClass ? ` ${this.contentClass}` : ''}`}>
           {
             this.$slots.default

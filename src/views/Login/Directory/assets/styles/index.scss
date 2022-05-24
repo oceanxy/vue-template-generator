@@ -6,6 +6,12 @@
 .list-container {
   gap: 10px;
 
+  &.icon-menu {
+    .ant-list-item {
+      margin-bottom: 0 !important;
+    }
+  }
+
   .list-serial-number {
     width: 18px;
     height: 18px;
@@ -42,7 +48,54 @@
   }
 
   .list-icon {
+    text-align: center;
+    padding-top: 60px;
+    cursor: pointer;
+    background: no-repeat center top 15px / auto 42px;
 
+    &.report-form {
+      background-image: url(../images/report-form.png);
+    }
+
+    &.policy-declaration {
+      background-image: url(../images/policy-declaration.png);
+    }
+
+    &.my-profile {
+      background-image: url(../images/my-profile.png);
+    }
+
+    &.my-contract {
+      background-image: url(../images/my-contract.png);
+    }
+
+    &.my-bill {
+      background-image: url(../images/my-bill.png);
+    }
+
+    &.my-invoice {
+      background-image: url(../images/my-invoice.png);
+    }
+
+    &.meeting-room-reservation {
+      background-image: url(../images/meeting-room-reservation.png);
+    }
+
+    &.property-warranty {
+      background-image: url(../images/property-warranty.png);
+    }
+
+    &.online-complaint {
+      background-image: url(../images/online-complaint.png);
+    }
+
+    &.log-out {
+      background-image: url(../images/log-out.png);
+    }
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 }
 

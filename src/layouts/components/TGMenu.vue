@@ -4,7 +4,6 @@
     :inline-collapsed="collapsed"
     :open-keys.sync="openKeys"
     mode="inline"
-    theme="dark"
     @click="menuClick"
   >
     <template v-for="route in menuRoutes">

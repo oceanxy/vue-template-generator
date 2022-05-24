@@ -13,7 +13,7 @@ export const routes = [
     path: '/',
     // 选择布局组件
     // component: () => import('@/layouts/TGVisualScreenLayout'),
-    component: () => import('@/layouts/TGBackendSystemLayout'),
+    component: () => import('@/layouts/TGProfileLayout'),
     meta: {
       title: '首页',
       keepAlive: true,
