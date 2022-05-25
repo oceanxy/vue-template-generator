@@ -1,6 +1,17 @@
 import { List } from 'ant-design-vue'
+import './index.scss'
 
 export default {
+  props: {
+    column: {
+      type: Number,
+      default: 4
+    },
+    showLogout: {
+      type: Boolean,
+      default: false
+    }
+  },
   methods: {
     onClick(item) {
       if (item.name === 'log-out') {
@@ -13,7 +24,7 @@ export default {
   render() {
     return (
       <List
-        grid={{ gutter: 18, column: 4 }}
+        grid={{ gutter: 18, column: this.column }}
         dataSource={
           [
             { a: '我的报表', name: 'report-form' },
@@ -32,16 +43,18 @@ export default {
           ...{
             scopedSlots: {
               renderItem: item => (
-                <List.Item
-                  class="list-container icon-menu"
-                >
-                  <div
-                    class={`list-icon ${item.name}`}
-                    onClick={() => this.onClick(item)}
+                item.name !== 'log-out' || this.showLogout ? (
+                  <List.Item
+                    class="list-container icon-menu"
                   >
-                    {item.a}
-                  </div>
-                </List.Item>
+                    <div
+                      class={`list-icon ${item.name}`}
+                      onClick={() => this.onClick(item)}
+                    >
+                      {item.a}
+                    </div>
+                  </List.Item>
+                ) : null
               )
             }
           }

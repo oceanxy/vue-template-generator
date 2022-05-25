@@ -2,11 +2,11 @@
  * 登录后的目录页
  */
 
-import './assets/styles/index.scss'
-import BNContainerOfLogin from '@/views/Login/components/BNContainerOfLogin'
-import TGList from '@/views/Login/Directory/components/TGList'
+import './index.scss'
 import { Tag } from 'ant-design-vue'
-import TGIconMenu from '@/views/Login/Directory/components/TGIconMenu'
+import BNContainer from '@/components/BNContainer'
+import TGList from '@/components/TGList'
+import TGShortcutMenu from '@/components/TGShortcutMenu'
 
 export default {
   name: 'Login',
@@ -27,21 +27,21 @@ export default {
   render() {
     return (
       <div class="directory-container">
-        <BNContainerOfLogin
+        <BNContainer
           title="通知公告"
           width={390}
           showMore
         >
           <TGList themeColor="#52c41a" />
-        </BNContainerOfLogin>
-        <BNContainerOfLogin
+        </BNContainer>
+        <BNContainer
           title="园区政策"
           width={390}
           showMore
         >
           <TGList themeColor="#1890FF" />
-        </BNContainerOfLogin>
-        <BNContainerOfLogin
+        </BNContainer>
+        <BNContainer
           title="企业服务"
           width={390}
         >
@@ -51,8 +51,8 @@ export default {
             <Tag color='cyan'>已签约</Tag>
             <Tag color='red'>已欠费</Tag>
           </div>
-          <TGIconMenu />
-        </BNContainerOfLogin>
+          <TGShortcutMenu showLogout />
+        </BNContainer>
       </div>
     )
   }

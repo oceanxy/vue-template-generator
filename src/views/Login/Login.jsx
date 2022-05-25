@@ -6,7 +6,7 @@ import './assets/styles/index.scss'
 import { Button, Tabs } from 'ant-design-vue'
 import ULLoginForm from '@/views/Login/components/TGLoginForm'
 import ULLoginTabPane from '@/views/Login/components/TGLoginTabPane'
-import BNContainerOfLogin from '@/views/Login/components/BNContainerOfLogin'
+import BNContainer from '@/components/BNContainer'
 
 export default {
   name: 'Login',
@@ -23,7 +23,7 @@ export default {
   },
   render() {
     return (
-      <BNContainerOfLogin>
+      <BNContainer>
         <div class="login-subtitle">Welcome Login!</div>
         <Tabs
           activeKey={this.activeKey}
@@ -51,7 +51,7 @@ export default {
             企业还未入驻？点击立即申请
           </Button>
         </div>
-      </BNContainerOfLogin>
+      </BNContainer>
     )
   }
 }

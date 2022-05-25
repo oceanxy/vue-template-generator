@@ -44,9 +44,40 @@
     color: #1f1f1f;
   }
 
+  .tg-main {
+    width: 650px;
+  }
+
   .tg-sider {
     width: 320px;
     flex: none;
     border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    .shortcut-menu-container {
+      flex: none;
+    }
+
+    .my-news-container {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .not-login-title {
+      font-size: 16px;
+    }
+
+    .shortcut-container {
+      .icon-menu {
+        margin: 10px 0;
+
+        .list-icon {
+          background-position: center top;
+          background-size: auto 50px;
+        }
+      }
+    }
   }
 }

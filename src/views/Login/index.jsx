@@ -4,7 +4,7 @@
 
 import './assets/styles/index.scss'
 import { Button } from 'ant-design-vue'
-import BNContainerOfLogin from '@/views/Login/components/BNContainerOfLogin'
+import BNContainer from '@/components/BNContainer'
 
 export default {
   name: 'Login',
@@ -24,7 +24,11 @@ export default {
   },
   render() {
     return (
-      <BNContainerOfLogin title="企业服务" contentClass='flex'>
+      <BNContainer
+        class='pre-login-container'
+        title="企业服务"
+        contentClass='flex'
+      >
         <Button
           class="button btn-login"
           onClick={this.onLogin}
@@ -37,7 +41,7 @@ export default {
         >
           企业申请入驻
         </Button>
-      </BNContainerOfLogin>
+      </BNContainer>
     )
   }
 }
