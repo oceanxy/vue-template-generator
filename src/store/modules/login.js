@@ -69,7 +69,7 @@ export default {
           defaultMenuUrl: defaultMenuUrl
         })
 
-        await router.replace({ name: 'directory' })
+        await router.replace({ name: 'loginAfter' })
       }
 
       return Promise.resolve(response)
@@ -92,7 +92,7 @@ export default {
       commit('setAuthentication', null)
       commit('setSiteCache', null)
 
-      await router.replace({ name: 'login' })
+      await router.replace({ name: 'loginBefore' })
 
       return Promise.resolve()
     }

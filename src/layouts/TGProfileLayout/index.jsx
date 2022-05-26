@@ -39,6 +39,7 @@ export default {
               title='我的消息'
               showBoxShadow={false}
               showMore
+              titleClass='not-login-title'
             >
               <TGList layout='dateBefore' />
             </BNContainer>

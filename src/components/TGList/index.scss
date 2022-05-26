@@ -1,20 +1,23 @@
+.list-container:nth-child(-n+3) .list-serial-number {
+  background: #7395c9;
+}
+
 .list-serial-number {
   width: 18px;
   height: 18px;
   line-height: 18px;
   text-align: center;
   font-size: 16px;
-  font-family: PingFang SC, serif;
   font-weight: 500;
   color: #ffffff;
-  background: var(--theme-color);
+  background: #c7cbd4;
   border-radius: 2px;
+  flex: none;
 }
 
 .list-text {
   flex: auto;
   font-size: 14px;
-  font-family: PingFang SC, serif;
   font-weight: 500;
   color: #141414;
   line-height: 18px;
@@ -33,6 +36,7 @@
   font-weight: 500;
   color: #bfbfbf;
   line-height: 18px;
+  flex: none;
 }
 
 .list-date-before {

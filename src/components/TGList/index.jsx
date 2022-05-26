@@ -4,13 +4,6 @@ import { List } from 'ant-design-vue'
 export default {
   props: {
     /**
-     * 主题颜色
-     */
-    themeColor: {
-      type: String,
-      default: '#ffffff'
-    },
-    /**
      * 布局
      * normal/dateBefore
      */
@@ -37,10 +30,7 @@ export default {
           ...{
             scopedSlots: {
               renderItem: (item, index) => (
-                <List.Item
-                  class="list-container"
-                  style={{ '--theme-color': this.themeColor }}
-                >
+                <List.Item class="list-container">
                   {
                     this.layout === 'dateBefore'
                       ? (

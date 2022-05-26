@@ -23,7 +23,7 @@ export default {
   },
   render() {
     return (
-      <BNContainer>
+      <BNContainer width={600} contentClass='login-box-content'>
         <div class="login-subtitle">Welcome Login!</div>
         <Tabs
           activeKey={this.activeKey}

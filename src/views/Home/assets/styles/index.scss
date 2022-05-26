@@ -1,3 +1,71 @@
-.uni-log-home {
+@import '@/assets/styles/theme.scss';
 
+.tg-home {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  .tg-home-summary {
+    @include container-border-radius;
+    background: #ffffff;
+    padding: 40px 32px;
+
+    .user-info {
+      display: grid;
+      grid-template: 30px 26px / 56px 1fr;
+      grid-column-gap: 16px;
+
+      .avatar {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #ffffff;
+        font-size: 24px;
+        font-weight: bolder;
+        background: linear-gradient(to bottom, #2f9bff, #0078e8);
+        border-radius: 6px;
+        box-shadow: 0 10px 17px -10px #40a0ff;
+        grid-row: span 2;
+      }
+
+      .info {
+        display: flex;
+
+        .name {
+          font-size: 20px;
+          font-weight: 700;
+          color: #1f1f1f;
+          line-height: 28px;
+        }
+
+        .address {
+          margin-left: auto;
+          color: #8c8c8c;
+          font-size: 14px;
+        }
+      }
+
+      .tags .ant-tag {
+        border: none;
+      }
+    }
+
+    .upcoming {
+      display: flex;
+      margin-top: 40px;
+
+      .upcoming-item {
+        flex: auto;
+
+        .anticon {
+          font-size: 145px;
+        }
+      }
+    }
+  }
+
+  .tg-home-upcoming {
+    @include container-border-radius;
+    background: #ffffff;
+  }
 }

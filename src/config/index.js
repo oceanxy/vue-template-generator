@@ -6,7 +6,8 @@ export default {
   // mock请求延迟时间
   mockDelay: 400,
   // 系统名称
-  systemName: '巴南智慧园区',
+  systemName: '重庆巴南先进技术创新中心',
+  systemNameEn: 'Chongqing Banan Advanced Technology Innovation Center',
   // 全局消息最大显示个数
   maxMessageCount: 1,
   // 账号密码加密key

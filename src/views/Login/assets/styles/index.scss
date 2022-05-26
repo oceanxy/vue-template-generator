@@ -1,3 +1,9 @@
+.bn-login-container {
+  display: flex;
+  gap: 16px;
+  z-index: 10;
+}
+
 .pre-login-container {
   .button {
     font-size: 20px;
@@ -19,6 +25,24 @@
       background-image: url(../images/btn-logon.png);
     }
   }
+}
+
+.list-container {
+  gap: 10px;
+
+  &.icon-menu {
+    .ant-list-item {
+      margin-bottom: 0 !important;
+    }
+  }
+}
+
+.corporate-services {
+  font-size: 20px;
+  font-family: PingFang SC, serif;
+  font-weight: 700;
+  color: #000000;
+  line-height: 40px;
 }
 
 .login-third-part {

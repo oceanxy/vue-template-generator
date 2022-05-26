@@ -3,18 +3,12 @@
  */
 
 import './assets/styles/index.scss'
-import { Button } from 'ant-design-vue'
 import BNContainer from '@/components/BNContainer'
+import TGList from '@/components/TGList'
 
 export default {
   name: 'Login',
-  data: () => ({
-    activeKey: 1
-  }),
   methods: {
-    handleTabClick(key) {
-      this.activeKey = key
-    },
     onLogin() {
       this.$router.push({ name: 'login' })
     },
@@ -24,24 +18,23 @@ export default {
   },
   render() {
     return (
-      <BNContainer
-        class='pre-login-container'
-        title="企业服务"
-        contentClass='flex'
-      >
-        <Button
-          class="button btn-login"
-          onClick={this.onLogin}
+      <div class="bn-login-container">
+        <BNContainer
+          title="通知公告"
+          width={390}
+          showMore
         >
-          签约企业登录
-        </Button>
-        <Button
-          class="button btn-logon"
-          onClick={this.onLogon}
+          <TGList />
+        </BNContainer>
+        <BNContainer
+          title="园区政策"
+          width={390}
+          showMore
         >
-          企业申请入驻
-        </Button>
-      </BNContainer>
+          <TGList />
+        </BNContainer>
+        <RouterView />
+      </div>
     )
   }
 }

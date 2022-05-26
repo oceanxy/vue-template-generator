@@ -2,41 +2,51 @@
   overflow: hidden;
   width: var(--box-width);
   height: auto;
-  background: white;
+  background: #ffffff;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  z-index: 10;
 
   &.show-shadow {
-    box-shadow: 0 14px 28px rgba(0, 0, 0, .2), 0 10px 10px rgba(0, 0, 0, .2);
+    box-shadow: 0 10px 32px 0 rgba(0, 62, 163, 0.10);
   }
 
   .box-title {
+    height: 64px;
     padding: 0 24px;
-    font-size: 20px;
-    font-family: PingFang SC, serif;
-    font-weight: bolder;
-    color: #141414;
-    line-height: 60px;
+    line-height: 64px;
     border-bottom: 1px solid #d9d9d9;
     box-sizing: border-box;
     display: flex;
     align-items: center;
+    font-size: 18px;
+    font-weight: 700;
+    color: #262626;
+    flex: none;
 
     .ant-btn {
       margin-left: auto;
       border: none;
+      background: none;
     }
   }
 
   .box-content {
     padding: 24px;
     overflow: auto;
+    height: 100%;
 
     &.flex {
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      height: 300px;
       gap: 24px;
+    }
+
+    &.login-box-content {
+      padding: 40px 94px;
     }
   }
 

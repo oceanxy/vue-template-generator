@@ -11,22 +11,84 @@ Vue.use(VueRouter)
 export const routes = [
   {
     path: '/',
-    // 选择布局组件
-    // component: () => import('@/layouts/TGVisualScreenLayout'),
-    component: () => import('@/layouts/TGProfileLayout'),
+    component: () => import('@/layouts/BNLogin'),
     meta: {
-      title: '首页',
-      keepAlive: true,
-      requiresAuth: true
+      title: '',
+      keepAlive: false,
+      requiresAuth: false
     },
     children: [
-      // 所有路由在这里面添加
       {
         path: '',
-        component: () => import('@/views/Home'),
-        name: 'home',
+        component: () => import('@/views/Login'),
         meta: {
-          title: '首页',
+          title: '',
+          keepAlive: false,
+          requiresAuth: false
+        },
+        children: [
+          {
+            path: '',
+            name: 'loginBefore',
+            component: () => import('@/views/Login/components/loginBefore'),
+            meta: {
+              title: '',
+              keepAlive: false,
+              requiresAuth: false
+            }
+          },
+          {
+            path: '',
+            name: 'loginAfter',
+            component: () => import('@/views/Login/components/loginAfter'),
+            meta: {
+              title: '',
+              keepAlive: false,
+              requiresAuth: false
+            }
+          }
+        ]
+      },
+      {
+        path: '/login',
+        name: 'login',
+        component: () => import('@/views/Login/Login'),
+        meta: {
+          title: '登录',
+          keepAlive: false,
+          requiresAuth: false
+        }
+      },
+      {
+        path: '/logon',
+        name: 'logon',
+        component: () => import('@/views/Login/Logon'),
+        meta: {
+          title: '企业注册',
+          keepAlive: false,
+          requiresAuth: false
+        }
+      }
+    ]
+  },
+  {
+    path: '/',
+    // 选择布局组件
+    component: () => import('@/layouts/TGProfileLayout'),
+    meta: {
+      title: '企业服务中心',
+      keepAlive: true,
+      requiresAuth: true,
+      icon: () => import('@/layouts/components/TGMenu/assets/images/enterpriseServiceCenter')
+    },
+    children: [
+      // 需要展示在menu菜单中的路由在这里面添加
+      {
+        path: 'home',
+        name: 'home',
+        component: () => import('@/views/Home'),
+        meta: {
+          title: '企业服务中心',
           keepAlive: true,
           requiresAuth: true
         }
@@ -36,9 +98,10 @@ export const routes = [
         name: 'site',
         component: TGRouterView,
         meta: {
-          title: '站点管理',
+          title: '基础服务',
           keepAlive: true,
-          requiresAuth: true
+          requiresAuth: true,
+          icon: () => import('@/layouts/components/TGMenu/assets/images/basicServices')
         },
         redirect: { name: 'apps' },
         children: [
@@ -58,9 +121,10 @@ export const routes = [
         path: 'module',
         component: TGRouterView,
         meta: {
-          title: '功能模块管理',
+          title: '财务服务',
           keepAlive: true,
-          requiresAuth: true
+          requiresAuth: true,
+          icon: () => import('@/layouts/components/TGMenu/assets/images/financialServices')
         },
         redirect: { name: 'modules' },
         children: [
@@ -80,9 +144,10 @@ export const routes = [
         path: 'page',
         component: TGRouterView,
         meta: {
-          title: '页面管理',
+          title: '物业服务',
           keepAlive: true,
-          requiresAuth: true
+          requiresAuth: true,
+          icon: () => import('@/layouts/components/TGMenu/assets/images/commercialService')
         },
         redirect: { name: 'pages' },
         children: [
@@ -219,57 +284,6 @@ export const routes = [
     ]
   },
   {
-    path: '/',
-    component: () => import('@/layouts/BNLogin'),
-    meta: {
-      title: '登录',
-      keepAlive: false,
-      requiresAuth: false
-    },
-    children: [
-      {
-        path: '/guide',
-        name: 'guide',
-        component: () => import('@/views/Login'),
-        meta: {
-          title: '目录',
-          keepAlive: false,
-          requiresAuth: false
-        }
-      },
-      {
-        path: '/login',
-        name: 'login',
-        component: () => import('@/views/Login/Login'),
-        meta: {
-          title: '登录',
-          keepAlive: false,
-          requiresAuth: false
-        }
-      },
-      {
-        path: '/logon',
-        name: 'logon',
-        component: () => import('@/views/Login/Logon'),
-        meta: {
-          title: '企业注册',
-          keepAlive: false,
-          requiresAuth: false
-        }
-      },
-      {
-        path: '/directory',
-        name: 'directory',
-        component: () => import('@/views/Login/Directory'),
-        meta: {
-          title: '目录',
-          keepAlive: true,
-          requiresAuth: true
-        }
-      }
-    ]
-  },
-  {
     path: '/404',
     name: 'NotFound',
     component: () => import('@/views/NotFound'),
@@ -326,7 +340,7 @@ router.beforeEach((to, from, next) => {
       next()
     } else {
       next({
-        name: 'guide',
+        name: 'loginAfter',
         query: {
           // 将跳转的路由path作为参数，登录成功后跳转到该路由
           redirect: to.path,
@@ -335,9 +349,9 @@ router.beforeEach((to, from, next) => {
       })
     }
   } else {
-    if ((to.name === 'guide' || to.name === 'login') && token) {
+    if ((to.name === 'loginBefore' || to.name === 'login') && token) {
       next({
-        name: from.name || 'directory'
+        name: from.name || 'loginAfter'
       })
     } else {
       next()
