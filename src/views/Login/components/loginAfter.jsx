@@ -42,6 +42,7 @@ export default {
           </div>
         }
         width={390}
+        showTitleShape={false}
       >
         <div class="corporate-services">重庆誉存科技有限公司</div>
         <div class="corporate-services-tags">

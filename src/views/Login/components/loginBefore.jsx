@@ -29,6 +29,7 @@ export default {
         title="企业服务"
         contentClass='flex'
         width={390}
+        showTitleShape={false}
       >
         <Button
           class="button btn-login"

@@ -13,6 +13,7 @@
   }
 
   .box-title {
+    position: relative;
     height: 64px;
     padding: 0 24px;
     line-height: 64px;
@@ -24,6 +25,16 @@
     font-weight: 700;
     color: #262626;
     flex: none;
+
+    &.divider:before {
+      position: absolute;
+      content: '';
+      left: 0;
+      width: 2px;
+      height: 16px;
+      background: #007aff;
+      border-radius: 0 2px 2px 0;
+    }
 
     .ant-btn:not(.custom-button) {
       margin-left: auto;

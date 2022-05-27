@@ -4,6 +4,7 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
+  height: 100%;
 
   .tg-home-summary {
     @include container-border-radius;
@@ -53,12 +54,54 @@
     .upcoming {
       display: flex;
       margin-top: 40px;
+      width: 100%;
 
       .upcoming-item {
+        height: 80px;
         flex: auto;
+        background: no-repeat center / 145px 80px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
 
-        .anticon {
-          font-size: 145px;
+        &.my-to-do {
+          background-image: url(../images/myToDo.png);
+
+          .value {
+            color: #1890ff;
+          }
+        }
+
+        &.my-news {
+          background-image: url(../images/myNews.png);
+
+          .value {
+            color: #13c2c2;
+          }
+        }
+
+        &.in-progress {
+          background-image: url(../images/inProgress.png);
+
+          .value {
+            color: #faad14;
+          }
+        }
+
+        .name {
+          font-size: 14px;
+          color: #595959;
+          line-height: 22px;
+          margin-left: 25%;
+          margin-top: 10%;
+        }
+
+        .value {
+          font-size: 28px;
+          font-weight: 700;
+          line-height: 40px;
+          margin-left: 25%;
         }
       }
     }
@@ -67,5 +110,116 @@
   .tg-home-upcoming {
     @include container-border-radius;
     background: #ffffff;
+
+    .title {
+      width: 100%;
+      display: flex;
+
+      .btns {
+        display: flex;
+        align-items: center;
+        margin-left: auto;
+
+        .ant-btn {
+          padding: 0;
+          font-size: 14px;
+          color: #595959;
+
+          span {
+            display: flex;
+            align-items: center;
+          }
+
+          &:not(.all) span:before {
+            content: '·';
+            font-size: 40px;
+            line-height: 14px;
+          }
+
+          &.todo span:before {
+            color: #73d13d;
+          }
+
+          &.in-progress span:before {
+            color: #ffc53d;
+          }
+
+          &.done span:before {
+            color: #d9d9d9;
+          }
+        }
+      }
+    }
+
+    .container {
+      .list-container {
+        display: grid;
+        grid-template: 22px 20px / 1fr auto;
+        line-height: 24px;
+        transition: all 0.3s;
+
+        &:hover {
+          background: #fafafa;
+        }
+
+        .shape {
+          font-size: 14px;
+          color: #1f1f1f;
+
+          &:before {
+            font-size: 40px;
+          }
+
+          &.todo:before {
+            color: #73d13d;
+          }
+
+          &.doing:before {
+            color: #ffc53d;
+          }
+
+          &.done:before {
+            color: #d9d9d9;
+          }
+
+          &.done {
+            .name {
+              color: #bfbfbf;
+            }
+          }
+
+          .name {
+            padding: 0 4px;
+          }
+
+          .ant-tag {
+            padding: 0;
+            font-size: 14px;
+            line-height: 14px;
+            border-radius: unset;
+          }
+        }
+
+        .date {
+          font-size: 12px;
+          color: #bfbfbf;
+          padding-left: 24px;
+        }
+
+        .btns {
+          grid-row: span 2;
+
+          .ant-btn {
+            border: none;
+            background: none;
+            color: #1890ff;
+
+            &:hover {
+              opacity: 0.8;
+            }
+          }
+        }
+      }
+    }
   }
 }

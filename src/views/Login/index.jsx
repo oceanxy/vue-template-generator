@@ -23,6 +23,7 @@ export default {
           title="通知公告"
           width={390}
           showMore
+          showTitleShape={false}
         >
           <TGList />
         </BNContainer>
@@ -30,6 +31,7 @@ export default {
           title="园区政策"
           width={390}
           showMore
+          showTitleShape={false}
         >
           <TGList />
         </BNContainer>

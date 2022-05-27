@@ -1,0 +1,12 @@
+.title-with-shape {
+  display: flex;
+  align-items: center;
+
+  &.point:before {
+    content: "·"
+  }
+
+  &.vertical:before {
+    content: "|"
+  }
+}

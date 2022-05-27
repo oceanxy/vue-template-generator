@@ -10,6 +10,71 @@ Vue.use(VueRouter)
  */
 export const routes = [
   /**
+   * 登录/注册相关路由
+   */
+  {
+    path: '/auth',
+    component: () => import('@/layouts/BNLogin'),
+    meta: {
+      title: '',
+      keepAlive: false,
+      requiresAuth: false
+    },
+    children: [
+      {
+        path: '',
+        component: () => import('@/views/Login'),
+        meta: {
+          title: '',
+          keepAlive: false,
+          requiresAuth: false
+        },
+        children: [
+          {
+            path: '',
+            name: 'loginBefore',
+            component: () => import('@/views/Login/components/loginBefore'),
+            meta: {
+              title: '',
+              keepAlive: false,
+              requiresAuth: false
+            }
+          },
+          {
+            path: '',
+            name: 'loginAfter',
+            component: () => import('@/views/Login/components/loginAfter'),
+            meta: {
+              title: '首页',
+              keepAlive: true,
+              requiresAuth: true
+            }
+          }
+        ]
+      },
+      {
+        path: 'login',
+        name: 'login',
+        component: () => import('@/views/Login/Login'),
+        meta: {
+          title: '登录',
+          keepAlive: false,
+          requiresAuth: false
+        }
+      },
+      {
+        path: 'logon',
+        name: 'logon',
+        component: () => import('@/views/Login/Logon'),
+        meta: {
+          title: '企业注册',
+          keepAlive: false,
+          requiresAuth: false
+        }
+      }
+    ]
+  },
+  /**
    * 企业服务中心相关路由
    */
   {
@@ -219,71 +284,6 @@ export const routes = [
         meta: {
           title: '共用组件目录',
           keepAlive: true,
-          requiresAuth: false
-        }
-      }
-    ]
-  },
-  /**
-   * 登录/注册相关路由
-   */
-  {
-    path: '/',
-    component: () => import('@/layouts/BNLogin'),
-    meta: {
-      title: '',
-      keepAlive: false,
-      requiresAuth: false
-    },
-    children: [
-      {
-        path: '',
-        component: () => import('@/views/Login'),
-        meta: {
-          title: '',
-          keepAlive: false,
-          requiresAuth: false
-        },
-        children: [
-          {
-            path: '',
-            name: 'loginBefore',
-            component: () => import('@/views/Login/components/loginBefore'),
-            meta: {
-              title: '',
-              keepAlive: false,
-              requiresAuth: false
-            }
-          },
-          {
-            path: '',
-            name: 'loginAfter',
-            component: () => import('@/views/Login/components/loginAfter'),
-            meta: {
-              title: '首页',
-              keepAlive: true,
-              requiresAuth: true
-            }
-          }
-        ]
-      },
-      {
-        path: 'login',
-        name: 'login',
-        component: () => import('@/views/Login/Login'),
-        meta: {
-          title: '登录',
-          keepAlive: false,
-          requiresAuth: false
-        }
-      },
-      {
-        path: 'logon',
-        name: 'logon',
-        component: () => import('@/views/Login/Logon'),
-        meta: {
-          title: '企业注册',
-          keepAlive: false,
           requiresAuth: false
         }
       }

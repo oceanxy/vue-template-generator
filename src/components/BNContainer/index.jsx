@@ -45,6 +45,10 @@ export default {
     titleClass: {
       type: String,
       default: ''
+    },
+    showTitleShape: {
+      type: Boolean,
+      default: true
     }
   },
   render() {
@@ -55,7 +59,13 @@ export default {
       >
         {
           this.title ? (
-            <div class={`box-title${this.titleClass ? ` ${this.titleClass}` : ''}`}>
+            <div
+              class={`box-title${
+                this.titleClass ? ` ${this.titleClass}` : ''
+              }${
+                this.showTitleShape ? ' divider' : ''
+              }`}
+            >
               {this.title}
               {this.showMore ? <Button icon="right" /> : null}
             </div>
