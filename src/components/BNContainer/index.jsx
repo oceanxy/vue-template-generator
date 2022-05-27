@@ -7,7 +7,7 @@ export default {
      * 标题文字
      */
     title: {
-      type: String,
+      type: [String, Object],
       default: ''
     },
     /**

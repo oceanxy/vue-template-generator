@@ -155,14 +155,6 @@ export default {
     background: linear-gradient(to bottom, #2f9bff, #0078e8);
   }
 
-  .corporate-services {
-    font-size: 15px;
-    font-family: PingFang SC, serif;
-    font-weight: 500;
-    color: #1f1f1f;
-    line-height: 22px;
-  }
-
   .ant-tag {
     border: none;
   }

@@ -9,68 +9,9 @@ Vue.use(VueRouter)
  * 路由
  */
 export const routes = [
-  {
-    path: '/',
-    component: () => import('@/layouts/BNLogin'),
-    meta: {
-      title: '',
-      keepAlive: false,
-      requiresAuth: false
-    },
-    children: [
-      {
-        path: '',
-        component: () => import('@/views/Login'),
-        meta: {
-          title: '',
-          keepAlive: false,
-          requiresAuth: false
-        },
-        children: [
-          {
-            path: '',
-            name: 'loginBefore',
-            component: () => import('@/views/Login/components/loginBefore'),
-            meta: {
-              title: '',
-              keepAlive: false,
-              requiresAuth: false
-            }
-          },
-          {
-            path: '',
-            name: 'loginAfter',
-            component: () => import('@/views/Login/components/loginAfter'),
-            meta: {
-              title: '',
-              keepAlive: false,
-              requiresAuth: false
-            }
-          }
-        ]
-      },
-      {
-        path: '/login',
-        name: 'login',
-        component: () => import('@/views/Login/Login'),
-        meta: {
-          title: '登录',
-          keepAlive: false,
-          requiresAuth: false
-        }
-      },
-      {
-        path: '/logon',
-        name: 'logon',
-        component: () => import('@/views/Login/Logon'),
-        meta: {
-          title: '企业注册',
-          keepAlive: false,
-          requiresAuth: false
-        }
-      }
-    ]
-  },
+  /**
+   * 企业服务中心相关路由
+   */
   {
     path: '/',
     // 选择布局组件
@@ -84,7 +25,7 @@ export const routes = [
     children: [
       // 需要展示在menu菜单中的路由在这里面添加
       {
-        path: 'home',
+        path: '',
         name: 'home',
         component: () => import('@/views/Home'),
         meta: {
@@ -283,6 +224,71 @@ export const routes = [
       }
     ]
   },
+  /**
+   * 登录/注册相关路由
+   */
+  {
+    path: '/',
+    component: () => import('@/layouts/BNLogin'),
+    meta: {
+      title: '',
+      keepAlive: false,
+      requiresAuth: false
+    },
+    children: [
+      {
+        path: '',
+        component: () => import('@/views/Login'),
+        meta: {
+          title: '',
+          keepAlive: false,
+          requiresAuth: false
+        },
+        children: [
+          {
+            path: '',
+            name: 'loginBefore',
+            component: () => import('@/views/Login/components/loginBefore'),
+            meta: {
+              title: '',
+              keepAlive: false,
+              requiresAuth: false
+            }
+          },
+          {
+            path: '',
+            name: 'loginAfter',
+            component: () => import('@/views/Login/components/loginAfter'),
+            meta: {
+              title: '首页',
+              keepAlive: true,
+              requiresAuth: true
+            }
+          }
+        ]
+      },
+      {
+        path: 'login',
+        name: 'login',
+        component: () => import('@/views/Login/Login'),
+        meta: {
+          title: '登录',
+          keepAlive: false,
+          requiresAuth: false
+        }
+      },
+      {
+        path: 'logon',
+        name: 'logon',
+        component: () => import('@/views/Login/Logon'),
+        meta: {
+          title: '企业注册',
+          keepAlive: false,
+          requiresAuth: false
+        }
+      }
+    ]
+  },
   {
     path: '/404',
     name: 'NotFound',
@@ -340,7 +346,7 @@ router.beforeEach((to, from, next) => {
       next()
     } else {
       next({
-        name: 'loginAfter',
+        name: 'loginBefore',
         query: {
           // 将跳转的路由path作为参数，登录成功后跳转到该路由
           redirect: to.path,
@@ -351,7 +357,7 @@ router.beforeEach((to, from, next) => {
   } else {
     if ((to.name === 'loginBefore' || to.name === 'login') && token) {
       next({
-        name: from.name || 'loginAfter'
+        name: 'loginAfter'
       })
     } else {
       next()

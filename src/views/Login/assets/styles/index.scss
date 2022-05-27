@@ -37,6 +37,22 @@
   }
 }
 
+.corporate-services-title {
+  display: flex;
+  width: 100%;
+  align-items: center;
+
+  .ant-btn.custom-button {
+    margin-left: auto;
+  }
+}
+
+.corporate-services-tags {
+  .ant-tag {
+    border: none;
+  }
+}
+
 .corporate-services {
   font-size: 20px;
   font-family: PingFang SC, serif;

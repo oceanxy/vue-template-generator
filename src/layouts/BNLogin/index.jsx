@@ -3,10 +3,10 @@
  */
 
 import './assets/styles/index.scss'
-import config from '@/config'
 import TGRouterView from '@/layouts/components/TGRouterView'
 import TGHeader from '@/layouts/components/TGHeader'
 import { Layout } from 'ant-design-vue'
+import config from '@/config'
 
 export default {
   name: 'Login',

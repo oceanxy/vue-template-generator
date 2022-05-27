@@ -25,7 +25,7 @@
     color: #262626;
     flex: none;
 
-    .ant-btn {
+    .ant-btn:not(.custom-button) {
       margin-left: auto;
       border: none;
       background: none;

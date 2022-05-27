@@ -10,6 +10,12 @@ import BNContainer from '@/components/BNContainer'
 
 export default {
   name: 'Login',
+  props: {
+    isShowSiteName: {
+      type: Boolean,
+      default: true
+    }
+  },
   data: () => ({
     activeKey: 1
   }),
