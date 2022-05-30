@@ -123,7 +123,7 @@ export const routes = [
           {
             path: 'report-form',
             name: 'reportForm',
-            component: () => import('@/views/basis/Contract'),
+            component: () => import('@/views/basis/ReportForm'),
             meta: {
               title: '我的报表',
               keepAlive: true,
