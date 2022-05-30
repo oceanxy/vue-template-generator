@@ -1,4 +1,5 @@
 import { List } from 'ant-design-vue'
+import utilityFunction from '@/utils/utilityFunction'
 import './index.scss'
 
 export default {
@@ -27,28 +28,28 @@ export default {
         grid={{ gutter: 18, column: this.column }}
         dataSource={
           [
-            { a: '我的报表', name: 'report-form' },
-            { a: '政策申报', name: 'policy-declaration' },
-            { a: '我的资料', name: 'my-profile' },
-            { a: '我的合同', name: 'my-contract' },
-            { a: '我的账单', name: 'my-bill' },
-            { a: '我的发票', name: 'my-invoice' },
-            { a: '会议室预约', name: 'meeting-room-reservation' },
-            { a: '物业保修', name: 'property-warranty' },
-            { a: '在线投诉', name: 'online-complaint' },
-            { a: '退出登录', name: 'log-out' }
+            { a: '我的报表', name: 'reportForm' },
+            { a: '政策申报', name: 'policyDeclaration' },
+            { a: '我的资料', name: 'profile' },
+            { a: '我的合同', name: 'contract' },
+            { a: '我的账单', name: 'bill' },
+            { a: '我的发票', name: 'invoice' },
+            { a: '会议室预约', name: 'reservation' },
+            { a: '物业报修', name: 'repair' },
+            { a: '在线投诉', name: 'complaint' },
+            { a: '退出登录', name: 'logOut' }
           ]
         }
         {
           ...{
             scopedSlots: {
               renderItem: item => (
-                item.name !== 'log-out' || this.showLogout ? (
+                item.name !== 'logOut' || this.showLogout ? (
                   <List.Item
                     class="list-container icon-menu"
                   >
                     <div
-                      class={`list-icon ${item.name}`}
+                      class={`list-icon ${utilityFunction.toLowerCase(item.name)}`}
                       onClick={() => this.onClick(item)}
                     >
                       {item.a}

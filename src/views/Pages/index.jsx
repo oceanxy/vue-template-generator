@@ -13,7 +13,7 @@ export default {
   mixins: [dynamicState],
   render() {
     return (
-      <TGContainers class="uni-log-pages">
+      <TGContainers class="bn-pages">
         <ULPageForm slot="form" />
         <ULPageButtons slot="buttons" />
         <ULPageTable slot="table" />

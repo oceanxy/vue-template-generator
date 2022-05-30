@@ -100,8 +100,7 @@ export const routes = [
         }
       },
       {
-        path: 'site',
-        name: 'site',
+        path: 'basic',
         component: TGRouterView,
         meta: {
           title: '基础服务',
@@ -109,14 +108,44 @@ export const routes = [
           requiresAuth: true,
           icon: () => import('@/layouts/components/TGMenu/assets/images/basicServices')
         },
-        redirect: { name: 'apps' },
+        redirect: { name: 'contract' },
         children: [
           {
-            path: 'apps',
-            name: 'apps',
-            component: () => import('@/views/sites/Apps'),
+            path: 'contract',
+            name: 'contract',
+            component: () => import('@/views/basis/Contract'),
             meta: {
-              title: '站点列表',
+              title: '我的合同',
+              keepAlive: true,
+              requiresAuth: true
+            }
+          },
+          {
+            path: 'report-form',
+            name: 'reportForm',
+            component: () => import('@/views/basis/Contract'),
+            meta: {
+              title: '我的报表',
+              keepAlive: true,
+              requiresAuth: true
+            }
+          },
+          {
+            path: 'cor-info',
+            name: 'corInfo',
+            component: () => import('@/views/basis/Contract'),
+            meta: {
+              title: '企业信息管理',
+              keepAlive: true,
+              requiresAuth: true
+            }
+          },
+          {
+            path: 'news',
+            name: 'news',
+            component: () => import('@/views/basis/Contract'),
+            meta: {
+              title: '我的消息',
               keepAlive: true,
               requiresAuth: true
             }
@@ -124,7 +153,7 @@ export const routes = [
         ]
       },
       {
-        path: 'module',
+        path: 'finance',
         component: TGRouterView,
         meta: {
           title: '财务服务',
@@ -132,14 +161,34 @@ export const routes = [
           requiresAuth: true,
           icon: () => import('@/layouts/components/TGMenu/assets/images/financialServices')
         },
-        redirect: { name: 'modules' },
+        redirect: { name: 'bill' },
         children: [
           {
-            path: 'modules',
-            name: 'modules',
+            path: 'bill',
+            name: 'bill',
             component: () => import('@/views/FunctionalModules'),
             meta: {
-              title: '功能模块列表',
+              title: '我的账单',
+              keepAlive: true,
+              requiresAuth: true
+            }
+          },
+          {
+            path: 'payment-record',
+            name: 'paymentRecord',
+            component: () => import('@/views/FunctionalModules'),
+            meta: {
+              title: '缴费记录',
+              keepAlive: true,
+              requiresAuth: true
+            }
+          },
+          {
+            path: 'invoice',
+            name: 'invoice',
+            component: () => import('@/views/FunctionalModules'),
+            meta: {
+              title: '我的发票',
               keepAlive: true,
               requiresAuth: true
             }
@@ -147,7 +196,7 @@ export const routes = [
         ]
       },
       {
-        path: 'page',
+        path: 'commercial-service',
         component: TGRouterView,
         meta: {
           title: '物业服务',
@@ -155,137 +204,39 @@ export const routes = [
           requiresAuth: true,
           icon: () => import('@/layouts/components/TGMenu/assets/images/commercialService')
         },
-        redirect: { name: 'pages' },
+        redirect: { name: 'reservation' },
         children: [
           {
-            path: 'pages',
-            name: 'pages',
+            path: 'reservation',
+            name: 'reservation',
             component: () => import('@/views/Pages'),
             meta: {
-              title: '页面列表',
-              keepAlive: true,
-              requiresAuth: true
-            }
-          }
-        ]
-      },
-      {
-        path: 'event',
-        component: TGRouterView,
-        meta: {
-          title: '事件管理',
-          keepAlive: true,
-          requiresAuth: true
-        },
-        redirect: { name: 'events' },
-        children: [
-          {
-            path: 'events',
-            name: 'events',
-            component: () => import('@/views/Events'),
-            meta: {
-              title: '事件列表',
-              keepAlive: true,
-              requiresAuth: true
-            }
-          }
-        ]
-      },
-      {
-        path: 'tag',
-        name: 'tag',
-        component: TGRouterView,
-        meta: {
-          title: '业务标签管理',
-          keepAlive: true,
-          requiresAuth: true
-        },
-        redirect: { name: 'categories' },
-        children: [
-          {
-            path: 'categories',
-            name: 'categories',
-            component: () => import('@/views/Tags/Categories'),
-            meta: {
-              title: '标签分类',
-              keepAlive: true,
-              requiresAuth: true
-            }
-          }
-        ]
-      },
-      {
-        path: 'system',
-        name: 'system',
-        component: TGRouterView,
-        meta: {
-          title: '系统管理',
-          keepAlive: true,
-          requiresAuth: true
-        },
-        redirect: { name: 'menus' },
-        children: [
-          {
-            path: 'menus',
-            name: 'menus',
-            component: () => import('@/views/system/Menus'),
-            meta: {
-              title: '菜单管理',
+              title: '会议室预约',
               keepAlive: true,
               requiresAuth: true
             }
           },
           {
-            path: 'roles',
-            name: 'roles',
-            component: () => import('@/views/system/Roles'),
+            path: 'repair',
+            name: 'repair',
+            component: () => import('@/views/Pages'),
             meta: {
-              title: '角色管理',
+              title: '物业报修',
               keepAlive: true,
               requiresAuth: true
             }
           },
           {
-            path: 'users',
-            name: 'users',
-            component: () => import('@/views/system/Users'),
+            path: 'complaint',
+            name: 'complaint',
+            component: () => import('@/views/Pages'),
             meta: {
-              title: '用户管理',
-              keepAlive: true,
-              requiresAuth: true
-            }
-          },
-          {
-            path: 'departments',
-            name: 'departments',
-            component: () => import('@/views/system/Departments'),
-            meta: {
-              title: '部门管理',
-              keepAlive: true,
-              requiresAuth: true
-            }
-          },
-          {
-            path: 'dictionaries',
-            name: 'dictionaries',
-            component: () => import('@/views/system/Dictionaries'),
-            meta: {
-              title: '字典管理',
+              title: '在线投诉',
               keepAlive: true,
               requiresAuth: true
             }
           }
         ]
-      },
-      {
-        path: 'comp',
-        component: () => import('@/views/CommonComponentsDirectory'),
-        name: 'comp',
-        meta: {
-          title: '共用组件目录',
-          keepAlive: true,
-          requiresAuth: false
-        }
       }
     ]
   },

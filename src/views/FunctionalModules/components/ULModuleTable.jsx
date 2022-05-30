@@ -47,7 +47,7 @@ export default {
     return (
       <Table
         ref={`${this.moduleName}Table`}
-        class="uni-log-table uni-log-functional-modules-table"
+        class="bn-table bn-functional-modules-table"
         loading={this.getLoading(this.moduleName)}
         {...{ props: this.tableProps }}
         {...{

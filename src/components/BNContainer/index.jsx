@@ -54,24 +54,24 @@ export default {
   render() {
     return (
       <div
-        class={`tg-universal-box${this.showBoxShadow ? ' show-shadow' : ''}`}
+        class={`${this.showBoxShadow ? 'show-shadow ' : ''}tg-universal-box`}
         style={{ '--box-width': `${this.width}${isNaN(this.width) ? '' : 'px'}` }}
       >
         {
           this.title ? (
             <div
-              class={`box-title${
-                this.titleClass ? ` ${this.titleClass}` : ''
+              class={`${
+                this.titleClass ? `${this.titleClass} ` : ''
               }${
-                this.showTitleShape ? ' divider' : ''
-              }`}
+                this.showTitleShape ? 'divider ' : ''
+              }box-title`}
             >
               {this.title}
               {this.showMore ? <Button icon="right" /> : null}
             </div>
           ) : null
         }
-        <div class={`box-content${this.contentClass ? ` ${this.contentClass}` : ''}`}>
+        <div class={`${this.contentClass ? `${this.contentClass} ` : ''}box-content`}>
           {
             this.$slots.default
           }

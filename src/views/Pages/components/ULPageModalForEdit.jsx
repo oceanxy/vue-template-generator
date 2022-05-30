@@ -77,7 +77,7 @@ export default Form.create({})({
         {...attributes}
       >
         <Form
-          class="uni-log-pages-edit-form"
+          class="bn-pages-edit-form"
           labelCol={{ span: 6 }}
           wrapperCol={{ span: 16 }}
           colon={false}
@@ -179,8 +179,8 @@ export default Form.create({})({
                 )
               }
               <Tooltip
-                class="uni-log-pages-tool-tip"
-                overlayClassName="uni-log-pages-overlay"
+                class="bn-pages-tool-tip"
+                overlayClassName="bn-pages-overlay"
               >
                 <template slot="title">
                   1. 使用通配符 <span>*</span> 来代替任意字符
@@ -214,7 +214,7 @@ export default Form.create({})({
                   <InputNumber />
                 )
               }
-              <Tooltip overlayClassName="uni-log-pages-overlay">
+              <Tooltip overlayClassName="bn-pages-overlay">
                 <template slot="title">
                   1. 匹配权重：手动设置匹配规则权重（-100 ~ 999），值越大越优先匹配。
                   <br />
@@ -229,7 +229,7 @@ export default Form.create({})({
                 </template>
                 <Icon type="question-circle" /> 如何调整匹配权重？
               </Tooltip>
-              <Statistic title="计算权重：" value={this.score} class="uni-log-pages-statistic" />
+              <Statistic title="计算权重：" value={this.score} class="bn-pages-statistic" />
               <Badge count={this.score} showZero>
                 <Button onClick={() => this.onConflictClick()}>冲突页面</Button>
               </Badge>

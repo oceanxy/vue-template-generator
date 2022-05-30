@@ -39,7 +39,7 @@ export default Form.create({})({
         {...attributes}
       >
         <Form
-          class="uni-log-functional-modules-edit-form"
+          class="bn-functional-modules-edit-form"
           labelCol={{ span: 6 }}
           wrapperCol={{ span: 16 }}
           colon={false}

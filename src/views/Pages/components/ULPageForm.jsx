@@ -18,7 +18,7 @@ export default Form.create({})({
         layout="inline"
         onSubmit={this.onSubmit}
         colon={false}
-        class="uni-log-search-form uni-log-pages-form"
+        class="bn-search-form bn-pages-form"
       >
         <Space>
           <Form.Item label="页面名称">

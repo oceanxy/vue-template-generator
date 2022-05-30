@@ -103,7 +103,7 @@ export default {
     return (
       <Table
         ref={`${this.moduleName}Table`}
-        class="uni-log-table uni-log-pages-table"
+        class="bn-table bn-pages-table"
         loading={this.getLoading(this.moduleName)}
         {...{ props: this.tableProps }}
         {...{

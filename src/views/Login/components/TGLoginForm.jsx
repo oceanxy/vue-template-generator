@@ -42,7 +42,7 @@ export default Form.create({ name: 'TGLoginForm' })({
     return (
       <Form
         form={this.form}
-        class="uni-log-login-form"
+        class="bn-login-form"
         onSubmit={this.handleSubmit}
       >
         <Form.Item>

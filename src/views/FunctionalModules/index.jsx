@@ -12,7 +12,7 @@ export default {
   mixins: [dynamicState],
   render() {
     return (
-      <TGContainers class="uni-log-functional-modules">
+      <TGContainers class="bn-functional-modules">
         <ULModuleForm slot="form" />
         <ULModuleButtons slot="buttons" />
         <ULModuleTable slot="table" />

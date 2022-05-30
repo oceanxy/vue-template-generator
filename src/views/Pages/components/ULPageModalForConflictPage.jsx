@@ -70,7 +70,7 @@ export default {
       >
         <Table
           {...{ props: this.tableProps }}
-          class="uni-log-pages-table-modal"
+          class="bn-pages-table-modal"
         />
       </Modal>
     )
