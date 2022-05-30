@@ -1,4 +1,4 @@
-.box-content.bn-report-form-content {
+.box-content.bn-report-content {
   display: flex;
   flex-direction: column;
   gap: 30px;
@@ -65,5 +65,16 @@
         }
       }
     }
+  }
+}
+
+.box-content.bn-report-form-content {
+
+}
+
+.box-content.bn-report-record-content {
+  .btns {
+    text-align: right;
+    margin-top: 20px;
   }
 }

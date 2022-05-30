@@ -3,12 +3,20 @@ import BNContainer from '@/components/BNContainer'
 import { Button } from 'ant-design-vue'
 
 export default {
+  methods: {
+    toForm() {
+      this.$router.push({ name: 'reportFForm' })
+    },
+    toRecord() {
+      this.$router.push({ name: 'reportFormRecord' })
+    }
+  },
   render() {
     return (
       <BNContainer
         width="100%"
         title="我的报表"
-        contentClass="bn-report-form-content"
+        contentClass="bn-report-content"
       >
         <div class="report-form">
           <div class="content">
@@ -17,7 +25,7 @@ export default {
             <div class="datetime">填报时间：2022-05-22 10:21~2022-05-22 10:21</div>
           </div>
           <div class="btns">
-            <Button type="primary">立即填报</Button>
+            <Button type="primary" onClick={this.toForm}>立即填报</Button>
           </div>
         </div>
         <div class="report-form record">
@@ -27,7 +35,13 @@ export default {
             <div class="datetime">填报时间：2022-05-22 10:21~2022-05-22 10:21</div>
           </div>
           <div class="btns">
-            <Button class="record" style={{ '--antd-wave-shadow-color': '#13c2c2' }}>查看填报记录</Button>
+            <Button
+              class="record"
+              style={{ '--antd-wave-shadow-color': '#13c2c2' }}
+              onClick={this.toRecord}
+            >
+              查看填报记录
+            </Button>
           </div>
         </div>
       </BNContainer>

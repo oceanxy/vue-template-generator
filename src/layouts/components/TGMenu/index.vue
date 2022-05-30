@@ -8,7 +8,7 @@
   >
     <template v-for="route in menuRoutes">
       <t-g-sub-menu
-        v-if="route.children && route.children.length"
+        v-if="!route.meta.hideChildren && route.children && route.children.length"
         :key="route.path"
         :menu-info="route"
         @subMenuClick="titleClick"
@@ -41,7 +41,7 @@ const TGSubMenu = {
     </div>
     <template v-for="route in menuInfo.children">
       <t-g-sub-menu
-        v-if="route.children && route.children.length"
+        v-if="!route.meta.hideChildren && route.children && route.children.length"
         :key="route.path"
         :menu-info="route"
         @subMenuClick="titleClick"
