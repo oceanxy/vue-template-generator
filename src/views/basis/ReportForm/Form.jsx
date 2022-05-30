@@ -1,4 +1,4 @@
-import './index.scss'
+import './assets/styles/index.scss'
 import BNContainer from '@/components/BNContainer'
 import { Button, Form, Input } from 'ant-design-vue'
 

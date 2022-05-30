@@ -165,7 +165,7 @@ export const routes = [
           {
             path: 'cor-info',
             name: 'corInfo',
-            component: () => import('@/views/basis/Contract'),
+            component: () => import('@/views/basis/CorporateInformation'),
             meta: {
               title: '企业信息管理',
               keepAlive: true,
