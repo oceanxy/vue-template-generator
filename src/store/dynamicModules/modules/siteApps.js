@@ -1,14 +1,14 @@
 import apis from '@/apis'
 import { cloneDeep, omit } from 'lodash'
 
-export default (store, commitRootInModule) => {
+export default commitRootInModule => {
   // 搜索模型
   const searchModel = {
     appName: undefined,
     status: undefined
   }
 
-  store.registerModule('siteApps', {
+  return {
     namespaced: true,
     state: {
       loading: false,
@@ -18,9 +18,9 @@ export default (store, commitRootInModule) => {
         pageSize: 10,
         total: 0
       },
-      current: {},
+      currentItem: {},
       list: [],
-      editModalVisible: false,
+      visibleForEdit: false,
       selectedRowKeys: [],
       selectedRows: []
     },
@@ -90,9 +90,9 @@ export default (store, commitRootInModule) => {
        * @param state
        * @param payload
        */
-      setModalStateForEdit({ state }, payload) {
-        commitRootInModule('setModalVisible', {
-          modalVisibleField: 'editModalVisible',
+      setVisibleForEdit({ state }, payload) {
+        commitRootInModule('setVisibleOfModal', {
+          field: 'visibleForEdit',
           value: payload
         })
       },
@@ -101,8 +101,8 @@ export default (store, commitRootInModule) => {
        * @param state
        * @param payload
        */
-      setCurrent({ state }, payload) {
-        commitRootInModule('setCurrent', cloneDeep(payload || {}))
+      setCurrentItem({ state }, payload) {
+        commitRootInModule('setCurrentItem', cloneDeep(payload || {}))
       },
       /**
        * 设置选择的行
@@ -149,7 +149,7 @@ export default (store, commitRootInModule) => {
         const response = await apis.addSiteApp(payload)
 
         if (response.status) {
-          dispatch('setModalStateForEdit', false)
+          dispatch('setVisibleForEdit', false)
           dispatch('getList', {
             pageIndex: 0
           })
@@ -174,5 +174,5 @@ export default (store, commitRootInModule) => {
         return response.status
       }
     }
-  })
+  }
 }

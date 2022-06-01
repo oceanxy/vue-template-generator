@@ -3,10 +3,10 @@ import BNContainer from '@/components/BNContainer'
 import { Button, Form, Input } from 'ant-design-vue'
 
 export default Form.create({})({
-  // mixins: [editForm],
+  // mixins: [formModal],
   data() {
     return {
-      current: {
+      currentItem: {
         name: ''
       }
     }
@@ -27,7 +27,7 @@ export default Form.create({})({
   },
   methods: {
     async onConflictClick() {
-      // await dispatch(this.moduleName, 'setModalStateForConflict', true)
+      // await dispatch(this.moduleName, 'setVisibleForConflict', true)
     },
     allPathValidator(rule, value, callback) {
       const result = value.filter(item => !item.allPath)
@@ -61,7 +61,7 @@ export default Form.create({})({
           <Form.Item label="短文本">
             {
               this.form.getFieldDecorator('name', {
-                initialValue: this.current.pageName,
+                initialValue: this.currentItem.pageName,
                 rules: [{ required: true, message: '请输入页面名称!', trigger: 'blur' }]
               })(
                 <Input placeholder="请输入页面名称" allowClear />
@@ -71,7 +71,7 @@ export default Form.create({})({
           <Form.Item label="长文本">
             {
               this.form.getFieldDecorator('name', {
-                initialValue: this.current.pageName,
+                initialValue: this.currentItem.pageName,
                 rules: [{ required: true, message: '请输入页面名称!', trigger: 'blur' }]
               })(
                 <Input.TextArea

@@ -4,7 +4,8 @@ import { cloneDeep, omit } from 'lodash'
 export default commitRootInModule => {
   // 搜索模型
   const searchModel = {
-    moduleName: undefined,
+    pageName: undefined,
+    allPath: undefined,
     appId: undefined
   }
 
@@ -18,13 +19,15 @@ export default commitRootInModule => {
         pageSize: 10,
         total: 0
       },
-      currentItem: {},
+      currentItem: {
+        fp: 1000
+      },
       list: [],
-      visibleForEdit: false,
+      visibleForDetails: false,
+      visibleForInvoice: false,
       selectedRowKeys: [],
       selectedRows: []
     },
-    mutations: {},
     actions: {
       /**
        * 获取列表数据
@@ -35,7 +38,7 @@ export default commitRootInModule => {
       async getList({ state }, pagination) {
         commitRootInModule('setLoading', true)
 
-        const response = await apis.getFunctionalModules(omit({
+        const response = await apis.getPages(omit({
           ...state.pagination,
           ...state.search,
           ...pagination
@@ -63,7 +66,22 @@ export default commitRootInModule => {
       async updateStatus({ state }, payload) {
         commitRootInModule('setLoading', true)
 
-        const { status } = await apis.updateFunctionalModulesStatus(payload)
+        const { status } = await apis.updatePagesStatus(payload)
+
+        commitRootInModule('setLoading', false)
+
+        return status
+      },
+      /**
+       * 更新监控状态
+       * @param state
+       * @param payload
+       * @return {Promise<*>}
+       */
+      async updateMonitorStatus({ state }, payload) {
+        commitRootInModule('setLoading', true)
+
+        const { status } = await apis.updatePagesMonitorStatus(payload)
 
         commitRootInModule('setLoading', false)
 
@@ -83,7 +101,7 @@ export default commitRootInModule => {
           ids = state.selectedRowKeys
         }
 
-        const response = await apis.deleteFunctionalModules({ ids })
+        const response = await apis.deletePages({ ids })
 
         if (response.status) {
           dispatch('getList', {
@@ -103,7 +121,7 @@ export default commitRootInModule => {
        * @return {Promise<*>}
        */
       async add({ state, dispatch }, payload) {
-        const response = await apis.addFunctionalModules(payload)
+        const response = await apis.addPages(payload)
 
         if (response.status) {
           dispatch('setVisibleForEdit', false)
@@ -122,7 +140,7 @@ export default commitRootInModule => {
        * @return {Promise<*>}
        */
       async update({ state, dispatch }, payload) {
-        const response = await apis.updateFunctionalModules(payload)
+        const response = await apis.updatePages(payload)
 
         if (response.status) {
           dispatch('getList')
@@ -147,13 +165,19 @@ export default commitRootInModule => {
         commitRootInModule('setPagination', { ...state.pagination, ...payload })
       },
       /**
-       * 设置新增/编辑弹窗可见状态
+       * 设置缴费明细弹窗可见状态
        * @param state
        * @param payload
        */
-      setVisibleForEdit({ state }, payload) {
+      setVisibleForDetails({ state }, payload) {
         commitRootInModule('setVisibleOfModal', {
-          field: 'visibleForEdit',
+          field: 'visibleForDetails',
+          value: payload
+        })
+      },
+      setVisibleForInvoice({ commit }, payload) {
+        commitRootInModule('setVisibleOfModal', {
+          field: 'visibleForInvoice',
           value: payload
         })
       },

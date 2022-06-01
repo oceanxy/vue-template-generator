@@ -12,17 +12,17 @@ import {
   Switch,
   Tooltip
 } from 'ant-design-vue'
-import editForm from '@/mixins/editForm'
+import formModal from '@/mixins/formModal'
 import { mapState } from 'vuex'
 import ULMultiInput from './ULMultiInput'
 import '../assets/styles/index.scss'
 import { dispatch } from '@/utils/store'
 
 export default Form.create({})({
-  mixins: [editForm],
+  mixins: [formModal],
   data() {
     return {
-      modalProps: {
+      modalAttrs: {
         width: 700
       }
     }
@@ -43,7 +43,7 @@ export default Form.create({})({
   },
   methods: {
     async onConflictClick() {
-      await dispatch(this.moduleName, 'setModalStateForConflict', true)
+      await dispatch(this.moduleName, 'setVisibleForConflict', true)
     },
     allPathValidator(rule, value, callback) {
       const result = value.filter(item => !item.allPath)
@@ -63,7 +63,7 @@ export default Form.create({})({
   },
   render() {
     const attributes = {
-      props: this.modalProps,
+      props: this.modalAttrs,
       on: {
         cancel: this.onCancel,
         ok: this.onSubmit.bind(this, this.transformValue)
@@ -85,7 +85,7 @@ export default Form.create({})({
           <Form.Item label="所属站点">
             {
               this.form.getFieldDecorator('appId', {
-                initialValue: this.current.appId,
+                initialValue: this.currentItem.appId,
                 rules: [{ required: true, message: '请选择所属站点!', trigger: 'change' }]
               })(
                 <Select placeholder="请选择所属站点" allowClear>
@@ -101,11 +101,11 @@ export default Form.create({})({
             }
           </Form.Item>
           {
-            this.current.parentId && +this.current.parentId !== 0 ? (
+            this.currentItem.parentId && +this.currentItem.parentId !== 0 ? (
               <Form.Item label="父级页面">
                 {
                   this.form.getFieldDecorator('parentId', {
-                    initialValue: +this.current.parentId === 0 ? '' : this.current.parentId
+                    initialValue: +this.currentItem.parentId === 0 ? '' : this.currentItem.parentId
                   })(
                     <Select placeholder="请选择父级页面" allowClear>
                       {
@@ -124,7 +124,7 @@ export default Form.create({})({
           <Form.Item label="页面名称">
             {
               this.form.getFieldDecorator('pageName', {
-                initialValue: this.current.pageName,
+                initialValue: this.currentItem.pageName,
                 rules: [{ required: true, message: '请输入页面名称!', trigger: 'blur' }]
               })(
                 <Input placeholder="请输入页面名称" allowClear />
@@ -137,7 +137,7 @@ export default Form.create({})({
                 rules: [
                   { required: true, validator: this.allPathValidator, trigger: 'change' }
                 ],
-                initialValue: this.current.pagePathList || []
+                initialValue: this.currentItem.pagePathList || []
               })(
                 <ULMultiInput />
               )
@@ -146,7 +146,7 @@ export default Form.create({})({
           <Form.Item label="页面类型">
             {
               this.form.getFieldDecorator('classify', {
-                initialValue: this.current.classify || 1,
+                initialValue: this.currentItem.classify || 1,
                 rules: [{ type: 'number', required: true, message: '请选择页面类型!', trigger: 'change' }]
               })(
                 <Select placeholder="请选择页面类型" allowClear>
@@ -161,7 +161,7 @@ export default Form.create({})({
           <Form.Item label="开启监控">
             {
               this.form.getFieldDecorator('isMonitor', {
-                initialValue: +this.current.status === 1 || false,
+                initialValue: +this.currentItem.status === 1 || false,
                 valuePropName: 'checked'
               })(
                 <Switch />
@@ -172,7 +172,7 @@ export default Form.create({})({
             <Space>
               {
                 this.form.getFieldDecorator('isSameGroup', {
-                  initialValue: +this.current.isSameGroup === 1 || false,
+                  initialValue: +this.currentItem.isSameGroup === 1 || false,
                   valuePropName: 'checked'
                 })(
                   <Switch />
@@ -209,7 +209,7 @@ export default Form.create({})({
             <Space>
               {
                 this.form.getFieldDecorator('score', {
-                  initialValue: this.current.score || 0
+                  initialValue: this.currentItem.score || 0
                 })(
                   <InputNumber />
                 )
@@ -238,7 +238,7 @@ export default Form.create({})({
           <Form.Item label="页面描述">
             {
               this.form.getFieldDecorator('remark', {
-                initialValue: this.current.remark
+                initialValue: this.currentItem.remark
               })(
                 <Input placeholder="请输入页面描述" type="textarea" />
               )
@@ -247,7 +247,7 @@ export default Form.create({})({
           <Form.Item label="排序">
             {
               this.form.getFieldDecorator('sortIndex', {
-                initialValue: this.current.sortIndex || 0
+                initialValue: this.currentItem.sortIndex || 0
               })(
                 <Input placeholder="请输入排序" allowClear />
               )

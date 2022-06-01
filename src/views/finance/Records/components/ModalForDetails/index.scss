@@ -1,0 +1,30 @@
+.records-details-table {
+  .ant-table-thead th {
+    background: #f5f5f5;
+  }
+
+  .ant-table-footer {
+    padding: 0;
+    background: #ffffff;
+
+    .receivable {
+      padding: 16px;
+      display: flex;
+
+      span:last-child {
+        margin-left: auto;
+      }
+    }
+
+    .actually-received {
+      padding: 16px;
+      background: #fff7e6;
+      display: flex;
+      color: #fa8c16;
+
+      span:last-child {
+        margin-left: auto;
+      }
+    }
+  }
+}

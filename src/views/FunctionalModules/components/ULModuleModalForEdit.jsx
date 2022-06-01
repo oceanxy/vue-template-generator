@@ -1,13 +1,13 @@
 import { Form, Input, Modal, Select } from 'ant-design-vue'
-import editForm from '@/mixins/editForm'
+import formModal from '@/mixins/formModal'
 import { mapState } from 'vuex'
 import '../assets/styles/index.scss'
 
 export default Form.create({})({
-  mixins: [editForm],
+  mixins: [formModal],
   data() {
     return {
-      modalProps: {
+      modalAttrs: {
         width: 400
       }
     }
@@ -25,7 +25,7 @@ export default Form.create({})({
   },
   render() {
     const attributes = {
-      props: this.modalProps,
+      props: this.modalAttrs,
       on: {
         cancel: this.onCancel,
         ok: this.onSubmit
@@ -47,7 +47,7 @@ export default Form.create({})({
           <Form.Item label="所属站点">
             {
               this.form.getFieldDecorator('appId', {
-                initialValue: this.current.appId,
+                initialValue: this.currentItem.appId,
                 rules: [{ required: true, message: '请选择所属站点!', trigger: 'change' }]
               })(
                 <Select placeholder="请选择所属站点" allowClear>
@@ -65,7 +65,7 @@ export default Form.create({})({
           <Form.Item label="父级页面">
             {
               this.form.getFieldDecorator('parentId', {
-                initialValue: this.current.parentId,
+                initialValue: this.currentItem.parentId,
                 rules: [{ required: true, message: '请选择父级页面!', trigger: 'change' }]
               })(
                 <Select placeholder="请选择父级页面" allowClear>
@@ -83,7 +83,7 @@ export default Form.create({})({
           <Form.Item label="模块名称">
             {
               this.form.getFieldDecorator('moduleName', {
-                initialValue: this.current.moduleName,
+                initialValue: this.currentItem.moduleName,
                 rules: [{ required: true, message: '请输入模块名称!', trigger: 'blur' }]
               })(
                 <Input placeholder="请输入模块名称" allowClear />
@@ -93,7 +93,7 @@ export default Form.create({})({
           <Form.Item label="模块描述">
             {
               this.form.getFieldDecorator('remark', {
-                initialValue: this.current.remark
+                initialValue: this.currentItem.remark
               })(
                 <Input placeholder="请输入模块描述" type="textarea" />
               )
@@ -102,7 +102,7 @@ export default Form.create({})({
           <Form.Item label="排序">
             {
               this.form.getFieldDecorator('sortIndex', {
-                initialValue: this.current.sortIndex || 0
+                initialValue: this.currentItem.sortIndex || 0
               })(
                 <Input placeholder="请输入排序" allowClear />
               )

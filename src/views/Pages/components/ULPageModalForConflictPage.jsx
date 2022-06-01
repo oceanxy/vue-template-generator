@@ -7,7 +7,7 @@ export default {
   inject: ['moduleName'],
   data() {
     return {
-      modalProps: {
+      modalAttrs: {
         width: 700,
         footer: ''
       },
@@ -43,20 +43,20 @@ export default {
   },
   computed: {
     ...mapGetters({
-      getCurrent: 'getCurrent'
+      getCurrentItem: 'getCurrentItem'
     }),
     visible() {
-      return this.$store.state[this.moduleName].conflictModalVisible
+      return this.$store.state[this.moduleName].visibleForConflict
     }
   },
   methods: {
     async onCancel() {
-      await dispatch(this.moduleName, 'setModalStateForConflict', false)
+      await dispatch(this.moduleName, 'setVisibleForConflict', false)
     }
   },
   render() {
     const attrs = {
-      props: this.modalProps,
+      props: this.modalAttrs,
       on: {
         cancel: this.onCancel
       }

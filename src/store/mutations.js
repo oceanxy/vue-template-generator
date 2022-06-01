@@ -44,13 +44,13 @@ export default {
   },
   /**
    * 设置当前的临时数据对象
-   * current: 当前页面正在操作的临时数据对象。如新增，编辑等需要临时保存数据的对象
+   * currentItem: 当前页面正在操作的临时数据对象。如新增，编辑等需要临时保存数据的对象
    * @param state {Object}
    * @param payload {Object}
    * @param moduleName {string}
    */
-  setCurrent(state, { payload, moduleName }) {
-    state[moduleName].current = payload
+  setCurrentItem(state, { payload, moduleName }) {
+    state[moduleName].currentItem = payload
   },
   /**
    * 设置表格选中的行数据
@@ -88,12 +88,12 @@ export default {
    *
    * @param state {Object}
    * @param payload {{
-   *   modalVisibleField: string,
+   *   field: string,
    *   value: any
-   * }} modalVisibleField: 控制modal显示的字段 value：要设置的值
+   * }} field: 控制modal显示的字段 value：要设置的值
    * @param moduleName {string}
    */
-  setModalVisible(state, { payload, moduleName }) {
-    state[moduleName][payload.modalVisibleField] = payload.value
+  setVisibleOfModal(state, { payload, moduleName }) {
+    state[moduleName][payload.field] = payload.value
   }
 }

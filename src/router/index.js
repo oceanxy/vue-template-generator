@@ -175,7 +175,7 @@ export const routes = [
           {
             path: 'news',
             name: 'news',
-            component: () => import('@/views/basis/Contract'),
+            component: () => import('@/views/basis/News'),
             meta: {
               title: '我的消息',
               keepAlive: true,
@@ -198,7 +198,7 @@ export const routes = [
           {
             path: 'bill',
             name: 'bill',
-            component: () => import('@/views/FunctionalModules'),
+            component: () => import('@/views/finance/Bills'),
             meta: {
               title: '我的账单',
               keepAlive: true,
@@ -208,7 +208,7 @@ export const routes = [
           {
             path: 'payment-record',
             name: 'paymentRecord',
-            component: () => import('@/views/FunctionalModules'),
+            component: () => import('@/views/finance/Records'),
             meta: {
               title: '缴费记录',
               keepAlive: true,
@@ -218,7 +218,7 @@ export const routes = [
           {
             path: 'invoice',
             name: 'invoice',
-            component: () => import('@/views/FunctionalModules'),
+            component: () => import('@/views/finance/Invoices'),
             meta: {
               title: '我的发票',
               keepAlive: true,

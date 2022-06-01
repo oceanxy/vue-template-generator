@@ -1,5 +1,5 @@
 /**
- * 新增/编辑弹窗
+ * 新增/编辑弹窗 依赖modal
  * @Author: Oceanxy
  * @Email: xyzsyx@163.com
  * @Date: 2022-03-14 周一 15:43:52
@@ -8,35 +8,24 @@
 import { mapGetters } from 'vuex'
 import { dispatch } from '@/utils/store'
 import { message } from 'ant-design-vue'
+import modal from '@/mixins/modal'
 
 export default {
-  inject: ['moduleName'],
-  data() {
-    return {
-      title: '新增',
-      modalProps: {
-        okText: '提交',
-        maskClosable: false,
-        confirmLoading: false,
-        width: 600
-      },
-      current: {}
-    }
-  },
+  mixins: [modal],
   computed: {
     ...mapGetters({
-      getEditModalVisible: 'getEditModalVisible',
-      getCurrent: 'getCurrent'
+      getVisibleForForm: 'getVisibleForForm',
+      getCurrentItem: 'getCurrentItem'
     }),
     visible() {
-      return this.getEditModalVisible(this.moduleName)
+      return this.getVisibleForForm(this.moduleName)
     }
   },
   watch: {
     visible(value) {
       if (value) {
-        this.current = this.getCurrent(this.moduleName)
-        this.title = this.current.id ? '编辑' : '新增'
+        this.currentItem = this.getCurrentItem(this.moduleName)
+        this.title = this.currentItem.id ? '编辑' : '新增'
       } else {
         this.form.resetFields()
       }
@@ -46,7 +35,7 @@ export default {
     onSubmit(transformValue) {
       this.form.validateFields(async(err, values) => {
         if (!err) {
-          this.modalProps.confirmLoading = true
+          this.modalAttrs.confirmLoading = true
 
           let status
           const data = {
@@ -56,24 +45,21 @@ export default {
           }
 
           // 存在ID，目前为编辑模式
-          if (this.current?.id) {
-            data.id = this.current.id
+          if (this.currentItem?.id) {
+            data.id = this.currentItem.id
             status = await dispatch(this.moduleName, 'update', data)
           } else /* 新增模式 */ {
             status = await dispatch(this.moduleName, 'add', data)
           }
 
           if (status) {
-            await dispatch(this.moduleName, 'setModalStateForEdit', false)
+            await dispatch(this.moduleName, 'setVisibleForEdit', false)
             message.success('操作成功！')
           }
 
-          this.modalProps.confirmLoading = false
+          this.modalAttrs.confirmLoading = false
         }
       })
-    },
-    async onCancel() {
-      await dispatch(this.moduleName, 'setModalStateForEdit', false)
     }
   }
 }

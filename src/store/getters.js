@@ -1,7 +1,8 @@
 export default {
   getLoading: state => moduleName => state[moduleName].loading,
-  getEditModalVisible: state => moduleName => state[moduleName].editModalVisible,
-  getCurrent: state => moduleName => state[moduleName].current,
+  getVisibleForForm: state => moduleName => state[moduleName].visibleForEdit,
+  getVisible: state => (moduleName, stateName) => state[moduleName][stateName],
+  getCurrentItem: state => moduleName => state[moduleName].currentItem,
   getPagination: state => moduleName => state[moduleName].pagination,
   getSelectedRowKeys: state => moduleName => state[moduleName].selectedRowKeys,
   getSelectedRows: state => moduleName => state[moduleName].selectedRows,
