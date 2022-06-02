@@ -75,7 +75,7 @@ export default Form.create({})({
                 rules: [{ required: true, message: '请输入页面名称!', trigger: 'blur' }]
               })(
                 <Input.TextArea
-                  autoSize={{ minRows: 2, maxRows: 6 }}
+                  autoSize={{ minRows: 4, maxRows: 6 }}
                   placeholder="请输入页面名称"
                   allowClear
                 />

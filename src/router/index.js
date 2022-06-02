@@ -80,7 +80,7 @@ export const routes = [
   {
     path: '/',
     // 选择布局组件
-    component: () => import('@/layouts/TGProfileLayout'),
+    component: () => import('@/layouts/TGProfile'),
     meta: {
       title: '企业服务中心',
       keepAlive: true,
@@ -251,7 +251,7 @@ export const routes = [
           {
             path: 'repair',
             name: 'repair',
-            component: () => import('@/views/Pages'),
+            component: () => import('@/views/properties/Repair'),
             meta: {
               title: '物业报修',
               keepAlive: true,
@@ -261,7 +261,7 @@ export const routes = [
           {
             path: 'complaint',
             name: 'complaint',
-            component: () => import('@/views/Pages'),
+            component: () => import('@/views/properties/Complaints'),
             meta: {
               title: '在线投诉',
               keepAlive: true,

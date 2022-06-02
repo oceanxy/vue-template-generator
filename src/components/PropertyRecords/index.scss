@@ -1,0 +1,26 @@
+.properties-records {
+  height: 100%;
+
+  .title {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+
+    .btns {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+
+      .ant-btn {
+        padding: 0;
+      }
+    }
+  }
+
+  .repair-records {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 16px;
+  }
+}

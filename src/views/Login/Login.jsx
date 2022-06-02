@@ -31,6 +31,7 @@ export default {
     return (
       <BNContainer
         width={600}
+        class='login-box'
         contentClass='login-box-content'
         showTitleShape={false}
       >

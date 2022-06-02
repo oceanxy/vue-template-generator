@@ -4,12 +4,13 @@ import BNContainer from '@/components/BNContainer'
 import TGTitleWithShape from '@/components/TGTitleWithShape'
 import TGShortcutMenu from '@/components/TGShortcutMenu'
 import TGList from '@/components/TGList'
+import TGContainerWithSider from '@/components/TGContainerWithSider'
 
 export default {
   render() {
     return (
-      <div class="tg-home">
-        <div class='tg-home-main'>
+      <TGContainerWithSider class="tg-home">
+        <template slot="default">
           <div class="tg-home-summary">
             <div class="user-info">
               <Icon type="user" class="avatar" />
@@ -92,30 +93,30 @@ export default {
               }
             />
           </BNContainer>
-        </div>
-        <div class="tg-home-sider">
+        </template>
+        <template slot="sider">
           <BNContainer
-            width='100%'
-            title='我的快捷菜单'
+            width="100%"
+            title="我的快捷菜单"
             showBoxShadow={false}
-            class='shortcut-menu-container'
-            titleClass='not-login-title'
-            contentClass='shortcut-container'
+            class="shortcut-menu-container"
+            titleClass="not-login-title"
+            contentClass="shortcut-container"
           >
             <TGShortcutMenu column={3} />
           </BNContainer>
           <BNContainer
-            class='my-news-container'
-            width='100%'
-            title='我的消息'
+            class="my-news-container"
+            width="100%"
+            title="我的消息"
             showBoxShadow={false}
             showMore
-            titleClass='not-login-title'
+            titleClass="not-login-title"
           >
-            <TGList layout='dateBefore' />
+            <TGList layout="dateBefore" />
           </BNContainer>
-        </div>
-      </div>
+        </template>
+      </TGContainerWithSider>
     )
   }
 }
