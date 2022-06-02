@@ -240,13 +240,45 @@ export const routes = [
         children: [
           {
             path: 'reservation',
-            name: 'reservation',
-            component: () => import('@/views/Pages'),
+            component: TGRouterView,
             meta: {
               title: '会议室预约',
               keepAlive: true,
-              requiresAuth: true
-            }
+              requiresAuth: true,
+              hideChildren: true
+            },
+            children: [
+              {
+                path: '',
+                name: 'reservation',
+                component: () => import('@/views/properties/BookMeetingRoom'),
+                meta: {
+                  title: '会议室预约',
+                  keepAlive: true,
+                  requiresAuth: true
+                }
+              },
+              {
+                path: 'book',
+                name: 'book',
+                component: () => import('@/views/properties/BookMeetingRoom/Book'),
+                meta: {
+                  title: '立即预约',
+                  keepAlive: true,
+                  requiresAuth: true
+                }
+              },
+              {
+                path: 'records',
+                name: 'appointmentRecord',
+                component: () => import('@/views/properties/BookMeetingRoom/Records'),
+                meta: {
+                  title: '我的预约记录',
+                  keepAlive: true,
+                  requiresAuth: true
+                }
+              }
+            ]
           },
           {
             path: 'repair',

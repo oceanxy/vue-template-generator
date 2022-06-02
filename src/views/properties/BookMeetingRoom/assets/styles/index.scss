@@ -1,0 +1,88 @@
+@import '@/assets/styles/theme.scss';
+
+.bn-book-meeting-room.bn-book-meeting-room {
+  .title {
+    width: 100%;
+    display: flex;
+    align-items: center;
+
+    .btn {
+      margin-left: auto;
+      font-size: 14px;
+      font-weight: 500;
+      color: #595959;
+
+      &:hover {
+        color: #007aff;
+      }
+    }
+  }
+
+  .book-meeting-room-content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    width: 100%;
+    height: auto;
+
+    .meeting-room {
+      width: calc((100% - 20px) / 2);
+      height: 108px;
+      background: #fafcff;
+      @include container-border-radius;
+      display: flex;
+      padding: 16px;
+      transition: all 0.3s;
+
+      &:hover {
+        box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.10);
+      }
+
+      .info {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        flex: auto;
+        color: #8c8c8c;
+        font-size: 14px;
+
+        .title {
+          font-size: 24px;
+          font-weight: 700;
+          color: #1f1f1f;
+
+          .ant-tag {
+            color: #52c41a;
+            border: 1px solid #52c41a;
+            background: #f6ffed;
+            padding: 2px 10px;
+          }
+        }
+      }
+
+      .btns {
+        width: 100px;
+        flex: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      &.occupied .ant-tag.ant-tag {
+        color: #fa541c;
+        border: 1px solid #fa541c;
+      }
+    }
+  }
+}
+
+.bn-book-meeting-room--book {
+  .prompt {
+    background: #ebf4fd;
+    border: 1px solid #9bcbff;
+    border-radius: 2px;
+    color: #007aff;
+    padding: 8px 12px;
+    line-height: 20px;
+  }
+}

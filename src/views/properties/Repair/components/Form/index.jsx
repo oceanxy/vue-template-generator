@@ -56,7 +56,7 @@ export default Form.create({})({
                     this.fileList.length < 8 ? (
                       <div>
                         <Icon type="plus" />
-                        <div className="ant-upload-text">
+                        <div class="ant-upload-text">
                           点击上传
                         </div>
                       </div>
