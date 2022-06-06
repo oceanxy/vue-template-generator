@@ -23,7 +23,7 @@ export const routes = [
     children: [
       {
         path: '',
-        component: () => import('@/views/Login'),
+        component: () => import('@/views/client/Login'),
         meta: {
           title: '',
           keepAlive: false,
@@ -33,7 +33,7 @@ export const routes = [
           {
             path: '',
             name: 'loginBefore',
-            component: () => import('@/views/Login/components/loginBefore'),
+            component: () => import('@/views/client/Login/components/loginBefore'),
             meta: {
               title: '',
               keepAlive: false,
@@ -43,7 +43,7 @@ export const routes = [
           {
             path: '',
             name: 'loginAfter',
-            component: () => import('@/views/Login/components/loginAfter'),
+            component: () => import('@/views/client/Login/components/loginAfter'),
             meta: {
               title: '首页',
               keepAlive: true,
@@ -55,7 +55,7 @@ export const routes = [
       {
         path: 'login',
         name: 'login',
-        component: () => import('@/views/Login/Login'),
+        component: () => import('@/views/client/Login/Login'),
         meta: {
           title: '登录',
           keepAlive: false,
@@ -65,7 +65,7 @@ export const routes = [
       {
         path: 'logon',
         name: 'logon',
-        component: () => import('@/views/Login/Logon'),
+        component: () => import('@/views/client/Login/Logon'),
         meta: {
           title: '企业注册',
           keepAlive: false,
@@ -92,7 +92,7 @@ export const routes = [
       {
         path: '',
         name: 'home',
-        component: () => import('@/views/Home'),
+        component: () => import('@/views/client/Home'),
         meta: {
           title: '企业服务中心',
           keepAlive: true,
@@ -113,7 +113,7 @@ export const routes = [
           {
             path: 'contract',
             name: 'contract',
-            component: () => import('@/views/basis/Contract'),
+            component: () => import('@/views/client/basis/Contract'),
             meta: {
               title: '我的合同',
               keepAlive: true,
@@ -133,7 +133,7 @@ export const routes = [
               {
                 path: '',
                 name: 'reportForm',
-                component: () => import('@/views/basis/ReportForm'),
+                component: () => import('@/views/client/basis/ReportForm'),
                 meta: {
                   title: '我的报表',
                   keepAlive: true,
@@ -143,7 +143,7 @@ export const routes = [
               {
                 path: 'form',
                 name: 'reportFForm',
-                component: () => import('@/views/basis/ReportForm/Form'),
+                component: () => import('@/views/client/basis/ReportForm/Form'),
                 meta: {
                   title: '立即填报',
                   keepAlive: true,
@@ -153,7 +153,7 @@ export const routes = [
               {
                 path: 'record',
                 name: 'reportFormRecord',
-                component: () => import('@/views/basis/ReportForm/Record'),
+                component: () => import('@/views/client/basis/ReportForm/Record'),
                 meta: {
                   title: '填报记录',
                   keepAlive: true,
@@ -165,7 +165,7 @@ export const routes = [
           {
             path: 'cor-info',
             name: 'corInfo',
-            component: () => import('@/views/basis/CorporateInformation'),
+            component: () => import('@/views/client/basis/CorporateInformation'),
             meta: {
               title: '企业信息管理',
               keepAlive: true,
@@ -175,7 +175,7 @@ export const routes = [
           {
             path: 'news',
             name: 'news',
-            component: () => import('@/views/basis/News'),
+            component: () => import('@/views/client/basis/News'),
             meta: {
               title: '我的消息',
               keepAlive: true,
@@ -198,7 +198,7 @@ export const routes = [
           {
             path: 'bill',
             name: 'bill',
-            component: () => import('@/views/finance/Bills'),
+            component: () => import('@/views/client/finance/Bills'),
             meta: {
               title: '我的账单',
               keepAlive: true,
@@ -208,7 +208,7 @@ export const routes = [
           {
             path: 'payment-record',
             name: 'paymentRecord',
-            component: () => import('@/views/finance/Records'),
+            component: () => import('@/views/client/finance/Records'),
             meta: {
               title: '缴费记录',
               keepAlive: true,
@@ -218,7 +218,7 @@ export const routes = [
           {
             path: 'invoice',
             name: 'invoice',
-            component: () => import('@/views/finance/Invoices'),
+            component: () => import('@/views/client/finance/Invoices'),
             meta: {
               title: '我的发票',
               keepAlive: true,
@@ -251,7 +251,7 @@ export const routes = [
               {
                 path: '',
                 name: 'reservation',
-                component: () => import('@/views/properties/BookMeetingRoom'),
+                component: () => import('@/views/client/properties/BookMeetingRoom'),
                 meta: {
                   title: '会议室预约',
                   keepAlive: true,
@@ -261,7 +261,7 @@ export const routes = [
               {
                 path: 'book',
                 name: 'book',
-                component: () => import('@/views/properties/BookMeetingRoom/Book'),
+                component: () => import('@/views/client/properties/BookMeetingRoom/Book'),
                 meta: {
                   title: '立即预约',
                   keepAlive: true,
@@ -271,7 +271,7 @@ export const routes = [
               {
                 path: 'records',
                 name: 'appointmentRecord',
-                component: () => import('@/views/properties/BookMeetingRoom/Records'),
+                component: () => import('@/views/client/properties/BookMeetingRoom/Records'),
                 meta: {
                   title: '我的预约记录',
                   keepAlive: true,
@@ -283,7 +283,7 @@ export const routes = [
           {
             path: 'repair',
             name: 'repair',
-            component: () => import('@/views/properties/Repair'),
+            component: () => import('@/views/client/properties/Repair'),
             meta: {
               title: '物业报修',
               keepAlive: true,
@@ -293,7 +293,7 @@ export const routes = [
           {
             path: 'complaint',
             name: 'complaint',
-            component: () => import('@/views/properties/Complaints'),
+            component: () => import('@/views/client/properties/Complaints'),
             meta: {
               title: '在线投诉',
               keepAlive: true,

@@ -1,6 +1,6 @@
 import './assets/styles/index.scss'
 import { Button, Tabs } from 'ant-design-vue'
-import BillsTabPane from '@/views/finance/Bills/components/BillsTabPane'
+import BillsTabPane from '@/views/client/finance/Bills/components/BillsTabPane'
 import dynamicState from '@/mixins/dynamicState'
 
 export default {

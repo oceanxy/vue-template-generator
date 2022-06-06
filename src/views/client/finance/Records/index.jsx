@@ -1,9 +1,9 @@
 import './assets/styles/index.scss'
-import Table from '@/views/finance/Records/components/Table'
+import Table from '@/views/client/finance/Records/components/Table'
 import dynamicState from '@/mixins/dynamicState'
 import BNContainer from '@/components/BNContainer'
-import ModalForDetails from '@/views/finance/Records/components/ModalForDetails'
-import ModalForInvoice from '@/views/finance/Records/components/ModalForInvoice'
+import ModalForDetails from '@/views/client/finance/Records/components/ModalForDetails'
+import ModalForInvoice from '@/views/client/finance/Records/components/ModalForInvoice'
 
 export default {
   name: 'Records',

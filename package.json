@@ -3,10 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint",
     "dev": "vue-cli-service serve",
-    "server": "node server/index.js"
+    "dev:m": "vue-cli-service serve --mode development-manager",
+    "build": "vue-cli-service build",
+    "build:m": "vue-cli-service build --mode production-manager",
+    "lint": "vue-cli-service lint"
   },
   "dependencies": {
     "ant-design-vue": "^1.7.8",

@@ -1,5 +1,5 @@
 import './index.scss'
-import Table from '@/views/finance/Invoices/components/Table'
+import Table from '@/views/client/finance/Invoices/components/Table'
 import dynamicState from '@/mixins/dynamicState'
 import BNContainer from '@/components/BNContainer'
 

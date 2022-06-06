@@ -4,12 +4,12 @@ import './assets/styles/index.scss'
 
 export default {
   name: 'TGApp',
-  data() {
-    return {
-      ratioX: 1,
-      ratioY: 1
-    }
-  },
+  // data() {
+  //   return {
+  //     ratioX: 1,
+  //     ratioY: 1
+  //   }
+  // },
   created() {
     const tempState = JSON.parse(sessionStorage.getItem('state'))
 
@@ -24,14 +24,14 @@ export default {
     window.addEventListener('beforeunload', this.setStore)
   },
   mounted() {
-    window.onresize = this.getRatio
-    this.getRatio()
+    // window.onresize = this.getRatio
+    // this.getRatio()
   },
   methods: {
-    getRatio() {
-      this.ratioX = window.innerWidth / 1920
-      this.ratioY = window.innerHeight / 1080
-    },
+    // getRatio() {
+    //   this.ratioX = window.innerWidth / 1920
+    //   this.ratioY = window.innerHeight / 1080
+    // },
     setStore() {
       sessionStorage.setItem('state', JSON.stringify(this.$store.state))
     }

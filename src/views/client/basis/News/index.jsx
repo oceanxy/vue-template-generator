@@ -1,8 +1,8 @@
 import './assets/styles/index.scss'
 import BNContainer from '@/components/BNContainer'
 import { Form } from 'ant-design-vue'
-import TGButtons from '@/views/basis/News/components/Buttons'
-import TGTable from '@/views/basis/News/components/Table'
+import TGButtons from '@/views/client/basis/News/components/Buttons'
+import TGTable from '@/views/client/basis/News/components/Table'
 
 function getBase64(img, callback) {
   const reader = new FileReader()

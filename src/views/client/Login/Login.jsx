@@ -4,8 +4,8 @@
 
 import './assets/styles/index.scss'
 import { Button, Tabs } from 'ant-design-vue'
-import ULLoginForm from '@/views/Login/components/TGLoginForm'
-import ULLoginTabPane from '@/views/Login/components/TGLoginTabPane'
+import ULLoginForm from '@/views/client/Login/components/TGLoginForm'
+import ULLoginTabPane from '@/views/client/Login/components/TGLoginTabPane'
 import BNContainer from '@/components/BNContainer'
 
 export default {
