@@ -17,7 +17,6 @@
     height: 64px;
     padding: 0 24px;
     line-height: 64px;
-    border-bottom: 1px solid #d9d9d9;
     box-sizing: border-box;
     display: flex;
     align-items: center;
@@ -47,6 +46,7 @@
     padding: 24px;
     overflow: auto;
     height: 100%;
+    border-top: 1px solid #d9d9d9;
 
     &.flex {
       display: flex;
@@ -54,10 +54,6 @@
       justify-content: center;
       align-items: center;
       gap: 24px;
-    }
-
-    &.login-box-content {
-      padding: 40px 94px;
     }
   }
 }

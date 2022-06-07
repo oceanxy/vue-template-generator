@@ -1,4 +1,5 @@
 import dynamicState from '@/mixins/dynamicState'
+import store, { dynamicModules } from '@/store/client'
 import TGContainers from '@/layouts/components/TGContainers'
 import ULModuleForm from './components/ULModuleForm'
 import ULModuleButtons from './components/ULModuleButtons'
@@ -9,7 +10,7 @@ import './assets/styles/index.scss'
 
 export default {
   name: 'FunctionalModules',
-  mixins: [dynamicState],
+  mixins: [dynamicState(store, dynamicModules)],
   render() {
     return (
       <TGContainers class="bn-functional-modules">

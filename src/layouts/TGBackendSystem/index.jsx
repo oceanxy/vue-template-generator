@@ -1,9 +1,9 @@
+import './assets/styles/index.scss'
 import { Layout } from 'ant-design-vue'
 import TGHeader from '@/layouts/components/TGHeader'
-import TGFooter from '@/layouts/components/TGFooter'
 import TGMenu from '@/layouts/components/TGMenu'
 import TGRouterView from '@/layouts/components/TGRouterView'
-import './assets/styles/index.scss'
+import TGBreadcrumb from '@/layouts/components/TGBreadcrumb'
 
 export default {
   name: 'TGBackendSystemLayout',
@@ -14,21 +14,20 @@ export default {
   render() {
     return (
       <Layout id="tg-responsive-layout">
-        <Layout.Sider
-          v-model={this.collapsed}
-          trigger={''}
-          class="tg-sider"
-          collapsible
-        >
-          <div class="logo" />
-          <TGMenu />
-        </Layout.Sider>
+        <TGHeader collapsed={this.collapsed} layout="manager" />
         <Layout>
-          <TGHeader collapsed={this.collapsed} />
+          <Layout.Sider
+            v-model={this.collapsed}
+            trigger={''}
+            class="tg-sider"
+            collapsible
+          >
+            <TGMenu />
+          </Layout.Sider>
           <Layout.Content class="tg-content">
+            {this.$route.meta.hideBreadCrumb ? null : <TGBreadcrumb />}
             <TGRouterView />
           </Layout.Content>
-          <TGFooter />
         </Layout>
       </Layout>
     )

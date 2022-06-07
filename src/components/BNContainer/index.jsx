@@ -71,11 +71,15 @@ export default {
             </div>
           ) : null
         }
-        <div class={`${this.contentClass ? `${this.contentClass} ` : ''}box-content`}>
-          {
-            this.$slots.default
-          }
-        </div>
+        {
+          this.$slots.default ? (
+            <div class={`${this.contentClass ? `${this.contentClass} ` : ''}box-content`}>
+              {
+                this.$slots.default
+              }
+            </div>
+          ) : null
+        }
       </div>
     )
   }

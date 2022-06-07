@@ -5,11 +5,10 @@
  * @Date: 2022-03-10 周四 16:31:00
  */
 
-import store, { dynamicModules } from '@/store'
 import common from './common'
 import { commitRootInModule } from '@/utils/store'
 
-export default {
+export default (store, dynamicModules) => ({
   mixins: [common],
   created() {
     if (this.moduleName) {
@@ -32,4 +31,4 @@ export default {
   //     store.unregisterModule(this.moduleName)
   //   }
   // }
-}
+})

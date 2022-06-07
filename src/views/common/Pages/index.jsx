@@ -6,11 +6,12 @@ import ULPagePagination from './components/ULPagePagination'
 import ULPageModalForEdit from './components/ULPageModalForEdit'
 import ULPageButtons from './components/ULPageButtons'
 import dynamicState from '@/mixins/dynamicState'
+import store, { dynamicModules } from '@/store/client'
 import ULPageModalForConflictPage from '@/views/Pages/components/ULPageModalForConflictPage'
 
 export default {
   name: 'Pages',
-  mixins: [dynamicState],
+  mixins: [dynamicState(store, dynamicModules)],
   render() {
     return (
       <TGContainers class="bn-pages">

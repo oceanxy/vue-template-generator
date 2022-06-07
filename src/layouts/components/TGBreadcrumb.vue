@@ -44,6 +44,5 @@ export default {
 <style lang="scss">
 .tg-breadcrumb {
   padding: 16px 20px;
-  border-top: 1px solid #ededed;
 }
 </style>

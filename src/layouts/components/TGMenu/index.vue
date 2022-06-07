@@ -23,7 +23,6 @@
 
 <script>
 import { Menu } from 'ant-design-vue'
-import { menuRoutes } from '@/router'
 import './assets/styles/index.scss'
 
 // 函数组件 自定义子菜单
@@ -93,7 +92,7 @@ export default {
       // 选中的key（routes 中的 path 字段）
       selectedKeys: [],
       // 菜单
-      menuRoutes
+      menuRoutes: []
     }
   },
   watch: {
@@ -118,13 +117,23 @@ export default {
       }
     }
   },
-  created() {
+  async created() {
     // 从缓存中取出openKeys，设置到菜单中
     const openKeys = sessionStorage.getItem('openKeys')
 
     if (openKeys) {
       this.openKeys = JSON.parse(openKeys)
     }
+
+    let store
+
+    if (process.env.VUE_APP_PROJECT === 'development-client') {
+      store = await import('@/router/client')
+    } else {
+      store = await import('@/router/manager')
+    }
+
+    this.menuRoutes = store.menuRoutes
   },
   methods: {
     // 点击菜单，路由跳转，当点击 MenuItem 才会触发此函数

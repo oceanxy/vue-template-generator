@@ -1,3 +1,4 @@
+import './index.scss'
 import { Button, Tag } from 'ant-design-vue'
 
 export default {

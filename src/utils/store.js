@@ -5,8 +5,6 @@
  * @Date: 2022-03-10 周四 17:56:58
  */
 
-import store from '@/store'
-
 /**
  * 在模块内触发全局 mutation 的封装
  * @param moduleName {string} 需要修改状态的模块名称
@@ -26,5 +24,13 @@ export function commitRootInModule(moduleName, commit, mutation, payload) {
  * @returns {Promise<any>}
  */
 export async function dispatch(moduleName, action, payload) {
-  return await store.dispatch(`${moduleName}/${action}`, payload)
+  let store
+
+  if (process.env.VUE_APP_PROJECT === 'development-client') {
+    store = await import('../store/client')
+  } else {
+    store = await import('../store/manager')
+  }
+
+  return await store.default.dispatch(`${moduleName}/${action}`, payload)
 }

@@ -1,11 +1,12 @@
 import './index.scss'
 import Table from '@/views/client/finance/Invoices/components/Table'
-import dynamicState from '@/mixins/dynamicState'
 import BNContainer from '@/components/BNContainer'
+import store, { dynamicModules } from '@/store/client'
+import dynamicState from '@/mixins/dynamicState'
 
 export default {
   name: 'Invoices',
-  mixins: [dynamicState],
+  mixins: [dynamicState(store, dynamicModules)],
   data: () => ({}),
   methods: {},
   render() {

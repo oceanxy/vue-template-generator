@@ -48,6 +48,15 @@ body {
   url('../fonts/PingFangSC.ttf') format('svg');
 }
 
+@font-face {
+  font-family: 'DOUYU';
+  src: url('../fonts/douyuFont-2.otf');
+  src: url('../fonts/douyuFont-2.otf') format('woff'),
+  url('../fonts/douyuFont-2.otf') format('truetype'),
+  url('../fonts/douyuFont-2.otf') format('svg');
+}
+
+
 .bn-search-form,
 .tg-search-form {
   display: flex;

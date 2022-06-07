@@ -3,7 +3,7 @@
   gap: 10px;
   height: 100%;
 
-  .tg-container-with-sider--main {
+  & > .tg-container-with-sider--main {
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -11,8 +11,9 @@
     flex: auto;
   }
 
-  .tg-container-with-sider--sider {
+  & > .tg-container-with-sider--sider {
     width: 320px;
+    height: 100%;
     flex: none;
     border-radius: 4px;
     display: flex;

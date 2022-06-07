@@ -2,10 +2,11 @@ import './assets/styles/index.scss'
 import { Button, Tabs } from 'ant-design-vue'
 import BillsTabPane from '@/views/client/finance/Bills/components/BillsTabPane'
 import dynamicState from '@/mixins/dynamicState'
+import store, { dynamicModules } from '@/store/client'
 
 export default {
   name: 'Bills',
-  mixins: [dynamicState],
+  mixins: [dynamicState(store, dynamicModules)],
   data: () => ({
     activeKey: '1'
   }),
