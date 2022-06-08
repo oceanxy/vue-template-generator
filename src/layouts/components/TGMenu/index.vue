@@ -5,6 +5,7 @@
     :open-keys.sync="openKeys"
     mode="inline"
     @click="menuClick"
+    class="t-g-menu-container"
   >
     <template v-for="route in menuRoutes">
       <t-g-sub-menu

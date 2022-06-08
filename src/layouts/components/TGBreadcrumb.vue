@@ -1,5 +1,9 @@
 <template>
-  <a-breadcrumb :routes="matchedRoute" class="tg-breadcrumb">
+  <a-breadcrumb
+    :routes="matchedRoute"
+    class="tg-breadcrumb"
+    separator=">"
+  >
     <template #itemRender="{route, routes}">
       <span v-if="routes.indexOf(route) === routes.length - 1">
         {{ handleBreadcrumbName(route) }}

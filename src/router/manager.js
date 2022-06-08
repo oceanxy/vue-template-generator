@@ -33,7 +33,7 @@ export const routes = [
       title: '控制台',
       keepAlive: true,
       requiresAuth: true,
-      icon: () => import('@/layouts/components/TGMenu/assets/images/enterpriseServiceCenter')
+      icon: () => import('@/layouts/components/TGMenu/assets/images/console.svg')
     },
     children: [
       // 需要展示在menu菜单中的路由在这里面添加
@@ -57,7 +57,7 @@ export const routes = [
           keepAlive: true,
           requiresAuth: true,
           hideBreadCrumb: true,
-          icon: () => import('@/layouts/components/TGMenu/assets/images/basicServices')
+          icon: () => import('@/layouts/components/TGMenu/assets/images/parkStatus.svg')
         }
       },
       {
@@ -67,7 +67,7 @@ export const routes = [
           title: '基础数据',
           keepAlive: true,
           requiresAuth: true,
-          icon: () => import('@/layouts/components/TGMenu/assets/images/financialServices')
+          icon: () => import('@/layouts/components/TGMenu/assets/images/basicServices')
         },
         redirect: { name: 'bill' },
         children: [
@@ -104,13 +104,13 @@ export const routes = [
         ]
       },
       {
-        path: 'commercial-service',
+        path: 'park-supervision-tb',
         component: TGRouterView,
         meta: {
           title: '园区监管(科技局)',
           keepAlive: true,
           requiresAuth: true,
-          icon: () => import('@/layouts/components/TGMenu/assets/images/commercialService')
+          icon: () => import('@/layouts/components/TGMenu/assets/images/parkSupervision.svg')
         },
         redirect: { name: 'reservation' },
         children: [
@@ -179,143 +179,143 @@ export const routes = [
         ]
       },
       {
-        path: 'commercial-service',
+        path: 'park-supervision-ru',
         component: TGRouterView,
         meta: {
           title: '园区监管(监管单位)',
           keepAlive: true,
           requiresAuth: true,
-          icon: () => import('@/layouts/components/TGMenu/assets/images/commercialService')
+          icon: () => import('@/layouts/components/TGMenu/assets/images/parkSupervision.svg')
         }
       },
       {
-        path: 'commercial-service',
+        path: 'park-investment',
         component: TGRouterView,
         meta: {
           title: '园区招商',
           keepAlive: true,
           requiresAuth: true,
-          icon: () => import('@/layouts/components/TGMenu/assets/images/commercialService')
+          icon: () => import('@/layouts/components/TGMenu/assets/images/parkInvestment.svg')
         }
       },
       {
-        path: 'commercial-service',
+        path: 'discounts-lock',
         component: TGRouterView,
         meta: {
           title: '优惠管理',
           keepAlive: true,
           requiresAuth: true,
-          icon: () => import('@/layouts/components/TGMenu/assets/images/commercialService')
+          icon: () => import('@/layouts/components/TGMenu/assets/images/discountsLock.svg')
         }
       },
       {
-        path: 'commercial-service',
+        path: 'contract-mana',
         component: TGRouterView,
         meta: {
           title: '签约管理',
           keepAlive: true,
           requiresAuth: true,
-          icon: () => import('@/layouts/components/TGMenu/assets/images/commercialService')
+          icon: () => import('@/layouts/components/TGMenu/assets/images/contractManagement.svg')
         }
       },
       {
-        path: 'commercial-service',
+        path: 'financial-mana',
         component: TGRouterView,
         meta: {
           title: '财务管理',
           keepAlive: true,
           requiresAuth: true,
-          icon: () => import('@/layouts/components/TGMenu/assets/images/commercialService')
+          icon: () => import('@/layouts/components/TGMenu/assets/images/financialManagement.svg')
         }
       },
       {
-        path: 'commercial-service',
+        path: 'content-release',
         component: TGRouterView,
         meta: {
           title: '内容发布',
           keepAlive: true,
           requiresAuth: true,
-          icon: () => import('@/layouts/components/TGMenu/assets/images/commercialService')
+          icon: () => import('@/layouts/components/TGMenu/assets/images/contentRelease.svg')
         }
       },
       {
-        path: 'commercial-service',
+        path: 'questionnaire',
         component: TGRouterView,
         meta: {
           title: '调查问卷',
           keepAlive: true,
           requiresAuth: true,
-          icon: () => import('@/layouts/components/TGMenu/assets/images/commercialService')
+          icon: () => import('@/layouts/components/TGMenu/assets/images/questionnaire.svg')
         }
       },
       {
-        path: 'commercial-service',
+        path: 'suggestions',
         component: TGRouterView,
         meta: {
           title: '投诉/建议管理',
           keepAlive: true,
           requiresAuth: true,
-          icon: () => import('@/layouts/components/TGMenu/assets/images/commercialService')
+          icon: () => import('@/layouts/components/TGMenu/assets/images/suggestions.svg')
         }
       },
       {
-        path: 'commercial-service',
+        path: 'cancellation-mana',
         component: TGRouterView,
         meta: {
           title: '解约管理',
           keepAlive: true,
           requiresAuth: true,
-          icon: () => import('@/layouts/components/TGMenu/assets/images/commercialService')
+          icon: () => import('@/layouts/components/TGMenu/assets/images/cancellationManagement.svg')
         }
       },
       {
-        path: 'commercial-service',
+        path: 'ent-ann-ass',
         component: TGRouterView,
         meta: {
           title: '企业年度考核',
           keepAlive: true,
           requiresAuth: true,
-          icon: () => import('@/layouts/components/TGMenu/assets/images/commercialService')
+          icon: () => import('@/layouts/components/TGMenu/assets/images/enterpriseAnnualAssessment.svg')
         }
       },
       {
-        path: 'commercial-service',
+        path: 'conf-room-mana',
         component: TGRouterView,
         meta: {
           title: '会议室管理',
           keepAlive: true,
           requiresAuth: true,
-          icon: () => import('@/layouts/components/TGMenu/assets/images/commercialService')
+          icon: () => import('@/layouts/components/TGMenu/assets/images/conferenceRoomManagement.svg')
         }
       },
       {
-        path: 'commercial-service',
+        path: 'work-order-mana',
         component: TGRouterView,
         meta: {
           title: '工单管理',
           keepAlive: true,
           requiresAuth: true,
-          icon: () => import('@/layouts/components/TGMenu/assets/images/commercialService')
+          icon: () => import('@/layouts/components/TGMenu/assets/images/workOrderManagement.svg')
         }
       },
       {
-        path: 'commercial-service',
+        path: 'data-col',
         component: TGRouterView,
         meta: {
           title: '数据采集',
           keepAlive: true,
           requiresAuth: true,
-          icon: () => import('@/layouts/components/TGMenu/assets/images/commercialService')
+          icon: () => import('@/layouts/components/TGMenu/assets/images/dataCollection.svg')
         }
       },
       {
-        path: 'commercial-service',
+        path: 'system-mana',
         component: TGRouterView,
         meta: {
           title: '系统管理',
           keepAlive: true,
           requiresAuth: true,
-          icon: () => import('@/layouts/components/TGMenu/assets/images/commercialService')
+          icon: () => import('@/layouts/components/TGMenu/assets/images/systemManagement.svg')
         }
       }
     ]

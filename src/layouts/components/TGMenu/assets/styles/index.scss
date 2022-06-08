@@ -1,21 +1,27 @@
-.ant-menu-item,
-.ant-menu-submenu-title {
-  vertical-align: middle;
-  display: flex;
-  align-items: center;
+.t-g-menu-container {
+  overflow-x: hidden;
+  overflow-y: auto;
+  height: 100%;
 
-  &:hover {
-    background: rgba(0, 0, 0, 0.04);
+  .ant-menu-item,
+  .ant-menu-submenu-title {
+    vertical-align: middle;
+    display: flex;
+    align-items: center;
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.04);
+    }
   }
-}
 
-.ant-menu-item .anticon,
-.ant-menu-submenu-title .anticon {
-  margin-right: 8px;
-  font-size: 20px;
-}
+  .ant-menu-item .anticon,
+  .ant-menu-submenu-title .anticon {
+    margin-right: 8px;
+    font-size: 20px;
+  }
 
-.ant-menu-inline .ant-menu-selected::after,
-.ant-menu-inline .ant-menu-item-selected::after {
-  opacity: 0;
+  .ant-menu-selected::after,
+  .ant-menu-item-selected::after {
+    opacity: 0;
+  }
 }
