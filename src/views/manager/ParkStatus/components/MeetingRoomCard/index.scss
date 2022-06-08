@@ -2,14 +2,14 @@
 
 .bnm-meeting-room {
   width: calc((100% - 24px) / 2);
-  height: 108px;
   @include container-border-radius;
   display: flex;
   transition: all 0.3s;
   padding: 18px;
-  background: #f2f7fc;
-  border-left: 3px solid #007aff;
+  background: rgba(var(--color), 0.09);
+  border-left: 3px solid rgb(var(--color));
   border-radius: 4px;
+  align-items: flex-start;
 
   &:hover {
     box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.12);
@@ -31,19 +31,69 @@
       align-items: center;
 
       .ant-tag {
-        color: #52c41a;
-        border: 1px solid #52c41a;
-        background: #f6ffed;
-        padding: 2px 10px;
+        position: relative;
+        background: rgb(var(--color));
+        color: #ffffff;
+        padding: 0 6px;
+        font-family: BigruixianBlackGBV, serif;
+        font-style: italic;
+        font-weight: 100;
+        font-size: 12px;
+        border-radius: 0;
+        pointer-events: none;
+        user-select: none;
+        margin-right: 20px;
+
+        &:before {
+          content: '';
+          position: absolute;
+          left: -9px;
+          top: 0;
+          border-radius: 2px 0 0 2px;
+          border-top: 10px solid #ffffff;
+          border-right: 5px solid rgb(var(--color));
+          border-bottom: 10px solid rgb(var(--color));
+          border-left: 5px solid #ffffff;
+        }
+
+        &:after {
+          content: '';
+          position: absolute;
+          right: -9px;
+          top: 0;
+          border-radius: 0 2px 2px 0;
+          border-top: 10px solid rgb(var(--color));
+          border-right: 5px solid #ffffff;
+          border-bottom: 10px solid #ffffff;
+          border-left: 5px solid rgb(var(--color));
+        }
       }
     }
 
     .name {
-      margin-top: 10px;
+      margin-top: 13px;
     }
 
     .time {
+      margin-top: 4px;
       line-height: 20px;
+    }
+
+    .bnm-meeting-room-btns {
+      height: 60px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      .ant-btn {
+        color: rgb(var(--color));
+        border-color: rgb(var(--color));
+
+        &:hover {
+          color: #ffffff;
+          background-color: rgb(var(--color)) !important;
+        }
+      }
     }
   }
 
@@ -61,10 +111,5 @@
     &:hover {
       background: rgba(0, 0, 0, 0.1);
     }
-  }
-
-  &.occupied .ant-tag.ant-tag {
-    color: #fa541c;
-    border: 1px solid #fa541c;
   }
 }

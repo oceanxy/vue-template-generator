@@ -7,14 +7,19 @@
   gap: 16px;
   height: 100%;
 
-  .park-status-title {
-    display: flex;
-    align-items: center;
-    width: 100%;
+  .park-status-title-container.park-status-title-container {
+    @include container-border-radius;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.02);
 
-    .park-status-btns {
-      margin-left: auto;
-      line-height: unset;
+    .park-status-title {
+      display: flex;
+      align-items: center;
+      width: 100%;
+
+      .park-status-btns {
+        margin-left: auto;
+        line-height: unset;
+      }
     }
   }
 
@@ -26,6 +31,7 @@
 
       .park-status-datetime-picker {
         height: 100%;
+        @include container-border-radius;
       }
     }
 
@@ -36,7 +42,7 @@
 
       .park-status-main--main {
         margin: 32px 0 15px 32px;
-        padding-right: 10px;
+        padding: 10px;
         display: flex;
         flex-wrap: wrap;
         gap: 24px;
@@ -57,6 +63,7 @@
           display: flex;
           align-items: center;
           flex-direction: column;
+          overflow: auto;
 
           li {
             font-size: 14px;

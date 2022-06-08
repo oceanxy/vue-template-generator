@@ -1,6 +1,6 @@
 import './index.scss'
 import BNContainer from '@/components/BNContainer'
-import { Button } from 'ant-design-vue'
+import { Button, Calendar } from 'ant-design-vue'
 import TGContainerWithSider from '@/components/TGContainerWithSider'
 import MeetingRoomCard from '@/views/manager/ParkStatus/components/MeetingRoomCard'
 
@@ -9,6 +9,7 @@ export default {
     return (
       <div class="bnm-park-status">
         <BNContainer
+          class='park-status-title-container'
           width="100%"
           title={
             <div class="park-status-title">
@@ -37,9 +38,9 @@ export default {
                 class="park-status-main--main"
                 slot="default"
               >
-                <MeetingRoomCard occupied />
-                <MeetingRoomCard />
-                <MeetingRoomCard />
+                <MeetingRoomCard status={0} />
+                <MeetingRoomCard status={1} />
+                <MeetingRoomCard status={2} />
                 <MeetingRoomCard />
                 <MeetingRoomCard />
                 <MeetingRoomCard />
@@ -69,7 +70,7 @@ export default {
             title="选择日期"
             slot="sider"
           >
-            2
+            <Calendar fullscreen={false} />
           </BNContainer>
         </TGContainerWithSider>
       </div>

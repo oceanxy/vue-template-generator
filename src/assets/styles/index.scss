@@ -56,6 +56,14 @@ body {
   url('../fonts/douyuFont-2.otf') format('svg');
 }
 
+@font-face {
+  font-family: 'BigruixianBlackGBV';
+  src: url('../fonts/BigruixianBlackGBV.TTF');
+  src: url('../fonts/BigruixianBlackGBV.TTF') format('woff'),
+  url('../fonts/BigruixianBlackGBV.TTF') format('truetype'),
+  url('../fonts/BigruixianBlackGBV.TTF') format('svg');
+}
+
 
 .bn-search-form,
 .tg-search-form {
