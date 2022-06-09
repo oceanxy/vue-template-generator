@@ -3,7 +3,7 @@
     class="tg-layout-header"
     :style="showBreadcrumb ? 'height: 118px;' : ''"
   >
-    <div class="tg-header" :class="{manager: manager}">
+    <div class="tg-header" :class="{'manager': manager}">
       <div class="tg-logo" />
       <a-badge class="tg-badge" dot>
         <a-avatar icon="user" shape="circle" class="tg-avatar" />
@@ -58,7 +58,8 @@ export default {
   name: 'TGHeader',
   props: {
     layout: {
-      type: 'manager' || 'client',
+      // 'manager' || 'client'
+      type: String,
       default: 'client'
     },
     showBreadcrumb: {

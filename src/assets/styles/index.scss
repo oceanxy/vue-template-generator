@@ -64,9 +64,7 @@ body {
   url('../fonts/BigruixianBlackGBV.TTF') format('svg');
 }
 
-
-.bn-search-form,
-.tg-search-form {
+.tg-inquiry {
   display: flex;
 
   .ant-form-item {
@@ -80,18 +78,45 @@ body {
   }
 }
 
-.bn-table,
-.tg-table {
+.ant-table-wrapper {
+  display: flex;
   overflow: hidden;
   border: none;
+  flex: auto;
 
   .ant-table {
-    border: 0 !important;
+    flex: auto;
+    height: 0;
+    border: 0;
+
+    .ant-table-header,
+    .ant-table-body {
+      overflow: auto !important;
+    }
   }
 
   .operation-space {
     .ant-space-item {
       margin-right: 0 !important;
+    }
+  }
+}
+
+.ant-descriptions {
+  .ant-descriptions-item {
+    display: flex;
+    padding: 2px 0;
+
+    .ant-descriptions-item-label {
+      flex: none;
+      font-size: 14px;
+      color: #595959;
+    }
+
+    .ant-descriptions-item-content {
+      font-size: 14px;
+      color: #434343;
+      flex: auto;
     }
   }
 }

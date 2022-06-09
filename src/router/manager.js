@@ -69,17 +69,40 @@ export const routes = [
           requiresAuth: true,
           icon: () => import('@/layouts/components/TGMenu/assets/images/basicServices')
         },
-        redirect: { name: 'bill' },
+        redirect: { name: 'businesses' },
         children: [
           {
-            path: 'bill',
-            name: 'bill',
-            component: () => import('@/views/client/finance/Bills'),
+            path: 'businesses',
+            component: TGRouterView,
+            redirect: 'businesses',
             meta: {
-              title: '我的账单',
+              title: '企业管理',
               keepAlive: true,
-              requiresAuth: true
-            }
+              requiresAuth: true,
+              hideChildren: true
+            },
+            children: [
+              {
+                path: '',
+                name: 'businesses',
+                component: () => import('@/views/manager/basis/Businesses'),
+                meta: {
+                  title: '企业管理',
+                  keepAlive: true,
+                  requiresAuth: true
+                }
+              },
+              {
+                path: 'details',
+                name: 'businessesDetails',
+                component: () => import('@/views/manager/basis/Businesses/Details'),
+                meta: {
+                  title: '详情',
+                  keepAlive: false,
+                  requiresAuth: true
+                }
+              }
+            ]
           },
           {
             path: 'payment-record',

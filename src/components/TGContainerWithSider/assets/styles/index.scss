@@ -2,6 +2,7 @@
   display: flex;
   gap: 10px;
   height: 100%;
+  overflow: hidden;
 
   & > .tg-container-with-sider--main {
     display: flex;

@@ -10,6 +10,10 @@ export default {
     siderClass: {
       type: String,
       default: ''
+    },
+    siderOnLeft: {
+      type: Boolean,
+      default: false
     }
   },
   data: () => ({
@@ -19,12 +23,17 @@ export default {
   render() {
     return (
       <div class="tg-container-with-sider">
-        <div class={`tg-container-with-sider--main${this.contentClass ? ` ${this.contentClass}` : ''}`}>
+        <div
+          class={`tg-container-with-sider--main${this.contentClass ? ` ${this.contentClass}` : ''}`}
+        >
           {
             this.$slots.default
           }
         </div>
-        <div class={`tg-container-with-sider--sider${this.siderClass ? ` ${this.siderClass}` : ''}`}>
+        <div
+          style={{ order: this.siderOnLeft ? -1 : 1 }}
+          class={`tg-container-with-sider--sider${this.siderClass ? ` ${this.siderClass}` : ''}`}
+        >
           {
             this.$slots.sider
           }

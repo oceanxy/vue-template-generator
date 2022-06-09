@@ -4,8 +4,8 @@
 
 import './assets/styles/index.scss'
 import { Button, Tabs } from 'ant-design-vue'
-import ULLoginForm from '@/views/client/Login/components/TGLoginForm'
-import ULLoginTabPane from '@/views/client/Login/components/TGLoginTabPane'
+import TGLoginForm from '@/views/client/Login/components/TGLoginForm'
+import TGTabPane from '@/components/TGTabPane'
 import BNContainer from '@/components/BNContainer'
 
 export default {
@@ -41,18 +41,18 @@ export default {
           size="large"
           onTabClick={this.handleTabClick}
         >
-          <ULLoginTabPane
+          <TGTabPane
             name="帐号密码登录"
             tabKey={1}
           >
-            <ULLoginForm />
-          </ULLoginTabPane>
-          <ULLoginTabPane
+            <TGLoginForm />
+          </TGTabPane>
+          <TGTabPane
             name="负责人手机号码登录"
             tabKey={2}
           >
-            <ULLoginForm />
-          </ULLoginTabPane>
+            <TGLoginForm />
+          </TGTabPane>
         </Tabs>
         <div class="login-log-on">
           <Button

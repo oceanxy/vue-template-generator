@@ -13,12 +13,19 @@ export default {
   },
   computed: {
     moduleName() {
-      if (!this.$options.name) {
+      let name = this.$options.name
+      const index = name.indexOf('-')
+
+      if (index > -1) {
+        name = name.substring(0, name.indexOf('-'))
+      }
+
+      if (!name) {
         console.warn('请设置组件的名称(name)，动态创建store模块需要该属性！')
         return null
       }
 
-      return this.$options.name.replace(/^\S/g, s => s.toLowerCase())
+      return name.replace(/^\S/g, s => s.toLowerCase())
     }
   },
   methods: {

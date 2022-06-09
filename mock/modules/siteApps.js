@@ -8,7 +8,7 @@ export default {
       pageSize: 10, // 每页大小	integer(int64)
       totalNum: 10, // 总条数,没查总条数则为-1	integer(int64)
       totalPage: 10, // 总页数	integer(int64)
-      'rows|10': [
+      'rows|20': [
         {
           appName: '@ctitle(4,10)', // 名称	string
           collectType: '@integer(1,2)', // 采集类型（1、全量采集，默认；2、可视化埋点）	string

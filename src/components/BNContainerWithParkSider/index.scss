@@ -1,0 +1,24 @@
+@import '@/assets/styles/theme.scss';
+
+.bn-park-container.bn-park-container {
+  background: #ffffff;
+  margin: 0 16px 16px 16px;
+  @include container-border-radius;
+  gap: 0;
+
+  .bn-park-sider-container.bn-park-sider-container {
+    width: 260px;
+    flex: none;
+
+    .bnm-park-sider {
+      border-right: 1px solid #d9d9d9;
+      height: 100%;
+      padding: 20px 10px;
+    }
+  }
+
+  .bn-park-content-container.bn-park-content-container {
+    padding: 20px;
+    box-sizing: border-box;
+  }
+}

@@ -50,10 +50,10 @@
           left: -9px;
           top: 0;
           border-radius: 2px 0 0 2px;
-          border-top: 10px solid #ffffff;
+          border-top: 10px solid transparent;
           border-right: 5px solid rgb(var(--color));
           border-bottom: 10px solid rgb(var(--color));
-          border-left: 5px solid #ffffff;
+          border-left: 5px solid transparent;
         }
 
         &:after {
@@ -63,8 +63,8 @@
           top: 0;
           border-radius: 0 2px 2px 0;
           border-top: 10px solid rgb(var(--color));
-          border-right: 5px solid #ffffff;
-          border-bottom: 10px solid #ffffff;
+          border-right: 5px solid transparent;
+          border-bottom: 10px solid transparent;
           border-left: 5px solid rgb(var(--color));
         }
       }

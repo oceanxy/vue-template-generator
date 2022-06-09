@@ -5,8 +5,8 @@ export default {
     return (
       <div class="tg-container">
         <div class="tg-container-content">
-          {this.$slots.form}
-          {this.$slots.buttons}
+          {this.$slots.inquiry}
+          {this.$slots.functions}
           {this.$slots.table}
           {this.$slots.pagination}
         </div>
