@@ -105,21 +105,64 @@ export const routes = [
             ]
           },
           {
-            path: 'payment-record',
-            name: 'paymentRecord',
-            component: () => import('@/views/client/finance/Records'),
+            path: 'teams-mana',
+            component: TGRouterView,
+            redirect: 'teamsManagement',
             meta: {
-              title: '缴费记录',
+              title: '团队管理',
+              keepAlive: true,
+              requiresAuth: true,
+              hideChildren: true
+            },
+            children: [
+              {
+                path: '',
+                name: 'teamsManagement',
+                component: () => import('@/views/manager/basis/Teams'),
+                meta: {
+                  title: '团队管理',
+                  keepAlive: true,
+                  requiresAuth: true
+                }
+              },
+              {
+                path: 'members',
+                name: 'teamMembers',
+                component: () => import('@/views/manager/basis/Teams/Members'),
+                meta: {
+                  title: '成员管理',
+                  keepAlive: true,
+                  requiresAuth: true
+                }
+              }
+            ]
+          },
+          {
+            path: 'bus-inv',
+            name: 'businessInvitations',
+            component: () => import('@/views/manager/basis/BusinessInvitation'),
+            meta: {
+              title: '招商人员管理',
               keepAlive: true,
               requiresAuth: true
             }
           },
           {
-            path: 'invoice',
-            name: 'invoice',
-            component: () => import('@/views/client/finance/Invoices'),
+            path: 'buildings',
+            name: 'buildings',
+            component: () => import('@/views/manager/basis/Buildings'),
             meta: {
-              title: '我的发票',
+              title: '楼栋管理',
+              keepAlive: true,
+              requiresAuth: true
+            }
+          },
+          {
+            path: 'hou-res',
+            name: 'HousingResources',
+            component: () => import('@/views/manager/basis/HousingResources'),
+            meta: {
+              title: '房源管理',
               keepAlive: true,
               requiresAuth: true
             }

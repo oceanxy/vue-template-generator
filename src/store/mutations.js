@@ -85,15 +85,16 @@ export default {
     state[moduleName].list = payload
   },
   /**
-   *
+   * 设置modal的可见性
    * @param state {Object}
    * @param payload {{
    *   field: string,
-   *   value: any
-   * }} field: 控制modal显示的字段 value：要设置的值
+   *   value: any,
+   *   moduleName: string
+   * }} field: 对应modal的显示字段 value：要设置的值 moduleName:模块名称
    * @param moduleName {string}
    */
-  setVisibleOfModal(state, { payload, moduleName }) {
-    state[moduleName][payload.field] = payload.value
+  setVisibleOfModal(state, { field, value, moduleName }) {
+    state[moduleName][field] = value
   }
 }

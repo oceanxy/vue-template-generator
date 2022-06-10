@@ -17,7 +17,8 @@ export function commitRootInModule(moduleName, commit, mutation, payload) {
 }
 
 /**
- * 封装的dispatch
+ * 封装的全局dispatch
+ * 直接在组件内调用自身对应的store module
  * @param moduleName
  * @param action
  * @param [payload]

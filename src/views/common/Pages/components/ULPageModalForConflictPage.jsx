@@ -7,7 +7,7 @@ export default {
   inject: ['moduleName'],
   data() {
     return {
-      modalAttrs: {
+      modalProps: {
         width: 700,
         footer: ''
       },
@@ -56,7 +56,7 @@ export default {
   },
   render() {
     const attrs = {
-      props: this.modalAttrs,
+      props: this.modalProps,
       on: {
         cancel: this.onCancel
       }

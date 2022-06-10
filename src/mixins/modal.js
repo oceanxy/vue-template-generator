@@ -13,9 +13,9 @@ export default {
   inject: ['moduleName'],
   data() {
     return {
-      title: '弹窗',
-      modalAttrs: {
+      modalProps: {
         visible: false,
+        title: '',
         okText: '提交',
         maskClosable: false,
         confirmLoading: false,
@@ -36,12 +36,21 @@ export default {
       return this.getCurrentItem(this.moduleName)
     }
   },
+  watch: {
+    visible(value) {
+      this.modalProps.visible = value
+
+      if (!value) {
+        this.form.resetFields()
+      }
+    }
+  },
   methods: {
     getVisible(action) {
       return this.getVisibleFromStore(this.moduleName, action)
     },
     async onCancel(action) {
-      await this.dispatch(action || 'setVisible', false)
+      await this.dispatch(action || 'setVisibleOfEdit', false, { root: true })
     }
   }
 }

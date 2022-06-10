@@ -15,7 +15,7 @@ const Title = {
     tdom: null
   }),
   watch: {
-    'isShow'(value) {
+    isShow(value) {
       if (value) {
         const tx = 0
         const ty = 0
@@ -61,7 +61,7 @@ const Title = {
       document.removeEventListener('mousemove', this.docMove)
     },
     updateTransform(transformStr, tx, ty) {
-      this.$listeners?.change({ '--transform': transformStr })
+      this.$listeners?.move({ '--transform': transformStr })
     }
   },
   render() {
@@ -81,7 +81,7 @@ export default {
     style: {}
   }),
   methods: {
-    onChange(value) {
+    onMove(value) {
       this.style = value
     }
   },
@@ -99,7 +99,7 @@ export default {
         isShow: this.$attrs.visible
       },
       on: {
-        change: this.onChange
+        move: this.onMove
       }
     }
 

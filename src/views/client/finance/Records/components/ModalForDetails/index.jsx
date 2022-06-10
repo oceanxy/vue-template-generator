@@ -8,7 +8,7 @@ export default {
   mixins: [modal],
   data() {
     return {
-      modalAttrs: {
+      modalProps: {
         title: '缴费明细',
         width: 520,
         footer: <Button onClick={() => this.onCancel('setVisibleForDetails')}>关闭</Button>
@@ -52,8 +52,8 @@ export default {
   render() {
     const attributes = {
       attrs: {
-        ...this.modalAttrs,
-        visible: this.getVisible('visibleForDetails') || this.modalAttrs.visible
+        ...this.modalProps,
+        visible: this.getVisible('visibleForDetails') || this.modalProps.visible
       },
       on: {
         cancel: () => this.onCancel('setVisibleForDetails')

@@ -8,7 +8,7 @@ export default Form.create({})({
   mixins: [modal],
   data() {
     return {
-      modalAttrs: {
+      modalProps: {
         title: '开具发票',
         width: 540
       }
@@ -28,8 +28,8 @@ export default Form.create({})({
   render() {
     const attributes = {
       attrs: {
-        ...this.modalAttrs,
-        visible: this.getVisible('visibleForInvoice') || this.modalAttrs.visible
+        ...this.modalProps,
+        visible: this.getVisible('visibleForInvoice') || this.modalProps.visible
       },
       on: {
         cancel: () => this.onCancel('setVisibleForInvoice')

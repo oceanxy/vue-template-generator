@@ -35,11 +35,11 @@ export default {
   methods: {
     async onAddClick() {
       await dispatch(this.moduleName, 'setCurrentItem', {})
-      await dispatch(this.moduleName, 'setVisibleForEdit', true)
+      await dispatch(this.moduleName, 'setVisibleOfEdit', true)
     },
     async onEditClick() {
       await dispatch(this.moduleName, 'setCurrentItem', { ...this.selectedRows })
-      await dispatch(this.moduleName, 'setVisibleForEdit', true)
+      await dispatch(this.moduleName, 'setVisibleOfEdit', true)
     },
     async onDeleteClick() {
       Modal.confirm({

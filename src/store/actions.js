@@ -1,4 +1,5 @@
 import apis from '@/apis'
+import { cloneDeep } from 'lodash'
 
 export default {
   /**
@@ -37,5 +38,28 @@ export default {
     if (status) {
       commit('setAllPages', data || [])
     }
+  },
+  /**
+   * 设置新增/编辑弹窗可见状态
+   * @param state
+   * @param commit
+   * @param payload
+   * @param moduleName
+   */
+  setVisibleOfEdit({ state, commit }, { payload, moduleName }) {
+    commit('setVisibleOfModal', {
+      field: 'visibleOfEdit',
+      value: payload,
+      moduleName: moduleName
+    })
+  },
+  /**
+   * 设置当前正在操作的对象为一个新的副本
+   * @param state
+   * @param commit
+   * @param payload
+   */
+  setCurrentItem({ state, commit }, payload) {
+    commit('setCurrentItem', cloneDeep(payload || {}))
   }
 }

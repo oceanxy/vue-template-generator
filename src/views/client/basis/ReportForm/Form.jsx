@@ -3,7 +3,7 @@ import BNContainer from '@/components/BNContainer'
 import { Button, Form, Input } from 'ant-design-vue'
 
 export default Form.create({})({
-  // mixins: [formModal],
+  // mixins: [editModal],
   data() {
     return {
       currentItem: {

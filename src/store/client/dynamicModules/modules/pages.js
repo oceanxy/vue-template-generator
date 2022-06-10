@@ -21,7 +21,7 @@ export default commitRootInModule => {
       },
       currentItem: {},
       list: [],
-      visibleForEdit: false,
+      visibleOfEdit: false,
       visibleForConflict: false,
       selectedRowKeys: [],
       selectedRows: []
@@ -127,7 +127,7 @@ export default commitRootInModule => {
         const response = await apis.addPages(payload)
 
         if (response.status) {
-          dispatch('setVisibleForEdit', false)
+          dispatch('setVisibleOfEdit', false)
           dispatch('getList', {
             pageIndex: 0
           })
@@ -172,9 +172,9 @@ export default commitRootInModule => {
        * @param state
        * @param payload
        */
-      setVisibleForEdit({ state }, payload) {
+      setVisibleOfEdit({ state }, payload) {
         commitRootInModule('setVisibleOfModal', {
-          field: 'visibleForEdit',
+          field: 'visibleOfEdit',
           value: payload
         })
       },

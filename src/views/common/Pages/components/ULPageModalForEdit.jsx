@@ -12,17 +12,17 @@ import {
   Switch,
   Tooltip
 } from 'ant-design-vue'
-import formModal from '@/mixins/formModal'
+import editModal from '@/mixins/editModal'
 import { mapState } from 'vuex'
 import ULMultiInput from './ULMultiInput'
 import '../assets/styles/index.scss'
 import { dispatch } from '@/utils/store'
 
 export default Form.create({})({
-  mixins: [formModal],
+  mixins: [editModal],
   data() {
     return {
-      modalAttrs: {
+      modalProps: {
         width: 700
       }
     }
@@ -63,7 +63,7 @@ export default Form.create({})({
   },
   render() {
     const attributes = {
-      props: this.modalAttrs,
+      props: this.modalProps,
       on: {
         cancel: this.onCancel,
         ok: this.onSubmit.bind(this, this.transformValue)

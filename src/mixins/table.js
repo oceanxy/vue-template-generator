@@ -81,11 +81,11 @@ export default {
     },
     async onAddClick(record) {
       await dispatch(this.moduleName, 'setCurrentItem', cloneDeep({ parentId: record.id }))
-      await dispatch(this.moduleName, 'setVisibleForEdit', true)
+      await dispatch(this.moduleName, 'setVisibleOfEdit', true)
     },
     async onEditClick(record) {
       await dispatch(this.moduleName, 'setCurrentItem', cloneDeep(record))
-      await dispatch(this.moduleName, 'setVisibleForEdit', true)
+      await dispatch(this.moduleName, 'setVisibleOfEdit', true)
     },
     onDeleteClick(record) {
       Modal.confirm({

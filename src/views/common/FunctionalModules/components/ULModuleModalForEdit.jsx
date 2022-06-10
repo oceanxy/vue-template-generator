@@ -1,13 +1,13 @@
 import { Form, Input, Modal, Select } from 'ant-design-vue'
-import formModal from '@/mixins/formModal'
+import editModal from '@/mixins/editModal'
 import { mapState } from 'vuex'
 import '../assets/styles/index.scss'
 
 export default Form.create({})({
-  mixins: [formModal],
+  mixins: [editModal],
   data() {
     return {
-      modalAttrs: {
+      modalProps: {
         width: 400
       }
     }
@@ -25,7 +25,7 @@ export default Form.create({})({
   },
   render() {
     const attributes = {
-      props: this.modalAttrs,
+      props: this.modalProps,
       on: {
         cancel: this.onCancel,
         ok: this.onSubmit

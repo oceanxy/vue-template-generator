@@ -1,0 +1,31 @@
+@import '@/assets/styles/theme.scss';
+
+.bnm-buildings-container {
+  margin: 0 16px 16px;
+  padding: 20px;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  @include container-border-radius;
+}
+
+.bnm-team-edit-modal {
+  .ant-modal-body {
+    padding: 40px 50px 10px;
+  }
+
+  .multi-input {
+    padding: 10px 10px 0;
+
+    .multi-input-table {
+      .ant-table {
+        height: auto;
+      }
+
+      td {
+        padding: 6px;
+      }
+    }
+  }
+}

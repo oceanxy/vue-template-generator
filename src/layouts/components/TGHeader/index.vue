@@ -36,9 +36,7 @@
               <a-tag class="news-number">99+</a-tag>
               <a-icon type="right" />
             </a-menu-item>
-            <a-menu-item>
-              <span @click="handleLogOutClick">退出登录</span>
-            </a-menu-item>
+            <a-menu-item @click="handleLogOutClick">退出登录</a-menu-item>
           </a-menu>
         </template>
       </a-dropdown>

@@ -124,7 +124,7 @@ export default commitRootInModule => {
         const response = await apis.addPages(payload)
 
         if (response.status) {
-          dispatch('setVisibleForEdit', false)
+          dispatch('setVisibleOfEdit', false)
           dispatch('getList', {
             pageIndex: 0
           })

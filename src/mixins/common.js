@@ -31,13 +31,19 @@ export default {
   methods: {
     /**
      * 注入封装后的 dispatch，不必再手动传入 moduleName。使用：this.dispatch(action, payload)
-     * 也可以直接调用 '@/utils/store' 里的 'dispatch(moduleName, action, payload)'
+     *    也可以直接调用 '@/utils/store' 里的 'dispatch(moduleName, action, payload)'
+     * 如果需要调用全局的 actions 和 mutations，请传第三个参数 root:true
+     *    也可以直接在组件内以 this.$store.dispatch() 来调用
      * @param action {string}
-     * @param payload {*}
-     * @returns {Promise<*>}
+     * @param payload {{payload: *} | *}
+     * @param [optional] {{root: boolean}}
      */
-    async dispatch(action, payload) {
-      return await dispatch(this.moduleName, action, payload)
+    async dispatch(action, payload, optional) {
+      if (optional.root) {
+        await this.$store.dispatch(action, { payload, moduleName: this.moduleName })
+      } else {
+        await dispatch(this.moduleName, action, payload.payload)
+      }
     }
   }
 }
