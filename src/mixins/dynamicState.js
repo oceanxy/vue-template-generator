@@ -5,11 +5,11 @@
  * @Date: 2022-03-10 周四 16:31:00
  */
 
-import common from './common'
+import forIndex from './forIndex'
 import { commitRootInModule } from '@/utils/store'
 
 export default (store, dynamicModules) => ({
-  mixins: [common],
+  mixins: [forIndex],
   created() {
     if (this.moduleName) {
       if (!store.hasModule(this.moduleName)) {

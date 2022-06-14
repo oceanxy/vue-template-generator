@@ -1,9 +1,9 @@
 import { Button, Space } from 'ant-design-vue'
-import tableButtons from '@/mixins/tableButtons'
+import forFunction from '@/mixins/forFunction'
 import '../assets/styles/index.scss'
 
 export default {
-  mixins: [tableButtons],
+  mixins: [forFunction],
   render() {
     return (
       <Space>

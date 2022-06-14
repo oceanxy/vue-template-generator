@@ -1,10 +1,10 @@
 import './index.scss'
 import { Button, Dropdown, Icon, Menu, Space, Table } from 'ant-design-vue'
-import table from '@/mixins/table'
+import forTable from '@/mixins/forTable'
 import Pagination from '@/views/manager/basis/Businesses/components/Pagination'
 
 export default {
-  mixins: [table],
+  mixins: [forTable],
   data() {
     return {
       tableProps: {

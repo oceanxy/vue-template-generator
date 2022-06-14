@@ -36,14 +36,6 @@ export default commitRootInModule => {
         commitRootInModule('setSearch', { ...(payload ?? searchModel) })
       },
       /**
-       * 设置分页参数
-       * @param state
-       * @param [payload]
-       */
-      setPagination({ state }, payload) {
-        commitRootInModule('setPagination', { ...state.pagination, ...payload })
-      },
-      /**
        * 更新状态
        * @param state
        * @param payload
@@ -57,34 +49,6 @@ export default commitRootInModule => {
         commitRootInModule('setLoading', false)
 
         return status
-      },
-      /**
-       * 获取列表数据
-       * @param state
-       * @param pagination
-       * @returns {Promise<void>}
-       */
-      async getList({ state }, pagination) {
-        commitRootInModule('setLoading', true)
-
-        const response = await apis.getSiteApps(omit({
-          ...state.pagination,
-          ...state.search,
-          ...pagination
-        }, 'total'))
-
-        if (response.status) {
-          commitRootInModule('setPagination', {
-            ...state.pagination,
-            pageIndex: response.data.pageIndex,
-            pageSize: response.data.pageSize,
-            total: response.data.totalNum
-          })
-
-          commitRootInModule('setList', response.data.rows)
-        }
-
-        commitRootInModule('setLoading', false)
       },
       /**
        * 设置选择的行
@@ -131,7 +95,7 @@ export default commitRootInModule => {
         const response = await apis.addSiteApp(payload)
 
         if (response.status) {
-          dispatch('setVisibleOfEdit', false)
+          dispatch('setModalVisible', false)
           dispatch('getList', {
             pageIndex: 0
           })

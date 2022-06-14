@@ -1,18 +1,19 @@
 /**
- * 弹窗 依赖common
+ * 弹窗 依赖 forIndex
  * @Author: Oceanxy
  * @Email: xyzsyx@163.com
  * @Date: 2022-05-31 周二 17:39:54
  */
 
 import { mapGetters } from 'vuex'
-import common from '@/mixins/common'
+import forIndex from '@/mixins/forIndex'
 
 export default {
-  mixins: [common],
+  mixins: [forIndex],
   inject: ['moduleName'],
   data() {
     return {
+      visibleField: '',
       modalProps: {
         visible: false,
         title: '',
@@ -34,23 +35,26 @@ export default {
     }),
     currentItem() {
       return this.getCurrentItem(this.moduleName)
+    },
+    visible() {
+      return this.getVisibleFromStore(this.moduleName, this.visibleField)
     }
   },
   watch: {
     visible(value) {
       this.modalProps.visible = value
-
-      if (!value) {
-        this.form.resetFields()
-      }
     }
   },
   methods: {
-    getVisible(action) {
-      return this.getVisibleFromStore(this.moduleName, action)
-    },
     async onCancel(action) {
-      await this.dispatch(action || 'setVisibleOfEdit', false, { root: true })
+      await this._dispatch(
+        'setModalVisible',
+        {
+          statusField: action,
+          statusValue: false
+        },
+        { root: true }
+      )
     }
   }
 }

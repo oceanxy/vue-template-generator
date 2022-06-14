@@ -1,7 +1,7 @@
+import '../assets/styles/index.scss'
 import { Pagination } from 'ant-design-vue'
 import pagination from '@/mixins/pagination'
 import { omit } from 'lodash'
-import '../assets/styles/index.scss'
 
 export default {
   mixins: [pagination],

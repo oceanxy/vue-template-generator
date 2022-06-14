@@ -26,31 +26,31 @@ export default {
   /**
    * 设置数据列表的loading
    * @param state {Object}
-   * @param payload {boolean}
+   * @param value {boolean}
    * @param moduleName {string}
    */
-  setLoading(state, { payload, moduleName }) {
-    state[moduleName].loading = payload
+  setLoading(state, { value, moduleName }) {
+    state[moduleName].loading = value
   },
   /**
    * 设置列表搜索参数对象
    * @param state {Object}
-   * @param payload {Object}
+   * @param value {Object}
    * @param moduleName {string}
    */
-  setSearch(state, { payload, moduleName }) {
+  setSearch(state, { value, moduleName }) {
     state[moduleName].pagination.pageIndex = 0
-    state[moduleName].search = payload
+    state[moduleName].search = value
   },
   /**
    * 设置当前的临时数据对象
    * currentItem: 当前页面正在操作的临时数据对象。如新增，编辑等需要临时保存数据的对象
    * @param state {Object}
-   * @param payload {Object}
+   * @param value {Object}
    * @param moduleName {string}
    */
-  setCurrentItem(state, { payload, moduleName }) {
-    state[moduleName].currentItem = payload
+  setCurrentItem(state, { value, moduleName }) {
+    state[moduleName].currentItem = value
   },
   /**
    * 设置表格选中的行数据
@@ -66,23 +66,20 @@ export default {
   /**
    * 设置分页信息
    * @param state {Object}
-   * @param payload {{
-   *   pageIndex: number,
-   *   pageSize: number
-   * }}
+   * @param value: {Object}
    * @param moduleName {string}
    */
-  setPagination(state, { payload, moduleName }) {
-    state[moduleName].pagination = payload
+  setPagination(state, { value, moduleName }) {
+    state[moduleName].pagination = value
   },
   /**
    * 设置列表数据
    * @param state {Object}
-   * @param payload {Object[]}
+   * @param value {Object[]}
    * @param moduleName {string}
    */
-  setList(state, { payload, moduleName }) {
-    state[moduleName].list = payload
+  setList(state, { value, moduleName }) {
+    state[moduleName].list = value
   },
   /**
    * 设置modal的可见性
@@ -94,7 +91,7 @@ export default {
    * }} field: 对应modal的显示字段 value：要设置的值 moduleName:模块名称
    * @param moduleName {string}
    */
-  setVisibleOfModal(state, { field, value, moduleName }) {
+  setModalVisible(state, { field, value, moduleName }) {
     state[moduleName][field] = value
   }
 }

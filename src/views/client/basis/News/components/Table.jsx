@@ -1,9 +1,9 @@
-import { Switch, Table, Space, Button } from 'ant-design-vue'
-import table from '@/mixins/table'
 import '../assets/styles/index.scss'
+import { Switch, Table, Space, Button } from 'ant-design-vue'
+import forTable from '@/mixins/forTable'
 
 export default {
-  mixins: [table],
+  mixins: [forTable],
   data() {
     return {
       tableProps: {

@@ -30,4 +30,12 @@
   .ant-layout {
     overflow: hidden;
   }
+
+  .tg-sider {
+    .ant-layout-sider-trigger {
+      background: linear-gradient(to bottom, #ffffff, #d3e5ff);
+      color: rgba(0, 0, 0, 0.45);
+      font-size: 16px;
+    }
+  }
 }

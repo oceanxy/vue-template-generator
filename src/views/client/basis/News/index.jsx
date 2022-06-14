@@ -11,7 +11,6 @@ function getBase64(img, callback) {
 }
 
 export default Form.create({})({
-  // mixins: [editModal],
   data() {
     return {
       loading: false,

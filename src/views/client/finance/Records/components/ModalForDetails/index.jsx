@@ -1,11 +1,11 @@
 import './index.scss'
 import { Button, Table } from 'ant-design-vue'
 import { mapState } from 'vuex'
-import modal from '@/mixins/modal'
+import forModal from '@/mixins/forModal'
 import DragModal from '@/components/DragModal'
 
 export default {
-  mixins: [modal],
+  mixins: [forModal],
   data() {
     return {
       modalProps: {

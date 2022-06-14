@@ -8,23 +8,28 @@
 import { mapGetters } from 'vuex'
 import { dispatch } from '@/utils/store'
 import { message } from 'ant-design-vue'
-import modal from '@/mixins/modal'
+import forModal from '@/mixins/forModal'
 
 export default {
-  mixins: [modal],
+  mixins: [forModal],
+  data: () => ({
+    visibleField: 'visibleOfEdit'
+  }),
   computed: {
     ...mapGetters({
-      getVisibleForModal: 'getVisibleForModal',
+      getVisibleForModal: 'getVisible',
       getCurrentItem: 'getCurrentItem'
     }),
     visible() {
-      return this.getVisibleForModal(this.moduleName)
+      return this.getVisibleForModal(this.moduleName, this.visibleField)
     }
   },
   watch: {
     visible(value) {
       if (value) {
         this.modalProps.title = this.title.replace('{action}', this.currentItem.id ? '编辑' : '新增')
+      } else {
+        this.form.resetFields()
       }
     }
   },

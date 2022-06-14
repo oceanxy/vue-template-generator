@@ -124,7 +124,7 @@ export default commitRootInModule => {
         const response = await apis.addPages(payload)
 
         if (response.status) {
-          dispatch('setVisibleOfEdit', false)
+          dispatch('setModalVisible', false)
           dispatch('getList', {
             pageIndex: 0
           })
@@ -170,13 +170,13 @@ export default commitRootInModule => {
        * @param payload
        */
       setVisibleForDetails({ state }, payload) {
-        commitRootInModule('setVisibleOfModal', {
+        commitRootInModule('setModalVisible', {
           field: 'visibleForDetails',
           value: payload
         })
       },
       setVisibleForInvoice({ commit }, payload) {
-        commitRootInModule('setVisibleOfModal', {
+        commitRootInModule('setModalVisible', {
           field: 'visibleForInvoice',
           value: payload
         })

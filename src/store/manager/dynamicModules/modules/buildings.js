@@ -86,25 +86,6 @@ export default commitRootInModule => {
         commitRootInModule('setLoading', false)
       },
       /**
-       * 设置新增/编辑弹窗可见状态
-       * @param state
-       * @param payload
-       */
-      setVisibleOfEdit({ state }, payload) {
-        commitRootInModule('setVisibleOfModal', {
-          field: 'visibleOfEdit',
-          value: payload
-        })
-      },
-      /**
-       * 设置当前正在操作的对象为一个新的副本
-       * @param state
-       * @param payload
-       */
-      setCurrentItem({ state }, payload) {
-        commitRootInModule('setCurrentItem', cloneDeep(payload || {}))
-      },
-      /**
        * 设置选择的行
        * @param state
        * @param payload
@@ -149,7 +130,7 @@ export default commitRootInModule => {
         const response = await apis.addSiteApp(payload)
 
         if (response.status) {
-          dispatch('setVisibleOfEdit', false)
+          dispatch('setModalVisible', false)
           dispatch('getList', {
             pageIndex: 0
           })

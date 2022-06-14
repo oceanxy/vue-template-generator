@@ -7,6 +7,7 @@ import Pagination from '@/views/manager/basis/Businesses/components/Pagination'
 import dynamicState from '@/mixins/dynamicState'
 import store, { dynamicModules } from '@/store/manager'
 import TGContainer from '@/layouts/components/TGContainer'
+import ModalOfEdit from '@/views/manager/basis/Businesses/components/ModalOfEdit'
 
 export default {
   name: 'Businesses',
@@ -71,6 +72,7 @@ export default {
           <Functions slot="functions" />
           <Table slot="table" />
           <Pagination slot="pagination" />
+          <ModalOfEdit slot={'modals'} />
         </TGContainer>
       </BNContainerWithParkSider>
     )

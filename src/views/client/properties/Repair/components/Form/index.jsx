@@ -1,7 +1,6 @@
 import './index.scss'
 import BNContainer from '@/components/BNContainer'
-import { Button, Form, Icon, Input, Upload } from 'ant-design-vue'
-import Modal from '@/mixins/modal'
+import { Button, Form, Icon, Input, Modal, Upload } from 'ant-design-vue'
 
 export default Form.create({})({
   data() {

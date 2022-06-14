@@ -1,11 +1,11 @@
 import './index.scss'
 import { Form, Input } from 'ant-design-vue'
 import { mapState } from 'vuex'
-import modal from '@/mixins/modal'
+import forModal from '@/mixins/forModal'
 import DragModal from '@/components/DragModal'
 
 export default Form.create({})({
-  mixins: [modal],
+  mixins: [forModal],
   data() {
     return {
       modalProps: {

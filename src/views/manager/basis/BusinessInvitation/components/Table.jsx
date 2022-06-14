@@ -1,9 +1,9 @@
 import '../assets/styles/index.scss'
 import { Button, Space, Table } from 'ant-design-vue'
-import table from '@/mixins/table'
+import forTable from '@/mixins/forTable'
 
 export default {
-  mixins: [table],
+  mixins: [forTable],
   data() {
     return {
       tableProps: {
@@ -63,24 +63,19 @@ export default {
       }
     }
   },
-  methods: {
-    async onEditClick(record) {
-      await this.$store.dispatch('setCurrentItem', {
-        payload: record,
-        moduleName: this.moduleName
-      })
-      await this.$store.dispatch('setVisibleOfEdit', {
-        payload: true,
-        moduleName: this.moduleName
-      })
-    }
-  },
+  methods: {},
   render() {
+    const attributes = {
+      props: {
+        ...this.tableProps,
+        loading: this.getLoading(this.moduleName)
+      }
+    }
+
     return (
       <Table
         ref={`${this.moduleName}Table`}
-        loading={this.getLoading(this.moduleName)}
-        {...{ props: this.tableProps }}
+        {...attributes}
         {...{
           scopedSlots: {
             // status: (text, record) => (

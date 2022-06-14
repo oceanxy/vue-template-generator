@@ -1,10 +1,10 @@
-import table from '@/mixins/table'
 import { Button, Table } from 'ant-design-vue'
-import common from '@/mixins/common'
+import forIndex from '@/mixins/forIndex'
 import BNContainer from '@/components/BNContainer'
+import forTable from '@/mixins/forTable'
 
 export default {
-  mixins: [common, table],
+  mixins: [forIndex, forTable],
   data: () => ({
     columns: [
       {

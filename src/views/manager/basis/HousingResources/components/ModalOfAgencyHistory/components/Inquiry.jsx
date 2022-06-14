@@ -1,4 +1,4 @@
-import '../assets/styles/index.scss'
+import '../index.scss'
 import { Button, Form, Input, Select, Space } from 'ant-design-vue'
 import searchForm from '@/mixins/searchForm'
 import { mapActions, mapState } from 'vuex'
@@ -24,36 +24,14 @@ export default Form.create({})({
           <Form.Item>
             {
               this.form.getFieldDecorator('pageName')(
-                <Input placeholder="企业名称/机构代码" allowClear />
-              )
-            }
-          </Form.Item>
-          <Form.Item>
-            {
-              this.form.getFieldDecorator('allPath')(
-                <Input placeholder="负责人/手机号码" allowClear />
+                <Input placeholder="企业名称" allowClear />
               )
             }
           </Form.Item>
           <Form.Item>
             {
               this.form.getFieldDecorator('appId')(
-                <Select placeholder="请选择企业类型" allowClear>
-                  {
-                    this.allSiteApps.map(item => (
-                      <Select.Option value={item.id}>
-                        {item.appName}
-                      </Select.Option>
-                    ))
-                  }
-                </Select>
-              )
-            }
-          </Form.Item>
-          <Form.Item>
-            {
-              this.form.getFieldDecorator('appId')(
-                <Select placeholder="请选择企业状态" allowClear>
+                <Select placeholder="请选择状态" allowClear>
                   {
                     this.allSiteApps.map(item => (
                       <Select.Option value={item.id}>
@@ -73,7 +51,7 @@ export default Form.create({})({
                 type="primary"
                 icon="search"
               >
-                搜索
+                查询
               </Button>
               {/*<Button onClick={this.onClear} icon="reload">重置</Button>*/}
             </Space>

@@ -7,6 +7,7 @@ import Functions from '@/views/manager/basis/HousingResources/components/Functio
 import Table from '@/views/manager/basis/HousingResources/components/Table'
 import Pagination from '@/views/manager/basis/HousingResources/components/Pagination'
 import ModalOfEdit from '@/views/manager/basis/HousingResources/components/ModalOfEdit'
+import ModalOfAgencyHistory from '@/views/manager/basis/HousingResources/components/ModalOfAgencyHistory'
 
 export default {
   name: 'HousingResources',
@@ -18,7 +19,10 @@ export default {
         <Functions slot={'functions'} />
         <Table slot={'table'} />
         <Pagination slot={'pagination'} />
-        <ModalOfEdit slot={'modals'} title={'{action}房源'} />
+        <template slot={'modals'}>
+          <ModalOfEdit title={'{action}房源'} />
+          <ModalOfAgencyHistory title={'签约历史查询'} />
+        </template>
       </TGContainer>
     )
   }

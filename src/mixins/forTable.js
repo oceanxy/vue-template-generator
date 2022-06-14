@@ -8,9 +8,10 @@
 import { dispatch } from '@/utils/store'
 import { mapGetters } from 'vuex'
 import { message, Modal } from 'ant-design-vue'
-import { cloneDeep } from 'lodash'
+import forComponent from '@/mixins/forComponent'
 
 export default {
+  mixins: [forComponent],
   inject: ['moduleName'],
   data() {
     return {
@@ -56,7 +57,10 @@ export default {
   },
   methods: {
     async fetchList() {
-      await dispatch(this.moduleName, 'getList')
+      await this.$store.dispatch('getList', {
+        api: 'getSiteApps',
+        moduleName: this.moduleName
+      })
     },
     async onStatusChange(checked, record) {
       const status = await dispatch(this.moduleName, 'updateStatus', {
@@ -80,12 +84,10 @@ export default {
       }
     },
     async onAddClick(record) {
-      await dispatch(this.moduleName, 'setCurrentItem', cloneDeep({ parentId: record.id }))
-      await dispatch(this.moduleName, 'setVisibleOfEdit', true)
+      await this._setVisibleOfModal({ parentId: record.id })
     },
     async onEditClick(record) {
-      await dispatch(this.moduleName, 'setCurrentItem', cloneDeep(record))
-      await dispatch(this.moduleName, 'setVisibleOfEdit', true)
+      await this._setVisibleOfModal(record)
     },
     onDeleteClick(record) {
       Modal.confirm({
@@ -114,15 +116,17 @@ export default {
       })
     },
     resize() {
-      this.$nextTick(() => {
-        this.tableProps.scroll = {
-          // 固定列时，需要设置x
-          // x: this.$refs[`${this.moduleName}Table`].$el.clientWidth - 17,
-          // x: this.$refs[`${this.moduleName}Table`].$el.clientWidth,
-          y: this.$refs[`${this.moduleName}Table`].$el.clientHeight - 54,
-          scrollToFirstRowOnChange: true
-        }
-      })
+      if (this.$refs[`${this.moduleName}Table`]) {
+        this.$nextTick(() => {
+          this.tableProps.scroll = {
+            // 固定列时，需要设置x
+            // x: this.$refs[`${this.moduleName}Table`].$el.clientWidth - 17,
+            // x: this.$refs[`${this.moduleName}Table`].$el.clientWidth,
+            y: this.$refs[`${this.moduleName}Table`].$el.clientHeight - 54,
+            scrollToFirstRowOnChange: true
+          }
+        })
+      }
     }
   }
 }

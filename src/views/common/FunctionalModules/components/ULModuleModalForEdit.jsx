@@ -1,10 +1,10 @@
 import { Form, Input, Modal, Select } from 'ant-design-vue'
-import editModal from '@/mixins/editModal'
+import forEditModal from '@/mixins/forEditModal'
 import { mapState } from 'vuex'
 import '../assets/styles/index.scss'
 
 export default Form.create({})({
-  mixins: [editModal],
+  mixins: [forEditModal],
   data() {
     return {
       modalProps: {

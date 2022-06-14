@@ -8,8 +8,10 @@
 import { dispatch } from '@/utils/store'
 import { mapGetters } from 'vuex'
 import { message, Modal } from 'ant-design-vue'
+import forComponent from '@/mixins/forComponent'
 
 export default {
+  mixins: [forComponent],
   inject: ['moduleName'],
   data() {
     return {
@@ -34,12 +36,11 @@ export default {
   },
   methods: {
     async onAddClick() {
-      await dispatch(this.moduleName, 'setCurrentItem', {})
-      await dispatch(this.moduleName, 'setVisibleOfEdit', true)
+      await this._setVisibleOfModal({})
     },
     async onEditClick() {
       await dispatch(this.moduleName, 'setCurrentItem', { ...this.selectedRows })
-      await dispatch(this.moduleName, 'setVisibleOfEdit', true)
+      await dispatch(this.moduleName, 'setModalVisible', true)
     },
     async onDeleteClick() {
       Modal.confirm({

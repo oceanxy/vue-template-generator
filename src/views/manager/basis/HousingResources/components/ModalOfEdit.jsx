@@ -1,11 +1,11 @@
 import '../assets/styles/index.scss'
 import { Form, Icon, Input, Radio, Switch, Upload } from 'ant-design-vue'
-import editModal from '@/mixins/editModal'
+import forEditModal from '@/mixins/forEditModal'
 import { mapState } from 'vuex'
 import DragModal from '@/components/DragModal'
 
 export default Form.create({})({
-  mixins: [editModal],
+  mixins: [forEditModal],
   props: {
     /**
      * 标题（可定义占位符）

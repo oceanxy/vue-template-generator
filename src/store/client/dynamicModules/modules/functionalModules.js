@@ -106,7 +106,7 @@ export default commitRootInModule => {
         const response = await apis.addFunctionalModules(payload)
 
         if (response.status) {
-          dispatch('setVisibleOfEdit', false)
+          dispatch('setModalVisible', false)
           dispatch('getList', {
             pageIndex: 0
           })
@@ -151,8 +151,8 @@ export default commitRootInModule => {
        * @param state
        * @param payload
        */
-      setVisibleOfEdit({ state }, payload) {
-        commitRootInModule('setVisibleOfModal', {
+      setModalVisible({ state }, payload) {
+        commitRootInModule('setModalVisible', {
           field: 'visibleOfEdit',
           value: payload
         })

@@ -130,7 +130,7 @@ export default commitRootInModule => {
         const response = await apis.addSiteApp(payload)
 
         if (response.status) {
-          dispatch('setVisibleOfEdit', false)
+          dispatch('setModalVisible', false)
           dispatch('getList', {
             pageIndex: 0
           })

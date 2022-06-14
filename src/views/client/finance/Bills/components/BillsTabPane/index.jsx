@@ -1,4 +1,4 @@
-import table from '@/mixins/table'
+import forTable from '@/mixins/forTable'
 import { Table } from 'ant-design-vue'
 
 export default {
@@ -8,7 +8,7 @@ export default {
       default: '1'
     }
   },
-  mixins: [table],
+  mixins: [forTable],
   data: () => ({
     columns: [
       {
