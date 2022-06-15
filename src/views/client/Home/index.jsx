@@ -1,10 +1,10 @@
 import './assets/styles/index.scss'
-import { Button, Divider, Icon, List, Tag } from 'ant-design-vue'
+import { Button, Divider, Icon, Tag } from 'ant-design-vue'
 import BNContainer from '@/components/BNContainer'
-import TGTitleWithShape from '@/components/TGTitleWithShape'
 import TGShortcutMenu from '@/components/TGShortcutMenu'
 import TGList from '@/components/TGList'
 import TGContainerWithSider from '@/components/TGContainerWithSider'
+import TGListWithSubTitle from '@/components/TGListWithSubTitle'
 
 export default {
   render() {
@@ -60,38 +60,7 @@ export default {
               </div>
             }
           >
-            <List
-              class="container"
-              dataSource={[
-                { name: '紧急的待办事项', date: '2022/05/20 16:00:00', status: 1 },
-                { name: '紧急的待办事项', date: '2022/05/20 16:00:00', status: 1 },
-                { name: '紧急的待办事项', date: '2022/05/20 16:00:00', status: 1 },
-                { name: '紧急的待办事项', date: '2022/05/20 16:00:00', status: 2 },
-                { name: '紧急的待办事项', date: '2022/05/20 16:00:00', status: 2 },
-                { name: '紧急的待办事项', date: '2022/05/20 16:00:00', status: 2 },
-                { name: '紧急的待办事项', date: '2022/05/20 16:00:00', status: 3 },
-                { name: '紧急的待办事项', date: '2022/05/20 16:00:00', status: 3 },
-                { name: '紧急的待办事项', date: '2022/05/20 16:00:00', status: 3 }
-              ]}
-              {
-                ...{
-                  scopedSlots: {
-                    renderItem: item => (
-                      <List.Item class="list-container">
-                        <TGTitleWithShape class={`shape ${['todo', 'doing', 'done'][+item.status - 1]}`}>
-                          <span class="name">{item.name}</span>
-                          <Tag color="#F5222D">急</Tag>
-                        </TGTitleWithShape>
-                        <Button.Group class="btns">
-                          <Button>处理</Button>
-                        </Button.Group>
-                        <div class="date">{item.date}</div>
-                      </List.Item>
-                    )
-                  }
-                }
-              }
-            />
+            <TGListWithSubTitle />
           </BNContainer>
         </template>
         <template slot="sider">

@@ -15,6 +15,7 @@ export default {
   render() {
     return (
       <List
+        class={'tg-list-container'}
         dataSource={
           [
             { a: '关于停电的通知关于停电的通知关于停电的通知', b: '05-23 16:02:00' },

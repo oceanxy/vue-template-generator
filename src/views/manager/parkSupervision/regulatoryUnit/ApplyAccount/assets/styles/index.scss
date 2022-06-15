@@ -1,0 +1,76 @@
+@import '@/assets/styles/theme.scss';
+
+.bnm-apply-account-container {
+  display: flex;
+  gap: 16px;
+  height: 100%;
+  margin: 0 16px 16px;
+
+  .apply-account-sider.apply-account-sider {
+    width: 390px;
+    background: #ffffff;
+
+    .apply-account-records-container {
+      overflow-y: auto;
+
+      .ant-list-items {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .list-container {
+        background: #f2f7fc;
+        transition: all 0.3s;
+        border: none;
+        @include container-border-radius;
+
+        &:hover {
+          background: #eaf3fb;
+        }
+      }
+    }
+  }
+
+  .apply-account-content.apply-account-content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    .apply-account-remind {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 28px 35px 28px 100px;
+      background: url(../images/icon.png) no-repeat left 35px center / 58px, linear-gradient(89deg, #e9f2ff 0%, #f6faff 100%);
+      border: 1px solid #ffffff;
+      box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.02);
+      @include container-border-radius;
+
+      p {
+        margin: 0;
+
+        &:first-child {
+          font-size: 16px;
+          font-weight: 500;
+          color: #007aff;
+        }
+
+        &:last-child {
+          font-size: 12px;
+          font-weight: 400;
+          color: #3595ff;
+        }
+      }
+    }
+
+    .apply-account-form-container {
+      @include container-border-radius;
+      box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.02);
+      background: #ffffff;
+      padding: 10vh 10vw;
+      flex: auto;
+      overflow-y: auto;
+    }
+  }
+}

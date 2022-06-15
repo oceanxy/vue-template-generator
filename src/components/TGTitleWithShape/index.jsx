@@ -1,5 +1,4 @@
 import './index.scss'
-import { Tag } from 'ant-design-vue'
 
 export default {
   props: {
@@ -12,7 +11,7 @@ export default {
     },
     /**
      * 形状类型
-     * point：圆点 / vertical：竖线
+     * point：圆点 / vertical：竖线 / ring：圆环
      */
     type: {
       type: String,

@@ -159,7 +159,7 @@ export const routes = [
           },
           {
             path: 'hou-res',
-            name: 'HousingResources',
+            name: 'housingResources',
             component: () => import('@/views/manager/basis/HousingResources'),
             meta: {
               title: '房源管理',
@@ -170,74 +170,63 @@ export const routes = [
         ]
       },
       {
-        path: 'park-supervision-tb',
+        path: 'park-sup-tb',
         component: TGRouterView,
+        redirect: { name: 'park' },
         meta: {
           title: '园区监管(科技局)',
           keepAlive: true,
           requiresAuth: true,
           icon: () => import('@/layouts/components/TGMenu/assets/images/parkSupervision.svg')
         },
-        redirect: { name: 'reservation' },
         children: [
           {
-            path: 'reservation',
-            component: TGRouterView,
+            path: 'park',
+            name: 'park',
+            component: () => import('@/views/manager/parkSupervision/technologyBureau/Park'),
             meta: {
-              title: '科技局',
+              title: '园区管理',
               keepAlive: true,
               requiresAuth: true,
               hideChildren: true
-            },
-            children: [
-              {
-                path: '',
-                name: 'reservation',
-                component: () => import('@/views/client/properties/BookMeetingRoom'),
-                meta: {
-                  title: '会议室预约',
-                  keepAlive: true,
-                  requiresAuth: true
-                }
-              },
-              {
-                path: 'book',
-                name: 'book',
-                component: () => import('@/views/client/properties/BookMeetingRoom/Book'),
-                meta: {
-                  title: '立即预约',
-                  keepAlive: true,
-                  requiresAuth: true
-                }
-              },
-              {
-                path: 'records',
-                name: 'appointmentRecord',
-                component: () => import('@/views/client/properties/BookMeetingRoom/Records'),
-                meta: {
-                  title: '我的预约记录',
-                  keepAlive: true,
-                  requiresAuth: true
-                }
-              }
-            ]
+            }
           },
           {
-            path: 'repair',
-            name: 'repair',
-            component: () => import('@/views/client/properties/Repair'),
+            path: 'exp-area',
+            name: 'expandedArea',
+            component: () => import('@/views/manager/parkSupervision/technologyBureau/ExpansionArea'),
             meta: {
-              title: '物业报修',
+              title: '拓展区管理',
               keepAlive: true,
               requiresAuth: true
             }
           },
           {
-            path: 'complaint',
-            name: 'complaint',
-            component: () => import('@/views/client/properties/Complaints'),
+            path: 'regulators',
+            name: 'regulators',
+            component: () => import('@/views/manager/parkSupervision/technologyBureau/Regulators'),
             meta: {
-              title: '在线投诉',
+              title: '园区监管单位管理',
+              keepAlive: true,
+              requiresAuth: true
+            }
+          },
+          {
+            path: 'account-opening',
+            name: 'accountOpening',
+            component: () => import('@/views/manager/parkSupervision/technologyBureau/AccountOpening'),
+            meta: {
+              title: '账号开通审核',
+              keepAlive: true,
+              requiresAuth: true
+            }
+          },
+          {
+            path: 'park-info',
+            name: 'parkInfo',
+            component: () => import('@/views/manager/parkSupervision/technologyBureau/ParkInfo'),
+            meta: {
+              title: '园区信息管理',
               keepAlive: true,
               requiresAuth: true
             }
@@ -247,12 +236,35 @@ export const routes = [
       {
         path: 'park-supervision-ru',
         component: TGRouterView,
+        redirect: { name: 'applyAccount' },
         meta: {
           title: '园区监管(监管单位)',
           keepAlive: true,
           requiresAuth: true,
           icon: () => import('@/layouts/components/TGMenu/assets/images/parkSupervision.svg')
-        }
+        },
+        children: [
+          {
+            path: 'apply-account',
+            name: 'applyAccount',
+            component: () => import('@/views/manager/parkSupervision/regulatoryUnit/ApplyAccount'),
+            meta: {
+              title: '账号开通申请',
+              keepAlive: true,
+              requiresAuth: true
+            }
+          },
+          {
+            path: 'park-account',
+            name: 'parkAccount',
+            component: () => import('@/views/manager/parkSupervision/regulatoryUnit/ParkAccount'),
+            meta: {
+              title: '园区账号管理',
+              keepAlive: true,
+              requiresAuth: true
+            }
+          }
+        ]
       },
       {
         path: 'park-investment',

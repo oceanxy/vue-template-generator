@@ -3,10 +3,20 @@
   align-items: center;
 
   &.point:before {
-    content: "·"
+    content: '·'
   }
 
   &.vertical:before {
-    content: "|"
+    content: '|'
+  }
+
+  &.ring:before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    border: 2px solid currentColor;
+    border-radius: 50%;
+    box-shadow: 0 0 4px 0 currentColor;
+    margin: 0 6px;
   }
 }
