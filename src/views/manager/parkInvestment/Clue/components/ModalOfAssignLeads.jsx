@@ -1,26 +1,18 @@
 import '../assets/styles/index.scss'
-import { Form, Input, Radio } from 'ant-design-vue'
+import { Form, Input, Select } from 'ant-design-vue'
 import forFormModal from '@/mixins/forFormModal'
 import { mapState } from 'vuex'
 import DragModal from '@/components/DragModal'
 
 export default Form.create({})({
   mixins: [forFormModal],
-  props: {
-    /**
-     * 标题（可定义占位符）
-     * “{action}” 为占位符，稍后会在 mixin 中替换为对应的字符，比如“新增”、“编辑”
-     */
-    title: {
-      type: String,
-      default: '{action}'
-    }
-  },
   data() {
     return {
       modalProps: {
-        width: 690
-      }
+        width: 400,
+        okText: '确定'
+      },
+      visibleField: 'visibleOfAssignLeads'
     }
   },
   computed: mapState({
@@ -38,37 +30,37 @@ export default Form.create({})({
     const attributes = {
       attrs: this.modalProps,
       on: {
-        cancel: () => this.onCancel(),
+        cancel: () => this.onCancel(this.visibleField),
         ok: this.onSubmit
       }
     }
 
     return (
-      <DragModal {...attributes} class={'bnm-team-edit-modal'}>
+      <DragModal {...attributes}>
         <Form
-          class="bnm-team-edit-form"
+          class="bnm-form-grid"
           labelCol={{ span: 3 }}
           wrapperCol={{ span: 21 }}
           colon={false}
         >
-          <Form.Item label="审核结果">
+          <Form.Item>
+            请选择线索的跟进人员
+          </Form.Item>
+          <Form.Item label="跟进团队">
             {
-              this.form.getFieldDecorator('ss', {
+              this.form.getFieldDecorator('gg', {
                 initialValue: this.currentItem.sortIndex || 0
               })(
-                <Radio.Group>
-                  <Radio value={0}>通过</Radio>
-                  <Radio value={1}>驳回</Radio>
-                </Radio.Group>
+                <Input placeholder={'请输入'} />
               )
             }
           </Form.Item>
-          <Form.Item label="审核意见">
+          <Form.Item label="跟进成员">
             {
-              this.form.getFieldDecorator('ss', {
+              this.form.getFieldDecorator('hh', {
                 initialValue: this.currentItem.sortIndex || 0
               })(
-                <Input placeholder="请输入审核意见" type="textarea" />
+                <Select></Select>
               )
             }
           </Form.Item>

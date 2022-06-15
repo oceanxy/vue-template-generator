@@ -12,14 +12,14 @@ import {
   Switch,
   Tooltip
 } from 'ant-design-vue'
-import forEditModal from '@/mixins/forEditModal'
+import forFormModal from '@/mixins/forFormModal'
 import { mapState } from 'vuex'
 import ULMultiInput from './ULMultiInput'
 import '../assets/styles/index.scss'
 import { dispatch } from '@/utils/store'
 
 export default Form.create({})({
-  mixins: [forEditModal],
+  mixins: [forFormModal],
   data() {
     return {
       modalProps: {

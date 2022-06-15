@@ -86,14 +86,6 @@ export default {
     }
   },
   render() {
-    const attributes = {
-      props: {
-        ..._.omit(this.$attrs, ['title', 'dialogStyle']),
-        dialogStyle: { ...this.$attrs.dialogStyle, ...this.style }
-      },
-      on: this.$listeners
-    }
-
     const titleAttribute = {
       props: {
         isShow: this.$attrs.visible
@@ -103,11 +95,17 @@ export default {
       }
     }
 
+    const attributes = {
+      props: {
+        ..._.omit(this.$attrs, ['title', 'dialogStyle']),
+        title: <Title {...titleAttribute}>{this.$attrs.title}</Title>,
+        dialogStyle: { ...this.$attrs.dialogStyle, ...this.style }
+      },
+      on: this.$listeners
+    }
+
     return (
       <Modal {...attributes}>
-        <template slot="title">
-          <Title {...titleAttribute}>{this.$attrs.title}</Title>
-        </template>
         {...this.$slots.default}
       </Modal>
     )

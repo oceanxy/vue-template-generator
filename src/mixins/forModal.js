@@ -11,6 +11,16 @@ import forIndex from '@/mixins/forIndex'
 export default {
   mixins: [forIndex],
   inject: ['moduleName'],
+  props: {
+    /**
+     * 标题（可定义占位符）
+     * “{action}” 为占位符，稍后会在 mixin 中替换为对应的字符，比如“新增”、“编辑”
+     */
+    title: {
+      type: String,
+      default: '{action}'
+    }
+  },
   data() {
     return {
       visibleField: '',
@@ -42,15 +52,24 @@ export default {
   },
   watch: {
     visible(value) {
+      if (value) {
+        this.modalProps.title = this.title
+      }
+
       this.modalProps.visible = value
     }
   },
   methods: {
-    async onCancel(action) {
+    /**
+     * 取消/关闭 弹窗
+     * @param [visibleField] {string} 对应store模块内控制该弹窗的字段名。默认为新增/编辑弹窗的字段名：visibleOfEdit
+     * @returns {Promise<void>}
+     */
+    async onCancel(visibleField) {
       await this._dispatch(
         'setModalVisible',
         {
-          statusField: action,
+          statusField: visibleField,
           statusValue: false
         },
         { root: true }

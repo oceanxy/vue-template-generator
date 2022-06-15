@@ -5,7 +5,6 @@
  * @Date: 2022-03-14 周一 15:43:52
  */
 
-import { mapGetters } from 'vuex'
 import { dispatch } from '@/utils/store'
 import { message } from 'ant-design-vue'
 import forModal from '@/mixins/forModal'
@@ -15,15 +14,6 @@ export default {
   data: () => ({
     visibleField: 'visibleOfEdit'
   }),
-  computed: {
-    ...mapGetters({
-      getVisibleForModal: 'getVisible',
-      getCurrentItem: 'getCurrentItem'
-    }),
-    visible() {
-      return this.getVisibleForModal(this.moduleName, this.visibleField)
-    }
-  },
   watch: {
     visible(value) {
       if (value) {

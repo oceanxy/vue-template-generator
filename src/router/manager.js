@@ -63,13 +63,13 @@ export const routes = [
       {
         path: 'basic',
         component: TGRouterView,
+        redirect: { name: 'businesses' },
         meta: {
           title: '基础数据',
           keepAlive: true,
           requiresAuth: true,
           icon: () => import('@/layouts/components/TGMenu/assets/images/basicServices')
         },
-        redirect: { name: 'businesses' },
         children: [
           {
             path: 'businesses',
@@ -93,7 +93,7 @@ export const routes = [
                 }
               },
               {
-                path: 'details',
+                path: 'businesses-details',
                 name: 'businessesDetails',
                 component: () => import('@/views/manager/basis/Businesses/Details'),
                 meta: {
@@ -105,9 +105,9 @@ export const routes = [
             ]
           },
           {
-            path: 'teams-mana',
+            path: 'teams',
             component: TGRouterView,
-            redirect: 'teamsManagement',
+            redirect: 'teams',
             meta: {
               title: '团队管理',
               keepAlive: true,
@@ -117,7 +117,7 @@ export const routes = [
             children: [
               {
                 path: '',
-                name: 'teamsManagement',
+                name: 'teams',
                 component: () => import('@/views/manager/basis/Teams'),
                 meta: {
                   title: '团队管理',
@@ -126,7 +126,7 @@ export const routes = [
                 }
               },
               {
-                path: 'members',
+                path: 'team-members',
                 name: 'teamMembers',
                 component: () => import('@/views/manager/basis/Teams/Members'),
                 meta: {
@@ -138,7 +138,7 @@ export const routes = [
             ]
           },
           {
-            path: 'bus-inv',
+            path: 'business-invitations',
             name: 'businessInvitations',
             component: () => import('@/views/manager/basis/BusinessInvitation'),
             meta: {
@@ -158,7 +158,7 @@ export const routes = [
             }
           },
           {
-            path: 'hou-res',
+            path: 'housing-resources',
             name: 'housingResources',
             component: () => import('@/views/manager/basis/HousingResources'),
             meta: {
@@ -170,7 +170,7 @@ export const routes = [
         ]
       },
       {
-        path: 'park-sup-tb',
+        path: 'park-supervision-tb',
         component: TGRouterView,
         redirect: { name: 'park' },
         meta: {
@@ -192,7 +192,7 @@ export const routes = [
             }
           },
           {
-            path: 'exp-area',
+            path: 'expanded-area',
             name: 'expandedArea',
             component: () => import('@/views/manager/parkSupervision/technologyBureau/ExpansionArea'),
             meta: {
@@ -269,12 +269,183 @@ export const routes = [
       {
         path: 'park-investment',
         component: TGRouterView,
+        redirect: { name: 'clue' },
         meta: {
           title: '园区招商',
           keepAlive: true,
           requiresAuth: true,
           icon: () => import('@/layouts/components/TGMenu/assets/images/parkInvestment.svg')
-        }
+        },
+        children: [
+          {
+            path: 'clue',
+            name: 'clue',
+            component: () => import('@/views/manager/parkInvestment/Clue'),
+            meta: {
+              title: '线索管理',
+              keepAlive: true,
+              requiresAuth: true
+            }
+          },
+          {
+            path: 'task-statistics',
+            name: 'taskStatistics',
+            component: TGRouterView,
+            meta: {
+              title: '任务统计',
+              keepAlive: true,
+              requiresAuth: true
+            }
+          },
+          {
+            path: 'my-clue',
+            name: 'myClue',
+            component: TGRouterView,
+            meta: {
+              title: '我的线索(招商人员)',
+              keepAlive: true,
+              requiresAuth: true
+            }
+          },
+          {
+            path: 'my-contract',
+            name: 'myContract',
+            component: TGRouterView,
+            meta: {
+              title: '我的签约(招商人员)',
+              keepAlive: true,
+              requiresAuth: true
+            }
+          },
+          {
+            path: 'rene-application',
+            name: 'renewalApplication',
+            component: TGRouterView,
+            meta: {
+              title: '企业续约申请',
+              keepAlive: true,
+              requiresAuth: true
+            }
+          }
+        ]
+      },
+      {
+        path: 'cont-management',
+        component: TGRouterView,
+        redirect: { name: 'contractReview' },
+        meta: {
+          title: '签约管理',
+          keepAlive: true,
+          requiresAuth: true,
+          icon: () => import('@/layouts/components/TGMenu/assets/images/contractManagement.svg')
+        },
+        children: [
+          {
+            path: 'cont-review',
+            component: TGRouterView,
+            meta: {
+              title: '签约审核',
+              keepAlive: true,
+              requiresAuth: true,
+              hideChildren: true
+            },
+            children: [
+              {
+                path: '',
+                name: 'contractReview',
+                component: TGRouterView,
+                meta: {
+                  title: '签约审核',
+                  keepAlive: true,
+                  requiresAuth: true
+                }
+              },
+              {
+                path: 'cont-details',
+                name: 'contractDetails',
+                component: TGRouterView,
+                meta: {
+                  title: '签约详情',
+                  keepAlive: true,
+                  requiresAuth: true
+                }
+              }
+            ]
+          },
+          {
+            path: 'cont-records',
+            name: 'contractRecords',
+            component: TGRouterView,
+            meta: {
+              title: '签约记录',
+              keepAlive: true,
+              requiresAuth: true
+            }
+          },
+          {
+            path: 'bus-conf',
+            name: 'businessConfiguration',
+            component: TGRouterView,
+            meta: {
+              title: '签约业务配置',
+              keepAlive: true,
+              requiresAuth: true
+            }
+          }
+        ]
+      },
+      {
+        path: 'questionnaire',
+        component: TGRouterView,
+        redirect: { name: 'questionnaireManagement' },
+        meta: {
+          title: '调查问卷',
+          keepAlive: true,
+          requiresAuth: true,
+          icon: () => import('@/layouts/components/TGMenu/assets/images/questionnaire.svg')
+        },
+        children: [
+          {
+            path: 'management',
+            name: 'questionnaireManagement',
+            component: TGRouterView,
+            meta: {
+              title: '问卷管理',
+              keepAlive: true,
+              requiresAuth: true
+            }
+          },
+          {
+            path: 'ques-records',
+            name: 'questionnaireRecords',
+            component: TGRouterView,
+            meta: {
+              title: '问卷记录',
+              keepAlive: true,
+              requiresAuth: true
+            }
+          },
+          {
+            path: 'ques-statistics',
+            name: 'questionnaireStatistics',
+            component: TGRouterView,
+            meta: {
+              title: '问卷统计',
+              keepAlive: true,
+              requiresAuth: true
+            }
+          },
+          {
+            path: 'ques-templates',
+            name: 'questionnaireTemplates',
+            component: TGRouterView,
+            meta: {
+              title: '问卷模版管理',
+              keepAlive: true,
+              requiresAuth: true
+            }
+          }
+        ]
       },
       {
         path: 'discounts-lock',
@@ -284,16 +455,6 @@ export const routes = [
           keepAlive: true,
           requiresAuth: true,
           icon: () => import('@/layouts/components/TGMenu/assets/images/discountsLock.svg')
-        }
-      },
-      {
-        path: 'contract-mana',
-        component: TGRouterView,
-        meta: {
-          title: '签约管理',
-          keepAlive: true,
-          requiresAuth: true,
-          icon: () => import('@/layouts/components/TGMenu/assets/images/contractManagement.svg')
         }
       },
       {
@@ -314,16 +475,6 @@ export const routes = [
           keepAlive: true,
           requiresAuth: true,
           icon: () => import('@/layouts/components/TGMenu/assets/images/contentRelease.svg')
-        }
-      },
-      {
-        path: 'questionnaire',
-        component: TGRouterView,
-        meta: {
-          title: '调查问卷',
-          keepAlive: true,
-          requiresAuth: true,
-          icon: () => import('@/layouts/components/TGMenu/assets/images/questionnaire.svg')
         }
       },
       {

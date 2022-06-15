@@ -46,12 +46,12 @@ export default Form.create({})({
     return (
       <DragModal {...attributes} class={'bnm-team-edit-modal'}>
         <Form
-          class="bnm-team-edit-form"
+          class="bnm-team-edit-form bnm-form-grid"
           labelCol={{ span: 3 }}
           wrapperCol={{ span: 21 }}
           colon={false}
         >
-          <Form.Item label="所属园区">
+          <Form.Item label="线索标题">
             {
               this.form.getFieldDecorator('gg', {
                 initialValue: this.currentItem.sortIndex || 0
@@ -60,7 +60,7 @@ export default Form.create({})({
               )
             }
           </Form.Item>
-          <Form.Item label="类型">
+          <Form.Item label="线索来源" class={'half'}>
             {
               this.form.getFieldDecorator('hh', {
                 initialValue: this.currentItem.sortIndex || 0
@@ -69,7 +69,7 @@ export default Form.create({})({
               )
             }
           </Form.Item>
-          <Form.Item label="名称">
+          <Form.Item label="所属行业" class={'half'}>
             {
               this.form.getFieldDecorator('jj', {
                 initialValue: this.currentItem.sortIndex || 0
@@ -78,7 +78,7 @@ export default Form.create({})({
               )
             }
           </Form.Item>
-          <Form.Item label="账号">
+          <Form.Item label="采集人" class={'half'}>
             {
               this.form.getFieldDecorator('mm', {
                 initialValue: this.currentItem.sortIndex || 0
@@ -87,7 +87,7 @@ export default Form.create({})({
               )
             }
           </Form.Item>
-          <Form.Item label="登录密码">
+          <Form.Item label="采集时间" class={'half'}>
             {
               this.form.getFieldDecorator('nn', {
                 initialValue: this.currentItem.sortIndex || 0
@@ -96,16 +96,16 @@ export default Form.create({})({
               )
             }
           </Form.Item>
-          <Form.Item label="负责人">
+          <Form.Item label="线索描述">
             {
               this.form.getFieldDecorator('bb', {
                 initialValue: this.currentItem.sortIndex || 0
               })(
-                <Input placeholder={'请输入名称'} />
+                <Input placeholder={'请输入名称'} type={'textarea'} />
               )
             }
           </Form.Item>
-          <Form.Item label="负责人手机">
+          <Form.Item label="跟进团队" class={'half'}>
             {
               this.form.getFieldDecorator('vv', {
                 initialValue: this.currentItem.sortIndex || 0
@@ -114,48 +114,12 @@ export default Form.create({})({
               )
             }
           </Form.Item>
-          <Form.Item label="联系电话">
+          <Form.Item label="跟进成员" class={'half'}>
             {
               this.form.getFieldDecorator('cc', {
                 initialValue: this.currentItem.sortIndex || 0
               })(
                 <Input placeholder={'请输入名称'} />
-              )
-            }
-          </Form.Item>
-          <Form.Item label="通信地址">
-            {
-              this.form.getFieldDecorator('xx', {
-                initialValue: this.currentItem.sortIndex || 0
-              })(
-                <Input placeholder={'请输入名称'} />
-              )
-            }
-          </Form.Item>
-          <Form.Item label="简介">
-            {
-              this.form.getFieldDecorator('ss', {
-                initialValue: this.currentItem.sortIndex || 0
-              })(
-                <Input placeholder="请输入简介" type="textarea" />
-              )
-            }
-          </Form.Item>
-          <Form.Item label="排序">
-            {
-              this.form.getFieldDecorator('sortIndex', {
-                initialValue: this.currentItem.sortIndex || 0
-              })(
-                <Input placeholder="请输入排序值" />
-              )
-            }
-          </Form.Item>
-          <Form.Item label="状态">
-            {
-              this.form.getFieldDecorator('status', {
-                initialValue: this.currentItem.status
-              })(
-                <Switch />
               )
             }
           </Form.Item>
