@@ -1,5 +1,5 @@
 import '../assets/styles/index.scss'
-import { Form, Icon, Input, Radio, Switch, Upload } from 'ant-design-vue'
+import { Col, Form, Icon, Input, Radio, Row, Switch, Upload } from 'ant-design-vue'
 import forFormModal from '@/mixins/forFormModal'
 import { mapState } from 'vuex'
 import DragModal from '@/components/DragModal'
@@ -98,24 +98,30 @@ export default Form.create({})({
             }
           </Form.Item>
           <Form.Item label="地址">
-            <Form.item>
-              {
-                this.form.getFieldDecorator('description', {
-                  initialValue: this.currentItem.description || 0
-                })(
-                  <Input placeholder="请选择地址" />
-                )
-              }
-            </Form.item>
-            <Form.item>
-              {
-                this.form.getFieldDecorator('description1', {
-                  initialValue: this.currentItem.description1 || 0
-                })(
-                  <Input placeholder="请输入详细地址" />
-                )
-              }
-            </Form.item>
+            <Form.Item label="地址">
+              <Row gutter={16}>
+                <Col span={10}>
+                  {
+                    this.form.getFieldDecorator('address', {
+                      initialValue: this.currentItem.address,
+                      rules: [{ required: true, message: '请输入编号!', trigger: 'blur' }]
+                    })(
+                      <Input placeholder="请输入编号" allowClear />
+                    )
+                  }
+                </Col>
+                <Col span={14}>
+                  {
+                    this.form.getFieldDecorator('address2', {
+                      initialValue: this.currentItem.address2,
+                      rules: [{ required: true, message: '请输入编号!', trigger: 'blur' }]
+                    })(
+                      <Input placeholder="请输入编号" allowClear />
+                    )
+                  }
+                </Col>
+              </Row>
+            </Form.Item>
           </Form.Item>
           <Form.Item label="监管单位">
             {

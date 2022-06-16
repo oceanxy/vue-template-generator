@@ -419,7 +419,7 @@ export const routes = [
       {
         path: 'questionnaire',
         component: TGRouterView,
-        redirect: { name: 'questionnaireManagement' },
+        redirect: { name: 'questionnairesManagement' },
         meta: {
           title: '调查问卷',
           keepAlive: true,
@@ -428,9 +428,9 @@ export const routes = [
         },
         children: [
           {
-            path: 'management',
-            name: 'questionnaireManagement',
-            component: TGRouterView,
+            path: 'questionnaires-management',
+            name: 'questionnairesManagement',
+            component: () => import('@/views/manager/questionnaire/QuestionnaireManagement'),
             meta: {
               title: '问卷管理',
               keepAlive: true,

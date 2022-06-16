@@ -85,7 +85,7 @@ export default {
     // }
 
     return (
-      <div class="multi-input">
+      <div class="tg-multi-input">
         <Button icon="plus" onClick={this.onCreateRow} />
         <Table
           class="multi-input-table"

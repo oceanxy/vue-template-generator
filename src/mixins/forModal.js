@@ -11,16 +11,6 @@ import forIndex from '@/mixins/forIndex'
 export default customModuleName => {
   const mixinForModal = {
     mixins: [forIndex],
-    props: {
-      /**
-       * 标题（可定义占位符）
-       * “{action}” 为占位符，稍后会在 mixin 中替换为对应的字符，比如“新增”、“编辑”
-       */
-      title: {
-        type: String,
-        default: '{action}'
-      }
-    },
     data() {
       return {
         visibleField: '',

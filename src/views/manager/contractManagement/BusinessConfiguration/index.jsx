@@ -1,5 +1,4 @@
 import './index.scss'
-import { Button, Descriptions } from 'ant-design-vue'
 import BNMDescriptions from '@/views/manager/contractManagement/BusinessConfiguration/components/BNMDescriptions'
 
 export default {

@@ -1,5 +1,5 @@
-import { Button, Input, Table } from 'ant-design-vue'
 import '../assets/styles/index.scss'
+import { Button, Input, Table } from 'ant-design-vue'
 
 export default {
   model: {
@@ -10,13 +10,8 @@ export default {
     return {
       columns: [
         {
-          title: '完整路径',
+          title: '姓名',
           scopedSlots: { customRender: 'allPath' }
-        },
-        {
-          title: '备注',
-          width: '30%',
-          scopedSlots: { customRender: 'remark' }
         },
         {
           title: '操作',
@@ -92,13 +87,6 @@ export default {
                 <Input
                   vModel={record.allPath}
                   placeholder="请输入完整路径"
-                  onBlur={this.onChange}
-                />
-              ),
-              remark: (text, record) => (
-                <Input
-                  vModel={record.remark}
-                  placeholder="请输入备注"
                   onBlur={this.onChange}
                 />
               ),
