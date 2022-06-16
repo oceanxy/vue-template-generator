@@ -9,20 +9,16 @@ export default {
       tableProps: {
         columns: [
           {
-            title: '时间',
+            title: '序号',
             dataIndex: ''
           },
           {
-            title: '类型',
+            title: '标题',
             dataIndex: 'h'
           },
           {
-            title: '摘要',
+            title: '填写结果',
             dataIndex: 'appName'
-          },
-          {
-            title: '经办人',
-            dataIndex: 'remark'
           }
         ],
         class: 'modal-of-agency-history'
@@ -31,7 +27,7 @@ export default {
   },
   methods: {
     async onAgencyHistoryClick(record) {
-      await this.setVisibleOfModal(record, 'visibleOfAgencyHistory')
+      await this._setVisibleOfModal(record, 'visibleOfAgencyHistory')
     }
   },
   render() {

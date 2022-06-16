@@ -9,31 +9,20 @@ export default {
       tableProps: {
         columns: [
           {
-            title: '序号',
+            title: '时间',
             dataIndex: ''
           },
           {
-            title: '签约企业',
+            title: '类型',
             dataIndex: 'h'
           },
           {
-            title: '签约日期',
+            title: '摘要',
             dataIndex: 'appName'
           },
           {
-            title: '解约日期',
+            title: '经办人',
             dataIndex: 'remark'
-          },
-          {
-            title: '周期（月）',
-            align: 'center',
-            dataIndex: 'zz'
-          },
-          {
-            title: '状态',
-            align: 'center',
-            width: 60,
-            scopedSlots: { customRender: 'status' }
           }
         ],
         class: 'modal-of-agency-history'

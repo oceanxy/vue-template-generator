@@ -6,22 +6,20 @@ import Inquiry from './components/Inquiry'
 import Functions from './components/Functions'
 import Table from './components/Table'
 import Pagination from './components/Pagination'
-import ModalOfEdit from './components/ModalOfEdit'
-import ModalOfQuestionnaireSwitch from './components/ModalOfQuestionnaireSwitch'
+import ModalOfResults from './components/ModalOfResults'
 
 export default {
-  name: 'Questionnaires',
+  name: 'QuestionnaireRecords',
   mixins: [dynamicState(store, dynamicModules)],
   render() {
     return (
-      <TGContainer class="bnm-questionnaires-container">
+      <TGContainer class="bnm-questionnaire-records-container">
         <Inquiry slot={'inquiry'} />
         <Functions slot={'functions'} />
         <Table slot={'table'} />
         <Pagination slot={'pagination'} />
         <template slot={'modals'}>
-          <ModalOfEdit title={'{action}问卷'} />
-          <ModalOfQuestionnaireSwitch title={'{action}问卷调查'} />
+          <ModalOfResults title={'调查记录'} />
         </template>
       </TGContainer>
     )
