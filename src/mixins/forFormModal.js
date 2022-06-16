@@ -10,7 +10,7 @@ import { message } from 'ant-design-vue'
 import forModal from '@/mixins/forModal'
 
 export default {
-  mixins: [forModal],
+  mixins: [forModal()],
   data: () => ({
     visibleField: 'visibleOfEdit'
   }),

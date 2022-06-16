@@ -5,7 +5,7 @@ import forModal from '@/mixins/forModal'
 import DragModal from '@/components/DragModal'
 
 export default {
-  mixins: [forModal],
+  mixins: [forModal()],
   data() {
     return {
       modalProps: {

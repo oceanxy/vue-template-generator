@@ -269,7 +269,7 @@ export const routes = [
       {
         path: 'park-investment',
         component: TGRouterView,
-        redirect: { name: 'clue' },
+        redirect: { name: 'clues' },
         meta: {
           title: '园区招商',
           keepAlive: true,
@@ -278,9 +278,9 @@ export const routes = [
         },
         children: [
           {
-            path: 'clue',
-            name: 'clue',
-            component: () => import('@/views/manager/parkInvestment/Clue'),
+            path: 'clues',
+            name: 'clues',
+            component: () => import('@/views/manager/parkInvestment/Clues'),
             meta: {
               title: '线索管理',
               keepAlive: true,
@@ -290,7 +290,7 @@ export const routes = [
           {
             path: 'task-statistics',
             name: 'taskStatistics',
-            component: TGRouterView,
+            component: () => import('@/views/manager/parkInvestment/TaskStatistics'),
             meta: {
               title: '任务统计',
               keepAlive: true,
@@ -298,9 +298,9 @@ export const routes = [
             }
           },
           {
-            path: 'my-clue',
-            name: 'myClue',
-            component: TGRouterView,
+            path: 'my-clues',
+            name: 'myClues',
+            component: () => import('@/views/manager/parkInvestment/MyClues'),
             meta: {
               title: '我的线索(招商人员)',
               keepAlive: true,
@@ -308,9 +308,9 @@ export const routes = [
             }
           },
           {
-            path: 'my-contract',
-            name: 'myContract',
-            component: TGRouterView,
+            path: 'my-contracts',
+            name: 'myContracts',
+            component: () => import('@/views/manager/parkInvestment/MyContracts'),
             meta: {
               title: '我的签约(招商人员)',
               keepAlive: true,
@@ -318,9 +318,9 @@ export const routes = [
             }
           },
           {
-            path: 'rene-application',
+            path: 'renewal-application',
             name: 'renewalApplication',
-            component: TGRouterView,
+            component: () => import('@/views/manager/parkInvestment/RenewalApplication'),
             meta: {
               title: '企业续约申请',
               keepAlive: true,
@@ -330,7 +330,7 @@ export const routes = [
         ]
       },
       {
-        path: 'cont-management',
+        path: 'contract-management',
         component: TGRouterView,
         redirect: { name: 'contractReview' },
         meta: {
@@ -341,7 +341,7 @@ export const routes = [
         },
         children: [
           {
-            path: 'cont-review',
+            path: 'contract-review',
             component: TGRouterView,
             meta: {
               title: '签约审核',
@@ -353,7 +353,7 @@ export const routes = [
               {
                 path: '',
                 name: 'contractReview',
-                component: TGRouterView,
+                component: () => import('@/views/manager/contractManagement/ContractReview'),
                 meta: {
                   title: '签约审核',
                   keepAlive: true,
@@ -361,9 +361,9 @@ export const routes = [
                 }
               },
               {
-                path: 'cont-details',
-                name: 'contractDetails',
-                component: TGRouterView,
+                path: 'contract-review-details',
+                name: 'contractReviewDetails',
+                component: () => import('@/views/manager/basis/Businesses/Details'),
                 meta: {
                   title: '签约详情',
                   keepAlive: true,
@@ -373,19 +373,41 @@ export const routes = [
             ]
           },
           {
-            path: 'cont-records',
-            name: 'contractRecords',
+            path: 'contract-history',
             component: TGRouterView,
             meta: {
-              title: '签约记录',
+              title: '签约历史',
               keepAlive: true,
-              requiresAuth: true
-            }
+              requiresAuth: true,
+              hideChildren: true
+            },
+            children: [
+              {
+                path: '',
+                name: 'contractHistory',
+                component: () => import('@/views/manager/contractManagement/ContractHistory'),
+                meta: {
+                  title: '签约历史',
+                  keepAlive: true,
+                  requiresAuth: true
+                }
+              },
+              {
+                path: 'contract-history-details',
+                name: 'contractHistoryDetails',
+                component: () => import('@/views/manager/basis/Businesses/Details'),
+                meta: {
+                  title: '签约详情',
+                  keepAlive: true,
+                  requiresAuth: true
+                }
+              }
+            ]
           },
           {
-            path: 'bus-conf',
+            path: 'business-configuration',
             name: 'businessConfiguration',
-            component: TGRouterView,
+            component: () => import('@/views/manager/contractManagement/BusinessConfiguration'),
             meta: {
               title: '签约业务配置',
               keepAlive: true,

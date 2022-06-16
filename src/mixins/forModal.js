@@ -8,72 +8,84 @@
 import { mapGetters } from 'vuex'
 import forIndex from '@/mixins/forIndex'
 
-export default {
-  mixins: [forIndex],
-  inject: ['moduleName'],
-  props: {
-    /**
-     * 标题（可定义占位符）
-     * “{action}” 为占位符，稍后会在 mixin 中替换为对应的字符，比如“新增”、“编辑”
-     */
-    title: {
-      type: String,
-      default: '{action}'
-    }
-  },
-  data() {
-    return {
-      visibleField: '',
-      modalProps: {
-        visible: false,
-        title: '',
-        okText: '提交',
-        maskClosable: false,
-        confirmLoading: false,
-        width: 600,
-        style: {
-          overflow: 'auto',
-          maxHeight: 'calc(90vh - 100px)'
+export default customModuleName => {
+  const mixinForModal = {
+    mixins: [forIndex],
+    props: {
+      /**
+       * 标题（可定义占位符）
+       * “{action}” 为占位符，稍后会在 mixin 中替换为对应的字符，比如“新增”、“编辑”
+       */
+      title: {
+        type: String,
+        default: '{action}'
+      }
+    },
+    data() {
+      return {
+        visibleField: '',
+        modalProps: {
+          visible: false,
+          title: '',
+          okText: '提交',
+          maskClosable: false,
+          confirmLoading: false,
+          width: 600,
+          style: {
+            overflow: 'auto',
+            maxHeight: 'calc(90vh - 100px)'
+          }
         }
       }
-    }
-  },
-  computed: {
-    ...mapGetters({
-      getVisibleFromStore: 'getVisible',
-      getCurrentItem: 'getCurrentItem'
-    }),
-    currentItem() {
-      return this.getCurrentItem(this.moduleName)
     },
-    visible() {
-      return this.getVisibleFromStore(this.moduleName, this.visibleField)
-    }
-  },
-  watch: {
-    visible(value) {
-      if (value) {
-        this.modalProps.title = this.title
+    computed: {
+      ...mapGetters({
+        getVisibleFromStore: 'getVisible',
+        getCurrentItem: 'getCurrentItem'
+      }),
+      currentItem() {
+        return this.getCurrentItem(this.moduleName)
+      },
+      visible() {
+        return this.getVisibleFromStore(this.moduleName, this.visibleField)
       }
+    },
+    watch: {
+      visible(value) {
+        if (value) {
+          this.modalProps.title = this.title
+        }
 
-      this.modalProps.visible = value
-    }
-  },
-  methods: {
-    /**
-     * 取消/关闭 弹窗
-     * @param [visibleField] {string} 对应store模块内控制该弹窗的字段名。默认为新增/编辑弹窗的字段名：visibleOfEdit
-     * @returns {Promise<void>}
-     */
-    async onCancel(visibleField) {
-      await this._dispatch(
-        'setModalVisible',
-        {
-          statusField: visibleField,
-          statusValue: false
-        },
-        { root: true }
-      )
+        this.modalProps.visible = value
+      }
+    },
+    methods: {
+      /**
+       * 取消/关闭 弹窗
+       * @param [visibleField] {string} 对应store模块内控制该弹窗的字段名。默认为新增/编辑弹窗的字段名：visibleOfEdit
+       * @returns {Promise<void>}
+       */
+      async onCancel(visibleField) {
+        await this._dispatch(
+          'setModalVisible',
+          {
+            statusField: visibleField,
+            statusValue: false
+          },
+          { root: true }
+        )
+      }
     }
   }
+
+  // 根据是否传递customModuleName来判断该混合是否需要充值moduleName（使用该 moduleName 把使用本混合的组件连接到其他store模块）
+  if (!customModuleName) {
+    mixinForModal.inject = ['moduleName']
+  } else {
+    mixinForModal.computed.moduleName = () => {
+      return customModuleName
+    }
+  }
+
+  return mixinForModal
 }

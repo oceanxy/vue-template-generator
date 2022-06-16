@@ -9,8 +9,8 @@ import Table from './components/Table'
 import store, { dynamicModules } from '@/store/manager'
 
 export default Form.create({})({
-  name: 'Clue-ModalOfDetails',
-  mixins: [dynamicState(store, dynamicModules), forModal],
+  name: 'Clues-ModalOfDetails',
+  mixins: [dynamicState(store, dynamicModules), forModal('clues')],
   props: {
     title: {
       type: String,

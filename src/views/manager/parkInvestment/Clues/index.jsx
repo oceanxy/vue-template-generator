@@ -9,11 +9,11 @@ import TGContainer from '@/layouts/components/TGContainer'
 import ModalOfAssignLeads from './components/ModalOfAssignLeads'
 import dynamicState from '@/mixins/dynamicState'
 import store, { dynamicModules } from '@/store/manager'
-import ModalOfRecoverClues from '@/views/manager/parkInvestment/Clue/components/ModalOfRecoverClues'
-import ModalOfDetails from '@/views/manager/parkInvestment/Clue/components/ModalOfDetails'
+import ModalOfRecoverClues from './components/ModalOfRecoverClues'
+import ModalOfDetails from './components/ModalOfDetails'
 
 export default {
-  name: 'Clue',
+  name: 'Clues',
   mixins: [dynamicState(store, dynamicModules)],
   render() {
     return (

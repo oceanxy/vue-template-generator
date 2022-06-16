@@ -10,7 +10,7 @@ import store, { dynamicModules } from '@/store/manager'
 
 export default Form.create({})({
   name: 'HousingResources-ModalOfAgencyHistory',
-  mixins: [dynamicState(store, dynamicModules), forModal],
+  mixins: [dynamicState(store, dynamicModules), forModal()],
   props: {
     /**
      * 标题（可定义占位符）

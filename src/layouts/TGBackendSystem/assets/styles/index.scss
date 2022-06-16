@@ -34,9 +34,17 @@
 
   .tg-sider {
     .ant-layout-sider-trigger {
-      background: linear-gradient(to bottom, #ffffff, #d3e5ff);
+      overflow: hidden;
+      background: radial-gradient(at 66% 15%, #f2f7fc 25%, #d3e5ff 50%, #ffffff 100%);
+      background-position: 0px 0px;
       color: rgba(0, 0, 0, 0.45);
       font-size: 16px;
+      transition: all 0.3s;
+
+      &:hover {
+        background-position: 10px -10px;
+        transform: scale(1.1) translate(-4.5%, 4.5%);
+      }
     }
   }
 }

@@ -1,0 +1,15 @@
+@import '@/assets/styles/theme.scss';
+
+.bnm-my-clues-container {
+  margin: 0 16px 16px;
+  padding: 20px;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  @include container-border-radius;
+
+  .tg-container-content.tg-container-content {
+    grid-template: 40px 1fr 32px/1fr;
+  }
+}
