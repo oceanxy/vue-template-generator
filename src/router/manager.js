@@ -458,9 +458,9 @@ export const routes = [
             }
           },
           {
-            path: 'ques-templates',
+            path: 'questionnaire-templates',
             name: 'questionnaireTemplates',
-            component: TGRouterView,
+            component: () => import('@/views/manager/questionnaire/QuestionnaireTemplates'),
             meta: {
               title: '问卷模版管理',
               keepAlive: true,
