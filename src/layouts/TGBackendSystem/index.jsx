@@ -17,6 +17,7 @@ export default {
         <TGHeader collapsed={this.collapsed} layout="manager" />
         <Layout>
           <Layout.Sider
+            theme={'light'}
             width={230}
             v-model={this.collapsed}
             trigger={''}

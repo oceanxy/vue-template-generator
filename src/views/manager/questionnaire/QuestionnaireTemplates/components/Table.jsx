@@ -64,6 +64,7 @@ export default {
           scopedSlots: {
             title: record => (
               <Button
+                class={'table-link'}
                 type={'link'}
                 onClick={() => this._setVisibleOfModal(record, 'visibleOfPreview')}
               >

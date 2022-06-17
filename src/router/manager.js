@@ -448,9 +448,9 @@ export const routes = [
             }
           },
           {
-            path: 'ques-statistics',
+            path: 'questionnaire-statistics',
             name: 'questionnaireStatistics',
-            component: TGRouterView,
+            component: () => import('@/views/manager/questionnaire/QuestionnaireStatistics'),
             meta: {
               title: '问卷统计',
               keepAlive: true,

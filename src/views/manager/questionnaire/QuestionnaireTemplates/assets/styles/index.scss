@@ -8,4 +8,8 @@
   flex-direction: column;
   height: 100%;
   @include container-border-radius;
+
+  .table-link {
+    padding: 0;
+  }
 }

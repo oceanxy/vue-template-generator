@@ -59,7 +59,7 @@ export default {
       <div
         ref="chartContainer"
         // style={{ '--height': this.$_chartHeight }}
-        class="fj-chart-container"
+        class="tg-chart-container"
       >
         <div ref="chart" class="chart-container" />
       </div>
