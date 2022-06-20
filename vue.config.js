@@ -2,16 +2,11 @@ module.exports = {
   publicPath: process.env.VUE_APP_PUBLIC_PATH,
   runtimeCompiler: true,
   devServer: {
-    port: '8090',
+    port: '8190',
     open: false,
     proxy: {
-      '/api': {
-        target: 'http://10.100.1.60:35920',
-        changeOrigin: true,
-        secure: false
-      },
       '/mgapi': {
-        target: 'http://10.100.1.94:46300',
+        target: 'http://10.100.1.94:47910',
         changeOrigin: true,
         secure: false
       }
