@@ -21,6 +21,7 @@ export default commitRootInModule => {
       currentItem: {},
       list: [],
       visibleOfEdit: false,
+      visibleOfChooseVenue: false,
       selectedRowKeys: [],
       selectedRows: []
     },

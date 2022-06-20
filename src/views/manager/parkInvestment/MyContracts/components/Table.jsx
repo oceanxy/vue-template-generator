@@ -58,7 +58,11 @@ export default {
       }
     }
   },
-  methods: {},
+  methods: {
+    onReSignClick(record) {
+      this.$router.push({ name: 'signingProcess' })
+    }
+  },
   render() {
     const attributes = {
       props: {
@@ -91,7 +95,7 @@ export default {
                 <Button
                   type="link"
                   size="small"
-                  // onClick={() => this.onEditClick(record)}
+                  onClick={() => this.onReSignClick(record)}
                 >
                   重新签约
                 </Button>

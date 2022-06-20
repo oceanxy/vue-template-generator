@@ -24,7 +24,7 @@ export default {
     onSubmit(e) {
       e.preventDefault()
 
-      this.form.validateFields(async(err, values) => {
+      this.form.validateFields(async (err, values) => {
         if (!err) {
           await dispatch(this.moduleName, 'setSearch', values)
         }

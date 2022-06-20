@@ -118,11 +118,20 @@ export default {
     resize() {
       if (this.$refs[`${this.moduleName}Table`]) {
         this.$nextTick(() => {
+
+          let footerHeight = 0
+          const table = this.$refs[`${this.moduleName}Table`].$el
+          const footer = table.querySelector('.ant-table-footer')
+
+          if (footer) {
+            footerHeight = footer.clientHeight
+          }
+
           this.tableProps.scroll = {
             // 固定列时，需要设置x
             // x: this.$refs[`${this.moduleName}Table`].$el.clientWidth - 17,
             // x: this.$refs[`${this.moduleName}Table`].$el.clientWidth,
-            y: this.$refs[`${this.moduleName}Table`].$el.clientHeight - 54,
+            y: this.$refs[`${this.moduleName}Table`].$el.clientHeight - footerHeight - 46, // 46：表格header高度
             scrollToFirstRowOnChange: true
           }
         })

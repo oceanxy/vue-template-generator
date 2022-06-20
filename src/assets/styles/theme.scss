@@ -17,6 +17,6 @@ $menu-active-text: #ffffff; //选中后的文本颜色
 $menu-height: 48px; //菜单单项高度
 $menu-hover-color: #ecf5ff; //菜单hover颜色
 
-@mixin container-border-radius {
-  border-radius: 4px;
+@mixin container-border-radius($value: 4px) {
+  border-radius: $value;
 }

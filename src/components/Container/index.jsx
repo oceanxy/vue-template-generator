@@ -1,3 +1,10 @@
+/**
+ * 可视化容器组件
+ * @Author: Oceanxy
+ * @Email: xyzsyx@163.com
+ * @Date: 2022-06-17 周五 15:23:58
+ */
+
 import './index.scss'
 
 export default {

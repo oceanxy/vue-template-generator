@@ -309,13 +309,35 @@ export const routes = [
           },
           {
             path: 'my-contracts',
-            name: 'myContracts',
-            component: () => import('@/views/manager/parkInvestment/MyContracts'),
+            component: TGRouterView,
             meta: {
               title: '我的签约(招商人员)',
               keepAlive: true,
-              requiresAuth: true
-            }
+              requiresAuth: true,
+              hideChildren: true
+            },
+            children: [
+              {
+                path: '',
+                name: 'myContracts',
+                component: () => import('@/views/manager/parkInvestment/MyContracts'),
+                meta: {
+                  title: '我的签约(招商人员)',
+                  keepAlive: true,
+                  requiresAuth: true
+                }
+              },
+              {
+                path: 'signing-process',
+                name: 'signingProcess',
+                component: () => import('@/views/manager/parkInvestment/MyContracts/SigningProcess'),
+                meta: {
+                  title: '签约',
+                  keepAlive: true,
+                  requiresAuth: true
+                }
+              }
+            ]
           },
           {
             path: 'renewal-application',
