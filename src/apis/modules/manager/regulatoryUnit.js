@@ -14,30 +14,56 @@ export default {
       data: qs.stringify(data)
     })
   },
-  // /**
-  //  * 修改园区状态
-  //  * @param [request]
-  //  * @param data
-  //  * @returns {*}
-  //  */
-  // updateParksStatus(request, data) {
-  //   return request({
-  //     url: '/basic/park/updateStatus',
-  //     method: 'post',
-  //     data: qs.stringify(data)
-  //   })
-  // },
-  // /**
-  //  * 删除园区
-  //  * @param request
-  //  * @param data
-  //  * @returns {*}
-  //  */
-  // deleteParks(request, data) {
-  //   return request({
-  //     url: '/basic/park/delete',
-  //     method: 'post',
-  //     data: qs.stringify(data)
-  //   })
-  // }
+  /**
+   * 修改监管单位状态
+   * @param [request]
+   * @param data
+   * @returns {*}
+   */
+  updateRegulatoryUnitsStatus(request, data) {
+    return request({
+      url: '/system/regulationOrgan/updateStatus',
+      method: 'post',
+      data: qs.stringify(data)
+    })
+  },
+  /**
+   * 更新监管单位
+   * @param request
+   * @param data
+   * @returns {*}
+   */
+  updateRegulatoryUnits(request, data) {
+    return request({
+      url: '/system/regulationOrgan/update',
+      method: 'post',
+      data
+    })
+  },
+  /**
+   * 新增监管单位
+   * @param [request]
+   * @param data
+   * @returns {*}
+   */
+  addRegulatoryUnits(request, data) {
+    return request({
+      url: '/system/regulationOrgan/add',
+      method: 'post',
+      data
+    })
+  },
+  /**
+   * 删除监管单位
+   * @param request
+   * @param data
+   * @returns {*}
+   */
+  deleteRegulatoryUnits(request, data) {
+    return request({
+      url: '/system/regulationOrgan/delete',
+      method: 'post',
+      data: qs.stringify(data)
+    })
+  }
 }

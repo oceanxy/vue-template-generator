@@ -192,9 +192,9 @@ export const routes = [
             }
           },
           {
-            path: 'regulators',
-            name: 'regulators',
-            component: () => import('@/views/manager/parkSupervision/technologyBureau/Regulators'),
+            path: 'regulatory-units',
+            name: 'regulatoryUnits',
+            component: () => import('@/views/manager/parkSupervision/technologyBureau/RegulatoryUnits'),
             meta: {
               title: '园区监管单位管理',
               keepAlive: true,

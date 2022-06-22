@@ -1,5 +1,5 @@
 import '../assets/styles/index.scss'
-import { Button, Space, Table } from 'ant-design-vue'
+import { Button, Space, Switch, Table } from 'ant-design-vue'
 import forTable from '@/mixins/forTable'
 
 export default {
@@ -10,30 +10,37 @@ export default {
         columns: [
           {
             title: '序号',
-            dataIndex: ''
-          },
-          {
-            title: '图片',
-            dataIndex: 'appName'
-          },
-          {
-            title: '编号',
-            dataIndex: 'remark'
-          },
-          {
-            title: '名称',
+            width: 60,
             align: 'center',
-            dataIndex: 'zz'
+            scopedSlots: { customRender: 'serialNumber' }
           },
           {
-            title: '地址',
-            align: 'center',
-            dataIndex: 'xx'
+            title: '单位名称',
+            dataIndex: 'fullName'
           },
           {
-            title: '监管单位',
+            title: '所属园区',
+            dataIndex: 'parkName'
+          },
+          {
+            title: '账号',
             align: 'center',
-            dataIndex: 'cc'
+            dataIndex: 'loginAccount'
+          },
+          {
+            title: '负责人',
+            align: 'center',
+            dataIndex: 'employeeName'
+          },
+          {
+            title: '负责人手机',
+            align: 'center',
+            dataIndex: 'employeeMobile'
+          },
+          {
+            title: '联系电话',
+            align: 'center',
+            dataIndex: 'chargePhone'
           },
           {
             title: '状态',
@@ -46,7 +53,7 @@ export default {
             key: 'operation',
             // fixed: 'right',
             align: 'center',
-            width: 100,
+            width: 120,
             scopedSlots: { customRender: 'operation' }
           }
         ]
@@ -68,12 +75,13 @@ export default {
         {...attributes}
         {...{
           scopedSlots: {
-            // status: (text, record) => (
-            //   <Switch
-            //     checked={+record.status === 1}
-            //     onChange={checked => this.onStatusChange(checked, record)}
-            //   />
-            // ),
+            serialNumber: (text, record, index) => index,
+            status: (text, record) => (
+              <Switch
+                checked={+record.status === 1}
+                onChange={checked => this.onStatusChange(checked, record)}
+              />
+            ),
             operation: (text, record) => (
               <Space class="operation-space">
                 <Button

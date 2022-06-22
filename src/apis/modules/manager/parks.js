@@ -40,6 +40,12 @@ export default {
       data: qs.stringify(data)
     })
   },
+  /**
+   * 新增园区
+   * @param request
+   * @param data
+   * @returns {*}
+   */
   addParks(request, data) {
     return request({
       url: '/basic/park/add',
@@ -47,6 +53,12 @@ export default {
       data
     })
   },
+  /**
+   * 更新园区
+   * @param request
+   * @param data
+   * @returns {*}
+   */
   updateParks(request, data) {
     return request({
       url: '/basic/park/update',
