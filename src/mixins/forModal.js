@@ -23,7 +23,7 @@ export default customModuleName => {
           width: 600,
           style: {
             overflow: 'auto',
-            maxHeight: 'calc(90vh - 100px)'
+            // maxHeight: 'calc(90vh - 100px)'
           }
         }
       }
@@ -41,12 +41,15 @@ export default customModuleName => {
       }
     },
     watch: {
-      visible(value) {
-        if (value) {
-          this.modalProps.title = this.title
-        }
+      visible: {
+        immediate: true,
+        handler(value) {
+          if (value) {
+            this.modalProps.title = this.title
+          }
 
-        this.modalProps.visible = value
+          this.modalProps.visible = value
+        }
       }
     },
     methods: {
@@ -68,7 +71,7 @@ export default customModuleName => {
     }
   }
 
-  // 根据是否传递customModuleName来判断该混合是否需要充值moduleName（使用该 moduleName 把使用本混合的组件连接到其他store模块）
+  // 根据是否传递customModuleName来判断该混合是否需要重置moduleName（使用该 moduleName 把使用本混合的组件连接到其他store模块）
   if (!customModuleName) {
     mixinForModal.inject = ['moduleName']
   } else {

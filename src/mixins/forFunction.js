@@ -5,14 +5,12 @@
  * @Date: 2022-03-14 周一 15:43:52
  */
 
-import { dispatch } from '@/utils/store'
 import { mapGetters } from 'vuex'
 import { message, Modal } from 'ant-design-vue'
 import forComponent from '@/mixins/forComponent'
 
 export default {
   mixins: [forComponent],
-  inject: ['moduleName'],
   data() {
     return {
       editButtonDisabled: true,
@@ -35,21 +33,27 @@ export default {
     )
   },
   methods: {
-    async onAddClick() {
-      await this._setVisibleOfModal({})
+    /**
+     * 新增
+     * @param initialValue {Object} 初始化默认值
+     * @returns {Promise<void>}
+     */
+    async onAddClick(initialValue = {}) {
+      await this._setVisibleOfModal({ ...initialValue })
     },
     async onEditClick() {
-      await dispatch(this.moduleName, 'setCurrentItem', { ...this.selectedRows })
-      await dispatch(this.moduleName, 'setModalVisible', true)
+      await this._setVisibleOfModal(this.selectedRows)
     },
     async onDeleteClick() {
       Modal.confirm({
         title: '确认',
-        content: '确定要删除吗？',
+        content: '确定要批量删除已选中的数据吗？',
         okText: '确认',
         cancelText: '取消',
         onOk: async close => {
-          const status = await dispatch(this.moduleName, 'delete')
+          const status = await this.$store.dispatch('delete', {
+            moduleName: this.moduleName
+          })
 
           if (status) {
             message.success('删除成功！')

@@ -5,13 +5,11 @@
  * @Date: 2022-03-10 周四 16:32:23
  */
 
-import { dispatch } from '@/utils/store'
-
 export default {
   inject: ['moduleName'],
   data() {
     return {
-      currentItem: 1,
+      currentPage: 1,
       total: 0,
       pageSize: 10,
       showSizeChanger: true,
@@ -27,7 +25,7 @@ export default {
     this.$watch(
       () => this.$store.state[this.moduleName].pagination,
       pagination => {
-        this.currentItem = pagination.pageIndex + 1
+        this.currentPage = pagination.pageIndex + 1
         this.total = pagination.total
         this.pageSize = pagination.pageSize
       })
@@ -35,25 +33,31 @@ export default {
   methods: {
     /**
      * 翻页触发
-     * @param page
-     * @param pageSize
+     * @param page {number}
+     * @param pageSize {number}
      */
-    onPaginationChange(page, pageSize) {
-      dispatch(this.moduleName, 'getList', {
-        pageIndex: page - 1,
-        pageSize
+    async onPaginationChange(page, pageSize) {
+      await this.$store.dispatch('getList', {
+        moduleName: this.moduleName,
+        pagination: {
+          pageIndex: page - 1,
+          pageSize
+        }
       })
     },
     /**
      * 每页显示条数改变后触发
-     * @param currentItem
-     * @param size
+     * @param currentPage {number}
+     * @param size {number}
      */
-    onSizeChange(currentItem, size) {
+    async onSizeChange(currentPage, size) {
       // 改变每页显示条数后，回到第一页
-      dispatch({
-        pageIndex: 0,
-        pageSize: size
+      await this.$store.dispatch('getList', {
+        moduleName: this.moduleName,
+        pagination: {
+          pageIndex: 0,
+          pageSize: size
+        }
       })
     }
   }

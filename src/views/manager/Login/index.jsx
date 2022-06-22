@@ -20,9 +20,6 @@ export default {
   methods: {
     handleTabClick(key) {
       this.activeKey = key
-    },
-    onLogonClick() {
-      this.$router.push({ name: 'logon' })
     }
   },
   render() {

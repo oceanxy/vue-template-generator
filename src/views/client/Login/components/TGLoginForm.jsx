@@ -14,7 +14,8 @@ export default Form.create({ name: 'TGLoginForm' })({
       // 开发模式默认账号密码
       this.form.setFieldsValue({
         username: 'sysadmin',
-        password: '123456'
+        password: '123456',
+        picCode: 'LANJOR'
       })
     }
   },
@@ -35,7 +36,7 @@ export default Form.create({ name: 'TGLoginForm' })({
       })
     },
     genCode() {
-      this.picCodePath = '/api/auth/verifyCode/logimg?t=' + Math.random()
+      this.picCodePath = '/mgapi/auth/verifyCode/loginImg?t=' + Math.random()
     }
   },
   render() {

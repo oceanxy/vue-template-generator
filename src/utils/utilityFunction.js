@@ -20,5 +20,26 @@ export default {
    */
   toLowerCase(field) {
     return field.replace(/([A-Z])/g, '-$1').toLowerCase()
+  },
+  /**
+   * 图片转base64
+   * @param file
+   * @returns {Promise<unknown>}
+   */
+  getBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader()
+      reader.readAsDataURL(file)
+      reader.onload = () => resolve(reader.result)
+      reader.onerror = error => reject(error)
+    })
+  },
+  /**
+   * 首字母大写
+   * @param str {string}
+   * @returns {string}
+   */
+  firstLetterToUppercase(str) {
+    return str.replace(/^\S/, s => s.toUpperCase())
   }
 }

@@ -9,7 +9,9 @@ import { dispatch } from '@/utils/store'
 
 export default {
   provide() {
-    return { moduleName: this.moduleName }
+    return {
+      moduleName: this.moduleName
+    }
   },
   computed: {
     moduleName() {

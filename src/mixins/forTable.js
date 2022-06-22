@@ -5,14 +5,13 @@
  * @Date: 2022-03-14 周一 16:08:37
  */
 
-import { dispatch } from '@/utils/store'
 import { mapGetters } from 'vuex'
 import { message, Modal } from 'ant-design-vue'
 import forComponent from '@/mixins/forComponent'
+import { omit } from 'lodash'
 
 export default {
   mixins: [forComponent],
-  inject: ['moduleName'],
   data() {
     return {
       tableProps: {
@@ -56,23 +55,35 @@ export default {
     })
   },
   methods: {
+    /**
+     * 获取列表数据
+     * @returns {Promise<void>}
+     */
     async fetchList() {
       await this.$store.dispatch('getList', {
-        api: 'getSiteApps',
         moduleName: this.moduleName
       })
     },
+    /**
+     * 行内改变状态
+     * @param checked {boolean} 当前状态
+     * @param record record {Object} 列表数据对象
+     * @returns {Promise<void>}
+     */
     async onStatusChange(checked, record) {
-      const status = await dispatch(this.moduleName, 'updateStatus', {
-        id: record.id,
-        status: checked ? 1 : 2
+      const status = await this.$store.dispatch('updateStatus', {
+        moduleName: this.moduleName,
+        payload: {
+          id: record.id,
+          status: checked ? 1 : 2
+        }
       })
 
       const index = this.tableProps.dataSource.findIndex(item => item.id === record.id)
 
       if (status) {
         message.success([
-          <span style={{ color: 'blue' }}>{record.appName}</span>,
+          <span style={{ color: 'blue' }}>{record.fullName}</span>,
           ' 的状态已更新！'
         ])
 
@@ -83,12 +94,27 @@ export default {
         this.$set(this.tableProps.dataSource[index], 'status', checked ? 2 : 1)
       }
     },
-    async onAddClick(record) {
-      await this._setVisibleOfModal({ parentId: record.id })
+    /**
+     * 行内新增
+     * @param initialValue {Object} 初始化默认值
+     * @param parentId {string} 父级ID
+     * @returns {Promise<void>}
+     */
+    async onAddClick(initialValue, parentId) {
+      await this._setVisibleOfModal({ parentId, ...omit(initialValue, 'id') })
     },
+    /**
+     * 编辑
+     * @param record {Object} 列表数据对象
+     * @returns {Promise<void>}
+     */
     async onEditClick(record) {
       await this._setVisibleOfModal(record)
     },
+    /**
+     * 删除
+     * @param record {Object} 列表数据对象
+     */
     onDeleteClick(record) {
       Modal.confirm({
         title: '确认',
@@ -96,7 +122,10 @@ export default {
         okText: '确认',
         cancelText: '取消',
         onOk: async close => {
-          const status = await dispatch(this.moduleName, 'delete', [record.id])
+          const status = this.$store.dispatch('delete', {
+            ids: [record.id],
+            moduleName: this.moduleName
+          })
 
           if (status) {
             message.success([
@@ -109,10 +138,19 @@ export default {
         }
       })
     },
+    /**
+     * 表格行change事件回调
+     * @param selectedRowKeys {string[]} 当前选中行的ID
+     * @param selectedRows {Object[]} 当前选中的数据对象
+     * @returns {Promise<void>}
+     */
     async onRowSelectionChange(selectedRowKeys, selectedRows) {
-      await dispatch(this.moduleName, 'setRowSelected', {
-        selectedRowKeys,
-        selectedRows
+      await this.$store.dispatch('setRowSelected', {
+        moduleName: this.moduleName,
+        payload: {
+          selectedRowKeys,
+          selectedRows
+        }
       })
     },
     resize() {

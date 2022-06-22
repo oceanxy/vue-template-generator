@@ -1,0 +1,371 @@
+import '../assets/styles/index.scss'
+import { Cascader, Col, Form, Input, Row, Select, Switch } from 'ant-design-vue'
+import forFormModal from '@/mixins/forFormModal'
+import { mapGetters } from 'vuex'
+import DragModal from '@/components/DragModal'
+import UploadPictures from '@/views/manager/parkSupervision/technologyBureau/Parks/components/UploadPictures'
+import { dispatch } from '@/utils/store'
+import dynamicState from '@/mixins/dynamicState'
+import store, { dynamicModules } from '@/store/manager'
+import { debounce } from 'lodash'
+
+export default Form.create({})({
+  mixins: [
+    forFormModal,
+    // 注册枚举模块
+    dynamicState(store, dynamicModules, 'regulatoryUnits'),
+    dynamicState(store, dynamicModules, 'operatingUnits'),
+    dynamicState(store, dynamicModules, 'tenements')
+  ],
+  props: {
+    /**
+     * 标题（可定义占位符）
+     * “{action}” 为占位符，稍后会在 mixin 中替换为对应的字符，比如“新增”、“编辑”
+     */
+    title: {
+      type: String,
+      default: '{action}'
+    }
+  },
+  data() {
+    return {
+      modalProps: {
+        width: 810
+      }
+    }
+  },
+  computed: {
+    ...mapGetters({
+      administrativeDivision: 'administrativeDivision',
+      defaultAdministrativeDivision: 'defaultAdministrativeDivision',
+      getList: 'getList'
+    }),
+    regulatoryUnits() {
+      return this.getList('regulatoryUnits')
+    },
+    operatingUnits() {
+      return this.getList('operatingUnits')
+    },
+    tenements() {
+      return this.getList('tenements')
+    }
+  },
+  watch: {
+    visible: {
+      immediate: true,
+      async handler(value) {
+        if (value) {
+          if (!this.administrativeDivision.length) {
+            await dispatch('common', 'getAdministrativeDivision')
+          }
+        }
+      }
+    }
+  },
+  render() {
+    const attributes = {
+      attrs: this.modalProps,
+      on: {
+        cancel: () => this.onCancel(),
+        ok: () => this.onSubmit()
+      }
+    }
+
+    // 回显图片
+    const fileList = this.currentItem.imgList?.map((item, index) => ({
+      uid: index,
+      url: item.path,
+      key: item.key,
+      status: 'done',
+      name: item.path.substring(item.path.lastIndexOf('/'))
+    })) ?? []
+
+    return (
+      <DragModal {...attributes}>
+        <Form
+
+          class="bnm-form-grid"
+          labelCol={{ span: 3 }}
+          wrapperCol={{ span: 21 }}
+          colon={false}
+        >
+          <Form.Item label="图片">
+            {
+              this.form.getFieldDecorator('imgList', {
+                initialValue: fileList,
+                rules: [
+                  { required: true, type: 'array', message: '请上传图片!', trigger: 'blur' }
+                ]
+              })(
+                <UploadPictures />
+              )
+            }
+          </Form.Item>
+          <Form.Item label="名称" class={'half'}>
+            {
+              this.form.getFieldDecorator('fullName', {
+                initialValue: this.currentItem.fullName,
+                rules: [{ required: true, message: '请输入编号!', trigger: 'blur' }]
+              })(
+                <Input placeholder="请输入园区名称" allowClear />
+              )
+            }
+          </Form.Item>
+          <Form.Item label="编号" class={'half'}>
+            {
+              this.form.getFieldDecorator('parkNo', {
+                initialValue: this.currentItem.parkNo,
+                rules: [{ required: true, message: '请输入园区编号!', trigger: 'blur' }]
+              })(
+                <Input placeholder="请输入编号" allowClear />
+              )
+            }
+          </Form.Item>
+          <Form.Item label="地址" class={'custom'} required>
+            <Row gutter={16}>
+              <Col span={10}>
+                <Form.Item>
+                  {
+                    this.form.getFieldDecorator('areaCode', {
+                      initialValue: this.defaultAdministrativeDivision,
+                      rules: [{ required: true, type: 'array', message: '请选择行政区划!', trigger: 'blur' }]
+                    })(
+                      <Cascader
+                        placeholder="请选择省市区"
+                        expandTrigger={'hover'}
+                        allowClear
+                        options={this.administrativeDivision}
+                        fieldNames={{ label: 'name', value: 'id', children: 'children' }}
+                      />
+                    )
+                  }
+                </Form.Item>
+              </Col>
+              <Col span={14}>
+                <Form.Item>
+                  {
+                    this.form.getFieldDecorator('address', {
+                      initialValue: this.currentItem.address,
+                      rules: [{ required: true, message: '请输入详细地址!', trigger: 'blur' }]
+                    })(
+                      <Input placeholder="请输入详细地址" allowClear />
+                    )
+                  }
+                </Form.Item>
+              </Col>
+            </Row>
+          </Form.Item>
+          <Form.Item label="管理员账号" class={'half'}>
+            {
+              this.form.getFieldDecorator('loginAccount', {
+                initialValue: this.currentItem.loginAccount,
+                rules: [{ required: true, message: '请输入管理员登录账号!', trigger: 'blur' }]
+              })(
+                <Input placeholder="请输入登录账号" disabled={!!this.currentItem.id} />
+              )
+            }
+          </Form.Item>
+          {
+            this.currentItem.id ? null : (
+              <Form.Item label="登录密码" class={'half'}>
+                {
+                  this.form.getFieldDecorator('loginPwd', {
+                    initialValue: this.currentItem.loginPwd,
+                    rules: [{ required: true, message: '请输入登录密码!', trigger: 'blur' }]
+                  })(
+                    <Input placeholder="请输入登录密码" />
+                  )
+                }
+              </Form.Item>
+            )
+          }
+          <Form.Item label="类型" class={'half'}>
+            {
+              this.form.getFieldDecorator('parkType', {
+                initialValue: this.currentItem.parkType || 1,
+                rules: [{ required: true, type: 'number', message: '请选择类型!', trigger: 'blur' }]
+              })(
+                <Select placeholder="请选择类型">
+                  <Select.Option value={1}>普通园区</Select.Option>
+                  <Select.Option value={2}>扩展园区</Select.Option>
+                  <Select.Option value={3}>培育园区</Select.Option>
+                </Select>
+              )
+            }
+          </Form.Item>
+          <Form.Item label="联系电话" class={'half'}>
+            {
+              this.form.getFieldDecorator('phone', {
+                initialValue: this.currentItem.phone
+              })(
+                <Input placeholder="请输入联系电话" allowClear />
+              )
+            }
+          </Form.Item>
+          <Form.Item label="监管单位" class={'half'}>
+            {
+              this.form.getFieldDecorator('regulationOrganId', {
+                initialValue: this.currentItem.regulationOrganId || undefined
+              })(
+                <Select
+                  allowClear
+                  showSearch
+                  placeholder="请选择监管单位"
+                  onSearch={debounce(this.onSelectSearch, 300)}
+                >
+                  {
+                    this.regulatoryUnits.map(item => (
+                      <Select.Option value={item.id}>{item.fullName}</Select.Option>
+                    ))
+                  }
+                </Select>
+              )
+            }
+          </Form.Item>
+          <Form.Item label="运营单位" class={'half'}>
+            {
+              this.form.getFieldDecorator('operationOrganId', {
+                initialValue: this.currentItem.operationOrganId || undefined
+              })(
+                <Select
+                  allowClear
+                  showSearch
+                  placeholder="请选择运营单位"
+                  onSearch={debounce(this.onSelectSearch, 300)}
+                >
+                  {
+                    this.operatingUnits.map(item => (
+                      <Select.Option value={item.id}>{item.fullName}</Select.Option>
+                    ))
+                  }
+                </Select>
+              )
+            }
+          </Form.Item>
+          <Form.Item label="物业单位" class={'half'}>
+            {
+              this.form.getFieldDecorator('propertyOrganId', {
+                initialValue: this.currentItem.propertyOrganId || undefined
+              })(
+                <Select
+                  allowClear
+                  showSearch
+                  placeholder="请选择物业单位"
+                  onSearch={debounce(this.onSelectSearch, 300)}
+                >
+                  {
+                    this.tenements.map(item => (
+                      <Select.Option value={item.id}>{item.fullName}</Select.Option>
+                    ))
+                  }
+                </Select>
+              )
+            }
+          </Form.Item>
+          <Form.Item label="开户行" class={'half'}>
+            {
+              this.form.getFieldDecorator('openBank', {
+                initialValue: this.currentItem.openBank
+              })(
+                <Input placeholder="请输入开户行名称" />
+              )
+            }
+          </Form.Item>
+          <Form.Item label="银行账户" class={'half'}>
+            {
+              this.form.getFieldDecorator('bankAccount', {
+                initialValue: this.currentItem.bankAccount
+              })(
+                <Input placeholder="请输入银行账户" />
+              )
+            }
+          </Form.Item>
+          <Form.Item label="负责人" class={'half'}>
+            {
+              this.form.getFieldDecorator('dutyPersonName', {
+                initialValue: this.currentItem.dutyPersonName
+              })(
+                <Input placeholder="请输入负责人姓名" />
+              )
+            }
+          </Form.Item>
+          <Form.Item label="负责人身份证" class={'half'}>
+            {
+              this.form.getFieldDecorator('dutyPersonIdCard', {
+                initialValue: this.currentItem.dutyPersonIdCard
+              })(
+                <Input placeholder="请输入负责人身份证号码" />
+              )
+            }
+          </Form.Item>
+          <Form.Item label="负责人手机号" class={'half'}>
+            {
+              this.form.getFieldDecorator('dutyPersonMobile', {
+                initialValue: this.currentItem.dutyPersonMobile
+              })(
+                <Input placeholder="请输入负责人手机号码" />
+              )
+            }
+          </Form.Item>
+          <Form.Item label="楼栋信息">
+            {
+              this.form.getFieldDecorator('buildInfo', {
+                initialValue: this.currentItem.buildInfo
+              })(
+                <Input placeholder="请输入楼栋信息" type={'textarea'} />
+              )
+            }
+          </Form.Item>
+          <Form.Item label="园区配套">
+            {
+              this.form.getFieldDecorator('parkSupport', {
+                initialValue: this.currentItem.parkSupport
+              })(
+                <Input placeholder="请输入园区配套" type={'textarea'} />
+              )
+            }
+          </Form.Item>
+          <Form.Item label="简介">
+            {
+              this.form.getFieldDecorator('description', {
+                initialValue: this.currentItem.description
+              })(
+                <Input placeholder="请输入简介" type={'textarea'} />
+              )
+            }
+          </Form.Item>
+          <Form.Item label="运营情况">
+            {
+              this.form.getFieldDecorator('operation', {
+                initialValue: this.currentItem.operation
+              })(
+                <Input placeholder="请输入运营情况" type={'textarea'} />
+              )
+            }
+          </Form.Item>
+          <Form.Item label="排序" class={'half'}>
+            {
+              this.form.getFieldDecorator('sortIndex', {
+                initialValue: this.currentItem.sortIndex || 0,
+                rules: [{ required: true, type: 'number', message: '请输入排序值!', trigger: 'blur' }]
+              })(
+                <Input placeholder="请输入排序值" />
+              )
+            }
+          </Form.Item>
+          <Form.Item label="状态" class={'half'}>
+            {
+              this.form.getFieldDecorator('status', {
+                valuePropName: 'checked',
+                initialValue: this.currentItem.status === 1,
+                rules: [{ required: true, type: 'boolean', message: '请选择状态!', trigger: 'blur' }]
+              })(
+                <Switch />
+              )
+            }
+          </Form.Item>
+        </Form>
+      </DragModal>
+    )
+  }
+})

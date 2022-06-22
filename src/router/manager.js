@@ -172,7 +172,7 @@ export const routes = [
       {
         path: 'park-supervision-tb',
         component: TGRouterView,
-        redirect: { name: 'park' },
+        redirect: { name: 'parks' },
         meta: {
           title: '园区监管(科技局)',
           keepAlive: true,
@@ -181,24 +181,14 @@ export const routes = [
         },
         children: [
           {
-            path: 'park',
-            name: 'park',
-            component: () => import('@/views/manager/parkSupervision/technologyBureau/Park'),
+            path: 'parks',
+            name: 'parks',
+            component: () => import('@/views/manager/parkSupervision/technologyBureau/Parks'),
             meta: {
               title: '园区管理',
               keepAlive: true,
               requiresAuth: true,
               hideChildren: true
-            }
-          },
-          {
-            path: 'expanded-area',
-            name: 'expandedArea',
-            component: () => import('@/views/manager/parkSupervision/technologyBureau/ExpansionArea'),
-            meta: {
-              title: '拓展区管理',
-              keepAlive: true,
-              requiresAuth: true
             }
           },
           {

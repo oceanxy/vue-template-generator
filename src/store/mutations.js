@@ -54,10 +54,10 @@ export default {
   },
   /**
    * 设置表格选中的行数据
-   * @param state {Object}
+   * @param state
    * @param [selectedRowKeys] {string[]}
    * @param [selectedRows] {Object[]}
-   * @param moduleName string
+   * @param moduleName {string}
    */
   setRowSelected(state, { payload: { selectedRowKeys, selectedRows }, moduleName }) {
     state[moduleName].selectedRowKeys = selectedRowKeys || []
@@ -70,16 +70,20 @@ export default {
    * @param moduleName {string}
    */
   setPagination(state, { value, moduleName }) {
-    state[moduleName].pagination = value
+    state[moduleName].pagination = {
+      ...state[moduleName].pagination,
+      ...value
+    }
   },
   /**
    * 设置列表数据
    * @param state {Object}
    * @param value {Object[]}
    * @param moduleName {string}
+   * @param stateName {string} 需要设置的字段，默认 state.list
    */
-  setList(state, { value, moduleName }) {
-    state[moduleName].list = value
+  setList(state, { value, moduleName, stateName }) {
+    state[moduleName][stateName || 'list'] = value
   },
   /**
    * 设置modal的可见性

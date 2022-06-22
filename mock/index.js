@@ -14,9 +14,19 @@ const mockModule = modulesFiles.keys().reduce((modules, modulePath) => {
   // eg. 设置 './app.js' => 'app'
   const value = modulesFiles(modulePath)
 
+  let newModules = {}
+
+  if (modulePath.includes('/manager') || modulePath.includes('/client')) {
+    Object.entries(value.default).forEach(([key, value]) => {
+      newModules[process.env.VUE_APP_BASE_API + key] = value
+    })
+  } else {
+    newModules = value.default
+  }
+
   modules = {
     ...modules,
-    ...value.default
+    ...newModules
   }
 
   return modules

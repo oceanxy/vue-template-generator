@@ -8,6 +8,7 @@
 import { cloneDeep } from 'lodash'
 
 export default {
+  inject: ['moduleName'],
   methods: {
     /**
      * 打开弹窗操作

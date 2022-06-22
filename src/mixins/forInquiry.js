@@ -13,7 +13,12 @@ export default {
     // 为 search 创建动态侦听器
     this.$watch(
       () => this.$store.state[this.moduleName].search,
-      () => dispatch(this.moduleName, 'getList')
+      () => this.$store.dispatch('getList', {
+        moduleName: this.moduleName,
+        pagination: {
+          pageIndex: 0
+        }
+      })
     )
   },
   methods: {
@@ -26,7 +31,10 @@ export default {
 
       this.form.validateFields(async (err, values) => {
         if (!err) {
-          await dispatch(this.moduleName, 'setSearch', values)
+          await this.$store.dispatch('setSearch', {
+            moduleName: this.moduleName,
+            payload: values
+          })
         }
       })
     }
