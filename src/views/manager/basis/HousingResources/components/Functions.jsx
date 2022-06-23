@@ -3,13 +3,13 @@ import { Button, Space } from 'ant-design-vue'
 import forFunction from '@/mixins/forFunction'
 
 export default {
-  mixins: [forFunction],
+  mixins: [forFunction()],
   render() {
     return (
       <Space class='tg-function'>
         <Button
           type="primary"
-          onClick={this.onAddClick}
+          onClick={() => this.onAddClick()}
           icon="plus"
         >
           新增
@@ -32,7 +32,7 @@ export default {
         </Button>
         <Button
           type="danger"
-          onClick={this.onDeleteClick}
+          onClick={() => this.onDeleteClick()}
           icon="delete"
           disabled={this.deleteButtonDisabled}
         >

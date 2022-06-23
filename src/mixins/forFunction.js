@@ -9,13 +9,20 @@ import { mapGetters } from 'vuex'
 import { message, Modal } from 'ant-design-vue'
 import forComponent from '@/mixins/forComponent'
 
-export default {
+/**
+ * 为表格功能按钮生成 mixin
+ * @param [cb] {Function} 用于控制按钮禁用权限的回调函数，默认不传，相当于至少勾选了一行列表即解除禁用
+ * @returns {Object}
+ */
+export default cb => ({
   mixins: [forComponent],
   data() {
     return {
       editButtonDisabled: true,
       deleteButtonDisabled: true,
-      selectedRows: {}
+      auditButtonDisabled: true,
+      editedRow: {},
+      ids: ''
     }
   },
   computed: mapGetters({ getSelectedRows: 'getSelectedRows' }),
@@ -25,10 +32,19 @@ export default {
       selectedRows => {
         this.editButtonDisabled = selectedRows.length !== 1
         this.deleteButtonDisabled = !selectedRows.length
+        this.auditButtonDisabled = !selectedRows.length
+
+        if (typeof cb === 'function') {
+          Object.entries(cb(selectedRows)).forEach(([key, value]) => {
+            this[key] = value
+          })
+        }
 
         if (selectedRows.length === 1) {
-          this.selectedRows = selectedRows[0]
+          this.editedRow = selectedRows[0]
         }
+
+        this.ids = selectedRows.map(item => item.id).join()
       }
     )
   },
@@ -41,9 +57,24 @@ export default {
     async onAddClick(initialValue = {}) {
       await this._setVisibleOfModal({ ...initialValue })
     },
+    /**
+     * 编辑
+     * @returns {Promise<void>}
+     */
     async onEditClick() {
-      await this._setVisibleOfModal(this.selectedRows)
+      await this._setVisibleOfModal(this.editedRow)
     },
+    /**
+     * 审核或相关意见填写的批量操作
+     * @returns {Promise<void>}
+     */
+    async onAuditClick() {
+      await this._setVisibleOfModal({ ids: this.ids })
+    },
+    /**
+     * 删除
+     * @returns {Promise<void>}
+     */
     async onDeleteClick() {
       Modal.confirm({
         title: '确认',
@@ -64,4 +95,4 @@ export default {
       })
     }
   }
-}
+})

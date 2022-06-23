@@ -1,12 +1,12 @@
 import '../assets/styles/index.scss'
 import { Cascader, Col, Form, Input, Row, Select, Switch } from 'ant-design-vue'
-import forFormModal from '@/mixins/forFormModal'
-import { mapGetters } from 'vuex'
-import DragModal from '@/components/DragModal'
-import UploadPictures from '@/views/manager/parkSupervision/technologyBureau/Parks/components/UploadPictures'
 import { dispatch } from '@/utils/store'
 import dynamicState from '@/mixins/dynamicState'
+import { mapGetters } from 'vuex'
 import store, { dynamicModules } from '@/store/manager'
+import forFormModal from '@/mixins/forFormModal'
+import DragModal from '@/components/DragModal'
+import UploadPictures from './UploadPictures'
 import { debounce } from 'lodash'
 
 export default Form.create({})({
@@ -83,7 +83,6 @@ export default Form.create({})({
     return (
       <DragModal {...attributes}>
         <Form
-
           class="bnm-form-grid"
           labelCol={{ span: 3 }}
           wrapperCol={{ span: 21 }}

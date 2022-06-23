@@ -96,7 +96,7 @@ export default {
                 <Button
                   type="link"
                   size="small"
-                  onClick={this.onDeleteClick}
+                  onClick={() => this.onDeleteClick()}
                 >
                   删除
                 </Button>

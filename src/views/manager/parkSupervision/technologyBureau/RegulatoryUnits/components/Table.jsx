@@ -75,7 +75,7 @@ export default {
         {...attributes}
         {...{
           scopedSlots: {
-            serialNumber: (text, record, index) => index,
+            serialNumber: (text, record, index) => index + 1,
             status: (text, record) => (
               <Switch
                 checked={+record.status === 1}

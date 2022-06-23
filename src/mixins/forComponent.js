@@ -5,8 +5,6 @@
  * @Date: 2022-06-14 周二 15:05:10
  */
 
-import { cloneDeep } from 'lodash'
-
 export default {
   inject: ['moduleName'],
   methods: {
@@ -14,16 +12,17 @@ export default {
      * 打开弹窗操作
      *  1、设置 currentItem 数据。（当前用于操作的数据）
      *  2、设置对应弹窗的可见性为true，弹窗的控制字段请对应store内定义的字段
-     * @param record {Object} 当前用于操作的数据。编辑弹窗为回显数据，详情弹窗为详情数据
+     * @param [record] {Object} 当前用于操作的数据。编辑弹窗为回显数据，详情弹窗为详情数据，为假值时代表清空 currentItem
      * @param [visibleField] {string} 默认值为打开编辑弹窗的可见性控制字段：visibleOfEdit
      * @param [moduleName] {string} 目标模块名，在一个模块内调用另外一个模块的 state 时，需要传递对应模块的 moduleName
      * @returns {Promise<void>}
      */
     async _setVisibleOfModal(record, visibleField, moduleName) {
       await this.$store.dispatch('setCurrentItem', {
-        value: cloneDeep(record),
+        value: record,
         moduleName: this.moduleName
       })
+
       await this.$store.dispatch('setModalVisible', {
         statusField: visibleField,
         statusValue: true,

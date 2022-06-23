@@ -1,7 +1,6 @@
 import '../assets/styles/index.scss'
 import { Form, Input, Radio } from 'ant-design-vue'
 import forFormModal from '@/mixins/forFormModal'
-import { mapState } from 'vuex'
 import DragModal from '@/components/DragModal'
 
 export default Form.create({})({
@@ -19,18 +18,8 @@ export default Form.create({})({
   data() {
     return {
       modalProps: {
-        width: 690
-      }
-    }
-  },
-  computed: mapState({
-    allSiteApps: 'allSiteApps',
-    allFunctionalModules: 'allFunctionalModules'
-  }),
-  watch: {
-    async visible(value) {
-      if (value) {
-        // await this.$store.dispatch('getAllFunctionalModules')
+        width: 690,
+        okText: '确定'
       }
     }
   },
@@ -39,34 +28,34 @@ export default Form.create({})({
       attrs: this.modalProps,
       on: {
         cancel: () => this.onCancel(),
-        ok: this.onSubmit
+        ok: () => this.onSubmit()
       }
     }
 
     return (
-      <DragModal {...attributes} class={'bnm-team-edit-modal'}>
+      <DragModal {...attributes}>
         <Form
-          class="bnm-team-edit-form"
+          class="bnm-form-grid"
           labelCol={{ span: 3 }}
           wrapperCol={{ span: 21 }}
           colon={false}
         >
           <Form.Item label="审核结果">
             {
-              this.form.getFieldDecorator('ss', {
-                initialValue: this.currentItem.sortIndex || 0
+              this.form.getFieldDecorator('auditStatus', {
+                initialValue: this.currentItem.auditStatus
               })(
                 <Radio.Group>
-                  <Radio value={0}>通过</Radio>
-                  <Radio value={1}>驳回</Radio>
+                  <Radio value={1}>通过</Radio>
+                  <Radio value={3}>驳回</Radio>
                 </Radio.Group>
               )
             }
           </Form.Item>
           <Form.Item label="审核意见">
             {
-              this.form.getFieldDecorator('ss', {
-                initialValue: this.currentItem.sortIndex || 0
+              this.form.getFieldDecorator('auditOpinion', {
+                initialValue: this.currentItem.auditOpinion
               })(
                 <Input placeholder="请输入审核意见" type="textarea" />
               )

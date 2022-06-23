@@ -9,7 +9,7 @@ export default {
    */
   getParks(request, data) {
     return request({
-      url: '/basic/park/getParkPage',
+      url: '/basic/park/getParkPageList',
       method: 'post',
       data: qs.stringify(data)
     })

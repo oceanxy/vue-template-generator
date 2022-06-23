@@ -1,19 +1,13 @@
 import '../assets/styles/index.scss'
-import { Cascader, Col, Form, Input, Radio, Row, Select, Switch } from 'ant-design-vue'
+import { Cascader, Col, Form, Input, Row, Select, Switch } from 'ant-design-vue'
 import forFormModal from '@/mixins/forFormModal'
 import { mapGetters } from 'vuex'
 import DragModal from '@/components/DragModal'
-import dynamicState from '@/mixins/dynamicState'
-import store, { dynamicModules } from '@/store/manager'
 import { debounce } from 'lodash'
 import { dispatch } from '@/utils/store'
 
 export default Form.create({})({
-  mixins: [
-    forFormModal,
-    // 注册枚举模块
-    dynamicState(store, dynamicModules, 'parks')
-  ],
+  mixins: [forFormModal],
   props: {
     /**
      * 标题（可定义占位符）
@@ -35,11 +29,8 @@ export default Form.create({})({
     ...mapGetters({
       administrativeDivision: 'administrativeDivision',
       defaultAdministrativeDivision: 'defaultAdministrativeDivision',
-      getList: 'getList'
-    }),
-    parks() {
-      return this.getList('parks')
-    }
+      parksForSelect: 'parksForSelect'
+    })
   },
   watch: {
     visible: {
@@ -48,6 +39,10 @@ export default Form.create({})({
         if (value) {
           if (!this.administrativeDivision.length) {
             await dispatch('common', 'getAdministrativeDivision')
+          }
+
+          if (!this.parksForSelect.length) {
+            await dispatch('common', 'getParksForSelect')
           }
         }
       }
@@ -75,14 +70,9 @@ export default Form.create({})({
               this.form.getFieldDecorator('parkName', {
                 initialValue: this.currentItem.parkName || undefined
               })(
-                <Select
-                  allowClear
-                  showSearch
-                  placeholder="请选择监管单位"
-                  onSearch={debounce(this.onSelectSearch, 300)}
-                >
+                <Select allowClear placeholder="请选择监管单位">
                   {
-                    this.parks.map(item => (
+                    this.parksForSelect.map(item => (
                       <Select.Option value={item.id}>{item.fullName}</Select.Option>
                     ))
                   }

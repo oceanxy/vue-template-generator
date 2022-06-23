@@ -1,6 +1,8 @@
 import './index.scss'
-import { Tree } from 'ant-design-vue'
+import { Spin, Tree } from 'ant-design-vue'
 import TGContainerWithSider from '@/components/TGContainerWithSider'
+import { mapGetters } from 'vuex'
+import { dispatch } from '@/utils/store'
 
 export default {
   props: {
@@ -9,52 +11,39 @@ export default {
       default: ''
     }
   },
+  created() {
+    this.$store.commit('common/setCurrentParkTreeKeySelected')
+  },
   data() {
     return {
-      loading: false,
-      data: [
-        {
-          title: '0-0',
-          key: '0-0',
-          children: [
-            {
-              title: '0-0-0',
-              key: '0-0-0',
-              children: [
-                { title: '0-0-0-0', key: '0-0-0-0' },
-                { title: '0-0-0-1', key: '0-0-0-1' },
-                { title: '0-0-0-2', key: '0-0-0-2' }
-              ]
-            },
-            {
-              title: '0-0-1',
-              key: '0-0-1',
-              children: [
-                { title: '0-0-1-0', key: '0-0-1-0' },
-                { title: '0-0-1-1', key: '0-0-1-1' },
-                { title: '0-0-1-2', key: '0-0-1-2' }
-              ]
-            },
-            {
-              title: '0-0-2',
-              key: '0-0-2'
-            }
-          ]
-        },
-        {
-          title: '0-1',
-          key: '0-1',
-          children: [
-            { title: '0-1-0-0', key: '0-1-0-0' },
-            { title: '0-1-0-1', key: '0-1-0-1' },
-            { title: '0-1-0-2', key: '0-1-0-2' }
-          ]
-        },
-        {
-          title: '0-2',
-          key: '0-2'
+      loading: true
+    }
+  },
+  computed: {
+    ...mapGetters({
+      parkTree: 'parkTree',
+      currentParkTreeKeySelected: 'currentParkTreeKeySelected'
+    })
+  },
+  watch: {
+    parkTree: {
+      immediate: true,
+      async handler(value) {
+        if (value.length) {
+          this.loading = false
+        } else {
+          await dispatch('common', 'getParkTree')
         }
-      ]
+      }
+    }
+  },
+  methods: {
+    onSelect(selectedKeys, { selected }) {
+      if (selected) {
+        this.$store.commit('common/setCurrentParkTreeKeySelected', selectedKeys[0])
+      } else {
+        this.$store.commit('common/setCurrentParkTreeKeySelected')
+      }
     }
   },
   render() {
@@ -66,11 +55,18 @@ export default {
         siderOnLeft={true}
       >
         <template slot="default">{this.$slots.default}</template>
-        <Tree
-          slot="sider"
+        <Spin
+          slot={'sider'}
           class="bnm-park-sider"
-          treeData={this.data}
-        />
+          spinning={this.loading}
+        >
+          <Tree
+            selectedKeys={[this.currentParkTreeKeySelected]}
+            replaceFields={{ children: 'children', title: 'name', key: 'id' }}
+            treeData={this.parkTree}
+            onSelect={this.onSelect}
+          />
+        </Spin>
       </TGContainerWithSider>
     )
   }

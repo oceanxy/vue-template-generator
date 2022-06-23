@@ -1,16 +1,16 @@
 import './assets/styles/index.scss'
-import Inquiry from '@/views/manager/parkSupervision/technologyBureau/AccountOpening/components/Inquiry'
 import TGContainer from '@/layouts/components/TGContainer'
-import Functions from '@/views/manager/parkSupervision/technologyBureau/AccountOpening/components/Functions'
 import dynamicState from '@/mixins/dynamicState'
 import store, { dynamicModules } from '@/store/manager'
-import Table from '@/views/manager/parkSupervision/technologyBureau/AccountOpening/components/Table'
-import Pagination from '@/views/manager/parkSupervision/technologyBureau/AccountOpening/components/Pagination'
-import ModalOfEdit from '@/views/manager/parkSupervision/technologyBureau/AccountOpening/components/ModalOfEdit'
 import BNContainerWithParkSider from '@/components/BNContainerWithParkSider'
+import Inquiry from './components/Inquiry'
+import Functions from './components/Functions'
+import Table from './components/Table'
+import Pagination from './components/Pagination'
+import ModalOfEdit from './components/ModalOfEdit'
 
 export default {
-  name: 'Park',
+  name: 'AccountOpening',
   mixins: [dynamicState(store, dynamicModules)],
   render() {
     return (

@@ -4,7 +4,7 @@ import forInquiry from '@/mixins/forInquiry'
 import { mapActions, mapState } from 'vuex'
 
 export default Form.create({})({
-  mixins: [forInquiry],
+  mixins: [forInquiry()],
   computed: mapState({ allSiteApps: 'allSiteApps' }),
   async created() {
     await this.getAllSiteApps()

@@ -74,7 +74,7 @@ export default {
                 onChange={checked => this.onStatusChange(checked, record)}
               />
             ),
-            serialNumber: (text, record, index) => index,
+            serialNumber: (text, record, index) => index + 1,
             imgList: (text, record, index) => (
               <img src={record.imgList[0]?.path} alt={''} class={'bnm-table-img'} />
             ),

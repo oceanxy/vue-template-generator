@@ -3,13 +3,13 @@ import forFunction from '@/mixins/forFunction'
 import '../assets/styles/index.scss'
 
 export default {
-  mixins: [forFunction],
+  mixins: [forFunction()],
   render() {
     return (
       <Space>
         <Button
           type="primary"
-          onClick={this.onAddClick}
+          onClick={() => this.onAddClick()}
           icon="plus"
         >
           新增
@@ -24,7 +24,7 @@ export default {
         </Button>
         <Button
           type="danger"
-          onClick={this.onDeleteClick}
+          onClick={() => this.onDeleteClick()}
           icon="delete"
           disabled={this.deleteButtonDisabled}
         >

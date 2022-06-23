@@ -112,6 +112,14 @@ export default {
       await this._setVisibleOfModal(record)
     },
     /**
+     * 审核或相关意见填写
+     * @param ids {string}
+     * @returns {Promise<void>}
+     */
+    async onAuditClick(ids) {
+      await this._setVisibleOfModal({ ids })
+    },
+    /**
      * 删除
      * @param record {Object} 列表数据对象
      */

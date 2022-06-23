@@ -6,7 +6,7 @@ import BNContainer from '@/components/BNContainer'
 import Table from './Table'
 
 export default Form.create({})({
-  mixins: [forInquiry],
+  mixins: [forInquiry()],
   computed: {
     ...mapGetters({
       getCurrentItem: 'getCurrentItem'

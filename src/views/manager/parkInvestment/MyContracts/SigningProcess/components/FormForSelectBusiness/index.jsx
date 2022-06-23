@@ -4,7 +4,7 @@ import forInquiry from '@/mixins/forInquiry'
 import { mapGetters } from 'vuex'
 
 export default Form.create({})({
-  mixins: [forInquiry],
+  mixins: [forInquiry()],
   computed: {
     ...mapGetters({
       getCurrentItem: 'getCurrentItem'

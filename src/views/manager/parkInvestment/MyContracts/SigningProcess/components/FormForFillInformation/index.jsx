@@ -7,7 +7,7 @@ import forComponent from '@/mixins/forComponent'
 import Table from './Table'
 
 export default Form.create({})({
-  mixins: [forInquiry, forComponent],
+  mixins: [forInquiry(), forComponent],
   data() {
     return ({
       value: []

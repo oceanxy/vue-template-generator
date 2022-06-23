@@ -4,7 +4,7 @@ import { mapActions, mapState } from 'vuex'
 import '../assets/styles/index.scss'
 
 export default Form.create({})({
-  mixins: [forInquiry],
+  mixins: [forInquiry()],
   computed: mapState({ allSiteApps: 'allSiteApps' }),
   async created() {
     await this.getAllSiteApps()
