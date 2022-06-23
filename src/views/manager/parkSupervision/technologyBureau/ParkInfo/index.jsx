@@ -1,16 +1,15 @@
 import './assets/styles/index.scss'
-import Inquiry from '@/views/manager/parkSupervision/technologyBureau/ParkInfo/components/Inquiry'
 import TGContainer from '@/layouts/components/TGContainer'
-import Functions from '@/views/manager/parkSupervision/technologyBureau/ParkInfo/components/Functions'
 import dynamicState from '@/mixins/dynamicState'
 import store, { dynamicModules } from '@/store/manager'
-import Table from '@/views/manager/parkSupervision/technologyBureau/ParkInfo/components/Table'
-import Pagination from '@/views/manager/parkSupervision/technologyBureau/ParkInfo/components/Pagination'
-import ModalOfEdit from '@/views/manager/parkSupervision/technologyBureau/ParkInfo/components/ModalOfEdit'
 import BNContainerWithParkSider from '@/components/BNContainerWithParkSider'
+import Inquiry from './components/Inquiry'
+import Functions from './components/Functions'
+import Table from './components/Table'
+import Pagination from './components/Pagination'
 
 export default {
-  name: 'Park',
+  name: 'ParkInfo',
   mixins: [dynamicState(store, dynamicModules)],
   render() {
     return (
@@ -20,7 +19,6 @@ export default {
           <Functions slot={'functions'} />
           <Table slot={'table'} />
           <Pagination slot={'pagination'} />
-          <ModalOfEdit slot={'modals'} title={'{action}园区信息'} />
         </TGContainer>
       </BNContainerWithParkSider>
     )
