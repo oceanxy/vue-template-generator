@@ -40,7 +40,10 @@ export default {
    */
   setSearch(state, { value, moduleName }) {
     state[moduleName].pagination.pageIndex = 0
-    state[moduleName].search = value
+    state[moduleName].search = {
+      ...state[moduleName].search,
+      ...value
+    }
   },
   /**
    * 设置当前的临时数据对象

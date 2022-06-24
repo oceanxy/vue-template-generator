@@ -1,5 +1,5 @@
 import '../assets/styles/index.scss'
-import { Button, Space, Table } from 'ant-design-vue'
+import { Table } from 'ant-design-vue'
 import forTable from '@/mixins/forTable'
 
 export default {

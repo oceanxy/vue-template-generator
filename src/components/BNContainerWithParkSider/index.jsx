@@ -12,8 +12,11 @@ export default {
       default: ''
     }
   },
-  created() {
-    this.$store.commit('common/setCurrentParkTreeKeySelected')
+  async created() {
+    await this.$store.dispatch('common/setCurrentParkTreeKeySelected', {
+      moduleName: this.moduleName,
+      value: '0'
+    })
   },
   data() {
     return {
@@ -36,28 +39,25 @@ export default {
           await dispatch('common', 'getParkTree')
         }
       }
-    },
-    /**
-     * 监听当前园区变化，根据 moduleName 触发列表更新
-     * @param value
-     * @returns {Promise<void>}
-     */
-    async currentParkTreeKeySelected(value) {
-      await this.$store.dispatch('getList', {
-        moduleName: this.moduleName,
-        additionalQueryParameters: {
-          pageIndex: 0,
-          parkId: value
-        }
-      })
     }
   },
   methods: {
-    onSelect(selectedKeys, { selected }) {
+    /**
+     * antd vue Tree 组件的 select 事件回调
+     * @param selectedKeys {array} 当前选中的 keys
+     * @param selected {boolean} 当前是否有被选中的结点
+     */
+    async onSelect(selectedKeys, { selected }) {
       if (selected) {
-        this.$store.commit('common/setCurrentParkTreeKeySelected', selectedKeys[0])
+        await this.$store.dispatch('common/setCurrentParkTreeKeySelected', {
+          moduleName: this.moduleName,
+          value: selectedKeys[0]
+        })
       } else {
-        this.$store.commit('common/setCurrentParkTreeKeySelected')
+        await this.$store.dispatch('common/setCurrentParkTreeKeySelected', {
+          moduleName: this.moduleName,
+          value: '0'
+        })
       }
     }
   },

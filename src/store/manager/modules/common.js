@@ -41,14 +41,14 @@ export default {
       state.roleTree = payload
     },
     setCurrentParkTreeKeySelected(state, payload) {
-      if (!payload) {
-        payload = '0'
-      }
-
       state.currentParkTreeKeySelected = payload
     }
   },
   actions: {
+    async setCurrentParkTreeKeySelected({ commit, dispatch }, { moduleName, value }) {
+      commit('setCurrentParkTreeKeySelected', value)
+      dispatch('setSearch', { value: { parkId: value }, moduleName }, { root: true })
+    },
     /**
      * 获取行政区划级联数据
      * @param commit

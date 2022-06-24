@@ -13,14 +13,26 @@ export default {
    *
    * @param state
    * @param commit
-   * @param moduleName
-   * @param payload
+   * @param dispatch
+   * @param moduleName {string}
+   * @param payload {Object}
    */
-  setSearch({ state, commit }, { moduleName, payload }) {
+  async setSearch({ state, commit, dispatch }, { moduleName, payload }) {
     commit('setSearch', {
-      value: payload,
+      value: {
+        ...state[moduleName].search,
+        ...payload
+      },
       moduleName
     })
+
+    await dispatch(
+      'getList',
+      {
+        moduleName,
+        additionalQueryParameters: { pageIndex: 0 }
+      },
+      { root: true })
   },
   /**
    * 获取所有站点应用

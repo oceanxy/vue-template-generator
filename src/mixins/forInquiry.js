@@ -5,35 +5,18 @@
  * @Date: 2022-03-14 周一 15:33:20
  */
 
-import { dispatch } from '@/utils/store'
 import { cloneDeep } from 'lodash'
-import { mapGetters } from 'vuex'
 
-/**
- * 表格搜索混合
- * @param required {{parkId: boolean}}
- * @returns {Object}
- */
-export default (required = { parkId: false }) => {
-  const forInquiry = {
+export default () => {
+  return {
     inject: ['moduleName'],
-    created() {
-      // 为 search 创建动态侦听器
-      this.$watch(
-        () => this.$store.state[this.moduleName].search,
-        () => this.$store.dispatch('getList', {
-          moduleName: this.moduleName,
-          additionalQueryParameters: {
-            pageIndex: 0
-          }
-        })
-      )
-    },
-    computed: {},
-    watch: {},
     methods: {
       async onClear() {
-        await dispatch(this.moduleName, 'setSearch')
+        await this.$store.dispatch('setSearch', {
+          moduleName: this.moduleName,
+          payload: {}
+        })
+
         this.form.resetFields()
       },
       onSubmit(e) {
@@ -50,22 +33,4 @@ export default (required = { parkId: false }) => {
       }
     }
   }
-
-  if (required.parkIdRequired) {
-    forInquiry.computed = {
-      ...forInquiry.computed,
-      ...mapGetters({
-        currentParkTreeKeySelected: 'currentParkTreeKeySelected'
-      })
-    }
-
-    forInquiry.watch = {
-      ...forInquiry.watch,
-      currentParkTreeKeySelected() {
-        this.$nextTick(this.onSubmit)
-      }
-    }
-  }
-
-  return forInquiry
 }

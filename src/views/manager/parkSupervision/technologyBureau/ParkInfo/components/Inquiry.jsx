@@ -2,8 +2,8 @@ import '../assets/styles/index.scss'
 import { Button, Form, Input, Space } from 'ant-design-vue'
 import forInquiry from '@/mixins/forInquiry'
 
-export default Form.create({})({
-  mixins: [forInquiry({ parkId: true })],
+export default Form.create({ name: 'inquiryForm' })({
+  mixins: [forInquiry()],
   render() {
     return (
       <Form
