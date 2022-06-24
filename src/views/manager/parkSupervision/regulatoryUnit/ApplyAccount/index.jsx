@@ -3,18 +3,21 @@ import TGContainerWithSider from '@/components/TGContainerWithSider'
 import BNContainer from '@/components/BNContainer'
 import TGListWithSubTitle from '@/components/TGListWithSubTitle'
 import Form from '@/views/manager/parkSupervision/regulatoryUnit/ApplyAccount/components/Form'
+import dynamicState from '@/mixins/dynamicState'
+import store, { dynamicModules } from '@/store/manager'
+import { mapGetters } from 'vuex'
+import { Spin } from 'ant-design-vue'
 
 export default {
-  data() {
-    return ({
-      data: [
-        {
-          a: 1,
-          b: 2,
-          c: 3
-        }
-      ]
+  mixins: [dynamicState(store, dynamicModules, 'accountOpening', false)],
+  computed: {
+    ...mapGetters({
+      listOfAccountApplicationRecord: 'listOfAccountApplicationRecord',
+      getLoading: 'getLoading'
     })
+  },
+  async created() {
+    await this.$store.dispatch('accountOpening/getListOfAccountApplicationRecord')
   },
   render() {
     return (
@@ -39,7 +42,12 @@ export default {
           title={'账号申请记录'}
           contentClass={'apply-account-records-container'}
         >
-          <TGListWithSubTitle type={'ring'} />
+          <Spin spinning={this.getLoading('accountOpening')}>
+            <TGListWithSubTitle
+              type={'ring'}
+              dataSource={this.listOfAccountApplicationRecord}
+            />
+          </Spin>
         </BNContainer>
       </TGContainerWithSider>
     )

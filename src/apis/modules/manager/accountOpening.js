@@ -35,9 +35,20 @@ export default {
    */
   addAccountOpening(request, data) {
     return request({
-      url: '/basic/park/add',
+      url: '/system/accountApply/add',
       method: 'post',
       data
+    })
+  },
+  /**
+   * 获取当前登录账号的账户申请记录
+   * @param request
+   * @returns {*}
+   */
+  getListOfAccountApplicationRecord(request) {
+    return request({
+      url: '/system/accountApply/getCurrentAccountApplyList',
+      method: 'post'
     })
   }
 }

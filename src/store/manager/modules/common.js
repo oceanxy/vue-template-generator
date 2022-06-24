@@ -12,8 +12,12 @@ export default {
     administrativeDivision: [],
     // 默认行政区划
     defaultAdministrativeDivision: [],
+    // 组织机构树
+    organizationTree: [],
     // 园区树
     parkTree: [],
+    // 角色树
+    roleTree: [],
     // 园区下拉列表
     parksForSelect: [],
     // 当前选中的园区树节点的 key（id）
@@ -24,11 +28,17 @@ export default {
       state.administrativeDivision = payload.treeList || []
       state.defaultAdministrativeDivision = payload.defaultIds || []
     },
+    setOrganizationTree(state, payload) {
+      state.organizationTree = payload
+    },
     setParkTree(state, payload) {
       state.parkTree = payload
     },
     setParksForSelect(state, payload) {
       state.parksForSelect = payload
+    },
+    setRoleTree(state, payload) {
+      state.roleTree = payload
     },
     setCurrentParkTreeKeySelected(state, payload) {
       if (!payload) {
@@ -52,6 +62,18 @@ export default {
       }
     },
     /**
+     * 获取组织机构树
+     * @param commit
+     * @returns {Promise<void>}
+     */
+    async getOrganizationTree({ commit }) {
+      const response = await apis.getOrganizationTree()
+
+      if (response.status) {
+        commit('setOrganizationTree', response.data)
+      }
+    },
+    /**
      * 获取园区树
      * @param commit
      * @returns {Promise<void>}
@@ -61,6 +83,18 @@ export default {
 
       if (response.status) {
         commit('setParkTree', response.data)
+      }
+    },
+    /**
+     * 获取角色树
+     * @param commit
+     * @returns {Promise<void>}
+     */
+    async getRoleTree({ commit }) {
+      const response = await apis.getRoleTree()
+
+      if (response.status) {
+        commit('setRoleTree', response.data)
       }
     },
     /**

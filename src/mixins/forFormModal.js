@@ -61,7 +61,7 @@ export default {
             action = 'update'
             payload.id = this.currentItem.id
           } else if (this.currentItem?.ids) {
-            action = ''
+            action = 'update'
             payload.ids = this.currentItem.ids
           } else {
             action = 'add'

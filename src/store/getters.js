@@ -14,6 +14,9 @@ export default {
   defaultAdministrativeDivision: state => state.common.defaultAdministrativeDivision,
   regulatoryUnits: state => state.common.regulatoryUnits,
   parkTree: state => state.common.parkTree,
+  parksForSelect: state => state.common.parksForSelect,
+  organizationTree: state => state.common.organizationTree,
+  roleTree: state => state.common.roleTree,
   currentParkTreeKeySelected: state => state.common.currentParkTreeKeySelected,
-  parksForSelect: state => state.common.parksForSelect
+  listOfAccountApplicationRecord: state => state.accountOpening.listOfAccountApplicationRecord
 }

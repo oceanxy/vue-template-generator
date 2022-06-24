@@ -64,17 +64,17 @@ export default {
    * @param state
    * @param commit
    * @param moduleName {string}
-   * @param [pagination] {Object}
+   * @param [additionalQueryParameters] {Object} 附加查询参数。例如分页相关参数，园区ID等。
    * @param [stateName] {string} 需要设置的字段，默认 state.list
    * @returns {Promise<void>}
    */
-  async getList({ state, commit }, { moduleName, pagination = {}, stateName }) {
+  async getList({ state, commit }, { moduleName, additionalQueryParameters = {}, stateName }) {
     commit('setLoading', { value: true, moduleName })
 
     const response = await apis[`get${utilityFunction.firstLetterToUppercase(moduleName)}`](omit({
       ...state[moduleName].pagination,
       ...state[moduleName].search,
-      ...pagination
+      ...additionalQueryParameters
     }, 'total'))
 
     if (response.status) {
@@ -111,9 +111,10 @@ export default {
         statusValue: false,
         moduleName
       })
+
       dispatch('getList', {
         moduleName,
-        pagination: {
+        additionalQueryParameters: {
           pageIndex: 0
         }
       })

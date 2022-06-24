@@ -43,7 +43,7 @@ export default Form.create({})({
           <Form.Item label="审核结果">
             {
               this.form.getFieldDecorator('auditStatus', {
-                initialValue: this.currentItem.auditStatus
+                rules: [{ required: true, type: 'number', message: '请选择审核结果!', trigger: 'blur' }]
               })(
                 <Radio.Group>
                   <Radio value={1}>通过</Radio>
@@ -55,7 +55,7 @@ export default Form.create({})({
           <Form.Item label="审核意见">
             {
               this.form.getFieldDecorator('auditOpinion', {
-                initialValue: this.currentItem.auditOpinion
+                rules: [{ required: true, message: '请输入审核意见!', trigger: 'blur' }]
               })(
                 <Input placeholder="请输入审核意见" type="textarea" />
               )

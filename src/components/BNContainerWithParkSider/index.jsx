@@ -5,6 +5,7 @@ import { mapGetters } from 'vuex'
 import { dispatch } from '@/utils/store'
 
 export default {
+  inject: ['moduleName'],
   props: {
     contentClass: {
       type: String,
@@ -35,6 +36,20 @@ export default {
           await dispatch('common', 'getParkTree')
         }
       }
+    },
+    /**
+     * 监听当前园区变化，根据 moduleName 触发列表更新
+     * @param value
+     * @returns {Promise<void>}
+     */
+    async currentParkTreeKeySelected(value) {
+      await this.$store.dispatch('getList', {
+        moduleName: this.moduleName,
+        additionalQueryParameters: {
+          pageIndex: 0,
+          parkId: value
+        }
+      })
     }
   },
   methods: {

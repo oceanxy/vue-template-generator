@@ -1,5 +1,5 @@
 /**
- * 物业单位
+ * 组织机构
  */
 
 import { createStoreModule } from '@/store/template'

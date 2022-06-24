@@ -39,7 +39,7 @@ export default {
     async onPaginationChange(page, pageSize) {
       await this.$store.dispatch('getList', {
         moduleName: this.moduleName,
-        pagination: {
+        additionalQueryParameters: {
           pageIndex: page - 1,
           pageSize
         }
@@ -54,7 +54,7 @@ export default {
       // 改变每页显示条数后，回到第一页
       await this.$store.dispatch('getList', {
         moduleName: this.moduleName,
-        pagination: {
+        additionalQueryParameters: {
           pageIndex: 0,
           pageSize: size
         }

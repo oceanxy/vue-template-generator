@@ -12,15 +12,6 @@ export default Form.create({})({
         colon={false}
         class="tg-inquiry bn-search-form"
       >
-        <Form.Item style={{ display: 'none' }}>
-          {
-            this.form.getFieldDecorator('parkId', {
-              initialValue: this.currentParkTreeKeySelected
-            })(
-              <Input placeholder="园区ID" />
-            )
-          }
-        </Form.Item>
         <Space>
           <Form.Item>
             {

@@ -5,7 +5,12 @@
  * @Date: 2022-06-22 周三 15:18:57
  */
 
-export function createTemplate() {
+/**
+ * 创建 Vuex store 模块
+ * @param target 需要合并的 Vuex store 模块
+ * @returns {Object} 合并后的 Vuex store 模块
+ */
+export function createStoreModule(target = {}) {
   return {
     namespaced: true,
     state: {
@@ -20,9 +25,14 @@ export function createTemplate() {
       list: [],
       visibleOfEdit: false,
       selectedRowKeys: [],
-      selectedRows: []
+      selectedRows: [],
+      ...target.state
     },
-    mutations: {},
-    actions: {}
+    mutations: {
+      ...target.mutations
+    },
+    actions: {
+      ...target.actions
+    }
   }
 }

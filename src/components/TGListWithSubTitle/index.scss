@@ -66,6 +66,10 @@
 
       .btns {
         grid-row: span 2;
+
+        .status {
+          margin-right: 10px;
+        }
       }
     }
   }

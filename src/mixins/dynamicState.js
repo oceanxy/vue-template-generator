@@ -1,5 +1,5 @@
 /**
- * 创建动态vuex模块.依赖common
+ * 创建动态vuex模块.依赖 forIndex 混合
  * @Author: Oceanxy
  * @Email: xyzsyx@163.com
  * @Date: 2022-03-10 周四 16:31:00
@@ -9,7 +9,15 @@ import forIndex from './forIndex'
 import { commitRootInModule } from '@/utils/store'
 import utilityFunction from '@/utils/utilityFunction'
 
-export default (store, dynamicModules, customModuleName) => {
+/**
+ * 创建动态vuex模块
+ * @param store {Object} store 后期会自动引入，不需手动传入
+ * @param dynamicModules {Object} @/store 内的所有动态模块，后期会自动引入，不需手动传入
+ * @param [customModuleName] 自定义模块名。如果存在自定义模块名，仅动态注册该模块
+ * @param [isRequestData] 是否在注册 customModuleName 模块后立即请求该模块的数据列表。依赖 customModuleName 参数，默认 true
+ * @returns {Object}
+ */
+export default (store, dynamicModules, customModuleName, isRequestData = true) => {
   let dynamicState
 
   if (customModuleName) {
@@ -22,11 +30,13 @@ export default (store, dynamicModules, customModuleName) => {
             dynamicModules[customModuleName]?.(commitRootInModule.bind(null, customModuleName, store.commit))
           )
 
-          // 动态注册store模块后，立即请求该模块的数据
-          await this.$store.dispatch('getList', {
-            api: `get${utilityFunction.firstLetterToUppercase(customModuleName)}`,
-            moduleName: customModuleName
-          })
+          if (isRequestData) {
+            // 动态注册store模块后，立即请求该模块的数据
+            await this.$store.dispatch('getList', {
+              api: `get${utilityFunction.firstLetterToUppercase(customModuleName)}`,
+              moduleName: customModuleName
+            })
+          }
         }
       },
       methods: {
@@ -40,7 +50,7 @@ export default (store, dynamicModules, customModuleName) => {
           await this.$store.dispatch('getList', {
             api: `get${utilityFunction.firstLetterToUppercase(customModuleName)}`,
             moduleName: customModuleName,
-            pagination: {
+            additionalQueryParameters: {
               pageIndex: 0,
               fullName: keyword
             }

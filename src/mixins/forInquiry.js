@@ -23,7 +23,7 @@ export default (required = { parkId: false }) => {
         () => this.$store.state[this.moduleName].search,
         () => this.$store.dispatch('getList', {
           moduleName: this.moduleName,
-          pagination: {
+          additionalQueryParameters: {
             pageIndex: 0
           }
         })
