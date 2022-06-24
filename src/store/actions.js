@@ -102,7 +102,7 @@ export default {
    * @param visibleField {string}
    * @returns {Promise<*>}
    */
-  async add({ state, dispatch }, { moduleName, payload, visibleField = 'visibleOfEdit' }) {
+  async add({ state, dispatch }, { moduleName, payload, visibleField }) {
     const response = await apis[`add${utilityFunction.firstLetterToUppercase(moduleName)}`](payload)
 
     if (response.status) {
@@ -129,10 +129,18 @@ export default {
    * @param moduleName {string}
    * @param payload {Object}
    * @param visibleField {string}
+   * @param isFetchList {boolean}
+   * @param customApiName {string} 自定义请求API
    * @returns {Promise<*>}
    */
-  async update({ state, dispatch }, { moduleName, payload, visibleField = 'visibleOfEdit' }) {
-    const response = await apis[`update${utilityFunction.firstLetterToUppercase(moduleName)}`](payload)
+  async update({ state, dispatch }, {
+    moduleName,
+    payload,
+    visibleField,
+    isFetchList,
+    customApiName
+  }) {
+    const response = await apis[customApiName || `update${utilityFunction.firstLetterToUppercase(moduleName)}`](payload)
 
     if (response.status) {
       dispatch('setModalVisible', {
@@ -140,7 +148,10 @@ export default {
         statusValue: false,
         moduleName
       })
-      dispatch('getList', { moduleName })
+
+      if (isFetchList) {
+        dispatch('getList', { moduleName })
+      }
     }
 
     return response.status

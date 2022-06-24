@@ -35,9 +35,16 @@ export default {
       }
 
       if ('areaCode' in temp) {
-        temp.provinceId = temp.areaCode[0]
-        temp.cityId = temp.areaCode[1]
-        temp.countyId = temp.areaCode[2]
+        if (Array.isArray(temp.areaCode)) {
+          temp.provinceId = temp.areaCode[0]
+          temp.cityId = temp.areaCode[1]
+          temp.countyId = temp.areaCode[2]
+        } else {
+          temp.provinceId = ''
+          temp.cityId = ''
+          temp.countyId = ''
+        }
+
         temp = omit(temp, 'areaCode')
       }
 
@@ -46,9 +53,19 @@ export default {
         temp = omit(temp, 'imgList')
       }
 
+      if ('roleIds' in temp) {
+        temp.roleIds = temp.roleIds.join()
+      }
+
       return temp
     },
-    onSubmit() {
+    /**
+     * 提交表单
+     * @param options {{isFetchList: boolean, [customApiName]: string}}
+     * isFetchList：是否在提交并单后立即刷新对应的列表，默认 true；
+     * customApiName：自定义请求API
+     */
+    onSubmit(options = { isFetchList: true }) {
       this.form.validateFields(async (err, values) => {
         if (!err) {
           this.modalProps.confirmLoading = true
@@ -69,6 +86,9 @@ export default {
 
           const status = await this.$store.dispatch(action, {
             moduleName: this.moduleName,
+            visibleField: this.visibleField,
+            isFetchList: options.isFetchList,
+            customApiName: options.customApiName,
             payload
           })
 

@@ -1,5 +1,5 @@
 import '../assets/styles/index.scss'
-import { Button, Space, Table } from 'ant-design-vue'
+import { Button, Space, Switch, Table } from 'ant-design-vue'
 import forTable from '@/mixins/forTable'
 
 export default {
@@ -10,35 +10,34 @@ export default {
         columns: [
           {
             title: '序号',
-            dataIndex: ''
-          },
-          {
-            title: '图片',
-            dataIndex: 'appName'
-          },
-          {
-            title: '编号',
-            dataIndex: 'remark'
-          },
-          {
-            title: '名称',
+            width: 60,
             align: 'center',
-            dataIndex: 'zz'
+            scopedSlots: { customRender: 'serialNumber' }
           },
           {
-            title: '地址',
-            align: 'center',
-            dataIndex: 'xx'
+            title: '用户名',
+            dataIndex: 'loginName'
           },
           {
-            title: '监管单位',
-            align: 'center',
-            dataIndex: 'cc'
+            title: '角色',
+            dataIndex: 'roleNames'
+          },
+          {
+            title: '所属单位',
+            dataIndex: 'organName'
+          },
+          {
+            title: '姓名',
+            dataIndex: 'fullName'
+          },
+          {
+            title: '手机号',
+            dataIndex: 'mobile'
           },
           {
             title: '状态',
             align: 'center',
-            width: 60,
+            width: 80,
             scopedSlots: { customRender: 'status' }
           },
           {
@@ -53,7 +52,11 @@ export default {
       }
     }
   },
-  methods: {},
+  methods: {
+    async onUpdatePasswordClick(record) {
+      await this._setVisibleOfModal(record, 'visibleOfUpdatePassword')
+    }
+  },
   render() {
     const attributes = {
       props: {
@@ -68,12 +71,13 @@ export default {
         {...attributes}
         {...{
           scopedSlots: {
-            // status: (text, record) => (
-            //   <Switch
-            //     checked={+record.status === 1}
-            //     onChange={checked => this.onStatusChange(checked, record)}
-            //   />
-            // ),
+            serialNumber: (text, record, index) => index + 1,
+            status: (text, record) => (
+              <Switch
+                checked={+record.status === 1}
+                onChange={checked => this.onStatusChange(checked, record)}
+              />
+            ),
             operation: (text, record) => (
               <Space class="operation-space">
                 <Button
@@ -86,7 +90,7 @@ export default {
                 <Button
                   type="link"
                   size="small"
-                  onClick={() => this.onAddClick(record)}
+                  onClick={() => this.onUpdatePasswordClick(record)}
                 >
                   重置密码
                 </Button>

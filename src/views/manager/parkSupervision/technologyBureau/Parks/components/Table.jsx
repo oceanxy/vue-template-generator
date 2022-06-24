@@ -68,13 +68,13 @@ export default {
         {...attributes}
         {...{
           scopedSlots: {
+            serialNumber: (text, record, index) => index + 1,
             status: (text, record) => (
               <Switch
                 checked={+record.status === 1}
                 onChange={checked => this.onStatusChange(checked, record)}
               />
             ),
-            serialNumber: (text, record, index) => index + 1,
             imgList: (text, record, index) => (
               <img src={record.imgList[0]?.path} alt={''} class={'bnm-table-img'} />
             ),

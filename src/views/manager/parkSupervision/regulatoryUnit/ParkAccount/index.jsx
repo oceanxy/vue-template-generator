@@ -1,26 +1,30 @@
 import './assets/styles/index.scss'
-import Inquiry from '@/views/manager/parkSupervision/regulatoryUnit/ParkAccount/components/Inquiry'
 import TGContainer from '@/layouts/components/TGContainer'
-import Functions from '@/views/manager/parkSupervision/regulatoryUnit/ParkAccount/components/Functions'
 import dynamicState from '@/mixins/dynamicState'
 import store, { dynamicModules } from '@/store/manager'
-import Table from '@/views/manager/parkSupervision/regulatoryUnit/ParkAccount/components/Table'
-import Pagination from '@/views/manager/parkSupervision/regulatoryUnit/ParkAccount/components/Pagination'
-import ModalOfEdit from '@/views/manager/parkSupervision/regulatoryUnit/ParkAccount/components/ModalOfEdit'
 import BNContainerWithParkSider from '@/components/BNContainerWithParkSider'
+import Inquiry from './components/Inquiry'
+import Functions from './components/Functions'
+import Table from './components/Table'
+import Pagination from './components/Pagination'
+import ModalOfEdit from './components/ModalOfEdit'
+import ModalOfUpdatePassword from './components/ModalOfUpdatePassword'
 
 export default {
-  name: 'Park',
+  name: 'ParkAccounts',
   mixins: [dynamicState(store, dynamicModules)],
   render() {
     return (
-      <BNContainerWithParkSider contentClass={'bnm-park-account-container'}>
+      <BNContainerWithParkSider contentClass={'bnm-park-accounts-container'}>
         <TGContainer>
           <Inquiry slot={'inquiry'} />
           <Functions slot={'functions'} />
           <Table slot={'table'} />
           <Pagination slot={'pagination'} />
-          <ModalOfEdit slot={'modals'} title={'{action}账号信息'} />
+          <template slot={'modals'}>
+            <ModalOfEdit title={'{action}园区账号信息'} />
+            <ModalOfUpdatePassword title={'重置密码'} />
+          </template>
         </TGContainer>
       </BNContainerWithParkSider>
     )
