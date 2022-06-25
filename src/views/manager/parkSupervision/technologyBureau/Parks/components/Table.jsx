@@ -75,7 +75,7 @@ export default {
                 onChange={checked => this.onStatusChange(checked, record)}
               />
             ),
-            imgList: (text, record, index) => (
+            imgList: (text, record) => (
               <img src={record.imgList[0]?.path} alt={''} class={'bnm-table-img'} />
             ),
             operation: (text, record) => (

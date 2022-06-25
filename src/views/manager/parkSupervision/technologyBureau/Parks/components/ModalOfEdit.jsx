@@ -92,9 +92,7 @@ export default Form.create({})({
             {
               this.form.getFieldDecorator('imgList', {
                 initialValue: fileList,
-                rules: [
-                  { required: true, type: 'array', message: '请上传图片!', trigger: 'blur' }
-                ]
+                rules: [{ required: true, type: 'array', message: '请上传图片!', trigger: 'blur' }]
               })(
                 <UploadPictures />
               )
@@ -104,7 +102,7 @@ export default Form.create({})({
             {
               this.form.getFieldDecorator('fullName', {
                 initialValue: this.currentItem.fullName,
-                rules: [{ required: true, message: '请输入编号!', trigger: 'blur' }]
+                rules: [{ required: true, message: '请输入园区名称!', trigger: 'blur' }]
               })(
                 <Input placeholder="请输入园区名称" allowClear />
               )

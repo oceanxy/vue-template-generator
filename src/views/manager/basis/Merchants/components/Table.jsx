@@ -1,5 +1,5 @@
 import '../assets/styles/index.scss'
-import { Button, Space, Table } from 'ant-design-vue'
+import { Button, Space, Switch, Table } from 'ant-design-vue'
 import forTable from '@/mixins/forTable'
 
 export default {
@@ -10,45 +10,46 @@ export default {
         columns: [
           {
             title: '序号',
-            dataIndex: ''
+            width: 60,
+            align: 'center',
+            scopedSlots: { customRender: 'serialNumber' }
           },
           {
-            title: '图片',
-            dataIndex: 'appName'
+            title: '头像',
+            width: 60,
+            align: 'center',
+            scopedSlots: { customRender: 'headPortrait' }
           },
           {
             title: '姓名',
-            dataIndex: 'remark'
+            align: 'center',
+            dataIndex: 'fullName'
           },
           {
             title: '性别',
             align: 'center',
-            dataIndex: 'zz'
+            dataIndex: 'gender'
           },
           {
             title: '手机号码',
-            align: 'center',
-            dataIndex: 'xx'
+            dataIndex: 'mobile'
           },
           {
             title: '身份证号码',
-            align: 'center',
-            dataIndex: 'cc'
+            dataIndex: 'idCard'
           },
           {
             title: '邮箱',
-            align: 'center',
-            dataIndex: 'vv'
+            dataIndex: 'email'
           },
           {
             title: '所在团队',
-            align: 'center',
-            dataIndex: 'bb'
+            dataIndex: 'teamName'
           },
           {
             title: '状态',
             align: 'center',
-            width: 60,
+            width: 80,
             scopedSlots: { customRender: 'status' }
           },
           {
@@ -63,7 +64,6 @@ export default {
       }
     }
   },
-  methods: {},
   render() {
     const attributes = {
       props: {
@@ -78,12 +78,16 @@ export default {
         {...attributes}
         {...{
           scopedSlots: {
-            // status: (text, record) => (
-            //   <Switch
-            //     checked={+record.status === 1}
-            //     onChange={checked => this.onStatusChange(checked, record)}
-            //   />
-            // ),
+            serialNumber: (text, record, index) => index + 1,
+            status: (text, record) => (
+              <Switch
+                checked={+record.status === 1}
+                onChange={checked => this.onStatusChange(checked, record)}
+              />
+            ),
+            headPortrait: (text, record) => (
+              <img src={record.headPortrait[0]?.path} alt={''} class={'bnm-table-img'} />
+            ),
             operation: (text, record) => (
               <Space class="operation-space">
                 <Button
@@ -96,7 +100,7 @@ export default {
                 <Button
                   type="link"
                   size="small"
-                  onClick={() => this.onAddClick(record)}
+                  onClick={() => this.onDeleteClick(record)}
                 >
                   删除
                 </Button>

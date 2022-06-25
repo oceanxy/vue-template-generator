@@ -138,9 +138,9 @@ export const routes = [
             ]
           },
           {
-            path: 'business-invitations',
-            name: 'businessInvitations',
-            component: () => import('@/views/manager/basis/BusinessInvitation'),
+            path: 'merchants',
+            name: 'merchants',
+            component: () => import('@/views/manager/basis/Merchants'),
             meta: {
               title: '招商人员管理',
               keepAlive: true,
