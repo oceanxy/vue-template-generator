@@ -1,15 +1,15 @@
 import './assets/styles/index.scss'
-import TGContainer from '@/layouts/components/TGContainer'
-import Inquiry from '@/views/manager/basis/Teams/Members/components/Inquiry'
-import Functions from '@/views/manager/basis/Teams/Members/components/Functions'
-import Table from '@/views/manager/basis/Teams/Members/components/Table'
-import Pagination from '@/views/manager/basis/Teams/Members/components/Pagination'
-import ModalOfEdit from '@/views/manager/basis/Teams/Members/components/ModalOfEdit'
 import store, { dynamicModules } from '@/store/manager'
 import dynamicState from '@/mixins/dynamicState'
+import TGContainer from '@/layouts/components/TGContainer'
+import Inquiry from './components/Inquiry'
+import Functions from './components/Functions'
+import Table from './components/Table'
+import Pagination from './components/Pagination'
+import ModalOfEdit from './components/ModalOfEdit'
 
 export default {
-  name: 'teamMembers',
+  name: 'TeamMembers',
   mixins: [dynamicState(store, dynamicModules)],
   render() {
     return (

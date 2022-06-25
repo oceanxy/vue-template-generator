@@ -11,5 +11,12 @@ export default {
       method: 'post',
       data: data
     })
+  },
+  getList(request, data) {
+    return request({
+      url: '/getList',
+      method: 'post',
+      data: data
+    })
   }
 }

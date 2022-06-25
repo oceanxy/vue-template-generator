@@ -15,12 +15,12 @@ export default {
           新增
         </Button>
         <Button
-          type="primary"
-          onClick={this.onEditClick}
-          icon="edit"
-          disabled={this.editButtonDisabled}
+          // type="primary"
+          // onClick={this.onEditClick}
+          icon="export"
+          // disabled={this.editButtonDisabled}
         >
-          修改
+          导出
         </Button>
         <Button
           type="danger"

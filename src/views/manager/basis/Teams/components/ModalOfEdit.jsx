@@ -4,6 +4,7 @@ import forFormModal from '@/mixins/forFormModal'
 import { mapState } from 'vuex'
 import DragModal from '@/components/DragModal'
 import MultiInput from '@/views/manager/basis/Teams/components/MultiInput'
+import UploadPictures from '@/views/manager/parkSupervision/technologyBureau/Parks/components/UploadPictures'
 
 export default Form.create({})({
   mixins: [forFormModal],
@@ -20,7 +21,7 @@ export default Form.create({})({
   data() {
     return {
       modalProps: {
-        width: 690
+        width: 900
       }
     }
   },
@@ -47,84 +48,76 @@ export default Form.create({})({
     return (
       <DragModal {...attributes} class={'bnm-team-edit-modal'}>
         <Form
-          class="bnm-team-edit-form"
+          class="bnm-form-grid"
           labelCol={{ span: 3 }}
           wrapperCol={{ span: 21 }}
           colon={false}
         >
-          <Form.Item label="图片">
+          <Form.Item label="LOGO">
             {
-              this.form.getFieldDecorator('image', {
-                initialValue: this.currentItem.image,
-                rules: [{ required: true, message: '请上传图片!', trigger: 'blur' }]
+              this.form.getFieldDecorator('logo', {
+                initialValue: this.currentItem.logo,
+                rules: [{ required: true, message: '请上传LOGO!', trigger: 'blur' }]
               })(
-                <Upload>
-                  {
-                    this.form.image
-                      ? <img src={this.form.image} alt={'团队图片'} />
-                      : (
-                        <div>
-                          <Icon type={this.loading ? 'loading' : 'plus'} />
-                          <div class="ant-upload-text">
-                            上传
-                          </div>
-                        </div>
-                      )
-                  }
-                </Upload>
+                <UploadPictures />
               )
             }
           </Form.Item>
-          <Form.Item label="编号">
+          <Form.Item label="编号" class={'half'}>
             {
-              this.form.getFieldDecorator('number', {
-                initialValue: this.currentItem.number,
+              this.form.getFieldDecorator('teamCode', {
+                initialValue: this.currentItem.teamCode,
                 rules: [{ required: true, message: '请输入编号!', trigger: 'blur' }]
               })(
                 <Input placeholder="请输入编号" allowClear />
               )
             }
           </Form.Item>
-          <Form.Item label="名称">
+          <Form.Item label="名称" class={'half'}>
             {
-              this.form.getFieldDecorator('name', {
-                initialValue: this.currentItem.name
+              this.form.getFieldDecorator('fullName', {
+                initialValue: this.currentItem.fullName,
+                rules: [{ required: true, message: '请输入团队名称!', trigger: 'blur' }]
               })(
-                <Input placeholder="请输入名称" />
+                <Input placeholder="请输入名称" allowClear />
               )
             }
           </Form.Item>
           <Form.Item label="描述">
             {
               this.form.getFieldDecorator('description', {
-                initialValue: this.currentItem.description || 0
+                initialValue: this.currentItem.description
               })(
-                <Input placeholder="请输入描述" type="textarea" />
+                <Input.TextArea placeholder="请输入描述" allowClear />
               )
             }
           </Form.Item>
           <Form.Item label="团队成员">
             {
-              this.form.getFieldDecorator('members', {
-                initialValue: this.currentItem.members
+              this.form.getFieldDecorator('teamMemberList', {
+                initialValue: this.currentItem.teamMemberList,
+                rules: [{ required: true, type: 'array', message: '请添加团队成员!', trigger: 'change' }]
               })(
                 <MultiInput />
               )
             }
           </Form.Item>
-          <Form.Item label="排序">
+          <Form.Item label="排序" class={'half'}>
             {
               this.form.getFieldDecorator('sortIndex', {
-                initialValue: this.currentItem.sortIndex || 0
+                initialValue: this.currentItem.sortIndex || 0,
+                rules: [{ required: true, type: 'number', message: '请输入排序值!', trigger: 'blur' }]
               })(
                 <Input placeholder="请输入排序值" />
               )
             }
           </Form.Item>
-          <Form.Item label="状态">
+          <Form.Item label="状态" class={'half'}>
             {
               this.form.getFieldDecorator('status', {
-                initialValue: this.currentItem.status
+                valuePropName: 'checked',
+                initialValue: this.currentItem.status === 1,
+                rules: [{ required: true, type: 'boolean', message: '请选择状态!', trigger: 'blur' }]
               })(
                 <Switch />
               )

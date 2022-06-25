@@ -1,6 +1,7 @@
 import apis from '@/apis'
 import { cloneDeep, omit } from 'lodash'
 import utilityFunction from '@/utils/utilityFunction'
+import config from '@/config'
 
 export default {
   /**
@@ -83,7 +84,9 @@ export default {
   async getList({ state, commit }, { moduleName, additionalQueryParameters = {}, stateName }) {
     commit('setLoading', { value: true, moduleName })
 
-    const response = await apis[`get${utilityFunction.firstLetterToUppercase(moduleName)}`](omit({
+    const api = !config.mock ? `get${utilityFunction.firstLetterToUppercase(moduleName)}` : 'getList'
+
+    const response = await apis[api](omit({
       ...state[moduleName].pagination,
       ...state[moduleName].search,
       ...additionalQueryParameters

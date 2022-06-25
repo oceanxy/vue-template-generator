@@ -1,12 +1,12 @@
 import './assets/styles/index.scss'
-import Inquiry from '@/views/manager/basis/Teams/components/Inquiry'
-import TGContainer from '@/layouts/components/TGContainer'
-import Functions from '@/views/manager/basis/Teams/components/Functions'
 import dynamicState from '@/mixins/dynamicState'
 import store, { dynamicModules } from '@/store/manager'
-import Table from '@/views/manager/basis/Teams/components/Table'
-import Pagination from '@/views/manager/basis/Teams/components/Pagination'
-import ModalOfEdit from '@/views/manager/basis/Teams/components/ModalOfEdit'
+import TGContainer from '@/layouts/components/TGContainer'
+import Functions from './components/Functions'
+import Inquiry from './components/Inquiry'
+import Table from './components/Table'
+import Pagination from './components/Pagination'
+import ModalOfEdit from './components/ModalOfEdit'
 
 export default {
   name: 'Teams',

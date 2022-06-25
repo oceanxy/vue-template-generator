@@ -1,5 +1,5 @@
 import '../assets/styles/index.scss'
-import { Button, Input, Table } from 'ant-design-vue'
+import { Button, Input, Switch, Table } from 'ant-design-vue'
 
 export default {
   model: {
@@ -11,19 +11,21 @@ export default {
       columns: [
         {
           title: '姓名',
-          scopedSlots: { customRender: 'allPath' }
+          scopedSlots: { customRender: 'fullName' }
         },
         {
           title: '手机号码',
-          scopedSlots: { customRender: 'remark' }
+          scopedSlots: { customRender: 'mobile' }
         },
         {
-          title: '角色',
-          scopedSlots: { customRender: 'remark2' }
+          title: '身份证号',
+          scopedSlots: { customRender: 'idCard' }
         },
         {
-          title: '负责人',
-          scopedSlots: { customRender: 'remark3' }
+          title: '设为负责人',
+          width: 120,
+          align: 'center',
+          scopedSlots: { customRender: 'isLeader' }
         },
         {
           title: '操作',
@@ -93,19 +95,33 @@ export default {
           dataSource={this.dataSource}
           pagination={false}
           rowKey="id"
+          tableLayout={'fixed'}
           {...{
             scopedSlots: {
-              allPath: (text, record) => (
+              fullName: (text, record) => (
                 <Input
-                  vModel={record.allPath}
-                  placeholder="请输入完整路径"
+                  vModel={record.fullName}
+                  placeholder="请输入团队成员姓名"
                   onBlur={this.onChange}
                 />
               ),
-              remark: (text, record) => (
+              mobile: (text, record) => (
                 <Input
-                  vModel={record.remark}
-                  placeholder="请输入备注"
+                  vModel={record.mobile}
+                  placeholder="请输入手机号码"
+                  onBlur={this.onChange}
+                />
+              ),
+              idCard: (text, record) => (
+                <Input
+                  vModel={record.idCard}
+                  placeholder="请输入身份证号码"
+                  onBlur={this.onChange}
+                />
+              ),
+              isLeader: (text, record) => (
+                <Switch
+                  defaultChecked={record.idCard === 1}
                   onBlur={this.onChange}
                 />
               ),

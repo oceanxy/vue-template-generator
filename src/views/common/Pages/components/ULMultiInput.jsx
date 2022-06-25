@@ -86,6 +86,7 @@ export default {
           dataSource={this.dataSource}
           pagination={false}
           rowKey="id"
+          tableLayout={'fixed'}
           {...{
             scopedSlots: {
               allPath: (text, record) => (

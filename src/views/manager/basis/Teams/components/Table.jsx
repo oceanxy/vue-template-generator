@@ -1,5 +1,5 @@
 import '../assets/styles/index.scss'
-import { Button, Space, Table } from 'ant-design-vue'
+import { Button, Space, Switch, Table } from 'ant-design-vue'
 import forTable from '@/mixins/forTable'
 
 export default {
@@ -10,45 +10,49 @@ export default {
         columns: [
           {
             title: '序号',
-            dataIndex: ''
+            width: 60,
+            align: 'center',
+            scopedSlots: { customRender: 'serialNumber' }
           },
           {
             title: '图片',
-            dataIndex: 'appName'
+            width: 60,
+            align: 'center',
+            scopedSlots: { customRender: 'imgList' }
           },
           {
             title: '编号',
-            dataIndex: 'remark'
+            dataIndex: 'teamCode'
           },
           {
             title: '团队名称',
             align: 'center',
-            dataIndex: 'zz'
+            dataIndex: 'fullName'
           },
           {
             title: '所属园区',
             align: 'center',
-            dataIndex: 'xx'
+            dataIndex: 'parkName'
           },
           {
             title: '团队人数',
             align: 'center',
-            dataIndex: 'cc'
+            scopedSlots: { customRender: 'teamMemberList' }
           },
           {
             title: '负责人',
             align: 'center',
-            dataIndex: 'vv'
+            dataIndex: 'leader'
           },
           {
             title: '负责人手机号',
             align: 'center',
-            dataIndex: 'bb'
+            dataIndex: 'leaderMobile'
           },
           {
             title: '状态',
             align: 'center',
-            width: 60,
+            width: 80,
             scopedSlots: { customRender: 'status' }
           },
           {
@@ -82,27 +86,29 @@ export default {
         {...attributes}
         {...{
           scopedSlots: {
-            // status: (text, record) => (
-            //   <Switch
-            //     checked={+record.status === 1}
-            //     onChange={checked => this.onStatusChange(checked, record)}
-            //   />
-            // ),
+            serialNumber: (text, record, index) => index + 1,
+            status: (text, record) => (
+              <Switch
+                checked={+record.status === 1}
+                onChange={checked => this.onStatusChange(checked, record)}
+              />
+            ),
+            teamMemberList: record => record.teamMemberList?.length || 0,
             operation: (text, record) => (
               <Space class="operation-space">
-                <Button
-                  type="link"
-                  size="small"
-                  onClick={() => this.onEditClick(record)}
-                >
-                  编辑
-                </Button>
                 <Button
                   type="link"
                   size="small"
                   onClick={() => this.onMembersManaClick(record)}
                 >
                   成员管理
+                </Button>
+                <Button
+                  type="link"
+                  size="small"
+                  onClick={() => this.onEditClick(record)}
+                >
+                  编辑
                 </Button>
                 <Button
                   type="link"
