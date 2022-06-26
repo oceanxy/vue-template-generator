@@ -1,12 +1,12 @@
 import './assets/styles/index.scss'
-import TGContainer from '@/layouts/components/TGContainer'
 import dynamicState from '@/mixins/dynamicState'
 import store, { dynamicModules } from '@/store/manager'
-import Inquiry from '@/views/manager/basis/Buildings/components/Inquiry'
-import Functions from '@/views/manager/basis/Buildings/components/Functions'
-import Table from '@/views/manager/basis/Buildings/components/Table'
-import Pagination from '@/views/manager/basis/Buildings/components/Pagination'
-import ModalOfEdit from '@/views/manager/basis/Buildings/components/ModalOfEdit'
+import TGContainer from '@/layouts/components/TGContainer'
+import Inquiry from './components/Inquiry'
+import Functions from './components/Functions'
+import Table from './components/Table'
+import Pagination from './components/Pagination'
+import ModalOfEdit from './components/ModalOfEdit'
 
 export default {
   name: 'Buildings',

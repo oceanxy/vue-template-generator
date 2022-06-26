@@ -1,17 +1,9 @@
 import '../assets/styles/index.scss'
 import { Button, Form, Input, Select, Space } from 'ant-design-vue'
 import forInquiry from '@/mixins/forInquiry'
-import { mapActions, mapState } from 'vuex'
 
-export default Form.create({})({
+export default Form.create({ name: 'inquiryForm' })({
   mixins: [forInquiry()],
-  computed: mapState({ allSiteApps: 'allSiteApps' }),
-  async created() {
-    await this.getAllSiteApps()
-  },
-  methods: {
-    ...mapActions({ getAllSiteApps: 'getAllSiteApps' })
-  },
   render() {
     return (
       <Form
@@ -23,29 +15,24 @@ export default Form.create({})({
         <Space>
           <Form.Item>
             {
-              this.form.getFieldDecorator('pageName')(
+              this.form.getFieldDecorator('fullName')(
                 <Input placeholder="姓名/手机号码" allowClear />
               )
             }
           </Form.Item>
           <Form.Item>
             {
-              this.form.getFieldDecorator('pageName')(
+              this.form.getFieldDecorator('teamName')(
                 <Input placeholder="团队名称" allowClear />
               )
             }
           </Form.Item>
           <Form.Item>
             {
-              this.form.getFieldDecorator('appId')(
+              this.form.getFieldDecorator('status')(
                 <Select placeholder="请选择状态" allowClear>
-                  {
-                    this.allSiteApps.map(item => (
-                      <Select.Option value={item.id}>
-                        {item.appName}
-                      </Select.Option>
-                    ))
-                  }
+                  <Select.Option value={1}>启用</Select.Option>
+                  <Select.Option value={2}>停用</Select.Option>
                 </Select>
               )
             }

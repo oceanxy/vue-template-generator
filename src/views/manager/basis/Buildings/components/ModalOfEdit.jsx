@@ -1,11 +1,15 @@
 import '../assets/styles/index.scss'
-import { Checkbox, Form, Icon, Input, Radio, Switch, Upload } from 'ant-design-vue'
+import { Checkbox, Col, Form, Input, Row, Select, Switch } from 'ant-design-vue'
 import forFormModal from '@/mixins/forFormModal'
-import { mapState } from 'vuex'
+import { mapGetters } from 'vuex'
 import DragModal from '@/components/DragModal'
+import UploadPictures from '@/views/manager/parkSupervision/technologyBureau/Parks/components/UploadPictures'
+import { dispatch } from '@/utils/store'
 
 export default Form.create({})({
-  mixins: [forFormModal],
+  mixins: [
+    forFormModal
+  ],
   props: {
     /**
      * 标题（可定义占位符）
@@ -19,18 +23,24 @@ export default Form.create({})({
   data() {
     return {
       modalProps: {
-        width: 690
+        width: 810
       }
     }
   },
-  computed: mapState({
-    allSiteApps: 'allSiteApps',
-    allFunctionalModules: 'allFunctionalModules'
-  }),
+  computed: {
+    ...mapGetters({
+      parksForSelect: 'parksForSelect'
+    })
+  },
   watch: {
-    async visible(value) {
-      if (value) {
-        // await this.$store.dispatch('getAllFunctionalModules')
+    visible: {
+      immediate: true,
+      async handler(value) {
+        if (value) {
+          if (!this.parksForSelect.length) {
+            await dispatch('common', 'getParksForSelect')
+          }
+        }
       }
     }
   },
@@ -39,115 +49,115 @@ export default Form.create({})({
       attrs: this.modalProps,
       on: {
         cancel: () => this.onCancel(),
-        ok: this.onSubmit
+        ok: () => this.onSubmit()
       }
     }
 
+    // 回显图片
+    const fileList = this.currentItem.imgList?.map((item, index) => ({
+      uid: index,
+      url: item.path,
+      key: item.key,
+      status: 'done',
+      name: item.path.substring(item.path.lastIndexOf('/'))
+    })) ?? []
+
     return (
-      <DragModal {...attributes} class={'bnm-team-edit-modal'}>
+      <DragModal {...attributes}>
         <Form
-          class="bnm-team-edit-form"
+          class="bnm-form-grid"
           labelCol={{ span: 3 }}
           wrapperCol={{ span: 21 }}
           colon={false}
         >
           <Form.Item label="图片">
             {
-              this.form.getFieldDecorator('image', {
-                initialValue: this.currentItem.image,
-                rules: [{ required: true, message: '请上传图片!', trigger: 'blur' }]
+              this.form.getFieldDecorator('imgList', {
+                initialValue: fileList,
+                rules: [{ required: true, type: 'array', message: '请上传图片!', trigger: 'blur' }]
               })(
-                <Upload>
-                  {
-                    this.form.image
-                      ? <img src={this.form.image} alt={'团队图片'} />
-                      : (
-                        <div>
-                          <Icon type={this.loading ? 'loading' : 'plus'} />
-                          <div class="ant-upload-text">
-                            上传
-                          </div>
-                        </div>
-                      )
-                  }
-                </Upload>
+                <UploadPictures />
               )
             }
           </Form.Item>
-          <Form.Item label="编号">
+          <Form.Item label="编号" class={'half'}>
             {
-              this.form.getFieldDecorator('number', {
-                initialValue: this.currentItem.number,
+              this.form.getFieldDecorator('buildNo', {
+                initialValue: this.currentItem.buildNo,
                 rules: [{ required: true, message: '请输入编号!', trigger: 'blur' }]
               })(
                 <Input placeholder="请输入编号" allowClear />
               )
             }
           </Form.Item>
-          <Form.Item label="所属园区">
+          <Form.Item label={'所属园区'} class={'half'}>
             {
-              this.form.getFieldDecorator('name', {
-                initialValue: this.currentItem.name
+              this.form.getFieldDecorator('parkId', {
+                rules: [{ required: true, message: '请选择所属园区!', trigger: 'blur' }]
               })(
-                <Radio.Group>
-                  <Radio value={0}>未知</Radio>
-                  <Radio value={1}>男</Radio>
-                  <Radio value={2}>女</Radio>
-                </Radio.Group>
+                <Select placeholder={'请选择所属园区'}>
+                  {
+                    this.parksForSelect.map(item => (
+                      <Select.Option value={item.id}>{item.fullName}</Select.Option>
+                    ))
+                  }
+                </Select>
               )
             }
           </Form.Item>
-          <Form.Item label="名称">
+          <Form.Item label="名称" class={'half'}>
             {
-              this.form.getFieldDecorator('description', {
-                initialValue: this.currentItem.description || 0
+              this.form.getFieldDecorator('fullName', {
+                initialValue: this.currentItem.fullName,
+                rules: [{ required: true, message: '请输入楼栋名称!', trigger: 'change' }]
               })(
-                <Input placeholder="请输入描述" type="textarea" />
-              )
-            }
-          </Form.Item>
-          <Form.Item label="物业单位">
-            {
-              this.form.getFieldDecorator('members', {
-                initialValue: this.currentItem.members
-              })(
-                <Input placeholder="请输入描述" />
+                <Input placeholder="请输入楼栋名称" allowClear />
               )
             }
           </Form.Item>
           <Form.Item label="楼层数">
-            <Form.Item>
-              {
-                this.form.getFieldDecorator('qq', {
-                  initialValue: this.currentItem.sortIndex || 0
-                })(
-                  <Input placeholder="请输入排序值" />
-                )
-              }
-            </Form.Item>
-            <Form.Item>
-              {
-                this.form.getFieldDecorator('ss', {
-                  initialValue: this.currentItem.sortIndex || 0
-                })(
-                  <Checkbox>含地下楼层</Checkbox>
-                )
-              }
-            </Form.Item>
+            <Row gutter={20}>
+              <Col span={10}>
+                <Form.Item>
+                  {
+                    this.form.getFieldDecorator('floorNum', {
+                      initialValue: this.currentItem.floorNum,
+                      rules: [{ required: true, type: 'number', message: '请输入楼栋名称!', trigger: 'change' }]
+                    })(
+                      <Input placeholder="请输入排序值" />
+                    )
+                  }
+                </Form.Item>
+              </Col>
+              <Col span={14}>
+                <Form.Item>
+                  {
+                    this.form.getFieldDecorator('isUnderground', {
+                      initialValue: this.currentItem.isUnderground === 1
+                    })(
+                      <Checkbox>含地下楼层</Checkbox>
+                    )
+                  }
+                </Form.Item>
+              </Col>
+            </Row>
           </Form.Item>
-          <Form.Item label="排序">
+          <Form.Item label="排序" class={'half'}>
             {
               this.form.getFieldDecorator('sortIndex', {
-                initialValue: this.currentItem.sortIndex || 0
+                initialValue: this.currentItem.sortIndex || 0,
+                rules: [{ required: true, type: 'number', message: '请输入排序值!', trigger: 'blur' }]
               })(
                 <Input placeholder="请输入排序值" />
               )
             }
           </Form.Item>
-          <Form.Item label="状态">
+          <Form.Item label="状态" class={'half'}>
             {
               this.form.getFieldDecorator('status', {
-                initialValue: this.currentItem.status
+                valuePropName: 'checked',
+                initialValue: this.currentItem.status === 1,
+                rules: [{ required: true, type: 'boolean', message: '请选择状态!', trigger: 'blur' }]
               })(
                 <Switch />
               )

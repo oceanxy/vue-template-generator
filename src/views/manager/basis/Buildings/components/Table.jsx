@@ -1,5 +1,5 @@
 import '../assets/styles/index.scss'
-import { Button, Space, Table } from 'ant-design-vue'
+import { Button, Space, Switch, Table } from 'ant-design-vue'
 import forTable from '@/mixins/forTable'
 
 export default {
@@ -10,40 +10,37 @@ export default {
         columns: [
           {
             title: '序号',
-            dataIndex: ''
+            width: 60,
+            align: 'center',
+            scopedSlots: { customRender: 'serialNumber' }
           },
           {
             title: '图片',
-            dataIndex: 'appName'
+            width: 60,
+            align: 'center',
+            scopedSlots: { customRender: 'imgList' }
           },
           {
             title: '编号',
-            dataIndex: 'remark'
+            dataIndex: 'buildNo'
           },
           {
             title: '名称',
-            align: 'center',
-            dataIndex: 'zz'
+            dataIndex: 'fullName'
           },
           {
             title: '所属园区',
-            align: 'center',
-            dataIndex: 'xx'
+            dataIndex: 'parkName'
           },
           {
             title: '楼层数',
             align: 'center',
-            dataIndex: 'cc'
-          },
-          {
-            title: '物业单位',
-            align: 'center',
-            dataIndex: 'vv'
+            dataIndex: 'floorNum'
           },
           {
             title: '状态',
             align: 'center',
-            width: 60,
+            width: 80,
             scopedSlots: { customRender: 'status' }
           },
           {
@@ -73,12 +70,16 @@ export default {
         {...attributes}
         {...{
           scopedSlots: {
-            // status: (text, record) => (
-            //   <Switch
-            //     checked={+record.status === 1}
-            //     onChange={checked => this.onStatusChange(checked, record)}
-            //   />
-            // ),
+            serialNumber: (text, record, index) => index + 1,
+            status: (text, record) => (
+              <Switch
+                checked={+record.status === 1}
+                onChange={checked => this.onStatusChange(checked, record)}
+              />
+            ),
+            imgList: (text, record) => (
+              <img src={record.imgList[0]?.path} alt={''} class={'bnm-table-img'} />
+            ),
             operation: (text, record) => (
               <Space class="operation-space">
                 <Button
