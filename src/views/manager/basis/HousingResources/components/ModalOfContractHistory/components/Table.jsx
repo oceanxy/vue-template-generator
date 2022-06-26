@@ -10,49 +10,56 @@ export default {
         columns: [
           {
             title: '序号',
-            dataIndex: ''
+            width: 60,
+            align: 'center',
+            scopedSlots: { customRender: 'serialNumber' }
           },
           {
             title: '签约企业',
-            dataIndex: 'h'
+            dataIndex: 'companyName'
           },
           {
             title: '签约日期',
-            dataIndex: 'appName'
+            dataIndex: 'signingTimeStr'
           },
           {
             title: '解约日期',
-            dataIndex: 'remark'
+            dataIndex: 'removeTimeStr'
           },
           {
             title: '周期（月）',
             align: 'center',
-            dataIndex: 'zz'
+            dataIndex: 'durationMonth'
           },
           {
             title: '状态',
             align: 'center',
-            width: 60,
-            scopedSlots: { customRender: 'status' }
+            width: 80,
+            scopedSlots: { customRender: 'signingStatus' }
           }
         ],
-        class: 'modal-of-agency-history'
+        class: 'modal-of-agency-history',
+        rowSelection: null,
+        tableLayout: 'fixed',
+        size: 'middle'
       }
     }
   },
   methods: {
     async onAgencyHistoryClick(record) {
-      await this._setVisibleOfModal(record, 'visibleOfAgencyHistory')
+      await this._setVisibleOfModal(record, 'visibleOfContractHistory')
     }
   },
   render() {
+    // TODO 为弹窗里面的表格适配数据接口
+
     const attruibutes = {
       props: {
         ...this.tableProps,
         loading: this.getLoading(this.moduleName)
       },
       attrs: {
-        class: 'modal-of-agency-history'
+        class: 'modal-of-contract-history-table'
       }
     }
 
@@ -61,12 +68,12 @@ export default {
         {...attruibutes}
         {...{
           scopedSlots: {
-            // status: (text, record) => (
-            //   <Switch
-            //     checked={+record.status === 1}
-            //     onChange={checked => this.onStatusChange(checked, record)}
-            //   />
-            // )
+            serialNumber: (text, record, index) => index + 1,
+            signingStatus: (text, record) => (
+              <span style={{ color: ['#52c41a', '#faad14'][record.signingStatus - 1] }}>
+                {record.signingStatus}
+              </span>
+            )
           }
         }}
       />

@@ -33,6 +33,9 @@ export function createStoreModule(target = {}) {
     },
     actions: {
       ...target.actions
+    },
+    modules: {
+      ...target.modules
     }
   }
 }

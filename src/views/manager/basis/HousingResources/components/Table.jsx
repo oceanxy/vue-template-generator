@@ -1,5 +1,5 @@
 import '../assets/styles/index.scss'
-import { Button, Space, Table } from 'ant-design-vue'
+import { Button, Space, Switch, Table } from 'ant-design-vue'
 import forTable from '@/mixins/forTable'
 
 export default {
@@ -10,44 +10,47 @@ export default {
         columns: [
           {
             title: '序号',
-            dataIndex: ''
+            width: 60,
+            align: 'center',
+            scopedSlots: { customRender: 'serialNumber' }
           },
           {
             title: '房号',
-            dataIndex: 'h'
+            dataIndex: 'roomNo'
           },
           {
             title: '图片',
-            dataIndex: 'appName'
+            width: 60,
+            align: 'center',
+            scopedSlots: { customRender: 'imgList' }
           },
           {
             title: '位置',
-            dataIndex: 'remark'
+            scopedSlots: { customRender: 'address' }
           },
           {
-            title: '面积',
+            title: '面积（㎡）',
             align: 'center',
-            dataIndex: 'zz'
+            dataIndex: 'roomArea'
           },
           {
             title: '单价',
-            align: 'center',
-            dataIndex: 'xx'
+            scopedSlots: { customRender: 'price' }
           },
           {
             title: '工位数',
             align: 'center',
-            dataIndex: 'cc'
+            dataIndex: 'workstationNum'
           },
           {
-            title: '配套',
+            title: '配套设施',
             align: 'center',
-            dataIndex: 'vv'
+            dataIndex: 'supportFacilityStr'
           },
           {
             title: '状态',
             align: 'center',
-            width: 60,
+            width: 80,
             scopedSlots: { customRender: 'status' }
           },
           {
@@ -81,12 +84,18 @@ export default {
         {...attributes}
         {...{
           scopedSlots: {
-            // status: (text, record) => (
-            //   <Switch
-            //     checked={+record.status === 1}
-            //     onChange={checked => this.onStatusChange(checked, record)}
-            //   />
-            // ),
+            serialNumber: (text, record, index) => index + 1,
+            imgList: (text, record) => (
+              <img src={record.imgList[0]?.path} alt={''} class={'bnm-table-img'} />
+            ),
+            address: (text, record) => `${record.buildName}/${record.floorName}`,
+            price: (text, record) => `￥${record.price}/${['月', '季', '年'][record.priceType - 1]}`,
+            status: (text, record) => (
+              <Switch
+                checked={+record.status === 1}
+                onChange={checked => this.onStatusChange(checked, record)}
+              />
+            ),
             operation: (text, record) => (
               <Space class="operation-space">
                 <Button

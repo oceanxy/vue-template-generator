@@ -1,17 +1,9 @@
 import '../index.scss'
 import { Button, Form, Input, Select, Space } from 'ant-design-vue'
 import forInquiry from '@/mixins/forInquiry'
-import { mapActions, mapState } from 'vuex'
 
 export default Form.create({})({
   mixins: [forInquiry()],
-  computed: mapState({ allSiteApps: 'allSiteApps' }),
-  async created() {
-    await this.getAllSiteApps()
-  },
-  methods: {
-    ...mapActions({ getAllSiteApps: 'getAllSiteApps' })
-  },
   render() {
     return (
       <Form
@@ -23,22 +15,17 @@ export default Form.create({})({
         <Space>
           <Form.Item>
             {
-              this.form.getFieldDecorator('pageName')(
+              this.form.getFieldDecorator('companyName')(
                 <Input placeholder="企业名称" allowClear />
               )
             }
           </Form.Item>
           <Form.Item>
             {
-              this.form.getFieldDecorator('appId')(
-                <Select placeholder="请选择状态" allowClear>
-                  {
-                    this.allSiteApps.map(item => (
-                      <Select.Option value={item.id}>
-                        {item.appName}
-                      </Select.Option>
-                    ))
-                  }
+              this.form.getFieldDecorator('signingStatus')(
+                <Select placeholder="请选择签约状态" allowClear>
+                  <Select.Option value={1}>签约中</Select.Option>
+                  <Select.Option value={2}>已解约</Select.Option>
                 </Select>
               )
             }

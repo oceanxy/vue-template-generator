@@ -1,16 +1,13 @@
 import './index.scss'
 import { Button, Form } from 'ant-design-vue'
 import forModal from '@/mixins/forModal'
-import dynamicState from '@/mixins/dynamicState'
-import { mapState } from 'vuex'
 import DragModal from '@/components/DragModal'
-import Inquiry from '@/views/manager/basis/HousingResources/components/ModalOfAgencyHistory/components/Inquiry'
-import Table from '@/views/manager/basis/HousingResources/components/ModalOfAgencyHistory/components/Table'
-import store, { dynamicModules } from '@/store/manager'
+import Inquiry from './components/Inquiry'
+import Table from './components/Table'
 
 export default Form.create({})({
-  name: 'HousingResources-ModalOfAgencyHistory',
-  mixins: [dynamicState(store, dynamicModules), forModal()],
+  inject: ['moduleName'],
+  mixins: [forModal()],
   props: {
     /**
      * 标题（可定义占位符）
@@ -24,19 +21,15 @@ export default Form.create({})({
   data() {
     return {
       // 此字段与 store 里的同名字段必须保持一致，用于控制该弹窗的可见性，默认值为 modal mixin 里的 visibleField 的值
-      visibleField: 'visibleOfAgencyHistory',
+      visibleField: 'visibleOfContractHistory',
       modalProps: {
-        width: 700,
+        width: 800,
         title: this.title,
-        footer: <Button onClick={() => this.onCancel(this.visibleField)}>取消</Button>
+        footer: <Button onClick={() => this.onCancel(this.visibleField)}>关闭</Button>
       }
     }
   },
   computed: {
-    ...mapState({
-      allSiteApps: 'allSiteApps',
-      allFunctionalModules: 'allFunctionalModules'
-    })
   },
   watch: {
     async visible(value) {
@@ -54,7 +47,7 @@ export default Form.create({})({
     }
 
     return (
-      <DragModal {...attributes} class={'bnm-housing-resources-container'}>
+      <DragModal {...attributes} class={'modal-of-contract-history'}>
         <Inquiry />
         <Table />
       </DragModal>

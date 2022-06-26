@@ -1,17 +1,9 @@
+import '../assets/styles/index.scss'
 import { Button, Form, Input, Select, Space } from 'ant-design-vue'
 import forInquiry from '@/mixins/forInquiry'
-import { mapActions, mapState } from 'vuex'
-import '../assets/styles/index.scss'
 
 export default Form.create({})({
   mixins: [forInquiry()],
-  computed: mapState({ allSiteApps: 'allSiteApps' }),
-  async created() {
-    await this.getAllSiteApps()
-  },
-  methods: {
-    ...mapActions({ getAllSiteApps: 'getAllSiteApps' })
-  },
   render() {
     return (
       <Form
@@ -23,44 +15,43 @@ export default Form.create({})({
         <Space>
           <Form.Item>
             {
-              this.form.getFieldDecorator('pageName')(
-                <Input placeholder="按面积" allowClear />
-              )
-            }
-          </Form.Item>
-          <Form.Item>
-            {
-              this.form.getFieldDecorator('pageName')(
-                <Input placeholder="价格区间" allowClear />
-              )
-            }
-          </Form.Item>
-          <Form.Item>
-            {
-              this.form.getFieldDecorator('appId')(
-                <Select placeholder="请选择装修状态" allowClear>
-                  {
-                    this.allSiteApps.map(item => (
-                      <Select.Option value={item.id}>
-                        {item.appName}
-                      </Select.Option>
-                    ))
-                  }
+              this.form.getFieldDecorator('selectType')(
+                <Select placeholder="请选择查询方式" allowClear>
+                  <Select.Option value={1}>按面积</Select.Option>
+                  <Select.Option value={2}>按单价</Select.Option>
                 </Select>
               )
             }
           </Form.Item>
           <Form.Item>
             {
-              this.form.getFieldDecorator('appId')(
+              this.form.getFieldDecorator('priceRange')(
+                <Input.Group compact>
+                  <Input placeholder={'最小值'} />
+                  <Input placeholder={'~'} disabled />
+                  <Input placeholder={'最大值'} />
+                </Input.Group>
+              )
+            }
+          </Form.Item>
+          <Form.Item>
+            {
+              this.form.getFieldDecorator('renovationStatus')(
+                <Select placeholder="请选择装修情况" allowClear>
+                  <Select.Option value={1}>简装</Select.Option>
+                  <Select.Option value={2}>精装</Select.Option>
+                  <Select.Option value={3}>豪装</Select.Option>
+                  <Select.Option value={4}>星级装修</Select.Option>
+                </Select>
+              )
+            }
+          </Form.Item>
+          <Form.Item>
+            {
+              this.form.getFieldDecorator('status')(
                 <Select placeholder="请选择状态" allowClear>
-                  {
-                    this.allSiteApps.map(item => (
-                      <Select.Option value={item.id}>
-                        {item.appName}
-                      </Select.Option>
-                    ))
-                  }
+                  <Select.Option value={1}>启用</Select.Option>
+                  <Select.Option value={2}>停用</Select.Option>
                 </Select>
               )
             }
