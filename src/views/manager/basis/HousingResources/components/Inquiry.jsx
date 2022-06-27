@@ -1,5 +1,5 @@
 import '../assets/styles/index.scss'
-import { Button, Form, Input, Select, Space } from 'ant-design-vue'
+import { Button, Form, Input, InputNumber, Select, Space } from 'ant-design-vue'
 import forInquiry from '@/mixins/forInquiry'
 
 export default Form.create({})({
@@ -26,10 +26,24 @@ export default Form.create({})({
           <Form.Item>
             {
               this.form.getFieldDecorator('priceRange')(
-                <Input.Group compact>
-                  <Input placeholder={'最小值'} />
-                  <Input placeholder={'~'} disabled />
-                  <Input placeholder={'最大值'} />
+                <Input.Group compact class={'number-range'}>
+                  <InputNumber
+                    placeholder={'最小值'}
+                    title={'单价最小值'}
+                    min={0}
+                    precision={2}
+                  />
+                  <Input
+                    placeholder={'~'}
+                    disabled
+                    class={'identifier'}
+                  />
+                  <InputNumber
+                    placeholder={'最大值'}
+                    title={'单价最大值'}
+                    min={0}
+                    precision={2}
+                  />
                 </Input.Group>
               )
             }

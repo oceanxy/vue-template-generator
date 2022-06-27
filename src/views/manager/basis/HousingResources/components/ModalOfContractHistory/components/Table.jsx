@@ -3,6 +3,7 @@ import { Table } from 'ant-design-vue'
 import forTable from '@/mixins/forTable'
 
 export default {
+  inject: ['submoduleName', 'visibleField'],
   mixins: [forTable],
   data() {
     return {
@@ -54,7 +55,7 @@ export default {
     const attruibutes = {
       props: {
         ...this.tableProps,
-        loading: this.getLoading(this.moduleName)
+        loading: this.getLoading(this.moduleName, this.submoduleName)
       },
       attrs: {
         class: 'modal-of-contract-history-table'
@@ -69,7 +70,7 @@ export default {
             serialNumber: (text, record, index) => index + 1,
             signingStatus: (text, record) => (
               <span style={{ color: ['#52c41a', '#faad14'][record.signingStatus - 1] }}>
-                {record.signingStatus}
+                {['签约中', '已解约'][record.signingStatus - 1]}
               </span>
             )
           }

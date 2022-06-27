@@ -3,6 +3,7 @@ import { Button, Form, Input, Select, Space } from 'ant-design-vue'
 import forInquiry from '@/mixins/forInquiry'
 
 export default Form.create({})({
+  inject: ['submoduleName'],
   mixins: [forInquiry()],
   render() {
     return (

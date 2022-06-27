@@ -12,7 +12,7 @@ import forIndex from '@/mixins/forIndex'
  * @param isSubModule {boolean} 是否是子模块
  * @returns {Object}
  */
-export default isSubModule => {
+export default (isSubModule = false) => {
   let forModuleName = {
     mixins: [forIndex],
     computed: {

@@ -37,15 +37,36 @@ export default {
   },
   async created() {
     // 为 list 创建动态侦听器
-    this.$watch(
-      () => this.$store.state[this.moduleName].list,
-      async list => {
-        this.tableProps.dataSource = list
+    if (!this.submoduleName) {
+      this.$watch(
+        () => this.$store.state[this.moduleName].list,
+        async list => {
+          this.tableProps.dataSource = list
 
-        this.resize()
-      }
-    )
-    await this.fetchList()
+          this.resize()
+        }
+      )
+
+      await this.fetchList()
+    } else {
+      this.$watch(
+        () => this.$store.state[this.moduleName][this.visibleField],
+        async visibleField => {
+          if (visibleField) {
+            await this.fetchList()
+          }
+        },
+        { immediate: true }
+      )
+
+      this.$watch(
+        () => this.$store.state[this.moduleName][this.submoduleName].list,
+        async list => {
+          this.tableProps.dataSource = list
+        },
+        { immediate: true }
+      )
+    }
   },
   mounted() {
     window.addEventListener('resize', this.resize)
@@ -62,7 +83,7 @@ export default {
     async fetchList() {
       await this.$store.dispatch('getList', {
         moduleName: this.moduleName,
-        submoduleName: ''
+        submoduleName: this.submoduleName
       })
     },
     /**
