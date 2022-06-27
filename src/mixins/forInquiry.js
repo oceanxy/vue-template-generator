@@ -5,19 +5,29 @@
  * @Date: 2022-03-14 周一 15:33:20
  */
 
-import { cloneDeep, omit } from 'lodash'
+import { omit } from 'lodash'
 
 export default () => {
   return {
     inject: ['moduleName'],
     methods: {
       transformValue(values) {
-        const temp = { ...values }
+        let temp = { ...values }
+
         if ('dateRange' in temp) {
-          const [startTime, endTime] = temp.dateRange
-          temp.startTime = startTime
-          temp.endTime = endTime
+          temp.startTime = temp.dateRange[0]
+          temp.endTime = temp.dateRange[1]
+
+          temp = omit(temp, 'dateRange')
         }
+
+        if ('priceRange' in temp) {
+          temp.min = temp.priceRange[0]
+          temp.max = temp.priceRange[1]
+
+          temp = omit(temp, 'priceRange')
+        }
+
         return temp
       },
       async onClear() {
