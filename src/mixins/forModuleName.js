@@ -1,0 +1,37 @@
+/**
+ * 根据页面 name 自动生成 moduleName 的混合
+ * @Author: Oceanxy
+ * @Email: xyzsyx@163.com
+ * @Date: 2022-06-27 周一 10:09:06
+ */
+
+import forIndex from '@/mixins/forIndex'
+
+export default {
+  mixins: [forIndex],
+  provide() {
+    return {
+      moduleName: this.moduleName
+    }
+  },
+  computed: {
+    moduleName() {
+      let name = this.$options.name || ''
+
+      // 获取父级模块名称，moduleName 一律使用父级模块的名称。
+      // 格式 父级模块名称-本级模块名称
+      const index = name.indexOf('-')
+
+      if (index > -1) {
+        name = name.substring(0, index)
+      }
+
+      if (!name) {
+        console.warn('请设置组件的名称(name)，动态创建store模块需要该属性！')
+        return null
+      }
+
+      return name.replace(/^\S/g, s => s.toLowerCase())
+    }
+  }
+}

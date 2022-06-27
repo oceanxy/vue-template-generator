@@ -1,13 +1,13 @@
 /**
- * 创建动态vuex模块.依赖 forIndex 混合
+ * 创建动态vuex模块.依赖 forModuleName 混合
  * @Author: Oceanxy
  * @Email: xyzsyx@163.com
  * @Date: 2022-03-10 周四 16:31:00
  */
 
-import forIndex from './forIndex'
 import { commitRootInModule } from '@/utils/store'
 import utilityFunction from '@/utils/utilityFunction'
+import forModuleName from './forModuleName'
 
 /**
  * 创建动态vuex模块
@@ -60,7 +60,7 @@ export default (store, dynamicModules, customModuleName, isRequestData = true) =
     }
   } else {
     dynamicState = {
-      mixins: [forIndex],
+      mixins: [forModuleName],
       created() {
         if (this.moduleName) {
           if (!store.hasModule(this.moduleName)) {

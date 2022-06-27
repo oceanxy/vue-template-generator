@@ -4,14 +4,14 @@ import { dispatch } from '@/utils/store'
 import dynamicState from '@/mixins/dynamicState'
 import { mapGetters } from 'vuex'
 import store, { dynamicModules } from '@/store/manager'
-import forFormModal from '@/mixins/forFormModal'
+import forFormModal from '@/mixins/forModal/forFormModal'
 import DragModal from '@/components/DragModal'
 import UploadPictures from './UploadPictures'
 import { debounce } from 'lodash'
 
 export default Form.create({})({
   mixins: [
-    forFormModal,
+    forFormModal(),
     // 注册枚举模块
     dynamicState(store, dynamicModules, 'regulatoryUnits'),
     dynamicState(store, dynamicModules, 'operatingUnits'),

@@ -1,6 +1,6 @@
 import '../assets/styles/index.scss'
 import { Cascader, Col, Form, Input, Row, Switch, TreeSelect } from 'ant-design-vue'
-import forFormModal from '@/mixins/forFormModal'
+import forFormModal from '@/mixins/forModal/forFormModal'
 import DragModal from '@/components/DragModal'
 import dynamicState from '@/mixins/dynamicState'
 import store, { dynamicModules } from '@/store/manager'
@@ -9,7 +9,7 @@ import { dispatch } from '@/utils/store'
 
 export default Form.create({ name: 'editForm' })({
   mixins: [
-    forFormModal,
+    forFormModal(),
     dynamicState(store, dynamicModules, 'organizations')
   ],
   props: {

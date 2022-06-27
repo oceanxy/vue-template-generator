@@ -1,13 +1,13 @@
 import '../assets/styles/index.scss'
 import { Cascader, Col, Form, Input, Row, Select, Switch } from 'ant-design-vue'
-import forFormModal from '@/mixins/forFormModal'
+import forFormModal from '@/mixins/forModal/forFormModal'
 import { mapGetters } from 'vuex'
 import DragModal from '@/components/DragModal'
 import { debounce } from 'lodash'
 import { dispatch } from '@/utils/store'
 
 export default Form.create({})({
-  mixins: [forFormModal],
+  mixins: [forFormModal()],
   props: {
     /**
      * 标题（可定义占位符）

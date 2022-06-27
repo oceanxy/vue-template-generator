@@ -51,8 +51,6 @@ export default {
     }
   },
   render() {
-    // TODO 为弹窗里面的表格适配数据接口
-
     const attruibutes = {
       props: {
         ...this.tableProps,

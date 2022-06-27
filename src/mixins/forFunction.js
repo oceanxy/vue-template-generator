@@ -1,13 +1,13 @@
 /**
+ * 表格功能按钮混合
  * @Author: Oceanxy
  * @Email: xyzsyx@163.com
- * @Description: 表格功能按钮
  * @Date: 2022-03-14 周一 15:43:52
  */
 
 import { mapGetters } from 'vuex'
 import { message, Modal } from 'ant-design-vue'
-import forComponent from '@/mixins/forComponent'
+import forIndex from '@/mixins/forIndex'
 
 /**
  * 为表格功能按钮生成 mixin
@@ -15,7 +15,8 @@ import forComponent from '@/mixins/forComponent'
  * @returns {Object}
  */
 export default cb => ({
-  mixins: [forComponent],
+  inject: ['moduleName'],
+  mixins: [forIndex],
   data() {
     return {
       editButtonDisabled: true,

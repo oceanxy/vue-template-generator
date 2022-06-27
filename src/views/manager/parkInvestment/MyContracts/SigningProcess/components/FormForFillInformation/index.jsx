@@ -3,11 +3,11 @@ import { Button, Checkbox, Col, Form, Row, Select } from 'ant-design-vue'
 import forInquiry from '@/mixins/forInquiry'
 import { mapGetters } from 'vuex'
 import ModalOfChooseVenue from './ModalOfChooseVenue'
-import forComponent from '@/mixins/forComponent'
+import forIndex from '@/mixins/forIndex'
 import Table from './Table'
 
 export default Form.create({})({
-  mixins: [forInquiry(), forComponent],
+  mixins: [forInquiry(), forIndex],
   data() {
     return ({
       value: []

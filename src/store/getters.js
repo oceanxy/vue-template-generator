@@ -1,5 +1,3 @@
-import { dispatch } from '@/utils/store'
-
 export default {
   getLoading: state => moduleName => state[moduleName].loading,
   getVisible: state => (moduleName, stateName) => state[moduleName][stateName],
@@ -9,6 +7,7 @@ export default {
   getSelectedRows: state => moduleName => state[moduleName].selectedRows,
   getList: state => moduleName => state[moduleName]?.list ?? [],
   getSearch: state => moduleName => state[moduleName].search,
+  getStateOfModule: state => (moduleName, submoduleName) => state[moduleName][submoduleName],
 
   administrativeDivision: state => state.common.administrativeDivision,
   defaultAdministrativeDivision: state => state.common.defaultAdministrativeDivision,

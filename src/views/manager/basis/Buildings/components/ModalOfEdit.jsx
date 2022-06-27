@@ -1,6 +1,6 @@
 import '../assets/styles/index.scss'
 import { Checkbox, Col, Form, Input, Row, Select, Switch } from 'ant-design-vue'
-import forFormModal from '@/mixins/forFormModal'
+import forFormModal from '@/mixins/forModal/forFormModal'
 import { mapGetters } from 'vuex'
 import DragModal from '@/components/DragModal'
 import UploadPictures from '@/views/manager/parkSupervision/technologyBureau/Parks/components/UploadPictures'

@@ -1,5 +1,5 @@
 /**
- * 弹窗 依赖 forIndex
+ * 弹窗混合 依赖 forIndex
  * @Author: Oceanxy
  * @Email: xyzsyx@163.com
  * @Date: 2022-05-31 周二 17:39:54
@@ -10,6 +10,7 @@ import forIndex from '@/mixins/forIndex'
 
 export default customModuleName => {
   const mixinForModal = {
+    inject: ['moduleName'],
     mixins: [forIndex],
     data() {
       return {

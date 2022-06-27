@@ -1,5 +1,5 @@
 /**
- * 模块首页（index）组件通用，主要提供moduleName，以及一些模块辅助函数
+ * 通用混合，主要封装一些辅助函数
  * @Author: Oceanxy
  * @Email: xyzsyx@163.com
  * @Date: 2022-05-31 周二 17:25:55
@@ -8,31 +8,6 @@
 import { dispatch } from '@/utils/store'
 
 export default {
-  provide() {
-    return {
-      moduleName: this.moduleName
-    }
-  },
-  computed: {
-    moduleName() {
-      let name = this.$options.name || ''
-
-      // 获取父级模块名称，moduleName 一律使用父级模块的名称。
-      // 格式 父级模块名称-本级模块名称
-      const index = name.indexOf('-')
-
-      if (index > -1) {
-        name = name.substring(0, index)
-      }
-
-      if (!name) {
-        console.warn('请设置组件的名称(name)，动态创建store模块需要该属性！')
-        return null
-      }
-
-      return name.replace(/^\S/g, s => s.toLowerCase())
-    }
-  },
   methods: {
     /**
      * 注入封装后的 dispatch，不必再手动传入 moduleName。
@@ -51,6 +26,27 @@ export default {
       } else {
         await dispatch(this.moduleName, action, payload)
       }
+    },
+    /**
+     * 打开弹窗操作
+     *  1、设置 currentItem 数据。（当前用于操作的数据）
+     *  2、设置对应弹窗的可见性为true，弹窗的控制字段请对应store内定义的字段
+     * @param [record] {Object} 当前用于操作的数据。编辑弹窗为回显数据，详情弹窗为详情数据，为假值时代表清空 currentItem
+     * @param [visibleField] {string} 默认值为打开编辑弹窗的可见性控制字段：visibleOfEdit
+     * @param [moduleName] {string} 目标模块名，在一个模块内调用另外一个模块的 state 时，需要传递对应模块的 moduleName
+     * @returns {Promise<void>}
+     */
+    async _setVisibleOfModal(record, visibleField, moduleName) {
+      await this.$store.dispatch('setCurrentItem', {
+        value: record,
+        moduleName: this.moduleName
+      })
+
+      await this.$store.dispatch('setModalVisible', {
+        statusField: visibleField,
+        statusValue: true,
+        moduleName: moduleName || this.moduleName
+      })
     }
   }
 }

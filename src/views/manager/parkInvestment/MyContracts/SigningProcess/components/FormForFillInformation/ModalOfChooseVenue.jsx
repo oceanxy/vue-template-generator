@@ -1,12 +1,12 @@
 import './index.scss'
 import { Form, Icon, Input, Switch, Upload } from 'ant-design-vue'
-import forFormModal from '@/mixins/forFormModal'
+import forFormModal from '@/mixins/forModal/forFormModal'
 import { mapState } from 'vuex'
 import DragModal from '@/components/DragModal'
 import MultiInput from './MultiInput'
 
 export default Form.create({})({
-  mixins: [forFormModal],
+  mixins: [forFormModal()],
   props: {
     /**
      * 标题（可定义占位符）
