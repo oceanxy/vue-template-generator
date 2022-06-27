@@ -1,5 +1,6 @@
 export default {
-  getLoading: state => (moduleName, submoduleName = '') => {
+  getLoading: state => (moduleName, submoduleName) => {
+    submoduleName = submoduleName || ''
     if (!submoduleName) {
       return state[moduleName].loading
     } else {
@@ -12,6 +13,7 @@ export default {
   getSelectedRowKeys: state => moduleName => state[moduleName].selectedRowKeys,
   getSelectedRows: state => moduleName => state[moduleName].selectedRows,
   getList: state => moduleName => state[moduleName]?.list ?? [],
+  getDetails: state => moduleName => state[moduleName]?.details ?? {},
   getSearch: state => moduleName => state[moduleName].search,
   getStateOfModule: state => (moduleName, submoduleName) => state[moduleName][submoduleName],
 

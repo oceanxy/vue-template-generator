@@ -53,7 +53,12 @@ export default {
   },
   methods: {
     onDetailsClick(record) {
-      this.$router.push({ name: 'contractReviewDetails' })
+      this.$router.push({
+        name: 'contractReviewDetails',
+        params: {
+          id: record.id
+        }
+      })
     }
   },
   render() {
