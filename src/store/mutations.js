@@ -92,6 +92,21 @@ export default {
     }
   },
   /**
+   * 设置详情数据
+   * @param state {Object}
+   * @param value {Object[]}
+   * @param moduleName {string}
+   * @param submoduleName {string}
+   * @param stateName {string} 需要设置的字段，默认 state.details
+   */
+  setDetails(state, { value, moduleName, submoduleName, stateName }) {
+    if (!submoduleName) {
+      state[moduleName][stateName || 'details'] = value
+    } else {
+      state[moduleName][submoduleName][stateName || 'details'] = value
+    }
+  },
+  /**
    * 设置modal的可见性
    * @param state {Object}
    * @param payload {{

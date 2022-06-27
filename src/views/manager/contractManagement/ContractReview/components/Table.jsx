@@ -78,12 +78,14 @@ export default {
                 <Button type="link" size="small" onClick={() => this.onDetailsClick(record)}>
                   签约详情
                 </Button>
-                <Button
-                  type="link"
-                  size="small"
-                  onClick={() => this._setVisibleOfModal(record, 'visibleOfContractReview')}>
-                  审核
-                </Button>
+                {record.signingStatus === 2 ? (
+                  <Button
+                    type="link"
+                    size="small"
+                    onClick={() => this._setVisibleOfModal(record, 'visibleOfContractReview')}>
+                    审核
+                  </Button>
+                ) : null}
               </Space>
             )
           }

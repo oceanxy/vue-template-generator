@@ -17,7 +17,7 @@ export default {
       <BNContainerWithParkSider contentClass={'bnm-contract-review-container'}>
         <TGContainer>
           <Inquiry slot={'inquiry'} />
-          <Functions slot={'functions'} />
+
           <Table slot={'table'} />
           <Pagination slot={'pagination'} />
           <ModalOfContractReview slot={'modals'} modalTitle={'签约审核'} />

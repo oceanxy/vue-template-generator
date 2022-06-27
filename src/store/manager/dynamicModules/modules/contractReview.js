@@ -1,123 +1,53 @@
+import { createStoreModule } from '@/store/template'
 import apis from '@/apis'
-import { omit } from 'lodash'
-
-export default commitRootInModule => {
-  // 搜索模型
-  const searchModel = {
-    appName: undefined,
-    status: undefined
-  }
-
-  return {
-    namespaced: true,
+export default commitRootInModule =>
+  createStoreModule({
     state: {
-      loading: false,
-      search: { ...searchModel },
-      pagination: {
-        pageIndex: 0,
-        pageSize: 10,
-        total: 0
-      },
-      currentItem: {},
-      list: [],
-      visibleOfContractReview: false,
-      selectedRowKeys: [],
-      selectedRows: []
+      visibleOfContractReview: false
     },
-    mutations: {},
     actions: {
       /**
-       * 设置搜索参数
-       * @param state
-       * @param [payload]
-       */
-      setSearch({ state }, payload) {
-        commitRootInModule('setSearch', { ...(payload ?? searchModel) })
-      },
-      /**
-       * 更新状态
-       * @param state
-       * @param payload
-       * @return {Promise<*>}
-       */
-      async updateStatus({ state }, payload) {
-        commitRootInModule('setLoading', true)
-
-        const { status } = await apis.updateSiteAppsStatus(payload)
-
-        commitRootInModule('setLoading', false)
-
-        return status
-      },
-      /**
-       * 设置选择的行
-       * @param state
-       * @param payload
-       */
-      setRowSelected({ state }, payload) {
-        commitRootInModule('setRowSelected', payload)
-      },
-      /**
-       * 删除站点应用
+       * 审核
        * @param state
        * @param dispatch
-       * @param ids {Array}
-       * @returns {Promise<void>}
+       * @param moduleName {string}
+       * @param payload {Object}
+       * @param visibleField {string}
+       * @param isFetchList {boolean}
+       * @param customApiName {string} 自定义请求API
+       * @returns {Promise<*>}
        */
-      async delete({ state, dispatch }, ids) {
-        commitRootInModule('setLoading', true)
-
-        if (!ids) {
-          ids = state.selectedRowKeys
-        }
-
-        const response = await apis.deleteSiteApp({ ids })
-
+      async contractReviewSubmit(
+        { state, dispatch },
+        { moduleName, payload, visibleField, isFetchList, customApiName }
+      ) {
+        const response = await apis['contractReviewSubmit'](payload)
         if (response.status) {
-          dispatch('getList', {
-            pageIndex: 0
-          })
-        } else {
-          commitRootInModule('setLoading', false)
+          commitRootInModule('setModalVisible', false)
+          if (isFetchList) {
+            dispatch('getList', { moduleName })
+          }
         }
 
         return response.status
       },
       /**
-       * 新增站点应用
+       * 签约合同详情
        * @param state
        * @param dispatch
-       * @param payload
-       * @return {Promise<*>}
+       * @param moduleName {string}
+       * @param payload {Object}
+       * @param visibleField {string}
+       * @param isFetchList {boolean}
+       * @param customApiName {string} 自定义请求API
+       * @returns {Promise<*>}
        */
-      async add({ state, dispatch }, payload) {
-        const response = await apis.addSiteApp(payload)
-
+      async getContractDetail({ state, dispatch }, { moduleName, payload, visibleField, isFetchList, customApiName }) {
+        const response = await apis['contractAudit_getContractDetail'](payload)
         if (response.status) {
-          dispatch('setModalVisible', false)
-          dispatch('getList', {
-            pageIndex: 0
-          })
+          //
         }
-
-        return response.status
-      },
-      /**
-       * 更新站点应用
-       * @param state
-       * @param dispatch
-       * @param payload
-       * @return {Promise<*>}
-       */
-      async update({ state, dispatch }, payload) {
-        const response = await apis.updateSiteApp(payload)
-
-        if (response.status) {
-          dispatch('getList')
-        }
-
         return response.status
       }
     }
-  }
-}
+  })

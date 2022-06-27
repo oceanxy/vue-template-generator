@@ -8,12 +8,6 @@ export default {
    * 设置搜索参数
    * @param state
    * @param commit
-   * @param [payload]
-   */
-  /**
-   * 设置搜索参数
-   * @param state
-   * @param commit
    * @param dispatch
    * @param moduleName {string}
    * @param submoduleName {string}
@@ -36,7 +30,8 @@ export default {
         submoduleName,
         additionalQueryParameters: { pageIndex: 0 }
       },
-      { root: true })
+      { root: true }
+    )
   },
   /**
    * 获取所有站点应用
@@ -85,34 +80,39 @@ export default {
    * @param stateName {string} 需要设置的字段，默认 state.list
    * @returns {Promise<void>}
    */
-  async getList({ state, commit }, {
-    moduleName,
-    submoduleName,
-    additionalQueryParameters = {},
-    stateName
-  }) {
+  async getList({ state, commit }, { moduleName, submoduleName, additionalQueryParameters = {}, stateName }) {
     commit('setLoading', { value: true, moduleName, submoduleName })
 
-    const api = !config.mock
-      ? `get${submoduleName
-        ? `${utilityFunction.firstLetterToUppercase(submoduleName)}Of`
-        : ''}${utilityFunction.firstLetterToUppercase(moduleName)}`
-      : 'getList'
-
+    let api = 'getList'
+    if (!config.mock) {
+      api = `get${
+        submoduleName ? `${utilityFunction.firstLetterToUppercase(submoduleName)}Of` : ''
+      }${utilityFunction.firstLetterToUppercase(moduleName)}`
+    }
     let response
 
     if (!submoduleName) {
-      response = await apis[api](omit({
-        ...state[moduleName].pagination,
-        ...state[moduleName].search,
-        ...additionalQueryParameters
-      }, 'total'))
+      response = await apis[api](
+        omit(
+          {
+            ...state[moduleName].pagination,
+            ...state[moduleName].search,
+            ...additionalQueryParameters
+          },
+          'total'
+        )
+      )
     } else {
-      response = await apis[api](omit({
-        ...state[moduleName][submoduleName].pagination,
-        ...state[moduleName][submoduleName].search,
-        ...additionalQueryParameters
-      }, 'total'))
+      response = await apis[api](
+        omit(
+          {
+            ...state[moduleName][submoduleName].pagination,
+            ...state[moduleName][submoduleName].search,
+            ...additionalQueryParameters
+          },
+          'total'
+        )
+      )
     }
 
     if (response.status) {
@@ -128,6 +128,31 @@ export default {
       })
 
       commit('setList', { value: response.data.rows, moduleName, submoduleName, stateName })
+    }
+
+    commit('setLoading', { value: false, moduleName, submoduleName })
+  },
+  /**
+   * 获取详情数据
+   * @param state
+   * @param commit
+   * @param moduleName {string} 模块名
+   * @param submoduleName {string} 子模块名
+   * @param additionalQueryParameters {Object} 附加查询参数。例如分页相关参数，园区ID等。
+   * @param stateName {string} 需要设置的字段，默认 state.details
+   * @returns {Promise<void>}
+   */
+  async getDetails({ state, commit }, { moduleName, submoduleName, additionalQueryParameters = {}, stateName }) {
+    commit('setLoading', { value: true, moduleName, submoduleName })
+
+    const query = {
+      ...state[moduleName].currentItem.id,
+      ...additionalQueryParameters
+    }
+    const api = !config.mock ? `get${utilityFunction.firstLetterToUppercase(moduleName)}details` : 'getDetails'
+    const res = await apis[api](query)
+    if (res.status) {
+      commit('setDetails', { value: res.data, moduleName, submoduleName, stateName })
     }
 
     commit('setLoading', { value: false, moduleName, submoduleName })
@@ -172,13 +197,7 @@ export default {
    * @param customApiName {string} 自定义请求API
    * @returns {Promise<*>}
    */
-  async update({ state, dispatch }, {
-    moduleName,
-    payload,
-    visibleField,
-    isFetchList,
-    customApiName
-  }) {
+  async update({ state, dispatch }, { moduleName, payload, visibleField, isFetchList, customApiName }) {
     const response = await apis[customApiName || `update${utilityFunction.firstLetterToUppercase(moduleName)}`](payload)
 
     if (response.status) {
@@ -233,7 +252,8 @@ export default {
       // 删除数据后，刷新分页数据，避免请求不存在的页码
       if (state[moduleName].list.length - ids.length <= 0 && state[moduleName].pagination.pageIndex > 0) {
         commit('setPagination', {
-          value: { pageIndex: --state[moduleName].pagination.pageIndex }, moduleName
+          value: { pageIndex: --state[moduleName].pagination.pageIndex },
+          moduleName
         })
       }
 

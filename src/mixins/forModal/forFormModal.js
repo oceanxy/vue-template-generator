@@ -20,10 +20,7 @@ export default () => {
         immediate: true,
         handler(value) {
           if (value) {
-            this.modalProps.title = this.modalTitle.replace('{action}', this.currentItem.id
-              ? '编辑'
-              : '新增'
-            )
+            this.modalProps.title = this.modalTitle.replace('{action}', this.currentItem.id ? '编辑' : '新增')
           } else {
             this.form.resetFields()
           }

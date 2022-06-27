@@ -23,6 +23,7 @@ export function createStoreModule(target = {}) {
       },
       currentItem: {},
       list: [],
+      details: {},
       visibleOfEdit: false,
       selectedRowKeys: [],
       selectedRows: [],

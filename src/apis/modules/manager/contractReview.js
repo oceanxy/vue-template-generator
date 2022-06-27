@@ -13,5 +13,18 @@ export default {
       method: 'post',
       data: qs.stringify(data)
     })
+  },
+  /**
+   * 签约审核
+   * @param [request]
+   * @param data
+   * @returns {*}
+   */
+  contractReviewSubmit(request, data) {
+    return request({
+      url: '/business/contractAudit/contractAudit',
+      method: 'post',
+      data: qs.stringify(data)
+    })
   }
 }
