@@ -3,7 +3,7 @@ import { Button, Col, DatePicker, Form, Input, Row, Select, Switch } from 'ant-d
 import forFormModal from '@/mixins/forModal/forFormModal'
 import { mapState } from 'vuex'
 import DragModal from '@/components/DragModal'
-import MultiInput from '@/views/manager/questionnaire/QuestionnaireManagement/components/MultiInput'
+import MultiInput from './MultiInput'
 
 export default Form.create({})({
   mixins: [forFormModal()],
@@ -40,7 +40,7 @@ export default Form.create({})({
       attrs: this.modalProps,
       on: {
         cancel: () => this.onCancel(),
-        ok: this.onSubmit
+        ok: () => this.onSubmit()
       }
     }
 
@@ -48,57 +48,41 @@ export default Form.create({})({
       <DragModal {...attributes} class={'bnm-team-edit-modal'}>
         <Form class="bnm-form-grid">
           <Form.Item label="问卷标题">
-            {
-              this.form.getFieldDecorator('number', {
-                initialValue: this.currentItem.number,
-                rules: [{ required: true, message: '请输入编号!', trigger: 'blur' }]
-              })(
-                <Input placeholder="请输入编号" allowClear />
-              )
-            }
+            {this.form.getFieldDecorator('number', {
+              initialValue: this.currentItem.number,
+              rules: [{ required: true, message: '请输入编号!', trigger: 'blur' }]
+            })(<Input placeholder="请输入编号" allowClear />)}
           </Form.Item>
           <Form.Item label="问卷模版">
             <Row gutter={16}>
               <Col span={18}>
-                {
-                  this.form.getFieldDecorator('name', {
-                    initialValue: this.currentItem.name
-                  })(
-                    <Select>
-                      <Select.Option value={0}>未知</Select.Option>
-                    </Select>
-                  )
-                }
+                {this.form.getFieldDecorator('name', {
+                  initialValue: this.currentItem.name
+                })(
+                  <Select>
+                    <Select.Option value={0}>未知</Select.Option>
+                  </Select>
+                )}
               </Col>
-              <Col span={6}><Button>前往管理模版</Button></Col>
+              <Col span={6}>
+                <Button>前往管理模版</Button>
+              </Col>
             </Row>
           </Form.Item>
           <Form.Item label="问卷说明">
-            {
-              this.form.getFieldDecorator('ss', {
-                initialValue: this.currentItem.sortIndex || 0
-              })(
-                <Input placeholder="请输入排序值" type="textarea" />
-              )
-            }
+            {this.form.getFieldDecorator('ss', {
+              initialValue: this.currentItem.sortIndex || 0
+            })(<Input placeholder="请输入排序值" type="textarea" />)}
           </Form.Item>
           <Form.Item label="有效期">
-            {
-              this.form.getFieldDecorator('members', {
-                initialValue: this.currentItem.members
-              })(
-                <DatePicker.RangePicker placeholder="请输入描述" />
-              )
-            }
+            {this.form.getFieldDecorator('members', {
+              initialValue: this.currentItem.members
+            })(<DatePicker.RangePicker placeholder="请输入描述" />)}
           </Form.Item>
           <Form.Item label="资讯链接">
-            {
-              this.form.getFieldDecorator('qq', {
-                initialValue: this.currentItem.sortIndex || 0
-              })(
-                <MultiInput placeholder="请输入排序值" />
-              )
-            }
+            {this.form.getFieldDecorator('qq', {
+              initialValue: this.currentItem.sortIndex || 0
+            })(<MultiInput placeholder="请输入排序值" />)}
           </Form.Item>
         </Form>
       </DragModal>

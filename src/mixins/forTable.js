@@ -45,7 +45,6 @@ export default {
         this.resize()
       }
     )
-
     await this.fetchList()
   },
   mounted() {
@@ -84,10 +83,7 @@ export default {
       const index = this.tableProps.dataSource.findIndex(item => item.id === record.id)
 
       if (status) {
-        message.success([
-          <span style={{ color: 'blue' }}>{record.fullName}</span>,
-          ' 的状态已更新！'
-        ])
+        message.success([<span style={{ color: 'blue' }}>{record.fullName}</span>, ' 的状态已更新！'])
 
         // 更新当前行受控Switch组件的值
         this.$set(this.tableProps.dataSource[index], 'status', checked ? 1 : 2)
@@ -138,10 +134,7 @@ export default {
           })
 
           if (status) {
-            message.success([
-              <span style={{ color: 'blue' }}>{record.appName}</span>,
-              ' 已成功删除！'
-            ])
+            message.success([<span style={{ color: 'blue' }}>{record.appName}</span>, ' 已成功删除！'])
           }
 
           close()
@@ -166,7 +159,6 @@ export default {
     resize() {
       if (this.$refs[`${this.moduleName}Table`]) {
         this.$nextTick(() => {
-
           let footerHeight = 0
           const table = this.$refs[`${this.moduleName}Table`].$el
           const footer = table.querySelector('.ant-table-footer')

@@ -41,14 +41,10 @@ export default {
       attrs: this.modalProps,
       on: {
         cancel: () => this.onCancel('visibleOfQuestionnaireSwitch'),
-        ok: this.onSubmit
+        ok: () => this.onSubmit()
       }
     }
 
-    return (
-      <DragModal {...attributes}>
-        是否确认发布/结束问卷（问卷有效期结束后自动结束）
-      </DragModal>
-    )
+    return <DragModal {...attributes}>是否确认发布/结束问卷（问卷有效期结束后自动结束）</DragModal>
   }
 }
