@@ -1,6 +1,5 @@
 export default {
-  getLoading: state => (moduleName, submoduleName) => {
-    submoduleName = submoduleName || ''
+  getLoading: state => (moduleName, submoduleName = '') => {
     if (!submoduleName) {
       return state[moduleName].loading
     } else {
