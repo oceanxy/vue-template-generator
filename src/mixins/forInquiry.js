@@ -14,6 +14,7 @@ export default () => {
       async onClear() {
         await this.$store.dispatch('setSearch', {
           moduleName: this.moduleName,
+          submoduleName: this.submoduleName,
           payload: {}
         })
 
@@ -26,6 +27,7 @@ export default () => {
           if (!err) {
             await this.$store.dispatch('setSearch', {
               moduleName: this.moduleName,
+              submoduleName: this.submoduleName,
               payload: cloneDeep(values)
             })
           }

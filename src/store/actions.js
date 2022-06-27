@@ -11,26 +11,29 @@ export default {
    * @param [payload]
    */
   /**
-   *
+   * 设置搜索参数
    * @param state
    * @param commit
    * @param dispatch
    * @param moduleName {string}
+   * @param submoduleName {string}
    * @param payload {Object}
    */
-  async setSearch({ state, commit, dispatch }, { moduleName, payload }) {
+  async setSearch({ state, commit, dispatch }, { moduleName, submoduleName, payload }) {
     commit('setSearch', {
       value: {
-        ...state[moduleName].search,
+        ...(!submoduleName ? state[moduleName] : state[moduleName][submoduleName]).search,
         ...payload
       },
-      moduleName
+      moduleName,
+      submoduleName
     })
 
     await dispatch(
       'getList',
       {
         moduleName,
+        submoduleName,
         additionalQueryParameters: { pageIndex: 0 }
       },
       { root: true })
@@ -76,37 +79,58 @@ export default {
    * 获取列表数据
    * @param state
    * @param commit
-   * @param moduleName {string}
-   * @param [additionalQueryParameters] {Object} 附加查询参数。例如分页相关参数，园区ID等。
-   * @param [stateName] {string} 需要设置的字段，默认 state.list
+   * @param moduleName {string} 模块名
+   * @param submoduleName {string} 子模块名
+   * @param additionalQueryParameters {Object} 附加查询参数。例如分页相关参数，园区ID等。
+   * @param stateName {string} 需要设置的字段，默认 state.list
    * @returns {Promise<void>}
    */
-  async getList({ state, commit }, { moduleName, additionalQueryParameters = {}, stateName }) {
-    commit('setLoading', { value: true, moduleName })
+  async getList({ state, commit }, {
+    moduleName,
+    submoduleName,
+    additionalQueryParameters = {},
+    stateName
+  }) {
+    commit('setLoading', { value: true, moduleName, submoduleName })
 
-    const api = !config.mock ? `get${utilityFunction.firstLetterToUppercase(moduleName)}` : 'getList'
+    const api = !config.mock
+      ? `get${submoduleName
+        ? `${utilityFunction.firstLetterToUppercase(submoduleName)}Of`
+        : ''}${utilityFunction.firstLetterToUppercase(moduleName)}`
+      : 'getList'
 
-    const response = await apis[api](omit({
-      ...state[moduleName].pagination,
-      ...state[moduleName].search,
-      ...additionalQueryParameters
-    }, 'total'))
+    let response
+
+    if (!submoduleName) {
+      response = await apis[api](omit({
+        ...state[moduleName].pagination,
+        ...state[moduleName].search,
+        ...additionalQueryParameters
+      }, 'total'))
+    } else {
+      response = await apis[api](omit({
+        ...state[moduleName][submoduleName].pagination,
+        ...state[moduleName][submoduleName].search,
+        ...additionalQueryParameters
+      }, 'total'))
+    }
 
     if (response.status) {
       commit('setPagination', {
         moduleName,
+        submoduleName,
         value: {
-          ...state[moduleName].pagination,
+          ...(!submoduleName ? state[moduleName] : state[moduleName][submoduleName]).pagination,
           pageIndex: response.data.pageIndex,
           pageSize: response.data.pageSize,
           total: response.data.totalNum
         }
       })
 
-      commit('setList', { value: response.data.rows, moduleName, stateName })
+      commit('setList', { value: response.data.rows, moduleName, submoduleName, stateName })
     }
 
-    commit('setLoading', { value: false, moduleName })
+    commit('setLoading', { value: false, moduleName, submoduleName })
   },
   /**
    * 新增数据

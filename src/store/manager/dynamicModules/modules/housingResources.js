@@ -3,7 +3,7 @@ import { createStoreModule } from '@/store/template'
 export default commitRootInModule => createStoreModule({
   state: {
     visibleOfEdit: false,
-    visibleOfContractHistory: true
+    visibleOfContractHistory: false
   },
   modules: {
     contractHistory: {

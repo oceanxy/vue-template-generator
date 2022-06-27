@@ -1,5 +1,11 @@
 export default {
-  getLoading: state => moduleName => state[moduleName].loading,
+  getLoading: state => (moduleName, submoduleName = '') => {
+    if (!submoduleName) {
+      return state[moduleName].loading
+    } else {
+      return state[moduleName][submoduleName].loading
+    }
+  },
   getVisible: state => (moduleName, stateName) => state[moduleName][stateName],
   getCurrentItem: state => moduleName => state[moduleName].currentItem,
   getPagination: state => moduleName => state[moduleName].pagination,

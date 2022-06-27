@@ -74,6 +74,15 @@ body {
 
     .ant-form-item-control-wrapper {
       width: 200px;
+
+      .number-range {
+        display: flex;
+
+        .identifier {
+          text-align: center;
+          width: 30px;
+        }
+      }
     }
   }
 }

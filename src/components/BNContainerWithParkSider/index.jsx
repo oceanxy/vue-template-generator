@@ -15,6 +15,7 @@ export default {
   async created() {
     await this.$store.dispatch('common/setCurrentParkTreeKeySelected', {
       moduleName: this.moduleName,
+      submoduleName: this.submoduleName,
       value: '0'
     })
   },
@@ -51,11 +52,13 @@ export default {
       if (selected) {
         await this.$store.dispatch('common/setCurrentParkTreeKeySelected', {
           moduleName: this.moduleName,
+          submoduleName: this.submoduleName,
           value: selectedKeys[0]
         })
       } else {
         await this.$store.dispatch('common/setCurrentParkTreeKeySelected', {
           moduleName: this.moduleName,
+          submoduleName: this.submoduleName,
           value: '0'
         })
       }

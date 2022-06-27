@@ -45,9 +45,12 @@ export default {
     }
   },
   actions: {
-    async setCurrentParkTreeKeySelected({ commit, dispatch }, { moduleName, value }) {
+    async setCurrentParkTreeKeySelected({ state, commit, dispatch }, { moduleName, submoduleName, value }) {
       commit('setCurrentParkTreeKeySelected', value)
-      dispatch('setSearch', { value: { parkId: value }, moduleName }, { root: true })
+
+      if (state.currentParkTreeKeySelected !== value) {
+        dispatch('setSearch', { value: { parkId: value }, moduleName, submoduleName }, { root: true })
+      }
     },
     /**
      * 获取行政区划级联数据
