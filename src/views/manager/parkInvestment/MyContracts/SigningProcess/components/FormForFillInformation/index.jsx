@@ -131,7 +131,7 @@ export default Form.create({})({
             <Button type="primary" html-type="submit">下一步</Button>
           </Form.Item>
         </Form>
-        <ModalOfChooseVenue title={'选择孵化场所'} />
+        <ModalOfChooseVenue modalTitle={'选择孵化场所'} />
       </div>
     )
   }

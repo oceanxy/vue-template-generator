@@ -45,7 +45,7 @@ export default {
           <BNContainer
             class="tg-home-upcoming"
             width="100%"
-            title={
+            moduleTitle={
               <div class="title">
                 我的待办
                 <div class="btns">
@@ -66,7 +66,7 @@ export default {
         <template slot="sider">
           <BNContainer
             width="100%"
-            title="我的快捷菜单"
+            moduleTitle="我的快捷菜单"
             showBoxShadow={false}
             class="shortcut-menu-container"
             titleClass="not-login-title"
@@ -77,7 +77,7 @@ export default {
           <BNContainer
             class="my-news-container"
             width="100%"
-            title="我的消息"
+            moduleTitle="我的消息"
             showBoxShadow={false}
             showMore
             titleClass="not-login-title"

@@ -7,31 +7,69 @@
 
 import forIndex from '@/mixins/forIndex'
 
-export default {
-  mixins: [forIndex],
-  provide() {
-    return {
-      moduleName: this.moduleName
-    }
-  },
-  computed: {
-    moduleName() {
-      let name = this.$options.name || ''
+/**
+ * 根据页面 name 自动生成 moduleName 的混合
+ * @param isSubModule {boolean} 是否是子模块
+ * @returns {Object}
+ */
+export default isSubModule => {
+  let forModuleName = {
+    mixins: [forIndex],
+    computed: {
+      moduleName() {
+        let name = this.$options.name || ''
 
-      // 获取父级模块名称，moduleName 一律使用父级模块的名称。
-      // 格式 父级模块名称-本级模块名称
-      const index = name.indexOf('-')
+        // 获取父级模块名称，moduleName 一律使用父级模块的名称。
+        // 格式 父级模块名称-本级模块名称
+        const index = name.indexOf('-')
 
-      if (index > -1) {
-        name = name.substring(0, index)
+        if (index > -1) {
+          name = name.substring(0, index)
+        }
+
+        if (!name) {
+          console.warn('请设置组件的名称(name)，动态创建store模块需要该属性！')
+          return null
+        }
+
+        return name.replace(/^\S/g, s => s.toLowerCase())
       }
-
-      if (!name) {
-        console.warn('请设置组件的名称(name)，动态创建store模块需要该属性！')
-        return null
+    },
+    provide() {
+      return {
+        moduleName: this.moduleName
       }
-
-      return name.replace(/^\S/g, s => s.toLowerCase())
     }
   }
+
+  if (isSubModule) {
+    forModuleName = {
+      mixins: [forIndex],
+      computed: {
+        submoduleName() {
+          let name = this.$options.name || ''
+
+          const index = name.indexOf('-')
+
+          if (index > -1) {
+            name = name.substring(index + 1)
+          }
+
+          if (!name) {
+            console.warn('请设置组件的名称(name，格式 “{parentName}-{name}”)，获取子模块数据需要该属性！')
+            return null
+          }
+
+          return name.replace(/^\S/g, s => s.toLowerCase())
+        }
+      },
+      provide() {
+        return {
+          submoduleName: this.submoduleName
+        }
+      }
+    }
+  }
+
+  return forModuleName
 }

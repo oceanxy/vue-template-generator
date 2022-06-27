@@ -46,7 +46,7 @@ export default customModuleName => {
         immediate: true,
         handler(value) {
           if (value) {
-            this.modalProps.title = this.title
+            this.modalProps.title = this.modalTitle
           }
 
           this.modalProps.visible = value

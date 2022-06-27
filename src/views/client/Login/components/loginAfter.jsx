@@ -29,7 +29,7 @@ export default {
   render() {
     return (
       <BNContainer
-        title={
+        moduleTitle={
           <div class='corporate-services-title'>
             企业服务
             <Button

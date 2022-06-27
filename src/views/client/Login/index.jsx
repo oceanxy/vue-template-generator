@@ -20,7 +20,7 @@ export default {
     return (
       <div class="bn-login-container">
         <BNContainer
-          title="通知公告"
+          moduleTitle="通知公告"
           width={390}
           showMore
           showTitleShape={false}
@@ -28,7 +28,7 @@ export default {
           <TGList />
         </BNContainer>
         <BNContainer
-          title="园区政策"
+          moduleTitle="园区政策"
           width={390}
           showMore
           showTitleShape={false}

@@ -20,8 +20,8 @@ export default {
         <Table slot={'table'} />
         <Pagination slot={'pagination'} />
         <template slot={'modals'}>
-          <ModalOfEdit title={'{action}问卷'} />
-          <ModalOfQuestionnaireSwitch title={'{action}问卷调查'} />
+          <ModalOfEdit modalTitle={'{action}问卷'} />
+          <ModalOfQuestionnaireSwitch modalTitle={'{action}问卷调查'} />
         </template>
       </TGContainer>
     )

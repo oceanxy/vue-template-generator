@@ -64,7 +64,7 @@ export default {
 
     return (
       <Modal
-        title="冲突列表"
+        modalTitle="冲突列表"
         visible={this.visible}
         {...attrs}
       >

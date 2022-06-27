@@ -22,8 +22,8 @@ export default {
           <Table slot={'table'} />
           <Pagination slot={'pagination'} />
           <template slot={'modals'}>
-            <ModalOfEdit title={'{action}园区账号信息'} />
-            <ModalOfUpdatePassword title={'重置密码'} />
+            <ModalOfEdit modalTitle={'{action}园区账号信息'} />
+            <ModalOfUpdatePassword modalTitle={'重置密码'} />
           </template>
         </TGContainer>
       </BNContainerWithParkSider>

@@ -39,7 +39,7 @@ export default {
           slot={'sider'}
           showBoxShadow={false}
           width={'100%'}
-          title={'账号申请记录'}
+          modalTitle={'账号申请记录'}
           contentClass={'apply-account-records-container'}
         >
           <Spin spinning={this.getLoading('accountOpening')}>

@@ -12,7 +12,7 @@ export default Form.create({})({
   name: 'Clues-ModalOfDetails',
   mixins: [dynamicState(store, dynamicModules), forModal('clues')],
   props: {
-    title: {
+    modalTitle: {
       type: String,
       default: ''
     }

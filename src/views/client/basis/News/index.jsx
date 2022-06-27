@@ -82,7 +82,7 @@ export default Form.create({})({
     return (
       <BNContainer
         width="100%"
-        title="我的消息"
+        moduleTitle="我的消息"
         contentClass="bn-news-content"
       >
         <TGButtons />

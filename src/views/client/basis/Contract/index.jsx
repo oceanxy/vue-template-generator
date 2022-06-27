@@ -11,11 +11,11 @@ export default {
     return (
       <BNContainer
         width="100%"
-        title="我的合同"
+        moduleTitle="我的合同"
         contentClass="bn-contract-content"
       >
         <BNContainer
-          title="企业续签合同"
+          moduleTitle="企业续签合同"
           class="contract-item"
           titleClass="contract-item-title"
           contentClass="contract-item-content"
@@ -39,7 +39,7 @@ export default {
           </Descriptions>
         </BNContainer>
         <BNContainer
-          title=" 21423423D丨企业入驻合同"
+          moduleTitle=" 21423423D丨企业入驻合同"
           class="contract-item"
           titleClass="contract-item-title"
           contentClass="contract-item-content"

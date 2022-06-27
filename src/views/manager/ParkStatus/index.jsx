@@ -11,7 +11,7 @@ export default {
         <BNContainer
           class='park-status-title-container'
           width="100%"
-          title={
+          modalTitle={
             <div class="park-status-title">
               <span>园区实时状态</span>
               <Button.Group class="park-status-btns">
@@ -67,7 +67,7 @@ export default {
           <BNContainer
             width="100%"
             class="park-status-datetime-picker"
-            title="选择日期"
+            modalTitle="选择日期"
             slot="sider"
           >
             <Calendar fullscreen={false} />

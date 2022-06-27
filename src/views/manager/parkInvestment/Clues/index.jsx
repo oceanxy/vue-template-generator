@@ -98,10 +98,10 @@ export default {
           <Table slot={'table'} />
           <Pagination slot={'pagination'} />
           <template slot={'modals'}>
-            <ModalOfEdit title={'{action}线索'} />
-            <ModalOfAssignLeads title={'分配线索'} />
-            <ModalOfRecoverClues title={'收回线索'} />
-            <ModalOfDetails title={'线索详情'} />
+            <ModalOfEdit modalTitle={'{action}线索'} />
+            <ModalOfAssignLeads modalTitle={'分配线索'} />
+            <ModalOfRecoverClues modalTitle={'收回线索'} />
+            <ModalOfDetails modalTitle={'线索详情'} />
           </template>
         </TGContainer>
       </div>

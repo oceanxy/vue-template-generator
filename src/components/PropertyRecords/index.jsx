@@ -17,7 +17,7 @@ export default {
         width="100%"
         class="properties-records"
         contentClass="repair-records"
-        title={
+        moduleTitle={
           <div class="title">
             我的报修记录
             <div class="btns">

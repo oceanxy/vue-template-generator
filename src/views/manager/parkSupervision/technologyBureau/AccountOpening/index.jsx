@@ -20,7 +20,7 @@ export default {
           <Functions slot={'functions'} />
           <Table slot={'table'} />
           <Pagination slot={'pagination'} />
-          <ModalOfEdit slot={'modals'} title={'账号开通审核'} />
+          <ModalOfEdit slot={'modals'} modalTitle={'账号开通审核'} />
         </TGContainer>
       </BNContainerWithParkSider>
     )

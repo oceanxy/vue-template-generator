@@ -22,8 +22,8 @@ export default {
           <Table slot={'table'} />
           <Pagination slot={'pagination'} />
           <template slot={'modals'}>
-            <ModalOfEdit title={'{action}房源'} />
-            <ModalOfContractHistory title={'签约历史查询'} />
+            <ModalOfEdit modalTitle={'{action}房源'} />
+            <ModalOfContractHistory modalTitle={'签约历史查询'} />
           </template>
         </TGContainer>
       </BNContainerWithParkSider>

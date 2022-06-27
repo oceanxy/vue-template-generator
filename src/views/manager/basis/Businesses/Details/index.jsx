@@ -76,7 +76,7 @@ export default {
           <BNContainer
             width="100%"
             showBoxShadow={false}
-            title="企业信息"
+            modalTitle="企业信息"
           >
             <Descriptions column={1} colon={false}>
               <Descriptions.Item label={'企业名称'}>2432523535</Descriptions.Item>
@@ -91,7 +91,7 @@ export default {
           </BNContainer>
           <BNContainer
             width="100%"
-            title="签约信息"
+            modalTitle="签约信息"
             showBoxShadow={false}
           >
             <Descriptions column={1} colon={false}>
@@ -107,7 +107,7 @@ export default {
           </BNContainer>
           <BNContainer
             width="100%"
-            title="合同信息"
+            modalTitle="合同信息"
             showBoxShadow={false}
           >
             <Descriptions column={1} colon={false}>

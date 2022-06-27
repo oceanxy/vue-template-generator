@@ -15,7 +15,7 @@ export default {
     return (
       <BNContainer
         width="100%"
-        title="我的报表"
+        moduleTitle="我的报表"
         contentClass="bn-report-content"
       >
         <div class="report-form">

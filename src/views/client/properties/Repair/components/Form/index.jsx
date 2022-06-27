@@ -15,7 +15,7 @@ export default Form.create({})({
       <BNContainer
         class="bn-repair-form"
         width="100%"
-        title="物业报修"
+        modalTitle="物业报修"
       >
         <Form
           labelCol={{ span: 4 }}

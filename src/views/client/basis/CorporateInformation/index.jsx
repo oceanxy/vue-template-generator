@@ -80,7 +80,7 @@ export default Form.create({})({
     return (
       <BNContainer
         width="100%"
-        title="企业信息管理"
+        moduleTitle="企业信息管理"
         contentClass="bn-cor-info-content"
       >
         <Form

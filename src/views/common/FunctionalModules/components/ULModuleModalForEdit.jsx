@@ -34,7 +34,7 @@ export default Form.create({})({
 
     return (
       <Modal
-        title={`${this.title}模块`}
+        modalTitle={`${this.title}模块`}
         visible={this.visible}
         {...attributes}
       >

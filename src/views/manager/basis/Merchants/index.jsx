@@ -18,7 +18,7 @@ export default {
         <Functions slot={'functions'} />
         <Table slot={'table'} />
         <Pagination slot={'pagination'} />
-        <ModalOfEdit slot={'modals'} title={'{action}招商人员'} />
+        <ModalOfEdit slot={'modals'} modalTitle={'{action}招商人员'} />
       </TGContainer>
     )
   }

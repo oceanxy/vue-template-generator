@@ -62,7 +62,8 @@ export default {
      */
     async fetchList() {
       await this.$store.dispatch('getList', {
-        moduleName: this.moduleName
+        moduleName: this.moduleName,
+        submoduleName: ''
       })
     },
     /**

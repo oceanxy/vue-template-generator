@@ -22,7 +22,7 @@ export default Form.create({})({
           width={'100%'}
           showBoxShadow={false}
           contentClass={'bnm-contract-confirmation-table-wrapper'}
-          title={
+          modalTitle={
             <div class={'bnm-contract-confirmation-title'}>
               费用核算清单
               <span>园区名称/楼栋名称/8701</span>
@@ -34,7 +34,7 @@ export default Form.create({})({
         <BNContainer
           width={'100%'}
           showBoxShadow={false}
-          title={
+          modalTitle={
             <div>合同模版</div>
           }
         >

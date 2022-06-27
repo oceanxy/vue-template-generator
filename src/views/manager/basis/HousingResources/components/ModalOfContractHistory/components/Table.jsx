@@ -46,7 +46,7 @@ export default {
     }
   },
   methods: {
-    async onAgencyHistoryClick(record) {
+    async onContractHistoryClick(record) {
       await this._setVisibleOfModal(record, 'visibleOfContractHistory')
     }
   },
