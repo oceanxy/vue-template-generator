@@ -146,10 +146,10 @@ export default {
     commit('setLoading', { value: true, moduleName, submoduleName })
 
     const query = {
-      ...state[moduleName].currentItem.id,
+      ...state[moduleName].currentItem,
       ...additionalQueryParameters
     }
-    const api = !config.mock ? `get${utilityFunction.firstLetterToUppercase(moduleName)}details` : 'getDetails'
+    const api = !config.mock ? `getDetailsOf${utilityFunction.firstLetterToUppercase(moduleName)}` : 'getDetails'
     const res = await apis[api](query)
     if (res.status) {
       commit('setDetails', { value: res.data, moduleName, submoduleName, stateName })

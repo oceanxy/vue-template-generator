@@ -55,7 +55,7 @@ export default {
     onDetailsClick(record) {
       this.$router.push({
         name: 'contractReviewDetails',
-        params: {
+        query: {
           id: record.id
         }
       })
