@@ -6,7 +6,7 @@ import { mapGetters } from 'vuex'
 import store, { dynamicModules } from '@/store/manager'
 import forFormModal from '@/mixins/forModal/forFormModal'
 import DragModal from '@/components/DragModal'
-import UploadPictures from './UploadPictures'
+import BNUploadPictures from '@/components/BNUploadPictures'
 import { debounce } from 'lodash'
 
 export default Form.create({})({
@@ -94,7 +94,7 @@ export default Form.create({})({
                 initialValue: fileList,
                 rules: [{ required: true, type: 'array', message: '请上传图片!', trigger: 'blur' }]
               })(
-                <UploadPictures />
+                <BNUploadPictures />
               )
             }
           </Form.Item>

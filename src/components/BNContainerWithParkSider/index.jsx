@@ -26,18 +26,18 @@ export default {
   },
   computed: {
     ...mapGetters({
-      parkTree: 'parkTree',
+      floorTree: 'floorTree',
       currentParkTreeKeySelected: 'currentParkTreeKeySelected'
     })
   },
   watch: {
-    parkTree: {
+    floorTree: {
       immediate: true,
       async handler(value) {
         if (value.length) {
           this.loading = false
         } else {
-          await dispatch('common', 'getParkTree')
+          await dispatch('common', 'getFloorTree')
         }
       }
     }
@@ -70,7 +70,8 @@ export default {
         class="bn-park-container"
         siderClass="bn-park-sider-container"
         contentClass={`bn-park-content-container${this.contentClass ? ` ${this.contentClass}` : ''}`}
-        siderOnLeft={true}
+        siderOnLeft
+        showSiderTrigger
       >
         <template slot="default">{this.$slots.default}</template>
         <Spin
@@ -81,7 +82,7 @@ export default {
           <Tree
             selectedKeys={[this.currentParkTreeKeySelected]}
             replaceFields={{ children: 'children', title: 'name', key: 'id' }}
-            treeData={this.parkTree}
+            treeData={this.floorTree}
             onSelect={this.onSelect}
           />
         </Spin>

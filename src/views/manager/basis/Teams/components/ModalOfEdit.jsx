@@ -4,7 +4,7 @@ import forFormModal from '@/mixins/forModal/forFormModal'
 import { mapState } from 'vuex'
 import DragModal from '@/components/DragModal'
 import MultiInput from '@/views/manager/basis/Teams/components/MultiInput'
-import UploadPictures from '@/views/manager/parkSupervision/technologyBureau/Parks/components/UploadPictures'
+import BNUploadPictures from '@/components/BNUploadPictures'
 
 export default Form.create({})({
   mixins: [forFormModal()],
@@ -59,7 +59,7 @@ export default Form.create({})({
                 initialValue: this.currentItem.logo,
                 rules: [{ required: true, message: '请上传LOGO!', trigger: 'blur' }]
               })(
-                <UploadPictures />
+                <BNUploadPictures />
               )
             }
           </Form.Item>

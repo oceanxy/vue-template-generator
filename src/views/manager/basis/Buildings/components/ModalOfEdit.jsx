@@ -1,15 +1,13 @@
 import '../assets/styles/index.scss'
-import { Checkbox, Col, Form, Input, Row, Select, Switch } from 'ant-design-vue'
+import { Checkbox, Col, Form, Input, InputNumber, Row, Select, Switch } from 'ant-design-vue'
 import forFormModal from '@/mixins/forModal/forFormModal'
 import { mapGetters } from 'vuex'
 import DragModal from '@/components/DragModal'
-import UploadPictures from '@/views/manager/parkSupervision/technologyBureau/Parks/components/UploadPictures'
+import BNUploadPictures from '@/components/BNUploadPictures'
 import { dispatch } from '@/utils/store'
 
 export default Form.create({})({
-  mixins: [
-    forFormModal
-  ],
+  mixins: [forFormModal()],
   props: {
     /**
      * 标题（可定义占位符）
@@ -74,9 +72,9 @@ export default Form.create({})({
             {
               this.form.getFieldDecorator('imgList', {
                 initialValue: fileList,
-                rules: [{ required: true, type: 'array', message: '请上传图片!', trigger: 'blur' }]
+                rules: [{ required: true, type: 'array', message: '请上传图片!', trigger: 'change' }]
               })(
-                <UploadPictures />
+                <BNUploadPictures />
               )
             }
           </Form.Item>
@@ -90,10 +88,27 @@ export default Form.create({})({
               )
             }
           </Form.Item>
+          <Form.Item label={'类型'} class={'half'}>
+            {
+              this.form.getFieldDecorator('buildType', {
+                initialValue: this.currentItem.buildType || undefined,
+                rules: [{ required: true, type: 'number', message: '请选择类型!', trigger: 'change' }]
+              })(
+                <Select placeholder={'请选择类型'}>
+                  <Select.Option value={1}>甲级写字楼</Select.Option>
+                  <Select.Option value={2}>乙级写字楼</Select.Option>
+                  <Select.Option value={3}>普通写字楼</Select.Option>
+                  <Select.Option value={4}>独栋写字楼</Select.Option>
+                  <Select.Option value={5}>综合体写字楼</Select.Option>
+                </Select>
+              )
+            }
+          </Form.Item>
           <Form.Item label={'所属园区'} class={'half'}>
             {
               this.form.getFieldDecorator('parkId', {
-                rules: [{ required: true, message: '请选择所属园区!', trigger: 'blur' }]
+                initialValue: this.currentItem.parkId || undefined,
+                rules: [{ required: true, message: '请选择所属园区!', trigger: 'change' }]
               })(
                 <Select placeholder={'请选择所属园区'}>
                   {
@@ -115,16 +130,19 @@ export default Form.create({})({
               )
             }
           </Form.Item>
-          <Form.Item label="楼层数">
+          <Form.Item label="楼层数" class={'half combo'} required>
             <Row gutter={20}>
               <Col span={10}>
                 <Form.Item>
                   {
                     this.form.getFieldDecorator('floorNum', {
                       initialValue: this.currentItem.floorNum,
-                      rules: [{ required: true, type: 'number', message: '请输入楼栋名称!', trigger: 'change' }]
+                      rules: [{ required: true, type: 'number', message: '请输入楼层数!', trigger: 'blur' }]
                     })(
-                      <Input placeholder="请输入排序值" />
+                      <InputNumber
+                        min={0}
+                        placeholder="请输入楼层数"
+                      />
                     )
                   }
                 </Form.Item>
@@ -133,6 +151,7 @@ export default Form.create({})({
                 <Form.Item>
                   {
                     this.form.getFieldDecorator('isUnderground', {
+                      valuePropName: 'checked',
                       initialValue: this.currentItem.isUnderground === 1
                     })(
                       <Checkbox>含地下楼层</Checkbox>
@@ -141,6 +160,20 @@ export default Form.create({})({
                 </Form.Item>
               </Col>
             </Row>
+          </Form.Item>
+          <Form.Item label={'地下楼层数'} class={'half'}>
+            {
+              this.form.getFieldDecorator('undergroundNum', {
+                initialValue: this.currentItem.undergroundNum,
+                rules: [{ required: true, type: 'number', message: '请输入地下楼层数!', trigger: 'blur' }]
+              })(
+                <InputNumber
+                  style={{ width: '100%' }}
+                  min={0}
+                  placeholder="请输入地下楼层数"
+                />
+              )
+            }
           </Form.Item>
           <Form.Item label="排序" class={'half'}>
             {

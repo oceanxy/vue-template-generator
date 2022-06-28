@@ -53,7 +53,7 @@ export default {
   },
   render() {
     return (
-      <div>
+      <div style={{ lineHeight: 0 }}>
         <Upload
           action="/mgapi/system/upload/image"
           listType="picture-card"

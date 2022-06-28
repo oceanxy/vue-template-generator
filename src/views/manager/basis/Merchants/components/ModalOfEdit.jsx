@@ -2,7 +2,7 @@ import '../assets/styles/index.scss'
 import { Form, Input, Radio, Select, Switch } from 'ant-design-vue'
 import forFormModal from '@/mixins/forModal/forFormModal'
 import DragModal from '@/components/DragModal'
-import UploadPictures from '@/views/manager/parkSupervision/technologyBureau/Parks/components/UploadPictures'
+import BNUploadPictures from '@/components/BNUploadPictures'
 
 export default Form.create({})({
   mixins: [forFormModal()],
@@ -53,7 +53,7 @@ export default Form.create({})({
                 initialValue: this.currentItem.headPortrait,
                 rules: [{ required: true, type: 'array', message: '请上传头像!', trigger: 'blur' }]
               })(
-                <UploadPictures />
+                <BNUploadPictures />
               )
             }
           </Form.Item>
