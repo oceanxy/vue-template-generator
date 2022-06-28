@@ -183,6 +183,10 @@ body {
       width: calc((100% - 24px) / 2);
     }
 
+    &.combo {
+      margin-bottom: 0;
+    }
+
     &.custom {
       display: flex;
       align-items: center;
@@ -200,6 +204,17 @@ body {
           margin-bottom: 0;
         }
       }
+    }
+  }
+
+  .bnm-form-checkbox {
+    padding: 9px 0 2px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+
+    label {
+      margin-left: 0;
     }
   }
 }
@@ -252,3 +267,23 @@ body {
 }
 
 /**********************************************************************/
+
+/******************************* SelectTree 父节点只做展开/折叠功能 ****************************/
+.bnm-select-dropdown {
+  overflow-x: hidden !important;
+
+  .ant-select-tree-switcher {
+    position: relative;
+  }
+
+  .ant-select-tree-switcher_open::before, .ant-select-tree-switcher_close::before {
+    content: '';
+    position: absolute;
+    right: -310px;
+    top: 0;
+    left: 0;
+    bottom: 0;
+  }
+}
+
+/********************************************************************/

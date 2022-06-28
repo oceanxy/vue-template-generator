@@ -16,22 +16,22 @@ export default {
   /**
    * 设置列表搜索参数对象
    * @param state {Object}
-   * @param value {Object}
+   * @param payload {Object}
    * @param moduleName {string}
    * @param submoduleName {string}
    */
-  setSearch(state, { value, moduleName, submoduleName }) {
+  setSearch(state, { payload, moduleName, submoduleName }) {
     if (!submoduleName) {
       state[moduleName].pagination.pageIndex = 0
       state[moduleName].search = {
         ...state[moduleName].search,
-        ...value
+        ...payload
       }
     } else {
       state[moduleName][submoduleName].pagination.pageIndex = 0
       state[moduleName][submoduleName].search = {
         ...state[moduleName][submoduleName].search,
-        ...value
+        ...payload
       }
     }
   },

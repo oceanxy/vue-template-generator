@@ -78,5 +78,16 @@ export default {
       method: 'post',
       data: qs.stringify(data)
     })
+  },
+  /**
+   * 获取配套设施集合
+   * @param request
+   * @returns {Promise<*>}
+   */
+  async getSupportingFacilities(request) {
+    return request({
+      url: '/system/dictionary/getFacilityList',
+      method: 'post'
+    })
   }
 }

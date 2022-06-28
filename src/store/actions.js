@@ -15,7 +15,7 @@ export default {
    */
   async setSearch({ state, commit, dispatch }, { moduleName, submoduleName, payload }) {
     commit('setSearch', {
-      value: {
+      payload: {
         ...(!submoduleName ? state[moduleName] : state[moduleName][submoduleName]).search,
         ...payload
       },

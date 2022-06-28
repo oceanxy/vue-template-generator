@@ -16,6 +16,7 @@ export default {
           },
           {
             title: '房号',
+            align: 'center',
             dataIndex: 'roomNo'
           },
           {
@@ -35,6 +36,7 @@ export default {
           },
           {
             title: '单价',
+            align: 'center',
             scopedSlots: { customRender: 'price' }
           },
           {
@@ -44,7 +46,6 @@ export default {
           },
           {
             title: '配套设施',
-            align: 'center',
             dataIndex: 'supportFacilityStr'
           },
           {

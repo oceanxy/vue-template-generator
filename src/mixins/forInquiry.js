@@ -21,13 +21,6 @@ export default () => {
           temp = omit(temp, 'dateRange')
         }
 
-        if ('priceRange' in temp) {
-          temp.min = temp.priceRange[0]
-          temp.max = temp.priceRange[1]
-
-          temp = omit(temp, 'priceRange')
-        }
-
         return temp
       },
       async onClear() {

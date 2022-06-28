@@ -18,10 +18,14 @@ export default {
     parkTree: [],
     // 角色树
     roleTree: [],
+    // 当前选中的园区树节点的 key（id）
+    currentParkTreeKeySelected: '0',
     // 园区下拉列表
     parksForSelect: [],
-    // 当前选中的园区树节点的 key（id）
-    currentParkTreeKeySelected: '0'
+    // 楼栋下拉列表
+    buildingsForSelect: [],
+    // 楼层树
+    floorTree: []
   },
   mutations: {
     setAdministrativeDivision(state, payload) {
@@ -34,20 +38,36 @@ export default {
     setParkTree(state, payload) {
       state.parkTree = payload
     },
-    setParksForSelect(state, payload) {
-      state.parksForSelect = payload
-    },
     setRoleTree(state, payload) {
       state.roleTree = payload
     },
     setCurrentParkTreeKeySelected(state, payload) {
       state.currentParkTreeKeySelected = payload
+    },
+    setParksForSelect(state, payload) {
+      state.parksForSelect = payload
+    },
+    setBuildingsForSelect(state, payload) {
+      state.buildingsForSelect = payload
+    },
+    setFloorTree(state, payload) {
+      state.floorTree = payload
     }
   },
   actions: {
+    /**
+     * 设置当前选中的园区树key
+     * @param state
+     * @param commit
+     * @param dispatch
+     * @param moduleName {string}
+     * @param submoduleName {string}
+     * @param value {string}
+     * @returns {Promise<void>}
+     */
     async setCurrentParkTreeKeySelected({ state, commit, dispatch }, { moduleName, submoduleName, value }) {
       if (state.currentParkTreeKeySelected !== value) {
-        dispatch('setSearch', { value: { parkId: value }, moduleName, submoduleName }, { root: true })
+        dispatch('setSearch', { payload: { treeId: value }, moduleName, submoduleName }, { root: true })
       }
 
       commit('setCurrentParkTreeKeySelected', value)
@@ -110,6 +130,30 @@ export default {
 
       if (response.status) {
         commit('setParksForSelect', response.data)
+      }
+    },
+    /**
+     * 获取楼栋下拉列表
+     * @param commit
+     * @returns {Promise<void>}
+     */
+    async getBuildingsForSelect({ commit }) {
+      const response = await apis.getBuildingsForSelect()
+
+      if (response.status) {
+        commit('setBuildingsForSelect', response.data)
+      }
+    },
+    /**
+     * 获取楼层树
+     * @param commit
+     * @returns {Promise<void>}
+     */
+    async getFloorTree({ commit }) {
+      const response = await apis.getFloorTree()
+
+      if (response.status) {
+        commit('setFloorTree', response.data)
       }
     }
   }

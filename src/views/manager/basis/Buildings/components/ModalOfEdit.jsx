@@ -3,7 +3,7 @@ import { Checkbox, Col, Form, Input, Row, Select, Switch } from 'ant-design-vue'
 import forFormModal from '@/mixins/forModal/forFormModal'
 import { mapGetters } from 'vuex'
 import DragModal from '@/components/DragModal'
-import UploadPictures from '@/views/manager/parkSupervision/technologyBureau/Parks/components/UploadPictures'
+import BNUploadPictures from '@/components/BNUploadPictures'
 import { dispatch } from '@/utils/store'
 
 export default Form.create({})({
@@ -76,7 +76,7 @@ export default Form.create({})({
                 initialValue: fileList,
                 rules: [{ required: true, type: 'array', message: '请上传图片!', trigger: 'blur' }]
               })(
-                <UploadPictures />
+                <BNUploadPictures />
               )
             }
           </Form.Item>

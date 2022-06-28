@@ -58,6 +58,13 @@ export default () => {
           temp.roleIds = temp.roleIds.join()
         }
 
+        if ('facilityList' in temp) {
+          temp.facilityList = temp.facilityList.map(id => ({
+            id,
+            fullName: (this.supportingFacilities?.find(item => item.id === id)).fullName
+          }))
+        }
+
         return temp
       },
       /**
