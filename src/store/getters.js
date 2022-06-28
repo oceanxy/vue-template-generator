@@ -22,6 +22,8 @@ export default {
   regulatoryUnits: state => state.common.regulatoryUnits,
   parkTree: state => state.common.parkTree,
   parksForSelect: state => state.common.parksForSelect,
+  buildingsForSelect: state => state.common.buildingsForSelect,
+  floorTree: state => state.common.floorTree,
   organizationTree: state => state.common.organizationTree,
   roleTree: state => state.common.roleTree,
   currentParkTreeKeySelected: state => state.common.currentParkTreeKeySelected,
