@@ -2,7 +2,6 @@ import apis from '@/apis'
 import { cloneDeep, omit } from 'lodash'
 import utilityFunction from '@/utils/utilityFunction'
 import config from '@/config'
-
 export default {
   /**
    * 设置搜索参数
@@ -272,6 +271,36 @@ export default {
     }
 
     return response.status
+  },
+  /**
+   * 导出xlsx
+   * @param {*} store{}
+   * @param {*} param{}
+   * @returns
+   */
+  async downExcel({ state }, { moduleName, submoduleName, additionalQueryParameters, fileName }) {
+    let api = 'getExcel'
+    if (!config.mock) {
+      api = `getExcel${
+        submoduleName ? `${utilityFunction.firstLetterToUppercase(submoduleName)}Of` : ''
+      }${utilityFunction.firstLetterToUppercase(moduleName)}`
+    }
+
+    const payload = {
+      ...additionalQueryParameters
+    }
+
+    if (submoduleName) {
+      Object.assign(payload, state[moduleName][submoduleName].search)
+    } else {
+      Object.assign(payload, state[moduleName].search)
+    }
+
+    const buffer = await apis[api](payload)
+    const blob = new Blob([buffer])
+    utilityFunction.downFile(blob, `${fileName}.xlsx`)
+
+    return buffer
   },
   /**
    * 设置新增/编辑弹窗可见状态

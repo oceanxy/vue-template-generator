@@ -41,5 +41,25 @@ export default {
    */
   firstLetterToUppercase(str) {
     return str.replace(/^\S/, s => s.toUpperCase())
+  },
+  /**
+   * 下载文件
+   * @param {*} blob
+   * @param {*} fileName
+   */
+  downFile(blob, fileName) {
+    if (window.navigator.msSaveBlob) {
+      window.navigator.msSaveBlob(blob, fileName)
+    } else {
+      const tmpa = document.createElement('a')
+      tmpa.download = fileName
+      const urlObj = URL.createObjectURL(blob)
+      tmpa.href = urlObj
+      tmpa.click() // 模拟点击实现下载
+      setTimeout(function () {
+        // 延时释放
+        URL.revokeObjectURL(urlObj)
+      }, 1000)
+    }
   }
 }
