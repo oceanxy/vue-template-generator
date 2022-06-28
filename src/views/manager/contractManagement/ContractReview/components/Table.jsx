@@ -47,7 +47,8 @@ export default {
             width: 150,
             scopedSlots: { customRender: 'operation' }
           }
-        ]
+        ],
+        rowSelection: null
       }
     }
   },

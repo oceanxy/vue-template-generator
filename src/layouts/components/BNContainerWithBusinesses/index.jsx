@@ -6,7 +6,7 @@ import BNContainer from '@/components/BNContainer'
 // import BillTable from '@/views/manager/basis/Businesses/components/BillTable'
 import dynamicState from '@/mixins/dynamicState'
 import store, { dynamicModules } from '@/store/manager'
-
+import { dispatch } from '@/utils/store'
 export default {
   name: 'BusinessDetails',
   mixins: [dynamicState(store, dynamicModules)],
@@ -17,56 +17,24 @@ export default {
     }
   },
   data() {
-    return {
-      loading: false,
-      data: [
-        {
-          title: '0-0',
-          key: '0-0',
-          children: [
-            {
-              title: '0-0-0',
-              key: '0-0-0',
-              children: [
-                { title: '0-0-0-0', key: '0-0-0-0' },
-                { title: '0-0-0-1', key: '0-0-0-1' },
-                { title: '0-0-0-2', key: '0-0-0-2' }
-              ]
-            },
-            {
-              title: '0-0-1',
-              key: '0-0-1',
-              children: [
-                { title: '0-0-1-0', key: '0-0-1-0' },
-                { title: '0-0-1-1', key: '0-0-1-1' },
-                { title: '0-0-1-2', key: '0-0-1-2' }
-              ]
-            },
-            {
-              title: '0-0-2',
-              key: '0-0-2'
-            }
-          ]
-        },
-        {
-          title: '0-1',
-          key: '0-1',
-          children: [
-            { title: '0-1-0-0', key: '0-1-0-0' },
-            { title: '0-1-0-1', key: '0-1-0-1' },
-            { title: '0-1-0-2', key: '0-1-0-2' }
-          ]
-        },
-        {
-          title: '0-2',
-          key: '0-2'
-        }
-      ]
+    return {}
+  },
+  computed: {
+    businessDetails() {
+      return this.$store.state[this.moduleName].businessDetails
     }
   },
   mounted() {
     const { id } = this.$route.query
-    this.$store.dispatch('getDetails', { moduleName: this.moduleName, additionalQueryParameters: { id } })
+    dispatch(this.moduleName, 'getContractDetail', { id })
+  },
+  methods: {
+    toPath(item) {
+      if (item.isClick === 0) return
+      this.$router.push({
+        path: item.url
+      })
+    }
   },
   render() {
     return (
@@ -76,37 +44,19 @@ export default {
         contentClass="bnm-businesses-details-content-container"
         siderOnLeft={true}>
         <div slot="sider" class="bnm-businesses-details-sider">
-          <BNContainer width="100%" showBoxShadow={false} modalTitle="企业信息">
-            <Descriptions column={1} colon={false}>
-              <Descriptions.Item label={'企业名称'}>2432523535</Descriptions.Item>
-              <Descriptions.Item label={'组织机构代码'}>2432523535</Descriptions.Item>
-              <Descriptions.Item label={'所在行业'}>2432523535</Descriptions.Item>
-              <Descriptions.Item label={'主营业务'}>2432523535</Descriptions.Item>
-              <Descriptions.Item label={'营业执照'}>2432523535</Descriptions.Item>
-              <Descriptions.Item label={'法人姓名'}>2432523535</Descriptions.Item>
-              <Descriptions.Item label={'身份证号码'}>2432523535</Descriptions.Item>
-              <Descriptions.Item label={'身份证照片'}>2432523535</Descriptions.Item>
-            </Descriptions>
-          </BNContainer>
-          <BNContainer width="100%" modalTitle="签约信息" showBoxShadow={false}>
-            <Descriptions column={1} colon={false}>
-              <Descriptions.Item label={'租用场所'}>2432523535</Descriptions.Item>
-              <Descriptions.Item label={'费用'}>2432523535</Descriptions.Item>
-              <Descriptions.Item label={'优惠'}>2432523535</Descriptions.Item>
-              <Descriptions.Item label={'签约团队'}>2432523535</Descriptions.Item>
-              <Descriptions.Item label={'签约人员'}>2432523535</Descriptions.Item>
-              <Descriptions.Item label={'线索采集'}>2432523535</Descriptions.Item>
-              <Descriptions.Item label={'线索跟进'}>2432523535</Descriptions.Item>
-              <Descriptions.Item label={'签约时间'}>2432523535</Descriptions.Item>
-            </Descriptions>
-          </BNContainer>
-          <BNContainer width="100%" modalTitle="合同信息" showBoxShadow={false}>
-            <Descriptions column={1} colon={false}>
-              <Descriptions.Item label={'合同编号'}>2432523535</Descriptions.Item>
-              <Descriptions.Item label={'合同名称'}>2432523535</Descriptions.Item>
-              <Descriptions.Item label={'合同状态'}>2432523535</Descriptions.Item>
-            </Descriptions>
-          </BNContainer>
+          {this.businessDetails.map(item => (
+            <BNContainer width="100%" showBoxShadow={false} modalTitle={item.name}>
+              <Descriptions column={1} colon={false}>
+                {item.propertiesList.map(item2 => (
+                  <Descriptions.Item label={item2.name}>
+                    <a style={{ color: item2.isClick === 1 ? '#40a9ff' : '#999' }} onClick={() => this.toPath(item2)}>
+                      {item2.dataType === 1 ? <span>{item2.value}</span> : <img class="img" src={item2.value} alt="" />}
+                    </a>
+                  </Descriptions.Item>
+                ))}
+              </Descriptions>
+            </BNContainer>
+          ))}
         </div>
         <RouterView />
       </TGContainerWithSider>

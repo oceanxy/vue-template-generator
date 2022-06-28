@@ -1,19 +1,23 @@
+import './index.scss'
+import dynamicState from '@/mixins/dynamicState'
+import store, { dynamicModules } from '@/store/manager'
+import { dispatch } from '@/utils/store'
 export default {
   name: 'ContractReviewDetails',
-  props: {
-    contentClass: {
-      type: String,
-      default: ''
-    }
-  },
+  mixins: [dynamicState(store, dynamicModules)],
   data() {
     return {}
   },
+  computed: {
+    previewUrl() {
+      return this.$store.state[this.moduleName].previewUrl
+    }
+  },
   mounted() {
-    // const { id } = this.$route.query
-    // this.$store.dispatch('getDetails', { moduleName: this.moduleName, additionalQueryParameters: { id } })
+    const { id } = this.$route.query
+    dispatch(this.moduleName, 'getContractPreview', { id })
   },
   render() {
-    return <div>123</div>
+    return <iframe src={this.previewUrl} frameborder="0" height="100%" scrolling="yes" width="100%"></iframe>
   }
 }
