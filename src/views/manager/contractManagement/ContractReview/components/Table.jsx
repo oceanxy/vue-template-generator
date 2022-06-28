@@ -76,6 +76,9 @@ export default {
         {...attributes}
         {...{
           scopedSlots: {
+            serialNumber: (text, record, index) => {
+              return <span>{index + 1}</span>
+            },
             signingStatus: (text, record) => (
               <span>{['签约中', '待审核', '已签约', '审核驳回'][+record.signingStatus - 1]}</span>
             ),
