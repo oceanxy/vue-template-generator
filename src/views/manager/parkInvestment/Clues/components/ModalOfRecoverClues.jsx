@@ -1,7 +1,7 @@
 import '../assets/styles/index.scss'
 import forModal from '@/mixins/forModal'
-import { mapState } from 'vuex'
 import DragModal from '@/components/DragModal'
+import { dispatch } from '@/utils/store'
 
 export default {
   mixins: [forModal()],
@@ -9,15 +9,17 @@ export default {
     return {
       modalProps: {
         width: 400,
-        okText: '确定'
+        okText: '确定',
+        confirmLoading: false
       },
       visibleField: 'visibleOfRecoverClues'
     }
   },
-  computed: mapState({
-    allSiteApps: 'allSiteApps',
-    allFunctionalModules: 'allFunctionalModules'
-  }),
+  computed: {
+    currentItem() {
+      return this.$store.state[this.moduleName].currentItem
+    }
+  },
   watch: {
     async visible(value) {
       if (value) {
@@ -26,8 +28,17 @@ export default {
     }
   },
   methods: {
-    onSubmit() {
-      //
+    async onSubmit() {
+      this.modalProps.confirmLoading = true
+      const status = await dispatch(this.moduleName, 'takeBackClues', {
+        ids: this.currentItem.id,
+        moduleName: this.moduleName
+      })
+      this.modalProps.confirmLoading = false
+
+      if (status) {
+        this.onCancel(this.visibleField)
+      }
     }
   },
   render() {
@@ -39,10 +50,6 @@ export default {
       }
     }
 
-    return (
-      <DragModal {...attributes}>
-        收回线索后，对应的人员将不可对线索进行跟进，请谨慎操作
-      </DragModal>
-    )
+    return <DragModal {...attributes}>收回线索后，对应的人员将不可对线索进行跟进，请谨慎操作</DragModal>
   }
 }

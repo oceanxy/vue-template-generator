@@ -126,8 +126,16 @@ export default {
           total: response.data.totalNum
         }
       })
-
-      commit('setList', { value: response.data.rows, moduleName, submoduleName, stateName })
+      if ('rows' in response.data) {
+        commit('setList', {
+          value: response.data.rows,
+          moduleName,
+          submoduleName,
+          stateName
+        })
+      } else {
+        commit('setList', { value: response.data, moduleName, submoduleName, stateName })
+      }
     }
 
     commit('setLoading', { value: false, moduleName, submoduleName })
