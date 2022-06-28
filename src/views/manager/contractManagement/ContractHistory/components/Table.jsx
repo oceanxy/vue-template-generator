@@ -10,41 +10,39 @@ export default {
         columns: [
           {
             title: '序号',
-            dataIndex: ''
+            width: 60,
+            align: 'center',
+            scopedSlots: { customRender: 'serialNumber' }
           },
           {
             title: '企业名称',
-            dataIndex: 'appName'
+            dataIndex: 'companyName'
           },
           {
             title: '类型',
-            dataIndex: 'remark'
+            dataIndex: 'signingTypeStr'
           },
           {
             title: '场地/期限',
-            align: 'center',
-            dataIndex: 'zz'
+            scopedSlots: { customRender: 'addressInfo' }
           },
           {
             title: '费用/优惠',
-            align: 'center',
-            dataIndex: 'xx'
+            scopedSlots: { customRender: 'saleAmount' }
           },
           {
             title: '签约人',
-            align: 'center',
-            dataIndex: 'ccc'
+            dataIndex: 'signerName'
           },
           {
             title: '状态',
             align: 'center',
-            width: 60,
+            width: 80,
             scopedSlots: { customRender: 'status' }
           },
           {
             title: '签约合同',
-            align: 'center',
-            dataIndex: 'cc'
+            scopedSlots: { customRender: 'contractUrl' }
           },
           {
             title: '操作',
@@ -54,13 +52,19 @@ export default {
             width: 150,
             scopedSlots: { customRender: 'operation' }
           }
-        ]
+        ],
+        rowSelection: null
       }
     }
   },
   methods: {
     onDetailsClick(record) {
-      this.$router.push({ name: 'contractReviewDetails' })
+      this.$router.push({
+        name: 'contractReviewDetails',
+        query: {
+          id: record.id
+        }
+      })
     }
   },
   render() {
@@ -77,26 +81,42 @@ export default {
         {...attributes}
         {...{
           scopedSlots: {
-            // status: (text, record) => (
-            //   <Switch
-            //     checked={+record.status === 1}
-            //     onChange={checked => this.onStatusChange(checked, record)}
-            //   />
-            // ),
-            operation: (text, record) => (
+            serialNumber: (text, record, index) => {
+              return <span>{index + 1}</span>
+            },
+            addressInfo: text => (
+              <div>
+                <span>{text.address}</span>
+                <br />
+                <span>{text.contractTime}</span>
+              </div>
+            ),
+            saleAmount: text => (
+              <div>
+                <span style={{ color: 'red' }}>{text.amount}</span>
+                <br />
+                <span>{text.saleAmount}</span>
+              </div>
+            ),
+            status: (text, record) => (
+              <div>
+                <span>{text.signingStatusStr}</span>
+              </div>
+            ),
+            contractUrl: text => (
+              <a href={text.contractUrl} target="_brank">
+                预览合同
+              </a>
+            ),
+            operation: text => (
               <Space class="operation-space">
-                <Button
-                  type="link"
-                  size="small"
-                  onClick={() => this.onDetailsClick(record)}
-                >
+                <Button type="link" size="small" onClick={() => this.onDetailsClick(text)}>
                   签约详情
                 </Button>
                 <Button
                   type="link"
                   size="small"
-                  onClick={() => this._setVisibleOfModal(record, 'visibleOfContractReview')}
-                >
+                  onClick={() => this._setVisibleOfModal(text, 'visibleOfContractReview')}>
                   用印
                 </Button>
               </Space>

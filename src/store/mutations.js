@@ -13,6 +13,7 @@ export default {
       state[moduleName].loading = value
     }
   },
+
   /**
    * 设置列表搜索参数对象
    * @param state {Object}

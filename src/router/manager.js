@@ -94,13 +94,35 @@ export const routes = [
               },
               {
                 path: 'businesses-details',
-                name: 'businessesDetails',
-                component: () => import('@/views/manager/basis/Businesses/Details'),
+                component: () => import('@/layouts/components/BNContainerWithBusinesses'),
                 meta: {
                   title: '详情',
                   keepAlive: false,
                   requiresAuth: true
-                }
+                },
+                children: [
+                  {
+                    path: '',
+                    name: 'businessesDetails',
+                    component: () => import('@/views/manager/basis/Businesses/Details'),
+                    meta: {
+                      title: '企业详情',
+                      keepAlive: false,
+                      requiresAuth: true
+                    }
+                  },
+                  {
+                    path: 'contract-review-details',
+                    name: 'contractReviewDetails',
+                    component: () =>
+                      import('@/views/manager/contractManagement/ContractReview/components/ContractReviewDetails'),
+                    meta: {
+                      title: '签约详情',
+                      keepAlive: false,
+                      requiresAuth: true
+                    }
+                  }
+                ]
               }
             ]
           },

@@ -6,6 +6,7 @@ export default {
       return state[moduleName][submoduleName].loading
     }
   },
+
   getVisible: state => (moduleName, stateName) => state[moduleName][stateName],
   getCurrentItem: state => moduleName => state[moduleName].currentItem,
   getPagination: state => moduleName => state[moduleName].pagination,
