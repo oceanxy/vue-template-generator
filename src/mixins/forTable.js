@@ -177,6 +177,19 @@ export default {
         }
       })
     },
+    /**
+     * 导出数据
+     * @param {*} payload 自定义参数
+     * @param {*} fileName  文件名称
+     */
+    async downExcel(payload, fileName) {
+      await this.$store.dispatch('downExcel', {
+        moduleName: this.moduleName,
+        submoduleName: this.submoduleName,
+        additionalQueryParameters: payload,
+        fileName: fileName
+      })
+    },
     resize() {
       if (this.$refs[`${this.moduleName}Table`]) {
         this.$nextTick(() => {

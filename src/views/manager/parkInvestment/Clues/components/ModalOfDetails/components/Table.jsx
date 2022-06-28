@@ -3,24 +3,31 @@ import { Table } from 'ant-design-vue'
 import forTable from '@/mixins/forTable'
 
 export default {
+  inject: ['submoduleName', 'visibleField'],
   mixins: [forTable],
   data() {
     return {
       tableProps: {
+        size: 'middle',
         columns: [
           {
-            title: '序号',
-            dataIndex: ''
+            title: '时间',
+            dataIndex: 'progressTime'
           },
           {
-            title: '标题',
-            dataIndex: 'h'
+            title: '类型',
+            dataIndex: 'progressType'
           },
           {
-            title: '填写结果',
-            dataIndex: 'appName'
+            title: '摘要',
+            dataIndex: 'description'
+          },
+          {
+            title: '经办人',
+            dataIndex: 'memberInfo'
           }
         ],
+        rowSelection: null,
         class: 'modal-of-agency-history'
       }
     }

@@ -1,6 +1,6 @@
 import apis from '@/apis'
 import { omit } from 'lodash'
-
+import { message } from 'ant-design-vue'
 export default commitRootInModule => {
   // 搜索模型
   const searchModel = {
@@ -25,9 +25,14 @@ export default commitRootInModule => {
       visibleOfRecoverClues: false,
       visibleOfDetails: false,
       selectedRowKeys: [],
-      selectedRows: []
+      selectedRows: [],
+      cluesCountList: []
     },
-    mutations: {},
+    mutations: {
+      setCluesCountList(state, payload) {
+        state.cluesCountList = payload
+      }
+    },
     actions: {
       /**
        * 设置搜索参数
@@ -37,6 +42,7 @@ export default commitRootInModule => {
       setSearch({ state }, payload) {
         commitRootInModule('setSearch', { ...(payload ?? searchModel) })
       },
+
       /**
        * 更新状态
        * @param state
@@ -61,7 +67,7 @@ export default commitRootInModule => {
         commitRootInModule('setRowSelected', payload)
       },
       /**
-       * 删除站点应用
+       * 删除
        * @param state
        * @param dispatch
        * @param ids {Array}
@@ -120,6 +126,62 @@ export default commitRootInModule => {
         }
 
         return response.status
+      },
+      /**
+       * 收回
+       * @param state
+       * @param dispatch
+       * @param payload
+       * @return {Promise<*>}
+       */
+      async takeBackClues({ state, dispatch }, payload) {
+        if (payload.ids === '' || payload.ids.length === 0) {
+          message.warn('请选择数据')
+          return
+        }
+        let ids = ''
+        if (typeof payload.ids === 'string') {
+          ids = payload.ids
+        } else {
+          ids = payload.ids.join(',')
+        }
+
+        const response = await apis.takeBackClues({ ids })
+
+        if (response.status) {
+          message.success('收回成功')
+          dispatch('getList', { moduleName: payload.moduleName }, { root: true })
+        }
+
+        return response.status
+      },
+      /**
+       * 线索状态统计头部列表
+       */
+      async getCluesCountList({ commit }) {
+        const res = await apis.getCluesCountList()
+
+        if (res.status) {
+          commit('setCluesCountList', res.data)
+        }
+      }
+    },
+    modules: {
+      modalOfDetails: {
+        state: {
+          loading: false,
+          search: {},
+          list: []
+        },
+        mutations: {},
+        actions: {
+          // async progressDetailClues({ commit }, payload) {
+          //   const res = await apis.progressDetailClues({ id: payload.id })
+          //   if (res.status) {
+          //     commit('setList', res.data || [])
+          //   }
+          // }
+        }
       }
     }
   }
