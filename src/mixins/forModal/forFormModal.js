@@ -49,6 +49,14 @@ export default () => {
           temp = omit(temp, 'areaCode')
         }
 
+        if ('logo' in temp) {
+          if (temp.logo.length) {
+            temp.logo = temp.logo[0].response?.data[0].key ?? temp.logo[0].key
+          } else {
+            temp.logo = ''
+          }
+        }
+
         if ('imgList' in temp && temp.imgList.length) {
           temp.imgs = temp.imgList.map(item => item.response?.data[0].key ?? item.key).join()
           temp = omit(temp, 'imgList')
@@ -69,13 +77,21 @@ export default () => {
       },
       /**
        * 提交表单
-       * @param options {{isFetchList: boolean, [customApiName]: string}}
+       * @param options {{isFetchList: boolean, [customApiName]: string}, [customValidation]: Function}
        * isFetchList：是否在提交并单后立即刷新对应的列表，默认 true；
        * customApiName：自定义请求API
+       * customValidation: 自定义验证函数
        */
       onSubmit(options = { isFetchList: true }) {
         this.form.validateFields(async (err, values) => {
-          if (!err) {
+          console.log(values)
+          let validation = true
+
+          if (typeof options.customValidation === 'function') {
+            validation = options.customValidation()
+          }
+
+          if (!err && validation) {
             this.modalProps.confirmLoading = true
 
             // 存在ID，目前为编辑模式

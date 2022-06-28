@@ -19,7 +19,7 @@ export default {
           scopedSlots: { customRender: 'remark' }
         },
         {
-          title: '操作',
+          title: <Button icon={'plus'} onClick={this.onCreateRow} />,
           width: 60,
           align: 'center',
           scopedSlots: { customRender: 'operation' }
@@ -79,7 +79,6 @@ export default {
 
     return (
       <div class="tg-multi-input">
-        <Button icon="plus" onClick={this.onCreateRow} />
         <Table
           class="multi-input-table"
           columns={this.columns}

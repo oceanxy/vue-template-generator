@@ -1,10 +1,11 @@
 import '../assets/styles/index.scss'
-import { Form, Icon, Input, Switch, Upload } from 'ant-design-vue'
+import { Form, Input, Select, Switch } from 'ant-design-vue'
 import forFormModal from '@/mixins/forModal/forFormModal'
-import { mapState } from 'vuex'
+import { mapGetters } from 'vuex'
 import DragModal from '@/components/DragModal'
 import MultiInput from '@/views/manager/basis/Teams/components/MultiInput'
 import BNUploadPictures from '@/components/BNUploadPictures'
+import { dispatch } from '@/utils/store'
 
 export default Form.create({})({
   mixins: [forFormModal()],
@@ -25,14 +26,20 @@ export default Form.create({})({
       }
     }
   },
-  computed: mapState({
-    allSiteApps: 'allSiteApps',
-    allFunctionalModules: 'allFunctionalModules'
-  }),
+  computed: {
+    ...mapGetters({
+      parksForSelect: 'parksForSelect'
+    })
+  },
   watch: {
-    async visible(value) {
-      if (value) {
-        // await this.$store.dispatch('getAllFunctionalModules')
+    visible: {
+      immediate: true,
+      async handler(value) {
+        if (value) {
+          if (!this.parksForSelect.length) {
+            await dispatch('common', 'getParksForSelect')
+          }
+        }
       }
     }
   },
@@ -41,8 +48,29 @@ export default Form.create({})({
       attrs: this.modalProps,
       on: {
         cancel: () => this.onCancel(),
-        ok: this.onSubmit
+        ok: () => this.onSubmit({
+          customValidation: () => {
+            const temp = this.form
+              .getFieldValue('teamMemberList')
+              .filter(item => item.fullName && item.mobile && item.idCard)
+
+            return !!temp.length
+          }
+        })
       }
+    }
+
+    // 回显图片
+    const fileList = []
+
+    if (this.currentItem.logo) {
+      fileList.push({
+        uid: 'logo',
+        url: this.currentItem.logoStr,
+        key: this.currentItem.logo,
+        status: 'done',
+        name: this.currentItem.logo?.substring(this.currentItem.logo?.lastIndexOf('/'))
+      })
     }
 
     return (
@@ -56,20 +84,9 @@ export default Form.create({})({
           <Form.Item label="LOGO">
             {
               this.form.getFieldDecorator('logo', {
-                initialValue: this.currentItem.logo,
-                rules: [{ required: true, message: '请上传LOGO!', trigger: 'blur' }]
+                initialValue: fileList
               })(
-                <BNUploadPictures />
-              )
-            }
-          </Form.Item>
-          <Form.Item label="编号" class={'half'}>
-            {
-              this.form.getFieldDecorator('teamCode', {
-                initialValue: this.currentItem.teamCode,
-                rules: [{ required: true, message: '请输入编号!', trigger: 'blur' }]
-              })(
-                <Input placeholder="请输入编号" allowClear />
+                <BNUploadPictures limit={1} />
               )
             }
           </Form.Item>
@@ -83,22 +100,47 @@ export default Form.create({})({
               )
             }
           </Form.Item>
-          <Form.Item label="描述">
+          <Form.Item label={'所属园区'} class={'half'}>
             {
-              this.form.getFieldDecorator('description', {
-                initialValue: this.currentItem.description
+              this.form.getFieldDecorator('parkId', {
+                initialValue: this.currentItem.parkId || undefined,
+                rules: [{ required: true, message: '请选择所属园区!', trigger: 'change' }]
               })(
-                <Input.TextArea placeholder="请输入描述" allowClear />
+                <Select placeholder={'请选择所属园区'}>
+                  {
+                    this.parksForSelect.map(item => (
+                      <Select.Option value={item.id}>{item.fullName}</Select.Option>
+                    ))
+                  }
+                </Select>
+              )
+            }
+          </Form.Item>
+          <Form.Item label="编号" class={'half'}>
+            {
+              this.form.getFieldDecorator('teamNo', {
+                initialValue: this.currentItem.teamNo
+              })(
+                <Input placeholder="请输入编号" allowClear />
               )
             }
           </Form.Item>
           <Form.Item label="团队成员">
             {
               this.form.getFieldDecorator('teamMemberList', {
-                initialValue: this.currentItem.teamMemberList,
+                initialValue: this.currentItem.teamMemberList || [],
                 rules: [{ required: true, type: 'array', message: '请添加团队成员!', trigger: 'change' }]
               })(
                 <MultiInput />
+              )
+            }
+          </Form.Item>
+          <Form.Item label="描述">
+            {
+              this.form.getFieldDecorator('description', {
+                initialValue: this.currentItem.description
+              })(
+                <Input.TextArea placeholder="请输入描述" allowClear />
               )
             }
           </Form.Item>

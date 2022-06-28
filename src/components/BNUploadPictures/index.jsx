@@ -10,6 +10,11 @@ export default {
     value: {
       type: Array,
       default: () => []
+    },
+    // 最大图片数量
+    limit: {
+      type: Number,
+      default: 5
     }
   },
   data() {
@@ -47,6 +52,10 @@ export default {
       this.previewVisible = true
     },
     handleChange({ file, fileList }) {
+      if (fileList.length > this.limit) {
+        fileList = fileList.slice(0, this.limit)
+      }
+
       this.fileList = fileList
       this.$emit('change', this.fileList)
     }
@@ -64,12 +73,16 @@ export default {
           headers={this.headers}
           multiple={true}
         >
-          <div className={'tg-upload-pic'}>
-            <Icon type={'plus'} />
-            <div className="ant-upload-text">
-              上传
-            </div>
-          </div>
+          {
+            this.fileList.length < this.limit ? (
+              <div className={'tg-upload-pic'}>
+                <Icon type={'plus'} />
+                <div className="ant-upload-text">
+                  上传
+                </div>
+              </div>
+            ) : null
+          }
         </Upload>
         <Modal
           visible={this.previewVisible}
