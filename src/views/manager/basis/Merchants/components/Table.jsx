@@ -22,13 +22,12 @@ export default {
           },
           {
             title: '姓名',
-            align: 'center',
             dataIndex: 'fullName'
           },
           {
             title: '性别',
             align: 'center',
-            dataIndex: 'gender'
+            dataIndex: 'genderStr'
           },
           {
             title: '手机号码',
@@ -86,7 +85,7 @@ export default {
               />
             ),
             headPortrait: (text, record) => (
-              <img src={record.headPortrait[0]?.path} alt={''} class={'bnm-table-img'} />
+              <img src={record.headPortraitStr} alt={''} class={'bnm-table-img'} />
             ),
             operation: (text, record) => (
               <Space class="operation-space">

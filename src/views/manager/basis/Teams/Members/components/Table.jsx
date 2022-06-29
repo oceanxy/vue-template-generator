@@ -25,6 +25,11 @@ export default {
             dataIndex: 'fullName'
           },
           {
+            title: '性别',
+            align: 'center',
+            dataIndex: 'genderStr'
+          },
+          {
             title: '手机号码',
             dataIndex: 'mobile'
           },

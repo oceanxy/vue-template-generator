@@ -1,7 +1,6 @@
 import '../assets/styles/index.scss'
-import { Form, Icon, Input, Radio, Switch, Upload } from 'ant-design-vue'
+import { Form, Input, Radio, Switch } from 'ant-design-vue'
 import forFormModal from '@/mixins/forModal/forFormModal'
-import { mapState } from 'vuex'
 import DragModal from '@/components/DragModal'
 import BNUploadPictures from '@/components/BNUploadPictures'
 
@@ -21,13 +20,6 @@ export default Form.create({})({
     return {
       modalProps: {
         width: 810
-      }
-    }
-  },
-  watch: {
-    async visible(value) {
-      if (value) {
-        // await this.$store.dispatch('getAllFunctionalModules')
       }
     }
   },
