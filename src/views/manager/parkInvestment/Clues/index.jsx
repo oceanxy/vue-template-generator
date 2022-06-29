@@ -24,16 +24,16 @@ export default {
           image: require('./assets/images/total-leads.png')
         },
         {
-          color: '0,122,225',
-          image: require('./assets/images/total-leads.png')
-        },
-        {
           color: '255,169,64',
           image: require('./assets/images/to-be-assigned.png')
         },
         {
           color: '54,207,201',
           image: require('./assets/images/following-up.png')
+        },
+        {
+          color: '250,219,20',
+          image: require('./assets/images/over.png')
         },
         {
           color: '160,217,27',
