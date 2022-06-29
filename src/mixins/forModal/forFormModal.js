@@ -35,6 +35,18 @@ export default () => {
           temp.status = temp.status ? 1 : 2
         }
 
+        if ('regulationOrganIds' in temp) {
+          temp.regulationOrganIds = temp.regulationOrganIds.join()
+        }
+
+        if ('operationOrganIds' in temp) {
+          temp.operationOrganIds = temp.operationOrganIds.join()
+        }
+
+        if ('propertyOrganIds' in temp) {
+          temp.propertyOrganIds = temp.propertyOrganIds.join()
+        }
+
         if ('areaCode' in temp) {
           if (Array.isArray(temp.areaCode)) {
             temp.provinceId = temp.areaCode[0]

@@ -5,12 +5,13 @@ export default {
    * @param value {boolean}
    * @param moduleName {string}
    * @param submoduleName {string}
+   * @param customizeLoading {string} 自定义loading字段名
    */
-  setLoading(state, { value, moduleName, submoduleName }) {
+  setLoading(state, { value, moduleName, submoduleName, customizeLoading }) {
     if (submoduleName) {
-      state[moduleName][submoduleName].loading = value
+      state[moduleName][submoduleName][customizeLoading || 'loading'] = value
     } else {
-      state[moduleName].loading = value
+      state[moduleName][customizeLoading || 'loading'] = value
     }
   },
 

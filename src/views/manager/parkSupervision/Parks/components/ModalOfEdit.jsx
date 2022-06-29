@@ -1,22 +1,13 @@
 import '../assets/styles/index.scss'
-import { Cascader, Col, Form, Input, Row, Select, Switch } from 'ant-design-vue'
+import { Cascader, Col, Form, Input, Row, Select, Spin, Switch } from 'ant-design-vue'
 import { dispatch } from '@/utils/store'
-import dynamicState from '@/mixins/dynamicState'
 import { mapGetters } from 'vuex'
-import store, { dynamicModules } from '@/store/manager'
 import forFormModal from '@/mixins/forModal/forFormModal'
 import DragModal from '@/components/DragModal'
 import BNUploadPictures from '@/components/BNUploadPictures'
-import { debounce } from 'lodash'
 
 export default Form.create({})({
-  mixins: [
-    forFormModal(),
-    // 注册枚举模块
-    dynamicState(store, dynamicModules, 'regulatoryUnits'),
-    dynamicState(store, dynamicModules, 'operatingUnits'),
-    dynamicState(store, dynamicModules, 'tenements')
-  ],
+  mixins: [forFormModal()],
   props: {
     /**
      * 标题（可定义占位符）
@@ -38,17 +29,9 @@ export default Form.create({})({
     ...mapGetters({
       administrativeDivision: 'administrativeDivision',
       defaultAdministrativeDivision: 'defaultAdministrativeDivision',
-      getList: 'getList'
-    }),
-    regulatoryUnits() {
-      return this.getList('regulatoryUnits')
-    },
-    operatingUnits() {
-      return this.getList('operatingUnits')
-    },
-    tenements() {
-      return this.getList('tenements')
-    }
+      unitsForSelect: 'unitsForSelect',
+      getState: 'getState'
+    })
   },
   watch: {
     visible: {
@@ -57,6 +40,10 @@ export default Form.create({})({
         if (value) {
           if (!this.administrativeDivision.length) {
             await dispatch('common', 'getAdministrativeDivision')
+          }
+
+          if (!this.unitsForSelect.length) {
+            await dispatch('common', 'getUnitsForSelect')
           }
         }
       }
@@ -188,97 +175,70 @@ export default Form.create({})({
               )
             }
           </Form.Item>
-          <Form.Item label="联系电话" class={'half'}>
+          <Form.Item label="监管单位">
             {
-              this.form.getFieldDecorator('phone', {
-                initialValue: this.currentItem.phone
-              })(
-                <Input placeholder="请输入联系电话" allowClear />
-              )
-            }
-          </Form.Item>
-          <Form.Item label="监管单位" class={'half'}>
-            {
-              this.form.getFieldDecorator('regulationOrganId', {
-                initialValue: this.currentItem.regulationOrganId || undefined
+              this.form.getFieldDecorator('regulationOrganIds', {
+                initialValue: this.currentItem.regulationOrganIds || undefined
               })(
                 <Select
                   allowClear
-                  showSearch
+                  mode={'multiple'}
                   placeholder="请选择监管单位"
-                  onSearch={debounce(this.onSelectSearch, 300)}
+                  notFoundContent={this.getState('loadingOfUnitsForSelect', 'common') ? <Spin /> : undefined}
                 >
                   {
-                    this.regulatoryUnits.map(item => (
-                      <Select.Option value={item.id}>{item.fullName}</Select.Option>
+                    this.unitsForSelect.map(item => (
+                      <Select.Option value={item.id}>{item.unitName}</Select.Option>
                     ))
                   }
                 </Select>
               )
             }
           </Form.Item>
-          <Form.Item label="运营单位" class={'half'}>
+          <Form.Item label="运营单位">
             {
-              this.form.getFieldDecorator('operationOrganId', {
-                initialValue: this.currentItem.operationOrganId || undefined
+              this.form.getFieldDecorator('operationOrganIds', {
+                initialValue: this.currentItem.operationOrganIds || undefined
               })(
                 <Select
                   allowClear
-                  showSearch
+                  mode={'multiple'}
                   placeholder="请选择运营单位"
-                  onSearch={debounce(this.onSelectSearch, 300)}
+                  notFoundContent={this.getState('loadingOfUnitsForSelect', 'common') ? <Spin /> : undefined}
                 >
                   {
-                    this.operatingUnits.map(item => (
-                      <Select.Option value={item.id}>{item.fullName}</Select.Option>
+                    this.unitsForSelect.map(item => (
+                      <Select.Option value={item.id}>{item.unitName}</Select.Option>
                     ))
                   }
                 </Select>
               )
             }
           </Form.Item>
-          <Form.Item label="物业单位" class={'half'}>
+          <Form.Item label="物业单位">
             {
-              this.form.getFieldDecorator('propertyOrganId', {
-                initialValue: this.currentItem.propertyOrganId || undefined
+              this.form.getFieldDecorator('propertyOrganIds', {
+                initialValue: this.currentItem.propertyOrganIds || undefined
               })(
                 <Select
                   allowClear
-                  showSearch
+                  mode={'multiple'}
                   placeholder="请选择物业单位"
-                  onSearch={debounce(this.onSelectSearch, 300)}
+                  notFoundContent={this.getState('loadingOfUnitsForSelect', 'common') ? <Spin /> : undefined}
                 >
                   {
-                    this.tenements.map(item => (
-                      <Select.Option value={item.id}>{item.fullName}</Select.Option>
+                    this.unitsForSelect.map(item => (
+                      <Select.Option value={item.id}>{item.unitName}</Select.Option>
                     ))
                   }
                 </Select>
-              )
-            }
-          </Form.Item>
-          <Form.Item label="开户行" class={'half'}>
-            {
-              this.form.getFieldDecorator('openBank', {
-                initialValue: this.currentItem.openBank
-              })(
-                <Input placeholder="请输入开户行名称" />
-              )
-            }
-          </Form.Item>
-          <Form.Item label="银行账户" class={'half'}>
-            {
-              this.form.getFieldDecorator('bankAccount', {
-                initialValue: this.currentItem.bankAccount
-              })(
-                <Input placeholder="请输入银行账户" />
               )
             }
           </Form.Item>
           <Form.Item label="负责人" class={'half'}>
             {
-              this.form.getFieldDecorator('dutyPersonName', {
-                initialValue: this.currentItem.dutyPersonName
+              this.form.getFieldDecorator('dutyPerson', {
+                initialValue: this.currentItem.dutyPerson
               })(
                 <Input placeholder="请输入负责人姓名" />
               )
@@ -299,6 +259,15 @@ export default Form.create({})({
                 initialValue: this.currentItem.dutyPersonMobile
               })(
                 <Input placeholder="请输入负责人手机号码" />
+              )
+            }
+          </Form.Item>
+          <Form.Item label="园区联系电话" class={'half'}>
+            {
+              this.form.getFieldDecorator('phone', {
+                initialValue: this.currentItem.phone
+              })(
+                <Input placeholder="请输入联系电话" allowClear />
               )
             }
           </Form.Item>

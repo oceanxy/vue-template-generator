@@ -1,4 +1,11 @@
 export default {
+  getState: state => (stateName, moduleName, submoduleName = '') => {
+    if (!submoduleName) {
+      return state[moduleName][stateName]
+    } else {
+      return state[moduleName][submoduleName][stateName]
+    }
+  },
   getLoading: state => (moduleName, submoduleName = '') => {
     if (!submoduleName) {
       return state[moduleName].loading
@@ -6,7 +13,6 @@ export default {
       return state[moduleName][submoduleName].loading
     }
   },
-
   getVisible: state => (moduleName, stateName) => state[moduleName][stateName],
   getCurrentItem: state => moduleName => state[moduleName].currentItem,
   getPagination: state => moduleName => state[moduleName].pagination,
@@ -22,6 +28,7 @@ export default {
   units: state => state.common.units,
   parkTree: state => state.common.parkTree,
   parksForSelect: state => state.common.parksForSelect,
+  unitsForSelect: state => state.common.unitsForSelect,
   buildingsForSelect: state => state.common.buildingsForSelect,
   floorTree: state => state.common.floorTree,
   organizationTree: state => state.common.organizationTree,

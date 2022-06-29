@@ -25,7 +25,11 @@ export default {
     // 楼栋下拉列表
     buildingsForSelect: [],
     // 楼层树
-    floorTree: []
+    floorTree: [],
+    // 单位下拉列表加载状态
+    loadingOfUnitsForSelect: false,
+    // 单位下拉列表
+    unitsForSelect: []
   },
   mutations: {
     setAdministrativeDivision(state, payload) {
@@ -52,6 +56,9 @@ export default {
     },
     setFloorTree(state, payload) {
       state.floorTree = payload
+    },
+    setUnitsForSelect(state, payload) {
+      state.unitsForSelect = payload
     }
   },
   actions: {
@@ -155,6 +162,30 @@ export default {
       if (response.status) {
         commit('setFloorTree', response.data)
       }
+    },
+    /**
+     * 获取单位下拉列表
+     * @param commit
+     * @returns {Promise<void>}
+     */
+    async getUnitsForSelect({ commit }) {
+      commit('setLoading', {
+        value: true,
+        moduleName: 'common',
+        customizeLoading: 'loadingOfUnitsForSelect'
+      }, { root: true })
+
+      const response = await apis.getUnitsForSelect()
+
+      if (response.status) {
+        commit('setUnitsForSelect', response.data)
+      }
+
+      commit('setLoading', {
+        value: false,
+        moduleName: 'common',
+        customizeLoading: 'loadingOfUnitsForSelect'
+      }, { root: true })
     }
   }
 }

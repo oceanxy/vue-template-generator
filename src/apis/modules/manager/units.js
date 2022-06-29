@@ -15,6 +15,18 @@ export default {
     })
   },
   /**
+   * 获取单位下拉列表集合
+   * @param [request]
+   * @param data
+   * @returns {*}
+   */
+  getUnitsForSelect(request, data) {
+    return request({
+      url: '/system/unit/getUnitList',
+      method: 'post'
+    })
+  },
+  /**
    * 修改单位状态
    * @param [request]
    * @param data
