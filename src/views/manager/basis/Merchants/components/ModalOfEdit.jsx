@@ -63,8 +63,6 @@ export default Form.create({})({
       <DragModal {...attributes}>
         <Form
           class="bnm-form-grid"
-          labelCol={{ span: 3 }}
-          wrapperCol={{ span: 21 }}
           colon={false}
         >
           <Form.Item label="头像">

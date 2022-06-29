@@ -77,8 +77,6 @@ export default Form.create({})({
       <DragModal {...attributes} class={'bnm-team-edit-modal'}>
         <Form
           class="bnm-form-grid"
-          labelCol={{ span: 3 }}
-          wrapperCol={{ span: 21 }}
           colon={false}
         >
           <Form.Item label="LOGO">

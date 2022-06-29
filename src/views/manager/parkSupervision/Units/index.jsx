@@ -9,16 +9,16 @@ import Pagination from './components/Pagination'
 import ModalOfEdit from './components/ModalOfEdit'
 
 export default {
-  name: 'RegulatoryUnits',
+  name: 'Units',
   mixins: [dynamicState(store, dynamicModules)],
   render() {
     return (
-      <TGContainer class="bnm-regulatory-units-container">
+      <TGContainer class="bnm-units-container">
         <Inquiry slot={'inquiry'} />
         <Functions slot={'functions'} />
         <Table slot={'table'} />
         <Pagination slot={'pagination'} />
-        <ModalOfEdit slot={'modals'} modalTitle={'{action}园区监管单位'} />
+        <ModalOfEdit slot={'modals'} modalTitle={'{action}单位'} />
       </TGContainer>
     )
   }

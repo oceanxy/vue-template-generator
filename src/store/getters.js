@@ -19,7 +19,7 @@ export default {
 
   administrativeDivision: state => state.common.administrativeDivision,
   defaultAdministrativeDivision: state => state.common.defaultAdministrativeDivision,
-  regulatoryUnits: state => state.common.regulatoryUnits,
+  units: state => state.common.units,
   parkTree: state => state.common.parkTree,
   parksForSelect: state => state.common.parksForSelect,
   buildingsForSelect: state => state.common.buildingsForSelect,

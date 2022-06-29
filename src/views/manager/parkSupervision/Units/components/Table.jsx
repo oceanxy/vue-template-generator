@@ -16,31 +16,35 @@ export default {
           },
           {
             title: '单位名称',
-            dataIndex: 'fullName'
+            dataIndex: 'unitName'
           },
           {
-            title: '所属园区',
-            dataIndex: 'parkName'
+            title: '地址',
+            scopedSlots: { customRender: 'address' }
+          },
+          {
+            title: '工商注册号',
+            dataIndex: 'icrn'
+          },
+          {
+            title: '组织机构代码',
+            dataIndex: 'oc'
+          },
+          {
+            title: '统一社会信用代码',
+            dataIndex: 'uscc'
           },
           {
             title: '账号',
-            align: 'center',
             dataIndex: 'loginAccount'
           },
           {
             title: '负责人',
-            align: 'center',
-            dataIndex: 'employeeName'
+            dataIndex: 'dutyPerson'
           },
           {
             title: '负责人手机',
-            align: 'center',
-            dataIndex: 'employeeMobile'
-          },
-          {
-            title: '联系电话',
-            align: 'center',
-            dataIndex: 'chargePhone'
+            dataIndex: 'dutyPersonMobile'
           },
           {
             title: '状态',
@@ -76,6 +80,7 @@ export default {
         {...{
           scopedSlots: {
             serialNumber: (text, record, index) => index + 1,
+            address: (text, record, index) => `${record.provinceName}${record.cityName}${record.countyName}`,
             status: (text, record) => (
               <Switch
                 checked={+record.status === 1}

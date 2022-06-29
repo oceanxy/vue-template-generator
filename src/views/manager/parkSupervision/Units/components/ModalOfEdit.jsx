@@ -1,9 +1,8 @@
 import '../assets/styles/index.scss'
-import { Cascader, Col, Form, Input, Row, Select, Switch } from 'ant-design-vue'
+import { Cascader, Col, Form, Input, Row, Switch } from 'ant-design-vue'
 import forFormModal from '@/mixins/forModal/forFormModal'
 import { mapGetters } from 'vuex'
 import DragModal from '@/components/DragModal'
-import { debounce } from 'lodash'
 import { dispatch } from '@/utils/store'
 
 export default Form.create({})({
@@ -28,8 +27,7 @@ export default Form.create({})({
   computed: {
     ...mapGetters({
       administrativeDivision: 'administrativeDivision',
-      defaultAdministrativeDivision: 'defaultAdministrativeDivision',
-      parksForSelect: 'parksForSelect'
+      defaultAdministrativeDivision: 'defaultAdministrativeDivision'
     })
   },
   watch: {
@@ -39,10 +37,6 @@ export default Form.create({})({
         if (value) {
           if (!this.administrativeDivision.length) {
             await dispatch('common', 'getAdministrativeDivision')
-          }
-
-          if (!this.parksForSelect.length) {
-            await dispatch('common', 'getParksForSelect')
           }
         }
       }
@@ -61,32 +55,44 @@ export default Form.create({})({
       <DragModal {...attributes}>
         <Form
           class="bnm-form-grid"
-          labelCol={{ span: 3 }}
-          wrapperCol={{ span: 21 }}
           colon={false}
         >
-          <Form.Item label="所属园区" class={'half'}>
-            {
-              this.form.getFieldDecorator('parkName', {
-                initialValue: this.currentItem.parkName || undefined
-              })(
-                <Select allowClear placeholder="请选择监管单位">
-                  {
-                    this.parksForSelect.map(item => (
-                      <Select.Option value={item.id}>{item.fullName}</Select.Option>
-                    ))
-                  }
-                </Select>
-              )
-            }
-          </Form.Item>
           <Form.Item label="单位名称" class={'half'}>
             {
-              this.form.getFieldDecorator('fullName', {
-                initialValue: this.currentItem.fullName,
+              this.form.getFieldDecorator('unitName', {
+                initialValue: this.currentItem.unitName,
                 rules: [{ required: true, message: '请输入单位名称!', trigger: 'blur' }]
               })(
                 <Input placeholder="请输入单位名称" allowClear />
+              )
+            }
+          </Form.Item>
+          <Form.Item label="工商注册号" class={'half'}>
+            {
+              this.form.getFieldDecorator('icrn', {
+                initialValue: this.currentItem.icrn,
+                rules: [{ required: true, message: '请输入工商注册号!', trigger: 'blur' }]
+              })(
+                <Input placeholder="请输入工商注册号" allowClear />
+              )
+            }
+          </Form.Item>
+          <Form.Item label="统一社会信用代码" class={'half'}>
+            {
+              this.form.getFieldDecorator('uscc', {
+                initialValue: this.currentItem.uscc,
+                rules: [{ required: true, message: '请输入统一社会信用代码!', trigger: 'blur' }]
+              })(
+                <Input placeholder="请输入统一社会信用代码" allowClear />
+              )
+            }
+          </Form.Item>
+          <Form.Item label="组织机构代码" class={'half'}>
+            {
+              this.form.getFieldDecorator('oc', {
+                initialValue: this.currentItem.oc
+              })(
+                <Input placeholder="请输入组织机构代码" allowClear />
               )
             }
           </Form.Item>
@@ -141,14 +147,13 @@ export default Form.create({})({
               )
             }
           </Form.Item>
-          <Form.Item label="地址" class={'custom'} required>
+          <Form.Item label="地址" class={'custom'}>
             <Row gutter={16}>
               <Col span={10}>
                 <Form.Item>
                   {
                     this.form.getFieldDecorator('areaCode', {
-                      initialValue: this.defaultAdministrativeDivision,
-                      rules: [{ required: true, type: 'array', message: '请选择行政区划!', trigger: 'blur' }]
+                      initialValue: this.defaultAdministrativeDivision
                     })(
                       <Cascader
                         placeholder="请选择省市区"
@@ -165,8 +170,7 @@ export default Form.create({})({
                 <Form.Item>
                   {
                     this.form.getFieldDecorator('address', {
-                      initialValue: this.currentItem.address,
-                      rules: [{ required: true, message: '请输入详细地址!', trigger: 'blur' }]
+                      initialValue: this.currentItem.address
                     })(
                       <Input placeholder="请输入详细地址" allowClear />
                     )

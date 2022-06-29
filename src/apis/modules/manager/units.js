@@ -2,66 +2,66 @@ import qs from 'qs'
 
 export default {
   /**
-   * 获取监管单位列表
+   * 获取单位列表
    * @param [request]
    * @param data
    * @returns {*}
    */
-  getRegulatoryUnits(request, data) {
+  getUnits(request, data) {
     return request({
-      url: '/system/regulationOrgan/getRegulationOrganPage',
+      url: '/system/unit/getUnitPageList',
       method: 'post',
       data: qs.stringify(data)
     })
   },
   /**
-   * 修改监管单位状态
+   * 修改单位状态
    * @param [request]
    * @param data
    * @returns {*}
    */
-  updateRegulatoryUnitsStatus(request, data) {
+  updateUnitsStatus(request, data) {
     return request({
-      url: '/system/regulationOrgan/updateStatus',
+      url: '/system/unit/updateStatus',
       method: 'post',
       data: qs.stringify(data)
     })
   },
   /**
-   * 更新监管单位
+   * 更新单位
    * @param request
    * @param data
    * @returns {*}
    */
-  updateRegulatoryUnits(request, data) {
+  updateUnits(request, data) {
     return request({
-      url: '/system/regulationOrgan/update',
+      url: '/system/unit/update',
       method: 'post',
       data
     })
   },
   /**
-   * 新增监管单位
+   * 新增单位
    * @param [request]
    * @param data
    * @returns {*}
    */
-  addRegulatoryUnits(request, data) {
+  addUnits(request, data) {
     return request({
-      url: '/system/regulationOrgan/add',
+      url: '/system/unit/add',
       method: 'post',
       data
     })
   },
   /**
-   * 删除监管单位
+   * 删除单位
    * @param request
    * @param data
    * @returns {*}
    */
-  deleteRegulatoryUnits(request, data) {
+  deleteUnits(request, data) {
     return request({
-      url: '/system/regulationOrgan/delete',
+      url: '/system/unit/delete',
       method: 'post',
       data: qs.stringify(data)
     })

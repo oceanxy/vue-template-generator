@@ -15,7 +15,7 @@ export default Form.create({})({
         <Space>
           <Form.Item>
             {
-              this.form.getFieldDecorator('fullName')(
+              this.form.getFieldDecorator('unitName')(
                 <Input placeholder="单位名称" allowClear />
               )
             }
