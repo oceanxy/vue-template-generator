@@ -65,7 +65,7 @@ export default {
   },
   methods: {
     onMembersManaClick(record) {
-      this.$router.push({ name: 'teamMembers' })
+      this.$router.push({ name: 'teamMembers', query: { teamId: record.id } })
     }
   },
   render() {

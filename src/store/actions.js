@@ -1,7 +1,8 @@
 import apis from '@/apis'
 import { cloneDeep, omit } from 'lodash'
-import utilityFunction from '@/utils/utilityFunction'
+import UF from '@/utils/utilityFunction'
 import config from '@/config'
+
 export default {
   /**
    * 设置搜索参数
@@ -85,8 +86,8 @@ export default {
     let api = 'getList'
     if (!config.mock) {
       api = `get${
-        submoduleName ? `${utilityFunction.firstLetterToUppercase(submoduleName)}Of` : ''
-      }${utilityFunction.firstLetterToUppercase(moduleName)}`
+        submoduleName ? `${UF.firstLetterToUppercase(submoduleName)}Of` : ''
+      }${UF.firstLetterToUppercase(moduleName)}`
     }
     let response
 
@@ -156,7 +157,7 @@ export default {
       ...state[moduleName].currentItem,
       ...additionalQueryParameters
     }
-    const api = !config.mock ? `getDetailsOf${utilityFunction.firstLetterToUppercase(moduleName)}` : 'getDetails'
+    const api = !config.mock ? `getDetailsOf${UF.firstLetterToUppercase(moduleName)}` : 'getDetails'
     const res = await apis[api](query)
     if (res.status) {
       commit('setDetails', { value: res.data, moduleName, submoduleName, stateName })
@@ -174,7 +175,7 @@ export default {
    * @returns {Promise<*>}
    */
   async add({ state, dispatch }, { moduleName, payload, visibleField }) {
-    const response = await apis[`add${utilityFunction.firstLetterToUppercase(moduleName)}`](payload)
+    const response = await apis[`add${UF.firstLetterToUppercase(moduleName)}`](payload)
 
     if (response.status) {
       dispatch('setModalVisible', {
@@ -205,7 +206,7 @@ export default {
    * @returns {Promise<*>}
    */
   async update({ state, dispatch }, { moduleName, payload, visibleField, isFetchList, customApiName }) {
-    const response = await apis[customApiName || `update${utilityFunction.firstLetterToUppercase(moduleName)}`](payload)
+    const response = await apis[customApiName || `update${UF.firstLetterToUppercase(moduleName)}`](payload)
 
     if (response.status) {
       dispatch('setModalVisible', {
@@ -226,12 +227,15 @@ export default {
    * @param commit
    * @param moduleName {string}
    * @param payload {Object}
+   * @param customFieldName {string} 自定义字段名 默认 status
    * @returns {Promise<*>}
    */
-  async updateStatus({ commit }, { moduleName, payload }) {
+  async updateStatus({ commit }, { moduleName, payload, customFieldName }) {
     commit('setLoading', { value: true, moduleName })
 
-    const { status } = await apis[`update${utilityFunction.firstLetterToUppercase(moduleName)}Status`](payload)
+    const api = `update${UF.firstLetterToUppercase(moduleName)}${UF.firstLetterToUppercase(customFieldName)}`
+
+    const { status } = await apis[api](payload)
 
     commit('setLoading', { value: false, moduleName })
 
@@ -253,7 +257,7 @@ export default {
       ids = state[moduleName].selectedRowKeys
     }
 
-    const response = await apis[`delete${utilityFunction.firstLetterToUppercase(moduleName)}`]({ ids: ids.join() })
+    const response = await apis[`delete${UF.firstLetterToUppercase(moduleName)}`]({ ids: ids.join() })
 
     if (response.status) {
       // 删除数据后，刷新分页数据，避免请求不存在的页码
@@ -282,8 +286,8 @@ export default {
     let api = 'getExcel'
     if (!config.mock) {
       api = `getExcel${
-        submoduleName ? `${utilityFunction.firstLetterToUppercase(submoduleName)}Of` : ''
-      }${utilityFunction.firstLetterToUppercase(moduleName)}`
+        submoduleName ? `${UF.firstLetterToUppercase(submoduleName)}Of` : ''
+      }${UF.firstLetterToUppercase(moduleName)}`
     }
 
     const payload = {
@@ -298,7 +302,7 @@ export default {
 
     const buffer = await apis[api](payload)
     const blob = new Blob([buffer])
-    utilityFunction.downFile(blob, `${fileName}.xlsx`)
+    UF.downFile(blob, `${fileName}.xlsx`)
 
     return buffer
   },

@@ -7,6 +7,16 @@ export default {
     prop: 'value',
     event: 'change'
   },
+  props: {
+    value: {
+      type: Array,
+      default: () => []
+    },
+    disabled: {
+      type: Boolean,
+      default: false
+    }
+  },
   data() {
     return {
       columns: [
@@ -30,19 +40,19 @@ export default {
           scopedSlots: { customRender: 'isLeader' }
         },
         {
-          title: <Button icon={'plus'} onClick={this.onCreateRow} />,
+          title: (
+            <Button
+              icon={'plus'}
+              onClick={this.onCreateRow}
+              disabled={this.disabled}
+            />
+          ),
           width: 60,
           align: 'center',
           scopedSlots: { customRender: 'operation' }
         }
       ],
       dataSource: []
-    }
-  },
-  props: {
-    value: {
-      type: Array,
-      default: () => []
     }
   },
   watch: {
@@ -100,19 +110,42 @@ export default {
           {...{
             scopedSlots: {
               fullName: (text, record) => (
-                <Input vModel={record.fullName} placeholder="请输入姓名" onChange={debounce(this.emit, 300)} />
+                <Input
+                  vModel={record.fullName}
+                  placeholder="请输入姓名"
+                  disabled={this.disabled}
+                  onChange={debounce(this.emit, 300)}
+                />
               ),
               mobile: (text, record) => (
-                <Input vModel={record.mobile} placeholder="请输入手机号码" onChange={debounce(this.emit, 300)} />
+                <Input
+                  vModel={record.mobile}
+                  placeholder="请输入手机号码"
+                  disabled={this.disabled}
+                  onChange={debounce(this.emit, 300)}
+                />
               ),
               idCard: (text, record) => (
-                <Input vModel={record.idCard} placeholder="请输入身份证号码" onChange={debounce(this.emit, 300)} />
+                <Input
+                  vModel={record.idCard}
+                  placeholder="请输入身份证号码"
+                  disabled={this.disabled}
+                  onChange={debounce(this.emit, 300)}
+                />
               ),
               isLeader: (text, record) => (
-                <Switch defaultChecked={record.isLeader === 1} onChange={value => this.onSwitchChange(value, record)} />
+                <Switch
+                  disabled={this.disabled}
+                  defaultChecked={record.isLeader === 1}
+                  onChange={value => this.onSwitchChange(value, record)}
+                />
               ),
               operation: (text, record) => (
-                <Button icon="delete" onClick={() => this.onDelClick(record.id)} />
+                <Button
+                  icon="delete"
+                  onClick={() => this.onDelClick(record.id)}
+                  disabled={this.disabled}
+                />
               )
             }
           }}

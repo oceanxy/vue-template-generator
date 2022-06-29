@@ -9,7 +9,7 @@ import Pagination from './components/Pagination'
 import ModalOfEdit from './components/ModalOfEdit'
 
 export default {
-  name: 'TeamMembers',
+  name: 'Merchants-TeamMembers',
   mixins: [dynamicState(store, dynamicModules)],
   render() {
     return (

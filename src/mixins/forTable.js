@@ -83,21 +83,26 @@ export default {
     async fetchList() {
       await this.$store.dispatch('getList', {
         moduleName: this.moduleName,
-        submoduleName: this.submoduleName
+        submoduleName: this.submoduleName,
+        additionalQueryParameters: {
+          ...this.$route.query
+        }
       })
     },
     /**
      * 行内改变状态
      * @param checked {boolean} 当前状态
-     * @param record record {Object} 列表数据对象
+     * @param record {Object} 列表数据对象
+     * @param [customFieldName] {string} 自定义字段名 默认 status
      * @returns {Promise<void>}
      */
-    async onStatusChange(checked, record) {
+    async onStatusChange(checked, record, customFieldName = 'status') {
       const status = await this.$store.dispatch('updateStatus', {
         moduleName: this.moduleName,
+        customFieldName,
         payload: {
           id: record.id,
-          status: checked ? 1 : 2
+          [customFieldName]: checked ? 1 : 2
         }
       })
 
@@ -107,10 +112,10 @@ export default {
         message.success([<span style={{ color: 'blue' }}>{record.fullName}</span>, ' 的状态已更新！'])
 
         // 更新当前行受控Switch组件的值
-        this.$set(this.tableProps.dataSource[index], 'status', checked ? 1 : 2)
+        this.$set(this.tableProps.dataSource[index], customFieldName, checked ? 1 : 2)
       } else {
         // 调用接口失败时，还原值
-        this.$set(this.tableProps.dataSource[index], 'status', checked ? 2 : 1)
+        this.$set(this.tableProps.dataSource[index], customFieldName, checked ? 2 : 1)
       }
     },
     /**

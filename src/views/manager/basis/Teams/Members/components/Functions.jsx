@@ -12,7 +12,7 @@ export default {
           onClick={() => this.onAddClick()}
           icon="plus"
         >
-          添加成员
+          添加团队成员
         </Button>
       </Space>
     )

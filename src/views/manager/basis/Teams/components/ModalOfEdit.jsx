@@ -127,12 +127,16 @@ export default Form.create({})({
           </Form.Item>
           <Form.Item label="团队成员">
             {
-              this.form.getFieldDecorator('teamMemberList', {
-                initialValue: this.currentItem.teamMemberList || [],
-                rules: [{ required: true, type: 'array', message: '请添加团队成员!', trigger: 'change' }]
-              })(
-                <MultiInput />
-              )
+              // 编辑时，不在 this.form 内注册该字段，仅只读
+              this.currentItem.id
+                ? <MultiInput vModel={this.currentItem.teamMemberList} disabled />
+                : this.form.getFieldDecorator('teamMemberList', {
+                  initialValue: this.currentItem.teamMemberList || [],
+                  rules: [{ required: true, type: 'array', message: '请添加团队成员!', trigger: 'change' }]
+                })(
+                  <MultiInput />
+                )
+
             }
           </Form.Item>
           <Form.Item label="描述">
