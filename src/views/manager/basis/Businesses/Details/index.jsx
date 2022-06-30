@@ -3,7 +3,7 @@ import { Descriptions, Tabs } from 'ant-design-vue'
 import dynamicState from '@/mixins/dynamicState'
 import store, { dynamicModules } from '@/store/manager'
 import TGTabPane from '@/components/TGTabPane'
-import BillTable from '@/views/manager/basis/Businesses/components/BillTable'
+import BillTable from '../components/ModalOfBills/components/Table'
 
 export default {
   name: 'BusinessDetails',
@@ -16,56 +16,16 @@ export default {
   },
   data() {
     return {
-      loading: false,
-      data: [
-        {
-          title: '0-0',
-          key: '0-0',
-          children: [
-            {
-              title: '0-0-0',
-              key: '0-0-0',
-              children: [
-                { title: '0-0-0-0', key: '0-0-0-0' },
-                { title: '0-0-0-1', key: '0-0-0-1' },
-                { title: '0-0-0-2', key: '0-0-0-2' }
-              ]
-            },
-            {
-              title: '0-0-1',
-              key: '0-0-1',
-              children: [
-                { title: '0-0-1-0', key: '0-0-1-0' },
-                { title: '0-0-1-1', key: '0-0-1-1' },
-                { title: '0-0-1-2', key: '0-0-1-2' }
-              ]
-            },
-            {
-              title: '0-0-2',
-              key: '0-0-2'
-            }
-          ]
-        },
-        {
-          title: '0-1',
-          key: '0-1',
-          children: [
-            { title: '0-1-0-0', key: '0-1-0-0' },
-            { title: '0-1-0-1', key: '0-1-0-1' },
-            { title: '0-1-0-2', key: '0-1-0-2' }
-          ]
-        },
-        {
-          title: '0-2',
-          key: '0-2'
-        }
-      ]
+      loading: false
     }
   },
   mounted() {
     const { id } = this.$route.query
 
-    this.$store.dispatch('getDetails', { moduleName: this.moduleName, additionalQueryParameters: { id } })
+    this.$store.dispatch('getDetails', {
+      moduleName: this.moduleName,
+      additionalQueryParameters: { id }
+    })
   },
   render() {
     return (
