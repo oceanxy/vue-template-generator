@@ -1,0 +1,95 @@
+import { Table } from 'ant-design-vue'
+import forTable from '@/mixins/forTable'
+
+export default {
+  // 注册为子模块的组件需要注入的参数
+  inject: ['submoduleName', 'visibleField'],
+  mixins: [forTable()],
+  data() {
+    return {
+      tableProps: {
+        columns: [
+          {
+            title: '序号',
+            width: 60,
+            align: 'center',
+            scopedSlots: { customRender: 'serialNumber' }
+          },
+          {
+            title: '提交时间',
+            dataIndex: 'complaintsTimeStr'
+          },
+          {
+            title: '类型',
+            dataIndex: 'complaintsTypeStr'
+          },
+          {
+            title: '详情',
+            dataIndex: 'content'
+          },
+          {
+            title: '状态',
+            align: 'center',
+            width: 80,
+            scopedSlots: { customRender: 'acceptStatus' }
+          },
+          {
+            title: '处理人',
+            align: 'center',
+            dataIndex: 'disposeName'
+          },
+          {
+            title: '处理时间',
+            align: 'center',
+            dataIndex: 'disposeStr'
+          },
+          {
+            title: '处理结果',
+            align: 'center',
+            dataIndex: 'disposeResult'
+          }
+        ],
+        rowSelection: null,
+        tableLayout: 'fixed',
+        size: 'middle'
+      }
+    }
+  },
+  computed: {
+    currentItem() {
+      return this.getCurrentItem(this.moduleName)
+    },
+    additionalQueryParameters() {
+      return {
+        id: this.currentItem.id
+      }
+    }
+  },
+  render() {
+    const attruibutes = {
+      props: {
+        ...this.tableProps,
+        loading: this.getLoading(this.moduleName, this.submoduleName)
+      },
+      attrs: {
+        class: 'bnm-table-in-modal'
+      }
+    }
+
+    return (
+      <Table
+        {...attruibutes}
+        {...{
+          scopedSlots: {
+            serialNumber: (text, record, index) => index + 1,
+            acceptStatus: (text, record) => (
+              <span style={{ color: ['#52c41a', '#faad14'][record.acceptStatus - 1] }}>
+                {['已处理', '待处理'][record.acceptStatus - 1]}
+              </span>
+            )
+          }
+        }}
+      />
+    )
+  }
+}

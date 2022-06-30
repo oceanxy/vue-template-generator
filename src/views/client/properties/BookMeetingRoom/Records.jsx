@@ -4,7 +4,7 @@ import BNContainer from '@/components/BNContainer'
 import forTable from '@/mixins/forTable'
 
 export default {
-  mixins: [forIndex, forTable],
+  mixins: [forIndex, forTable()],
   data: () => ({
     columns: [
       {
@@ -41,7 +41,7 @@ export default {
   },
   render() {
     return (
-      <BNContainer title='会议室预约 > 我的预约记录'>
+      <BNContainer modalTitle='会议室预约 > 我的预约记录'>
         <Table
           ref={`${this.moduleName}Table`}
           columns={this.columns}

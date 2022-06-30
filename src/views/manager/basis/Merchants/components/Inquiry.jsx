@@ -17,7 +17,7 @@ export default Form.create({})({
           <Form.Item>
             {
               this.form.getFieldDecorator('fullName')(
-                <Input placeholder="姓名/手机号码" allowClear />
+                <Input placeholder="姓名/身份证号/手机号" allowClear />
               )
             }
           </Form.Item>

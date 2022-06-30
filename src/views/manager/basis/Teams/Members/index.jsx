@@ -9,7 +9,7 @@ import Pagination from './components/Pagination'
 import ModalOfEdit from './components/ModalOfEdit'
 
 export default {
-  name: 'TeamMembers',
+  name: 'Merchants-TeamMembers',
   mixins: [dynamicState(store, dynamicModules)],
   render() {
     return (
@@ -18,7 +18,7 @@ export default {
         <Functions slot={'functions'} />
         <Table slot={'table'} />
         <Pagination slot={'pagination'} />
-        <ModalOfEdit slot={'modals'} title={'{action}团队成员'} />
+        <ModalOfEdit slot={'modals'} modalTitle={'{action}团队成员'} />
       </TGContainer>
     )
   }

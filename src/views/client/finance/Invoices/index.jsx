@@ -12,7 +12,7 @@ export default {
   render() {
     return (
       <BNContainer
-        title="我的发票"
+        moduleTitle="我的发票"
         class="bn-records-container"
       >
         <Table />

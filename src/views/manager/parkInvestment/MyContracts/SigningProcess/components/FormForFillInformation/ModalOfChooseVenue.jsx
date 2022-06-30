@@ -12,7 +12,7 @@ export default Form.create({})({
      * 标题（可定义占位符）
      * “{action}” 为占位符，稍后会在 mixin 中替换为对应的字符，比如“新增”、“编辑”
      */
-    title: {
+    modalTitle: {
       type: String,
       default: '{action}'
     }
@@ -48,7 +48,7 @@ export default Form.create({})({
 
     return (
       <DragModal {...attributes} class={'bnm-team-edit-modal'}>
-        <div>不同园区考核形式不同，请谨慎选择</div>
+        <div>不同中心考核形式不同，请谨慎选择</div>
         <Form
           class="bnm-team-edit-form"
           colon={false}

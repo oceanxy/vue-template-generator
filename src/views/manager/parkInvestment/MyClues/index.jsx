@@ -18,8 +18,8 @@ export default {
         <Table slot={'table'} />
         <Pagination slot={'pagination'} />
         <template slot={'modals'}>
-          <ModalOfDetails title={'线索详情'} />
-          <ModalOfFollowUpClues title={'线索跟进'} />
+          <ModalOfDetails modalTitle={'线索详情'} />
+          <ModalOfFollowUpClues modalTitle={'线索跟进'} />
         </template>
       </TGContainer>
     )

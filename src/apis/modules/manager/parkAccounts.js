@@ -2,7 +2,7 @@ import qs from 'qs'
 
 export default {
   /**
-   * 获取园区账号列表
+   * 获取中心账号列表
    * @param [request]
    * @param data
    * @returns {*}
@@ -15,7 +15,7 @@ export default {
     })
   },
   /**
-   * 修改园区账号状态
+   * 修改中心账号状态
    * @param [request]
    * @param data
    * @returns {*}
@@ -28,7 +28,7 @@ export default {
     })
   },
   /**
-   * 更新园区账号
+   * 更新中心账号
    * @param request
    * @param data
    * @returns {*}
@@ -41,7 +41,7 @@ export default {
     })
   },
   /**
-   * 更新园区账号密码
+   * 更新中心账号密码
    * @param request
    * @param data
    * @returns {*}

@@ -10,7 +10,7 @@ import { message, Modal } from 'ant-design-vue'
 import forIndex from '@/mixins/forIndex'
 import { omit } from 'lodash'
 
-export default {
+export default () => ({
   inject: ['moduleName'],
   mixins: [forIndex],
   data() {
@@ -33,20 +33,43 @@ export default {
     }
   },
   computed: {
-    ...mapGetters({ getLoading: 'getLoading' })
+    ...mapGetters({
+      getLoading: 'getLoading',
+      getCurrentItem: 'getCurrentItem'
+    })
   },
   async created() {
     // 为 list 创建动态侦听器
-    this.$watch(
-      () => this.$store.state[this.moduleName].list,
-      async list => {
-        this.tableProps.dataSource = list
+    if (!this.submoduleName) {
+      this.$watch(
+        () => this.$store.state[this.moduleName].list,
+        async list => {
+          this.tableProps.dataSource = list
 
-        this.resize()
-      }
-    )
+          this.resize()
+        }
+      )
 
-    await this.fetchList()
+      await this.fetchList()
+    } else {
+      this.$watch(
+        () => this.$store.state[this.moduleName][this.visibleField],
+        async visibleField => {
+          if (visibleField) {
+            await this.fetchList()
+          }
+        },
+        { immediate: true }
+      )
+
+      this.$watch(
+        () => this.$store.state[this.moduleName][this.submoduleName].list,
+        async list => {
+          this.tableProps.dataSource = list
+        },
+        { immediate: true }
+      )
+    }
   },
   mounted() {
     window.addEventListener('resize', this.resize)
@@ -62,37 +85,41 @@ export default {
      */
     async fetchList() {
       await this.$store.dispatch('getList', {
-        moduleName: this.moduleName
+        moduleName: this.moduleName,
+        submoduleName: this.submoduleName,
+        additionalQueryParameters: {
+          ...this.$route.query,
+          ...(this.additionalQueryParameters || {})
+        }
       })
     },
     /**
      * 行内改变状态
      * @param checked {boolean} 当前状态
-     * @param record record {Object} 列表数据对象
+     * @param record {Object} 列表数据对象
+     * @param [customFieldName] {string} 自定义字段名 默认 status
      * @returns {Promise<void>}
      */
-    async onStatusChange(checked, record) {
+    async onStatusChange(checked, record, customFieldName = 'status') {
       const status = await this.$store.dispatch('updateStatus', {
         moduleName: this.moduleName,
+        customFieldName,
         payload: {
           id: record.id,
-          status: checked ? 1 : 2
+          [customFieldName]: checked ? 1 : 2
         }
       })
 
       const index = this.tableProps.dataSource.findIndex(item => item.id === record.id)
 
       if (status) {
-        message.success([
-          <span style={{ color: 'blue' }}>{record.fullName}</span>,
-          ' 的状态已更新！'
-        ])
+        message.success([<span style={{ color: 'blue' }}>{record.fullName}</span>, ' 的状态已更新！'])
 
         // 更新当前行受控Switch组件的值
-        this.$set(this.tableProps.dataSource[index], 'status', checked ? 1 : 2)
+        this.$set(this.tableProps.dataSource[index], customFieldName, checked ? 1 : 2)
       } else {
         // 调用接口失败时，还原值
-        this.$set(this.tableProps.dataSource[index], 'status', checked ? 2 : 1)
+        this.$set(this.tableProps.dataSource[index], customFieldName, checked ? 2 : 1)
       }
     },
     /**
@@ -137,10 +164,7 @@ export default {
           })
 
           if (status) {
-            message.success([
-              <span style={{ color: 'blue' }}>{record.appName}</span>,
-              ' 已成功删除！'
-            ])
+            message.success([<span style={{ color: 'blue' }}>{record.appName}</span>, ' 已成功删除！'])
           }
 
           close()
@@ -162,10 +186,22 @@ export default {
         }
       })
     },
+    /**
+     * 导出数据
+     * @param {Object} payload 自定义参数
+     * @param {string} fileName 文件名称
+     */
+    async downExcel(payload, fileName) {
+      await this.$store.dispatch('downExcel', {
+        moduleName: this.moduleName,
+        submoduleName: this.submoduleName,
+        additionalQueryParameters: payload,
+        fileName: fileName
+      })
+    },
     resize() {
       if (this.$refs[`${this.moduleName}Table`]) {
         this.$nextTick(() => {
-
           let footerHeight = 0
           const table = this.$refs[`${this.moduleName}Table`].$el
           const footer = table.querySelector('.ant-table-footer')
@@ -185,4 +221,4 @@ export default {
       }
     }
   }
-}
+})

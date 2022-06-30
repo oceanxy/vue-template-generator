@@ -1,9 +1,9 @@
-import '../index.scss'
 import { Table } from 'ant-design-vue'
 import forTable from '@/mixins/forTable'
 
 export default {
-  mixins: [forTable],
+  inject: ['submoduleName', 'visibleField'],
+  mixins: [forTable()],
   data() {
     return {
       tableProps: {
@@ -38,7 +38,6 @@ export default {
             scopedSlots: { customRender: 'signingStatus' }
           }
         ],
-        class: 'modal-of-agency-history',
         rowSelection: null,
         tableLayout: 'fixed',
         size: 'middle'
@@ -46,7 +45,7 @@ export default {
     }
   },
   methods: {
-    async onAgencyHistoryClick(record) {
+    async onContractHistoryClick(record) {
       await this._setVisibleOfModal(record, 'visibleOfContractHistory')
     }
   },
@@ -54,10 +53,10 @@ export default {
     const attruibutes = {
       props: {
         ...this.tableProps,
-        loading: this.getLoading(this.moduleName)
+        loading: this.getLoading(this.moduleName, this.submoduleName)
       },
       attrs: {
-        class: 'modal-of-contract-history-table'
+        class: 'bnm-table-in-modal'
       }
     }
 
@@ -69,7 +68,7 @@ export default {
             serialNumber: (text, record, index) => index + 1,
             signingStatus: (text, record) => (
               <span style={{ color: ['#52c41a', '#faad14'][record.signingStatus - 1] }}>
-                {record.signingStatus}
+                {['签约中', '已解约'][record.signingStatus - 1]}
               </span>
             )
           }

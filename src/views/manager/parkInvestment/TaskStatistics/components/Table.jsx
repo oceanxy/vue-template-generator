@@ -3,55 +3,57 @@ import { Button, Space, Table } from 'ant-design-vue'
 import forTable from '@/mixins/forTable'
 
 export default {
-  mixins: [forTable],
+  mixins: [forTable()],
   data() {
     return {
       tableProps: {
         columns: [
           {
             title: '序号',
-            dataIndex: ''
+            scopedSlots: { customRender: 'index' }
           },
           {
             title: '团队',
-            dataIndex: 'appName'
+            dataIndex: 'teamName'
           },
           {
             title: '成员',
-            dataIndex: 'remark'
+            dataIndex: 'memberName'
           },
           {
             title: '分配线索',
-            align: 'center',
-            dataIndex: 'zz'
+            width: 80,
+            dataIndex: 'cluesCount'
           },
           {
             title: '跟进中',
             align: 'center',
-            dataIndex: 'xx'
+            width: 60,
+            dataIndex: 'followCluesCount'
           },
           {
             title: '已结束',
             align: 'center',
-            dataIndex: 'cc'
+            width: 60,
+            dataIndex: 'endCluesCount'
           },
           {
             title: '签约中',
             align: 'center',
             width: 60,
-            scopedSlots: { customRender: 'status' }
+            dataIndex: 'signingCluesCount'
           },
           {
             title: '已签约',
             align: 'center',
             width: 60,
-            scopedSlots: { customRender: 'status' }
+            dataIndex: 'endSigningCluesCount'
           },
           {
             title: '转化率',
             align: 'center',
             width: 60,
-            scopedSlots: { customRender: 'status' }
+            dataIndex: 'conversionRate'
           },
           {
             title: '操作',
@@ -61,7 +63,8 @@ export default {
             width: 100,
             scopedSlots: { customRender: 'operation' }
           }
-        ]
+        ],
+        rowSelection: null
       }
     }
   },
@@ -80,6 +83,7 @@ export default {
         {...attributes}
         {...{
           scopedSlots: {
+            index: (text, record, index) => <span>{index + 1}</span>,
             // status: (text, record) => (
             //   <Switch
             //     checked={+record.status === 1}
@@ -91,8 +95,9 @@ export default {
                 <Button
                   type="link"
                   size="small"
-                  // onClick={() => this.onEditClick(record)}
-                >
+                  onClick={() =>
+                    this.downExcel({ teamId: record.id, teamName: record.teamName }, `${record.teamName}-团队任务统计`)
+                  }>
                   导出数据
                 </Button>
               </Space>

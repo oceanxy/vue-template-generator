@@ -14,14 +14,22 @@ export default {
     defaultAdministrativeDivision: [],
     // 组织机构树
     organizationTree: [],
-    // 园区树
+    // 中心树
     parkTree: [],
     // 角色树
     roleTree: [],
-    // 园区下拉列表
+    // 当前选中的中心树节点的 key（id）
+    currentParkTreeKeySelected: '0',
+    // 中心下拉列表
     parksForSelect: [],
-    // 当前选中的园区树节点的 key（id）
-    currentParkTreeKeySelected: '0'
+    // 楼栋下拉列表
+    buildingsForSelect: [],
+    // 楼层树
+    floorTree: [],
+    // 单位下拉列表加载状态
+    loadingOfUnitsForSelect: false,
+    // 单位下拉列表
+    unitsForSelect: []
   },
   mutations: {
     setAdministrativeDivision(state, payload) {
@@ -34,20 +42,42 @@ export default {
     setParkTree(state, payload) {
       state.parkTree = payload
     },
-    setParksForSelect(state, payload) {
-      state.parksForSelect = payload
-    },
     setRoleTree(state, payload) {
       state.roleTree = payload
     },
     setCurrentParkTreeKeySelected(state, payload) {
       state.currentParkTreeKeySelected = payload
+    },
+    setParksForSelect(state, payload) {
+      state.parksForSelect = payload
+    },
+    setBuildingsForSelect(state, payload) {
+      state.buildingsForSelect = payload
+    },
+    setFloorTree(state, payload) {
+      state.floorTree = payload
+    },
+    setUnitsForSelect(state, payload) {
+      state.unitsForSelect = payload
     }
   },
   actions: {
-    async setCurrentParkTreeKeySelected({ commit, dispatch }, { moduleName, value }) {
+    /**
+     * 设置当前选中的中心树key
+     * @param state
+     * @param commit
+     * @param dispatch
+     * @param moduleName {string}
+     * @param submoduleName {string}
+     * @param value {string}
+     * @returns {Promise<void>}
+     */
+    async setCurrentParkTreeKeySelected({ state, commit, dispatch }, { moduleName, submoduleName, value }) {
+      if (state.currentParkTreeKeySelected !== value) {
+        dispatch('setSearch', { payload: { treeId: value }, moduleName, submoduleName }, { root: true })
+      }
+
       commit('setCurrentParkTreeKeySelected', value)
-      dispatch('setSearch', { value: { parkId: value }, moduleName }, { root: true })
     },
     /**
      * 获取行政区划级联数据
@@ -74,7 +104,7 @@ export default {
       }
     },
     /**
-     * 获取园区树
+     * 获取中心树
      * @param commit
      * @returns {Promise<void>}
      */
@@ -98,7 +128,7 @@ export default {
       }
     },
     /**
-     * 获取园区下拉列表
+     * 获取中心下拉列表
      * @param commit
      * @returns {Promise<void>}
      */
@@ -108,6 +138,54 @@ export default {
       if (response.status) {
         commit('setParksForSelect', response.data)
       }
+    },
+    /**
+     * 获取楼栋下拉列表
+     * @param commit
+     * @returns {Promise<void>}
+     */
+    async getBuildingsForSelect({ commit }) {
+      const response = await apis.getBuildingsForSelect()
+
+      if (response.status) {
+        commit('setBuildingsForSelect', response.data)
+      }
+    },
+    /**
+     * 获取楼层树
+     * @param commit
+     * @returns {Promise<void>}
+     */
+    async getFloorTree({ commit }) {
+      const response = await apis.getFloorTree()
+
+      if (response.status) {
+        commit('setFloorTree', response.data)
+      }
+    },
+    /**
+     * 获取单位下拉列表
+     * @param commit
+     * @returns {Promise<void>}
+     */
+    async getUnitsForSelect({ commit }) {
+      commit('setLoading', {
+        value: true,
+        moduleName: 'common',
+        customizeLoading: 'loadingOfUnitsForSelect'
+      }, { root: true })
+
+      const response = await apis.getUnitsForSelect()
+
+      if (response.status) {
+        commit('setUnitsForSelect', response.data)
+      }
+
+      commit('setLoading', {
+        value: false,
+        moduleName: 'common',
+        customizeLoading: 'loadingOfUnitsForSelect'
+      }, { root: true })
     }
   }
 }

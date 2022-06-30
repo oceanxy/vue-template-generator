@@ -35,7 +35,7 @@ export default {
           <div class="login-subtitle">Welcome Login!</div>
           <ULLoginForm />
         </BNContainer>
-        <div class='corporate-services'>C2022科技局版权所有 | ICP备案号：xxxxxxxxxxxx | 技术支持：逾期付</div>
+        <div class='corporate-services'>©2022 重庆市巴南区科学技术局版权所有 | ICP备案号：渝ICP备17009455号-5 | 技术服务单位：重庆誉企服科技有限公司</div>
       </div>
     )
   }

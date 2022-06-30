@@ -53,7 +53,7 @@ export const routes = [
         name: 'parkStatus',
         component: () => import('@/views/manager/ParkStatus'),
         meta: {
-          title: '园区状态',
+          title: '中心状态',
           keepAlive: true,
           requiresAuth: true,
           hideBreadCrumb: true,
@@ -94,13 +94,24 @@ export const routes = [
               },
               {
                 path: 'businesses-details',
-                name: 'businessesDetails',
-                component: () => import('@/views/manager/basis/Businesses/Details'),
+                component: () => import('@/layouts/components/BNContainerWithBusinesses'),
                 meta: {
                   title: '详情',
                   keepAlive: false,
                   requiresAuth: true
-                }
+                },
+                children: [
+                  {
+                    path: '',
+                    name: 'businessesDetails',
+                    component: () => import('@/views/manager/basis/Businesses/Details'),
+                    meta: {
+                      title: '详情',
+                      keepAlive: false,
+                      requiresAuth: true
+                    }
+                  }
+                ]
               }
             ]
           },
@@ -170,11 +181,11 @@ export const routes = [
         ]
       },
       {
-        path: 'park-supervision-tb',
+        path: 'park-supervision',
         component: TGRouterView,
         redirect: { name: 'parks' },
         meta: {
-          title: '园区监管(科技局)',
+          title: '中心监管',
           keepAlive: true,
           requiresAuth: true,
           icon: () => import('@/layouts/components/TGMenu/assets/images/parkSupervision.svg')
@@ -183,20 +194,20 @@ export const routes = [
           {
             path: 'parks',
             name: 'parks',
-            component: () => import('@/views/manager/parkSupervision/technologyBureau/Parks'),
+            component: () => import('@/views/manager/parkSupervision/Parks'),
             meta: {
-              title: '园区管理',
+              title: '中心管理',
               keepAlive: true,
               requiresAuth: true,
               hideChildren: true
             }
           },
           {
-            path: 'regulatory-units',
-            name: 'regulatoryUnits',
-            component: () => import('@/views/manager/parkSupervision/technologyBureau/RegulatoryUnits'),
+            path: 'units',
+            name: 'units',
+            component: () => import('@/views/manager/parkSupervision/Units'),
             meta: {
-              title: '园区监管单位管理',
+              title: '单位管理',
               keepAlive: true,
               requiresAuth: true
             }
@@ -204,7 +215,7 @@ export const routes = [
           {
             path: 'account-opening',
             name: 'accountOpening',
-            component: () => import('@/views/manager/parkSupervision/technologyBureau/AccountOpening'),
+            component: () => import('@/views/manager/parkSupervision/AccountOpening'),
             meta: {
               title: '账号开通审核',
               keepAlive: true,
@@ -214,30 +225,17 @@ export const routes = [
           {
             path: 'park-info',
             name: 'parkInfo',
-            component: () => import('@/views/manager/parkSupervision/technologyBureau/ParkInfo'),
+            component: () => import('@/views/manager/parkSupervision/ParkInfo'),
             meta: {
-              title: '园区信息管理',
+              title: '中心信息管理',
               keepAlive: true,
               requiresAuth: true
             }
-          }
-        ]
-      },
-      {
-        path: 'park-supervision-ru',
-        component: TGRouterView,
-        redirect: { name: 'applyAccount' },
-        meta: {
-          title: '园区监管(监管单位)',
-          keepAlive: true,
-          requiresAuth: true,
-          icon: () => import('@/layouts/components/TGMenu/assets/images/parkSupervision.svg')
-        },
-        children: [
+          },
           {
             path: 'apply-account',
             name: 'applyAccount',
-            component: () => import('@/views/manager/parkSupervision/regulatoryUnit/ApplyAccount'),
+            component: () => import('@/views/manager/parkSupervision/ApplyAccount'),
             meta: {
               title: '账号开通申请',
               keepAlive: true,
@@ -247,9 +245,9 @@ export const routes = [
           {
             path: 'park-account',
             name: 'parkAccount',
-            component: () => import('@/views/manager/parkSupervision/regulatoryUnit/ParkAccount'),
+            component: () => import('@/views/manager/parkSupervision/ParkAccount'),
             meta: {
-              title: '园区账号管理',
+              title: '中心账号管理',
               keepAlive: true,
               requiresAuth: true
             }
@@ -261,7 +259,7 @@ export const routes = [
         component: TGRouterView,
         redirect: { name: 'clues' },
         meta: {
-          title: '园区招商',
+          title: '中心招商',
           keepAlive: true,
           requiresAuth: true,
           icon: () => import('@/layouts/components/TGMenu/assets/images/parkInvestment.svg')
@@ -374,13 +372,25 @@ export const routes = [
               },
               {
                 path: 'contract-review-details',
-                name: 'contractReviewDetails',
-                component: () => import('@/views/manager/basis/Businesses/Details'),
+                component: () => import('@/layouts/components/BNContainerWithBusinesses'),
                 meta: {
-                  title: '签约详情',
-                  keepAlive: true,
+                  title: '详情',
+                  keepAlive: false,
                   requiresAuth: true
-                }
+                },
+                children: [
+                  {
+                    path: '',
+                    name: 'contractReviewDetails',
+                    component: () =>
+                      import('@/views/manager/contractManagement/ContractReview/components/ContractReviewDetails'),
+                    meta: {
+                      title: '签约详情',
+                      keepAlive: false,
+                      requiresAuth: true
+                    }
+                  }
+                ]
               }
             ]
           },
@@ -431,7 +441,7 @@ export const routes = [
       {
         path: 'questionnaire',
         component: TGRouterView,
-        redirect: { name: 'questionnairesManagement' },
+        redirect: { name: 'questionnaires' },
         meta: {
           title: '调查问卷',
           keepAlive: true,
@@ -440,9 +450,9 @@ export const routes = [
         },
         children: [
           {
-            path: 'questionnaires-management',
-            name: 'questionnairesManagement',
-            component: () => import('@/views/manager/questionnaire/QuestionnaireManagement'),
+            path: 'questionnaires',
+            name: 'questionnaires',
+            component: () => import('@/views/manager/questionnaire/Questionnaires'),
             meta: {
               title: '问卷管理',
               keepAlive: true,

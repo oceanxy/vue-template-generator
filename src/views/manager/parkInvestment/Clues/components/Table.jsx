@@ -3,37 +3,36 @@ import { Button, Space, Table } from 'ant-design-vue'
 import forTable from '@/mixins/forTable'
 
 export default {
-  mixins: [forTable],
+  mixins: [forTable()],
   data() {
     return {
       tableProps: {
         columns: [
           {
             title: '序号',
-            dataIndex: ''
+            align: 'center',
+            width: 60,
+            scopedSlots: { customRender: 'index' }
           },
           {
             title: '目标客户',
-            dataIndex: 'appName'
+            dataIndex: 'title'
           },
           {
             title: '来源',
-            dataIndex: 'remark'
+            dataIndex: 'cluesResource'
           },
           {
             title: '采集人/时间',
-            align: 'center',
-            dataIndex: 'zz'
+            scopedSlots: { customRender: 'gatherInfo' }
           },
           {
             title: '跟进团队/成员',
-            align: 'center',
-            dataIndex: 'xx'
+            dataIndex: 'memberName'
           },
           {
             title: '最新进展/更新时间',
-            align: 'center',
-            dataIndex: 'cc'
+            scopedSlots: { customRender: 'newDynamic' }
           },
           {
             title: '状态',
@@ -61,58 +60,79 @@ export default {
         loading: this.getLoading(this.moduleName)
       }
     }
-
+    const statusStyle = row => {
+      if (row.allotStatus === 1) {
+        return <span>待分配</span>
+      } else if (row.allotStatus === 5) {
+        return <span style={{ color: 'red' }}>已结束</span>
+      } else {
+        return <span style={{ color: 'green' }}>{row.allotStatusStr}</span>
+      }
+    }
+    const detailButton = record => (
+      <Button type="link" size="small" onClick={() => this._setVisibleOfModal(record, 'visibleOfDetails')}>
+        查看详情
+      </Button>
+    )
+    const recoveryButton = record => (
+      <Button type="link" size="small" onClick={() => this._setVisibleOfModal(record, 'visibleOfRecoverClues')}>
+        收回
+      </Button>
+    )
+    const distributionButton = record => (
+      <Button type="link" size="small" onClick={() => this._setVisibleOfModal(record, 'visibleOfAssignLeads')}>
+        分配
+      </Button>
+    )
+    const restartButton = record => (
+      <Button
+        type="link"
+        size="small"
+        // onClick={() => this.onAddClick(record)}
+      >
+        重新开启
+      </Button>
+    )
+    const delButton = record => (
+      <Button type="link" size="small" onClick={() => this.onDeleteClick(record)}>
+        删除
+      </Button>
+    )
+    const statusBtn = record => {
+      if (record.allotStatus === 1) {
+        return [detailButton(record), distributionButton(record), delButton(record)]
+      } else if (record.allotStatus === 2) {
+        return [detailButton(record), recoveryButton(record), delButton(record)]
+      } else if (record.allotStatus === 3) {
+        return [detailButton(record)]
+      } else if (record.allotStatus === 4) {
+        return [detailButton(record)]
+      } else if (record.allotStatus === 5) {
+        return [detailButton(record), restartButton(record), delButton(record)]
+      }
+    }
     return (
       <Table
         ref={`${this.moduleName}Table`}
         {...attributes}
         {...{
           scopedSlots: {
-            // status: (text, record) => (
-            //   <Switch
-            //     checked={+record.status === 1}
-            //     onChange={checked => this.onStatusChange(checked, record)}
-            //   />
-            // ),
-            operation: (text, record) => (
-              <Space class="operation-space">
-                <Button
-                  type="link"
-                  size="small"
-                  onClick={() => this._setVisibleOfModal(record, 'visibleOfDetails')}
-                >
-                  查看详情
-                </Button>
-                <Button
-                  type="link"
-                  size="small"
-                  onClick={() => this._setVisibleOfModal(record, 'visibleOfRecoverClues')}
-                >
-                  收回
-                </Button>
-                <Button
-                  type="link"
-                  size="small"
-                  onClick={() => this._setVisibleOfModal(record, 'visibleOfAssignLeads')}
-                >
-                  分配
-                </Button>
-                <Button
-                  type="link"
-                  size="small"
-                  // onClick={() => this.onAddClick(record)}
-                >
-                  重新开启
-                </Button>
-                <Button
-                  type="link"
-                  size="small"
-                  onClick={() => this.onDeleteClick(record)}
-                >
-                  删除
-                </Button>
-              </Space>
-            )
+            index: (text, record, index) => <span> {index + 1}</span>,
+            gatherInfo: text => (
+              <div>
+                <span>{text.gatherName}</span>
+                <br /> <span>{text.gatherTimeStr}</span>
+              </div>
+            ),
+            newDynamic: text => (
+              <div>
+                <span>{text.processDescription}</span>
+                <br />
+                <span>{text.processDate}</span>
+              </div>
+            ),
+            status: (text, record) => <div>{statusStyle(text)}</div>,
+            operation: (text, record) => <Space class="operation-space">{...statusBtn(record)}</Space>
           }
         }}
       />

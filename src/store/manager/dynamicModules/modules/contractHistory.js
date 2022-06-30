@@ -22,7 +22,13 @@ export default commitRootInModule => {
       list: [],
       visibleOfContractReview: false,
       selectedRowKeys: [],
-      selectedRows: []
+      selectedRows: [],
+      signingStatusEnum: {
+        1: '签约中',
+        2: '待审核',
+        3: '已签约',
+        4: '审核驳回'
+      }
     },
     mutations: {},
     actions: {

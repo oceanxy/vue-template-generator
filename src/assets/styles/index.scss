@@ -76,6 +76,15 @@ body {
       width: 200px;
     }
   }
+
+  .number-range {
+    display: flex;
+
+    .identifier {
+      text-align: center;
+      width: 30px;
+    }
+  }
 }
 
 .ant-table-wrapper {
@@ -149,6 +158,19 @@ body {
   }
 }
 
+.bnm-table-modal .ant-modal-wrap {
+  .ant-modal-body {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .bnm-table-in-modal {
+    height: 400px;
+  }
+}
+
 /************************************************************************************/
 
 /********************************* 表单自定义栅格化 *************************************/
@@ -162,7 +184,7 @@ body {
     display: flex;
 
     .ant-form-item-label {
-      width: 100px;
+      width: 130px;
       flex: none;
     }
 
@@ -172,6 +194,10 @@ body {
 
     &.half {
       width: calc((100% - 24px) / 2);
+    }
+
+    &.combo {
+      margin-bottom: 0;
     }
 
     &.custom {
@@ -191,6 +217,17 @@ body {
           margin-bottom: 0;
         }
       }
+    }
+  }
+
+  .bnm-form-checkbox {
+    padding: 9px 0 2px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+
+    label {
+      margin-left: 0;
     }
   }
 }
@@ -243,3 +280,23 @@ body {
 }
 
 /**********************************************************************/
+
+/******************************* SelectTree 父节点只做展开/折叠功能 ****************************/
+.bnm-select-dropdown {
+  overflow-x: hidden !important;
+
+  .ant-select-tree-switcher {
+    position: relative;
+  }
+
+  .ant-select-tree-switcher_open::before, .ant-select-tree-switcher_close::before {
+    content: '';
+    position: absolute;
+    right: -310px;
+    top: 0;
+    left: 0;
+    bottom: 0;
+  }
+}
+
+/********************************************************************/

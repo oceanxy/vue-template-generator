@@ -7,63 +7,14 @@ import Pagination from '@/views/manager/basis/Businesses/components/Pagination'
 import dynamicState from '@/mixins/dynamicState'
 import store, { dynamicModules } from '@/store/manager'
 import TGContainer from '@/layouts/components/TGContainer'
-import ModalOfEdit from '@/views/manager/basis/Businesses/components/ModalOfEdit'
+import ModalOfShortMessage from './components/ModalOfShortMessage'
+import ModalOfSuggestions from './components/ModalOfSuggestions'
+import ModalOfPaymentRecords from './components/ModalOfPaymentRecords'
+import ModalOfBills from './components/ModalOfBills'
 
 export default {
   name: 'Businesses',
   mixins: [dynamicState(store, dynamicModules)],
-  data() {
-    return {
-      loading: false,
-      imageUrl: '',
-      currentItem: {
-        name: ''
-      },
-      data: [
-        {
-          title: '0-0',
-          key: '0-0',
-          children: [
-            {
-              title: '0-0-0',
-              key: '0-0-0',
-              children: [
-                { title: '0-0-0-0', key: '0-0-0-0' },
-                { title: '0-0-0-1', key: '0-0-0-1' },
-                { title: '0-0-0-2', key: '0-0-0-2' }
-              ]
-            },
-            {
-              title: '0-0-1',
-              key: '0-0-1',
-              children: [
-                { title: '0-0-1-0', key: '0-0-1-0' },
-                { title: '0-0-1-1', key: '0-0-1-1' },
-                { title: '0-0-1-2', key: '0-0-1-2' }
-              ]
-            },
-            {
-              title: '0-0-2',
-              key: '0-0-2'
-            }
-          ]
-        },
-        {
-          title: '0-1',
-          key: '0-1',
-          children: [
-            { title: '0-1-0-0', key: '0-1-0-0' },
-            { title: '0-1-0-1', key: '0-1-0-1' },
-            { title: '0-1-0-2', key: '0-1-0-2' }
-          ]
-        },
-        {
-          title: '0-2',
-          key: '0-2'
-        }
-      ]
-    }
-  },
   render() {
     return (
       <BNContainerWithParkSider contentClass="bnm-businesses-container">
@@ -72,7 +23,12 @@ export default {
           <Functions slot="functions" />
           <Table slot="table" />
           <Pagination slot="pagination" />
-          <ModalOfEdit slot={'modals'} />
+          <template slot={'modals'}>
+            <ModalOfShortMessage modalTitle={'发送短信'} />
+            <ModalOfSuggestions modalTitle={'投诉建议'} />
+            <ModalOfPaymentRecords modalTitle={'缴费记录'} />
+            <ModalOfBills modalTitle={'账单查询'} />
+          </template>
         </TGContainer>
       </BNContainerWithParkSider>
     )

@@ -7,7 +7,7 @@ export default Form.create({})({
     return (
       <BNContainer
         width="100%"
-        title="会议室预约 > 立即预约"
+        modalTitle="会议室预约 > 立即预约"
         class="bn-book-meeting-room--book"
       >
         <Form

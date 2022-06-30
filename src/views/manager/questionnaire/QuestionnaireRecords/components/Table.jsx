@@ -3,37 +3,36 @@ import { Button, Space, Table } from 'ant-design-vue'
 import forTable from '@/mixins/forTable'
 
 export default {
-  mixins: [forTable],
+  mixins: [forTable()],
   data() {
     return {
       tableProps: {
         columns: [
           {
             title: '序号',
-            dataIndex: ''
+            width: 60,
+            align: 'center',
+            scopedSlots: { customRender: 'serialNumber' }
           },
           {
             title: '问卷标题',
-            dataIndex: 'appName'
+            dataIndex: 'questionnaireName'
           },
           {
             title: '填写企业名称',
-            dataIndex: 'remark'
+            dataIndex: 'companyName'
           },
           {
             title: '负责人',
-            align: 'center',
-            dataIndex: 'zz'
+            dataIndex: 'dutyPerson'
           },
           {
             title: '联系电话',
-            align: 'center',
-            dataIndex: 'xx'
+            dataIndex: 'phone'
           },
           {
             title: '填写时间',
-            align: 'center',
-            dataIndex: 'cc'
+            dataIndex: 'createTimeStr'
           },
           {
             title: '操作',
@@ -62,19 +61,9 @@ export default {
         {...attributes}
         {...{
           scopedSlots: {
-            // status: (text, record) => (
-            //   <Switch
-            //     checked={+record.status === 1}
-            //     onChange={checked => this.onStatusChange(checked, record)}
-            //   />
-            // ),
             operation: (text, record) => (
               <Space class="operation-space">
-                <Button
-                  type="link"
-                  size="small"
-                  onClick={() => this._setVisibleOfModal(record, 'visibleOfResults')}
-                >
+                <Button type="link" size="small" onClick={() => this._setVisibleOfModal(record, 'visibleOfResults')}>
                   查看结果
                 </Button>
               </Space>

@@ -3,43 +3,41 @@ import { Button, Space, Table } from 'ant-design-vue'
 import forTable from '@/mixins/forTable'
 
 export default {
-  mixins: [forTable],
+  mixins: [forTable()],
   data() {
     return {
       tableProps: {
         columns: [
           {
             title: '序号',
-            dataIndex: ''
+            width: 60,
+            align: 'center',
+            scopedSlots: { customRender: 'serialNumber' }
           },
           {
             title: '企业名称',
-            dataIndex: 'appName'
+            dataIndex: 'companyName'
           },
           {
             title: '类型',
-            dataIndex: 'remark'
+            dataIndex: 'signingTypeStr'
           },
           {
             title: '场地/期限',
-            align: 'center',
-            dataIndex: 'zz'
+            // align: 'center',
+            dataIndex: 'address'
           },
-          {
-            title: '费用/优惠',
-            align: 'center',
-            dataIndex: 'xx'
-          },
+
           {
             title: '签约人',
-            align: 'center',
-            dataIndex: 'cc'
+            // align: 'center',
+            dataIndex: 'signerName'
           },
           {
             title: '状态',
             align: 'center',
             width: 60,
-            scopedSlots: { customRender: 'status' }
+            scopedSlots: { customRender: 'signingStatus' }
           },
           {
             title: '操作',
@@ -49,13 +47,19 @@ export default {
             width: 150,
             scopedSlots: { customRender: 'operation' }
           }
-        ]
+        ],
+        rowSelection: null
       }
     }
   },
   methods: {
     onDetailsClick(record) {
-      this.$router.push({ name: 'contractReviewDetails' })
+      this.$router.push({
+        name: 'contractReviewDetails',
+        query: {
+          id: record.id
+        }
+      })
     }
   },
   render() {
@@ -72,28 +76,25 @@ export default {
         {...attributes}
         {...{
           scopedSlots: {
-            // status: (text, record) => (
-            //   <Switch
-            //     checked={+record.status === 1}
-            //     onChange={checked => this.onStatusChange(checked, record)}
-            //   />
-            // ),
+            serialNumber: (text, record, index) => {
+              return <span>{index + 1}</span>
+            },
+            signingStatus: (text, record) => (
+              <span>{['签约中', '待审核', '已签约', '审核驳回'][+record.signingStatus - 1]}</span>
+            ),
             operation: (text, record) => (
               <Space class="operation-space">
-                <Button
-                  type="link"
-                  size="small"
-                  onClick={() => this.onDetailsClick(record)}
-                >
+                <Button type="link" size="small" onClick={() => this.onDetailsClick(record)}>
                   签约详情
                 </Button>
-                <Button
-                  type="link"
-                  size="small"
-                  onClick={() => this._setVisibleOfModal(record, 'visibleOfContractReview')}
-                >
-                  审核
-                </Button>
+                {record.signingStatus === 2 ? (
+                  <Button
+                    type="link"
+                    size="small"
+                    onClick={() => this._setVisibleOfModal(record, 'visibleOfContractReview')}>
+                    审核
+                  </Button>
+                ) : null}
               </Space>
             )
           }

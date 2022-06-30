@@ -1,6 +1,6 @@
 import apis from '@/apis'
 import { cloneDeep, omit } from 'lodash'
-import utilityFunction from '@/utils/utilityFunction'
+import UF from '@/utils/utilityFunction'
 import config from '@/config'
 
 export default {
@@ -8,105 +8,146 @@ export default {
    * 设置搜索参数
    * @param state
    * @param commit
-   * @param [payload]
-   */
-  /**
-   *
-   * @param state
-   * @param commit
    * @param dispatch
    * @param moduleName {string}
+   * @param submoduleName {string}
+   * @param additionalQueryParameters {Object} 需要传递给查询的附加参数
    * @param payload {Object}
    */
-  async setSearch({ state, commit, dispatch }, { moduleName, payload }) {
+  async setSearch({ state, commit, dispatch }, {
+    moduleName,
+    submoduleName,
+    additionalQueryParameters,
+    payload
+  }) {
     commit('setSearch', {
-      value: {
-        ...state[moduleName].search,
-        ...payload
-      },
-      moduleName
+      payload,
+      moduleName,
+      submoduleName
     })
+
+    const hasPagination = 'pagination' in (submoduleName ? state[moduleName][submoduleName] : state[moduleName])
+
+    additionalQueryParameters = {
+      ...additionalQueryParameters,
+      ...(hasPagination ? { pageIndex: 0 } : {})
+    }
 
     await dispatch(
       'getList',
       {
         moduleName,
-        additionalQueryParameters: { pageIndex: 0 }
+        submoduleName,
+        additionalQueryParameters
       },
-      { root: true })
-  },
-  /**
-   * 获取所有站点应用
-   * @param state {Object}
-   * @param commit {Function}
-   */
-  async getAllSiteApps({ commit }) {
-    const { status, data } = await apis.getAllSiteApps()
-
-    if (status) {
-      commit('setAllSiteApps', data || [])
-    }
-  },
-  /**
-   * 获取所有站点模块
-   * @param state
-   * @param commit
-   * @returns {Promise<void>}
-   */
-  async getAllFunctionalModules({ commit }) {
-    const { status, data } = await apis.getAllFunctionalModules()
-
-    if (status) {
-      commit('setAllFunctionalModules', data || [])
-    }
-  },
-  /**
-   * 获取所有页面
-   * @param commit
-   * @returns {Promise<void>}
-   */
-  async getAllPages({ commit }) {
-    const { status, data } = await apis.getAllPages()
-
-    if (status) {
-      commit('setAllPages', data || [])
-    }
+      { root: true }
+    )
   },
   /**
    * 获取列表数据
    * @param state
    * @param commit
-   * @param moduleName {string}
-   * @param [additionalQueryParameters] {Object} 附加查询参数。例如分页相关参数，园区ID等。
-   * @param [stateName] {string} 需要设置的字段，默认 state.list
+   * @param moduleName {string} 模块名
+   * @param submoduleName {string} 子模块名
+   * @param additionalQueryParameters {Object} 附加查询参数。例如分页相关参数，中心ID等。
+   * @param stateName {string} 需要设置的字段，默认 state.list
    * @returns {Promise<void>}
    */
-  async getList({ state, commit }, { moduleName, additionalQueryParameters = {}, stateName }) {
-    commit('setLoading', { value: true, moduleName })
+  async getList({ state, commit }, { moduleName, submoduleName, additionalQueryParameters = {}, stateName }) {
+    commit('setLoading', { value: true, moduleName, submoduleName })
 
-    const api = !config.mock ? `get${utilityFunction.firstLetterToUppercase(moduleName)}` : 'getList'
+    let response
+    let api = 'getList'
 
-    const response = await apis[api](omit({
-      ...state[moduleName].pagination,
-      ...state[moduleName].search,
-      ...additionalQueryParameters
-    }, 'total'))
-
-    if (response.status) {
-      commit('setPagination', {
-        moduleName,
-        value: {
-          ...state[moduleName].pagination,
-          pageIndex: response.data.pageIndex,
-          pageSize: response.data.pageSize,
-          total: response.data.totalNum
-        }
-      })
-
-      commit('setList', { value: response.data.rows, moduleName, stateName })
+    if (!config.mock) {
+      api = `get${
+        submoduleName
+          ? `${UF.firstLetterToUppercase(submoduleName)}Of`
+          : ''
+      }${
+        UF.firstLetterToUppercase(moduleName)
+      }`
     }
 
-    commit('setLoading', { value: false, moduleName })
+    if (!submoduleName) {
+      response = await apis[api](
+        omit(
+          {
+            ...state[moduleName].pagination,
+            ...state[moduleName].search,
+            ...additionalQueryParameters
+          },
+          'total'
+        )
+      )
+    } else {
+      response = await apis[api](
+        omit(
+          {
+            ...state[moduleName][submoduleName].pagination,
+            ...state[moduleName][submoduleName].search,
+            ...additionalQueryParameters
+          },
+          'total'
+        )
+      )
+    }
+
+    if (response.status) {
+      let hasPagination
+
+      if (submoduleName) {
+        hasPagination = 'pagination' in state[moduleName][submoduleName]
+      } else {
+        hasPagination = 'pagination' in state[moduleName]
+      }
+
+      if (hasPagination) {
+        commit('setPagination', {
+          moduleName,
+          submoduleName,
+          value: {
+            pageIndex: response.data.pageIndex,
+            pageSize: response.data.pageSize,
+            total: response.data.totalNum
+          }
+        })
+      }
+
+      commit('setList', {
+        value: 'rows' in response.data ? response.data.rows : response.data,
+        moduleName,
+        submoduleName,
+        stateName
+      })
+    }
+
+    commit('setLoading', { value: false, moduleName, submoduleName })
+  },
+  /**
+   * 获取详情数据
+   * @param state
+   * @param commit
+   * @param moduleName {string} 模块名
+   * @param submoduleName {string} 子模块名
+   * @param additionalQueryParameters {Object} 附加查询参数。例如分页相关参数，中心ID等。
+   * @param stateName {string} 需要设置的字段，默认 state.details
+   * @returns {Promise<void>}
+   */
+  async getDetails({ state, commit }, { moduleName, submoduleName, additionalQueryParameters = {}, stateName }) {
+    commit('setLoading', { value: true, moduleName, submoduleName })
+
+    const query = {
+      ...state[moduleName].currentItem,
+      ...additionalQueryParameters
+    }
+    const api = !config.mock ? `getDetailsOf${UF.firstLetterToUppercase(moduleName)}` : 'getDetails'
+    const res = await apis[api](query)
+    if (res.status) {
+      commit('setDetails', { value: res.data, moduleName, submoduleName, stateName })
+    }
+
+    commit('setLoading', { value: false, moduleName, submoduleName })
   },
   /**
    * 新增数据
@@ -118,7 +159,7 @@ export default {
    * @returns {Promise<*>}
    */
   async add({ state, dispatch }, { moduleName, payload, visibleField }) {
-    const response = await apis[`add${utilityFunction.firstLetterToUppercase(moduleName)}`](payload)
+    const response = await apis[`add${UF.firstLetterToUppercase(moduleName)}`](payload)
 
     if (response.status) {
       dispatch('setModalVisible', {
@@ -148,14 +189,36 @@ export default {
    * @param customApiName {string} 自定义请求API
    * @returns {Promise<*>}
    */
-  async update({ state, dispatch }, {
-    moduleName,
-    payload,
-    visibleField,
-    isFetchList,
-    customApiName
-  }) {
-    const response = await apis[customApiName || `update${utilityFunction.firstLetterToUppercase(moduleName)}`](payload)
+  async update({ state, dispatch }, { moduleName, payload, visibleField, isFetchList, customApiName }) {
+    const response = await apis[customApiName || `update${UF.firstLetterToUppercase(moduleName)}`](payload)
+
+    if (response.status) {
+      dispatch('setModalVisible', {
+        statusField: visibleField,
+        statusValue: false,
+        moduleName
+      })
+
+      if (isFetchList) {
+        dispatch('getList', { moduleName })
+      }
+    }
+
+    return response.status
+  },
+  /**
+   * 更新数据
+   * @param state
+   * @param dispatch
+   * @param moduleName {string}
+   * @param payload {Object}
+   * @param visibleField {string}
+   * @param isFetchList {boolean}
+   * @param customApiName {string} 自定义请求API
+   * @returns {Promise<*>}
+   */
+  async custom({ state, dispatch }, { moduleName, payload, visibleField, isFetchList, customApiName }) {
+    const response = await apis[customApiName](payload)
 
     if (response.status) {
       dispatch('setModalVisible', {
@@ -176,12 +239,15 @@ export default {
    * @param commit
    * @param moduleName {string}
    * @param payload {Object}
+   * @param customFieldName {string} 自定义字段名 默认 status
    * @returns {Promise<*>}
    */
-  async updateStatus({ commit }, { moduleName, payload }) {
+  async updateStatus({ commit }, { moduleName, payload, customFieldName }) {
     commit('setLoading', { value: true, moduleName })
 
-    const { status } = await apis[`update${utilityFunction.firstLetterToUppercase(moduleName)}Status`](payload)
+    const api = `update${UF.firstLetterToUppercase(moduleName)}${UF.firstLetterToUppercase(customFieldName)}`
+
+    const { status } = await apis[api](payload)
 
     commit('setLoading', { value: false, moduleName })
 
@@ -203,13 +269,14 @@ export default {
       ids = state[moduleName].selectedRowKeys
     }
 
-    const response = await apis[`delete${utilityFunction.firstLetterToUppercase(moduleName)}`]({ ids: ids.join() })
+    const response = await apis[`delete${UF.firstLetterToUppercase(moduleName)}`]({ ids: ids.join() })
 
     if (response.status) {
       // 删除数据后，刷新分页数据，避免请求不存在的页码
       if (state[moduleName].list.length - ids.length <= 0 && state[moduleName].pagination.pageIndex > 0) {
         commit('setPagination', {
-          value: { pageIndex: --state[moduleName].pagination.pageIndex }, moduleName
+          value: { pageIndex: --state[moduleName].pagination.pageIndex },
+          moduleName
         })
       }
 
@@ -220,6 +287,36 @@ export default {
     }
 
     return response.status
+  },
+  /**
+   * 导出xlsx
+   * @param {*} store{}
+   * @param {*} param{}
+   * @returns
+   */
+  async downExcel({ state }, { moduleName, submoduleName, additionalQueryParameters, fileName }) {
+    let api = 'getExcel'
+    if (!config.mock) {
+      api = `getExcel${
+        submoduleName ? `${UF.firstLetterToUppercase(submoduleName)}Of` : ''
+      }${UF.firstLetterToUppercase(moduleName)}`
+    }
+
+    const payload = {
+      ...additionalQueryParameters
+    }
+
+    if (submoduleName) {
+      Object.assign(payload, state[moduleName][submoduleName].search)
+    } else {
+      Object.assign(payload, state[moduleName].search)
+    }
+
+    const buffer = await apis[api](payload)
+    const blob = new Blob([buffer])
+    UF.downFile(blob, `${fileName}.xlsx`)
+
+    return buffer
   },
   /**
    * 设置新增/编辑弹窗可见状态

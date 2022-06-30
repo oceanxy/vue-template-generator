@@ -60,7 +60,7 @@ export default (store, dynamicModules, customModuleName, isRequestData = true) =
     }
   } else {
     dynamicState = {
-      mixins: [forModuleName],
+      mixins: [forModuleName()],
       created() {
         if (this.moduleName) {
           if (!store.hasModule(this.moduleName)) {

@@ -31,7 +31,7 @@ export default {
           </div>
           <TGRouterView />
         </div>
-        <div class="copyright">©2022 巴南智慧园区版权所有 | ICP备案号：28391283921 | 技术支持：重庆誉存科技有限公司</div>
+        <div class="copyright">©2022 重庆市巴南区科学技术局版权所有 | ICP备案号：渝ICP备17009455号-5 | 技术服务单位：重庆誉企服科技有限公司</div>
       </Layout>
     )
   }

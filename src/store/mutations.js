@@ -1,48 +1,45 @@
 export default {
   /**
-   * 设置所有站点应用
-   * @param state
-   * @param payload
-   */
-  setAllSiteApps(state, payload) {
-    state.allSiteApps = payload
-  },
-  /**
-   * 设置所有功能模块
-   * @param state
-   * @param payload
-   */
-  setAllFunctionalModules(state, payload) {
-    state.allFunctionalModules = payload
-  },
-  /**
-   * 设置所有页面
-   * @param state
-   * @param payload
-   */
-  setAllPages(state, payload) {
-    state.allPages = payload
-  },
-  /**
    * 设置数据列表的loading
    * @param state {Object}
    * @param value {boolean}
    * @param moduleName {string}
+   * @param submoduleName {string}
+   * @param customizeLoading {string} 自定义loading字段名
    */
-  setLoading(state, { value, moduleName }) {
-    state[moduleName].loading = value
+  setLoading(state, { value, moduleName, submoduleName, customizeLoading }) {
+    if (submoduleName) {
+      state[moduleName][submoduleName][customizeLoading || 'loading'] = value
+    } else {
+      state[moduleName][customizeLoading || 'loading'] = value
+    }
   },
+
   /**
    * 设置列表搜索参数对象
    * @param state {Object}
-   * @param value {Object}
+   * @param payload {Object}
    * @param moduleName {string}
+   * @param submoduleName {string}
    */
-  setSearch(state, { value, moduleName }) {
-    state[moduleName].pagination.pageIndex = 0
-    state[moduleName].search = {
-      ...state[moduleName].search,
-      ...value
+  setSearch(state, { payload, moduleName, submoduleName }) {
+    if (!submoduleName) {
+      state[moduleName].pagination.pageIndex = 0
+      state[moduleName].search = {
+        ...state[moduleName].search,
+        ...payload
+      }
+    } else {
+      if ('pagination' in state[moduleName][submoduleName]) {
+        state[moduleName][submoduleName].pagination.pageIndex = 0
+      }
+
+      if ('search' in state[moduleName][submoduleName]) {
+        state[moduleName][submoduleName].search = {
+          ...state[moduleName][submoduleName].search,
+          ...payload
+        }
+      }
     }
   },
   /**
@@ -71,11 +68,19 @@ export default {
    * @param state {Object}
    * @param value: {Object}
    * @param moduleName {string}
+   * @param submoduleName {string}
    */
-  setPagination(state, { value, moduleName }) {
-    state[moduleName].pagination = {
-      ...state[moduleName].pagination,
-      ...value
+  setPagination(state, { value, moduleName, submoduleName }) {
+    if (!submoduleName) {
+      state[moduleName].pagination = {
+        ...state[moduleName].pagination,
+        ...value
+      }
+    } else {
+      state[moduleName][submoduleName].pagination = {
+        ...state[moduleName][submoduleName].pagination,
+        ...value
+      }
     }
   },
   /**
@@ -83,10 +88,30 @@ export default {
    * @param state {Object}
    * @param value {Object[]}
    * @param moduleName {string}
+   * @param submoduleName {string}
    * @param stateName {string} 需要设置的字段，默认 state.list
    */
-  setList(state, { value, moduleName, stateName }) {
-    state[moduleName][stateName || 'list'] = value
+  setList(state, { value, moduleName, submoduleName, stateName }) {
+    if (!submoduleName) {
+      state[moduleName][stateName || 'list'] = value
+    } else {
+      state[moduleName][submoduleName][stateName || 'list'] = value
+    }
+  },
+  /**
+   * 设置详情数据
+   * @param state {Object}
+   * @param value {Object[]}
+   * @param moduleName {string}
+   * @param submoduleName {string}
+   * @param stateName {string} 需要设置的字段，默认 state.details
+   */
+  setDetails(state, { value, moduleName, submoduleName, stateName }) {
+    if (!submoduleName) {
+      state[moduleName][stateName || 'details'] = value
+    } else {
+      state[moduleName][submoduleName][stateName || 'details'] = value
+    }
   },
   /**
    * 设置modal的可见性

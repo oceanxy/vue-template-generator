@@ -3,7 +3,7 @@ import { Button, Space, Switch, Table } from 'ant-design-vue'
 import forTable from '@/mixins/forTable'
 
 export default {
-  mixins: [forTable],
+  mixins: [forTable()],
   data() {
     return {
       tableProps: {
@@ -15,23 +15,21 @@ export default {
             scopedSlots: { customRender: 'serialNumber' }
           },
           {
-            title: '图片',
+            title: 'LOGO',
             width: 60,
             align: 'center',
-            scopedSlots: { customRender: 'imgList' }
+            scopedSlots: { customRender: 'logo' }
           },
           {
             title: '编号',
-            dataIndex: 'teamCode'
+            dataIndex: 'teamNo'
           },
           {
             title: '团队名称',
-            align: 'center',
             dataIndex: 'fullName'
           },
           {
-            title: '所属园区',
-            align: 'center',
+            title: '所属中心',
             dataIndex: 'parkName'
           },
           {
@@ -41,12 +39,10 @@ export default {
           },
           {
             title: '负责人',
-            align: 'center',
             dataIndex: 'leader'
           },
           {
             title: '负责人手机号',
-            align: 'center',
             dataIndex: 'leaderMobile'
           },
           {
@@ -69,7 +65,7 @@ export default {
   },
   methods: {
     onMembersManaClick(record) {
-      this.$router.push({ name: 'teamMembers' })
+      this.$router.push({ name: 'teamMembers', query: { teamId: record.id } })
     }
   },
   render() {
@@ -87,6 +83,9 @@ export default {
         {...{
           scopedSlots: {
             serialNumber: (text, record, index) => index + 1,
+            logo: (text, record) => (
+              <img src={record.logoStr} alt={''} class={'bnm-table-img'} />
+            ),
             status: (text, record) => (
               <Switch
                 checked={+record.status === 1}

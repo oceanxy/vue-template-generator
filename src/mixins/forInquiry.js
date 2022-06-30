@@ -5,15 +5,28 @@
  * @Date: 2022-03-14 周一 15:33:20
  */
 
-import { cloneDeep } from 'lodash'
+import { omit } from 'lodash'
 
 export default () => {
   return {
     inject: ['moduleName'],
     methods: {
+      transformValue(values) {
+        let temp = { ...values }
+
+        if ('dateRange' in temp) {
+          temp.startTime = temp.dateRange[0]
+          temp.endTime = temp.dateRange[1]
+
+          temp = omit(temp, 'dateRange')
+        }
+
+        return temp
+      },
       async onClear() {
         await this.$store.dispatch('setSearch', {
           moduleName: this.moduleName,
+          submoduleName: this.submoduleName,
           payload: {}
         })
 
@@ -24,9 +37,13 @@ export default () => {
 
         this.form.validateFields(async (err, values) => {
           if (!err) {
+            const payload = this.transformValue(values)
+
             await this.$store.dispatch('setSearch', {
               moduleName: this.moduleName,
-              payload: cloneDeep(values)
+              submoduleName: this.submoduleName,
+              additionalQueryParameters: this.additionalQueryParameters,
+              payload
             })
           }
         })

@@ -15,7 +15,7 @@ export default Form.create({})({
       <BNContainer
         class="bn-complaints-form"
         width="100%"
-        title="投诉建议"
+        modalTitle="投诉建议"
       >
         <Form
           labelCol={{ span: 4 }}

@@ -2,16 +2,22 @@ import '../assets/styles/index.scss'
 import { Form, Input, Radio, Select, Switch } from 'ant-design-vue'
 import forFormModal from '@/mixins/forModal/forFormModal'
 import DragModal from '@/components/DragModal'
-import UploadPictures from '@/views/manager/parkSupervision/technologyBureau/Parks/components/UploadPictures'
+import BNUploadPictures from '@/components/BNUploadPictures'
+import dynamicState from '@/mixins/dynamicState'
+import store, { dynamicModules } from '@/store/manager'
+import { mapGetters } from 'vuex'
 
 export default Form.create({})({
-  mixins: [forFormModal()],
+  mixins: [
+    forFormModal(),
+    dynamicState(store, dynamicModules, 'teams')
+  ],
   props: {
     /**
      * 标题（可定义占位符）
      * “{action}” 为占位符，稍后会在 mixin 中替换为对应的字符，比如“新增”、“编辑”
      */
-    title: {
+    modalTitle: {
       type: String,
       default: '{action}'
     }
@@ -23,11 +29,12 @@ export default Form.create({})({
       }
     }
   },
-  watch: {
-    async visible(value) {
-      if (value) {
-        // await this.$store.dispatch('getAllFunctionalModules')
-      }
+  computed: {
+    ...mapGetters({
+      getList: 'getList'
+    }),
+    teams() {
+      return this.getList('teams')
     }
   },
   render() {
@@ -39,21 +46,31 @@ export default Form.create({})({
       }
     }
 
+    // 回显图片
+    const fileList = []
+
+    if (this.currentItem.headPortrait) {
+      fileList.push({
+        uid: 'headPortrait',
+        url: this.currentItem.headPortraitStr,
+        key: this.currentItem.headPortrait,
+        status: 'done',
+        name: this.currentItem.headPortrait?.substring(this.currentItem.headPortrait?.lastIndexOf('/'))
+      })
+    }
+
     return (
       <DragModal {...attributes}>
         <Form
           class="bnm-form-grid"
-          labelCol={{ span: 3 }}
-          wrapperCol={{ span: 21 }}
           colon={false}
         >
           <Form.Item label="头像">
             {
               this.form.getFieldDecorator('headPortrait', {
-                initialValue: this.currentItem.headPortrait,
-                rules: [{ required: true, type: 'array', message: '请上传头像!', trigger: 'blur' }]
+                initialValue: this.currentItem.fileList
               })(
-                <UploadPictures />
+                <BNUploadPictures limit={1} />
               )
             }
           </Form.Item>
@@ -64,20 +81,6 @@ export default Form.create({})({
                 rules: [{ required: true, message: '请输入姓名!', trigger: 'blur' }]
               })(
                 <Input placeholder="请输入姓名" allowClear />
-              )
-            }
-          </Form.Item>
-          <Form.Item label="性别" class={'half'}>
-            {
-              this.form.getFieldDecorator('gender', {
-                initialValue: this.currentItem.gender,
-                rules: [{ required: true, type: 'number', message: '请输入园区名称!', trigger: 'blur' }]
-              })(
-                <Radio.Group>
-                  <Radio value={0}>未知</Radio>
-                  <Radio value={1}>男</Radio>
-                  <Radio value={2}>女</Radio>
-                </Radio.Group>
               )
             }
           </Form.Item>
@@ -101,23 +104,43 @@ export default Form.create({})({
               )
             }
           </Form.Item>
-          <Form.Item label="电子邮箱" class={'half'}>
-            {
-              this.form.getFieldDecorator('email', {
-                initialValue: this.currentItem.email,
-                rules: [{ required: true, message: '请输入电子邮箱!', trigger: 'blur' }]
-              })(
-                <Input placeholder="请输入电子邮箱" allowClear />
-              )
-            }
-          </Form.Item>
           <Form.Item label="所在团队" class={'half'}>
             {
               this.form.getFieldDecorator('teamId', {
                 initialValue: this.currentItem.teamId,
                 rules: [{ required: true, message: '请选择所在团队!', trigger: 'blur' }]
               })(
-                <Select placeholder="请选择所在团队"></Select>
+                <Select placeholder="请选择所在团队">
+                  {
+                    this.teams.map(item => (
+                      <Select.Option value={item.id}>
+                        {item.fullName}
+                      </Select.Option>
+                    ))
+                  }
+                </Select>
+              )
+            }
+          </Form.Item>
+          <Form.Item label="性别" class={'half'}>
+            {
+              this.form.getFieldDecorator('gender', {
+                initialValue: this.currentItem.gender || 0
+              })(
+                <Radio.Group>
+                  <Radio value={0}>未知</Radio>
+                  <Radio value={1}>男</Radio>
+                  <Radio value={2}>女</Radio>
+                </Radio.Group>
+              )
+            }
+          </Form.Item>
+          <Form.Item label="电子邮箱" class={'half'}>
+            {
+              this.form.getFieldDecorator('email', {
+                initialValue: this.currentItem.email
+              })(
+                <Input placeholder="请输入电子邮箱" allowClear />
               )
             }
           </Form.Item>
@@ -144,7 +167,7 @@ export default Form.create({})({
             {
               this.form.getFieldDecorator('status', {
                 valuePropName: 'checked',
-                initialValue: this.currentItem.status === 1,
+                initialValue: this.currentItem.id ? this.currentItem.status === 1 : true,
                 rules: [{ required: true, type: 'boolean', message: '请选择状态!', trigger: 'blur' }]
               })(
                 <Switch />

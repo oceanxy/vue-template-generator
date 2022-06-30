@@ -17,7 +17,7 @@ export default {
         <Table slot={'table'} />
         <Pagination slot={'pagination'} />
         <template slot={'modals'}>
-          <ModalOfRejectApplication title={'拒绝申请'} />
+          <ModalOfRejectApplication modalTitle={'拒绝申请'} />
         </template>
       </TGContainer>
     )

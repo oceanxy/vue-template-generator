@@ -3,7 +3,7 @@ import { Button, Space, Switch, Table } from 'ant-design-vue'
 import forTable from '@/mixins/forTable'
 
 export default {
-  mixins: [forTable],
+  mixins: [forTable()],
   data() {
     return {
       tableProps: {
@@ -35,6 +35,7 @@ export default {
           },
           {
             title: '单价',
+            align: 'center',
             scopedSlots: { customRender: 'price' }
           },
           {
@@ -44,7 +45,6 @@ export default {
           },
           {
             title: '配套设施',
-            align: 'center',
             dataIndex: 'supportFacilityStr'
           },
           {

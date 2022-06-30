@@ -6,7 +6,7 @@ export default {
     /**
      * 标题文字
      */
-    title: {
+    modalTitle: {
       type: [String, Object],
       default: ''
     },
@@ -58,7 +58,7 @@ export default {
         style={{ '--box-width': `${this.width}${isNaN(this.width) ? '' : 'px'}` }}
       >
         {
-          this.title ? (
+          this.modalTitle ? (
             <div
               class={`${
                 this.titleClass ? `${this.titleClass} ` : ''
@@ -66,7 +66,7 @@ export default {
                 this.showTitleShape ? 'divider ' : ''
               }box-title`}
             >
-              {this.title}
+              {this.modalTitle}
               {this.showMore ? <Button icon="right" /> : null}
             </div>
           ) : null

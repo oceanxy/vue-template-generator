@@ -72,7 +72,7 @@ export default Form.create({})({
 
     return (
       <Modal
-        title={`${this.title}页面`}
+        modalTitle={`${this.title}页面`}
         visible={this.visible}
         {...attributes}
       >

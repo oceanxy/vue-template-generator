@@ -38,7 +38,7 @@ export default {
         </template>
         <template slot={'default'}>
           <BNContainer
-            title={'您是否接种过新冠疫苗'}
+            modalTitle={'您是否接种过新冠疫苗'}
             width={'100%'}
             class={'main-container chart-container'}
             contentClass={'chart-content'}
@@ -51,7 +51,7 @@ export default {
           <BNContainer
             class={'main-container'}
             contentClass={'table-content'}
-            title={
+            modalTitle={
               <div class={'table-content-title'}>
                 <span>按类型统计</span>
                 <Button class={'custom-button'} ghost type={'primary'}>导出结果</Button>

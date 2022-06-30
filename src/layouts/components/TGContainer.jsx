@@ -10,9 +10,7 @@ export default {
           {this.$slots.table}
           {this.$slots.pagination}
         </div>
-        <div class="tg-container-modals">
-          {this.$slots.modals}
-        </div>
+        <div class="tg-container-modals">{this.$slots.modals}</div>
       </div>
     )
   }

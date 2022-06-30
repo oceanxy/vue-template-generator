@@ -1,16 +1,28 @@
 import '../assets/styles/index.scss'
 import { Button, Input, Switch, Table } from 'ant-design-vue'
+import { debounce } from 'lodash'
 
 export default {
   model: {
     prop: 'value',
     event: 'change'
   },
+  props: {
+    value: {
+      type: Array,
+      default: () => []
+    },
+    disabled: {
+      type: Boolean,
+      default: false
+    }
+  },
   data() {
     return {
       columns: [
         {
           title: '姓名',
+          width: 120,
           scopedSlots: { customRender: 'fullName' }
         },
         {
@@ -28,7 +40,13 @@ export default {
           scopedSlots: { customRender: 'isLeader' }
         },
         {
-          title: '操作',
+          title: (
+            <Button
+              icon={'plus'}
+              onClick={this.onCreateRow}
+              disabled={this.disabled}
+            />
+          ),
           width: 60,
           align: 'center',
           scopedSlots: { customRender: 'operation' }
@@ -37,19 +55,13 @@ export default {
       dataSource: []
     }
   },
-  props: {
-    value: {
-      type: Array,
-      default: () => []
-    }
-  },
   watch: {
     value: {
       immediate: true,
       handler(value) {
         if (value.length) {
           this.dataSource = value.map(item => {
-            item.id = Math.random()
+            item.id = item.id || Math.random()
             return item
           })
         } else {
@@ -63,32 +75,31 @@ export default {
     onDelClick(id) {
       const index = this.dataSource.findIndex(item => item.id === id)
       this.dataSource.splice(index, 1)
+
+      this.emit()
     },
     onCreateRow() {
       const row = {
-        allPath: '',
-        remark: '',
+        fullName: '',
+        mobile: '',
+        idCard: '',
+        isLeader: 0,
         id: Math.random()
       }
 
       this.dataSource.push(row)
     },
-    onChange() {
+    onSwitchChange(value, record) {
+      record.isLeader = value ? 1 : 0
+      this.emit()
+    },
+    emit() {
       this.$emit('change', this.dataSource)
     }
   },
   render() {
-    // const attr = {
-    //   props: {
-    //     ...omit(this.$props, 'value'),
-    //     ...this.$attrs
-    //   },
-    //   on: this.$listeners
-    // }
-
     return (
       <div class="tg-multi-input">
-        <Button icon="plus" onClick={this.onCreateRow} />
         <Table
           class="multi-input-table"
           columns={this.columns}
@@ -101,32 +112,40 @@ export default {
               fullName: (text, record) => (
                 <Input
                   vModel={record.fullName}
-                  placeholder="请输入团队成员姓名"
-                  onBlur={this.onChange}
+                  placeholder="请输入姓名"
+                  disabled={this.disabled}
+                  onChange={debounce(this.emit, 300)}
                 />
               ),
               mobile: (text, record) => (
                 <Input
                   vModel={record.mobile}
                   placeholder="请输入手机号码"
-                  onBlur={this.onChange}
+                  disabled={this.disabled}
+                  onChange={debounce(this.emit, 300)}
                 />
               ),
               idCard: (text, record) => (
                 <Input
                   vModel={record.idCard}
                   placeholder="请输入身份证号码"
-                  onBlur={this.onChange}
+                  disabled={this.disabled}
+                  onChange={debounce(this.emit, 300)}
                 />
               ),
               isLeader: (text, record) => (
                 <Switch
-                  defaultChecked={record.idCard === 1}
-                  onBlur={this.onChange}
+                  disabled={this.disabled}
+                  defaultChecked={record.isLeader === 1}
+                  onChange={value => this.onSwitchChange(value, record)}
                 />
               ),
               operation: (text, record) => (
-                <Button icon="delete" onClick={() => this.onDelClick(record.id)} />
+                <Button
+                  icon="delete"
+                  onClick={() => this.onDelClick(record.id)}
+                  disabled={this.disabled}
+                />
               )
             }
           }}
@@ -135,36 +154,3 @@ export default {
     )
   }
 }
-
-/*
-*
-* <Row>
-          <Col>
-            <Button style={{ marginBottom: '20px' }} icon="plus" onClick={this.onPlusClick} />
-          </Col>
-        </Row>
-        {
-          this.driveForm.map((item, index) => (
-            <Row gutter={10} {...{ props: { id: item.key } }}>
-              {
-                Object.entries(item).map(([key, value]) => key === 'key' ? null : (
-                  <Col {...{ props: this.layouts[key] }}>
-                    <Form.Item>
-                      {
-                        this.form.getFieldDecorator(`${key}_${index}`, {
-                          rules: this.rules[key] || [],
-                          initialValue: value || ''
-                        })(
-                          <Input placeholder={this.placeholders[key] || ''} />
-                        )
-                      }
-                    </Form.Item>
-                  </Col>
-                ))
-              }
-              <Col span={2}>
-                <Button icon="delete" onClick={() => this.onDelClick(index)} />
-              </Col>
-            </Row>
-          ))
-        } */

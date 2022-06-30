@@ -28,8 +28,8 @@ export default {
         <Descriptions.Item label={'开始提醒日期'}>到期前30天</Descriptions.Item>
         <Descriptions.Item label={'结束提醒日期'}>到期后30天</Descriptions.Item>
         <Descriptions.Item label={'提醒频率（天/次）'}>5</Descriptions.Item>
-        <Descriptions.Item label={'提醒对象'}>客户，园区管理员</Descriptions.Item>
-        <Descriptions.Item label={'提醒内容'}>尊敬的企业用户您好，您的园区租用合同即将于XX天后到期（到期日期：2022-05-18），请及时续签</Descriptions.Item>
+        <Descriptions.Item label={'提醒对象'}>客户，中心管理员</Descriptions.Item>
+        <Descriptions.Item label={'提醒内容'}>尊敬的企业用户您好，您的中心租用合同即将于XX天后到期（到期日期：2022-05-18），请及时续签</Descriptions.Item>
       </Descriptions>
     )
   }

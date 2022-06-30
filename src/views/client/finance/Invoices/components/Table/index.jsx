@@ -3,7 +3,7 @@ import { Button, Table } from 'ant-design-vue'
 import forIndex from '@/mixins/forIndex'
 
 export default {
-  mixins: [forIndex, forTable],
+  mixins: [forIndex, forTable()],
   data: () => ({
     columns: [
       {

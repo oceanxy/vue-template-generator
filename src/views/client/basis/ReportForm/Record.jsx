@@ -38,7 +38,7 @@ export default {
     return (
       <BNContainer
         width="100%"
-        title="我的报表 > 2021年度企业考核"
+        moduleTitle="我的报表 > 2021年度企业考核"
         contentClass="bn-report-record-content"
       >
         <Table

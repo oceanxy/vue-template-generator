@@ -1,20 +1,26 @@
 import './index.scss'
 import { Button, Form } from 'ant-design-vue'
-import forModal from '@/mixins/forModal'
-import dynamicState from '@/mixins/dynamicState'
-import { mapState } from 'vuex'
+import forTableModal from '@/mixins/forModal/forTableModal'
+import forModuleName from '@/mixins/forModuleName'
 import DragModal from '@/components/DragModal'
-import Inquiry from './components/Inquiry'
 import Table from './components/Table'
-import store, { dynamicModules } from '@/store/manager'
 
 export default Form.create({})({
   name: 'Clues-ModalOfDetails',
-  mixins: [dynamicState(store, dynamicModules), forModal('clues')],
+  mixins: [forModuleName(true), forTableModal()],
   props: {
-    title: {
+    /**
+     * 标题（可定义占位符）
+     * “{action}” 为占位符，稍后会在 mixin 中替换为对应的字符，比如“新增”、“编辑”
+     */
+    modalTitle: {
       type: String,
-      default: ''
+      default: '{action}'
+    }
+  },
+  provide() {
+    return {
+      visibleField: this.visibleField
     }
   },
   data() {
@@ -27,16 +33,11 @@ export default Form.create({})({
       }
     }
   },
-  computed: {
-    ...mapState({
-      allSiteApps: 'allSiteApps',
-      allFunctionalModules: 'allFunctionalModules'
-    })
-  },
+  computed: {},
   watch: {
     async visible(value) {
       if (value) {
-        // await this.$store.dispatch('getAllFunctionalModules')
+        //
       }
     }
   },
@@ -50,7 +51,6 @@ export default Form.create({})({
 
     return (
       <DragModal {...attributes} class={'bnm-housing-resources-container'}>
-        <Inquiry />
         <Table />
       </DragModal>
     )

@@ -5,11 +5,11 @@ export default {
   render() {
     return (
       <div class={'bnm-business-configuration-container'}>
-        <BNMDescriptions title={'合同到期提醒设置'} showButton />
-        <BNMDescriptions title={'线索分配机制'} showButton />
-        <BNMDescriptions title={'签约模板配置'} />
-        <BNMDescriptions title={'合同模板编辑'} showButton />
-        <BNMDescriptions title={'企业考核指标'} showButton />
+        <BNMDescriptions modalTitle={'合同到期提醒设置'} showButton />
+        <BNMDescriptions modalTitle={'线索分配机制'} showButton />
+        <BNMDescriptions modalTitle={'签约模板配置'} />
+        <BNMDescriptions modalTitle={'合同模板编辑'} showButton />
+        <BNMDescriptions modalTitle={'企业考核指标'} showButton />
       </div>
     )
   }

@@ -16,7 +16,7 @@ export default {
         width="100%"
         class="bn-book-meeting-room"
         contentClass="book-meeting-room-content"
-        title={
+        modalTitle={
           <div class="title">
             会议室预约
             <Button type="link" class="btn" onClick={this.toRecords}>
