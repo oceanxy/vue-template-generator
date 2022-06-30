@@ -69,12 +69,12 @@ export default Form.create({})({
         class={'bnm-form-grid'}
         onSubmit={this.onSubmit}
       >
-        <Form.Item label={'所属园区'} class={'half'}>
+        <Form.Item label={'所属中心'} class={'half'}>
           {
             this.form.getFieldDecorator('parkId', {
-              rules: [{ required: true, message: '请选择所属园区!', trigger: 'blur' }]
+              rules: [{ required: true, message: '请选择所属中心!', trigger: 'blur' }]
             })(
-              <Select placeholder={'请选择所属园区'}>
+              <Select placeholder={'请选择所属中心'}>
                 {
                   this.parksForSelect.map(item => (
                     <Select.Option value={item.id}>{item.fullName}</Select.Option>

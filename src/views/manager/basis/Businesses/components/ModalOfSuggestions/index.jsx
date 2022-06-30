@@ -6,12 +6,7 @@ import Inquiry from './components/Inquiry'
 import Table from './components/Table'
 
 export default Form.create({})({
-  provide() {
-    return {
-      visibleField: this.visibleField
-    }
-  },
-  name: 'HousingResources-ContractHistory',
+  name: 'Businesses-Suggestions',
   mixins: [forModuleName(true), forTableModal()],
   props: {
     /**
@@ -26,7 +21,15 @@ export default Form.create({})({
   data() {
     return {
       // 此字段与 store 里的同名字段必须保持一致，用于控制该弹窗的可见性，默认值为 modal mixin 里的 visibleField 的值
-      visibleField: 'visibleOfContractHistory'
+      visibleField: 'visibleOfSuggestions'
+    }
+  },
+  provide() {
+    return {
+      visibleField: this.visibleField,
+      additionalQueryParameters: {
+        id: this.currentItem.id
+      }
     }
   },
   render() {

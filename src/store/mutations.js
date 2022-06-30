@@ -30,10 +30,16 @@ export default {
         ...payload
       }
     } else {
-      state[moduleName][submoduleName].pagination.pageIndex = 0
-      state[moduleName][submoduleName].search = {
-        ...state[moduleName][submoduleName].search,
-        ...payload
+      debugger
+      if ('pagination' in state[moduleName][submoduleName]) {
+        state[moduleName][submoduleName].pagination.pageIndex = 0
+      }
+
+      if ('search' in state[moduleName][submoduleName]) {
+        state[moduleName][submoduleName].search = {
+          ...state[moduleName][submoduleName].search,
+          ...payload
+        }
       }
     }
   },

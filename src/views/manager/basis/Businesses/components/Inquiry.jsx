@@ -1,17 +1,9 @@
 import '../assets/styles/index.scss'
 import { Button, Form, Input, Select, Space } from 'ant-design-vue'
 import forInquiry from '@/mixins/forInquiry'
-import { mapActions, mapState } from 'vuex'
 
 export default Form.create({})({
   mixins: [forInquiry()],
-  computed: mapState({ allSiteApps: 'allSiteApps' }),
-  async created() {
-    await this.getAllSiteApps()
-  },
-  methods: {
-    ...mapActions({ getAllSiteApps: 'getAllSiteApps' })
-  },
   render() {
     return (
       <Form
@@ -23,44 +15,48 @@ export default Form.create({})({
         <Space>
           <Form.Item>
             {
-              this.form.getFieldDecorator('pageName')(
-                <Input placeholder="企业名称/机构代码" allowClear />
+              this.form.getFieldDecorator('companyName')(
+                <Input placeholder="企业名称" allowClear />
               )
             }
           </Form.Item>
           <Form.Item>
             {
-              this.form.getFieldDecorator('allPath')(
-                <Input placeholder="负责人/手机号码" allowClear />
+              this.form.getFieldDecorator('dutyPerson')(
+                <Input placeholder="负责人姓名/身份证号/手机号" allowClear />
               )
             }
           </Form.Item>
           <Form.Item>
             {
-              this.form.getFieldDecorator('appId')(
+              this.form.getFieldDecorator('companyType')(
                 <Select placeholder="请选择企业类型" allowClear>
-                  {
-                    this.allSiteApps.map(item => (
-                      <Select.Option value={item.id}>
-                        {item.appName}
-                      </Select.Option>
-                    ))
-                  }
+                  <Select.Option value={1}>有限责任公司</Select.Option>
+                  <Select.Option value={2}>股份有限责任公司</Select.Option>
+                  <Select.Option value={3}>个人独资企业</Select.Option>
+                  <Select.Option value={4}>合伙企业</Select.Option>
+                  <Select.Option value={5}>个体工商户</Select.Option>
                 </Select>
               )
             }
           </Form.Item>
           <Form.Item>
             {
-              this.form.getFieldDecorator('appId')(
-                <Select placeholder="请选择企业状态" allowClear>
-                  {
-                    this.allSiteApps.map(item => (
-                      <Select.Option value={item.id}>
-                        {item.appName}
-                      </Select.Option>
-                    ))
-                  }
+              this.form.getFieldDecorator('companyCategory')(
+                <Select placeholder="请选择签约对象" allowClear>
+                  <Select.Option value={1}>企业</Select.Option>
+                  <Select.Option value={2}>团队</Select.Option>
+                </Select>
+              )
+            }
+          </Form.Item>
+          <Form.Item>
+            {
+              this.form.getFieldDecorator('signingStatus')(
+                <Select placeholder="请选择状态" allowClear>
+                  <Select.Option value={1}>签约中</Select.Option>
+                  <Select.Option value={2}>已签约</Select.Option>
+                  <Select.Option value={3}>已解约</Select.Option>
                 </Select>
               )
             }

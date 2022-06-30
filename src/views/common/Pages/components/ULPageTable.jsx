@@ -4,7 +4,7 @@ import forTable from '@/mixins/forTable'
 import { dispatch } from '@/utils/store'
 
 export default {
-  mixins: [forTable],
+  mixins: [forTable()],
   data() {
     return {
       tableProps: {

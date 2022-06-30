@@ -2,7 +2,8 @@ import { Table } from 'ant-design-vue'
 import forTable from '@/mixins/forTable'
 
 export default {
-  inject: ['submoduleName', 'visibleField'],
+  // 注册为子模块的组件需要注入的参数
+  inject: ['submoduleName', 'visibleField', 'additionalQueryParameters'],
   mixins: [forTable()],
   data() {
     return {
@@ -15,38 +16,43 @@ export default {
             scopedSlots: { customRender: 'serialNumber' }
           },
           {
-            title: '签约企业',
-            dataIndex: 'companyName'
+            title: '提交时间',
+            dataIndex: 'complaintsTimeStr'
           },
           {
-            title: '签约日期',
+            title: '类型',
             dataIndex: 'signingTimeStr'
           },
           {
-            title: '解约日期',
-            dataIndex: 'removeTimeStr'
-          },
-          {
-            title: '周期（月）',
-            align: 'center',
-            dataIndex: 'durationMonth'
+            title: '详情',
+            dataIndex: 'content'
           },
           {
             title: '状态',
             align: 'center',
             width: 80,
-            scopedSlots: { customRender: 'signingStatus' }
+            scopedSlots: { customRender: 'acceptStatus' }
+          },
+          {
+            title: '处理人',
+            align: 'center',
+            dataIndex: 'disposeName'
+          },
+          {
+            title: '处理时间',
+            align: 'center',
+            dataIndex: 'durationMonth'
+          },
+          {
+            title: '处理结果',
+            align: 'center',
+            dataIndex: 'disposeResult'
           }
         ],
         rowSelection: null,
         tableLayout: 'fixed',
         size: 'middle'
       }
-    }
-  },
-  methods: {
-    async onContractHistoryClick(record) {
-      await this._setVisibleOfModal(record, 'visibleOfContractHistory')
     }
   },
   render() {
@@ -66,9 +72,9 @@ export default {
         {...{
           scopedSlots: {
             serialNumber: (text, record, index) => index + 1,
-            signingStatus: (text, record) => (
-              <span style={{ color: ['#52c41a', '#faad14'][record.signingStatus - 1] }}>
-                {['签约中', '已解约'][record.signingStatus - 1]}
+            acceptStatus: (text, record) => (
+              <span style={{ color: ['#52c41a', '#faad14'][record.acceptStatus - 1] }}>
+                {['已处理', '待处理'][record.acceptStatus - 1]}
               </span>
             )
           }

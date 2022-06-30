@@ -10,7 +10,7 @@ import { message, Modal } from 'ant-design-vue'
 import forIndex from '@/mixins/forIndex'
 import { omit } from 'lodash'
 
-export default {
+export default () => ({
   inject: ['moduleName'],
   mixins: [forIndex],
   data() {
@@ -33,7 +33,10 @@ export default {
     }
   },
   computed: {
-    ...mapGetters({ getLoading: 'getLoading' })
+    ...mapGetters({
+      getLoading: 'getLoading',
+      getCurrentItem: 'getCurrentItem'
+    })
   },
   async created() {
     // 为 list 创建动态侦听器
@@ -85,7 +88,8 @@ export default {
         moduleName: this.moduleName,
         submoduleName: this.submoduleName,
         additionalQueryParameters: {
-          ...this.$route.query
+          ...this.$route.query,
+          ...(this.additionalQueryParameters || {}) // 来自于子模块组件的 inject，非混合内的 inject
         }
       })
     },
@@ -184,8 +188,8 @@ export default {
     },
     /**
      * 导出数据
-     * @param {*} payload 自定义参数
-     * @param {*} fileName  文件名称
+     * @param {Object} payload 自定义参数
+     * @param {string} fileName 文件名称
      */
     async downExcel(payload, fileName) {
       await this.$store.dispatch('downExcel', {
@@ -217,4 +221,4 @@ export default {
       }
     }
   }
-}
+})

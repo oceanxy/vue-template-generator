@@ -28,7 +28,7 @@ export default {
           <TGList />
         </BNContainer>
         <BNContainer
-          moduleTitle="园区政策"
+          moduleTitle="中心政策"
           width={390}
           showMore
           showTitleShape={false}

@@ -3,48 +3,57 @@ import { Button, Dropdown, Icon, Menu, Space, Table } from 'ant-design-vue'
 import forTable from '@/mixins/forTable'
 
 export default {
-  mixins: [forTable],
+  mixins: [forTable()],
   data() {
     return {
       tableProps: {
         columns: [
           {
             title: '序号',
-            dataIndex: ''
+            width: 60,
+            align: 'center',
+            scopedSlots: { customRender: 'serialNumber' }
           },
           {
             title: '场地',
-            dataIndex: 'appName'
+            dataIndex: 'contactAddress'
           },
           {
             title: '企业',
-            dataIndex: 'remark'
+            scopedSlots: { customRender: 'companyName' }
           },
           {
             title: '用户名',
             align: 'center',
-            dataIndex: 'zz'
+            dataIndex: 'loginAccount'
           },
           {
-            title: '企业类型',
+            title: '签约类型',
             align: 'center',
-            dataIndex: 'xx'
+            dataIndex: 'companyCategoryStr'
+          },
+          // {
+          //   title: '标签',
+          //   dataIndex: ''
+          // },
+          {
+            title: '企业类型',
+            dataIndex: 'companyTypeStr'
           },
           {
             title: '负责人',
             align: 'center',
-            dataIndex: 'cc'
+            dataIndex: 'dutyPerson'
           },
           {
             title: '联系电话',
-            align: 'center',
-            dataIndex: 'vv'
+            dataIndex: 'dutyPersonMobile'
           },
           {
             title: '状态',
             align: 'center',
             width: 60,
-            scopedSlots: { customRender: 'status' }
+            scopedSlots: { customRender: 'signingStatus' }
           },
           {
             title: '操作',
@@ -61,6 +70,12 @@ export default {
   methods: {
     onDetailsClick(record) {
       this.$router.push({ name: 'businessesDetails' })
+    },
+    async onShortMessage(record) {
+      await this._setVisibleOfModal(record, 'visibleOfShortMessage', this.moduleName)
+    },
+    async onSuggestions(record) {
+      await this._setVisibleOfModal(record, 'visibleOfSuggestions', this.moduleName)
     }
   },
   render() {
@@ -77,12 +92,13 @@ export default {
         {...attributes}
         {...{
           scopedSlots: {
-            // status: (text, record) => (
-            //   <Switch
-            //     checked={+record.status === 1}
-            //     onChange={checked => this.onStatusChange(checked, record)}
-            //   />
-            // ),
+            serialNumber: (text, record, index) => index + 1,
+            companyName: (text, record) => (
+              <span style={{ color: '#13c2c2', fontWeight: 'bolder' }}>
+                {record.companyName}
+              </span>
+            ),
+            signingStatus: (text, record) => record.signingStatusStr,
             operation: (text, record) => (
               <Space class="operation-space">
                 <Button
@@ -92,19 +108,16 @@ export default {
                 >
                   查看详情
                 </Button>
-                <Button
-                  type="link"
-                  size="small"
-                >
-                  企业服务
-                </Button>
                 <Dropdown>
-                  <Icon type="caret-down" class="caret-down" />
+                  <Button type="link">
+                    企业服务
+                    <Icon type={'caret-down'} class="caret-down" />
+                  </Button>
                   <Menu slot="overlay">
-                    <Menu.Item>重置密码</Menu.Item>
                     <Menu.Item>账单查询</Menu.Item>
                     <Menu.Item>缴费记录</Menu.Item>
-                    <Menu.Item>投诉建议</Menu.Item>
+                    <Menu.Item onClick={() => this.onSuggestions(record)}>投诉建议</Menu.Item>
+                    <Menu.Item onClick={() => this.onShortMessage(record)}>发送短信</Menu.Item>
                   </Menu>
                 </Dropdown>
               </Space>

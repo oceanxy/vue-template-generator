@@ -11,64 +11,37 @@ export default {
    * @param dispatch
    * @param moduleName {string}
    * @param submoduleName {string}
+   * @param additionalQueryParameters {Object} 需要传递给查询的附加参数
    * @param payload {Object}
    */
-  async setSearch({ state, commit, dispatch }, { moduleName, submoduleName, payload }) {
+  async setSearch({ state, commit, dispatch }, {
+    moduleName,
+    submoduleName,
+    additionalQueryParameters,
+    payload
+  }) {
     commit('setSearch', {
-      payload: {
-        ...(!submoduleName ? state[moduleName] : state[moduleName][submoduleName]).search,
-        ...payload
-      },
+      payload,
       moduleName,
       submoduleName
     })
+
+    const hasPagination = 'pagination' in (submoduleName ? state[moduleName][submoduleName] : state[moduleName])
+
+    additionalQueryParameters = {
+      ...additionalQueryParameters,
+      ...(hasPagination ? { pageIndex: 0 } : {})
+    }
 
     await dispatch(
       'getList',
       {
         moduleName,
         submoduleName,
-        additionalQueryParameters: { pageIndex: 0 }
+        additionalQueryParameters
       },
       { root: true }
     )
-  },
-  /**
-   * 获取所有站点应用
-   * @param state {Object}
-   * @param commit {Function}
-   */
-  async getAllSiteApps({ commit }) {
-    const { status, data } = await apis.getAllSiteApps()
-
-    if (status) {
-      commit('setAllSiteApps', data || [])
-    }
-  },
-  /**
-   * 获取所有站点模块
-   * @param state
-   * @param commit
-   * @returns {Promise<void>}
-   */
-  async getAllFunctionalModules({ commit }) {
-    const { status, data } = await apis.getAllFunctionalModules()
-
-    if (status) {
-      commit('setAllFunctionalModules', data || [])
-    }
-  },
-  /**
-   * 获取所有页面
-   * @param commit
-   * @returns {Promise<void>}
-   */
-  async getAllPages({ commit }) {
-    const { status, data } = await apis.getAllPages()
-
-    if (status) {
-      commit('setAllPages', data || [])
-    }
   },
   /**
    * 获取列表数据
@@ -76,20 +49,25 @@ export default {
    * @param commit
    * @param moduleName {string} 模块名
    * @param submoduleName {string} 子模块名
-   * @param additionalQueryParameters {Object} 附加查询参数。例如分页相关参数，园区ID等。
+   * @param additionalQueryParameters {Object} 附加查询参数。例如分页相关参数，中心ID等。
    * @param stateName {string} 需要设置的字段，默认 state.list
    * @returns {Promise<void>}
    */
   async getList({ state, commit }, { moduleName, submoduleName, additionalQueryParameters = {}, stateName }) {
     commit('setLoading', { value: true, moduleName, submoduleName })
 
+    let response
     let api = 'getList'
+
     if (!config.mock) {
       api = `get${
-        submoduleName ? `${UF.firstLetterToUppercase(submoduleName)}Of` : ''
-      }${UF.firstLetterToUppercase(moduleName)}`
+        submoduleName
+          ? `${UF.firstLetterToUppercase(submoduleName)}Of`
+          : ''
+      }${
+        UF.firstLetterToUppercase(moduleName)
+      }`
     }
-    let response
 
     if (!submoduleName) {
       response = await apis[api](
@@ -120,22 +98,18 @@ export default {
         moduleName,
         submoduleName,
         value: {
-          ...(!submoduleName ? state[moduleName] : state[moduleName][submoduleName]).pagination,
           pageIndex: response.data.pageIndex,
           pageSize: response.data.pageSize,
           total: response.data.totalNum
         }
       })
-      if ('rows' in response.data) {
-        commit('setList', {
-          value: response.data.rows,
-          moduleName,
-          submoduleName,
-          stateName
-        })
-      } else {
-        commit('setList', { value: response.data, moduleName, submoduleName, stateName })
-      }
+
+      commit('setList', {
+        value: 'rows' in response.data ? response.data.rows : response.data,
+        moduleName,
+        submoduleName,
+        stateName
+      })
     }
 
     commit('setLoading', { value: false, moduleName, submoduleName })
@@ -146,7 +120,7 @@ export default {
    * @param commit
    * @param moduleName {string} 模块名
    * @param submoduleName {string} 子模块名
-   * @param additionalQueryParameters {Object} 附加查询参数。例如分页相关参数，园区ID等。
+   * @param additionalQueryParameters {Object} 附加查询参数。例如分页相关参数，中心ID等。
    * @param stateName {string} 需要设置的字段，默认 state.details
    * @returns {Promise<void>}
    */
@@ -207,6 +181,34 @@ export default {
    */
   async update({ state, dispatch }, { moduleName, payload, visibleField, isFetchList, customApiName }) {
     const response = await apis[customApiName || `update${UF.firstLetterToUppercase(moduleName)}`](payload)
+
+    if (response.status) {
+      dispatch('setModalVisible', {
+        statusField: visibleField,
+        statusValue: false,
+        moduleName
+      })
+
+      if (isFetchList) {
+        dispatch('getList', { moduleName })
+      }
+    }
+
+    return response.status
+  },
+  /**
+   * 更新数据
+   * @param state
+   * @param dispatch
+   * @param moduleName {string}
+   * @param payload {Object}
+   * @param visibleField {string}
+   * @param isFetchList {boolean}
+   * @param customApiName {string} 自定义请求API
+   * @returns {Promise<*>}
+   */
+  async custom({ state, dispatch }, { moduleName, payload, visibleField, isFetchList, customApiName }) {
+    const response = await apis[customApiName](payload)
 
     if (response.status) {
       dispatch('setModalVisible', {

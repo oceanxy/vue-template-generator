@@ -3,13 +3,13 @@ import { Table } from 'ant-design-vue'
 import forTable from '@/mixins/forTable'
 
 export default {
-  mixins: [forTable],
+  mixins: [forTable()],
   data() {
     return {
       tableProps: {
         columns: [
           {
-            title: '园区',
+            title: '中心',
             dataIndex: ''
           },
           {

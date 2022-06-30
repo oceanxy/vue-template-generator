@@ -13,7 +13,7 @@ export default {
           width="100%"
           modalTitle={
             <div class="park-status-title">
-              <span>园区实时状态</span>
+              <span>中心实时状态</span>
               <Button.Group class="park-status-btns">
                 <Button type="primary" class="custom-button">全部</Button>
                 <Button class="custom-button">空闲</Button>

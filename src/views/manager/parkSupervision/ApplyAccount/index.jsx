@@ -28,8 +28,8 @@ export default {
       >
         <template slot={'default'}>
           <div class={'apply-account-remind'}>
-            <p>园区行政监管部门将会审核您的账号申请，请耐心等待。</p>
-            <p>审核通过后将可在园区账号管理功能中进行管理</p>
+            <p>中心行政监管部门将会审核您的账号申请，请耐心等待。</p>
+            <p>审核通过后将可在中心账号管理功能中进行管理</p>
           </div>
           <div class={'apply-account-form-container'}>
             <Form class={'apply-account-form'} />

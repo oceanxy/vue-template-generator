@@ -14,13 +14,13 @@ export default {
     defaultAdministrativeDivision: [],
     // 组织机构树
     organizationTree: [],
-    // 园区树
+    // 中心树
     parkTree: [],
     // 角色树
     roleTree: [],
-    // 当前选中的园区树节点的 key（id）
+    // 当前选中的中心树节点的 key（id）
     currentParkTreeKeySelected: '0',
-    // 园区下拉列表
+    // 中心下拉列表
     parksForSelect: [],
     // 楼栋下拉列表
     buildingsForSelect: [],
@@ -63,7 +63,7 @@ export default {
   },
   actions: {
     /**
-     * 设置当前选中的园区树key
+     * 设置当前选中的中心树key
      * @param state
      * @param commit
      * @param dispatch
@@ -104,7 +104,7 @@ export default {
       }
     },
     /**
-     * 获取园区树
+     * 获取中心树
      * @param commit
      * @returns {Promise<void>}
      */
@@ -128,7 +128,7 @@ export default {
       }
     },
     /**
-     * 获取园区下拉列表
+     * 获取中心下拉列表
      * @param commit
      * @returns {Promise<void>}
      */

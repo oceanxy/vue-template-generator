@@ -48,7 +48,7 @@ export default Form.create({})({
 
     return (
       <DragModal {...attributes} class={'bnm-team-edit-modal'}>
-        <div>不同园区考核形式不同，请谨慎选择</div>
+        <div>不同中心考核形式不同，请谨慎选择</div>
         <Form
           class="bnm-team-edit-form"
           colon={false}

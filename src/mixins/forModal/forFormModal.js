@@ -85,18 +85,25 @@ export default () => {
           }))
         }
 
+        if ('isUnderground' in temp) {
+          temp.isUnderground = temp.isUnderground ? 1 : 0
+        }
+
         return temp
       },
       /**
        * 提交表单
-       * @param options {{isFetchList: boolean, [customApiName]: string}, [customValidation]: Function}
+       * @param options {{
+       *   isFetchList: boolean,
+       *   [customApiName]: string,
+       *   [customValidation]: Function
+       * }}
        * isFetchList：是否在提交并单后立即刷新对应的列表，默认 true；
        * customApiName：自定义请求API
        * customValidation: 自定义验证函数
        */
       onSubmit(options = { isFetchList: true }) {
         this.form.validateFields(async (err, values) => {
-          console.log(values)
           let validation = true
 
           if (typeof options.customValidation === 'function') {
@@ -110,14 +117,21 @@ export default () => {
             let action
             const payload = this.transformValue(values)
 
-            if (this.currentItem?.id) {
-              action = 'update'
-              payload.id = this.currentItem.id
-            } else if (this.currentItem?.ids) {
-              action = 'update'
-              payload.ids = this.currentItem.ids
+            if (!options.customApiName) {
+              if (this.currentItem?.id) {
+                action = 'update'
+                payload.id = this.currentItem.id
+              } else {
+                action = 'add'
+              }
             } else {
-              action = 'add'
+              action = 'custom'
+
+              if (this.currentItem?.ids) {
+                payload.ids = this.currentItem.ids
+              } else {
+                payload.id = this.currentItem.id
+              }
             }
 
             const status = await this.$store.dispatch(action, {

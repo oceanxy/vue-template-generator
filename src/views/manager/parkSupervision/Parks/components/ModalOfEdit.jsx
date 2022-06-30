@@ -87,9 +87,9 @@ export default Form.create({})({
             {
               this.form.getFieldDecorator('fullName', {
                 initialValue: this.currentItem.fullName,
-                rules: [{ required: true, message: '请输入园区名称!', trigger: 'blur' }]
+                rules: [{ required: true, message: '请输入中心名称!', trigger: 'blur' }]
               })(
-                <Input placeholder="请输入园区名称" allowClear />
+                <Input placeholder="请输入中心名称" allowClear />
               )
             }
           </Form.Item>
@@ -97,7 +97,7 @@ export default Form.create({})({
             {
               this.form.getFieldDecorator('parkNo', {
                 initialValue: this.currentItem.parkNo,
-                rules: [{ required: true, message: '请输入园区编号!', trigger: 'blur' }]
+                rules: [{ required: true, message: '请输入中心编号!', trigger: 'blur' }]
               })(
                 <Input placeholder="请输入编号" allowClear />
               )
@@ -168,9 +168,9 @@ export default Form.create({})({
                 rules: [{ required: true, type: 'number', message: '请选择类型!', trigger: 'blur' }]
               })(
                 <Select placeholder="请选择类型">
-                  <Select.Option value={1}>普通园区</Select.Option>
-                  <Select.Option value={2}>扩展园区</Select.Option>
-                  <Select.Option value={3}>培育园区</Select.Option>
+                  <Select.Option value={1}>普通中心</Select.Option>
+                  <Select.Option value={2}>扩展中心</Select.Option>
+                  <Select.Option value={3}>培育中心</Select.Option>
                 </Select>
               )
             }
@@ -262,7 +262,7 @@ export default Form.create({})({
               )
             }
           </Form.Item>
-          <Form.Item label="园区联系电话" class={'half'}>
+          <Form.Item label="中心联系电话" class={'half'}>
             {
               this.form.getFieldDecorator('phone', {
                 initialValue: this.currentItem.phone
@@ -280,12 +280,12 @@ export default Form.create({})({
               )
             }
           </Form.Item>
-          <Form.Item label="园区配套">
+          <Form.Item label="中心配套">
             {
               this.form.getFieldDecorator('parkSupport', {
                 initialValue: this.currentItem.parkSupport
               })(
-                <Input placeholder="请输入园区配套" type={'textarea'} />
+                <Input placeholder="请输入中心配套" type={'textarea'} />
               )
             }
           </Form.Item>

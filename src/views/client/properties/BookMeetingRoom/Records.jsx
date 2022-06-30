@@ -4,7 +4,7 @@ import BNContainer from '@/components/BNContainer'
 import forTable from '@/mixins/forTable'
 
 export default {
-  mixins: [forIndex, forTable],
+  mixins: [forIndex, forTable()],
   data: () => ({
     columns: [
       {

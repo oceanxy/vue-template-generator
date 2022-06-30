@@ -10,7 +10,7 @@ export default {
     return {
       columns: [
         {
-          title: '园区',
+          title: '中心',
           scopedSlots: { customRender: 'allPath' }
         },
         {

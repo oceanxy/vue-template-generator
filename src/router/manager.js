@@ -53,7 +53,7 @@ export const routes = [
         name: 'parkStatus',
         component: () => import('@/views/manager/ParkStatus'),
         meta: {
-          title: '园区状态',
+          title: '中心状态',
           keepAlive: true,
           requiresAuth: true,
           hideBreadCrumb: true,
@@ -196,7 +196,7 @@ export const routes = [
         component: TGRouterView,
         redirect: { name: 'parks' },
         meta: {
-          title: '园区监管',
+          title: '中心监管',
           keepAlive: true,
           requiresAuth: true,
           icon: () => import('@/layouts/components/TGMenu/assets/images/parkSupervision.svg')
@@ -207,7 +207,7 @@ export const routes = [
             name: 'parks',
             component: () => import('@/views/manager/parkSupervision/Parks'),
             meta: {
-              title: '园区管理',
+              title: '中心管理',
               keepAlive: true,
               requiresAuth: true,
               hideChildren: true
@@ -238,7 +238,7 @@ export const routes = [
             name: 'parkInfo',
             component: () => import('@/views/manager/parkSupervision/ParkInfo'),
             meta: {
-              title: '园区信息管理',
+              title: '中心信息管理',
               keepAlive: true,
               requiresAuth: true
             }
@@ -258,7 +258,7 @@ export const routes = [
             name: 'parkAccount',
             component: () => import('@/views/manager/parkSupervision/ParkAccount'),
             meta: {
-              title: '园区账号管理',
+              title: '中心账号管理',
               keepAlive: true,
               requiresAuth: true
             }
@@ -270,7 +270,7 @@ export const routes = [
         component: TGRouterView,
         redirect: { name: 'clues' },
         meta: {
-          title: '园区招商',
+          title: '中心招商',
           keepAlive: true,
           requiresAuth: true,
           icon: () => import('@/layouts/components/TGMenu/assets/images/parkInvestment.svg')

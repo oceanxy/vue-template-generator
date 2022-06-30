@@ -22,7 +22,7 @@ export default {
           <Table slot={'table'} />
           <Pagination slot={'pagination'} />
           <template slot={'modals'}>
-            <ModalOfEdit modalTitle={'{action}园区账号信息'} />
+            <ModalOfEdit modalTitle={'{action}中心账号信息'} />
             <ModalOfUpdatePassword modalTitle={'重置密码'} />
           </template>
         </TGContainer>

@@ -4,7 +4,7 @@ import forTable from '@/mixins/forTable'
 import Pagination from '@/views/manager/basis/Businesses/components/Pagination'
 
 export default {
-  mixins: [forTable],
+  mixins: [forTable()],
   data() {
     return {
       tableProps: {

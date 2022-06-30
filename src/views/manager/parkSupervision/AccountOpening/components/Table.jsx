@@ -3,7 +3,7 @@ import { Button, Space, Table } from 'ant-design-vue'
 import forTable from '@/mixins/forTable'
 
 export default {
-  mixins: [forTable],
+  mixins: [forTable()],
   data() {
     return {
       tableProps: {
@@ -27,7 +27,7 @@ export default {
             dataIndex: 'applicantOrganName'
           },
           {
-            title: '所属园区',
+            title: '所属中心',
             dataIndex: 'parkName'
           },
           {

@@ -4,7 +4,7 @@ import forTable from '@/mixins/forTable'
 
 export default {
   inject: ['submoduleName', 'visibleField'],
-  mixins: [forTable],
+  mixins: [forTable()],
   data() {
     return {
       tableProps: {

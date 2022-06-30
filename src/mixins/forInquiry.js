@@ -34,11 +34,15 @@ export default () => {
       },
       onSubmit(e) {
         e?.preventDefault()
+
         this.form.validateFields(async (err, values) => {
           if (!err) {
             const payload = this.transformValue(values)
+
             await this.$store.dispatch('setSearch', {
               moduleName: this.moduleName,
+              submoduleName: this.submoduleName,
+              additionalQueryParameters: this.additionalQueryParameters, // 来自于子模块组件的 inject，非混合内的 inject
               payload
             })
           }

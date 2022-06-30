@@ -2,7 +2,7 @@ import qs from 'qs'
 
 export default {
   /**
-   * 获取园区列表
+   * 获取中心列表
    * @param [request]
    * @param data
    * @returns {*}
@@ -15,7 +15,7 @@ export default {
     })
   },
   /**
-   * 修改园区状态
+   * 修改中心状态
    * @param [request]
    * @param data
    * @returns {*}
@@ -28,7 +28,7 @@ export default {
     })
   },
   /**
-   * 删除园区
+   * 删除中心
    * @param request
    * @param data
    * @returns {*}
@@ -41,7 +41,7 @@ export default {
     })
   },
   /**
-   * 新增园区
+   * 新增中心
    * @param request
    * @param data
    * @returns {*}
@@ -54,7 +54,7 @@ export default {
     })
   },
   /**
-   * 更新园区
+   * 更新中心
    * @param request
    * @param data
    * @returns {*}
@@ -67,7 +67,7 @@ export default {
     })
   },
   /**
-   * 获取园区树
+   * 获取中心树
    * @param request
    * @returns {*}
    */
@@ -78,7 +78,7 @@ export default {
     })
   },
   /**
-   * 获取园区下拉列表数据
+   * 获取中心下拉列表数据
    * @param request
    * @returns {*}
    */

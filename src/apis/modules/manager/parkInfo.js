@@ -2,7 +2,7 @@ import qs from 'qs'
 
 export default {
   /**
-   * 获取园区信息列表
+   * 获取中心信息列表
    * @param [request]
    * @param data
    * @returns {*}

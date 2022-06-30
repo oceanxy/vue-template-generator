@@ -2,8 +2,14 @@
   height: 100%;
 
   .anticon.caret-down {
-    margin-left: 10px;
     color: #1890ff;
     cursor: pointer;
+    margin-left: 4px;
+  }
+}
+
+.businesses-short-message-modal {
+  .ant-form-item-label.ant-form-item-label {
+    width: 100px;
   }
 }

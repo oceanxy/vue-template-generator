@@ -25,7 +25,7 @@ export default Form.create({})({
           modalTitle={
             <div class={'bnm-contract-confirmation-title'}>
               费用核算清单
-              <span>园区名称/楼栋名称/8701</span>
+              <span>中心名称/楼栋名称/8701</span>
             </div>
           }
         >

@@ -8,7 +8,7 @@ export default {
       default: '1'
     }
   },
-  mixins: [forTable],
+  mixins: [forTable()],
   data: () => ({
     columns: [
       {
