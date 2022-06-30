@@ -25,8 +25,8 @@ export default {
         <div class="item-status" style={{ '--bgcolor': this.statusColor }}>
           {!this.data.status ? '待处理': '已处理'}
         </div>
-        <div class="item-title">水龙头坏了</div>
-        <div class="item-desc">水龙头坏了需要修理</div>
+        <div class="item-title">厕所马桶漏水，请快速处理</div>
+        <div class="item-desc">需要修理</div>
         <div class="item-images">
           <img src="x.png" alt="tupian" />
           <img src="x.png" alt="tupian" />
@@ -38,7 +38,7 @@ export default {
         {
           this.data.status ? (
             <div class="item-process-info">
-              <div class="item-handler">处理人：xxx（2022年6月1日 18:14:36）</div>
+              <div class="item-handler">处理人：杨师傅（2022年6月1日 18:14:36）</div>
               <div class="item-result">处理结果</div>
               <div class="item-images">
                 <img src="x.png" alt="tupian" />
