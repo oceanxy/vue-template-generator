@@ -89,7 +89,7 @@ export default () => ({
         submoduleName: this.submoduleName,
         additionalQueryParameters: {
           ...this.$route.query,
-          ...(this.additionalQueryParameters || {}) // 来自于子模块组件的 inject，非混合内的 inject
+          ...(this.additionalQueryParameters || {})
         }
       })
     },

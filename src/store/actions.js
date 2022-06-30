@@ -94,15 +94,25 @@ export default {
     }
 
     if (response.status) {
-      commit('setPagination', {
-        moduleName,
-        submoduleName,
-        value: {
-          pageIndex: response.data.pageIndex,
-          pageSize: response.data.pageSize,
-          total: response.data.totalNum
-        }
-      })
+      let hasPagination
+
+      if (submoduleName) {
+        hasPagination = 'pagination' in state[moduleName][submoduleName]
+      } else {
+        hasPagination = 'pagination' in state[moduleName]
+      }
+
+      if (hasPagination) {
+        commit('setPagination', {
+          moduleName,
+          submoduleName,
+          value: {
+            pageIndex: response.data.pageIndex,
+            pageSize: response.data.pageSize,
+            total: response.data.totalNum
+          }
+        })
+      }
 
       commit('setList', {
         value: 'rows' in response.data ? response.data.rows : response.data,

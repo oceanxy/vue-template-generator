@@ -30,7 +30,6 @@ export default {
         ...payload
       }
     } else {
-      debugger
       if ('pagination' in state[moduleName][submoduleName]) {
         state[moduleName][submoduleName].pagination.pageIndex = 0
       }

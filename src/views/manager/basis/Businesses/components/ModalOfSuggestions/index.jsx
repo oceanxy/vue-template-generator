@@ -26,10 +26,7 @@ export default Form.create({})({
   },
   provide() {
     return {
-      visibleField: this.visibleField,
-      additionalQueryParameters: {
-        id: this.currentItem.id
-      }
+      visibleField: this.visibleField
     }
   },
   render() {
@@ -42,7 +39,7 @@ export default Form.create({})({
 
     return (
       <DragModal {...attributes} class={'bnm-table-modal'}>
-        <Inquiry />
+        {/*<Inquiry />*/}
         <Table />
       </DragModal>
     )

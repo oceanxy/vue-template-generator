@@ -1,10 +1,22 @@
 import { Button, Form, Input, Select, Space } from 'ant-design-vue'
 import forInquiry from '@/mixins/forInquiry'
+import { mapGetters } from 'vuex'
 
 export default Form.create({})({
   // 注册为子模块的组件需要注入的参数
-  inject: ['submoduleName', 'additionalQueryParameters'],
+  inject: ['submoduleName'],
   mixins: [forInquiry()],
+  computed: {
+    ...mapGetters({ getCurrentItem: 'getCurrentItem' }),
+    currentItem() {
+      return this.getCurrentItem(this.moduleName)
+    },
+    additionalQueryParameters() {
+      return {
+        id: this.currentItem.id
+      }
+    }
+  },
   render() {
     return (
       <Form

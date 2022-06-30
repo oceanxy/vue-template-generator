@@ -42,7 +42,7 @@ export default () => {
             await this.$store.dispatch('setSearch', {
               moduleName: this.moduleName,
               submoduleName: this.submoduleName,
-              additionalQueryParameters: this.additionalQueryParameters, // 来自于子模块组件的 inject，非混合内的 inject
+              additionalQueryParameters: this.additionalQueryParameters,
               payload
             })
           }
