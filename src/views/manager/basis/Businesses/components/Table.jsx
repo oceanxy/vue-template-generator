@@ -69,13 +69,19 @@ export default {
   },
   methods: {
     onDetailsClick(record) {
-      this.$router.push({ name: 'businessesDetails' })
+      this.$router.push({ name: 'businessesDetails', query: { id: record.id } })
     },
     async onShortMessage(record) {
       await this._setVisibleOfModal(record, 'visibleOfShortMessage', this.moduleName)
     },
     async onSuggestions(record) {
       await this._setVisibleOfModal(record, 'visibleOfSuggestions', this.moduleName)
+    },
+    async onPaymentRecords(record) {
+      await this._setVisibleOfModal(record, 'visibleOfPaymentRecords', this.moduleName)
+    },
+    async onBills(record) {
+      await this._setVisibleOfModal(record, 'visibleOfBills', this.moduleName)
     }
   },
   render() {
@@ -114,8 +120,8 @@ export default {
                     <Icon type={'caret-down'} class="caret-down" />
                   </Button>
                   <Menu slot="overlay">
-                    <Menu.Item>账单查询</Menu.Item>
-                    <Menu.Item>缴费记录</Menu.Item>
+                    <Menu.Item onClick={() => this.onBills(record)}>账单查询</Menu.Item>
+                    <Menu.Item onClick={() => this.onPaymentRecords(record)}>缴费记录</Menu.Item>
                     <Menu.Item onClick={() => this.onSuggestions(record)}>投诉建议</Menu.Item>
                     <Menu.Item onClick={() => this.onShortMessage(record)}>发送短信</Menu.Item>
                   </Menu>

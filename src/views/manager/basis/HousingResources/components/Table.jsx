@@ -16,7 +16,6 @@ export default {
           },
           {
             title: '房号',
-            align: 'center',
             dataIndex: 'roomNo'
           },
           {

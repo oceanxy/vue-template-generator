@@ -16,37 +16,21 @@ export default {
             scopedSlots: { customRender: 'serialNumber' }
           },
           {
-            title: '提交时间',
-            dataIndex: 'complaintsTimeStr'
+            title: '账单',
+            dataIndex: 'itemName'
           },
           {
-            title: '类型',
-            dataIndex: 'complaintsTypeStr'
+            title: '出账日',
+            dataIndex: 'billStarDateStr'
           },
           {
-            title: '详情',
-            dataIndex: 'content'
+            title: '账单金额',
+            dataIndex: 'itemAmount'
           },
           {
             title: '状态',
             align: 'center',
-            width: 80,
-            scopedSlots: { customRender: 'acceptStatus' }
-          },
-          {
-            title: '处理人',
-            align: 'center',
-            dataIndex: 'disposeName'
-          },
-          {
-            title: '处理时间',
-            align: 'center',
-            dataIndex: 'disposeStr'
-          },
-          {
-            title: '处理结果',
-            align: 'center',
-            dataIndex: 'disposeResult'
+            dataIndex: 'payStatusStr'
           }
         ],
         rowSelection: null,
@@ -81,12 +65,7 @@ export default {
         {...attruibutes}
         {...{
           scopedSlots: {
-            serialNumber: (text, record, index) => index + 1,
-            acceptStatus: (text, record) => (
-              <span style={{ color: ['#52c41a', '#faad14'][record.acceptStatus - 1] }}>
-                {['已处理', '待处理'][record.acceptStatus - 1]}
-              </span>
-            )
+            serialNumber: (text, record, index) => index + 1
           }
         }}
       />

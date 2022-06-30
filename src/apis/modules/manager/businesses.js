@@ -39,5 +39,31 @@ export default {
       method: 'post',
       data: qs.stringify(data)
     })
+  },
+  /**
+   * 获取缴费记录集合
+   * @param request
+   * @param data
+   * @returns {*}
+   */
+  getPaymentRecordsOfBusinesses(request, data) {
+    return request({
+      url: '/business/company/getPayRecord',
+      method: 'post',
+      data: qs.stringify(data)
+    })
+  },
+  /**
+   * 获取账单集合
+   * @param request
+   * @param data
+   * @returns {*}
+   */
+  getBillsOfBusinesses(request, data) {
+    return request({
+      url: '/business/company/getBillList',
+      method: 'post',
+      data: qs.stringify(data)
+    })
   }
 }

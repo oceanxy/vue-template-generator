@@ -2,6 +2,8 @@ import './index.scss'
 import { Descriptions, Tabs } from 'ant-design-vue'
 import dynamicState from '@/mixins/dynamicState'
 import store, { dynamicModules } from '@/store/manager'
+import TGTabPane from '@/components/TGTabPane'
+import BillTable from '@/views/manager/basis/Businesses/components/BillTable'
 
 export default {
   name: 'BusinessDetails',

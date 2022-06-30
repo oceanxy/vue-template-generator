@@ -321,7 +321,7 @@ export default Form.create({})({
             {
               this.form.getFieldDecorator('status', {
                 valuePropName: 'checked',
-                initialValue: this.currentItem.status === 1,
+                initialValue: this.currentItem.id ? this.currentItem.status === 1 : true,
                 rules: [{ required: true, type: 'boolean', message: '请选择状态!', trigger: 'blur' }]
               })(
                 <Switch />

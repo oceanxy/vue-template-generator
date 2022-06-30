@@ -16,38 +16,26 @@ export default {
             scopedSlots: { customRender: 'serialNumber' }
           },
           {
-            title: '提交时间',
-            dataIndex: 'complaintsTimeStr'
+            title: '缴费时间',
+            dataIndex: 'payEndTime'
           },
           {
-            title: '类型',
-            dataIndex: 'complaintsTypeStr'
+            title: '缴费金额',
+            dataIndex: 'amount'
           },
           {
-            title: '详情',
-            dataIndex: 'content'
+            title: '收款人',
+            dataIndex: 'operateName'
           },
           {
-            title: '状态',
-            align: 'center',
-            width: 80,
-            scopedSlots: { customRender: 'acceptStatus' }
+            title: '摘要',
+            dataIndex: 'remark'
           },
-          {
-            title: '处理人',
-            align: 'center',
-            dataIndex: 'disposeName'
-          },
-          {
-            title: '处理时间',
-            align: 'center',
-            dataIndex: 'disposeStr'
-          },
-          {
-            title: '处理结果',
-            align: 'center',
-            dataIndex: 'disposeResult'
-          }
+          // {
+          //   title: '状态',
+          //   align: 'center',
+          //   scopedSlots: { customRender: 'status' }
+          // }
         ],
         rowSelection: null,
         tableLayout: 'fixed',
@@ -82,11 +70,11 @@ export default {
         {...{
           scopedSlots: {
             serialNumber: (text, record, index) => index + 1,
-            acceptStatus: (text, record) => (
-              <span style={{ color: ['#52c41a', '#faad14'][record.acceptStatus - 1] }}>
-                {['已处理', '待处理'][record.acceptStatus - 1]}
-              </span>
-            )
+            // status: (text, record) => (
+            //   <span style={{ color: ['#52c41a', '#faad14'][record.acceptStatus - 1] }}>
+            //     {['已处理', '待处理'][record.acceptStatus - 1]}
+            //   </span>
+            // )
           }
         }}
       />

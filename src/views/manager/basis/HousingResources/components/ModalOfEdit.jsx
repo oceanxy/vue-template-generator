@@ -113,8 +113,8 @@ export default Form.create({})({
           <Form.Item label="面积（㎡）" class={'half'}>
             {
               this.form.getFieldDecorator('roomArea', {
-                initialValue: this.currentItem.roomArea,
-                rules: [{ required: true, message: '请输入面积!', trigger: 'blur' }]
+                initialValue: +this.currentItem.roomArea || undefined,
+                rules: [{ required: true, type: 'number', message: '请输入面积!', trigger: 'blur' }]
               })(
                 <InputNumber
                   placeholder="请输入面积"
@@ -147,8 +147,8 @@ export default Form.create({})({
                 <Form.Item>
                   {
                     this.form.getFieldDecorator('price', {
-                      initialValue: this.currentItem.price,
-                      rules: [{ required: true, message: '请输入单价!', trigger: 'blur' }]
+                      initialValue: +this.currentItem.price || undefined,
+                      rules: [{ required: true, type: 'number', message: '请输入单价!', trigger: 'blur' }]
                     })(
                       <InputNumber
                         style={{ width: '100%' }}
@@ -277,7 +277,7 @@ export default Form.create({})({
             {
               this.form.getFieldDecorator('status', {
                 valuePropName: 'checked',
-                initialValue: this.currentItem.status === 1,
+                initialValue: this.currentItem.id ? this.currentItem.status === 1 : true,
                 rules: [{ required: true, type: 'boolean', message: '请选择状态!', trigger: 'blur' }]
               })(
                 <Switch />
