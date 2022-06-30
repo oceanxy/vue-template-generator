@@ -6,7 +6,7 @@ import store, { dynamicModules } from '@/store/manager'
 import Table from './components/Table'
 import Pagination from './components/Pagination'
 import ModalOfDetails from '@/views/manager/parkInvestment/Clues/components/ModalOfDetails'
-import ModalOfFollowUpClues from '@/views/manager/parkInvestment/MyClues/components/ModalOfFollowUpClues'
+import ModalOfFollowUpClues from './components/ModalOfFollowUpClues'
 
 export default {
   name: 'MyClues',

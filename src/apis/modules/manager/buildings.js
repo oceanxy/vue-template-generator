@@ -65,5 +65,27 @@ export default {
       method: 'post',
       data
     })
+  },
+  /**
+   * 获取楼栋下拉树
+   * @param request
+   * @returns {*}
+   */
+  getBuildingsForSelect(request) {
+    return request({
+      url: '/basic/park/getBuildTreeList',
+      method: 'post'
+    })
+  },
+  /**
+   * 获取楼层树
+   * @param request
+   * @returns {*}
+   */
+  getFloorTree(request) {
+    return request({
+      url: '/basic/park/getFloodTree',
+      method: 'post'
+    })
   }
 }

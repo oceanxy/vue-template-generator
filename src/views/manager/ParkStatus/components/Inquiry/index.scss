@@ -1,0 +1,13 @@
+.park-status-search {
+  display: flex;
+  align-items: center;
+  width: 100%;
+
+  .bn-search-form {
+    margin-left: auto;
+
+    .ant-select {
+      width: 200px;
+    }
+  }
+}

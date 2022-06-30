@@ -1,67 +1,29 @@
 import './index.scss'
 import BNContainer from '@/components/BNContainer'
-import { Button, Calendar } from 'ant-design-vue'
+import { Calendar } from 'ant-design-vue'
 import TGContainerWithSider from '@/components/TGContainerWithSider'
-import MeetingRoomCard from '@/views/manager/ParkStatus/components/MeetingRoomCard'
+import MeetingRooms from '@/views/manager/ParkStatus/components/MeetingRooms'
+import Inquiry from './components/Inquiry'
+import Floors from '@/views/manager/ParkStatus/components/Floors'
+import dynamicState from '@/mixins/dynamicState'
+import store, { dynamicModules } from '@/store/manager'
 
 export default {
+  name: 'ParkStatus',
+  mixins: [dynamicState(store, dynamicModules)],
   render() {
     return (
       <div class="bnm-park-status">
         <BNContainer
-          class='park-status-title-container'
+          class="park-status-title-container"
           width="100%"
-          modalTitle={
-            <div class="park-status-title">
-              <span>中心实时状态</span>
-              <Button.Group class="park-status-btns">
-                <Button type="primary" class="custom-button">全部</Button>
-                <Button class="custom-button">空闲</Button>
-                <Button class="custom-button">已签约</Button>
-                <Button class="custom-button">已预订</Button>
-              </Button.Group>
-            </div>
-          }
+          modalTitle={<Inquiry />}
         />
-        <TGContainerWithSider
-          class="park-status-content"
-          siderClass="park-status-sider"
-        >
-          <div
-            class="park-status-main"
-            slot="default"
-          >
-            <TGContainerWithSider
-              siderClass="park-status-floor-container"
-            >
-              <div
-                class="park-status-main--main"
-                slot="default"
-              >
-                <MeetingRoomCard status={0} />
-                <MeetingRoomCard status={1} />
-                <MeetingRoomCard status={2} />
-                <MeetingRoomCard />
-                <MeetingRoomCard />
-                <MeetingRoomCard />
-                <MeetingRoomCard />
-                <MeetingRoomCard />
-              </div>
-              <ul
-                class="park-status-main--floor"
-                slot="sider"
-              >
-                <li>所有</li>
-                <li>5F</li>
-                <li>4F</li>
-                <li>3F</li>
-                <li>2F</li>
-                <li>1F</li>
-                <li>LG</li>
-                <li>-1F</li>
-                <li>-2F</li>
-                <li>-3F</li>
-              </ul>
+        <TGContainerWithSider class="park-status-content" siderClass="park-status-sider">
+          <div class="park-status-main" slot="default">
+            <TGContainerWithSider siderClass="park-status-floor-container">
+              <MeetingRooms slot={'default'} />
+              <Floors slot={'sider'} />
             </TGContainerWithSider>
           </div>
           <BNContainer

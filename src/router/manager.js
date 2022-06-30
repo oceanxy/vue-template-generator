@@ -286,11 +286,21 @@ export const routes = [
             }
           },
           {
+            path: 'venue-reservation',
+            name: 'venueReservation',
+            component: () => import('@/views/manager/parkInvestment/VenueReservation'),
+            meta: {
+              title: '场地预定',
+              keepAlive: true,
+              requiresAuth: true
+            }
+          },
+          {
             path: 'my-clues',
             name: 'myClues',
             component: () => import('@/views/manager/parkInvestment/MyClues'),
             meta: {
-              title: '我的线索(招商人员)',
+              title: '我的线索',
               keepAlive: true,
               requiresAuth: true
             }
@@ -299,7 +309,7 @@ export const routes = [
             path: 'my-contracts',
             component: TGRouterView,
             meta: {
-              title: '我的签约(招商人员)',
+              title: '我的签约',
               keepAlive: true,
               requiresAuth: true,
               hideChildren: true
@@ -310,7 +320,7 @@ export const routes = [
                 name: 'myContracts',
                 component: () => import('@/views/manager/parkInvestment/MyContracts'),
                 meta: {
-                  title: '我的签约(招商人员)',
+                  title: '我的签约',
                   keepAlive: true,
                   requiresAuth: true
                 }

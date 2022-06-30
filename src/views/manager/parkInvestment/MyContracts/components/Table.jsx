@@ -10,41 +10,37 @@ export default {
         columns: [
           {
             title: '序号',
-            dataIndex: ''
+            width: 60,
+            align: 'center',
+            scopedSlots: { customRender: 'serialNumber' }
           },
           {
             title: '企业',
-            dataIndex: 'appName'
+            dataIndex: 'companyName'
           },
           {
             title: '签约类型',
-            dataIndex: 'remark'
+            dataIndex: 'signingTypeStr'
           },
           {
             title: '签约场地',
-            align: 'center',
-            dataIndex: 'zz'
+            dataIndex: 'address'
           },
           {
             title: '签约期限',
-            align: 'center',
-            dataIndex: 'xx'
+            dataIndex: 'contractTime'
           },
           {
             title: '费用/优惠',
-            align: 'center',
-            dataIndex: 'ccC'
+            scopedSlots: { customRender: 'amount' }
           },
           {
             title: '状态',
-            align: 'center',
-            width: 60,
-            scopedSlots: { customRender: 'status' }
+            dataIndex: 'signingStatusStr'
           },
           {
             title: '签约合同',
-            align: 'center',
-            dataIndex: 'ccA'
+            scopedSlots: { customRender: 'contractUrl' }
           },
           {
             title: '操作',
@@ -77,12 +73,20 @@ export default {
         {...attributes}
         {...{
           scopedSlots: {
-            // status: (text, record) => (
-            //   <Switch
-            //     checked={+record.status === 1}
-            //     onChange={checked => this.onStatusChange(checked, record)}
-            //   />
-            // ),
+            serialNumber: (text, record, index) => index + 1,
+            amount: (text, record) => {
+              return record.amount
+                ? (
+                  <div>
+                    <div style={{ color: 'rgb(216, 38, 34' }}>{record.amount}</div>
+                    <div>{record.saleAmount}</div>
+                  </div>
+                )
+                : <div style={{ color: '#8c8c8c' }}>未核算费用</div>
+            },
+            contractUrl: (text, record) => (
+              <a href={record.contractUrl} target="_blank">合同下载</a>
+            ),
             operation: (text, record) => (
               <Space class="operation-space">
                 <Button

@@ -10,41 +10,37 @@ export default {
         columns: [
           {
             title: '序号',
-            dataIndex: ''
+            width: 60,
+            align: 'center',
+            scopedSlots: { customRender: 'serialNumber' }
           },
           {
             title: '线索标题',
-            dataIndex: 'appName'
+            dataIndex: 'title'
           },
           {
             title: '来源',
-            dataIndex: 'remark'
+            dataIndex: 'cluesResource'
           },
           {
             title: '所属行业',
-            align: 'center',
-            dataIndex: 'zz'
+            dataIndex: 'industry'
           },
           {
             title: '采集人/时间',
-            align: 'center',
-            dataIndex: 'xx'
+            scopedSlots: { customRender: 'gatherName' }
           },
           {
             title: '跟进团队/成员',
-            align: 'center',
-            dataIndex: 'cc'
+            dataIndex: 'memberName'
           },
           {
             title: '最新进展/更新时间',
-            align: 'center',
-            scopedSlots: { customRender: 'status' }
+            scopedSlots: { customRender: 'processDescription' }
           },
           {
             title: '状态',
-            align: 'center',
-            width: 60,
-            scopedSlots: { customRender: 'status' }
+            dataIndex: 'allotStatusStr'
           },
           {
             title: '操作',
@@ -73,6 +69,19 @@ export default {
         {...attributes}
         {...{
           scopedSlots: {
+            serialNumber: (text, record, index) => index + 1,
+            gatherName: (text, record) => (
+              <div>
+                <div>{record.gatherName}</div>
+                <div>{record.gatherTimeStr}</div>
+              </div>
+            ),
+            processDescription: (text, record) => (
+              <div>
+                <div style={{ fontWeight: 'bolder' }}>已跟进负责人</div>
+                <div>{record.processDescription}</div>
+              </div>
+            ),
             // status: (text, record) => (
             //   <Switch
             //     checked={+record.status === 1}

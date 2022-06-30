@@ -10,17 +10,6 @@
   .park-status-title-container.park-status-title-container {
     @include container-border-radius;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.02);
-
-    .park-status-title {
-      display: flex;
-      align-items: center;
-      width: 100%;
-
-      .park-status-btns {
-        margin-left: auto;
-        line-height: unset;
-      }
-    }
   }
 
   .park-status-content {
@@ -40,49 +29,9 @@
       height: 100%;
       @include container-border-radius;
 
-      .park-status-main--main {
-        margin: 32px 0 15px 32px;
-        padding: 10px;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 24px;
-        overflow: auto;
-      }
-
       .park-status-floor-container {
         width: 82px;
         padding: 32px 10px;
-
-        .park-status-main--floor {
-          @include container-border-radius;
-          width: 100%;
-          border: 1px solid rgba(0, 0, 0, 0.06);
-          box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.08);
-          list-style: none;
-          padding: 10px 0;
-          display: flex;
-          align-items: center;
-          flex-direction: column;
-          overflow: auto;
-
-          li {
-            font-size: 14px;
-            font-weight: 500;
-            color: #1f1f1f;
-            width: 40px;
-            height: 40px;
-            line-height: 40px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-            border-radius: 20px;
-
-            &:hover {
-              background: #007aff;
-              color: #ffffff;
-            }
-          }
-        }
       }
     }
   }

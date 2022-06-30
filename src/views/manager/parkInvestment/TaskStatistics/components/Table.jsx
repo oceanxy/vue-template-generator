@@ -10,7 +10,9 @@ export default {
         columns: [
           {
             title: '序号',
-            scopedSlots: { customRender: 'index' }
+            width: 60,
+            align: 'center',
+            scopedSlots: { customRender: 'serialNumber' }
           },
           {
             title: '团队',
@@ -22,37 +24,31 @@ export default {
           },
           {
             title: '分配线索',
-            width: 80,
             dataIndex: 'cluesCount'
           },
           {
             title: '跟进中',
             align: 'center',
-            width: 60,
             dataIndex: 'followCluesCount'
           },
           {
             title: '已结束',
             align: 'center',
-            width: 60,
             dataIndex: 'endCluesCount'
           },
           {
             title: '签约中',
             align: 'center',
-            width: 60,
             dataIndex: 'signingCluesCount'
           },
           {
             title: '已签约',
             align: 'center',
-            width: 60,
             dataIndex: 'endSigningCluesCount'
           },
           {
             title: '转化率',
             align: 'center',
-            width: 60,
             dataIndex: 'conversionRate'
           },
           {
@@ -83,7 +79,7 @@ export default {
         {...attributes}
         {...{
           scopedSlots: {
-            index: (text, record, index) => <span>{index + 1}</span>,
+            serialNumber: (text, record, index) => index + 1,
             // status: (text, record) => (
             //   <Switch
             //     checked={+record.status === 1}

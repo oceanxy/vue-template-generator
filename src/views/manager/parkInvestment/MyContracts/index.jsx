@@ -5,7 +5,7 @@ import dynamicState from '@/mixins/dynamicState'
 import store, { dynamicModules } from '@/store/manager'
 import Table from './components/Table'
 import Pagination from './components/Pagination'
-import ModalOfEdit from '@/views/manager/parkInvestment/Clues/components/ModalOfEdit'
+import ModalOfEdit from './components/ModalOfEdit'
 
 export default {
   name: 'MyContracts',

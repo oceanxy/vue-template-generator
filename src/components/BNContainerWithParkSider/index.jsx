@@ -84,6 +84,8 @@ export default {
             replaceFields={{ children: 'children', title: 'name', key: 'id' }}
             treeData={this.floorTree}
             onSelect={this.onSelect}
+            defaultExpandedKeys={['0']}
+            showLine
           />
         </Spin>
       </TGContainerWithSider>

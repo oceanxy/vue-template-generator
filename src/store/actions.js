@@ -17,8 +17,8 @@ export default {
   async setSearch({ state, commit, dispatch }, {
     moduleName,
     submoduleName,
-    additionalQueryParameters,
-    payload
+    payload,
+    additionalQueryParameters
   }) {
     commit('setSearch', {
       payload,

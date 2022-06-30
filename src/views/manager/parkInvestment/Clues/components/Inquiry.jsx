@@ -1,16 +1,25 @@
-import { Button, Form, Input, Select, Space } from 'ant-design-vue'
-import forInquiry from '@/mixins/forInquiry'
 import '../assets/styles/index.scss'
+import { Button, Form, Input, Space } from 'ant-design-vue'
+import forInquiry from '@/mixins/forInquiry'
 
 export default Form.create({})({
   mixins: [forInquiry()],
-  async created() {},
-  methods: {},
   render() {
     return (
-      <Form layout="inline" onSubmit={this.onSubmit} colon={false} class="tg-inquiry bn-search-form">
+      <Form
+        layout="inline"
+        onSubmit={this.onSubmit}
+        colon={false}
+        class="tg-inquiry bn-search-form"
+      >
         <Space>
-          <Form.Item>{this.form.getFieldDecorator('pageName')(<Input placeholder="目标客户" allowClear />)}</Form.Item>
+          <Form.Item>
+            {
+              this.form.getFieldDecorator('pageName')(
+                <Input placeholder="目标客户" allowClear />
+              )
+            }
+          </Form.Item>
           {/* <Form.Item>
             {this.form.getFieldDecorator('appId')(
               <Select placeholder="请选择状态" allowClear>

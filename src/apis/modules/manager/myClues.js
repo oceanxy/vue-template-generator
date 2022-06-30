@@ -2,25 +2,25 @@ import qs from 'qs'
 
 export default {
   /**
-   * 获取中心列表
+   * 获取我的线索列表
    * @param [request]
    * @param data
    * @returns {*}
    */
-  getParks(request, data) {
+  getMyClues(request, data) {
     return request({
-      url: '/basic/park/getParkPageList',
+      url: '/business/clues/getMyCluesList',
       method: 'post',
       data: qs.stringify(data)
     })
   },
   /**
-   * 修改中心状态
+   * 修改我的线索状态
    * @param [request]
    * @param data
    * @returns {*}
    */
-  updateParksStatus(request, data) {
+  updateMyCluesStatus(request, data) {
     return request({
       url: '/basic/park/updateStatus',
       method: 'post',
@@ -28,12 +28,12 @@ export default {
     })
   },
   /**
-   * 删除中心
+   * 删除我的线索
    * @param request
    * @param data
    * @returns {*}
    */
-  deleteParks(request, data) {
+  deleteMyClues(request, data) {
     return request({
       url: '/basic/park/delete',
       method: 'post',
@@ -41,12 +41,12 @@ export default {
     })
   },
   /**
-   * 新增中心
+   * 新增我的线索
    * @param request
    * @param data
    * @returns {*}
    */
-  addParks(request, data) {
+  addMyClues(request, data) {
     return request({
       url: '/basic/park/add',
       method: 'post',
@@ -54,12 +54,12 @@ export default {
     })
   },
   /**
-   * 更新中心
+   * 更新我的线索
    * @param request
    * @param data
    * @returns {*}
    */
-  updateParks(request, data) {
+  updateMyClues(request, data) {
     return request({
       url: '/basic/park/update',
       method: 'post',
@@ -67,7 +67,7 @@ export default {
     })
   },
   /**
-   * 获取中心树
+   * 获取我的线索树
    * @param request
    * @returns {*}
    */
@@ -78,13 +78,35 @@ export default {
     })
   },
   /**
-   * 获取中心下拉列表数据
+   * 获取我的线索下拉列表数据
    * @param request
    * @returns {*}
    */
-  getParksForSelect(request) {
+  getMyCluesForSelect(request) {
     return request({
       url: '/basic/park/getParkList',
+      method: 'post'
+    })
+  },
+  /**
+   * 获取楼栋下拉列表数据
+   * @param request
+   * @returns {*}
+   */
+  getBuildingsForSelect(request) {
+    return request({
+      url: '/basic/park/getBuildTreeList',
+      method: 'post'
+    })
+  },
+  /**
+   * 获取楼层树
+   * @param request
+   * @returns {*}
+   */
+  getFloorTree(request) {
+    return request({
+      url: '/basic/park/getFloodTree',
       method: 'post'
     })
   }
