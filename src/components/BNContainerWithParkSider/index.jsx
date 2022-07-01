@@ -18,6 +18,10 @@ export default {
       submoduleName: this.submoduleName,
       value: '0'
     })
+
+    this.loading = true
+    await dispatch('common', 'getFloorTree')
+    this.loading = false
   },
   data() {
     return {
@@ -29,18 +33,6 @@ export default {
       floorTree: 'floorTree',
       currentParkTreeKeySelected: 'currentParkTreeKeySelected'
     })
-  },
-  watch: {
-    floorTree: {
-      immediate: true,
-      async handler(value) {
-        if (value.length) {
-          this.loading = false
-        } else {
-          await dispatch('common', 'getFloorTree')
-        }
-      }
-    }
   },
   methods: {
     /**
