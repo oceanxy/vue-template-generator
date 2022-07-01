@@ -14,7 +14,6 @@ export default {
       state[moduleName][customizeLoading || 'loading'] = value
     }
   },
-
   /**
    * 设置列表搜索参数对象
    * @param state {Object}
@@ -24,7 +23,10 @@ export default {
    */
   setSearch(state, { payload, moduleName, submoduleName }) {
     if (!submoduleName) {
-      state[moduleName].pagination.pageIndex = 0
+      if ('pagination' in state[moduleName]) {
+        state[moduleName].pagination.pageIndex = 0
+      }
+
       state[moduleName].search = {
         ...state[moduleName].search,
         ...payload

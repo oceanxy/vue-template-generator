@@ -29,9 +29,9 @@ export default Form.create({})({
     buildingsForSelect: {
       immediate: true,
       handler(value) {
-        const temp = value?.[0].children?.[0].id
+        const temp = value?.[0]?.children?.[0]?.id
 
-        if (value?.[0].children?.[0].id) {
+        if (temp) {
           this.initialBuildingId = temp
         }
       }
@@ -46,7 +46,8 @@ export default Form.create({})({
       await this.$store.dispatch('setSearch', {
         moduleName: this.moduleName,
         payload: {
-          floorId: this.initialBuildingId,
+          buildId: this.initialBuildingId,
+          floorId: '',
           useStatus: this.useState,
           currentTime: moment().format('YYYYMMDD')
         }
@@ -98,7 +99,7 @@ export default Form.create({})({
                       class="custom-button"
                       onClick={() => this.switchState(1)}
                     >
-                      空闲
+                      已预订
                     </Button>
                     <Button
                       type={this.useState === 2 ? 'primary' : ''}
@@ -112,7 +113,7 @@ export default Form.create({})({
                       class="custom-button"
                       onClick={() => this.switchState(3)}
                     >
-                      已预订
+                      空闲
                     </Button>
                   </Button.Group>
                 )

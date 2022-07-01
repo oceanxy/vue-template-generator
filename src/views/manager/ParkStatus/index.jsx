@@ -1,10 +1,10 @@
 import './index.scss'
 import BNContainer from '@/components/BNContainer'
-import { Calendar } from 'ant-design-vue'
 import TGContainerWithSider from '@/components/TGContainerWithSider'
-import MeetingRooms from '@/views/manager/ParkStatus/components/MeetingRooms'
+import MeetingRooms from './components/MeetingRooms'
 import Inquiry from './components/Inquiry'
-import Floors from '@/views/manager/ParkStatus/components/Floors'
+import Floors from './components/Floors'
+import Calendar from './components/Calendar'
 import dynamicState from '@/mixins/dynamicState'
 import store, { dynamicModules } from '@/store/manager'
 
@@ -26,14 +26,7 @@ export default {
               <Floors slot={'sider'} />
             </TGContainerWithSider>
           </div>
-          <BNContainer
-            width="100%"
-            class="park-status-datetime-picker"
-            modalTitle="选择日期"
-            slot="sider"
-          >
-            <Calendar fullscreen={false} />
-          </BNContainer>
+          <Calendar slot="sider" />
         </TGContainerWithSider>
       </div>
     )

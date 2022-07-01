@@ -24,7 +24,7 @@
     transition: all 0.3s;
     border-radius: 20px;
 
-    &:hover {
+    &:hover, &.active {
       background: #007aff;
       color: #ffffff;
     }
