@@ -11,8 +11,10 @@ export default {
    * @param dispatch
    * @param moduleName {string}
    * @param submoduleName {string}
-   * @param additionalQueryParameters {Object} 需要传递给查询的附加参数
-   * @param payload {Object}
+   * @param additionalQueryParameters {Object}
+   * 需要传递给查询(获取列表数据)的附加参数（不在查询表单内，额外的附加查询参数，
+   * 单独传是防止被下次setSearch时覆盖， 例如其他页面跳转过来时携带的参数：id）
+   * @param payload {Object} 数据列表的常驻查询对象，一般定义在Inquiry组件中
    */
   async setSearch({ state, commit, dispatch }, {
     moduleName,
