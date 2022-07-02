@@ -1,17 +1,9 @@
 import { Button, Form, Input, Select, Space } from 'ant-design-vue'
 import forInquiry from '@/mixins/forInquiry'
-import { mapActions, mapState } from 'vuex'
 import '../assets/styles/index.scss'
 
 export default Form.create({})({
   mixins: [forInquiry()],
-  computed: mapState({ allSiteApps: 'allSiteApps' }),
-  async created() {
-    await this.getAllSiteApps()
-  },
-  methods: {
-    ...mapActions({ getAllSiteApps: 'getAllSiteApps' })
-  },
   render() {
     return (
       <Form
@@ -39,13 +31,7 @@ export default Form.create({})({
             {
               this.form.getFieldDecorator('appId')(
                 <Select placeholder="请选择类型" allowClear>
-                  {
-                    this.allSiteApps.map(item => (
-                      <Select.Option value={item.id}>
-                        {item.appName}
-                      </Select.Option>
-                    ))
-                  }
+
                 </Select>
               )
             }
@@ -54,13 +40,6 @@ export default Form.create({})({
             {
               this.form.getFieldDecorator('appId')(
                 <Select placeholder="请选择状态" allowClear>
-                  {
-                    this.allSiteApps.map(item => (
-                      <Select.Option value={item.id}>
-                        {item.appName}
-                      </Select.Option>
-                    ))
-                  }
                 </Select>
               )
             }

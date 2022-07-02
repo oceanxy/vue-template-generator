@@ -19,41 +19,47 @@
     }
 
     .fill-info-amount-due-container {
-      .fee-item {
-        display: flex;
+      width: 100%;
+
+      .fee-item-container {
+        display: grid;
+        grid-template-columns: 114px 160px 1fr 220px;
         gap: 10px;
         align-items: center;
 
-        .ant-checkbox-wrapper {
-          width: 120px;
-          padding: 10px 0;
-        }
-
-        & > div {
+        .fee-item {
           background: #f2f7fc;
           padding: 0 10px;
           height: 32px;
           margin: 6px 0;
-          min-width: 170px;
           display: flex;
           align-items: center;
 
-          span {
-            &:first-child {
-              color: #c0c0c0;
-            }
+          .label {
+            width: 60px;
+            color: #c0c0c0;
+            flex: none;
 
-            &:last-child {
-              margin-left: 12px;
-            }
-
-            &.total {
-              color: #fa8c16;
+            &.preferential {
+              width: 30px;
             }
           }
 
+          .value {
+            margin-left: 12px;
+            flex: auto;
+          }
+
+          .select {
+            width: 20px;
+          }
+
+          .total {
+            color: #fa8c16;
+            overflow: hidden;
+          }
+
           .ant-select {
-            width: 160px;
             margin-left: 12px;
 
             .ant-select-selection {
@@ -66,5 +72,17 @@
         }
       }
     }
+  }
+}
+
+.modal-of-choose-venue {
+  .ant-modal-body {
+    padding: 24px;
+  }
+
+  .bnm-alert-info {
+    margin-bottom: 17px !important;
+    border: 1px solid #9bcbff !important;
+    border-radius: 2px;
   }
 }

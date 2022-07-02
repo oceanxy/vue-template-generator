@@ -1,73 +1,103 @@
 import './index.scss'
 import { Table } from 'ant-design-vue'
-import forTable from '@/mixins/forTable'
+import { mapGetters } from 'vuex'
 
 export default {
-  mixins: [forTable()],
+  model: {
+    prop: 'value',
+    event: 'change'
+  },
+  inject: ['moduleName', 'submoduleName'],
+  props: {
+    value: {
+      type: Array,
+      default: () => []
+    }
+  },
   data() {
     return {
       tableProps: {
         columns: [
           {
-            title: '中心',
-            dataIndex: ''
+            title: '楼栋',
+            dataIndex: 'buildName'
           },
           {
-            title: '楼栋',
-            dataIndex: 'appName'
+            title: '楼层',
+            dataIndex: 'floorName'
           },
           {
             title: '房间',
-            dataIndex: 'remark'
+            dataIndex: 'roomNo'
           },
           {
             title: '面积（㎡）',
             align: 'center',
-            dataIndex: 'zz'
+            dataIndex: 'roomArea'
           },
           {
             title: '装修',
-            align: 'center',
-            dataIndex: 'xx'
+            dataIndex: 'renovationStatusStr'
           },
           {
             title: '配套详情',
-            align: 'center',
-            dataIndex: 'ccC'
+            dataIndex: 'supportFacility'
           }
         ],
-        rowSelection: null
+        rowKey: 'id',
+        tableLayout: 'fixed',
+        dataSource: [],
+        pagination: false,
+        scroll: {},
+        size: 'middle'
       }
     }
   },
+  computed: {
+    ...mapGetters({ getState: 'getState' }),
+    loading() {
+      return this.getState('loading', this.moduleName, this.submoduleName)
+    },
+    hatcheries() {
+      return this.getState('list', this.moduleName, this.submoduleName)
+    }
+  },
+  watch: {
+    value: {
+      immediate: true,
+      async handler(value) {
+        if (value.length) {
+          this.tableProps.dataSource = this.hatcheries
+        } else {
+          this.tableProps.dataSource = []
+        }
+      }
+    }
+  },
+  created() {
+    this.$watch(
+      () => this.$store.state[this.moduleName][this.submoduleName].list,
+      value => {
+        this.tableProps.dataSource = value
+        this.$emit('change', value.map(item => item.id))
+      }
+    )
+  },
   methods: {
-    onReSignClick(record) {
-      this.$router.push({ name: 'signingProcess' })
+    async onReSignClick() {
+      await this.$router.push({ name: 'signingProcess' })
     }
   },
   render() {
     const attributes = {
       props: {
         ...this.tableProps,
-        loading: this.getLoading(this.moduleName)
+        loading: this.loading
       }
     }
 
     return (
-      <Table
-        ref={`${this.moduleName}Table`}
-        {...attributes}
-        {...{
-          scopedSlots: {
-            // status: (text, record) => (
-            //   <Switch
-            //     checked={+record.status === 1}
-            //     onChange={checked => this.onStatusChange(checked, record)}
-            //   />
-            // ),
-          }
-        }}
-      />
+      <Table ref={`${this.moduleName}Table`} {...attributes} />
     )
   }
 }

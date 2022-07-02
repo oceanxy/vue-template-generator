@@ -18,12 +18,8 @@ export default Form.create({})({
   },
   computed: {
     ...mapGetters({
-      getCurrentItem: 'getCurrentItem',
       getState: 'getState'
     }),
-    currentItem() {
-      return this.getCurrentItem(this.moduleName)
-    },
     list() {
       return this.getState('list', this.moduleName, this.submoduleName)
     },

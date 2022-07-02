@@ -7,8 +7,6 @@ export default {
    */
   toHump(name) {
     return name.replace(/-(\w)/g, (all, letter) => {
-      console.log(all) //"_T"
-      console.log(letter) //"T"
       return letter.toUpperCase()
     })
   },

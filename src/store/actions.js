@@ -55,7 +55,12 @@ export default {
    * @param stateName {string} 需要设置的字段，默认 state.list
    * @returns {Promise<void>}
    */
-  async getList({ state, commit }, { moduleName, submoduleName, additionalQueryParameters = {}, stateName }) {
+  async getList({ state, commit }, {
+    moduleName,
+    submoduleName,
+    additionalQueryParameters = {},
+    stateName
+  }) {
     commit('setLoading', { value: true, moduleName, submoduleName })
 
     let response
@@ -125,6 +130,8 @@ export default {
     }
 
     commit('setLoading', { value: false, moduleName, submoduleName })
+
+    return response.status
   },
   /**
    * 获取详情数据
@@ -132,19 +139,32 @@ export default {
    * @param commit
    * @param moduleName {string} 模块名
    * @param submoduleName {string} 子模块名
-   * @param additionalQueryParameters {Object} 附加查询参数。例如分页相关参数，中心ID等。
+   * @param payload {Object} 查询参数
    * @param stateName {string} 需要设置的字段，默认 state.details
    * @returns {Promise<void>}
    */
-  async getDetails({ state, commit }, { moduleName, submoduleName, additionalQueryParameters = {}, stateName }) {
+  async getDetails({ state, commit }, {
+    moduleName,
+    submoduleName,
+    payload = {},
+    stateName
+  }) {
     commit('setLoading', { value: true, moduleName, submoduleName })
 
-    const query = {
-      ...state[moduleName].currentItem,
-      ...additionalQueryParameters
+    let api = 'getDetails'
+
+    if (!config.mock) {
+      api = `getDetailsOf${
+        UF.firstLetterToUppercase(moduleName)
+      }${
+        submoduleName
+          ? UF.firstLetterToUppercase(submoduleName)
+          : ''
+      }`
     }
-    const api = !config.mock ? `getDetailsOf${UF.firstLetterToUppercase(moduleName)}` : 'getDetails'
-    const res = await apis[api](query)
+
+    const res = await apis[api](payload)
+
     if (res.status) {
       commit('setDetails', { value: res.data, moduleName, submoduleName, stateName })
     }

@@ -25,7 +25,6 @@ export default {
   methods: {
     async onClick(e) {
       const floorId = e.target.id
-      console.log(e.target)
 
       await this.$store.dispatch('setSearch', {
         moduleName: this.moduleName,

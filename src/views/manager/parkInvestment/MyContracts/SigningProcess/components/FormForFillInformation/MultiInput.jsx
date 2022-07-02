@@ -1,5 +1,6 @@
 import './index.scss'
-import { Button, Input, Table } from 'ant-design-vue'
+import { Button, Table, TreeSelect } from 'ant-design-vue'
+import { cloneDeep } from 'lodash'
 
 export default {
   model: {
@@ -10,16 +11,8 @@ export default {
     return {
       columns: [
         {
-          title: '中心',
-          scopedSlots: { customRender: 'allPath' }
-        },
-        {
-          title: '楼栋',
-          scopedSlots: { customRender: 'remark' }
-        },
-        {
-          title: '房号',
-          scopedSlots: { customRender: 'remark2' }
+          title: '孵化场所',
+          scopedSlots: { customRender: 'hatcheryId' }
         },
         {
           title: <Button icon={'plus'} onClick={this.onCreateRow} />,
@@ -35,6 +28,10 @@ export default {
     value: {
       type: Array,
       default: () => []
+    },
+    hatcheryTree: {
+      type: Array,
+      default: () => []
     }
   },
   watch: {
@@ -42,10 +39,10 @@ export default {
       immediate: true,
       handler(value) {
         if (value.length) {
-          this.dataSource = value.map(item => {
-            item.id = Math.random()
-            return item
-          })
+          this.dataSource = value.map(item => ({
+            id: item,
+            value: item
+          }))
         } else {
           this.dataSource = []
           this.onCreateRow()
@@ -60,26 +57,17 @@ export default {
     },
     onCreateRow() {
       const row = {
-        allPath: '',
-        remark: '',
-        id: Math.random()
+        id: Math.random(),
+        value: undefined
       }
 
       this.dataSource.push(row)
     },
     onChange() {
-      this.$emit('change', this.dataSource)
+      this.$emit('change', cloneDeep(this.dataSource).map(item => item.value))
     }
   },
   render() {
-    // const attr = {
-    //   props: {
-    //     ...omit(this.$props, 'value'),
-    //     ...this.$attrs
-    //   },
-    //   on: this.$listeners
-    // }
-
     return (
       <div class="tg-multi-input">
         <Table
@@ -89,27 +77,20 @@ export default {
           pagination={false}
           rowKey="id"
           tableLayout={'fixed'}
+          size={'middle'}
           {...{
             scopedSlots: {
-              allPath: (text, record) => (
-                <Input
-                  vModel={record.allPath}
-                  placeholder="请输入完整路径"
-                  onBlur={this.onChange}
-                />
-              ),
-              remark: (text, record) => (
-                <Input
-                  vModel={record.remark}
-                  placeholder="请输入备注"
-                  onBlur={this.onChange}
-                />
-              ),
-              remark2: (text, record) => (
-                <Input
-                  vModel={record.remark}
-                  placeholder="请输入备注"
-                  onBlur={this.onChange}
+              hatcheryId: (text, record) => (
+                <TreeSelect
+                  vModel={record.value}
+                  showSearch
+                  allowClear
+                  dropdownClassName={'bnm-select-dropdown'}
+                  treeData={this.hatcheryTree}
+                  replaceFields={{ children: 'children', title: 'name', key: 'id', value: 'id' }}
+                  searchPlaceholder={'请输入关键字以搜索'}
+                  placeholder={'请选择孵化场所'}
+                  onChange={this.onChange}
                 />
               ),
               operation: (text, record) => (

@@ -7,7 +7,12 @@ export default {
    * @param submoduleName {string}
    * @param customizeLoading {string} 自定义loading字段名
    */
-  setLoading(state, { value, moduleName, submoduleName, customizeLoading }) {
+  setLoading(state, {
+    value,
+    moduleName,
+    submoduleName,
+    customizeLoading
+  }) {
     if (submoduleName) {
       state[moduleName][submoduleName][customizeLoading || 'loading'] = value
     } else {
@@ -93,7 +98,12 @@ export default {
    * @param submoduleName {string}
    * @param stateName {string} 需要设置的字段，默认 state.list
    */
-  setList(state, { value, moduleName, submoduleName, stateName }) {
+  setList(state, {
+    value = [],
+    moduleName,
+    submoduleName,
+    stateName
+  }) {
     if (!submoduleName) {
       state[moduleName][stateName || 'list'] = value
     } else {
@@ -108,7 +118,12 @@ export default {
    * @param submoduleName {string}
    * @param stateName {string} 需要设置的字段，默认 state.details
    */
-  setDetails(state, { value, moduleName, submoduleName, stateName }) {
+  setDetails(state, {
+    value,
+    moduleName,
+    submoduleName,
+    stateName
+  }) {
     if (!submoduleName) {
       state[moduleName][stateName || 'details'] = value
     } else {

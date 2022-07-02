@@ -133,7 +133,7 @@ export default {
       }
     },
     onDragEnter(info) {
-      console.log(info)
+      // console.log(info)
       // expandedKeys 需要受控时设置
       // this.expandedKeys = info.expandedKeys
     },

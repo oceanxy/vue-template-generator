@@ -1,23 +1,62 @@
 import './assets/styles/index.scss'
-import BNContainer from '@/components/BNContainer'
+import { Spin } from 'ant-design-vue'
 import dynamicState from '@/mixins/dynamicState'
 import store, { dynamicModules } from '@/store/manager'
-import FormForContract from './components/FormForContract'
+import BNContainer from '@/components/BNContainer'
 import Navigation from './components/Navigation'
-import FormForSelectCompany from './components/FormForSelectCompany'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'SigningProcess',
   mixins: [dynamicState(store, dynamicModules)],
-  created() {
-    this.$store.dispatch('setCurrentItem', {
+  computed: {
+    ...mapGetters({
+      getState: 'getState'
+    }),
+    loading() {
+      return this.getState('loading', this.moduleName)
+    },
+    details() {
+      return this.getState('details', this.moduleName)
+    }
+  },
+  async created() {
+    await this.$store.dispatch('getDetails', {
       moduleName: this.moduleName,
-      value: {
-        step: 1 // 当前步骤，共四步
+      payload: {
+        id: this.$route.query.id
       }
     })
   },
+  methods: {
+    recoverySteps() {
+      let Component = {
+        // 注：此处 render 函数必须使用箭头函数，因为作用域问题
+        render: () => {
+          if (this.loading) {
+            return <Spin class={'signing-process-loading'}>正在加载签约流程，请稍等...</Spin>
+          } else {
+            return <Spin class={'signing-process-loading'} spinning={this.loading}>发生错误，加载签约流程失败！</Spin>
+          }
+        }
+      }
+
+      if (this.details.signingStage === 1) {
+        Component = require('./components/FormForSelectCompany')
+      } else if (this.details.signingStage === 2) {
+        Component = require('./components/FormForFillInformation')
+      } else if (this.details.signingStage === 3) {
+        Component = require('./components/FormForContract')
+      } else if (this.details.signingStage === 4) {
+        Component = require('./components/FormForResult')
+      }
+
+      return Component?.default ?? Component
+    }
+  },
   render() {
+    const Component = this.recoverySteps()
+
     return (
       <div class={'bnm-signing-process-container'}>
         <Navigation />
@@ -26,10 +65,7 @@ export default {
           contentClass={'signing-process-content'}
           showBoxShadow={false}
         >
-          <FormForSelectCompany />
-          {/*<FormForContract />*/}
-          {/*<FormForResult/>*/}
-          {/*<FormForFillInformation />*/}
+          <Component />
         </BNContainer>
       </div>
     )

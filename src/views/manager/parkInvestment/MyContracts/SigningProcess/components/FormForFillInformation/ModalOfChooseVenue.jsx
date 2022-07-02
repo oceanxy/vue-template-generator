@@ -1,12 +1,14 @@
 import './index.scss'
-import { Form, Icon, Input, Switch, Upload } from 'ant-design-vue'
-import forFormModal from '@/mixins/forModal/forFormModal'
-import { mapState } from 'vuex'
+import { Alert, Form } from 'ant-design-vue'
 import DragModal from '@/components/DragModal'
 import MultiInput from './MultiInput'
+import forModal from '@/mixins/forModal'
+import { mapGetters } from 'vuex'
+import { dispatch } from '@/utils/store'
 
 export default Form.create({})({
-  mixins: [forFormModal()],
+  inject: ['submoduleName'],
+  mixins: [forModal()],
   props: {
     /**
      * 标题（可定义占位符）
@@ -20,20 +22,44 @@ export default Form.create({})({
   data() {
     return {
       modalProps: {
-        width: 690,
+        width: 400,
         okText: '确认选择'
       },
       visibleField: 'visibleOfChooseVenue'
     }
   },
-  computed: mapState({
-    allSiteApps: 'allSiteApps',
-    allFunctionalModules: 'allFunctionalModules'
-  }),
+  computed: {
+    ...mapGetters({ getState: 'getState' }),
+    hatcheryIds() {
+      return this.getState('list', this.moduleName, this.submoduleName).map(item => item.id)
+    },
+    hatcheryTree() {
+      return this.getState('hatcheryTree', this.moduleName, this.submoduleName)
+    }
+  },
   watch: {
     async visible(value) {
       if (value) {
-        // await this.$store.dispatch('getAllFunctionalModules')
+        await dispatch(this.moduleName, 'getHatcheryTree', { id: this.$route.query.id })
+      }
+    }
+  },
+  methods: {
+    onClose() {
+      this.onCancel(this.visibleField)
+      this.form.setFieldsValue({ hatcheryIds: [] })
+    },
+    async onSubmit() {
+      const status = await this.$store.dispatch('getList', {
+        moduleName: this.moduleName,
+        submoduleName: this.submoduleName,
+        additionalQueryParameters: {
+          ids: this.form.getFieldValue('hatcheryIds').join()
+        }
+      })
+
+      if (status) {
+        this.onClose()
       }
     }
   },
@@ -41,24 +67,27 @@ export default Form.create({})({
     const attributes = {
       attrs: this.modalProps,
       on: {
-        cancel: () => this.onCancel(this.visibleField),
-        ok: this.onSubmit
+        cancel: this.onClose,
+        ok: () => this.onSubmit()
       }
     }
 
     return (
-      <DragModal {...attributes} class={'bnm-team-edit-modal'}>
-        <div>不同中心考核形式不同，请谨慎选择</div>
-        <Form
-          class="bnm-team-edit-form"
-          colon={false}
-        >
+      <DragModal {...attributes} class={'modal-of-choose-venue'}>
+        <Alert
+          message="不同中心考核形式不同，请谨慎选择"
+          banner
+          closable
+          type={'info'}
+          class={'bnm-alert-info'}
+        />
+        <Form colon={false}>
           <Form.Item>
             {
-              this.form.getFieldDecorator('members', {
-                initialValue: this.currentItem.members
+              this.form.getFieldDecorator('hatcheryIds', {
+                initialValue: this.hatcheryIds
               })(
-                <MultiInput />
+                <MultiInput hatcheryTree={this.hatcheryTree} />
               )
             }
           </Form.Item>

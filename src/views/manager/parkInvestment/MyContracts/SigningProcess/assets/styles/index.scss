@@ -18,6 +18,18 @@
       @include container-border-radius;
       box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.02);
       background: #ffffff;
+
+      .signing-process-loading {
+        height: 100%;
+
+        .ant-spin-container {
+          height: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          font-size: 24px;
+        }
+      }
     }
   }
 }

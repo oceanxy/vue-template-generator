@@ -55,8 +55,8 @@ export default {
     }
   },
   methods: {
-    onReSignClick(record) {
-      this.$router.push({ name: 'signingProcess' })
+    async onReSignClick(record) {
+      await this.$router.push({ name: 'signingProcess', query: { id: record.id } })
     }
   },
   render() {
