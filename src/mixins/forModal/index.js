@@ -23,7 +23,7 @@ export default customModuleName => {
           confirmLoading: false,
           width: 600,
           style: {
-            overflow: 'auto',
+            overflow: 'auto'
             // maxHeight: 'calc(90vh - 100px)'
           }
         }
@@ -31,14 +31,13 @@ export default customModuleName => {
     },
     computed: {
       ...mapGetters({
-        getVisibleFromStore: 'getVisible',
-        getCurrentItem: 'getCurrentItem'
+        getState: 'getState'
       }),
       currentItem() {
-        return this.getCurrentItem(this.moduleName)
+        return this.getState('currentItem', this.moduleName)
       },
       visible() {
-        return this.getVisibleFromStore(this.moduleName, this.visibleField)
+        return this.getState(this.visibleField, this.moduleName, this.submoduleName)
       }
     },
     watch: {
@@ -64,7 +63,8 @@ export default customModuleName => {
           'setModalVisible',
           {
             statusField: visibleField,
-            statusValue: false
+            statusValue: false,
+            submoduleName: this.submoduleName
           },
           { root: true }
         )

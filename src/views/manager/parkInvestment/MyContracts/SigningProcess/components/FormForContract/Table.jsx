@@ -1,55 +1,85 @@
 import './index.scss'
 import { Table } from 'ant-design-vue'
-import forTable from '@/mixins/forTable'
+import { mapGetters } from 'vuex'
 
 export default {
-  mixins: [forTable()],
+  inject: ['moduleName', 'submoduleName'],
   data() {
     return {
       tableProps: {
         columns: [
           {
             title: '费项',
-            dataIndex: ''
+            width: 200,
+            dataIndex: 'itemName'
           },
           {
             title: '费项说明',
-            dataIndex: 'appName'
+            dataIndex: 'description'
           },
           {
             title: '单价',
-            dataIndex: 'remark'
+            width: 200,
+            dataIndex: 'unitAmount'
           },
           {
             title: '计费方式',
-            align: 'center',
-            dataIndex: 'zz'
+            width: 200,
+            dataIndex: 'priceWay'
           },
           {
             title: '优惠',
-            align: 'center',
-            dataIndex: 'xx'
+            width: 200,
+            dataIndex: 'saleAmount'
           },
           {
             title: '小计',
-            align: 'center',
-            dataIndex: 'ccC'
+            width: 200,
+            dataIndex: 'totalAmount'
           }
         ],
-        rowSelection: null
+        rowSelection: null,
+        rowKey: 'id',
+        tableLayout: 'fixed',
+        dataSource: [],
+        pagination: false,
+        scroll: {},
+        size: 'middle'
       }
     }
   },
-  methods: {
-    onReSignClick(record) {
-      this.$router.push({ name: 'signingProcess' })
+  computed: {
+    ...mapGetters({ getState: 'getState' }),
+    loading() {
+      return this.getState('loading', this.moduleName, this.submoduleName)
+    },
+    data() {
+      return this.getState('data', this.moduleName, this.submoduleName)
     }
   },
+  created() {
+    this.$watch(
+      () => this.$store.state[this.moduleName][this.submoduleName].data,
+      data => {
+        this.tableProps.dataSource = data.itemList || []
+      }
+    )
+
+    this.$store.dispatch('getList', {
+      moduleName: this.moduleName,
+      submoduleName: this.submoduleName,
+      stateName: 'data',
+      additionalQueryParameters: {
+        id: this.$route.query.id
+      }
+    })
+  },
+  methods: {},
   render() {
     const attributes = {
       props: {
         ...this.tableProps,
-        loading: this.getLoading(this.moduleName)
+        loading: this.loading
       }
     }
 
@@ -59,16 +89,10 @@ export default {
         {...attributes}
         {...{
           scopedSlots: {
-            // status: (text, record) => (
-            //   <Switch
-            //     checked={+record.status === 1}
-            //     onChange={checked => this.onStatusChange(checked, record)}
-            //   />
-            // ),
-            footer: record => (
+            footer: () => (
               <div class={'bnm-contract-confirmation-table-footer'}>
                 <span>费用汇总</span>
-                <span>¥116853.00/季度</span>
+                <span>{this.data.itemDescription}</span>
               </div>
             )
           }

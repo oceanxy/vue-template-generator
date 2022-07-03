@@ -1,21 +1,43 @@
 import './index.scss'
-import { Button, Form } from 'ant-design-vue'
-import forInquiry from '@/mixins/forInquiry'
+import { Button, Form, Space } from 'ant-design-vue'
 import { mapGetters } from 'vuex'
 import BNContainer from '@/components/BNContainer'
 import Table from './Table'
+import forModuleName from '@/mixins/forModuleName'
+import ModalOfChooseContractTemplate from './ModalOfChooseContractTemplate'
 
 export default Form.create({})({
-  mixins: [forInquiry()],
+  name: 'SigningProcess-Contract',
+  inject: ['moduleName'],
+  mixins: [forModuleName(true)],
+  data() {
+    return {}
+  },
   computed: {
     ...mapGetters({
-      getCurrentItem: 'getCurrentItem'
+      getState: 'getState'
     }),
-    currentItem() {
-      return this.getCurrentItem(this.moduleName)
+    data() {
+      return this.getState('data', this.moduleName, this.submoduleName)
+    },
+    contractTemplateSelected() {
+      return this.getState('selectedRows', this.moduleName, this.submoduleName) || []
+    }
+  },
+  methods: {
+    goBack() {
+      this.$store.commit('setDetails', {
+        moduleName: this.moduleName,
+        merge: true,
+        value: {
+          signingStage: 2
+        }
+      })
     }
   },
   render() {
+    console.log(this.contractTemplateSelected)
+
     return (
       <div class={'bnm-contract-confirmation-container'}>
         <BNContainer
@@ -24,8 +46,8 @@ export default Form.create({})({
           contentClass={'bnm-contract-confirmation-table-wrapper'}
           modalTitle={
             <div class={'bnm-contract-confirmation-title'}>
-              费用核算清单
-              <span>中心名称/楼栋名称/8701</span>
+              {this.data.billName}
+              <span>{this.data.roomName}</span>
             </div>
           }
         >
@@ -38,11 +60,23 @@ export default Form.create({})({
             <div>合同模版</div>
           }
         >
-          合同模版：<Button ghost type={'primary'}>选择</Button>
+          合同模版：
+          <span>{this.contractTemplateSelected.length ? this.contractTemplateSelected[0].templateName : ''}</span>
+          <Button
+            ghost
+            type={'primary'}
+            onClick={() => this._setVisibleOfModal({}, 'visibleOfChooseContractTemplate', this.submoduleName)}
+          >
+            {
+              this.contractTemplateSelected.length ? '重新选择' : '选择'
+            }
+          </Button>
         </BNContainer>
-        <div class={'bnm-contract-confirmation-btns'}>
-          <Button type={'primary'}>上一步</Button>
-        </div>
+        <Space class={'bnm-contract-confirmation-btns'}>
+          <Button onClick={this.goBack}>上一步</Button>
+          <Button type={'primary'}>预览合同</Button>
+        </Space>
+        <ModalOfChooseContractTemplate modalTitle={'选择合同模版'} />
       </div>
     )
   }

@@ -72,7 +72,7 @@ export default Form.create({})({
     }
 
     return (
-      <DragModal {...attributes} class={'modal-of-choose-venue'}>
+      <DragModal {...attributes} class={'bnm-table-modal modal-of-choose-venue'}>
         <Alert
           message="不同中心考核形式不同，请谨慎选择"
           banner

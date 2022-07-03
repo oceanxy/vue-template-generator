@@ -22,7 +22,11 @@ export default {
      */
     async _dispatch(action, payload, optional) {
       if (optional.root) {
-        await this.$store.dispatch(action, { ...payload, moduleName: this.moduleName })
+        await this.$store.dispatch(action, {
+          ...payload,
+          moduleName: this.moduleName,
+          submoduleName: payload.submoduleName
+        })
       } else {
         await dispatch(this.moduleName, action, payload)
       }
@@ -34,9 +38,10 @@ export default {
      * @param [record] {Object} 当前用于操作的数据。编辑弹窗为回显数据，详情弹窗为详情数据，为假值时代表清空 currentItem
      * @param [visibleField] {string} 默认值为打开编辑弹窗的可见性控制字段：visibleOfEdit
      * @param [moduleName] {string} 目标模块名，在一个模块内调用另外一个模块的 state 时，需要传递对应模块的 moduleName
+     * @param [submoduleName] {string} 子模块模块名，依赖 moduleName
      * @returns {Promise<void>}
      */
-    async _setVisibleOfModal(record, visibleField, moduleName) {
+    async _setVisibleOfModal(record, visibleField, submoduleName, moduleName) {
       await this.$store.dispatch('setCurrentItem', {
         value: record,
         moduleName: this.moduleName
@@ -45,7 +50,9 @@ export default {
       await this.$store.dispatch('setModalVisible', {
         statusField: visibleField,
         statusValue: true,
-        moduleName: moduleName || this.moduleName
+        moduleName: moduleName || this.moduleName,
+        // 子模块只能通过传参获取，不然会造成bug
+        submoduleName: submoduleName
       })
     }
   }

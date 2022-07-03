@@ -346,12 +346,14 @@ export default {
    * @param [statusField] {string} store里要设置的状态字段名称
    * @param statusValue {*} store里要设置的状态字段对应的值
    * @param moduleName {string} 要设置的状态所在的store模块的名称
+   * @param submoduleName {string} 要设置的状态所在的store子模块的名称，依赖 moduleName
    */
-  setModalVisible({ commit }, { statusField, statusValue, moduleName }) {
+  setModalVisible({ commit }, { statusField, statusValue, moduleName, submoduleName }) {
     commit('setModalVisible', {
       field: statusField || 'visibleOfEdit',
       value: statusValue,
-      moduleName: moduleName
+      moduleName,
+      submoduleName
     })
   },
   /**
@@ -367,10 +369,15 @@ export default {
    * 设置选中的行（主要用于批量操作）
    * @param commit
    * @param state
-   * @param moduleName {string}
    * @param payload {{selectedRowKeys: string[], selectedRows: Object[]}}
+   * @param moduleName {string}
+   * @param [submoduleName] {string}
    */
-  setRowSelected({ commit, state }, { moduleName, payload }) {
-    commit('setRowSelected', { moduleName, payload })
+  setRowSelected({ commit, state }, {
+    moduleName,
+    submoduleName,
+    payload
+  }) {
+    commit('setRowSelected', { moduleName, submoduleName, payload })
   }
 }

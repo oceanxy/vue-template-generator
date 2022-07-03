@@ -180,6 +180,7 @@ export default () => ({
     async onRowSelectionChange(selectedRowKeys, selectedRows) {
       await this.$store.dispatch('setRowSelected', {
         moduleName: this.moduleName,
+        submoduleName: this.submoduleName,
         payload: {
           selectedRowKeys,
           selectedRows

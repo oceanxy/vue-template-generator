@@ -115,5 +115,96 @@ export default {
       method: 'post',
       data
     })
+  },
+  /**
+   * 获取费用核算清单
+   * @param request
+   * @param data
+   * @returns {*}
+   */
+  getContractOfSigningProcess(request, data) {
+    return request({
+      url: '/business/companyContract/getContractItemList',
+      method: 'post',
+      data: qs.stringify(data)
+    })
+  },
+  /**
+   * 获取合同模版列表
+   * @param request
+   * @param data
+   * @returns {*}
+   */
+  getContractTemplates(request, data) {
+    return request({
+      url: '/business/companyContract/getContractTemplateList',
+      method: 'post',
+      data: qs.stringify(data)
+    })
+  },
+  /**
+   * 获取合同模版预览
+   * @param request
+   * @param data
+   * @returns {*}
+   */
+  getPreviewOfContractTemplate(request, data) {
+    return request({
+      url: '/business/companyContract/getTemplatePreview',
+      method: 'post',
+      data: qs.stringify(data)
+    })
+  },
+  /**
+   * 获取合同预览
+   * @param request
+   * @param data
+   * @returns {*}
+   */
+  getContractPreview(request, data) {
+    return request({
+      url: '/business/companyContract/getContractTemplatePreview',
+      method: 'post',
+      data: qs.stringify(data)
+    })
+  },
+  /**
+   * 提交合同第三步
+   * @param request
+   * @param data
+   * @returns {*}
+   */
+  step3OfSubmitContract(request, data) {
+    return request({
+      url: '/business/companyContract/addAuditCompanyContract',
+      method: 'post',
+      data: qs.stringify(data)
+    })
+  },
+  /**
+   * 获取合同审核结果
+   * @param request
+   * @param data
+   * @returns {*}
+   */
+  getResultOfContractReview(request, data) {
+    return request({
+      url: '/business/companyContract/getContractAuditResult',
+      method: 'post',
+      data: qs.stringify(data)
+    })
+  },
+  /**
+   * 获取最终签约合同的预览
+   * @param request
+   * @param data
+   * @returns {*}
+   */
+  getPreviewOfFinalContract(request, data) {
+    return request({
+      url: '/business/companyContract/getContractPreview',
+      method: 'post',
+      data: qs.stringify(data)
+    })
   }
 }

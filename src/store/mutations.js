@@ -65,10 +65,16 @@ export default {
    * @param [selectedRowKeys] {string[]}
    * @param [selectedRows] {Object[]}
    * @param moduleName {string}
+   * @param [submoduleName] {string}
    */
-  setRowSelected(state, { payload: { selectedRowKeys, selectedRows }, moduleName }) {
-    state[moduleName].selectedRowKeys = selectedRowKeys || []
-    state[moduleName].selectedRows = selectedRows || []
+  setRowSelected(state, { payload: { selectedRowKeys, selectedRows }, moduleName, submoduleName }) {
+    if (!submoduleName) {
+      state[moduleName].selectedRowKeys = selectedRowKeys || []
+      state[moduleName].selectedRows = selectedRows || []
+    } else {
+      state[moduleName][submoduleName].selectedRowKeys = selectedRowKeys || []
+      state[moduleName][submoduleName].selectedRows = selectedRows || []
+    }
   },
   /**
    * 设置分页信息
@@ -117,17 +123,25 @@ export default {
    * @param moduleName {string}
    * @param submoduleName {string}
    * @param stateName {string} 需要设置的字段，默认 state.details
+   * @param merge {boolean} 是否需要将新值与旧值合并，默认false
    */
   setDetails(state, {
     value,
     moduleName,
     submoduleName,
-    stateName
+    stateName,
+    merge
   }) {
     if (!submoduleName) {
-      state[moduleName][stateName || 'details'] = value
+      state[moduleName][stateName || 'details'] = merge ? {
+        ...state[moduleName][stateName || 'details'],
+        ...value
+      } : value
     } else {
-      state[moduleName][submoduleName][stateName || 'details'] = value
+      state[moduleName][submoduleName][stateName || 'details'] = merge ? {
+        ...state[moduleName][submoduleName][stateName || 'details'],
+        ...value
+      } : value
     }
   },
   /**
@@ -136,11 +150,16 @@ export default {
    * @param payload {{
    *   field: string,
    *   value: any,
-   *   moduleName: string
+   *   moduleName: string,
+   *   submoduleName: string
    * }} field: 对应modal的显示字段 value：要设置的值 moduleName:模块名称
    * @param moduleName {string}
    */
-  setModalVisible(state, { field, value, moduleName }) {
-    state[moduleName][field] = value
+  setModalVisible(state, { field, value, moduleName, submoduleName = '' }) {
+    if (!submoduleName) {
+      state[moduleName][field] = value
+    } else {
+      state[moduleName][submoduleName][field] = value
+    }
   }
 }

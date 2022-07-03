@@ -4,9 +4,6 @@ import { omit } from 'lodash'
 
 export default commitRootInModule => omit(
   createStoreModule({
-    state: {
-      visibleOfChooseVenue: false
-    },
     modules: {
       selectCompany: {
         state: {
@@ -39,6 +36,7 @@ export default commitRootInModule => omit(
         state: {
           loading: false,
           search: {},
+          visibleOfChooseVenue: false,
           list: [], // 已选择的孵化场所详细信息集合
           hatcheryTree: [] // 孵化场所树
         },
@@ -55,6 +53,15 @@ export default commitRootInModule => omit(
               commit('setHatcheryTree', response.data)
             }
           }
+        }
+      },
+      contract: {
+        state: {
+          loading: false,
+          data: {},
+          visibleOfChooseContractTemplate: false,
+          selectedRows: [],
+          selectedRowKeys: []
         }
       }
     }

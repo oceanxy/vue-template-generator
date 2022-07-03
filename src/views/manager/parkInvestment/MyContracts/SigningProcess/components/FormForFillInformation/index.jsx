@@ -151,7 +151,7 @@ export default Form.create({})({
               type={'primary'}
               ghost
               style={{ display: this.hatcheryIds.length || this.hasHatcheriesSelected ? 'none' : '' }}
-              onClick={() => this._setVisibleOfModal({}, 'visibleOfChooseVenue')}
+              onClick={() => this._setVisibleOfModal({}, 'visibleOfChooseVenue', this.submoduleName)}
             >
               选择孵化场所
             </Button>
@@ -171,7 +171,7 @@ export default Form.create({})({
                 <Button
                   type={'primary'}
                   ghost
-                  onClick={() => this._setVisibleOfModal({}, 'visibleOfChooseVenue')}
+                  onClick={() => this._setVisibleOfModal({}, 'visibleOfChooseVenue', this.submoduleName)}
                 >
                   重新选择孵化场所
                 </Button>
@@ -181,7 +181,7 @@ export default Form.create({})({
           <Form.Item label="缴费周期">
             {
               this.form.getFieldDecorator('costCycle', {
-                initialValue: this.details.costCycle || undefined,
+                initialValue: this.details.costCycle ? String(this.details.costCycle) : undefined,
                 rules: [{ required: true, message: '请选择缴费周期！', trigger: 'change' }]
               })(
                 <Select placeholder={'输入选择缴费周期'}>
