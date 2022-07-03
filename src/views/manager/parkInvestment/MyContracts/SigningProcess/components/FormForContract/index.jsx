@@ -5,6 +5,7 @@ import BNContainer from '@/components/BNContainer'
 import Table from './Table'
 import forModuleName from '@/mixins/forModuleName'
 import ModalOfChooseContractTemplate from './ModalOfChooseContractTemplate'
+import ModalOfPreviewContract from './ModalOfPreviewContract'
 
 export default Form.create({})({
   name: 'SigningProcess-Contract',
@@ -22,6 +23,9 @@ export default Form.create({})({
     },
     contractTemplateSelected() {
       return this.getState('selectedRows', this.moduleName, this.submoduleName) || []
+    },
+    templateId() {
+      return this.getState('selectedRowKeys', this.moduleName, this.submoduleName)[0]
     }
   },
   methods: {
@@ -33,11 +37,14 @@ export default Form.create({})({
           signingStage: 2
         }
       })
+    },
+    async onPreviewContract() {
+      if (this.templateId) {
+        await this._setVisibleOfModal({}, 'visibleOfPreviewContract', this.submoduleName)
+      }
     }
   },
   render() {
-    console.log(this.contractTemplateSelected)
-
     return (
       <div class={'bnm-contract-confirmation-container'}>
         <BNContainer
@@ -61,7 +68,13 @@ export default Form.create({})({
           }
         >
           合同模版：
-          <span>{this.contractTemplateSelected.length ? this.contractTemplateSelected[0].templateName : ''}</span>
+          <span>
+            {
+              this.contractTemplateSelected.length
+                ? this.contractTemplateSelected[0].templateName
+                : ''
+            }
+          </span>
           <Button
             ghost
             type={'primary'}
@@ -74,9 +87,16 @@ export default Form.create({})({
         </BNContainer>
         <Space class={'bnm-contract-confirmation-btns'}>
           <Button onClick={this.goBack}>上一步</Button>
-          <Button type={'primary'}>预览合同</Button>
+          <Button
+            type={'primary'}
+            onClick={this.onPreviewContract}
+            disabled={!this.templateId}
+          >
+            预览合同
+          </Button>
         </Space>
         <ModalOfChooseContractTemplate modalTitle={'选择合同模版'} />
+        <ModalOfPreviewContract modalTitle={'合同预览'} />
       </div>
     )
   }

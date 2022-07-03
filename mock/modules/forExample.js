@@ -82,6 +82,14 @@ export default {
       ]
     }
   },
+  '/getDetails': {
+    status: true,
+    code: 10000,
+    message: '',
+    data: {
+      signingStage: 3 // 签约流程步骤控制字段
+    }
+  },
   '/updateStatus': {
     status: true,
     code: 10000,

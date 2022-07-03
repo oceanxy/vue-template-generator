@@ -60,6 +60,7 @@ export default commitRootInModule => omit(
           loading: false,
           data: {},
           visibleOfChooseContractTemplate: false,
+          visibleOfPreviewContract: false,
           selectedRows: [],
           selectedRowKeys: []
         }
