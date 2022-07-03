@@ -18,5 +18,12 @@ export default {
       method: 'post',
       data: data
     })
+  },
+  getDetails(request, data) {
+    return request({
+      url: '/getDetails',
+      method: 'post',
+      data: data
+    })
   }
 }

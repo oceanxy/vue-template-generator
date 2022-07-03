@@ -165,7 +165,8 @@ export default {
     return request({
       url: '/business/companyContract/getContractTemplatePreview',
       method: 'post',
-      data: qs.stringify(data)
+      data: qs.stringify(data),
+      responseType: 'blob'
     })
   },
   /**

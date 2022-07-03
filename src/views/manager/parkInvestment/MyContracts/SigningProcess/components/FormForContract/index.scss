@@ -52,3 +52,12 @@
     }
   }
 }
+
+.bnm-preview-container-container {
+  display: flex;
+  width: 100%;
+
+  .btn {
+    margin-left: auto;
+  }
+}
