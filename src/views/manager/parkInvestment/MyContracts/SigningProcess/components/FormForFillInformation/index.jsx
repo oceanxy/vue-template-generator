@@ -106,7 +106,7 @@ export default Form.create({})({
       }
 
       if ('feePayableIds' in temp) {
-        temp.itemList = this.feesPayableByCompany.find(feeItem => temp.feePayableIds.includes(feeItem.id))
+        temp.itemList = this.feesPayableByCompany.filter(feeItem => temp.feePayableIds.includes(feeItem.id))
 
         temp = omit(temp, 'feePayableIds')
       }
