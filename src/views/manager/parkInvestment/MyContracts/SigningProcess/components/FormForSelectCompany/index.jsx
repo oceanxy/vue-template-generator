@@ -13,6 +13,7 @@ export default Form.create({})({
   mixins: [forModuleName(true)],
   data() {
     return {
+      loading: false,
       companyInfoSelected: {}
     }
   },
@@ -85,9 +86,21 @@ export default Form.create({})({
       e?.preventDefault()
       this.form.validateFields(async (err, values) => {
         if (!err) {
-          const payload = this.transformValue(values)
+          this.loading = true
 
-          await apis.step1OfSubmitContract(payload)
+          const payload = this.transformValue(values)
+          const response = await apis.step1OfSubmitContract(payload)
+
+          this.loading = false
+
+          if (response.status) {
+            await this.$store.dispatch('getDetails', {
+              moduleName: this.moduleName,
+              payload: {
+                id: this.$route.query.id
+              }
+            })
+          }
         }
       })
     }
@@ -193,7 +206,7 @@ export default Form.create({})({
           }
         </Form.Item>
         <Form.Item label={' '}>
-          <Button type="primary" html-type="submit">下一步</Button>
+          <Button type="primary" html-type="submit" loading={this.loading}>下一步</Button>
         </Form.Item>
       </Form>
     )

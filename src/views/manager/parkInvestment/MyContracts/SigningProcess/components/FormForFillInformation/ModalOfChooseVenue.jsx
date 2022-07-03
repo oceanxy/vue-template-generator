@@ -1,7 +1,6 @@
 import './index.scss'
-import { Alert, Form } from 'ant-design-vue'
+import { Alert, Form, TreeSelect } from 'ant-design-vue'
 import DragModal from '@/components/DragModal'
-import MultiInput from './MultiInput'
 import forModal from '@/mixins/forModal'
 import { mapGetters } from 'vuex'
 import { dispatch } from '@/utils/store'
@@ -87,7 +86,16 @@ export default Form.create({})({
               this.form.getFieldDecorator('hatcheryIds', {
                 initialValue: this.hatcheryIds
               })(
-                <MultiInput hatcheryTree={this.hatcheryTree} />
+                <TreeSelect
+                  showSearch
+                  allowClear
+                  multiple
+                  dropdownClassName={'bnm-select-dropdown'}
+                  treeData={this.hatcheryTree}
+                  replaceFields={{ children: 'children', title: 'name', key: 'id', value: 'id' }}
+                  searchPlaceholder={'请输入关键字以搜索'}
+                  placeholder={'请选择孵化场所'}
+                />
               )
             }
           </Form.Item>

@@ -6,11 +6,15 @@
     .fill-info-hatchery-container {
       display: flex;
       flex-direction: column;
+      gap: 10px;
       height: auto;
 
       .fill-info-hatchery-table {
-        height: 300px;
         flex: auto;
+
+        .ant-table {
+          height: unset;
+        }
       }
 
       .ant-btn {

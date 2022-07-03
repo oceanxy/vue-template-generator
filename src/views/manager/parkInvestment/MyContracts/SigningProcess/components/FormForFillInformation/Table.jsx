@@ -20,23 +20,30 @@ export default {
         columns: [
           {
             title: '楼栋',
+            width: 100,
             dataIndex: 'buildName'
           },
           {
             title: '楼层',
+            width: 60,
+            align: 'center',
             dataIndex: 'floorName'
           },
           {
             title: '房间',
+            width: 100,
+            align: 'center',
             dataIndex: 'roomNo'
           },
           {
             title: '面积（㎡）',
             align: 'center',
+            width: 160,
             dataIndex: 'roomArea'
           },
           {
             title: '装修',
+            width: 100,
             dataIndex: 'renovationStatusStr'
           },
           {
@@ -48,7 +55,6 @@ export default {
         tableLayout: 'fixed',
         dataSource: [],
         pagination: false,
-        scroll: {},
         size: 'middle'
       }
     }
