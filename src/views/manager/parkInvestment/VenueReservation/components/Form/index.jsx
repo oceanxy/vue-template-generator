@@ -90,7 +90,6 @@ export default Form.create({})({
               rules: [{ required: true, message: '请选择预定期限时间范围!', trigger: 'change' }]
             })(
               <DatePicker.RangePicker
-                placeholder={'请选择所属中心'}
                 style={{ width: '100%' }}
               />
             )

@@ -52,7 +52,7 @@ export default {
                       ]
                       : (
                         <div class="bnm-meeting-room-btns">
-                          <Button ghost onClick={() => this.onVenueReservation(item.id)}>场地预定</Button>
+                          {/*<Button ghost onClick={() => this.onVenueReservation(item.id)}>场地预定</Button>*/}
                           <Button ghost onClick={() => this.onSigningProcess(item.id)}>客户签约</Button>
                         </div>
                       )

@@ -5,7 +5,8 @@ import store, { dynamicModules } from '@/store/manager'
 import { mapGetters } from 'vuex'
 
 export default {
-  mixins: [dynamicState(store, dynamicModules, 'venueReservation', false)],
+  name: 'VenueReservation',
+  mixins: [dynamicState(store, dynamicModules)],
   computed: {
     ...mapGetters({
       listOfAccountApplicationRecord: 'listOfAccountApplicationRecord',
@@ -13,7 +14,7 @@ export default {
     })
   },
   async created() {
-    await this.$store.dispatch('accountOpening/getListOfAccountApplicationRecord')
+    // await this.$store.dispatch('accountOpening/getListOfAccountApplicationRecord')
   },
   render() {
     return (

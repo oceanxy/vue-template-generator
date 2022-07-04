@@ -41,5 +41,10 @@
     padding: 10vh 10vw;
     flex: auto;
     overflow-y: auto;
+
+    .venue-reservation-form {
+      width: 500px;
+      margin: 0 auto;
+    }
   }
 }

@@ -23,10 +23,6 @@ export default Form.create({})({
       }
     }
   },
-  computed: mapState({
-    allSiteApps: 'allSiteApps',
-    allFunctionalModules: 'allFunctionalModules'
-  }),
   watch: {
     async visible(value) {
       if (value) {
