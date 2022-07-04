@@ -26,7 +26,7 @@ export default commitRootInModule => omit(
           async getEnterpriseClassifications({ commit }) {
             const response = await apis.getEnterpriseClassifications()
 
-            if (response) {
+            if (response.status) {
               commit('setEnterpriseClassifications', response.data.dictionaryList)
             }
           }

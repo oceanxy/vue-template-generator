@@ -1,10 +1,13 @@
 import './assets/styles/index.scss'
 import { Button } from 'ant-design-vue'
+import { mapGetters } from 'vuex'
 
 export default {
-  data() {
-    return {
-      status: 1
+  inject: ['moduleName'],
+  computed: {
+    ...mapGetters({ getState: 'getState' }),
+    details() {
+      return this.getState('details', this.moduleName)
     }
   },
   render() {
@@ -20,8 +23,12 @@ export default {
                 签约审核通过，合同已生成
 
                 <div class={'info-box'}>
-                  （293928D）收快递费健康大数据反馈的实际开发.PDF
-                  <Button type={'primary'}>下载合同</Button>
+                  <div>
+                    {this.details.contractAuditResult.contractName || '未获取到合同名称'}
+                  </div>
+                  <Button type={'primary'} disabled={!this.details.contractAuditResult.contractUrl}>
+                    <a href={this.details.contractAuditResult.contractUrl}>下载合同</a>
+                  </Button>
                 </div>
               </div>
             ),
@@ -29,17 +36,13 @@ export default {
               <div class={'prompt not-pass'}>
                 签约审核未通过
                 <div class={'info-box'}>
-                  <div>
-                    1、名称写错了名称写错了名称写错了<br />
-                    2、名称写错了名称写错了名称写错了<br />
-                    3、名称写错了名称写错了名称写错了<br />
-                  </div>
+                  <span>{this.details.contractAuditResult.auditMessage}</span>
                 </div>
 
-                <Button type={'primary'}>更新签约</Button>
+                <Button type={'primary'}>重新签约</Button>
               </div>
             )
-          ][this.status]
+          ][this.details.signingStatus - 2]
         }
       </div>
     )

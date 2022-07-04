@@ -22,6 +22,7 @@ export default {
   },
   async created() {
     if (this.$route.query.id) {
+      // 存在未完成的签约流程，直接获取合同信息，接续签约
       await this.$store.dispatch('getDetails', {
         moduleName: this.moduleName,
         payload: {
@@ -29,6 +30,7 @@ export default {
         }
       })
     } else {
+      // 未携带参数进入流程，则为新签约流程，重置合同信息
       this.$store.commit('setDetails', {
         moduleName: this.moduleName,
         value: {
