@@ -16,7 +16,7 @@ export default {
           },
           {
             title: '场地',
-            dataIndex: 'contactAddress'
+            scopedSlots: { customRender: 'contactAddress' }
           },
           {
             title: '企业',
@@ -69,7 +69,9 @@ export default {
   },
   methods: {
     onDetailsClick(record) {
-      this.$router.push({ name: 'businessesDetails', query: { id: record.id } })
+      this.$router.push({ name: 'businessesDetails', query: {
+        bid: record.id // businessId
+      } })
     },
     async onShortMessage(record) {
       await this._setVisibleOfModal(record, 'visibleOfShortMessage')
@@ -103,6 +105,15 @@ export default {
               <span style={{ color: '#13c2c2', fontWeight: 'bolder' }}>
                 {record.companyName}
               </span>
+            ),
+            contactAddress: (text, record) => (
+              <ul style={{ paddingLeft: '20px', marginBottom: 0 }}>
+                {
+                  record.contactAddress.split(',').map(item => (
+                    <li>{item}</li>
+                  ))
+                }
+              </ul>
             ),
             signingStatus: (text, record) => record.signingStatusStr,
             operation: (text, record) => (

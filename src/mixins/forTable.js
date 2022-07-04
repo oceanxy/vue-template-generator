@@ -52,15 +52,19 @@ export default () => ({
 
       await this.fetchList()
     } else {
-      this.$watch(
-        () => this.$store.state[this.moduleName][this.visibleField],
-        async visibleField => {
-          if (visibleField) {
-            await this.fetchList()
-          }
-        },
-        { immediate: true }
-      )
+      if (this.visibleField) {
+        this.$watch(
+          () => this.$store.state[this.moduleName][this.visibleField],
+          async visibleField => {
+            if (visibleField) {
+              await this.fetchList()
+            }
+          },
+          { immediate: true }
+        )
+      } else {
+        await this.fetchList()
+      }
 
       this.$watch(
         () => this.$store.state[this.moduleName][this.submoduleName].list,
