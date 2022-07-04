@@ -94,7 +94,7 @@ export default () => {
       /**
        * 提交表单
        * @param options {{
-       *   isFetchList: boolean,
+       *   [isFetchList]: boolean,
        *   [customApiName]: string,
        *   [customValidation]: Function
        * }}
@@ -102,7 +102,12 @@ export default () => {
        * customApiName：自定义请求API
        * customValidation: 自定义验证函数
        */
-      onSubmit(options = { isFetchList: true }) {
+      onSubmit(options) {
+        options = {
+          isFetchList: true,
+          ...options
+        }
+
         this.form.validateFields(async (err, values) => {
           let validation = true
 
