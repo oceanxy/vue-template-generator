@@ -93,7 +93,10 @@ export default {
   methods: {
     async onSubmit() {
       this.submitLoading = true
-      const response = await apis.step3OfSubmitContract({ id: this.$route.query.id })
+      const response = await apis.step3OfSubmitContract({
+        id: this.$route.query.id,
+        templateId: this.templateId
+      })
       this.submitLoading = false
 
       if (response.status) {
