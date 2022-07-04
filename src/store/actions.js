@@ -239,7 +239,13 @@ export default {
    * @param customApiName {string} 自定义请求API
    * @returns {Promise<*>}
    */
-  async custom({ state, dispatch }, { moduleName, payload, visibleField, isFetchList, customApiName }) {
+  async custom({ state, dispatch }, {
+    moduleName,
+    payload,
+    visibleField,
+    isFetchList,
+    customApiName
+  }) {
     const response = await apis[customApiName](payload)
 
     if (response.status) {

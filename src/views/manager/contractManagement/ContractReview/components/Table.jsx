@@ -20,6 +20,7 @@ export default {
           },
           {
             title: '类型',
+            width: 120,
             dataIndex: 'signingTypeStr'
           },
           {
@@ -31,12 +32,13 @@ export default {
           {
             title: '签约人',
             // align: 'center',
+            width: 120,
             dataIndex: 'signerName'
           },
           {
             title: '状态',
             align: 'center',
-            width: 60,
+            width: 120,
             scopedSlots: { customRender: 'signingStatus' }
           },
           {
@@ -53,8 +55,8 @@ export default {
     }
   },
   methods: {
-    onDetailsClick(record) {
-      this.$router.push({
+    async onDetailsClick(record) {
+      await this.$router.push({
         name: 'contractReviewDetails',
         query: {
           id: record.id
@@ -84,17 +86,26 @@ export default {
             ),
             operation: (text, record) => (
               <Space class="operation-space">
-                <Button type="link" size="small" onClick={() => this.onDetailsClick(record)}>
+                <Button
+                  type="link"
+                  size="small"
+                  onClick={() => this.onDetailsClick(record)}
+                >
                   签约详情
                 </Button>
-                {record.signingStatus === 2 ? (
-                  <Button
-                    type="link"
-                    size="small"
-                    onClick={() => this._setVisibleOfModal(record, 'visibleOfContractReview')}>
-                    审核
-                  </Button>
-                ) : null}
+                {
+                  record.signingStatus === 2
+                    ? (
+                      <Button
+                        type="link"
+                        size="small"
+                        onClick={() => this._setVisibleOfModal(record, 'visibleOfContractReview')}
+                      >
+                        审核
+                      </Button>
+                    )
+                    : null
+                }
               </Space>
             )
           }
