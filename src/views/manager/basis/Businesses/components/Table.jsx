@@ -72,16 +72,16 @@ export default {
       this.$router.push({ name: 'businessesDetails', query: { id: record.id } })
     },
     async onShortMessage(record) {
-      await this._setVisibleOfModal(record, 'visibleOfShortMessage', this.moduleName)
+      await this._setVisibleOfModal(record, 'visibleOfShortMessage')
     },
     async onSuggestions(record) {
-      await this._setVisibleOfModal(record, 'visibleOfSuggestions', this.moduleName)
+      await this._setVisibleOfModal(record, 'visibleOfSuggestions')
     },
     async onPaymentRecords(record) {
-      await this._setVisibleOfModal(record, 'visibleOfPaymentRecords', this.moduleName)
+      await this._setVisibleOfModal(record, 'visibleOfPaymentRecords')
     },
     async onBills(record) {
-      await this._setVisibleOfModal(record, 'visibleOfBills', this.moduleName)
+      await this._setVisibleOfModal(record, 'visibleOfBills')
     }
   },
   render() {

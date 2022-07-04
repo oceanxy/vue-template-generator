@@ -9,10 +9,10 @@ import forIndex from '@/mixins/forIndex'
 
 /**
  * 根据页面 name 自动生成 moduleName 的混合
- * @param isSubModule {boolean} 是否是子模块
+ * @param isSubmodule {boolean} 是否是子模块
  * @returns {Object}
  */
-export default (isSubModule = false) => {
+export default (isSubmodule = false) => {
   let forModuleName = {
     mixins: [forIndex],
     computed: {
@@ -42,7 +42,7 @@ export default (isSubModule = false) => {
     }
   }
 
-  if (isSubModule) {
+  if (isSubmodule) {
     forModuleName = {
       mixins: [forIndex],
       computed: {

@@ -65,7 +65,7 @@ export default {
         }
       })
 
-      await this.onCancel(this.visibleField)
+      await this.onCancel(this.visibleField, this.submoduleName)
     },
     onSubmit() {
       //
@@ -76,7 +76,7 @@ export default {
       attrs: this.modalProps,
       on: {
         cancel: this.onClose,
-        ok: () => this.onCancel(this.visibleField)
+        ok: () => this.onCancel(this.visibleField, this.submoduleName)
       }
     }
 

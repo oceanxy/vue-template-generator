@@ -24,10 +24,10 @@ export default {
           <Table slot="table" />
           <Pagination slot="pagination" />
           <template slot={'modals'}>
-            <ModalOfShortMessage modalTitle={'发送短信'} />
-            <ModalOfSuggestions modalTitle={'投诉建议'} />
-            <ModalOfPaymentRecords modalTitle={'缴费记录'} />
             <ModalOfBills modalTitle={'账单查询'} />
+            <ModalOfPaymentRecords modalTitle={'缴费记录'} />
+            <ModalOfSuggestions modalTitle={'投诉建议'} />
+            <ModalOfShortMessage modalTitle={'发送短信'} />
           </template>
         </TGContainer>
       </BNContainerWithParkSider>

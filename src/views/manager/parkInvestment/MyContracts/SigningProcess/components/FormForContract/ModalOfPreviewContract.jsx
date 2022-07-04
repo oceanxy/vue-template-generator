@@ -40,7 +40,7 @@ export default {
             </Checkbox>
             <Button
               class={'btn'}
-              onClick={() => this.onCancel(this.visibleField)}
+              onClick={() => this.onCancel(this.visibleField, this.submoduleName)}
             >
               取消
             </Button>
@@ -126,7 +126,7 @@ export default {
     const attributes = {
       attrs: this.modalProps,
       on: {
-        cancel: () => this.onCancel(this.visibleField)
+        cancel: () => this.onCancel(this.visibleField, this.submoduleName)
       }
     }
 

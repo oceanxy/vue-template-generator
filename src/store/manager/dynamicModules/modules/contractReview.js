@@ -3,7 +3,7 @@ import apis from '@/apis'
 
 export default commitRootInModule => createStoreModule({
   state: {
-    visibleOfContractReview: true
+    visibleOfContractReview: false
   },
   actions: {
     // /**

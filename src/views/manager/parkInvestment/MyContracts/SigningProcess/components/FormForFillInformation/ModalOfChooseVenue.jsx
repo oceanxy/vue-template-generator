@@ -45,7 +45,7 @@ export default Form.create({})({
   },
   methods: {
     onClose() {
-      this.onCancel(this.visibleField)
+      this.onCancel(this.visibleField, this.submoduleName)
       this.form.setFieldsValue({ hatcheryIds: [] })
     },
     async onSubmit() {
