@@ -20,11 +20,13 @@ export default {
           },
           {
             title: '签约类型',
+            width: 120,
+            align: 'center',
             dataIndex: 'signingTypeStr'
           },
           {
             title: '签约场地',
-            dataIndex: 'address'
+            scopedSlots: { customRender: 'address' }
           },
           {
             title: '签约期限',
@@ -36,10 +38,13 @@ export default {
           },
           {
             title: '状态',
+            width: 120,
             dataIndex: 'signingStatusStr'
           },
           {
             title: '签约合同',
+            width: 140,
+            align: 'center',
             scopedSlots: { customRender: 'contractUrl' }
           },
           {
@@ -47,7 +52,7 @@ export default {
             key: 'operation',
             // fixed: 'right',
             align: 'center',
-            width: 300,
+            width: 230,
             scopedSlots: { customRender: 'operation' }
           }
         ]
@@ -86,6 +91,15 @@ export default {
             },
             contractUrl: (text, record) => (
               <a href={record.contractUrl} target="_blank">合同下载</a>
+            ),
+            address: (text, record) => (
+              <ul style={{ paddingLeft: '20px' }}>
+                {
+                  record.address.split(',').map(item => (
+                    <li>{item}</li>
+                  ))
+                }
+              </ul>
             ),
             operation: (text, record) => (
               <Space class="operation-space">

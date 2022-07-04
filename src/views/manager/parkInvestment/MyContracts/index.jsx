@@ -6,6 +6,7 @@ import store, { dynamicModules } from '@/store/manager'
 import Table from './components/Table'
 import Pagination from './components/Pagination'
 import ModalOfEdit from './components/ModalOfEdit'
+import Functions from './components/Functions'
 
 export default {
   name: 'MyContracts',
@@ -14,6 +15,7 @@ export default {
     return (
       <TGContainer class="bnm-my-contracts-container">
         <Inquiry slot={'inquiry'} />
+        <Functions slot={'functions'} />
         <Table slot={'table'} />
         <Pagination slot={'pagination'} />
         <template slot={'modals'}>

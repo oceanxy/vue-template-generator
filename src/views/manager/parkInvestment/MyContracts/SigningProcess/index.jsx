@@ -21,12 +21,21 @@ export default {
     }
   },
   async created() {
-    await this.$store.dispatch('getDetails', {
-      moduleName: this.moduleName,
-      payload: {
-        id: this.$route.query.id
-      }
-    })
+    if (this.$route.query.id) {
+      await this.$store.dispatch('getDetails', {
+        moduleName: this.moduleName,
+        payload: {
+          id: this.$route.query.id
+        }
+      })
+    } else {
+      this.$store.commit('setDetails', {
+        moduleName: this.moduleName,
+        value: {
+          signingStage: 1
+        }
+      })
+    }
   },
   methods: {
     recoverySteps() {

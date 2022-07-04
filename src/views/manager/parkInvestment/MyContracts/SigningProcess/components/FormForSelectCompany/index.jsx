@@ -13,7 +13,6 @@ export default Form.create({})({
   mixins: [forModuleName(true)],
   data() {
     return {
-      loading: false,
       companyInfoSelected: {}
     }
   },
