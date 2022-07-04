@@ -59,7 +59,7 @@ export default {
       await this.$router.push({
         name: 'contractReviewDetails',
         query: {
-          id: record.id
+          cid: record.id // contractID
         }
       })
     }

@@ -55,6 +55,9 @@ export default {
     },
     data() {
       return this.getState('data', this.moduleName, this.submoduleName)
+    },
+    details() {
+      return this.getState('details', this.moduleName)
     }
   },
   created() {
@@ -70,7 +73,7 @@ export default {
       submoduleName: this.submoduleName,
       stateName: 'data',
       additionalQueryParameters: {
-        id: this.$route.query.id
+        id: this.details.id
       }
     })
   },

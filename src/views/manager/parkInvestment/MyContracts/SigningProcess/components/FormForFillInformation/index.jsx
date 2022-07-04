@@ -80,7 +80,7 @@ export default Form.create({})({
     },
     async getFeesPayableByCompany() {
       const response = await apis.getFeesPayableByCompany({
-        id: this.$route.query.id,
+        id: this.details.id,
         costCycle: this.form.getFieldValue('costCycle'),
         roomIds: this.form.getFieldValue('roomIds').join()
       })
@@ -90,7 +90,7 @@ export default Form.create({})({
       }
     },
     async getEnterprisePaymentCycle() {
-      const response = await apis.getEnterprisePaymentCycle({ id: this.$route.query.id })
+      const response = await apis.getEnterprisePaymentCycle({ id: this.details.id })
 
       if (response.status) {
         this.enterprisePaymentCycle = response.data
@@ -99,7 +99,7 @@ export default Form.create({})({
     transformValue(values) {
       let temp = cloneDeep(values)
 
-      temp.id = this.$route.query.id
+      temp.id = this.details.id
 
       if ('roomIds' in temp) {
         temp.roomIds = temp.roomIds.join()
@@ -128,7 +128,7 @@ export default Form.create({})({
             await this.$store.dispatch('getDetails', {
               moduleName: this.moduleName,
               payload: {
-                id: this.$route.query.id
+                id: this.details.id
               }
             })
           }

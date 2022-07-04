@@ -61,6 +61,9 @@ export default {
   },
   computed: {
     ...mapGetters({ getState: 'getState' }),
+    details() {
+      return this.getState('details', this.moduleName)
+    },
     templateId() {
       return this.getState('selectedRowKeys', this.moduleName, this.submoduleName)[0]
     }
@@ -71,7 +74,7 @@ export default {
         this.loading = true
 
         const response = await apis.getContractPreview({
-          id: this.$route.query.id,
+          id: this.details.id,
           templateId: this.templateId
         })
 
@@ -94,7 +97,7 @@ export default {
     async onSubmit() {
       this.submitLoading = true
       const response = await apis.step3OfSubmitContract({
-        id: this.$route.query.id,
+        id: this.details.id,
         templateId: this.templateId
       })
       this.submitLoading = false
@@ -102,7 +105,9 @@ export default {
       if (response.status) {
         await this.$store.dispatch('getDetails', {
           moduleName: this.moduleName,
-          payload: { id: this.$route.query.id }
+          payload: {
+            id: this.details.id
+          }
         })
       }
     },

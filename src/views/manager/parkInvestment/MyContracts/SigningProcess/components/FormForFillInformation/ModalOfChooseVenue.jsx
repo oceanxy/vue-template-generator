@@ -34,12 +34,15 @@ export default Form.create({})({
     },
     hatcheryTree() {
       return this.getState('hatcheryTree', this.moduleName, this.submoduleName)
+    },
+    details() {
+      return this.getState('details', this.moduleName)
     }
   },
   watch: {
     async visible(value) {
       if (value) {
-        await dispatch(this.moduleName, 'getHatcheryTree', { id: this.$route.query.id })
+        await dispatch(this.moduleName, 'getHatcheryTree', { id: this.details.id })
       }
     }
   },

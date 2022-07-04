@@ -65,6 +65,10 @@ export default Form.create({})({
     transformValue(values) {
       let temp = { ...values }
 
+      if (this.$route.query.id) {
+        temp.id = this.$route.query.id
+      }
+
       if ('dateRange' in temp) {
         temp.startTime = moment(temp.dateRange[0]).format('YYYYMMDD')
         temp.endTime = moment(temp.dateRange[1]).format('YYYYMMDD')
@@ -96,7 +100,7 @@ export default Form.create({})({
             await this.$store.dispatch('getDetails', {
               moduleName: this.moduleName,
               payload: {
-                id: this.$route.query.id
+                id: response.data.id
               }
             })
           }

@@ -35,7 +35,10 @@ export default {
     return { visibleField: this.visibleField }
   },
   computed: {
-    ...mapGetters({ getState: 'getState' })
+    ...mapGetters({ getState: 'getState' }),
+    details() {
+      return this.getState('details', this.moduleName)
+    }
   },
   watch: {
     async visible(value) {
@@ -43,7 +46,7 @@ export default {
         this.loading = true
 
         const response = await apis.getContractTemplates({
-          id: this.$route.query.id
+          id: this.details.id
         })
 
         this.loading = false
