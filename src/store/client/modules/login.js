@@ -48,10 +48,12 @@ export default {
       commit('setLoading', true)
 
       const response = await apis.login({
-        up: encryptor.encrypt(JSON.stringify({
-          u: payload.username,
-          p: payload.password
-        })),
+        up: encryptor.encrypt(
+          JSON.stringify({
+            u: payload.username,
+            p: payload.password
+          })
+        ),
         vck: payload.picCode
       })
 
@@ -64,10 +66,10 @@ export default {
 
         commit('setUserInfo', userInfo)
         commit('setAuthentication', token)
-        commit('setSiteCache', {
-          menuList: menuList,
-          defaultMenuUrl: defaultMenuUrl
-        })
+        // commit('setSiteCache', {
+        //   menuList: menuList,
+        //   defaultMenuUrl: defaultMenuUrl
+        // })
 
         await router.replace({ name: 'loginAfter' })
       }

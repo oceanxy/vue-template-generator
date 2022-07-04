@@ -31,6 +31,7 @@ specifiers:
   less-loader: ^7.3.0
   lodash: ^4.17.21
   mockjs: ^1.1.0
+  moment: ^2.29.3
   prettier: ^2.5.1
   qs: ^6.10.3
   sass: ^1.49.7
@@ -50,6 +51,7 @@ dependencies:
   element-resize-detector: registry.npmmirror.com/element-resize-detector/1.2.4
   jsencrypt: registry.npmmirror.com/jsencrypt/3.2.1
   lodash: registry.npmmirror.com/lodash/4.17.21
+  moment: registry.npmmirror.com/moment/2.29.3
   qs: registry.npmmirror.com/qs/6.11.0
   vue: registry.npmmirror.com/vue/2.6.14
   vue-router: registry.npmmirror.com/vue-router/3.5.4

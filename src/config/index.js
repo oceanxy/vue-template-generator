@@ -10,7 +10,10 @@ export default {
   systemNameEn: 'Chongqing Banan Advanced Technology Innovation Center',
   // 全局消息最大显示个数
   maxMessageCount: 1,
-  // 账号密码加密key
+  // 账号密码加密key（后台）
   publicKey:
-    'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCs7Iu8OPMKCt38fCWV5PdA7+TA+vxgNFnAiC+9xw8F4JifCKNRg07w3zxbSoUmW7dN3NMubME9hQQizmx7IJk3hn91ieVg+CiYdA9MwpEThezYPsJ6+Oj9RsVPOCAsXa5+XRlc1lbmo7b21n5SVSkbog2OMqB2OlZK+SdwY+vrhQIDAQAB'
+    'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCs7Iu8OPMKCt38fCWV5PdA7+TA+vxgNFnAiC+9xw8F4JifCKNRg07w3zxbSoUmW7dN3NMubME9hQQizmx7IJk3hn91ieVg+CiYdA9MwpEThezYPsJ6+Oj9RsVPOCAsXa5+XRlc1lbmo7b21n5SVSkbog2OMqB2OlZK+SdwY+vrhQIDAQAB',
+  // 账号密码加密key(前台)
+  publicKeyClient:
+    'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCA7uaadgelrfRQ+C46s2OCvmQTRp2Y9IKbaWYzm9jFCUaeVQCp7mjZFyId9P0uqgHPKbRnV/Uqra9ciglAsio4rwBvSiNeombxcPgR8IEPyo0NU0NsG/EVAMe5zHLE3RdvoX2w1Ph9aSHxZqsVigE1SMrRA4xR776bO/tvcIGtzwIDAQAB'
 }

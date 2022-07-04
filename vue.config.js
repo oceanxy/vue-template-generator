@@ -9,6 +9,11 @@ module.exports = {
         target: 'http://10.100.1.94:47910',
         changeOrigin: true,
         secure: false
+      },
+      '/api': {
+        target: 'http://10.100.1.94:47930',
+        changeOrigin: true,
+        secure: false
       }
     }
   },
