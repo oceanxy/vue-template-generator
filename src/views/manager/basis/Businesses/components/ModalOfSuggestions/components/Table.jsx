@@ -3,7 +3,10 @@ import forTable from '@/mixins/forTable'
 
 export default {
   // 注册为子模块的组件需要注入的参数
-  inject: ['submoduleName', 'visibleField'],
+  inject: {
+    submoduleName: { default: 'suggestions' },
+    visibleField: { default: '' }
+  },
   mixins: [forTable()],
   data() {
     return {
@@ -60,8 +63,10 @@ export default {
       return this.getCurrentItem(this.moduleName)
     },
     additionalQueryParameters() {
-      return {
-        id: this.currentItem.id
+      if (this.currentItem.id) {
+        return { id: this.currentItem.id }
+      } else {
+        return { id: this.$route.query.bid }
       }
     }
   },

@@ -285,16 +285,16 @@ export const routes = [
               requiresAuth: true
             }
           },
-          {
-            path: 'venue-reservation',
-            name: 'venueReservation',
-            component: () => import('@/views/manager/parkInvestment/VenueReservation'),
-            meta: {
-              title: '场地预定',
-              keepAlive: true,
-              requiresAuth: true
-            }
-          },
+          // {
+          //   path: 'venue-reservation',
+          //   name: 'venueReservation',
+          //   component: () => import('@/views/manager/parkInvestment/VenueReservation'),
+          //   meta: {
+          //     title: '场地预定',
+          //     keepAlive: true,
+          //     requiresAuth: true
+          //   }
+          // },
           {
             path: 'my-clues',
             name: 'myClues',

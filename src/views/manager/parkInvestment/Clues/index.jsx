@@ -46,8 +46,8 @@ export default {
       ]
     }
   },
-  mounted() {
-    dispatch(this.moduleName, 'getCluesCountList', {})
+  async mounted() {
+    await dispatch(this.moduleName, 'getCluesCountList', {})
   },
   computed: {
     cluesCountList() {
@@ -64,19 +64,22 @@ export default {
     return (
       <div class={'bnm-park-investment-container'}>
         <div class={'card-container'}>
-          {this.getCardList.map(item => (
-            <Card>
-              <div class={'card-label'}>{item.name}</div>
-              <div
-                class={'card-value'}
-                style={{
-                  '--theme-color': item.color,
-                  '--image': `url(${item.image})`
-                }}>
-                {item.count}
-              </div>
-            </Card>
-          ))}
+          {
+            this.getCardList.map(item => (
+              <Card>
+                <div class={'card-label'}>{item.name}</div>
+                <div
+                  class={'card-value'}
+                  style={{
+                    '--theme-color': item.color,
+                    '--image': `url(${item.image})`
+                  }}
+                >
+                  {item.count}
+                </div>
+              </Card>
+            ))
+          }
         </div>
         <TGContainer class={'bnm-park-investment-content'}>
           <Inquiry slot={'inquiry'} />

@@ -2,15 +2,9 @@ import './index.scss'
 import { Descriptions } from 'ant-design-vue'
 import TGContainerWithSider from '@/components/TGContainerWithSider'
 import BNContainer from '@/components/BNContainer'
-// import TGTabPane from '@/components/TGTabPane'
-// import BillTable from '@/views/manager/basis/Businesses/components/BillTable'
-import dynamicState from '@/mixins/dynamicState'
-import store, { dynamicModules } from '@/store/manager'
-import { dispatch } from '@/utils/store'
+import apis from '@/apis'
 
 export default {
-  name: 'BusinessDetails',
-  mixins: [dynamicState(store, dynamicModules)],
   props: {
     contentClass: {
       type: String,
@@ -18,24 +12,23 @@ export default {
     }
   },
   data() {
-    return {}
-  },
-  computed: {
-    businessDetails() {
-      return this.$store.state[this.moduleName].businessDetails
+    return {
+      generalInformation: []
     }
   },
-  async mounted() {
-    const { id } = this.$route.query
-    await dispatch(this.moduleName, 'getContractDetail', { id })
+  async created() {
+    const { cid, bid } = this.$route.query
+    const response = await apis.getGeneralInformation({ cid, bid })
+
+    if (response.status) {
+      this.generalInformation = response.data
+    }
   },
   methods: {
-    toPath(item) {
+    async toPath(item) {
       if (item.isClick === 0) return
 
-      this.$router.push({
-        path: item.url
-      })
+      await this.$router.push({ path: item.url })
     }
   },
   render() {
@@ -48,7 +41,7 @@ export default {
       >
         <div slot="sider" class="bnm-businesses-details-sider">
           {
-            this.businessDetails.map(item => (
+            this.generalInformation.map(item => (
               <BNContainer
                 width="100%"
                 showBoxShadow={false}

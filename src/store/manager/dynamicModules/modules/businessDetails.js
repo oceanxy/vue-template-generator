@@ -1,21 +1,15 @@
 import { createStoreModule } from '@/store/template'
-import apis from '@/apis'
-export default commitRootInModule =>
-  createStoreModule({
-    state: {
-      businessDetails: []
-    },
-    mutations: {
-      setBusinessDetails(state, payload) {
-        state.businessDetails = payload
-      }
-    },
-    actions: {
-      async getContractDetail({ commit }, { id }) {
-        const res = await apis.getDetailsOfBusinessDetails({ id })
-        if (res.status) {
-          commit('setBusinessDetails', res.data)
-        }
-      }
-    }
-  })
+import { omit } from 'lodash'
+
+export default commitRootInModule => omit(
+  createStoreModule(),
+  [
+    'state.selectedRows',
+    'state.selectedRowKeys',
+    'state.visibleOfEdit',
+    'state.list',
+    'state.currentItem',
+    'state.pagination',
+    'state.search'
+  ]
+)

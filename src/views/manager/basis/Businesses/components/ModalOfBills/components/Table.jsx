@@ -1,9 +1,13 @@
 import { Table } from 'ant-design-vue'
 import forTable from '@/mixins/forTable'
+import { mapGetters } from 'vuex'
 
 export default {
   // 注册为子模块的组件需要注入的参数
-  inject: ['submoduleName', 'visibleField'],
+  inject: {
+    submoduleName: { default: 'bills' },
+    visibleField: { default: '' }
+  },
   mixins: [forTable()],
   data() {
     return {
@@ -40,20 +44,26 @@ export default {
     }
   },
   computed: {
+    ...mapGetters({ getState: 'getState' }),
     currentItem() {
-      return this.getCurrentItem(this.moduleName)
+      return this.getState('currentItem', this.moduleName)
     },
     additionalQueryParameters() {
-      return {
-        id: this.currentItem.id
+      if (this.currentItem.id) {
+        return { id: this.currentItem.id }
+      } else {
+        return { id: this.$route.query.bid }
       }
+    },
+    loading() {
+      return this.getState('loading', this.moduleName, this.submoduleName)
     }
   },
   render() {
     const attruibutes = {
       props: {
         ...this.tableProps,
-        loading: this.getLoading(this.moduleName, this.submoduleName)
+        loading: this.loading
       },
       attrs: {
         class: 'bnm-table-in-modal'

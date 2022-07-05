@@ -10,6 +10,10 @@ export default {
     showButton: {
       type: Boolean,
       default: false
+    },
+    dataSource: {
+      type: Object,
+      default: () => ({})
     }
   },
   render() {
@@ -25,11 +29,11 @@ export default {
           </div>
         }
       >
-        <Descriptions.Item label={'开始提醒日期'}>到期前30天</Descriptions.Item>
-        <Descriptions.Item label={'结束提醒日期'}>到期后30天</Descriptions.Item>
-        <Descriptions.Item label={'提醒频率（天/次）'}>5</Descriptions.Item>
-        <Descriptions.Item label={'提醒对象'}>客户，中心管理员</Descriptions.Item>
-        <Descriptions.Item label={'提醒内容'}>尊敬的企业用户您好，您的中心租用合同即将于XX天后到期（到期日期：2022-05-18），请及时续签</Descriptions.Item>
+        <Descriptions.Item label={'费项名称'}>{this.dataSource.itemName}</Descriptions.Item>
+        <Descriptions.Item label={'金额'}>{this.dataSource.amountStr}</Descriptions.Item>
+        <Descriptions.Item label={'费项描述'}>{this.dataSource.description}</Descriptions.Item>
+        <Descriptions.Item label={'到期欠费是否使用履约保证金抵扣'}>{this.dataSource.isDeduction}</Descriptions.Item>
+        <Descriptions.Item label={'收取方式'}>{this.dataSource.takeTypeStr}</Descriptions.Item>
       </Descriptions>
     )
   }

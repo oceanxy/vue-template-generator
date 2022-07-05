@@ -93,7 +93,7 @@ export default {
               <a href={record.contractUrl} target="_blank">合同下载</a>
             ),
             address: (text, record) => (
-              <ul style={{ paddingLeft: '20px' }}>
+              <ul style={{ paddingLeft: '20px', marginBottom: 0 }}>
                 {
                   record.address.split(',').map(item => (
                     <li>{item}</li>

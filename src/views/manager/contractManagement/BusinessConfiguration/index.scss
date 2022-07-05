@@ -5,6 +5,8 @@
   flex-wrap: wrap;
   gap: 16px;
   overflow-y: auto;
+  justify-content: flex-start;
+  align-items: flex-start;
 
   .business-configuration-title {
     display: flex;

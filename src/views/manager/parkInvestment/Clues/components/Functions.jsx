@@ -12,24 +12,45 @@ export default {
   render() {
     return (
       <Space class="tg-function">
-        <Button type="primary" onClick={() => this.onAddClick()} icon="plus">
+        <Button
+          type="primary"
+          onClick={() => this.onAddClick()}
+          icon="plus"
+        >
           新增线索
         </Button>
-        <Button onClick={() => this._setVisibleOfModal({}, 'visibleOfAssignLeads')} icon="plus">
+        <Button
+          onClick={() => this._setVisibleOfModal({}, 'visibleOfAssignLeads')}
+          icon="unlock"
+        >
           批量分配
         </Button>
         <Button
-          onClick={() => this._setVisibleOfModal({ id: this.selectedRowKeys }, 'visibleOfRecoverClues')}
-          icon="plus">
+          onClick={() => this._setVisibleOfModal(
+            { id: this.selectedRowKeys },
+            'visibleOfRecoverClues')
+          }
+          icon="lock"
+        >
           批量收回
         </Button>
-        <Button onClick={() => this.onAddClick()} icon="plus">
+        <Button
+          // onClick={() => this.onAddClick()}
+          icon="export"
+        >
           导出
         </Button>
-        <Button onClick={() => this.onAddClick()} icon="plus">
+        <Button
+          // onClick={() => this.onAddClick()}
+          icon="import"
+        >
           导入
         </Button>
-        <Button onClick={() => this.onDeleteClick()} icon="minus">
+        <Button
+          onClick={() => this.onDeleteClick()}
+          icon="delete"
+          disabled={this.deleteButtonDisabled}
+        >
           删除
         </Button>
       </Space>

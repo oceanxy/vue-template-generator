@@ -3,7 +3,10 @@ import forTable from '@/mixins/forTable'
 
 export default {
   // 注册为子模块的组件需要注入的参数
-  inject: ['submoduleName', 'visibleField'],
+  inject: {
+    submoduleName: { default: 'paymentRecords' },
+    visibleField: { default: '' }
+  },
   mixins: [forTable()],
   data() {
     return {
@@ -30,7 +33,7 @@ export default {
           {
             title: '摘要',
             dataIndex: 'remark'
-          },
+          }
           // {
           //   title: '状态',
           //   align: 'center',
@@ -48,8 +51,10 @@ export default {
       return this.getCurrentItem(this.moduleName)
     },
     additionalQueryParameters() {
-      return {
-        id: this.currentItem.id
+      if (this.currentItem.id) {
+        return { id: this.currentItem.id }
+      } else {
+        return { id: this.$route.query.bid }
       }
     }
   },
@@ -69,7 +74,7 @@ export default {
         {...attruibutes}
         {...{
           scopedSlots: {
-            serialNumber: (text, record, index) => index + 1,
+            serialNumber: (text, record, index) => index + 1
             // status: (text, record) => (
             //   <span style={{ color: ['#52c41a', '#faad14'][record.acceptStatus - 1] }}>
             //     {['已处理', '待处理'][record.acceptStatus - 1]}
