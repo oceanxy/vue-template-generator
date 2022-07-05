@@ -16,7 +16,8 @@ export default {
         </Button>
         <Button
           onClick={() => this.onDeleteClick()}
-          icon="plus"
+          disabled={this.editButtonDisabled}
+          icon="delete"
         >
           删除
         </Button>

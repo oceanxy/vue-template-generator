@@ -7,7 +7,7 @@
 
 import { message } from 'ant-design-vue'
 import forModal from '@/mixins/forModal'
-import { omit } from 'lodash'
+import { cloneDeep, omit } from 'lodash'
 
 export default () => {
   return {
@@ -29,7 +29,7 @@ export default () => {
     },
     methods: {
       transformValue(values) {
-        let temp = { ...values }
+        let temp = cloneDeep(values)
 
         if ('status' in temp) {
           temp.status = temp.status ? 1 : 2
@@ -87,6 +87,14 @@ export default () => {
 
         if ('isUnderground' in temp) {
           temp.isUnderground = temp.isUnderground ? 1 : 0
+        }
+
+        // 此itemList为问卷列表的字段，如有重复请更改为其他字段名
+        if ('itemList' in temp) {
+          temp.itemList.forEach(item => {
+            item.isRequired = item.isRequired ? 1 : 0
+            item.status = item.status ? 1 : 0
+          })
         }
 
         return temp

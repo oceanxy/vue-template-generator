@@ -1,51 +1,64 @@
 import '../index.scss'
 import { Table } from 'ant-design-vue'
-import forTable from '@/mixins/forTable'
+import { mapGetters } from 'vuex'
 
 export default {
-  mixins: [forTable()],
+  inject: ['moduleName'],
   data() {
     return {
       tableProps: {
         columns: [
           {
             title: '序号',
-            dataIndex: ''
+            width: 60,
+            dataIndex: 'serialNum'
           },
           {
             title: '标题',
-            dataIndex: 'h'
+            dataIndex: 'fullName'
           },
           {
-            title: '数据',
-            dataIndex: 'appName'
+            title: '数据类型',
+            width: 120,
+            dataIndex: 'dataTypeStr'
           },
           {
-            title: '类型',
-            dataIndex: 'remark'
+            title: '组件类型',
+            width: 120,
+            dataIndex: 'modTypeStr'
           },
           {
             title: '选项',
-            dataIndex: 'remark1'
+            scopedSlots: { customRender: 'itemOptionList' }
           }
         ],
-        class: 'modal-of-agency-history'
+        rowSelection: null,
+        size: 'middle',
+        rowKey: 'id',
+        tableLayout: 'fixed',
+        dataSource: [],
+        pagination: false
       }
     }
   },
-  methods: {
-    async onAgencyHistoryClick(record) {
-      await this._setVisibleOfModal(record, 'visibleOfAgencyHistory')
+  computed: {
+    ...mapGetters({ getState: 'getState' }),
+    loading() {
+      return this.getState('loading', this.moduleName)
+    },
+    itemList() {
+      return this.getState('details', this.moduleName)?.itemList ?? []
     }
   },
   render() {
     const attruibutes = {
       props: {
         ...this.tableProps,
-        loading: this.getLoading(this.moduleName)
+        dataSource: this.itemList,
+        loading: this.loading
       },
       attrs: {
-        class: 'modal-of-agency-history'
+        class: 'bnm-table-in-modal'
       }
     }
 
@@ -54,12 +67,15 @@ export default {
         {...attruibutes}
         {...{
           scopedSlots: {
-            // status: (text, record) => (
-            //   <Switch
-            //     checked={+record.status === 1}
-            //     onChange={checked => this.onStatusChange(checked, record)}
-            //   />
-            // )
+            itemOptionList: (text, record) => (
+              <ol style={{ paddingLeft: '20px', marginBottom: 0 }}>
+                {
+                  record.itemOptionList.map(item => (
+                    <li>{item.optionValue}</li>
+                  ))
+                }
+              </ol>
+            )
           }
         }}
       />

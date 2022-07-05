@@ -1,5 +1,5 @@
 import '../assets/styles/index.scss'
-import { Button, Space, Table } from 'ant-design-vue'
+import { Button, Space, Switch, Table } from 'ant-design-vue'
 import forTable from '@/mixins/forTable'
 
 export default {
@@ -10,30 +10,33 @@ export default {
         columns: [
           {
             title: '序号',
-            dataIndex: ''
+            width: 60,
+            align: 'center',
+            scopedSlots: { customRender: 'serialNumber' }
           },
           {
             title: '名称',
-            scopedSlots: { customRender: 'title' }
+            dataIndex: 'fullName'
           },
           {
             title: '题目数',
-            dataIndex: 'remark'
+            width: 120,
+            align: 'center',
+            scopedSlots: { customRender: 'itemNum' }
           },
           {
             title: '创建人/时间',
-            align: 'center',
-            dataIndex: 'zz'
+            scopedSlots: { customRender: 'creator' }
           },
           {
             title: '最后修改人/时间',
-            align: 'center',
-            dataIndex: 'xx'
+            scopedSlots: { customRender: 'editor' }
           },
           {
             title: '状态',
             align: 'center',
-            dataIndex: 'cc'
+            width: 120,
+            scopedSlots: { customRender: 'status' }
           },
           {
             title: '操作',
@@ -47,7 +50,11 @@ export default {
       }
     }
   },
-  methods: {},
+  methods: {
+    async onItemClick(record) {
+      await this._setVisibleOfModal(record, 'visibleOfPreview')
+    }
+  },
   render() {
     const attributes = {
       props: {
@@ -62,25 +69,37 @@ export default {
         {...attributes}
         {...{
           scopedSlots: {
-            title: record => (
+            serialNumber: (text, record, index) => index + 1,
+            creator: (text, record) => (
+              <div>
+                <div>{record.creatorName}</div>
+                <div>{record.createTimeStr}</div>
+              </div>
+            ),
+            editor: (text, record) => (
+              <div>
+                <div>{record.lastOperatorName}</div>
+                <div>{record.lastOperateTimeStr}</div>
+              </div>
+            ),
+            itemNum: (text, record, index) => (
               <Button
-                class={'table-link'}
-                type={'link'}
-                onClick={() => this._setVisibleOfModal(record, 'visibleOfPreview')}
+                type="link"
+                onClick={() => this.onItemClick(record)}
               >
-                {record.appName}
+                {record.itemNum}
               </Button>
             ),
-            // status: (text, record) => (
-            //   <Switch
-            //     checked={+record.status === 1}
-            //     onChange={checked => this.onStatusChange(checked, record)}
-            //   />
-            // ),
+            status: (text, record) => (
+              <Switch
+                checked={+record.status === 1}
+                onChange={checked => this.onStatusChange(checked, record)}
+              />
+            ),
             operation: (text, record) => (
               <Space class="operation-space">
                 {/*<Button*/}
-                {/*  type="link"*/}
+                {/*  type={'link'}*/}
                 {/*  size="small"*/}
                 {/*  // onClick={() => this._setVisibleOfModal(record, 'visibleOfPreview')}*/}
                 {/*>*/}
@@ -96,7 +115,7 @@ export default {
                 <Button
                   type="link"
                   size="small"
-                  onClick={() => this.onDeleteClick()}
+                  onClick={() => this.onDeleteClick(record)}
                 >
                   删除
                 </Button>
