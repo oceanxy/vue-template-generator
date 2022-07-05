@@ -1,9 +1,8 @@
 import './index.scss'
 import forModal from '@/mixins/forModal'
-import { mapState } from 'vuex'
+import { mapGetters } from 'vuex'
 import DragModal from '@/components/DragModal'
 import { Button } from 'ant-design-vue'
-import Inquiry from './components/Inquiry'
 import Table from './components/Table'
 
 export default {
@@ -21,22 +20,28 @@ export default {
   data() {
     return {
       modalProps: {
-        width: 700,
+        width: 810,
         footer: <Button onClick={() => this.onCancel(this.visibleField)}>取消</Button>
       },
       visibleField: 'visibleOfPreview'
     }
   },
-  computed: mapState({
-    allSiteApps: 'allSiteApps',
-    allFunctionalModules: 'allFunctionalModules'
-  }),
+  computed: {
+    ...mapGetters({ getState: 'getState' }),
+    currentItem() {
+      return this.getState('currentItem', this.moduleName)
+    }
+  },
   watch: {
-    visible(value) {
-      if (value) {
-        //
-      } else {
-        //
+    visible: {
+      immediate: true,
+      async handler(value) {
+        if (value && this.currentItem.id) {
+          await this.$store.dispatch('getDetails', {
+            moduleName: this.moduleName,
+            payload: { id: this.currentItem.id }
+          })
+        }
       }
     }
   },
@@ -49,8 +54,7 @@ export default {
     }
 
     return (
-      <DragModal {...attributes}>
-        <Inquiry />
+      <DragModal {...attributes} class={'bnm-table-modal'}>
         <Table />
       </DragModal>
     )

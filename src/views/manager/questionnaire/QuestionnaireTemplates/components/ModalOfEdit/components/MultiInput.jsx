@@ -1,4 +1,5 @@
 import '../index.scss'
+import { debounce } from 'lodash'
 import { Button, Input, Select, Space, Switch, Table } from 'ant-design-vue'
 
 export default {
@@ -11,39 +12,58 @@ export default {
       columns: [
         {
           title: '序号',
-          scopedSlots: { customRender: 'a' }
+          width: 60,
+          align: 'center',
+          dataIndex: 'serialNum'
         },
         {
           title: '标题',
-          scopedSlots: { customRender: 'allPath' }
+          width: 160,
+          scopedSlots: { customRender: 'fullName' }
+        },
+        {
+          title: '描述',
+          width: 160,
+          scopedSlots: { customRender: 'description' }
+        },
+        {
+          title: '选项',
+          scopedSlots: { customRender: 'optionValueList' }
         },
         {
           title: '数据类型',
+          width: 120,
           scopedSlots: { customRender: 'dataType' }
         },
         {
           title: '组件类型',
-          scopedSlots: { customRender: 'compType' }
-        },
-        {
-          title: '选项（一行一项）',
-          scopedSlots: { customRender: 'item' }
-        },
-        {
-          title: '描述',
-          scopedSlots: { customRender: 'remark' }
+          width: 120,
+          scopedSlots: { customRender: 'modType' }
         },
         {
           title: '是否必填',
+          align: 'center',
+          width: 100,
           scopedSlots: { customRender: 'isRequired' }
         },
         {
           title: '启用状态',
+          align: 'center',
+          width: 100,
           scopedSlots: { customRender: 'status' }
         },
         {
-          title: '操作',
-          width: 100,
+          title: (
+            <Button
+              icon={'plus'}
+              type="primary"
+              ghost
+              onClick={this.onCreateRow}
+            >
+              添加问卷题目
+            </Button>
+          ),
+          width: 180,
           align: 'center',
           scopedSlots: { customRender: 'operation' }
         }
@@ -80,36 +100,58 @@ export default {
     },
     onCreateRow() {
       const row = {
-        allPath: '',
-        remark: '',
-        id: Math.random()
+        id: Math.random(),
+        serialNum: this.dataSource.length + 1,
+        fullName: '',
+        optionValueList: [],
+        description: '',
+        dataType: 1,
+        modType: 1,
+        isRequired: true,
+        status: true
       }
 
       this.dataSource.push(row)
     },
     onChange() {
       this.$emit('change', this.dataSource)
+    },
+    onMoveUp(id) {
+      const index = this.dataSource.findIndex(item => item.id === id)
+      const target = this.dataSource.filter((item, i) => {
+        if (index === i) {
+          item.serialNum = +item.serialNum - 1
+        }
+
+        if (index - 1 === i) {
+          item.serialNum = +item.serialNum + 1
+        }
+
+        return index === i || index - 1 === i
+      })
+
+      this.dataSource.splice(index - 1, 2, ...target)
+    },
+    onMoveDown(id) {
+      const index = this.dataSource.findIndex(item => item.id === id)
+      const target = this.dataSource.filter((item, i) => {
+        if (index === i) {
+          item.serialNum = +item.serialNum + 1
+        }
+
+        if (index + 1 === i) {
+          item.serialNum = +item.serialNum - 1
+        }
+
+        return index === i || index + 1 === i
+      })
+
+      this.dataSource.splice(index - 1, 2, ...target)
     }
   },
   render() {
-    // const attr = {
-    //   props: {
-    //     ...omit(this.$props, 'value'),
-    //     ...this.$attrs
-    //   },
-    //   on: this.$listeners
-    // }
-
     return (
       <div class="tg-multi-input">
-        <Button
-          icon={'plus'}
-          type="primary"
-          ghost
-          onClick={this.onCreateRow}
-        >
-          添加问卷题目
-        </Button>
         <Table
           class="multi-input-table"
           tableLayout={'fixed'}
@@ -119,50 +161,78 @@ export default {
           rowKey="id"
           {...{
             scopedSlots: {
-              allPath: (text, record) => (
-                <Input
-                  vModel={record.allPath}
-                  placeholder="请输入完整路径"
-                  onBlur={this.onChange}
+              fullName: (text, record) => (
+                <Input.TextArea
+                  vModel={record.fullName}
+                  placeholder="问卷标题"
+                  autoSize={{ minRows: 4 }}
+                  onBlur={() => this.onChange()}
                 />
               ),
               dataType: record => (
-                <Select>
-                  <Select.Option value={1}>文件</Select.Option>
+                <Select
+                  vModel={record.dataType}
+                  placeholder={'数据类型'}
+                  onChange={debounce(this.onChange, 300)}
+                >
+                  <Select.Option value={1}>选择</Select.Option>
                   <Select.Option value={2}>数值</Select.Option>
-                  <Select.Option value={3}>序列</Select.Option>
+                  <Select.Option value={3}>文本</Select.Option>
+                  <Select.Option value={4}>时间</Select.Option>
+                  <Select.Option value={5}>文件</Select.Option>
+                  <Select.Option value={6}>地区</Select.Option>
                 </Select>
               ),
-              compType: record => (
-                <Select>
+              modType: record => (
+                <Select
+                  vModel={record.modType}
+                  placeholder={'组件类型'}
+                  onChange={debounce(this.onChange, 300)}
+                >
                   <Select.Option value={1}>单选</Select.Option>
                   <Select.Option value={2}>多选</Select.Option>
                   <Select.Option value={3}>简答</Select.Option>
                 </Select>
               ),
-              item: record => (
-                <Input
-                  type="textarea"
-                  autosize={{ minRows: 4 }}
-                  placeholder={'例如：\r\n选项一\r\n选项二\r\n选项三'}
+              optionValueList: record => (
+                <Select
+                  vModel={record.optionValueList}
+                  mode={'tags'}
+                  tokenSeparators={[',']}
+                  placeholder={'请输入选项，按回车确认添加'}
+                  onChange={this.onChange}
                 />
               ),
-              remark: record => (
-                <Input
-                  type="textarea"
-                  autosize={{ minRows: 4 }}
+              description: record => (
+                <Input.TextArea
+                  vModel={record.description}
+                  placeholder={'描述内容'}
+                  autoSize={{ minRows: 4 }}
+                  onBlur={this.onChange}
                 />
               ),
               isRequired: record => (
-                <Switch />
+                <Switch vModel={record.isRequired} onChange={this.onChange} />
               ),
               status: record => (
-                <Switch />
+                <Switch vModel={record.status} onChange={this.onChange} />
               ),
-              operation: (text, record) => (
+              operation: (text, record, index) => (
                 <Space>
-                  <Button icon="up" onClick={() => this.onDelClick(record.id)} />
-                  <Button icon="down" onClick={() => this.onDelClick(record.id)} />
+                  <Button
+                    icon="minus"
+                    onClick={() => this.onDelClick(record.id)}
+                  />
+                  <Button
+                    icon="up"
+                    disabled={index <= 0}
+                    onClick={() => this.onMoveUp(record.id)}
+                  />
+                  <Button
+                    icon="down"
+                    disabled={index >= this.dataSource.length - 1}
+                    onClick={() => this.onMoveDown(record.id)}
+                  />
                 </Space>
               )
             }
