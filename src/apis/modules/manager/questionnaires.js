@@ -15,19 +15,6 @@ export default {
     })
   },
   /**
-   * 修改问卷管理状态
-   * @param [request]
-   * @param data
-   * @returns {*}
-   */
-  updateQuestionnairesStatus(request, data) {
-    return request({
-      url: '/operate/questionnaire/updateStatus',
-      method: 'post',
-      data: qs.stringify(data)
-    })
-  },
-  /**
    * 删除问卷管理
    * @param request
    * @param data

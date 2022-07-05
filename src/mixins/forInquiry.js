@@ -6,6 +6,7 @@
  */
 
 import { omit } from 'lodash'
+import moment from 'moment'
 
 export default () => {
   return {
@@ -15,8 +16,8 @@ export default () => {
         let temp = { ...values }
 
         if ('dateRange' in temp) {
-          temp.startTime = temp.dateRange[0]
-          temp.endTime = temp.dateRange[1]
+          temp.startTime = moment(temp.dateRange[0]).format('YYYYMMDD')
+          temp.endTime = moment(temp.dateRange[1]).format('YYYYMMDD')
 
           temp = omit(temp, 'dateRange')
         }

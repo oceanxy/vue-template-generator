@@ -4,6 +4,13 @@ import forFunction from '@/mixins/forFunction'
 
 export default {
   mixins: [forFunction()],
+  data() {
+    return {
+      publishButtonDisabled: true,
+      endButtonDisabled: true
+    }
+  },
+  methods: {},
   render() {
     return (
       <Space class="tg-function">
@@ -15,16 +22,16 @@ export default {
           新增
         </Button>
         <Button
-          type="primary"
           onClick={() => this._setVisibleOfModal({}, 'visibleOfQuestionnaireSwitch')}
-          icon="plus"
+          icon="container"
+          disabled={this.publishButtonDisabled}
         >
           发布
         </Button>
         <Button
-          type="primary"
           onClick={() => this._setVisibleOfModal({}, 'visibleOfQuestionnaireSwitch')}
-          icon="plus"
+          icon="undo"
+          disabled={this.endButtonDisabled}
         >
           结束
         </Button>

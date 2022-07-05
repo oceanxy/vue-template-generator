@@ -8,6 +8,7 @@
 import { message } from 'ant-design-vue'
 import forModal from '@/mixins/forModal'
 import { cloneDeep, omit } from 'lodash'
+import moment from 'moment'
 
 export default () => {
   return {
@@ -45,6 +46,13 @@ export default () => {
 
         if ('propertyOrganIds' in temp) {
           temp.propertyOrganIds = temp.propertyOrganIds.join()
+        }
+
+        if ('dateRange' in temp) {
+          temp.startTime = moment(temp.dateRange[0]).format('YYYYMMDDHHmm')
+          temp.endTime = moment(temp.dateRange[1]).format('YYYYMMDDHHmm')
+
+          temp = omit(temp, 'dateRange')
         }
 
         if ('areaCode' in temp) {
