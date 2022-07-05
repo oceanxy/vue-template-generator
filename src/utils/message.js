@@ -10,9 +10,7 @@ export default {
   showMessage(option) {
     if (!option.message) {
       option.content = '发生未知错误，清稍后再试！'
-    } else if (
-      option.message.includes('Network Error') || option.message.includes('500')
-    ) {
+    } else if (option.message.includes('Network Error') || option.message.includes('500')) {
       option.content = '请检查网络或服务是否异常，或稍后再试！'
     } else if (option.message.includes('403')) {
       option.content = '没有权限进入系统！(错误码403)'
@@ -25,7 +23,7 @@ export default {
     }
 
     message.error(option)
-  },
+  }
   /**
    * 执行批量操作前的表格多选非空验证
    * @param selection {[]} 列表选择项

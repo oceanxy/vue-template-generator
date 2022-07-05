@@ -1,9 +1,6 @@
 <template>
-  <a-layout-header
-    class="tg-layout-header"
-    :style="showBreadcrumb ? 'height: 118px;' : ''"
-  >
-    <div class="tg-header" :class="{'manager': manager}">
+  <a-layout-header class="tg-layout-header" :style="showBreadcrumb ? 'height: 118px;' : ''">
+    <div class="tg-header" :class="{ manager: manager }">
       <div class="tg-logo" />
       <a-badge class="tg-badge" dot>
         <a-avatar icon="user" shape="circle" class="tg-avatar" />
@@ -13,9 +10,8 @@
           <div>
             <span class="tg-user-name">{{ userInfo.fullName }}</span>
             <div class="tg-user-tags">
-              <a-tag color="blue">已入驻</a-tag>
-              <a-tag color="cyan">已签约</a-tag>
-              <a-tag color="red">已欠费</a-tag>
+              <a-tag v-if="userInfo.isContract === 1" color="cyan">已签约</a-tag>
+              <a-tag v-if="userInfo.isOwe === 1" color="red">已欠费</a-tag>
             </div>
           </div>
           <a-icon type="caret-down" />
@@ -24,16 +20,15 @@
           <a-menu class="header-menu">
             <a-menu-item class="tg-menu-user">
               <a-avatar>重</a-avatar>
-              <div class="corporate-services">重庆誉存科技有限公司</div>
+              <div class="corporate-services">{{ userInfo.companyName }}</div>
               <div>
-                <a-tag color="blue">已入驻</a-tag>
-                <a-tag color="cyan">已签约</a-tag>
-                <a-tag color="red">已欠费</a-tag>
+                <a-tag v-if="userInfo.isContract === 1" color="cyan">已签约</a-tag>
+                <a-tag v-if="userInfo.isOwe === 1" color="red">已欠费</a-tag>
               </div>
             </a-menu-item>
             <a-menu-item class="my-news">
               我的消息
-              <a-tag class="news-number">99+</a-tag>
+              <a-tag class="news-number">{{ userInfo.messageNum || 0 }}</a-tag>
               <a-icon type="right" />
             </a-menu-item>
             <a-menu-item @click="handleLogOutClick">退出登录</a-menu-item>
@@ -108,8 +103,8 @@ export default {
       width: 100%;
       padding: 0 14px;
       background: url(./images/header-bg-left.png) no-repeat left center / auto 100%,
-      url(./images/header-bg-right.png) no-repeat right 320px center / auto 100%,
-      linear-gradient(to right, #e9f2ff, #d3e5ff);
+        url(./images/header-bg-right.png) no-repeat right 320px center / auto 100%,
+        linear-gradient(to right, #e9f2ff, #d3e5ff);
     }
 
     .tg-logo {

@@ -5,21 +5,20 @@ import store, { dynamicModules } from '@/store/client'
 import BNContainer from '@/components/BNContainer'
 import ModalForDetails from '@/views/client/finance/Records/components/ModalForDetails'
 import ModalForInvoice from '@/views/client/finance/Records/components/ModalForInvoice'
-
+import Pagination from './components/Pagination'
 export default {
-  name: 'Records',
+  name: 'FinanceRecords',
   mixins: [dynamicState(store, dynamicModules)],
   data: () => ({}),
   methods: {},
   render() {
     return (
-      <BNContainer
-        moduleTitle="我的发票"
-        class="bn-invoices-container"
-      >
+      <BNContainer modalTitle="缴费记录" class="bn-records-container">
         <Table />
-        <ModalForDetails />
-        <ModalForInvoice />
+        <br />
+        <Pagination></Pagination>
+        <ModalForDetails modalTitle={'缴费明细'} />
+        <ModalForInvoice modalTitle={'开具发票'} />
       </BNContainer>
     )
   }

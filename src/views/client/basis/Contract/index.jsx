@@ -8,10 +8,10 @@ import { Button, Descriptions, Icon, Space, Spin } from 'ant-design-vue'
 import store, { dynamicModules } from '@/store/client'
 import dynamicState from '@/mixins/dynamicState'
 import { dispatch } from '@/utils/store'
+import ApplySigningDialog from './components/ApplySigningDialog'
 
 export default {
   name: 'Contract',
-
   mixins: [dynamicState(store, dynamicModules)],
   computed: {
     loading() {
@@ -19,174 +19,101 @@ export default {
     },
     list() {
       return this.$store.state[this.moduleName].list
+    },
+    applyType() {
+      return this.$store.state[this.moduleName].applyType
     }
   },
   created() {
-    dispatch(this.moduleName, 'getContracts', { moduleName: this.moduleName })
+    dispatch(this.moduleName, 'getContracts')
   },
+  methods: {
+    async getContractPreview(item) {
+      const buffer = await dispatch(this.moduleName, 'getContractPreview', { id: item.id })
+      const blob = new Blob([buffer], { type: 'application/pdf' })
+      const url = URL.createObjectURL(blob)
+      window.open(url)
+      setTimeout(() => {
+        URL.revokeObjectURL(url)
+      }, 1000)
+    },
+    setVisibleOfModal(item, value) {
+      this.$store.commit(`${this.moduleName}/setApplyType`, value)
+      this._setVisibleOfModal(item, 'visibleOfSigning')
+    },
+    onDownload(item) {
+      window.open(item.contractUrl)
+    }
+  },
+  watch: {},
   render() {
+    const previewBtn = item => (
+      <Button type="primary" ghost class="preview" onclick={() => this.getContractPreview(item)}>
+        <Icon component={preview} />
+        合同预览
+      </Button>
+    )
+    const downloadBtn = item => (
+      <Button type="primary" ghost class="preview" onclick={() => this.onDownload(item)}>
+        <Icon component={download} />
+        合同下载
+      </Button>
+    )
+    const renewBtn = item => (
+      <Button type="primary" ghost class="preview" onclick={() => this.setVisibleOfModal(item, 1)}>
+        <Icon component={renew} />
+        我要续约
+      </Button>
+    )
+    const terminateContractBtn = item => (
+      <Button type="primary" ghost class="preview" onclick={() => this.setVisibleOfModal(item, 2)}>
+        <Icon component={terminateContract} width="0.5em" />
+        申请解约
+      </Button>
+    )
+    const addBtns = item => {
+      let result = []
+      switch (item.signingStatus) {
+        case 2: //待审核
+          result = [previewBtn(item), downloadBtn(item)]
+          break
+        case 3: //已签约
+          result = [previewBtn(item), downloadBtn(item), renewBtn(item), terminateContractBtn(item)]
+          break
+        case 4: //审核驳回
+          result = [previewBtn(item), downloadBtn(item)]
+          break
+        case 5: //已到期
+          result = [renewBtn(item), terminateContractBtn(item)]
+          break
+        default:
+          break
+      }
+      return result
+    }
     return (
-      <Spin spinning={this.loading}>
-        <BNContainer width="100%" modalTitle="我的合同" contentClass="bn-contract-content">
-          {this.list.map(item => (
-            <BNContainer
-              modalTitle={item.companyName}
-              class="contract-item"
-              titleClass="contract-item-title"
-              contentClass="contract-item-content">
-              <Descriptions column={1}>
-                {item.list.map(item2 => (
-                  <Descriptions.Item label={item2.name}>{item2.value}</Descriptions.Item>
-                ))}
-                <Descriptions.Item>
-                  <Space>
-                    <Button type="primary" ghost class="preview">
-                      <Icon component={preview} />
-                      合同预览
-                    </Button>
-                    <Button type="primary" ghost class="preview">
-                      <Icon component={download} />
-                      合同下载
-                    </Button>
-                    <Button type="primary" ghost class="preview">
-                      <Icon component={renew} />
-                      我要续约
-                    </Button>
-                    <Button type="primary" ghost class="preview">
-                      <Icon component={terminateContract} width="0.5em" />
-                      申请解约
-                    </Button>
-                  </Space>
-                </Descriptions.Item>
-              </Descriptions>
-            </BNContainer>
-          ))}
-          {/* <BNContainer
-            modalTitle="企业续签合同"
+      <BNContainer width="100%" modalTitle="我的合同" contentClass="bn-contract-content">
+        <Spin spinning={this.loading}></Spin>
+        {this.list.map(item => (
+          <BNContainer
+            modalTitle={item.companyName}
             class="contract-item"
             titleClass="contract-item-title"
             contentClass="contract-item-content">
             <Descriptions column={1}>
-              <Descriptions.Item label="租用场所">珠光御景 / 南区27栋 / 606号</Descriptions.Item>
-              <Descriptions.Item label="合同期限">2022-05-18 至 2023-05-17（5年）</Descriptions.Item>
-              <Descriptions.Item label="生成时间">2022-05-18 19:51</Descriptions.Item>
-              <Descriptions.Item label="签约状态">
-                已签约（签约时间：2022-05-18 19:51，经办人：李卢,15865854254 ）
-              </Descriptions.Item>
+              {item.list.map(item2 => (
+                <Descriptions.Item label={item2.name}>{item2.value}</Descriptions.Item>
+              ))}
               <Descriptions.Item>
-                <div class="contract-status">签约审核中，请耐心等待</div>
-              </Descriptions.Item>
-              <Descriptions.Item>
-                <Space>
-                  <Button type="primary" ghost class="preview">
-                    <Icon component={preview} />
-                    合同预览
-                  </Button>
-                </Space>
+                <Space>{addBtns(item)}</Space>
               </Descriptions.Item>
             </Descriptions>
           </BNContainer>
-          <BNContainer
-            moduleTitle=" 21423423D丨企业入驻合同"
-            class="contract-item"
-            titleClass="contract-item-title"
-            contentClass="contract-item-content">
-            <Descriptions column={1}>
-              <Descriptions.Item label="租用场所">珠光御景 / 南区29栋 / 546号</Descriptions.Item>
-              <Descriptions.Item label="合同期限">2022-05-18 至 2023-05-17（5年）</Descriptions.Item>
-              <Descriptions.Item label="生成时间">2022-05-18 19:51</Descriptions.Item>
-              <Descriptions.Item label="签约状态">
-                已签约（签约时间：2022-05-18 19:51，经办人：陈强,15232635585 ）
-              </Descriptions.Item>
-              <Descriptions.Item>
-                <div class="contract-status">签约审核中，请耐心等待</div>
-              </Descriptions.Item>
-              <Descriptions.Item>
-                <Space>
-                  <Button type="primary" ghost class="preview">
-                    <Icon component={download} />
-                    合同下载
-                  </Button>
-                  <Button type="primary" ghost class="preview">
-                    <Icon component={renew} />
-                    我要续约
-                  </Button>
-                  <Button type="primary" ghost class="preview">
-                    <Icon component={terminateContract} width="0.5em" />
-                    申请解约
-                  </Button>
-                </Space>
-              </Descriptions.Item>
-            </Descriptions>
-          </BNContainer>
-          <BNContainer
-            moduleTitle=" 21423423D丨企业入驻合同"
-            class="contract-item"
-            titleClass="contract-item-title"
-            contentClass="contract-item-content">
-            <Descriptions column={1}>
-              <Descriptions.Item label="租用场所">珠光御景壹号 / 北区07栋 / 26号</Descriptions.Item>
-              <Descriptions.Item label="合同期限">2022-05-18 至 2023-05-17（5年）</Descriptions.Item>
-              <Descriptions.Item label="生成时间">2022-05-18 19:51</Descriptions.Item>
-              <Descriptions.Item label="签约状态">
-                已签约（签约时间：2022-05-18 19:51，经办人：陈永森,13883191521 ）
-              </Descriptions.Item>
-              <Descriptions.Item>
-                <div class="contract-status">签约审核中，请耐心等待</div>
-              </Descriptions.Item>
-              <Descriptions.Item>
-                <Space>
-                  <Button type="primary" ghost class="preview">
-                    <Icon component={download} />
-                    合同下载
-                  </Button>
-                  <Button type="primary" ghost class="preview">
-                    <Icon component={renew} />
-                    我要续约
-                  </Button>
-                  <Button type="primary" ghost class="preview">
-                    <Icon component={terminateContract} width="0.5em" />
-                    申请解约
-                  </Button>
-                </Space>
-              </Descriptions.Item>
-            </Descriptions>
-          </BNContainer>
-          <BNContainer
-            moduleTitle=" 21423423D丨企业入驻合同"
-            class="contract-item"
-            titleClass="contract-item-title"
-            contentClass="contract-item-content">
-            <Descriptions column={1}>
-              <Descriptions.Item label="租用场所">珠光御景山水城 / 17栋 / 606号</Descriptions.Item>
-              <Descriptions.Item label="合同期限">2022-05-18 至 2023-05-17（5年）</Descriptions.Item>
-              <Descriptions.Item label="生成时间">2022-05-18 19:51</Descriptions.Item>
-              <Descriptions.Item label="签约状态">
-                已签约（签约时间：2022-05-18 19:51，经办人：张思雨,13852658547 ）
-              </Descriptions.Item>
-              <Descriptions.Item>
-                <div class="contract-status">签约审核中，请耐心等待</div>
-              </Descriptions.Item>
-              <Descriptions.Item>
-                <Space>
-                  <Button type="primary" ghost class="preview">
-                    <Icon component={download} />
-                    合同下载
-                  </Button>
-                  <Button type="primary" ghost class="preview">
-                    <Icon component={renew} />
-                    我要续约
-                  </Button>
-                  <Button type="primary" ghost class="preview">
-                    <Icon component={terminateContract} width="0.5em" />
-                    申请解约
-                  </Button>
-                </Space>
-              </Descriptions.Item>
-            </Descriptions>
-          </BNContainer> */}
-        </BNContainer>
-      </Spin>
+        ))}
+        <ApplySigningDialog
+          modalTitle={`我要${this.applyType === 1 ? '续约' : '解约'}`}
+          applyType={this.applyType}></ApplySigningDialog>
+      </BNContainer>
     )
   }
 }

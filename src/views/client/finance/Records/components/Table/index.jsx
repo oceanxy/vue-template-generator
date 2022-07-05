@@ -1,80 +1,86 @@
 import forTable from '@/mixins/forTable'
-import { Button, Table } from 'ant-design-vue'
-import forIndex from '@/mixins/forIndex'
+import { Table, Spin } from 'ant-design-vue'
 
 export default {
-  mixins: [forIndex, forTable()],
+  mixins: [forTable()],
   data: () => ({
     columns: [
       {
         title: '序号',
-        scopedSlots: { customRender: 'allPath' }
+        width: 60,
+        scopedSlots: { customRender: 'sortIndex' }
       },
       {
         title: '流水号',
-        scopedSlots: { customRender: 'remark' }
+        width: 100,
+        dataIndex: 'paySerialNumber'
       },
       {
         title: '缴费时间',
-        scopedSlots: { customRender: 'remark' }
+        width: 100,
+        dataIndex: 'payEndTime'
       },
       {
         title: '场地',
-        scopedSlots: { customRender: 'remark' }
+        width: 250,
+        dataIndex: 'address'
       },
       {
         title: '企业',
-        scopedSlots: { customRender: 'remark' }
+        width: 200,
+        dataIndex: 'companyName'
       },
       {
         title: '金额',
-        scopedSlots: { customRender: 'remark' }
+        width: 150,
+        dataIndex: 'payAmount'
       },
       {
         title: '经办人',
-        scopedSlots: { customRender: 'remark' }
+        width: 100,
+        dataIndex: 'operateName'
       },
       {
         title: '开票状态',
-        scopedSlots: { customRender: 'remark' }
+        width: 100,
+        dataIndex: 'isInvoiceStr'
       },
       {
         title: '操作',
         width: 100,
-        align: 'center',
+        fixed: 'right',
         scopedSlots: { customRender: 'operation' }
       }
-    ],
-    dataSource: [
-      {}
     ]
   }),
-  methods: {
-    async onViewDetailsClick() {
-      await this.dispatch('setVisibleForDetails', true)
-    },
-    async onInvoiceClick() {
-      await this.dispatch('setVisibleForInvoice', true)
+  computed: {
+    loading() {
+      return this.$store.state[this.moduleName].loading
     }
   },
+  methods: {},
   render() {
     return (
-      <Table
-        ref={`${this.moduleName}Table`}
-        columns={this.columns}
-        dataSource={this.dataSource}
-        rowKey="id"
-        {...{
-          scopedSlots: {
-            operation: (text, record) => (
-              <Button.Group>
-                <Button type="link" onClick={this.onViewDetailsClick}>查看明细</Button>
-                <Button type="link" onClick={this.onInvoiceClick}>申请开票</Button>
-              </Button.Group>
-            )
-          }
-        }}
-      />
+      <Spin spinning={this.loading}>
+        <Table
+          ref={`${this.moduleName}Table`}
+          columns={this.columns}
+          dataSource={this.tableProps.dataSource}
+          pagination={false}
+          rowKey="id"
+          {...{
+            scopedSlots: {
+              sortIndex: (text, record, index) => <span>{index + 1}</span>,
+              operation: (text, record) => (
+                <div>
+                  <a onClick={() => this._setVisibleOfModal(record, 'showModalForDetails')}>查看明细</a>
+                  {/* <a onClick={() => this._setVisibleOfModal(record, 'showModalForInvoice')}>申请开票</a> */}
+                </div>
+              )
+            }
+          }}
+        />
+      </Spin>
     )
   }
 }
