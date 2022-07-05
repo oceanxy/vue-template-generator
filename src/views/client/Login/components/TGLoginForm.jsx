@@ -13,7 +13,7 @@ export default Form.create({ name: 'TGLoginForm' })({
     if (process.env.NODE_ENV === 'development') {
       // 开发模式默认账号密码
       this.form.setFieldsValue({
-        username: '15826032171',
+        username: '15826032172',
         password: '123456',
         picCode: 'LANJOR'
       })

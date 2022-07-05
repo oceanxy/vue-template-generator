@@ -55,31 +55,17 @@ export default {
     return (
       <div
         class={`${this.showBoxShadow ? 'show-shadow ' : ''}tg-universal-box`}
-        style={{ '--box-width': `${this.width}${isNaN(this.width) ? '' : 'px'}` }}
-      >
-        {
-          this.modalTitle ? (
-            <div
-              class={`${
-                this.titleClass ? `${this.titleClass} ` : ''
-              }${
-                this.showTitleShape ? 'divider ' : ''
-              }box-title`}
-            >
-              {this.modalTitle}
-              {this.showMore ? <Button icon="right" /> : null}
-            </div>
-          ) : null
-        }
-        {
-          this.$slots.default ? (
-            <div class={`${this.contentClass ? `${this.contentClass} ` : ''}box-content`}>
-              {
-                this.$slots.default
-              }
-            </div>
-          ) : null
-        }
+        style={{ '--box-width': `${this.width}${isNaN(this.width) ? '' : 'px'}` }}>
+        {this.modalTitle ? (
+          <div
+            class={`${this.titleClass ? `${this.titleClass} ` : ''}${this.showTitleShape ? 'divider ' : ''}box-title`}>
+            {this.modalTitle}
+            {this.showMore ? <Button icon="right" /> : null}
+          </div>
+        ) : null}
+        {this.$slots.default ? (
+          <div class={`${this.contentClass ? `${this.contentClass} ` : ''}box-content`}>{this.$slots.default}</div>
+        ) : null}
       </div>
     )
   }

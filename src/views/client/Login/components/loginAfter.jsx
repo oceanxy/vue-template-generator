@@ -6,12 +6,16 @@ import '../assets/styles/index.scss'
 import BNContainer from '@/components/BNContainer'
 import TGShortcutMenu from '@/components/TGShortcutMenu'
 import { Button, Tag } from 'ant-design-vue'
-
+import { createNamespacedHelpers } from 'vuex'
+const { mapState } = createNamespacedHelpers('login')
 export default {
   name: 'Login',
   data: () => ({
     activeKey: 1
   }),
+  computed: {
+    ...mapState(['userInfo'])
+  },
   methods: {
     handleTabClick(key) {
       this.activeKey = key
@@ -29,26 +33,21 @@ export default {
   render() {
     return (
       <BNContainer
-        moduleTitle={
-          <div class='corporate-services-title'>
+        modalTitle={
+          <div class="corporate-services-title">
             企业服务
-            <Button
-              type='primary'
-              class='custom-button'
-              onClick={this.toEnterpriseCenter}
-            >
+            <Button type="primary" class="custom-button" onClick={this.toEnterpriseCenter}>
               进入企业中心
             </Button>
           </div>
         }
         width={390}
-        showTitleShape={false}
-      >
-        <div class="corporate-services">重庆誉存科技有限公司</div>
+        showTitleShape={false}>
+        <div class="corporate-services">{this.userInfo.fullName}</div>
         <div class="corporate-services-tags">
-          <Tag color="blue">已入驻</Tag>
-          <Tag color="cyan">已签约</Tag>
-          <Tag color="red">已欠费</Tag>
+          {/* <Tag color="blue">已入驻</Tag> */}
+          {this.userInfo.isContract === 1 ? <Tag color="cyan">已签约</Tag> : null}
+          {this.userInfo.isOwe === 1 ? <Tag color="red">已欠费</Tag> : null}
         </div>
         <TGShortcutMenu showLogout />
       </BNContainer>

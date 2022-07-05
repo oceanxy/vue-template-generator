@@ -7,7 +7,7 @@ let encryptor
 
 if (!encryptor) {
   encryptor = new JSEncrypt()
-  encryptor.setPublicKey(config.publicKey)
+  encryptor.setPublicKey(config.publicKeyClient)
 }
 
 export default {
@@ -33,6 +33,13 @@ export default {
         sessionStorage.removeItem('token')
       }
     },
+    setCompanyId(state, payload) {
+      if (payload) {
+        sessionStorage.setItem('companyId', payload)
+      } else {
+        sessionStorage.removeItem('companyId')
+      }
+    },
     setSiteCache(state, payload) {
       if (payload) {
         sessionStorage.setItem('defaultRoute', payload.defaultMenuUrl)
@@ -44,7 +51,7 @@ export default {
     }
   },
   actions: {
-    async login({ commit, state }, payload) {
+    async login({ commit, state, dispatch }, payload) {
       commit('setLoading', true)
 
       const response = await apis.login({
@@ -54,7 +61,7 @@ export default {
             p: payload.password
           })
         ),
-        vck: payload.picCode
+        vc: payload.picCode
       })
 
       const { status } = response
@@ -70,11 +77,21 @@ export default {
         //   menuList: menuList,
         //   defaultMenuUrl: defaultMenuUrl
         // })
+        dispatch('getDetailInfo')
 
         await router.replace({ name: 'loginAfter' })
       }
 
       return Promise.resolve(response)
+    },
+
+    async getDetailInfo({ commit }) {
+      const { status, data } = await apis.getDetailInfo()
+
+      if (status) {
+        commit('setUserInfo', data)
+        commit('setCompanyId', data.companyId)
+      }
     },
     async logout({ commit, dispatch }) {
       commit('setLoading', true)
