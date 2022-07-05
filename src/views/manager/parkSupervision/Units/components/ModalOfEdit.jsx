@@ -47,7 +47,7 @@ export default Form.create({})({
       attrs: this.modalProps,
       on: {
         cancel: () => this.onCancel(),
-        ok: () => this.onSubmit
+        ok: () => this.onSubmit()
       }
     }
 
