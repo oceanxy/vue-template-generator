@@ -15,6 +15,19 @@ export default {
     })
   },
   /**
+   * 获取问卷下拉列表
+   * @param request
+   * @param data
+   * @returns {*}
+   */
+  getQuestionnairesForSelect(request, data) {
+    return request({
+      url: '/operate/questionnaire/getQuestionnaireList',
+      method: 'post',
+      data: qs.stringify(data)
+    })
+  },
+  /**
    * 删除问卷管理
    * @param request
    * @param data

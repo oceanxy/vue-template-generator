@@ -10,8 +10,8 @@ export default {
       <Pagination
         class="bn-functional-modules-pagination"
         {...{
-          props: omit(this.$data, 'on'),
-          on: this.$data.on
+          props: omit(this.paginationProps, 'on'),
+          on: this.paginationOn
         }}
       />
     )

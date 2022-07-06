@@ -29,7 +29,11 @@ export default {
     // 单位下拉列表加载状态
     loadingOfUnitsForSelect: false,
     // 单位下拉列表
-    unitsForSelect: []
+    unitsForSelect: [],
+    // 问卷下拉列表
+    questionnairesForSelect: [],
+    // 问卷下拉列表加载状态
+    loadingOfQuestionnairesForSelect: false
   },
   mutations: {
     setAdministrativeDivision(state, payload) {
@@ -59,6 +63,9 @@ export default {
     },
     setUnitsForSelect(state, payload) {
       state.unitsForSelect = payload
+    },
+    setQuestionnairesForSelect(state, payload) {
+      state.questionnairesForSelect = payload
     }
   },
   actions: {
@@ -185,6 +192,25 @@ export default {
         value: false,
         moduleName: 'common',
         customizeLoading: 'loadingOfUnitsForSelect'
+      }, { root: true })
+    },
+    async getQuestionnairesForSelect({ commit }) {
+      commit('setLoading', {
+        value: true,
+        moduleName: 'common',
+        customizeLoading: 'loadingOfQuestionnairesForSelect'
+      }, { root: true })
+
+      const response = await apis.getQuestionnairesForSelect()
+
+      if (response.status) {
+        commit('setQuestionnairesForSelect', response.data)
+      }
+
+      commit('setLoading', {
+        value: false,
+        moduleName: 'common',
+        customizeLoading: 'loadingOfQuestionnairesForSelect'
       }, { root: true })
     }
   }

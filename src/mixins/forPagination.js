@@ -9,13 +9,15 @@ export default {
   inject: ['moduleName'],
   data() {
     return {
-      currentPage: 1,
-      total: 0,
-      pageSize: 10,
-      showSizeChanger: true,
-      showQuickJumper: true,
-      showTotal: total => `共 ${total} 条`,
-      on: {
+      paginationProps: {
+        currentPage: 1,
+        total: 0,
+        pageSize: 10,
+        showSizeChanger: true,
+        showQuickJumper: true,
+        showTotal: total => `共 ${total} 条`
+      },
+      paginationOn: {
         change: this.onPaginationChange,
         showSizeChange: this.onSizeChange
       }
@@ -23,11 +25,17 @@ export default {
   },
   created() {
     this.$watch(
-      () => this.$store.state[this.moduleName].pagination,
+      () => {
+        if (this.submoduleName) {
+          return this.$store.state[this.moduleName][this.submoduleName].pagination
+        } else {
+          return this.$store.state[this.moduleName].pagination
+        }
+      },
       pagination => {
-        this.currentPage = pagination.pageIndex + 1
-        this.total = pagination.total
-        this.pageSize = pagination.pageSize
+        this.paginationProps.currentPage = pagination.pageIndex + 1
+        this.paginationProps.total = pagination.total
+        this.paginationProps.pageSize = pagination.pageSize
       })
   },
   methods: {
@@ -39,6 +47,7 @@ export default {
     async onPaginationChange(page, pageSize) {
       await this.$store.dispatch('getList', {
         moduleName: this.moduleName,
+        submoduleName: this.submoduleName,
         additionalQueryParameters: {
           pageIndex: page - 1,
           pageSize
@@ -54,6 +63,7 @@ export default {
       // 改变每页显示条数后，回到第一页
       await this.$store.dispatch('getList', {
         moduleName: this.moduleName,
+        submoduleName: this.submoduleName,
         additionalQueryParameters: {
           pageIndex: 0,
           pageSize: size
