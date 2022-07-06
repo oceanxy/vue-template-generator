@@ -27,6 +27,7 @@
         padding: 16px 0;
         gap: 12px;
         cursor: pointer;
+        transition: all 0.3s;
 
         span:first-child {
           width: 20px;
@@ -49,13 +50,18 @@
         &:hover {
           background: #ebf4fd;
         }
+
+        &.checked {
+          background: #d4e8fb;
+          padding-left: 10px;
+        }
       }
     }
   }
 
   .tg-container-with-sider--main {
     .main-container {
-      box-shadow: 0 2px 4px 0 rgba(0,0,0,0.02);
+      box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.02);
       flex: auto;
 
       &.chart-container {
@@ -98,6 +104,17 @@
       padding: 0 20px;
       border: none;
       display: flex;
+      flex-direction: column;
+
+      .results-table {
+        flex: auto;
+      }
+
+      .tg-pagination {
+        height: 52px;
+        padding: 10px 0;
+        flex: none;
+      }
     }
   }
 }

@@ -8,16 +8,14 @@ export default {
     return (
       <Space class="tg-function">
         <Button
-          type="primary"
           // onClick={() => this.onAddClick()}
-          icon="plus"
+          icon="import"
         >
           导入
         </Button>
         <Button
-          type="primary"
           // onClick={() => this._setVisibleOfModal({}, 'visibleOfQuestionnaireSwitch')}
-          icon="plus"
+          icon="export"
         >
           导出
         </Button>

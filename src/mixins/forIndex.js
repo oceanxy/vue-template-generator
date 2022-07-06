@@ -15,6 +15,7 @@ export default {
      * 使用：this._dispatch(action, payload)
      *    也可以直接调用 '@/utils/store' 里的 'dispatch(moduleName, action, payload)'
      * 如果需要调用全局的 actions 和 mutations，请传第三个参数 root:true
+     * 如果需要调用子模块，请在第三个参数内加上submoduleName
      *    也可以直接在组件内以 this.$store.dispatch() 来调用全局 actions
      * @param action {string}
      * @param payload {{payload: *} | *}
@@ -22,13 +23,19 @@ export default {
      */
     async _dispatch(action, payload, optional) {
       if (optional.root) {
+        // 触发全局 action 修改模块内的 state。为了避免破坏性，子模块目前仅支持通过第三个参数（optional）传入
         await this.$store.dispatch(action, {
           ...payload,
           moduleName: this.moduleName,
-          submoduleName: payload.submoduleName
+          submoduleName: optional.submoduleName
         })
       } else {
-        await dispatch(this.moduleName, action, payload)
+        // 触发模块内的 action 修改其内的 state。
+        await dispatch(`${this.moduleName}${
+          optional.submoduleName
+            ? `/${optional.submoduleName}`
+            : ''
+        }`, action, payload)
       }
     },
     /**

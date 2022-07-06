@@ -1,8 +1,7 @@
 import { createStoreModule } from '@/store/template'
 
-export default commitRootInModule =>
-  createStoreModule({
-    state: {
-      visibleOfQuestionnaireSwitch: false
-    }
-  })
+export default commitRootInModule => createStoreModule({
+  state: {
+    visibleOfQuestionnaireSwitch: false
+  }
+})

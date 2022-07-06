@@ -65,10 +65,12 @@ export default customModuleName => {
           'setModalVisible',
           {
             statusField: visibleField,
-            statusValue: false,
-            submoduleName: submoduleName
+            statusValue: false
           },
-          { root: true }
+          {
+            root: true,
+            submoduleName: submoduleName
+          }
         )
       }
     }

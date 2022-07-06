@@ -13,7 +13,6 @@ export default {
     submoduleName,
     customizeLoading
   }) {
-
     if (submoduleName) {
       state[moduleName][submoduleName][customizeLoading || 'loading'] = value
     } else {

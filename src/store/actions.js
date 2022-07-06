@@ -53,13 +53,15 @@ export default {
    * @param submoduleName {string} 子模块名
    * @param additionalQueryParameters {Object} 附加查询参数。例如分页相关参数，中心ID等。
    * @param stateName {string} 需要设置的字段，默认 state.list
+   * @param customApiName {string} 自定义请求api的名字
    * @returns {Promise<void>}
    */
   async getList({ state, commit }, {
     moduleName,
     submoduleName,
     additionalQueryParameters = {},
-    stateName
+    stateName,
+    customApiName
   }) {
     commit('setLoading', { value: true, moduleName, submoduleName })
 
@@ -67,13 +69,17 @@ export default {
     let api = 'getList'
 
     if (!config.mock) {
-      api = `get${
-        submoduleName
-          ? `${UF.firstLetterToUppercase(submoduleName)}Of`
-          : ''
-      }${
-        UF.firstLetterToUppercase(moduleName)
-      }`
+      if (customApiName) {
+        api = customApiName
+      } else {
+        api = `get${
+          submoduleName
+            ? `${UF.firstLetterToUppercase(submoduleName)}Of`
+            : ''
+        }${
+          UF.firstLetterToUppercase(moduleName)
+        }`
+      }
     }
 
     if (!submoduleName) {
@@ -354,7 +360,12 @@ export default {
    * @param moduleName {string} 要设置的状态所在的store模块的名称
    * @param submoduleName {string} 要设置的状态所在的store子模块的名称，依赖 moduleName
    */
-  setModalVisible({ commit }, { statusField, statusValue, moduleName, submoduleName }) {
+  setModalVisible({ commit }, {
+    statusField,
+    statusValue,
+    moduleName,
+    submoduleName
+  }) {
     commit('setModalVisible', {
       field: statusField || 'visibleOfEdit',
       value: statusValue,

@@ -1,6 +1,9 @@
 <template>
-  <a-layout-header class="tg-layout-header" :style="showBreadcrumb ? 'height: 118px;' : ''">
-    <div class="tg-header" :class="{ manager: manager }">
+  <a-layout-header
+    class="tg-layout-header"
+    :style="showBreadcrumb ? 'height: 118px;' : ''"
+  >
+    <div class="tg-header" :class="{'manager': manager}">
       <div class="tg-logo" />
       <a-badge class="tg-badge" dot>
         <a-avatar icon="user" shape="circle" class="tg-avatar" />
@@ -19,8 +22,10 @@
         <template #overlay>
           <a-menu class="header-menu">
             <a-menu-item class="tg-menu-user">
-              <a-avatar>重</a-avatar>
-              <div class="corporate-services">{{ userInfo.companyName }}</div>
+              <a-avatar>
+                {{ avatar }}
+              </a-avatar>
+              <div class="corporate-services">{{ userInfo.fullName }}</div>
               <div>
                 <a-tag v-if="userInfo.isContract === 1" color="cyan">已签约</a-tag>
                 <a-tag v-if="userInfo.isOwe === 1" color="red">已欠费</a-tag>
@@ -44,6 +49,7 @@
 import { Avatar, Badge, Dropdown, Layout, Menu, Tag } from 'ant-design-vue'
 import { createNamespacedHelpers } from 'vuex'
 import TGBreadcrumb from '@/layouts/components/TGBreadcrumb'
+import utilityFunction from '@/utils/utilityFunction'
 
 const { mapState, mapActions } = createNamespacedHelpers('login')
 
@@ -74,6 +80,9 @@ export default {
     ...mapState({ userInfo: 'userInfo' }),
     manager() {
       return this.layout !== 'client'
+    },
+    avatar() {
+      return utilityFunction.firstLetterToUppercase(this.userInfo.fullName.substring(0, 1))
     }
   },
   methods: {

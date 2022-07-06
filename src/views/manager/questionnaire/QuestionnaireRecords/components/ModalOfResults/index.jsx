@@ -1,13 +1,19 @@
 import './index.scss'
 import forModal from '@/mixins/forModal'
-import { mapState } from 'vuex'
 import DragModal from '@/components/DragModal'
 import { Button } from 'ant-design-vue'
-import Inquiry from './components/Inquiry'
 import Table from './components/Table'
+import forModuleName from '@/mixins/forModuleName'
+import { mapGetters } from 'vuex'
 
 export default {
-  mixins: [forModal()],
+  name: 'QuestionnaireRecords-Results',
+  mixins: [forModal(), forModuleName(true)],
+  provide() {
+    return {
+      submoduleName: this.submoduleName
+    }
+  },
   props: {
     /**
      * 标题（可定义占位符）
@@ -27,30 +33,22 @@ export default {
       visibleField: 'visibleOfResults'
     }
   },
-  computed: mapState({
-    allSiteApps: 'allSiteApps',
-    allFunctionalModules: 'allFunctionalModules'
-  }),
-  watch: {
-    visible(value) {
-      if (value) {
-        //
-      } else {
-        //
-      }
+  computed: {
+    ...mapGetters({ getState: 'getState' }),
+    currentItem() {
+      return this.getState('currentItem', this.moduleName)
     }
   },
   render() {
     const attributes = {
       attrs: this.modalProps,
       on: {
-        cancel: () => this.onCancel('visibleOfResults')
+        cancel: () => this.onCancel(this.visibleField)
       }
     }
 
     return (
-      <DragModal {...attributes}>
-        <Inquiry />
+      <DragModal {...attributes} class={'bnm-table-modal'}>
         <Table />
       </DragModal>
     )

@@ -15,6 +15,19 @@ export default {
     })
   },
   /**
+   * 获取问卷模版项
+   * @param [request]
+   * @param data
+   * @returns {*}
+   */
+  getItemOfQuestionnaireTemplate(request, data) {
+    return request({
+      url: '/operate/template/getItemShortList',
+      method: 'post',
+      data: qs.stringify(data)
+    })
+  },
+  /**
    * 修改问卷模版管理状态
    * @param [request]
    * @param data

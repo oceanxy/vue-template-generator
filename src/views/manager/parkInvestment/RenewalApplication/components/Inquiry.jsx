@@ -1,17 +1,9 @@
 import { Button, Form, Input, Select, Space } from 'ant-design-vue'
 import forInquiry from '@/mixins/forInquiry'
-import { mapActions, mapState } from 'vuex'
 import '../assets/styles/index.scss'
 
 export default Form.create({})({
   mixins: [forInquiry()],
-  computed: mapState({ allSiteApps: 'allSiteApps' }),
-  async created() {
-    await this.getAllSiteApps()
-  },
-  methods: {
-    ...mapActions({ getAllSiteApps: 'getAllSiteApps' })
-  },
   render() {
     return (
       <Form

@@ -10,48 +10,49 @@ export default {
         columns: [
           {
             title: '序号',
-            dataIndex: ''
+            width: 60,
+            align: 'center',
+            scopedSlots: { customRender: 'serialNumber' }
           },
           {
             title: '问卷标题',
-            dataIndex: 'appName'
+            dataIndex: 'fullName'
           },
           {
             title: '有效期',
-            dataIndex: 'remark'
+            scopedSlots: { customRender: 'validityPeriod' }
           },
           {
-            title: '参与',
+            title: '完成数',
             align: 'center',
-            dataIndex: 'zz'
+            dataIndex: 'finishNum'
           },
           {
-            title: '未参与',
+            title: '未完成数',
             align: 'center',
-            dataIndex: 'xx'
+            dataIndex: 'unFinishNum'
           },
           {
             title: '创建人',
             align: 'center',
-            dataIndex: 'cc'
+            dataIndex: 'creatorName'
           },
           {
             title: '创建时间',
-            align: 'center',
-            scopedSlots: { customRender: 'time' }
+            dataIndex: 'createTimeStr'
           },
           {
             title: '状态',
             align: 'center',
             width: 60,
-            scopedSlots: { customRender: 'status' }
+            dataIndex: 'reportStatusStr'
           },
           {
             title: '操作',
             key: 'operation',
             // fixed: 'right',
             align: 'center',
-            width: 500,
+            width: 300,
             scopedSlots: { customRender: 'operation' }
           }
         ]
@@ -73,24 +74,24 @@ export default {
         {...attributes}
         {...{
           scopedSlots: {
-            // status: (text, record) => (
-            //   <Switch
-            //     checked={+record.status === 1}
-            //     onChange={checked => this.onStatusChange(checked, record)}
-            //   />
-            // ),
+            serialNumber: (text, record, index) => index + 1,
+            validityPeriod: (text, record) => `${record.startTimeStr} ~ ${record.endTimeStr}`,
+            status: (text, record) => (
+              record.status
+            ),
             operation: (text, record) => (
               <Space class="operation-space">
+                {/*<Button*/}
+                {/*  type="link"*/}
+                {/*  size="small"*/}
+                {/*  // onClick={() => this.onEditClick(record)}*/}
+                {/*>*/}
+                {/*  预览*/}
+                {/*</Button>*/}
                 <Button
                   type="link"
                   size="small"
-                  // onClick={() => this.onEditClick(record)}
-                >
-                  预览
-                </Button>
-                <Button
-                  type="link"
-                  size="small"
+                  style={record.reportStatus !== 2 ? { display: 'none' } : {}}
                   onClick={() => this._setVisibleOfModal(record, 'visibleOfQuestionnaireSwitch')}
                 >
                   发布
@@ -98,20 +99,7 @@ export default {
                 <Button
                   type="link"
                   size="small"
-                  onClick={() => this.onEditClick(record)}
-                >
-                  编辑
-                </Button>
-                <Button
-                  type="link"
-                  size="small"
-                  onClick={() => this.onDeleteClick(record)}
-                >
-                  删除
-                </Button>
-                <Button
-                  type="link"
-                  size="small"
+                  style={record.reportStatus !== 1 ? { display: 'none' } : {}}
                   onClick={() => this._setVisibleOfModal(record, 'visibleOfQuestionnaireSwitch')}
                 >
                   结束
@@ -119,6 +107,23 @@ export default {
                 <Button
                   type="link"
                   size="small"
+                  style={record.reportStatus !== 2 ? { display: 'none' } : {}}
+                  onClick={() => this.onEditClick(record)}
+                >
+                  编辑
+                </Button>
+                <Button
+                  type="link"
+                  size="small"
+                  style={record.reportStatus === 1 ? { display: 'none' } : {}}
+                  onClick={() => this.onDeleteClick(record)}
+                >
+                  删除
+                </Button>
+                <Button
+                  type="link"
+                  size="small"
+                  style={record.reportStatus === 2 ? { display: 'none' } : {}}
                   // onClick={() => this.onDeleteClick(record)}
                 >
                   问卷记录
@@ -126,6 +131,7 @@ export default {
                 <Button
                   type="link"
                   size="small"
+                  style={record.reportStatus === 2 ? { display: 'none' } : {}}
                   // onClick={() => this.onDeleteClick(record)}
                 >
                   问卷统计
@@ -133,6 +139,7 @@ export default {
                 <Button
                   type="link"
                   size="small"
+                  style={record.reportStatus === 2 ? { display: 'none' } : {}}
                   // onClick={() => this.onDeleteClick(record)}
                 >
                   导出结果

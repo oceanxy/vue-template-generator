@@ -2,27 +2,27 @@ import qs from 'qs'
 
 export default {
   /**
-   * 获取问卷记录列表
+   * 获取问卷统计列表
    * @param [request]
    * @param data
    * @returns {*}
    */
-  getQuestionnaireRecords(request, data) {
+  getQuestionnaireStatistics(request, data) {
     return request({
-      url: '/operate/questionnaireRecord/getQuestionnaireRecordPageList',
+      url: '/operate/questionnaireResult/getQuestionnaireResultCount',
       method: 'post',
       data: qs.stringify(data)
     })
   },
   /**
-   * 获取问卷记录列表
+   * 删除问卷统计
    * @param request
    * @param data
    * @returns {*}
    */
-  getResultsOfQuestionnaireRecords(request, data) {
+  getResultsOfQuestionnaireStatistics(request, data) {
     return request({
-      url: '/operate/reportRecord/getReportRecord',
+      url: '/operate/questionnaireResult/getQuestionnaireResultPageList',
       method: 'post',
       data: qs.stringify(data)
     })

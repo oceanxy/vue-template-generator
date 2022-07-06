@@ -1,16 +1,57 @@
 import './assets/styles/index.scss'
-import { Button, Select } from 'ant-design-vue'
+import { Select, Spin } from 'ant-design-vue'
 import dynamicState from '@/mixins/dynamicState'
 import store, { dynamicModules } from '@/store/manager'
 import TGContainerWithSider from '@/components/TGContainerWithSider'
-import BNContainer from '@/components/BNContainer'
 import TableForItem from './components/TableForItem'
 import TableForType from './components/TableForType'
-import Chart from './components/Chart'
+import { dispatch } from '@/utils/store'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'QuestionnaireStatistics',
   mixins: [dynamicState(store, dynamicModules)],
+  computed: {
+    ...mapGetters({ getState: 'getState' }),
+    questionnairesForSelect() {
+      return this.getState('questionnairesForSelect', 'common')
+    },
+    loadingOfQuestionnairesForSelect() {
+      return this.getState('loadingOfQuestionnairesForSelect', 'common')
+    },
+    templateId: {
+      get() {
+        return this.getState('templateId', this.moduleName)
+      },
+      async set(value) {
+        await this.$store.dispatch(`${this.moduleName}/setTemplateId`, value)
+      }
+    },
+    itemId() {
+      return this.getState('itemId', this.moduleName)
+    },
+    itemOfQuestionnaireTemplate() {
+      return this.getState('itemOfQuestionnaireTemplate', this.moduleName)
+    },
+    itemLoading() {
+      return this.getState('itemLoading', this.moduleName)
+    }
+  },
+  watch: {
+    async questionnairesForSelect(value) {
+      if (value.length) {
+        await this.$store.dispatch(`${this.moduleName}/setTemplateId`, value[0].templateId)
+      }
+    }
+  },
+  async created() {
+    await dispatch('common', 'getQuestionnairesForSelect')
+  },
+  methods: {
+    setItemId(value) {
+      this.$store.commit(`${this.moduleName}/setItemId`, value)
+    }
+  },
   render() {
     return (
       <TGContainerWithSider
@@ -18,50 +59,37 @@ export default {
         class={'bnm-questionnaire-statistics-container'}
       >
         <template slot={'sider'}>
-          <Select placeholder={'请选择问卷'} class={'list-select'}>
-            <Select.Option value={1}>11</Select.Option>
+          <Select
+            vModel={this.templateId}
+            placeholder={'请选择问卷'}
+            class={'list-select'}
+            notFoundContent={this.loadingOfQuestionnairesForSelect ? <Spin /> : undefined}
+          >
+            {
+              this.questionnairesForSelect.map(item => (
+                <Select.Option value={item.templateId}>{item.fullName}</Select.Option>
+              ))
+            }
           </Select>
           <div class={'list'}>
-            <div class={'list-item'}>
-              <span>01</span>
-              <span>您是否接种过新冠疫苗</span>
-            </div>
-            <div class={'list-item'}>
-              <span>01</span>
-              <span>您是否接种过新冠疫苗</span>
-            </div>
-            <div class={'list-item'}>
-              <span>01</span>
-              <span>您是否接种过新冠疫苗</span>
-            </div>
+            <Spin spinning={this.itemLoading} style={{ width: '100%' }}>
+              {
+                this.itemOfQuestionnaireTemplate.map((item, index) => (
+                  <div
+                    class={`list-item${this.itemId === item.id ? ' checked' : ''}`}
+                    onClick={() => this.setItemId(item.id)}
+                  >
+                    <span>{index + 1}</span>
+                    <span>{item.fullName}</span>
+                  </div>
+                ))
+              }
+            </Spin>
           </div>
         </template>
         <template slot={'default'}>
-          <BNContainer
-            modalTitle={'您是否接种过新冠疫苗'}
-            width={'100%'}
-            class={'main-container chart-container'}
-            contentClass={'chart-content'}
-            showBoxShadow={false}
-          >
-            <div class={'completed-quantity'}>已完成问卷数：96</div>
-            <TableForItem />
-            <Chart />
-          </BNContainer>
-          <BNContainer
-            class={'main-container'}
-            contentClass={'table-content'}
-            modalTitle={
-              <div class={'table-content-title'}>
-                <span>按类型统计</span>
-                <Button class={'custom-button'} ghost type={'primary'}>导出结果</Button>
-              </div>
-            }
-            width={'100%'}
-            showBoxShadow={false}
-          >
-            <TableForType />
-          </BNContainer>
+          <TableForItem />
+          <TableForType />
         </template>
       </TGContainerWithSider>
     )

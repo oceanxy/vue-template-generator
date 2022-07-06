@@ -10,8 +10,8 @@ export default {
     return {
       columns: [
         {
-          title: '姓名',
-          scopedSlots: { customRender: 'allPath' }
+          title: '名称',
+          scopedSlots: { customRender: 'fullName' }
         },
         {
           title: <Button icon={'plus'} onClick={this.onCreateRow} />,
@@ -52,8 +52,7 @@ export default {
     },
     onCreateRow() {
       const row = {
-        allPath: '',
-        remark: '',
+        fullName: '',
         id: Math.random()
       }
 
@@ -64,14 +63,6 @@ export default {
     }
   },
   render() {
-    // const attr = {
-    //   props: {
-    //     ...omit(this.$props, 'value'),
-    //     ...this.$attrs
-    //   },
-    //   on: this.$listeners
-    // }
-
     return (
       <div class="tg-multi-input">
         <Table
@@ -80,13 +71,14 @@ export default {
           dataSource={this.dataSource}
           pagination={false}
           rowKey="id"
+          size={'middle'}
           tableLayout={'fixed'}
           {...{
             scopedSlots: {
-              allPath: (text, record) => (
+              fullName: (text, record) => (
                 <Input
-                  vModel={record.allPath}
-                  placeholder="请输入完整路径"
+                  vModel={record.fullName}
+                  placeholder="请输入名称搜索资讯"
                   onBlur={this.onChange}
                 />
               ),
@@ -100,36 +92,3 @@ export default {
     )
   }
 }
-
-/*
-*
-* <Row>
-          <Col>
-            <Button style={{ marginBottom: '20px' }} icon="plus" onClick={this.onPlusClick} />
-          </Col>
-        </Row>
-        {
-          this.driveForm.map((item, index) => (
-            <Row gutter={10} {...{ props: { id: item.key } }}>
-              {
-                Object.entries(item).map(([key, value]) => key === 'key' ? null : (
-                  <Col {...{ props: this.layouts[key] }}>
-                    <Form.Item>
-                      {
-                        this.form.getFieldDecorator(`${key}_${index}`, {
-                          rules: this.rules[key] || [],
-                          initialValue: value || ''
-                        })(
-                          <Input placeholder={this.placeholders[key] || ''} />
-                        )
-                      }
-                    </Form.Item>
-                  </Col>
-                ))
-              }
-              <Col span={2}>
-                <Button icon="delete" onClick={() => this.onDelClick(index)} />
-              </Col>
-            </Row>
-          ))
-        } */

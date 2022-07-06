@@ -15,14 +15,14 @@ export default {
     })
   },
   /**
-   * 修改问卷管理状态
-   * @param [request]
+   * 获取问卷下拉列表
+   * @param request
    * @param data
    * @returns {*}
    */
-  updateQuestionnairesStatus(request, data) {
+  getQuestionnairesForSelect(request, data) {
     return request({
-      url: '/operate/questionnaire/updateStatus',
+      url: '/operate/questionnaire/getQuestionnaireList',
       method: 'post',
       data: qs.stringify(data)
     })

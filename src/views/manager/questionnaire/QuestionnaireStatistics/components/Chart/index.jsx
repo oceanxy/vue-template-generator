@@ -2,13 +2,18 @@ import Chart from '@/components/Chart'
 import './index.scss'
 
 export default {
+  props: {
+    dataSource: {
+      type: Object,
+      default: () => ({})
+    }
+  },
   data() {
     return {
-      loading: false,
       option: {
         color: ['#597ef7', '#fa8c16', '#fadb14', '#36cfc9', '#a0d911', '#40a9ff'],
         title: {
-          text: '人口\n性别分布',
+          text: '',
           textStyle: {
             fontSize: 12,
             color: '#ffffff',
@@ -27,14 +32,14 @@ export default {
           top: 10,
           left: 'center',
           textStyle: {
-            color: '#8C8C8C',
+            color: '#8c8c8c',
             fontSize: 14
           }
         },
         series: [
           {
             type: 'pie',
-            radius: ['30%', '70%'],
+            radius: ['30%', '60%'],
             center: ['center', '60%'],
             roseType: 'radius',
             label: {
@@ -46,34 +51,21 @@ export default {
               lineHeight: 16,
               formatter: '{b}\n{d}%'
             },
-            data: [
-              {
-                name: '1214234325432',
-                value: 20
-              },
-              {
-                name: '3253253252',
-                value: 29
-              },
-              {
-                name: '332523543',
-                value: 49
-              },
-              {
-                name: '436346464',
-                value: 39
-              },
-              {
-                name: '436346367',
-                value: 19
-              },
-              {
-                name: '35346346',
-                value: 69
-              }
-            ]
+            data: []
           }
         ]
+      }
+    }
+  },
+  watch: {
+    dataSource: {
+      immediate: true,
+      handler() {
+        this.option.title.text = this.dataSource.fullName
+        this.option.series[0].data = this.dataSource.countList?.map(item => ({
+          name: item.fullName,
+          value: item.count
+        }))
       }
     }
   },
