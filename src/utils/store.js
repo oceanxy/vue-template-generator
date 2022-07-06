@@ -27,7 +27,7 @@ export function commitRootInModule(moduleName, commit, mutation, payload) {
 export async function dispatch(moduleName, action, payload) {
   let store
 
-  if (process.env.VUE_APP_PROJECT === 'development-client') {
+  if (process.env.VUE_APP_PROJECT === 'development-client' || process.env.VUE_APP_PROJECT === 'production-client') {
     store = await import('../store/client')
   } else {
     store = await import('../store/manager')

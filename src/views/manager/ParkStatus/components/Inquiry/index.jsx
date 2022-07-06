@@ -22,17 +22,17 @@ export default Form.create({})({
     if (!this.buildingsForSelect.length) {
       await dispatch('common', 'getBuildingsForSelect')
     }
-
-    await this.setSearch()
   },
   watch: {
     buildingsForSelect: {
       immediate: true,
-      handler(value) {
+      async handler(value) {
         const temp = value?.[0]?.children?.[0]?.id
 
         if (temp) {
           this.initialBuildingId = temp
+
+          await this.setSearch()
         }
       }
     }
@@ -42,14 +42,14 @@ export default Form.create({})({
       this.useState = state
       await this.setSearch()
     },
-    async setSearch() {
+    async setSearch(value) {
       await this.$store.dispatch('setSearch', {
         moduleName: this.moduleName,
         payload: {
-          buildId: this.initialBuildingId,
-          floorId: '',
-          useStatus: this.useState,
-          currentTime: moment().format('YYYYMMDD')
+          buildId: value || this.initialBuildingId,
+          floorId: '', // 初次请求时，默认楼层为全部
+          useStatus: this.useState, // 初次请求时，默认状态为全部
+          currentTime: moment().format('YYYYMMDD') // 初次请求时，默认时间为当日
         }
       })
     }
@@ -67,8 +67,8 @@ export default Form.create({})({
           <Space>
             <Form.Item>
               {
-                this.form.getFieldDecorator('pageName1', {
-                  initialValue: this.initialBuildingId
+                this.form.getFieldDecorator('buildId', {
+                  initialValue: this.initialBuildingId || undefined
                 })(
                   <TreeSelect
                     showSearch
@@ -79,13 +79,14 @@ export default Form.create({})({
                     searchPlaceholder={'请输入关键字以搜索'}
                     placeholder={'请选择楼栋'}
                     treeDefaultExpandedKeys={[this.initialBuildingId]}
+                    onChange={this.setSearch}
                   />
                 )
               }
             </Form.Item>
             <Form.Item style={{ width: '275px' }}>
               {
-                this.form.getFieldDecorator('pageName')(
+                this.form.getFieldDecorator('useStatus')(
                   <Button.Group>
                     <Button
                       type={this.useState === 0 ? 'primary' : ''}

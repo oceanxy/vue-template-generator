@@ -20,7 +20,7 @@ export default {
           },
           {
             title: '地址',
-            scopedSlots: { customRender: 'address' }
+            dataIndex: 'address'
           },
           {
             title: '工商注册号',
@@ -80,7 +80,6 @@ export default {
         {...{
           scopedSlots: {
             serialNumber: (text, record, index) => index + 1,
-            address: (text, record, index) => `${record.provinceName}${record.cityName}${record.countyName}`,
             status: (text, record) => (
               <Switch
                 checked={+record.status === 1}

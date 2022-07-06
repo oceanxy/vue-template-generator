@@ -62,7 +62,7 @@ service.interceptors.response.use(
     if (+res.code === 30001) {
       let store
 
-      if (process.env.VUE_APP_PROJECT === 'development-client') {
+      if (process.env.VUE_APP_PROJECT === 'development-client' || process.env.VUE_APP_PROJECT === 'production-client') {
         store = await import('../store/client')
       } else {
         store = await import('../store/manager')

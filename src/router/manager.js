@@ -337,16 +337,16 @@ export const routes = [
               }
             ]
           },
-          {
-            path: 'renewal-application',
-            name: 'renewalApplication',
-            component: () => import('@/views/manager/parkInvestment/RenewalApplication'),
-            meta: {
-              title: '企业续约申请',
-              keepAlive: true,
-              requiresAuth: true
-            }
-          }
+          // {
+          //   path: 'renewal-application',
+          //   name: 'renewalApplication',
+          //   component: () => import('@/views/manager/parkInvestment/RenewalApplication'),
+          //   meta: {
+          //     title: '企业续约申请',
+          //     keepAlive: true,
+          //     requiresAuth: true
+          //   }
+          // }
         ]
       },
       {
@@ -501,106 +501,106 @@ export const routes = [
           }
         ]
       },
-      {
-        path: 'discounts-lock',
-        component: TGRouterView,
-        meta: {
-          title: '优惠管理',
-          keepAlive: true,
-          requiresAuth: true,
-          icon: () => import('@/layouts/components/TGMenu/assets/images/discountsLock.svg')
-        }
-      },
-      {
-        path: 'financial-mana',
-        component: TGRouterView,
-        meta: {
-          title: '财务管理',
-          keepAlive: true,
-          requiresAuth: true,
-          icon: () => import('@/layouts/components/TGMenu/assets/images/financialManagement.svg')
-        }
-      },
-      {
-        path: 'content-release',
-        component: TGRouterView,
-        meta: {
-          title: '内容发布',
-          keepAlive: true,
-          requiresAuth: true,
-          icon: () => import('@/layouts/components/TGMenu/assets/images/contentRelease.svg')
-        }
-      },
-      {
-        path: 'suggestions',
-        component: TGRouterView,
-        meta: {
-          title: '投诉/建议管理',
-          keepAlive: true,
-          requiresAuth: true,
-          icon: () => import('@/layouts/components/TGMenu/assets/images/suggestions.svg')
-        }
-      },
-      {
-        path: 'cancellation-mana',
-        component: TGRouterView,
-        meta: {
-          title: '解约管理',
-          keepAlive: true,
-          requiresAuth: true,
-          icon: () => import('@/layouts/components/TGMenu/assets/images/cancellationManagement.svg')
-        }
-      },
-      {
-        path: 'ent-ann-ass',
-        component: TGRouterView,
-        meta: {
-          title: '企业年度考核',
-          keepAlive: true,
-          requiresAuth: true,
-          icon: () => import('@/layouts/components/TGMenu/assets/images/enterpriseAnnualAssessment.svg')
-        }
-      },
-      {
-        path: 'conf-room-mana',
-        component: TGRouterView,
-        meta: {
-          title: '会议室管理',
-          keepAlive: true,
-          requiresAuth: true,
-          icon: () => import('@/layouts/components/TGMenu/assets/images/conferenceRoomManagement.svg')
-        }
-      },
-      {
-        path: 'work-order-mana',
-        component: TGRouterView,
-        meta: {
-          title: '工单管理',
-          keepAlive: true,
-          requiresAuth: true,
-          icon: () => import('@/layouts/components/TGMenu/assets/images/workOrderManagement.svg')
-        }
-      },
-      {
-        path: 'data-col',
-        component: TGRouterView,
-        meta: {
-          title: '数据采集',
-          keepAlive: true,
-          requiresAuth: true,
-          icon: () => import('@/layouts/components/TGMenu/assets/images/dataCollection.svg')
-        }
-      },
-      {
-        path: 'system-mana',
-        component: TGRouterView,
-        meta: {
-          title: '系统管理',
-          keepAlive: true,
-          requiresAuth: true,
-          icon: () => import('@/layouts/components/TGMenu/assets/images/systemManagement.svg')
-        }
-      }
+      // {
+      //   path: 'discounts-lock',
+      //   component: TGRouterView,
+      //   meta: {
+      //     title: '优惠管理',
+      //     keepAlive: true,
+      //     requiresAuth: true,
+      //     icon: () => import('@/layouts/components/TGMenu/assets/images/discountsLock.svg')
+      //   }
+      // },
+      // {
+      //   path: 'financial-mana',
+      //   component: TGRouterView,
+      //   meta: {
+      //     title: '财务管理',
+      //     keepAlive: true,
+      //     requiresAuth: true,
+      //     icon: () => import('@/layouts/components/TGMenu/assets/images/financialManagement.svg')
+      //   }
+      // },
+      // {
+      //   path: 'content-release',
+      //   component: TGRouterView,
+      //   meta: {
+      //     title: '内容发布',
+      //     keepAlive: true,
+      //     requiresAuth: true,
+      //     icon: () => import('@/layouts/components/TGMenu/assets/images/contentRelease.svg')
+      //   }
+      // },
+      // {
+      //   path: 'suggestions',
+      //   component: TGRouterView,
+      //   meta: {
+      //     title: '投诉/建议管理',
+      //     keepAlive: true,
+      //     requiresAuth: true,
+      //     icon: () => import('@/layouts/components/TGMenu/assets/images/suggestions.svg')
+      //   }
+      // },
+      // {
+      //   path: 'cancellation-mana',
+      //   component: TGRouterView,
+      //   meta: {
+      //     title: '解约管理',
+      //     keepAlive: true,
+      //     requiresAuth: true,
+      //     icon: () => import('@/layouts/components/TGMenu/assets/images/cancellationManagement.svg')
+      //   }
+      // },
+      // {
+      //   path: 'ent-ann-ass',
+      //   component: TGRouterView,
+      //   meta: {
+      //     title: '企业年度考核',
+      //     keepAlive: true,
+      //     requiresAuth: true,
+      //     icon: () => import('@/layouts/components/TGMenu/assets/images/enterpriseAnnualAssessment.svg')
+      //   }
+      // },
+      // {
+      //   path: 'conf-room-mana',
+      //   component: TGRouterView,
+      //   meta: {
+      //     title: '会议室管理',
+      //     keepAlive: true,
+      //     requiresAuth: true,
+      //     icon: () => import('@/layouts/components/TGMenu/assets/images/conferenceRoomManagement.svg')
+      //   }
+      // },
+      // {
+      //   path: 'work-order-mana',
+      //   component: TGRouterView,
+      //   meta: {
+      //     title: '工单管理',
+      //     keepAlive: true,
+      //     requiresAuth: true,
+      //     icon: () => import('@/layouts/components/TGMenu/assets/images/workOrderManagement.svg')
+      //   }
+      // },
+      // {
+      //   path: 'data-col',
+      //   component: TGRouterView,
+      //   meta: {
+      //     title: '数据采集',
+      //     keepAlive: true,
+      //     requiresAuth: true,
+      //     icon: () => import('@/layouts/components/TGMenu/assets/images/dataCollection.svg')
+      //   }
+      // },
+      // {
+      //   path: 'system-mana',
+      //   component: TGRouterView,
+      //   meta: {
+      //     title: '系统管理',
+      //     keepAlive: true,
+      //     requiresAuth: true,
+      //     icon: () => import('@/layouts/components/TGMenu/assets/images/systemManagement.svg')
+      //   }
+      // }
     ]
   },
   {

@@ -20,7 +20,7 @@ function creatVue(r, s) {
 }
 
 async function creatApp() {
-  if (process.env.VUE_APP_PROJECT === 'development-client') {
+  if (process.env.VUE_APP_PROJECT === 'development-client' || process.env.VUE_APP_PROJECT === 'production-client') {
     creatVue(await import('./router/client'), await import('./store/client'))
   } else {
     creatVue(await import('./router/manager'), await import('./store/manager'))
