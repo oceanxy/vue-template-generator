@@ -1,5 +1,5 @@
 import '../assets/styles/index.scss'
-import { Button, Col, DatePicker, Form, Input, Row, Select } from 'ant-design-vue'
+import { Button, Col, DatePicker, Form, Input, Row, Select, Spin } from 'ant-design-vue'
 import forFormModal from '@/mixins/forModal/forFormModal'
 import DragModal from '@/components/DragModal'
 import MultiInput from './MultiInput'
@@ -7,6 +7,7 @@ import store, { dynamicModules } from '@/store/manager'
 import dynamicState from '@/mixins/dynamicState'
 import { mapGetters } from 'vuex'
 import moment from 'moment'
+import { debounce } from 'lodash'
 
 export default Form.create({})({
   mixins: [
@@ -41,11 +42,24 @@ export default Form.create({})({
     ...mapGetters({ getState: 'getState' }),
     questionnaireTemplates() {
       return this.getState('list', 'questionnaireTemplates')
+    },
+    loadingOfQuestionnaireTemplates() {
+      return this.getState('loading', 'questionnaireTemplates')
     }
   },
   methods: {
     async toQuestionnaireTemplates() {
       await this.$router.push({ name: 'questionnaireTemplates' })
+    },
+    async onSearchOfQuestionnaireTemplates(keyword) {
+      await this.$store.dispatch('getList', {
+        moduleName: 'questionnaireTemplates',
+        additionalQueryParameters: {
+          fullName: keyword,
+          pageIndex: 0,
+          pageSize: 20
+        }
+      })
     }
   },
   render() {
@@ -87,7 +101,13 @@ export default Form.create({})({
                     initialValue: this.currentItem.templateId,
                     rules: [{ required: true, message: '请选择问卷模版!', trigger: 'change' }]
                   })(
-                    <Select placeholder={'请选择问卷模版'}>
+                    <Select
+                      placeholder="请输入关键字搜索问卷模版"
+                      showSearch
+                      filterOption={false}
+                      onSearch={debounce(this.onSearchOfQuestionnaireTemplates, 300)}
+                      notFoundContent={this.loadingOfQuestionnaireTemplates ? <Spin /> : undefined}
+                    >
                       {
                         this.questionnaireTemplates.map(item => (
                           <Select.Option value={item.id}>{item.fullName}</Select.Option>
