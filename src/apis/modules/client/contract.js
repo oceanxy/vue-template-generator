@@ -66,5 +66,30 @@ export default {
       method: 'post',
       data: qs.stringify(data)
     })
+  },
+  /**
+   *企业入住
+   * @param [request]
+   * @param data
+   * @returns {*}
+   */
+  notifyMessageEnterprisesIncome(request, data) {
+    return request({
+      url: '/operate/notifyMessage/enterprisesIncome',
+      method: 'post',
+      data: data
+    })
+  },
+  /**
+   *获取所有园区
+   * @param [request]
+   * @param data
+   * @returns {*}
+   */
+  notifyMessageGetParkList(request) {
+    return request({
+      url: '/operate/notifyMessage/getParkList',
+      method: 'post'
+    })
   }
 }

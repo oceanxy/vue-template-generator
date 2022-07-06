@@ -71,10 +71,15 @@
 .logon-box {
   display: flex;
   gap: 16px;
-
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  overflow: hidden;
   .logon-form {
-    width: 795px;
+    flex-grow: 1;
     background: #ffffff;
+    max-height: calc(100% - 100px);
+    overflow: auto;
   }
 
   .logon-sider {

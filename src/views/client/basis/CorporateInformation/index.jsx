@@ -57,7 +57,7 @@ export default Form.create({})({
     const fileListBusinessLicense = []
     if (this.details.businessLicense) {
       fileListBusinessLicense.push({
-        uid: 'logo',
+        uid: 'businessLicense',
         url: this.details.businessLicenseStr,
         key: this.details.businessLicense,
         status: 'done',
@@ -67,7 +67,7 @@ export default Form.create({})({
     const fileListLegalPersonIdCardFront = []
     if (this.details.legalPersonIdCardFront) {
       fileListLegalPersonIdCardFront.push({
-        uid: 'logo',
+        uid: 'legalPersonIdCardFront',
         url: this.details.legalPersonIdCardFrontStr,
         key: this.details.legalPersonIdCardFront,
         status: 'done',
@@ -77,7 +77,7 @@ export default Form.create({})({
     const fileListLegalPersonIdCardReverse = []
     if (this.details.legalPersonIdCardReverse) {
       fileListLegalPersonIdCardReverse.push({
-        uid: 'logo',
+        uid: 'legalPersonIdCardReverse',
         url: this.details.legalPersonIdCardReverseStr,
         key: this.details.legalPersonIdCardReverse,
         status: 'done',

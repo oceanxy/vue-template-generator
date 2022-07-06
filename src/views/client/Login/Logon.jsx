@@ -2,6 +2,8 @@
  * 企业注册
  */
 
+import BNContainer from '@/components/BNContainer'
+import LogonForm from './components/LogonForm'
 import './assets/styles/index.scss'
 
 export default {
@@ -10,11 +12,15 @@ export default {
     return (
       <div class="logon-box">
         <div class="logon-form">
-
+          <LogonForm></LogonForm>
         </div>
         <div class="logon-sider">
-          <div class='logon-sider-conditions'>条件</div>
-          <div class='logon-sider-qa'>问答</div>
+          <BNContainer
+            modalTitle="企业入驻条件"
+            width="390px"
+            showMore={true}
+            contentClass="logon-sider-conditions"></BNContainer>
+          <BNContainer modalTitle="常见问题" width="390px" showMore={true} contentClass="logon-sider-qa"></BNContainer>
         </div>
       </div>
     )

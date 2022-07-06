@@ -120,48 +120,48 @@ export const routes = [
               requiresAuth: true
             }
           },
-          {
-            path: 'report-form',
-            component: TGRouterView,
-            meta: {
-              title: '我的报表',
-              keepAlive: true,
-              requiresAuth: true,
-              hideChildren: true
-            },
-            children: [
-              {
-                path: '',
-                name: 'reportForm',
-                component: () => import('@/views/client/basis/ReportForm'),
-                meta: {
-                  title: '我的报表',
-                  keepAlive: true,
-                  requiresAuth: true
-                }
-              },
-              {
-                path: 'form',
-                name: 'reportFForm',
-                component: () => import('@/views/client/basis/ReportForm/Form'),
-                meta: {
-                  title: '立即填报',
-                  keepAlive: true,
-                  requiresAuth: true
-                }
-              },
-              {
-                path: 'record',
-                name: 'reportFormRecord',
-                component: () => import('@/views/client/basis/ReportForm/Record'),
-                meta: {
-                  title: '填报记录',
-                  keepAlive: true,
-                  requiresAuth: true
-                }
-              }
-            ]
-          },
+          // {
+          //   path: 'report-form',
+          //   component: TGRouterView,
+          //   meta: {
+          //     title: '我的报表',
+          //     keepAlive: true,
+          //     requiresAuth: true,
+          //     hideChildren: true
+          //   },
+          //   children: [
+          //     {
+          //       path: '',
+          //       name: 'reportForm',
+          //       component: () => import('@/views/client/basis/ReportForm'),
+          //       meta: {
+          //         title: '我的报表',
+          //         keepAlive: true,
+          //         requiresAuth: true
+          //       }
+          //     },
+          //     {
+          //       path: 'form',
+          //       name: 'reportFForm',
+          //       component: () => import('@/views/client/basis/ReportForm/Form'),
+          //       meta: {
+          //         title: '立即填报',
+          //         keepAlive: true,
+          //         requiresAuth: true
+          //       }
+          //     },
+          //     {
+          //       path: 'record',
+          //       name: 'reportFormRecord',
+          //       component: () => import('@/views/client/basis/ReportForm/Record'),
+          //       meta: {
+          //         title: '填报记录',
+          //         keepAlive: true,
+          //         requiresAuth: true
+          //       }
+          //     }
+          //   ]
+          // },
           {
             path: 'cor-info',
             name: 'corInfo',
@@ -171,17 +171,17 @@ export const routes = [
               keepAlive: true,
               requiresAuth: true
             }
-          },
-          {
-            path: 'news',
-            name: 'news',
-            component: () => import('@/views/client/basis/News'),
-            meta: {
-              title: '我的消息',
-              keepAlive: true,
-              requiresAuth: true
-            }
           }
+          // {
+          //   path: 'news',
+          //   name: 'news',
+          //   component: () => import('@/views/client/basis/News'),
+          //   meta: {
+          //     title: '我的消息',
+          //     keepAlive: true,
+          //     requiresAuth: true
+          //   }
+          // }
         ]
       },
       {
@@ -214,93 +214,104 @@ export const routes = [
               keepAlive: true,
               requiresAuth: true
             }
-          },
-          {
-            path: 'invoice',
-            name: 'invoice',
-            component: () => import('@/views/client/finance/Invoices'),
-            meta: {
-              title: '我的发票',
-              keepAlive: true,
-              requiresAuth: true
-            }
           }
+          // {
+          //   path: 'invoice',
+          //   name: 'invoice',
+          //   component: () => import('@/views/client/finance/Invoices'),
+          //   meta: {
+          //     title: '我的发票',
+          //     keepAlive: true,
+          //     requiresAuth: true
+          //   }
+          // }
         ]
       },
+      // {
+      //   path: 'commercial-service',
+      //   component: TGRouterView,
+      //   meta: {
+      //     title: '物业服务',
+      //     keepAlive: true,
+      //     requiresAuth: true,
+      //     icon: () => import('@/layouts/components/TGMenu/assets/images/commercialService')
+      //   },
+      //   redirect: { name: 'reservation' },
+      //   children: [
+      //     {
+      //       path: 'reservation',
+      //       component: TGRouterView,
+      //       meta: {
+      //         title: '会议室预约',
+      //         keepAlive: true,
+      //         requiresAuth: true,
+      //         hideChildren: true
+      //       },
+      //       children: [
+      //         {
+      //           path: '',
+      //           name: 'reservation',
+      //           component: () => import('@/views/client/properties/BookMeetingRoom'),
+      //           meta: {
+      //             title: '会议室预约',
+      //             keepAlive: true,
+      //             requiresAuth: true
+      //           }
+      //         },
+      //         {
+      //           path: 'book',
+      //           name: 'book',
+      //           component: () => import('@/views/client/properties/BookMeetingRoom/Book'),
+      //           meta: {
+      //             title: '立即预约',
+      //             keepAlive: true,
+      //             requiresAuth: true
+      //           }
+      //         },
+      //         {
+      //           path: 'records',
+      //           name: 'appointmentRecord',
+      //           component: () => import('@/views/client/properties/BookMeetingRoom/Records'),
+      //           meta: {
+      //             title: '我的预约记录',
+      //             keepAlive: true,
+      //             requiresAuth: true
+      //           }
+      //         }
+      //       ]
+      //     },
+      //     {
+      //       path: 'repair',
+      //       name: 'repair',
+      //       component: () => import('@/views/client/properties/Repair'),
+      //       meta: {
+      //         title: '物业报修',
+      //         keepAlive: true,
+      //         requiresAuth: true
+      //       }
+      //     },
+      //     {
+      //       path: 'complaint',
+      //       name: 'complaint',
+      //       component: () => import('@/views/client/properties/Complaints'),
+      //       meta: {
+      //         title: '在线投诉',
+      //         keepAlive: true,
+      //         requiresAuth: true
+      //       }
+      //     }
+      //   ]
+      // },
       {
-        path: 'commercial-service',
-        component: TGRouterView,
+        path: 'moveInto',
+        name: 'moveInto',
+        component: () => import('@/views/client/MoveInto'),
         meta: {
-          title: '物业服务',
+          title: '申请入驻',
           keepAlive: true,
           requiresAuth: true,
-          icon: () => import('@/layouts/components/TGMenu/assets/images/commercialService')
-        },
-        redirect: { name: 'reservation' },
-        children: [
-          {
-            path: 'reservation',
-            component: TGRouterView,
-            meta: {
-              title: '会议室预约',
-              keepAlive: true,
-              requiresAuth: true,
-              hideChildren: true
-            },
-            children: [
-              {
-                path: '',
-                name: 'reservation',
-                component: () => import('@/views/client/properties/BookMeetingRoom'),
-                meta: {
-                  title: '会议室预约',
-                  keepAlive: true,
-                  requiresAuth: true
-                }
-              },
-              {
-                path: 'book',
-                name: 'book',
-                component: () => import('@/views/client/properties/BookMeetingRoom/Book'),
-                meta: {
-                  title: '立即预约',
-                  keepAlive: true,
-                  requiresAuth: true
-                }
-              },
-              {
-                path: 'records',
-                name: 'appointmentRecord',
-                component: () => import('@/views/client/properties/BookMeetingRoom/Records'),
-                meta: {
-                  title: '我的预约记录',
-                  keepAlive: true,
-                  requiresAuth: true
-                }
-              }
-            ]
-          },
-          {
-            path: 'repair',
-            name: 'repair',
-            component: () => import('@/views/client/properties/Repair'),
-            meta: {
-              title: '物业报修',
-              keepAlive: true,
-              requiresAuth: true
-            }
-          },
-          {
-            path: 'complaint',
-            name: 'complaint',
-            component: () => import('@/views/client/properties/Complaints'),
-            meta: {
-              title: '在线投诉',
-              keepAlive: true,
-              requiresAuth: true
-            }
-          }
-        ]
+          icon: () => import('@/layouts/components/TGMenu/assets/images/basicServices')
+        }
       }
     ]
   },

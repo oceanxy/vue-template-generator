@@ -25,24 +25,20 @@ export default {
   render() {
     return (
       <BNContainer
-        class='pre-login-container'
+        class="pre-login-container"
         moduleTitle="企业服务"
-        contentClass='flex'
+        contentClass="flex"
         width={390}
-        showTitleShape={false}
-      >
-        <Button
-          class="button btn-login"
-          onClick={this.onLogin}
-        >
+        showTitleShape={false}>
+        <Button class="button btn-login" onClick={this.onLogin}>
           签约企业登录
         </Button>
-        <Button
+        {/* <Button
           class="button btn-logon"
           onClick={this.onLogon}
         >
           企业申请入驻
-        </Button>
+        </Button> */}
       </BNContainer>
     )
   }

@@ -28,7 +28,14 @@ export default {
     dispatch(this.moduleName, 'getContracts')
   },
   methods: {
-    async getContractPreview(item) {
+    getContractPreview(item) {
+      window.open(item.contractUrl)
+    },
+    setVisibleOfModal(item, value) {
+      this.$store.commit(`${this.moduleName}/setApplyType`, value)
+      this._setVisibleOfModal(item, 'visibleOfSigning')
+    },
+    async onDownload(item) {
       const buffer = await dispatch(this.moduleName, 'getContractPreview', { id: item.id })
       const blob = new Blob([buffer], { type: 'application/pdf' })
       const url = URL.createObjectURL(blob)
@@ -36,13 +43,6 @@ export default {
       setTimeout(() => {
         URL.revokeObjectURL(url)
       }, 1000)
-    },
-    setVisibleOfModal(item, value) {
-      this.$store.commit(`${this.moduleName}/setApplyType`, value)
-      this._setVisibleOfModal(item, 'visibleOfSigning')
-    },
-    onDownload(item) {
-      window.open(item.contractUrl)
     }
   },
   watch: {},
