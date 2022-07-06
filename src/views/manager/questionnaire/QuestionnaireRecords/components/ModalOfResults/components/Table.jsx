@@ -1,47 +1,59 @@
 import '../index.scss'
 import { Table } from 'ant-design-vue'
 import forTable from '@/mixins/forTable'
+import { mapGetters } from 'vuex'
 
 export default {
+  inject: ['submoduleName'],
   mixins: [forTable()],
   data() {
     return {
       tableProps: {
+        size: 'middle',
+        rowSelection: null,
         columns: [
           {
-            title: '时间',
-            dataIndex: ''
+            title: '序号',
+            width: 60,
+            align: 'center',
+            scopedSlots: { customRender: 'serialNumber' }
           },
           {
-            title: '类型',
-            dataIndex: 'h'
+            title: '标题',
+            dataIndex: 'itemName'
           },
           {
-            title: '摘要',
-            dataIndex: 'appName'
-          },
-          {
-            title: '经办人',
-            dataIndex: 'remark'
+            title: '填写结果',
+            dataIndex: 'resultContent'
           }
-        ],
-        class: 'modal-of-agency-history'
+        ]
       }
     }
   },
-  methods: {
-    async onAgencyHistoryClick(record) {
-      await this._setVisibleOfModal(record, 'visibleOfAgencyHistory')
+  computed: {
+    ...mapGetters({ getState: 'getState' }),
+    loading() {
+      return this.getState('loading', this.moduleName, this.submoduleName)
+    },
+    list() {
+      return this.getState('list', this.moduleName, this.submoduleName)
+    },
+    currentItem() {
+      return this.getState('currentItem', this.moduleName)
+    },
+    // forTable内自动获取列表数据需要的参数
+    additionalQueryParameters() {
+      return { id: this.currentItem.id }
     }
   },
   render() {
     const attruibutes = {
       props: {
         ...this.tableProps,
-        loading: this.getLoading(this.moduleName)
+        loading: this.loading
       },
       attrs: {
-        class: 'modal-of-agency-history'
+        class: 'bnm-table-in-modal'
       }
     }
 
@@ -50,12 +62,7 @@ export default {
         {...attruibutes}
         {...{
           scopedSlots: {
-            // status: (text, record) => (
-            //   <Switch
-            //     checked={+record.status === 1}
-            //     onChange={checked => this.onStatusChange(checked, record)}
-            //   />
-            // )
+            serialNumber: (text, record, index) => index + 1
           }
         }}
       />

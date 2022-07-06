@@ -16,11 +16,11 @@ export default {
           },
           {
             title: '问卷标题',
-            dataIndex: 'questionnaireName'
+            dataIndex: 'reportName'
           },
           {
             title: '填写企业名称',
-            dataIndex: 'companyName'
+            dataIndex: 'objName'
           },
           {
             title: '负责人',
@@ -46,7 +46,6 @@ export default {
       }
     }
   },
-  methods: {},
   render() {
     const attributes = {
       props: {

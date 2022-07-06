@@ -354,7 +354,12 @@ export default {
    * @param moduleName {string} 要设置的状态所在的store模块的名称
    * @param submoduleName {string} 要设置的状态所在的store子模块的名称，依赖 moduleName
    */
-  setModalVisible({ commit }, { statusField, statusValue, moduleName, submoduleName }) {
+  setModalVisible({ commit }, {
+    statusField,
+    statusValue,
+    moduleName,
+    submoduleName
+  }) {
     commit('setModalVisible', {
       field: statusField || 'visibleOfEdit',
       value: statusValue,

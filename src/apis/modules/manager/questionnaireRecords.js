@@ -13,5 +13,12 @@ export default {
       method: 'post',
       data: qs.stringify(data)
     })
+  },
+  getResultsOfQuestionnaireRecords(request, data) {
+    return request({
+      url: '/operate/questionnaireRecord/getQuestionnaireRecord',
+      method: 'post',
+      data: qs.stringify(data)
+    })
   }
 }

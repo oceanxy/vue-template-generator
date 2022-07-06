@@ -93,6 +93,7 @@ export default () => ({
         submoduleName: this.submoduleName,
         additionalQueryParameters: {
           ...this.$route.query,
+          // 获取子模块数据需要的额外参数，在引用该混合的子模块内覆盖设置
           ...(this.additionalQueryParameters || {})
         }
       })

@@ -13,9 +13,9 @@
           <div>
             <span class="tg-user-name">{{ userInfo.fullName }}</span>
             <div class="tg-user-tags">
-              <a-tag color="blue">已入驻</a-tag>
-              <a-tag color="cyan">已签约</a-tag>
-              <a-tag color="red">已欠费</a-tag>
+              <!--<a-tag color="blue">已入驻</a-tag>-->
+              <!--<a-tag color="cyan">已签约</a-tag>-->
+              <!--<a-tag color="red">已欠费</a-tag>-->
             </div>
           </div>
           <a-icon type="caret-down" />
@@ -23,19 +23,21 @@
         <template #overlay>
           <a-menu class="header-menu">
             <a-menu-item class="tg-menu-user">
-              <a-avatar>重</a-avatar>
-              <div class="corporate-services">重庆誉存科技有限公司</div>
+              <a-avatar>
+                {{ avatar }}
+              </a-avatar>
+              <div class="corporate-services">{{ userInfo.fullName }}</div>
               <div>
-                <a-tag color="blue">已入驻</a-tag>
-                <a-tag color="cyan">已签约</a-tag>
-                <a-tag color="red">已欠费</a-tag>
+                <!--<a-tag color="blue">已入驻</a-tag>-->
+                <!--<a-tag color="cyan">已签约</a-tag>-->
+                <!--<a-tag color="red">已欠费</a-tag>-->
               </div>
             </a-menu-item>
-            <a-menu-item class="my-news">
-              我的消息
-              <a-tag class="news-number">99+</a-tag>
-              <a-icon type="right" />
-            </a-menu-item>
+            <!--<a-menu-item class="my-news">-->
+            <!--  我的消息-->
+            <!--  <a-tag class="news-number">99+</a-tag>-->
+            <!--  <a-icon type="right" />-->
+            <!--</a-menu-item>-->
             <a-menu-item @click="handleLogOutClick">退出登录</a-menu-item>
           </a-menu>
         </template>
@@ -49,6 +51,7 @@
 import { Avatar, Badge, Dropdown, Layout, Menu, Tag } from 'ant-design-vue'
 import { createNamespacedHelpers } from 'vuex'
 import TGBreadcrumb from '@/layouts/components/TGBreadcrumb'
+import utilityFunction from '@/utils/utilityFunction'
 
 const { mapState, mapActions } = createNamespacedHelpers('login')
 
@@ -79,6 +82,9 @@ export default {
     ...mapState({ userInfo: 'userInfo' }),
     manager() {
       return this.layout !== 'client'
+    },
+    avatar() {
+      return utilityFunction.firstLetterToUppercase(this.userInfo.fullName.substring(0, 1))
     }
   },
   methods: {

@@ -14,9 +14,9 @@ export default {
       return this.$store.state[this.moduleName].previewUrl
     }
   },
-  mounted() {
-    const { id } = this.$route.query
-    dispatch(this.moduleName, 'getContractPreview', { id })
+  async mounted() {
+    const { cid } = this.$route.query
+    await dispatch(this.moduleName, 'getContractPreview', { id: cid })
   },
   render() {
     return (
