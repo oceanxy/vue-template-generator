@@ -15,6 +15,10 @@ export default {
     limit: {
       type: Number,
       default: 5
+    },
+    action: {
+      type: String,
+      default: '/mgapi/system/upload/image'
     }
   },
   data() {
@@ -32,7 +36,7 @@ export default {
     value: {
       immediate: true,
       handler(value) {
-        if (value.length) {
+        if (value && value.length) {
           this.fileList = value
         } else {
           this.fileList = []
@@ -64,31 +68,22 @@ export default {
     return (
       <div style={{ lineHeight: 0 }}>
         <Upload
-          action="/mgapi/system/upload/image"
+          action={this.action}
           listType="picture-card"
           name={this.name}
           fileList={this.fileList}
           onPreview={this.handlePreview}
           onChange={this.handleChange}
           headers={this.headers}
-          multiple={true}
-        >
-          {
-            this.fileList.length < this.limit ? (
-              <div className={'tg-upload-pic'}>
-                <Icon type={'plus'} />
-                <div className="ant-upload-text">
-                  上传
-                </div>
-              </div>
-            ) : null
-          }
+          multiple={true}>
+          {this.fileList.length < this.limit ? (
+            <div className={'tg-upload-pic'}>
+              <Icon type={'plus'} />
+              <div className="ant-upload-text">上传</div>
+            </div>
+          ) : null}
         </Upload>
-        <Modal
-          visible={this.previewVisible}
-          footer={null}
-          onCancel={this.handleCancel}
-        >
+        <Modal visible={this.previewVisible} footer={null} onCancel={this.handleCancel}>
           <img alt="example" style="width: 100%" src={this.previewImage} />
         </Modal>
       </div>

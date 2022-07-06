@@ -3,12 +3,24 @@
   flex-wrap: wrap;
   gap: 20px;
   height: auto !important;
-
+  position: relative;
+  .ant-spin-spinning {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+  }
   .contract-item {
     width: calc((100% - 20px) / 2);
 
     .contract-item-title {
-      background: url('./assets/images/title-icon.png') no-repeat center left 20px, url('./assets/images/title-bg.png') no-repeat center right 20px;
+      background: url('./assets/images/title-icon.png') no-repeat center left 20px,
+        url('./assets/images/title-bg.png') no-repeat center right 20px;
       background-size: 32px, auto 100%;
       background-color: #f2f7fc;
       border-bottom: 0;

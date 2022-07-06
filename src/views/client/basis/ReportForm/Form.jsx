@@ -48,7 +48,7 @@ export default Form.create({})({
     return (
       <BNContainer
         width="100%"
-        moduleTitle="我的报表 > 2021年度企业考核"
+        modalTitle={`我的报表 > ${this.$route.query.name}` }
         contentClass="bn-report-form-content"
       >
         <Form

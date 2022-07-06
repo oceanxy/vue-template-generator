@@ -5,8 +5,12 @@ import TGShortcutMenu from '@/components/TGShortcutMenu'
 import TGList from '@/components/TGList'
 import TGContainerWithSider from '@/components/TGContainerWithSider'
 import TGListWithSubTitle from '@/components/TGListWithSubTitle'
-
+import { createNamespacedHelpers } from 'vuex'
+const { mapState } = createNamespacedHelpers('login')
 export default {
+  computed: {
+    ...mapState(['userInfo'])
+  },
   render() {
     return (
       <TGContainerWithSider class="tg-home">
@@ -15,30 +19,29 @@ export default {
             <div class="user-info">
               <Icon type="user" class="avatar" />
               <div class="info">
-                <span class="name">重庆誉存科技有限公司</span>
+                <span class="name">{this.userInfo.companyName}</span>
                 <span class="address">
-                  珠光御景/南区27栋/606号
+                  {this.userInfo.contractAddress}
                   <Icon type="right" />
                 </span>
               </div>
               <div class="tags">
-                <Tag color="blue">已入住</Tag>
-                <Tag color="cyan">已签约</Tag>
-                <Tag color="red">已欠费</Tag>
+                {this.userInfo.isContract === 1 ? <Tag color="cyan">已签约</Tag> : null}
+                {this.userInfo.isOwe === 1 ? <Tag color="red">已欠费</Tag> : null}
               </div>
             </div>
             <div class="upcoming">
               <div class="upcoming-item my-to-do">
                 <div class="name">我的待办</div>
-                <div class="value">288</div>
+                <div class="value">{this.userInfo.waitNum || 0}</div>
               </div>
               <div class="upcoming-item in-progress">
                 <div class="name">进行中的待办</div>
-                <div class="value">288</div>
+                <div class="value">{this.userInfo.goingNum || 0}</div>
               </div>
               <div class="upcoming-item my-news">
                 <div class="name">我的消息</div>
-                <div class="value">288</div>
+                <div class="value">{this.userInfo.messageNum || 0}</div>
               </div>
             </div>
           </div>
@@ -58,8 +61,7 @@ export default {
                   <Button class="done">已办</Button>
                 </div>
               </div>
-            }
-          >
+            }>
             <TGListWithSubTitle />
           </BNContainer>
         </template>
@@ -70,8 +72,7 @@ export default {
             showBoxShadow={false}
             class="shortcut-menu-container"
             titleClass="not-login-title"
-            contentClass="shortcut-container"
-          >
+            contentClass="shortcut-container">
             <TGShortcutMenu column={3} />
           </BNContainer>
           <BNContainer
@@ -80,8 +81,7 @@ export default {
             moduleTitle="我的消息"
             showBoxShadow={false}
             showMore
-            titleClass="not-login-title"
-          >
+            titleClass="not-login-title">
             <TGList layout="dateBefore" />
           </BNContainer>
         </template>

@@ -1,93 +1,108 @@
 import './index.scss'
-import { Button, Table } from 'ant-design-vue'
-import { mapState } from 'vuex'
+import { Button, Table, Spin } from 'ant-design-vue'
 import forModal from '@/mixins/forModal'
 import DragModal from '@/components/DragModal'
+import { dispatch } from '@/utils/store'
 
 export default {
+  props: {
+    /**
+     * 标题（可定义占位符）
+     * “{action}” 为占位符，稍后会在 mixin 中替换为对应的字符，比如“新增”、“编辑”
+     */
+    modalTitle: {
+      type: String,
+      default: '{action}'
+    }
+  },
   mixins: [forModal()],
   data() {
     return {
+      visibleField: 'showModalForDetails',
       modalProps: {
-        title: '缴费明细',
-        width: 520,
-        footer: <Button onClick={() => this.onCancel('setVisibleForDetails')}>关闭</Button>
+        width: 600,
+        footer: <Button onClick={() => this.onCancel('showModalForDetails')}>关闭</Button>
       },
       columns: [
         {
           title: '月份',
-          scopedSlots: { customRender: 'allPath' }
+          dataIndex: 'billMonth'
         },
         {
-          title: '费用类型',
-          scopedSlots: { customRender: 'remark' }
+          title: '费用类型'
         },
         {
           title: '明细',
-          scopedSlots: { customRender: 'remark' }
+          dataIndex: 'detailDesc'
         },
         {
           title: '金额',
-          scopedSlots: { customRender: 'remark' }
+
+          dataIndex: 'amount'
         }
       ],
-      dataSource: [
-        {}
-      ]
+      dataSource: [{}]
     }
   },
   computed: {
-    ...mapState({
-      allSiteApps: 'allSiteApps',
-      allFunctionalModules: 'allFunctionalModules'
-    })
+    modalForDetailsLoading() {
+      return this.$store.state[this.moduleName].modalForDetailsLoading
+    },
+    recordsDetailsList() {
+      return this.$store.state[this.moduleName].recordsDetailsList
+    },
+    billList() {
+      return this.recordsDetailsList?.billList || []
+    }
   },
   watch: {
     async visible(value) {
       if (value) {
-        await this.$store.dispatch('getAllFunctionalModules')
+        dispatch(this.moduleName, 'getFinanceRecordsDetails')
       }
     }
   },
   render() {
     const attributes = {
       attrs: {
-        ...this.modalProps,
-        visible: this.getVisible('visibleForDetails') || this.modalProps.visible
+        ...this.modalProps
       },
       on: {
-        cancel: () => this.onCancel('setVisibleForDetails')
+        cancel: () => this.onCancel('showModalForDetails')
       }
     }
 
     return (
       <DragModal {...attributes}>
         <Table
-          ref={`${this.moduleName}Table`}
           columns={this.columns}
-          dataSource={this.dataSource}
+          dataSource={this.billList}
           rowKey="id"
           pagination={false}
           class="records-details-table"
+          loading={this.modalForDetailsLoading}
           {...{
             scopedSlots: {
               operation: (text, record) => (
                 <Button.Group>
-                  <Button type="link" onClick={this.onViewDetailsClick}>查看明细</Button>
-                  <Button type="link" onClick={() => this.onDelClick(record.id)}>申请开票</Button>
+                  <Button type="link" onClick={this.onViewDetailsClick}>
+                    查看明细
+                  </Button>
+                  <Button type="link" onClick={() => this.onDelClick(record.id)}>
+                    申请开票
+                  </Button>
                 </Button.Group>
               )
             }
-          }}
-        >
+          }}>
           <template slot="footer">
             <div class="receivable">
               <span>应收合计</span>
-              <span>0</span>
+              <span>{this.recordsDetailsList.amount}</span>
             </div>
             <div class="actually-received">
               <span>实收金额</span>
-              <span>0</span>
+              <span>{this.recordsDetailsList.realAmount}</span>
             </div>
           </template>
         </Table>

@@ -11,10 +11,7 @@ export default {
   methods: {},
   render() {
     return (
-      <BNContainer
-        moduleTitle="我的发票"
-        class="bn-records-container"
-      >
+      <BNContainer modalTitle="我的发票" class="bn-records-container">
         <Table />
       </BNContainer>
     )

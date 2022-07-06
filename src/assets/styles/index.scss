@@ -36,32 +36,29 @@ body {
   font-family: 'SourceHanSerifCN-Regular';
   src: url('../fonts/SourceHanSerifCN-Regular.otf');
   src: url('../fonts/SourceHanSerifCN-Regular.otf') format('woff'),
-  url('../fonts/SourceHanSerifCN-Regular.otf') format('truetype'),
-  url('../fonts/SourceHanSerifCN-Regular.otf') format('svg');
+    url('../fonts/SourceHanSerifCN-Regular.otf') format('truetype'),
+    url('../fonts/SourceHanSerifCN-Regular.otf') format('svg');
 }
 
 @font-face {
   font-family: 'PingFang SC';
   src: url('../fonts/PingFangSC.ttf');
-  src: url('../fonts/PingFangSC.ttf') format('woff'),
-  url('../fonts/PingFangSC.ttf') format('truetype'),
-  url('../fonts/PingFangSC.ttf') format('svg');
+  src: url('../fonts/PingFangSC.ttf') format('woff'), url('../fonts/PingFangSC.ttf') format('truetype'),
+    url('../fonts/PingFangSC.ttf') format('svg');
 }
 
 @font-face {
   font-family: 'DOUYU';
   src: url('../fonts/douyuFont-2.otf');
-  src: url('../fonts/douyuFont-2.otf') format('woff'),
-  url('../fonts/douyuFont-2.otf') format('truetype'),
-  url('../fonts/douyuFont-2.otf') format('svg');
+  src: url('../fonts/douyuFont-2.otf') format('woff'), url('../fonts/douyuFont-2.otf') format('truetype'),
+    url('../fonts/douyuFont-2.otf') format('svg');
 }
 
 @font-face {
   font-family: 'BigruixianBlackGBV';
   src: url('../fonts/BigruixianBlackGBV.TTF');
-  src: url('../fonts/BigruixianBlackGBV.TTF') format('woff'),
-  url('../fonts/BigruixianBlackGBV.TTF') format('truetype'),
-  url('../fonts/BigruixianBlackGBV.TTF') format('svg');
+  src: url('../fonts/BigruixianBlackGBV.TTF') format('woff'), url('../fonts/BigruixianBlackGBV.TTF') format('truetype'),
+    url('../fonts/BigruixianBlackGBV.TTF') format('svg');
 }
 
 .tg-inquiry {
@@ -92,7 +89,9 @@ body {
   overflow: hidden;
   border: none;
   flex: auto;
-
+  .ant-spin-nested-loading {
+    width: 100%;
+  }
   .ant-table {
     flex: auto;
     height: 0;
@@ -289,7 +288,8 @@ body {
     position: relative;
   }
 
-  .ant-select-tree-switcher_open::before, .ant-select-tree-switcher_close::before {
+  .ant-select-tree-switcher_open::before,
+  .ant-select-tree-switcher_close::before {
     content: '';
     position: absolute;
     right: -310px;

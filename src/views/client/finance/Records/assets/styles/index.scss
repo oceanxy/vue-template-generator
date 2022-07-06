@@ -1,2 +1,8 @@
 .bn-records-container {
+  .ant-spin-nested-loading {
+    width: 100%;
+  }
+  .ant-table-wrapper .ant-table {
+    height: auto !important;
+  }
 }
