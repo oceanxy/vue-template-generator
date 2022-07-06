@@ -12,9 +12,6 @@ import forInquiry from '@/mixins/forInquiry'
 
 export default Form.create({})({
   mixins: [forInquiry()],
-  async created() {
-    await this.getAllSiteApps()
-  },
   methods: {},
   render() {
     return (
