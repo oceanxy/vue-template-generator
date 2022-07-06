@@ -13,13 +13,18 @@ export default {
     ...mapGetters({
       getState: 'getState'
     }),
+    search() {
+      return this.getState('search', this.moduleName)
+    },
     floors() {
       return this.getState('floors', this.moduleName)
     }
   },
-  async created() {
-    if (!this.floors.length) {
-      await dispatch(this.moduleName, 'getFloorsByBuilding')
+  watch: {
+    async 'search.buildId'(value) {
+      if (value) {
+        await dispatch(this.moduleName, 'getFloorsByBuilding')
+      }
     }
   },
   methods: {

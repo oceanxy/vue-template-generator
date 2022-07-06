@@ -128,7 +128,7 @@ export default {
 
     let store
 
-    if (process.env.VUE_APP_PROJECT === 'development-client') {
+    if (process.env.VUE_APP_PROJECT === 'development-client' || process.env.VUE_APP_PROJECT === 'production-client') {
       store = await import('@/router/client')
     } else {
       store = await import('@/router/manager')
