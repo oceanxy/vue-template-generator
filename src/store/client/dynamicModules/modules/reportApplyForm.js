@@ -1,6 +1,7 @@
 import apis from '@/apis'
 import { createStoreModule } from '@/store/template'
 import { omit } from 'lodash'
+import { message } from 'ant-design-vue'
 
 export default commitRootInModule =>
   omit(
@@ -17,6 +18,19 @@ export default commitRootInModule =>
           if (res.status) {
             commitRootInModule('setList', res.data)
           }
+        },
+        async addReport({ state }, payload) {
+          const form = {
+            reportId: state.details.id,
+            reportResultList: payload
+          }
+          commitRootInModule('setLoading', true)
+          const res = await apis.addReport(form)
+          commitRootInModule('setLoading', false)
+          if (res.status) {
+            message.success('填报成功')
+          }
+          return res
         }
       }
     }),

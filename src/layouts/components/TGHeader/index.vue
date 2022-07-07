@@ -1,45 +1,45 @@
 <template>
-  <a-layout-header
-    class="tg-layout-header"
-    :style="showBreadcrumb ? 'height: 118px;' : ''"
-  >
-    <div class="tg-header" :class="{'manager': manager}">
+  <a-layout-header class="tg-layout-header" :style="showBreadcrumb ? 'height: 118px;' : ''">
+    <div class="tg-header" :class="{ manager: manager }">
       <div class="tg-logo" />
-      <a-badge class="tg-badge" dot>
-        <a-avatar icon="user" shape="circle" class="tg-avatar" />
-      </a-badge>
-      <a-dropdown class="tg-user-info">
-        <a @click="e => e.preventDefault()">
-          <div>
-            <span class="tg-user-name">{{ userInfo.fullName }}</span>
-            <div class="tg-user-tags">
-              <a-tag v-if="userInfo.isContract === 1" color="cyan">已签约</a-tag>
-              <a-tag v-if="userInfo.isOwe === 1" color="red">已欠费</a-tag>
-            </div>
-          </div>
-          <a-icon type="caret-down" />
-        </a>
-        <template #overlay>
-          <a-menu class="header-menu">
-            <a-menu-item class="tg-menu-user">
-              <a-avatar>
-                {{ avatar }}
-              </a-avatar>
-              <div class="corporate-services">{{ userInfo.fullName }}</div>
-              <div>
+      <div style="flex: 1"></div>
+      <template v-if="isLogin">
+        <a-badge class="tg-badge" dot>
+          <a-avatar icon="user" shape="circle" class="tg-avatar" />
+        </a-badge>
+        <a-dropdown class="tg-user-info">
+          <a @click="e => e.preventDefault()">
+            <div>
+              <span class="tg-user-name">{{ userInfo.fullName }}</span>
+              <div class="tg-user-tags">
                 <a-tag v-if="userInfo.isContract === 1" color="cyan">已签约</a-tag>
                 <a-tag v-if="userInfo.isOwe === 1" color="red">已欠费</a-tag>
               </div>
-            </a-menu-item>
-            <a-menu-item class="my-news">
-              我的消息
-              <a-tag class="news-number">{{ userInfo.messageNum || 0 }}</a-tag>
-              <a-icon type="right" />
-            </a-menu-item>
-            <a-menu-item @click="handleLogOutClick">退出登录</a-menu-item>
-          </a-menu>
-        </template>
-      </a-dropdown>
+            </div>
+            <a-icon type="caret-down" />
+          </a>
+          <template #overlay>
+            <a-menu class="header-menu">
+              <a-menu-item class="tg-menu-user">
+                <a-avatar>
+                  {{ avatar }}
+                </a-avatar>
+                <div class="corporate-services">{{ userInfo.fullName }}</div>
+                <div>
+                  <a-tag v-if="userInfo.isContract === 1" color="cyan">已签约</a-tag>
+                  <a-tag v-if="userInfo.isOwe === 1" color="red">已欠费</a-tag>
+                </div>
+              </a-menu-item>
+              <a-menu-item class="my-news">
+                我的消息
+                <a-tag class="news-number">{{ userInfo.messageNum || 0 }}</a-tag>
+                <a-icon type="right" />
+              </a-menu-item>
+              <a-menu-item @click="handleLogOutClick">退出登录</a-menu-item>
+            </a-menu>
+          </template>
+        </a-dropdown>
+      </template>
     </div>
     <t-g-breadcrumb v-if="showBreadcrumb" />
   </a-layout-header>
@@ -81,8 +81,14 @@ export default {
     manager() {
       return this.layout !== 'client'
     },
+    isLogin() {
+      return !!window.sessionStorage.getItem('token')
+    },
     avatar() {
-      return utilityFunction.firstLetterToUppercase(this.userInfo.fullName.substring(0, 1))
+      if (this.userInfo.fullName) {
+        return utilityFunction.firstLetterToUppercase(this.userInfo.fullName.substring(0, 1))
+      }
+      return ''
     }
   },
   methods: {

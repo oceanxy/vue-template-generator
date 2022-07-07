@@ -24,5 +24,17 @@ export default {
       url: '/auth/passport/logout',
       method: 'post'
     })
+  },
+  /**
+   * 巴巴适登录
+   * @param [request]
+   * @returns {*}
+   */
+  bbsLogin(request, data) {
+    return request({
+      url: '/auth/passport/bbsLogin',
+      method: 'post',
+      data: qs.stringify(data)
+    })
   }
 }

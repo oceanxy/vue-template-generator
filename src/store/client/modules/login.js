@@ -84,7 +84,28 @@ export default {
 
       return Promise.resolve(response)
     },
+    async bbsLogin({ commit, dispatch }, payload) {
+      commit('setLoading', true)
+      const response = await apis.bbsLogin({
+        token: payload
+      })
+      commit('setLoading', false)
+      if (response.status) {
+        const { userInfo, token } = response.data
+        commit('setUserInfo', userInfo)
+        commit('setAuthentication', token)
+        // commit('setSiteCache', {
+        //   menuList: menuList,
+        //   defaultMenuUrl: defaultMenuUrl
+        // })
+        dispatch('getDetailInfo')
 
+        await router.replace({ name: 'loginAfter' })
+      } else {
+        window.location.href = response.data
+      }
+      return response
+    },
     async getDetailInfo({ commit }) {
       const { status, data } = await apis.getDetailInfo()
 

@@ -1,20 +1,20 @@
-import { Input } from 'ant-design-vue'
-
+import { Input, Form } from 'ant-design-vue'
+import { getRules } from '../utils'
 export default {
-  model: {
-    prop: 'value',
-    event: 'change'
-  },
   props: {
     data: Object,
-    value: String
+    value: String,
+    form: Object
   },
-  methods: {
-    onChange(e) {
-      this.$emit('change', e.target.value)
-    }
-  },
+  methods: {},
   render() {
-    return <Input placeholder="请输入" allowClear onchange={this.onChange} />
+    return (
+      <Form.Item label={this.data.fullName}>
+        {this.form.getFieldDecorator(this.data.id, {
+          initialValue: '',
+          rules: getRules(this.data)
+        })(<Input placeholder="请输入"></Input>)}
+      </Form.Item>
+    )
   }
 }

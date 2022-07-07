@@ -1,16 +1,25 @@
-import { Radio } from 'ant-design-vue'
-
+import { Radio, Form } from 'ant-design-vue'
+import { getRules } from '../utils'
 export default {
   props: {
-    data: Object
+    data: Object,
+    form: Object
   },
+  methods: {},
   render() {
     return (
-      <Radio.Group>
-        <Radio style={{ display: 'block' }}>123</Radio>
-        <Radio style={{ display: 'block' }}>123</Radio>
-        <Radio style={{ display: 'block' }}>123</Radio>
-      </Radio.Group>
+      <Form.Item label={this.data.fullName}>
+        {this.form.getFieldDecorator(this.data.id, {
+          initialValue: '',
+          rules: getRules(this.data)
+        })(
+          <Radio.Group>
+            {this.data.itemOptionList.map(item => (
+              <Radio value={item.optionValue}>{item.itemName}</Radio>
+            ))}
+          </Radio.Group>
+        )}
+      </Form.Item>
     )
   }
 }

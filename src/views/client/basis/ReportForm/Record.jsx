@@ -1,8 +1,11 @@
 import './assets/styles/index.scss'
 import BNContainer from '@/components/BNContainer'
 import { Button, Table } from 'ant-design-vue'
-
+import store, { dynamicModules } from '@/store/client'
+import dynamicState from '@/mixins/dynamicState'
 export default {
+  name: 'ReportRecordForm',
+  mixins: [dynamicState(store, dynamicModules)],
   data() {
     return {
       tableProps: {
@@ -36,16 +39,12 @@ export default {
   },
   render() {
     return (
-      <BNContainer
-        width="100%"
-        moduleTitle="我的报表 > 2021年度企业考核"
-        contentClass="bn-report-record-content"
-      >
-        <Table
-          {...{ props: this.tableProps }}
-        />
+      <BNContainer width="100%" moduleTitle="我的报表 > 2021年度企业考核" contentClass="bn-report-record-content">
+        <Table {...{ props: this.tableProps }} />
         <div class="btns">
-          <Button type="primary" onClick={this.toForm}>重新填报</Button>
+          <Button type="primary" onClick={this.toForm}>
+            重新填报
+          </Button>
         </div>
       </BNContainer>
     )
