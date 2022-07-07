@@ -26,9 +26,20 @@ export default {
       await this.$store.dispatch('getDetails', {
         moduleName: this.moduleName,
         payload: {
-          id: this.$route.query.id
+          id: this.$route.query.id,
+          signingType: this.$route.query.ac
         }
       })
+
+      if (this.details.signingStage === 4 && +this.$route.query.ac === 1) {
+        this.$store.commit('setDetails', {
+          moduleName: this.moduleName,
+          merge: true,
+          value: {
+            signingStage: 1
+          }
+        })
+      }
     } else {
       // 未携带参数进入流程，则为新签约流程，重置合同信息
       this.$store.commit('setDetails', {
@@ -52,14 +63,14 @@ export default {
         }
       }
 
-      if (this.details.signingStage === 1) {
-        Component = require('./components/FormForSelectCompany')
-      } else if (this.details.signingStage === 2) {
+      if (this.details.signingStage === 2) {
         Component = require('./components/FormForFillInformation')
       } else if (this.details.signingStage === 3) {
         Component = require('./components/FormForContract')
       } else if (this.details.signingStage === 4) {
         Component = require('./components/FormForResult')
+      } else {
+        Component = require('./components/FormForSelectCompany')
       }
 
       return Component?.default ?? Component

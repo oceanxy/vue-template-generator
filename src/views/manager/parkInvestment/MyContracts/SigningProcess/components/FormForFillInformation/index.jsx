@@ -1,5 +1,5 @@
 import './index.scss'
-import { Button, Checkbox, Col, Form, InputNumber, Row, Select } from 'ant-design-vue'
+import { Button, Checkbox, Col, Form, InputNumber, Row, Select, Space } from 'ant-design-vue'
 import { mapGetters } from 'vuex'
 import apis from '@/apis'
 import forModuleName from '@/mixins/forModuleName'
@@ -28,7 +28,10 @@ export default Form.create({})({
       return this.getState('details', this.moduleName)
     },
     hatcheryIds() {
-      return this.details.placeList?.map(item => item.id) ?? []
+      const roomIdFormRouteQuery = this.$route.query.rid ? [this.$route.query.rid] : []
+      const roomIdFromDetails = this.details.placeList?.map(item => item.id) ?? []
+
+      return [].concat(roomIdFormRouteQuery, roomIdFromDetails)
     }
   },
   async created() {
@@ -36,7 +39,7 @@ export default Form.create({})({
     await this.getEnterprisePaymentCycle()
 
     // 为应缴费项获取并设置初始值
-    this.feePayableIds = this.details.itemList?.map(item => item.id)
+    this.feePayableIds = []
 
     this.$watch(
       () => this.form.getFieldValue('roomIds'),
@@ -48,25 +51,43 @@ export default Form.create({})({
     this.$watch(
       () => this.form.getFieldsValue(['roomIds', 'costCycle']),
       async (value, oldValue) => {
+        console.log(value, oldValue)
         // 比较值的变化 不用直接比较 value 和 oldValue，getFieldsValue方法每次获取的值的内存地址都不一样
         if (
           value.roomIds.length &&
           value.costCycle &&
           (
-            value.roomIds.sort().toString() !== oldValue.roomIds.sort().toString() ||
-            value.costCycle !== oldValue.costCycle
+            value.roomIds.sort().toString() !== oldValue?.roomIds.sort().toString() ||
+            value.costCycle !== oldValue?.costCycle
           )
         ) {
-          // 如果孵化场所和缴费周期的值发生变化，则重置应缴费项的值
-          this.form.setFieldsValue({ 'feePayableIds': [] })
+          // 如果存在值，则回填
+          if (this.details.itemIdList.length) {
+            this.form.setFieldsValue({ 'feePayableIds': this.details.itemIdList })
+          } else {
+            // 如果孵化场所和缴费周期的值发生变化，则重置应缴费项的值
+            this.form.setFieldsValue({ 'feePayableIds': [] })
+          }
 
           // 远程获取应缴费项的数据
           await this.getFeesPayableByCompany()
         }
+      },
+      {
+        immediate: true
       }
     )
   },
   methods: {
+    goBack() {
+      this.$store.commit('setDetails', {
+        moduleName: this.moduleName,
+        merge: true,
+        value: {
+          signingStage: 1
+        }
+      })
+    },
     async getHatcheries() {
       if (this.hatcheryIds.length) {
         await this.$store.dispatch('getList', {
@@ -241,7 +262,10 @@ export default Form.create({})({
             }
           </Form.Item>
           <Form.Item label={' '}>
-            <Button type="primary" html-type="submit" loading={this.loading}>下一步</Button>
+            <Space class={'bnm-contract-step-btns'}>
+              <Button onClick={this.goBack}>上一步</Button>
+              <Button type="primary" html-type="submit" loading={this.loading}>下一步</Button>
+            </Space>
           </Form.Item>
         </Form>
         <ModalOfChooseVenue modalTitle={'选择孵化场所'} />

@@ -13,14 +13,22 @@ export default Form.create({})({
   mixins: [forModuleName(true)],
   data() {
     return {
-      companyInfoSelected: {}
+      companyInfoSelected: []
     }
   },
   computed: {
     ...mapGetters({
       getState: 'getState'
     }),
+    details() {
+      return this.getState('details', this.moduleName)
+    },
     list() {
+      if (+this.$route.query.ac === 1 || +this.$route.query.ac === 2) {
+        this.companyInfoSelected = this.details.list
+        return [{ id: this.details.companyId, companyName: this.details.companyName }]
+      }
+
       return this.getState('list', this.moduleName, this.submoduleName)
     },
     loading() {
@@ -57,7 +65,7 @@ export default Form.create({})({
       })
 
       this.form.setFieldsValue({ companyId: undefined })
-      this.companyInfoSelected = {}
+      this.companyInfoSelected = []
     },
     onCompanyChecked(item) {
       this.companyInfoSelected = item.list
@@ -67,6 +75,7 @@ export default Form.create({})({
 
       if (this.$route.query.id) {
         temp.id = this.$route.query.id
+        temp.signingType = this.$route.query.ac
       }
 
       if ('dateRange' in temp) {
@@ -89,12 +98,8 @@ export default Form.create({})({
       e?.preventDefault()
       this.form.validateFields(async (err, values) => {
         if (!err) {
-          this.loading = true
-
           const payload = this.transformValue(values)
           const response = await apis.step1OfSubmitContract(payload)
-
-          this.loading = false
 
           if (response.status) {
             await this.$store.dispatch('getDetails', {
@@ -120,10 +125,13 @@ export default Form.create({})({
         <Form.Item label={'签约企业类型'}>
           {
             this.form.getFieldDecorator('companyCategory', {
-              initialValue: 1,
+              initialValue: this.details.companyCategory || 1,
               rules: [{ required: true, type: 'number', message: '请选择企业类型!', trigger: 'change' }]
             })(
-              <Radio.Group onChange={this.onCompanyCategoryChange}>
+              <Radio.Group
+                disabled={+this.$route.query.ac === 1 || +this.$route.query.ac === 2}
+                onChange={this.onCompanyCategoryChange}
+              >
                 <Radio value={1}>企业</Radio>
                 <Radio value={2}>团队</Radio>
               </Radio.Group>
@@ -133,9 +141,11 @@ export default Form.create({})({
         <Form.Item label={'签约企业'}>
           {
             this.form.getFieldDecorator('companyId', {
+              initialValue: this.details.companyId || undefined,
               rules: [{ required: true, message: '请选择企业类型!', trigger: 'change' }]
             })(
               <Select
+                disabled={+this.$route.query.ac === 1 || +this.$route.query.ac === 2}
                 placeholder={'输入企业名称搜索已注册企业'}
                 showSearch
                 filterOption={false}
@@ -173,7 +183,7 @@ export default Form.create({})({
         <Form.Item label="所属行业">
           {
             this.form.getFieldDecorator('companyTypeList', {
-              initialValue: []
+              initialValue: this.details.companyTypeList || []
             })(
               <Checkbox.Group>
                 {
@@ -201,7 +211,9 @@ export default Form.create({})({
         <Form.Item label="签约期限">
           {
             this.form.getFieldDecorator('dateRange', {
-              initialValue: [],
+              initialValue: this.details.starTime
+                ? [moment(this.details.starTime, 'YYYYMMDD'), moment(this.details.endTime, 'YYYYMMDD')]
+                : [],
               rules: [{ required: true, type: 'array', message: '请选择签约期限!', trigger: 'change' }]
             })(
               <DatePicker.RangePicker style={{ width: '100%' }} />

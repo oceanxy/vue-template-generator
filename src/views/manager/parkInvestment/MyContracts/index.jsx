@@ -5,7 +5,6 @@ import dynamicState from '@/mixins/dynamicState'
 import store, { dynamicModules } from '@/store/manager'
 import Table from './components/Table'
 import Pagination from './components/Pagination'
-import ModalOfEdit from './components/ModalOfEdit'
 import Functions from './components/Functions'
 
 export default {
@@ -18,9 +17,6 @@ export default {
         <Functions slot={'functions'} />
         <Table slot={'table'} />
         <Pagination slot={'pagination'} />
-        <template slot={'modals'}>
-          <ModalOfEdit modalTitle={'{action}合同'} />
-        </template>
       </TGContainer>
     )
   }
