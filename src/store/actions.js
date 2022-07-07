@@ -240,9 +240,10 @@ export default {
    * @param dispatch
    * @param moduleName {string}
    * @param payload {Object}
-   * @param visibleField {string}
    * @param isFetchList {boolean}
    * @param customApiName {string} 自定义请求API
+   * @param closeModalAfterFetched {boolean} 成功执行操作后是否关闭弹窗，默认true。不是在弹窗内调用时，请始终传递 false
+   * @param visibleField {string} 控制弹窗的字段，依赖 closeModalAfterFetched
    * @returns {Promise<*>}
    */
   async custom({ state, dispatch }, {
@@ -250,16 +251,19 @@ export default {
     payload,
     visibleField,
     isFetchList,
-    customApiName
+    customApiName,
+    closeModalAfterFetched = true
   }) {
     const response = await apis[customApiName](payload)
 
     if (response.status) {
-      dispatch('setModalVisible', {
-        statusField: visibleField,
-        statusValue: false,
-        moduleName
-      })
+      if (closeModalAfterFetched) {
+        dispatch('setModalVisible', {
+          statusField: visibleField,
+          statusValue: false,
+          moduleName
+        })
+      }
 
       if (isFetchList) {
         dispatch('getList', { moduleName })

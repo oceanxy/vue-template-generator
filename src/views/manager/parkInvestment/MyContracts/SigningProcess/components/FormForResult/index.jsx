@@ -10,6 +10,11 @@ export default {
       return this.getState('details', this.moduleName)
     }
   },
+  methods: {
+    async onReSignClick() {
+      await this.$router.push({ name: 'signingProcess', query: { id: this.details.id, ac: 1 } })
+    }
+  },
   render() {
     return (
       <div class={'bnm-contract-review-result-container'}>
@@ -39,7 +44,7 @@ export default {
                   <span>{this.details.contractAuditResult.auditMessage}</span>
                 </div>
 
-                <Button type={'primary'}>重新签约</Button>
+                <Button type={'primary'} onClick={this.onReSignClick}>重新签约</Button>
               </div>
             )
           ][this.details.signingStatus - 2]

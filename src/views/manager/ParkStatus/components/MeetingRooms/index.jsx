@@ -26,7 +26,7 @@ export default {
       this.$router.push({ name: 'venueReservation', query: { id } })
     },
     onSigningProcess(id) {
-      this.$router.push({ name: 'signingProcess', query: { id } })
+      this.$router.push({ name: 'signingProcess', query: { rid: id } })
     }
   },
   render() {

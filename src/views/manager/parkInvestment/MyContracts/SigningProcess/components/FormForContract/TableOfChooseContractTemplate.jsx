@@ -1,5 +1,6 @@
 import { Button, Space, Table } from 'ant-design-vue'
 import forTable from '@/mixins/forTable'
+import { mapGetters } from 'vuex'
 
 export default {
   // 注册为子模块的组件需要注入的参数
@@ -35,29 +36,46 @@ export default {
             scopedSlots: { customRender: 'operation' }
           }
         ],
-        size: 'middle',
-        rowSelection: {
-          type: 'radio'
-        }
-      }
+        size: 'middle'
+      },
+      contractTemplateId: ''
     }
   },
   computed: {
+    ...mapGetters({ getState: 'getState' }),
     currentItem() {
-      return this.getCurrentItem(this.moduleName)
+      return this.getState('currentItem', this.moduleName)
+    },
+    details() {
+      return this.getState('details', this.moduleName)
     },
     additionalQueryParameters() {
       return {
         id: this.currentItem.id
       }
+    },
+    selectedRowKeys() {
+      return this.getState('selectedRowKeys', this.moduleName, this.submoduleName)
+    }
+  },
+  created() {
+    if (this.details.contractTemplateId) {
+      this.contractTemplateId = this.details.contractTemplateId
     }
   },
   render() {
+    const selectedRowKeys = this.selectedRowKeys[0] || this.contractTemplateId
+
     const attruibutes = {
       props: {
         ...this.tableProps,
         dataSource: this.dataSource,
-        loading: this.loading
+        loading: this.loading,
+        rowSelection: {
+          ...this.tableProps.rowSelection,
+          type: 'radio',
+          selectedRowKeys: selectedRowKeys ? [selectedRowKeys] : []
+        }
       },
       attrs: {
         class: 'bnm-table-in-modal'

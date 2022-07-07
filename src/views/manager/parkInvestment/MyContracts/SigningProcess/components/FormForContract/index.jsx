@@ -6,6 +6,7 @@ import Table from './Table'
 import forModuleName from '@/mixins/forModuleName'
 import ModalOfChooseContractTemplate from './ModalOfChooseContractTemplate'
 import ModalOfPreviewContract from './ModalOfPreviewContract'
+import details from '@/views/manager/basis/Businesses/Details'
 
 export default Form.create({})({
   name: 'SigningProcess-Contract',
@@ -18,11 +19,26 @@ export default Form.create({})({
     ...mapGetters({
       getState: 'getState'
     }),
+    details() {
+      return this.getState('details', this.moduleName)
+    },
     data() {
       return this.getState('data', this.moduleName, this.submoduleName)
     },
-    contractTemplateSelected() {
-      return this.getState('selectedRows', this.moduleName, this.submoduleName) || []
+    contractTemplateSelected: {
+      get() {
+        return this.getState('selectedRows', this.moduleName, this.submoduleName) || []
+      },
+      async set(contractTemplate) {
+        await this.$store.dispatch('setRowSelected', {
+          moduleName: this.moduleName,
+          submoduleName: this.submoduleName,
+          payload: {
+            selectedRowKeys: [contractTemplate.id],
+            selectedRows: [contractTemplate]
+          }
+        })
+      }
     },
     templateId() {
       return this.getState('selectedRowKeys', this.moduleName, this.submoduleName)[0]
@@ -41,6 +57,14 @@ export default Form.create({})({
     async onPreviewContract() {
       if (this.templateId) {
         await this._setVisibleOfModal({}, 'visibleOfPreviewContract', this.submoduleName)
+      }
+    }
+  },
+  created() {
+    if (this.details.contractTemplateId) {
+      this.contractTemplateSelected = {
+        id: this.details.contractTemplateId,
+        templateName: this.details.contractTemplateName
       }
     }
   },
@@ -85,7 +109,7 @@ export default Form.create({})({
             }
           </Button>
         </BNContainer>
-        <Space class={'bnm-contract-confirmation-btns'}>
+        <Space class={'bnm-contract-step-btns'}>
           <Button onClick={this.goBack}>上一步</Button>
           <Button
             type={'primary'}

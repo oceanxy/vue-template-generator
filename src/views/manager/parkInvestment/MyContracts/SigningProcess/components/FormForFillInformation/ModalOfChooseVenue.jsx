@@ -29,14 +29,17 @@ export default Form.create({})({
   },
   computed: {
     ...mapGetters({ getState: 'getState' }),
+    details() {
+      return this.getState('details', this.moduleName)
+    },
     hatcheryIds() {
-      return this.getState('list', this.moduleName, this.submoduleName).map(item => item.id)
+      const roomIdFormRouteQuery = this.$route.query.rid ? [this.$route.query.rid] : []
+      const roomIdFromDetails = this.details.placeList?.map(item => item.id) ?? []
+
+      return [].concat(roomIdFormRouteQuery, roomIdFromDetails)
     },
     hatcheryTree() {
       return this.getState('hatcheryTree', this.moduleName, this.submoduleName)
-    },
-    details() {
-      return this.getState('details', this.moduleName)
     }
   },
   watch: {
@@ -69,7 +72,7 @@ export default Form.create({})({
     const attributes = {
       attrs: this.modalProps,
       on: {
-        cancel: this.onClose,
+        cancel: () => this.onClose(),
         ok: () => this.onSubmit()
       }
     }

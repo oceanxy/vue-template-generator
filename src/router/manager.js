@@ -331,7 +331,7 @@ export const routes = [
                 component: () => import('@/views/manager/parkInvestment/MyContracts/SigningProcess'),
                 meta: {
                   title: '签约',
-                  keepAlive: true,
+                  keepAlive: false,
                   requiresAuth: true
                 }
               }
