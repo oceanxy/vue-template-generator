@@ -7,6 +7,7 @@ import TGContainerWithSider from '@/components/TGContainerWithSider'
 import TGListWithSubTitle from '@/components/TGListWithSubTitle'
 import { createNamespacedHelpers } from 'vuex'
 const { mapState } = createNamespacedHelpers('login')
+
 export default {
   computed: {
     ...mapState(['userInfo'])
@@ -72,7 +73,8 @@ export default {
             showBoxShadow={false}
             class="shortcut-menu-container"
             titleClass="not-login-title"
-            contentClass="shortcut-container">
+            contentClass="shortcut-container"
+          >
             <TGShortcutMenu column={3} />
           </BNContainer>
           <BNContainer
@@ -81,7 +83,8 @@ export default {
             moduleTitle="我的消息"
             showBoxShadow={false}
             showMore
-            titleClass="not-login-title">
+            titleClass="not-login-title"
+          >
             <TGList layout="dateBefore" />
           </BNContainer>
         </template>

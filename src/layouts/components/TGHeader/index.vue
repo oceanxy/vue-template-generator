@@ -179,7 +179,6 @@ export default {
 
       .corporate-services {
         font-size: 20px;
-        font-family: PingFang SC, serif;
         font-weight: 700;
         color: #000000;
         line-height: 40px;
@@ -208,7 +207,6 @@ export default {
   .ant-dropdown-menu-item:not(:first-child) {
     line-height: 54px;
     font-size: 15px;
-    font-family: PingFang SC, serif;
     color: #1f1f1f;
     padding: 0 20px;
   }

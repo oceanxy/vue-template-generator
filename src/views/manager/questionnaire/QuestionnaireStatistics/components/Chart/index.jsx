@@ -46,7 +46,6 @@ export default {
               show: true,
               position: 'outer',
               color: '#1f1f1f',
-              fontFamily: 'PingFang SC',
               fontSize: 14,
               lineHeight: 16,
               formatter: '{b}\n{d}%'

@@ -120,48 +120,48 @@ export const routes = [
               requiresAuth: true
             }
           },
-          {
-            path: 'report-form',
-            component: TGRouterView,
-            meta: {
-              title: '我的报表',
-              keepAlive: true,
-              requiresAuth: true,
-              hideChildren: true
-            },
-            children: [
-              {
-                path: '',
-                name: 'reportForm',
-                component: () => import('@/views/client/basis/ReportForm'),
-                meta: {
-                  title: '我的报表',
-                  keepAlive: true,
-                  requiresAuth: true
-                }
-              },
-              {
-                path: 'form',
-                name: 'reportFForm',
-                component: () => import('@/views/client/basis/ReportForm/Form'),
-                meta: {
-                  title: '立即填报',
-                  keepAlive: true,
-                  requiresAuth: true
-                }
-              },
-              {
-                path: 'record',
-                name: 'reportFormRecord',
-                component: () => import('@/views/client/basis/ReportForm/Record'),
-                meta: {
-                  title: '填报记录',
-                  keepAlive: true,
-                  requiresAuth: true
-                }
-              }
-            ]
-          },
+          // {
+          //   path: 'report-form',
+          //   component: TGRouterView,
+          //   meta: {
+          //     title: '我的报表',
+          //     keepAlive: true,
+          //     requiresAuth: true,
+          //     hideChildren: true
+          //   },
+          //   children: [
+          //     {
+          //       path: '',
+          //       name: 'reportForm',
+          //       component: () => import('@/views/client/basis/ReportForm'),
+          //       meta: {
+          //         title: '我的报表',
+          //         keepAlive: true,
+          //         requiresAuth: true
+          //       }
+          //     },
+          //     {
+          //       path: 'form',
+          //       name: 'reportFForm',
+          //       component: () => import('@/views/client/basis/ReportForm/Form'),
+          //       meta: {
+          //         title: '立即填报',
+          //         keepAlive: true,
+          //         requiresAuth: true
+          //       }
+          //     },
+          //     {
+          //       path: 'record',
+          //       name: 'reportFormRecord',
+          //       component: () => import('@/views/client/basis/ReportForm/Record'),
+          //       meta: {
+          //         title: '填报记录',
+          //         keepAlive: true,
+          //         requiresAuth: true
+          //       }
+          //     }
+          //   ]
+          // },
           {
             path: 'cor-info',
             name: 'corInfo',
