@@ -25,5 +25,31 @@ export default {
       method: 'post',
       data: qs.stringify(data)
     })
+  },
+  /**
+   * 新增报表记录
+   * @param [request]
+   * @param data
+   * @returns {*}
+   */
+  addReport(request, data) {
+    return request({
+      url: '/operate/report/add',
+      method: 'post',
+      data: data
+    })
+  },
+  /**
+   * 获取报表结果集合
+   * @param [request]
+   * @param data
+   * @returns {*}
+   */
+  getReportRecord(request, data) {
+    return request({
+      url: '/operate/report/getReportRecord',
+      method: 'post',
+      data: qs.stringify(data)
+    })
   }
 }

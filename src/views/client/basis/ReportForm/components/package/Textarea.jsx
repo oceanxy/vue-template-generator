@@ -1,27 +1,21 @@
-import { Input } from 'ant-design-vue'
-
+import { Input, Form } from 'ant-design-vue'
+import { getRules } from '../utils'
 export default {
-  model: {
-    prop: 'value',
-    event: 'change'
-  },
   props: {
-    data: Object
+    data: Object,
+    form: Object
   },
   data() {
     return {}
   },
-  methods: {
-    onChange(e) {
-      this.$emit('change', e.target.value)
-    }
-  },
+  methods: {},
   render() {
     return (
-      <Input.TextArea
-        autoSize={{ minRows: 4, maxRows: 6 }}
-        placeholder="请输入"
-        onchange={this.onChange}></Input.TextArea>
+      <Form.Item label={this.data.fullName}>
+        {this.form.getFieldDecorator(this.data.id, { initialValue: '', rules: getRules(this.data) })(
+          <Input.TextArea autoSize={{ minRows: 4, maxRows: 6 }} placeholder="请输入"></Input.TextArea>
+        )}
+      </Form.Item>
     )
   }
 }
