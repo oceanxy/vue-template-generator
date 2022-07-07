@@ -99,10 +99,6 @@ export default {
         //   defaultMenuUrl: defaultMenuUrl
         // })
         dispatch('getDetailInfo')
-
-        await router.replace({ name: 'loginAfter' })
-      } else {
-        window.location.href = response.data
       }
       return response
     },

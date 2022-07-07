@@ -1,36 +1,30 @@
-import { Button, Space } from 'ant-design-vue'
+import { Button, Space, Radio } from 'ant-design-vue'
 import forFunction from '@/mixins/forFunction'
 import '../assets/styles/index.scss'
-
+import { mapState, mapAction } from '@/utils/store'
 export default {
   mixins: [forFunction()],
+  computed: {
+    ...mapState(['readLoading'])
+  },
+  methods: {
+    ...mapAction(['updateIsReadAll', 'delNews'])
+  },
   render() {
     return (
-      <Space>
-        <Button
-          type="primary"
-          onClick={() => this.onAddClick()}
-          icon="plus"
-        >
-          新增
-        </Button>
-        <Button
-          type="primary"
-          onClick={this.onEditClick}
-          icon="edit"
-          disabled={this.editButtonDisabled}
-        >
-          修改
-        </Button>
-        <Button
-          type="danger"
-          onClick={() => this.onDeleteClick()}
-          icon="delete"
-          disabled={this.deleteButtonDisabled}
-        >
-          删除
-        </Button>
-      </Space>
+      <div class="bnc-news-button">
+        <Space>
+          <Button loading={this.readLoading} onClick={() => this.updateIsReadAll()}>
+            全部已读
+          </Button>
+          <Button type="danger" onClick={() => this.delNews(this.moduleName)}>
+            删除
+          </Button>
+        </Space>
+        {/* <div>
+          <Radio>只看未读</Radio>
+        </div> */}
+      </div>
     )
   }
 }

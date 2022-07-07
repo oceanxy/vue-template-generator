@@ -1,0 +1,43 @@
+import qs from 'qs'
+
+export default {
+  /**
+   * 获取消息通知分页集合
+   * @param [request]
+   * @param data
+   * @returns {*}
+   */
+  getNews(request, data) {
+    return request({
+      url: '/operate/notifyMessage/getNotifyMessageList',
+      method: 'post',
+      data: qs.stringify(data)
+    })
+  },
+  /**
+   * 全部通知设置已读
+   * @param [request]
+   * @param data
+   * @returns {*}
+   */
+  updateIsReadAll(request, data) {
+    return request({
+      url: '/operate/notifyMessage/updateIsReadAll',
+      method: 'post',
+      data: qs.stringify(data)
+    })
+  },
+  /**
+   * 删除消息通知
+   * @param [request]
+   * @param data
+   * @returns {*}
+   */
+  delNews(request, data) {
+    return request({
+      url: '/operate/notifyMessage/delete',
+      method: 'post',
+      data: qs.stringify(data)
+    })
+  }
+}

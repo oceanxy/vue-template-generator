@@ -1,5 +1,5 @@
 import '../assets/styles/index.scss'
-import { Switch, Table, Space, Button } from 'ant-design-vue'
+import { Table } from 'ant-design-vue'
 import forTable from '@/mixins/forTable'
 
 export default {
@@ -9,83 +9,39 @@ export default {
       tableProps: {
         columns: [
           {
-            title: '模块名称',
-            dataIndex: 'moduleName'
+            title: '消息内容',
+            dataIndex: 'title'
           },
           {
-            title: '所属站点',
-            dataIndex: 'appName'
+            title: '接收时间',
+            dataIndex: 'publishTimeStr'
           },
           {
-            title: '模块描述',
-            dataIndex: 'remark'
-          },
-          {
-            title: '创建时间',
-            align: 'center',
-            dataIndex: 'createTimeStr'
-          },
-          // {
-          //   title: '状态',
-          //   align: 'center',
-          //   width: 60,
-          //   scopedSlots: { customRender: 'status' }
-          // },
-          {
-            title: '操作',
-            key: 'operation',
-            // fixed: 'right',
-            align: 'center',
-            width: 250,
-            scopedSlots: { customRender: 'operation' }
+            title: '发布人',
+            dataIndex: 'publisherName'
           }
         ]
       }
     }
   },
+
   render() {
     return (
       <Table
         ref={`${this.moduleName}Table`}
-        class="bn-table bn-functional-modules-table"
         loading={this.getLoading(this.moduleName)}
         {...{ props: this.tableProps }}
         {...{
           scopedSlots: {
+            expandedRowRender: record => {
+              return <p style={{ margin: 0 }}>{record.content}</p>
+            }
             // status: (text, record) => (
             //   <Switch
             //     checked={+record.status === 1}
             //     onChange={checked => this.onStatusChange(checked, record)}
             //   />
             // ),
-            operation: (text, record) => (
-              <Space class="operation-space">
-                <Button
-                  type="link"
-                  icon="plus"
-                  size="small"
-                  onClick={() => this.onAddClick(record)}
-                >
-                  新增
-                </Button>
-                <Button
-                  type="link"
-                  icon="edit"
-                  size="small"
-                  onClick={() => this.onEditClick(record)}
-                >
-                  修改
-                </Button>
-                <Button
-                  type="link"
-                  icon="delete"
-                  size="small"
-                  onClick={() => this.onDeleteClick(record)}
-                >
-                  删除
-                </Button>
-              </Space>
-            )
           }
         }}
       />

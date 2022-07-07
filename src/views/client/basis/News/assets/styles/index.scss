@@ -1,3 +1,13 @@
 .box-content.bn-news-content {
-
+  .bnc-news-button {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .ant-table {
+    height: auto;
+    .ant-table-body {
+      max-height: initial !important;
+    }
+  }
 }

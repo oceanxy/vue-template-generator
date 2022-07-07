@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import config from '@/config'
 import TGRouterView from '@/layouts/components/TGRouterView'
+import store from '@/store/client'
 
 Vue.use(VueRouter)
 
@@ -171,17 +172,17 @@ export const routes = [
               keepAlive: true,
               requiresAuth: true
             }
+          },
+          {
+            path: 'news',
+            name: 'news',
+            component: () => import('@/views/client/basis/News'),
+            meta: {
+              title: '我的消息',
+              keepAlive: true,
+              requiresAuth: true
+            }
           }
-          // {
-          //   path: 'news',
-          //   name: 'news',
-          //   component: () => import('@/views/client/basis/News'),
-          //   meta: {
-          //     title: '我的消息',
-          //     keepAlive: true,
-          //     requiresAuth: true
-          //   }
-          // }
         ]
       },
       {
@@ -214,94 +215,94 @@ export const routes = [
               keepAlive: true,
               requiresAuth: true
             }
+          },
+          {
+            path: 'invoice',
+            name: 'invoice',
+            component: () => import('@/views/client/finance/Invoices'),
+            meta: {
+              title: '我的发票',
+              keepAlive: true,
+              requiresAuth: true
+            }
           }
-          // {
-          //   path: 'invoice',
-          //   name: 'invoice',
-          //   component: () => import('@/views/client/finance/Invoices'),
-          //   meta: {
-          //     title: '我的发票',
-          //     keepAlive: true,
-          //     requiresAuth: true
-          //   }
-          // }
         ]
       },
-      // {
-      //   path: 'commercial-service',
-      //   component: TGRouterView,
-      //   meta: {
-      //     title: '物业服务',
-      //     keepAlive: true,
-      //     requiresAuth: true,
-      //     icon: () => import('@/layouts/components/TGMenu/assets/images/commercialService')
-      //   },
-      //   redirect: { name: 'reservation' },
-      //   children: [
-      //     {
-      //       path: 'reservation',
-      //       component: TGRouterView,
-      //       meta: {
-      //         title: '会议室预约',
-      //         keepAlive: true,
-      //         requiresAuth: true,
-      //         hideChildren: true
-      //       },
-      //       children: [
-      //         {
-      //           path: '',
-      //           name: 'reservation',
-      //           component: () => import('@/views/client/properties/BookMeetingRoom'),
-      //           meta: {
-      //             title: '会议室预约',
-      //             keepAlive: true,
-      //             requiresAuth: true
-      //           }
-      //         },
-      //         {
-      //           path: 'book',
-      //           name: 'book',
-      //           component: () => import('@/views/client/properties/BookMeetingRoom/Book'),
-      //           meta: {
-      //             title: '立即预约',
-      //             keepAlive: true,
-      //             requiresAuth: true
-      //           }
-      //         },
-      //         {
-      //           path: 'records',
-      //           name: 'appointmentRecord',
-      //           component: () => import('@/views/client/properties/BookMeetingRoom/Records'),
-      //           meta: {
-      //             title: '我的预约记录',
-      //             keepAlive: true,
-      //             requiresAuth: true
-      //           }
-      //         }
-      //       ]
-      //     },
-      //     {
-      //       path: 'repair',
-      //       name: 'repair',
-      //       component: () => import('@/views/client/properties/Repair'),
-      //       meta: {
-      //         title: '物业报修',
-      //         keepAlive: true,
-      //         requiresAuth: true
-      //       }
-      //     },
-      //     {
-      //       path: 'complaint',
-      //       name: 'complaint',
-      //       component: () => import('@/views/client/properties/Complaints'),
-      //       meta: {
-      //         title: '在线投诉',
-      //         keepAlive: true,
-      //         requiresAuth: true
-      //       }
-      //     }
-      //   ]
-      // },
+      {
+        path: 'commercial-service',
+        component: TGRouterView,
+        meta: {
+          title: '物业服务',
+          keepAlive: true,
+          requiresAuth: true,
+          icon: () => import('@/layouts/components/TGMenu/assets/images/commercialService')
+        },
+        redirect: { name: 'reservation' },
+        children: [
+          {
+            path: 'reservation',
+            component: TGRouterView,
+            meta: {
+              title: '会议室预约',
+              keepAlive: true,
+              requiresAuth: true,
+              hideChildren: true
+            },
+            children: [
+              {
+                path: '',
+                name: 'reservation',
+                component: () => import('@/views/client/properties/BookMeetingRoom'),
+                meta: {
+                  title: '会议室预约',
+                  keepAlive: true,
+                  requiresAuth: true
+                }
+              },
+              {
+                path: 'book',
+                name: 'book',
+                component: () => import('@/views/client/properties/BookMeetingRoom/Book'),
+                meta: {
+                  title: '立即预约',
+                  keepAlive: true,
+                  requiresAuth: true
+                }
+              },
+              {
+                path: 'records',
+                name: 'appointmentRecord',
+                component: () => import('@/views/client/properties/BookMeetingRoom/Records'),
+                meta: {
+                  title: '我的预约记录',
+                  keepAlive: true,
+                  requiresAuth: true
+                }
+              }
+            ]
+          },
+          {
+            path: 'repair',
+            name: 'repair',
+            component: () => import('@/views/client/properties/Repair'),
+            meta: {
+              title: '物业报修',
+              keepAlive: true,
+              requiresAuth: true
+            }
+          },
+          {
+            path: 'complaint',
+            name: 'complaint',
+            component: () => import('@/views/client/properties/Complaints'),
+            meta: {
+              title: '在线投诉',
+              keepAlive: true,
+              requiresAuth: true
+            }
+          }
+        ]
+      },
       {
         path: 'moveInto',
         name: 'moveInto',
@@ -355,7 +356,7 @@ const router = new VueRouter({
   mode: 'history'
 })
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   let title = to.meta.title || ''
   if (title) {
     title += ' | '
@@ -363,6 +364,16 @@ router.beforeEach((to, from, next) => {
 
   document.title = title + config.systemName
 
+  //判断是否自动登录
+  if (to.query.token) {
+    const res = await store.dispatch('login/bbsLogin', to.query.token)
+    if (res.status) {
+      next({ name: 'loginAfter' })
+    } else {
+      window.location.href = res.data
+    }
+    return
+  }
   // 判断该路由是否需要登录权限
   // 获取存储在sessionStorage内的token，防止刷新页面导致vuex被清空而跳转到登录页
   const token = sessionStorage.getItem('token')
