@@ -3,7 +3,7 @@
  */
 
 import './assets/styles/index.scss'
-import ULLoginForm from '@/views/client/Login/components/TGLoginForm'
+import ULLoginForm from '@/views/manager/Login/components/TGLoginForm'
 import BNContainer from '@/components/BNContainer'
 
 export default {
