@@ -21,6 +21,7 @@ export default {
     }
   },
   async created() {
+    console.log(this.$route.query)
     if (this.$route.query.id) {
       // 存在未完成的签约流程，直接获取合同信息，接续签约
       await this.$store.dispatch('getDetails', {
@@ -62,15 +63,14 @@ export default {
           }
         }
       }
-
-      if (this.details.signingStage === 2) {
+      if (this.details.signingStage === 1) {
+        Component = require('./components/FormForSelectCompany')
+      } else if (this.details.signingStage === 2) {
         Component = require('./components/FormForFillInformation')
       } else if (this.details.signingStage === 3) {
         Component = require('./components/FormForContract')
       } else if (this.details.signingStage === 4) {
         Component = require('./components/FormForResult')
-      } else {
-        Component = require('./components/FormForSelectCompany')
       }
 
       return Component?.default ?? Component
