@@ -334,9 +334,20 @@ export const routes = [
                   keepAlive: false,
                   requiresAuth: true
                 }
+              },
+              {
+                path: 're-sign',
+                name: 'reSign',
+                redirect: { name: 'signingProcess' },
+                component: () => import('@/views/manager/parkInvestment/MyContracts/SigningProcess'),
+                meta: {
+                  title: '签约',
+                  keepAlive: false,
+                  requiresAuth: true
+                }
               }
             ]
-          },
+          }
           // {
           //   path: 'renewal-application',
           //   name: 'renewalApplication',
@@ -500,7 +511,7 @@ export const routes = [
             }
           }
         ]
-      },
+      }
       // {
       //   path: 'discounts-lock',
       //   component: TGRouterView,

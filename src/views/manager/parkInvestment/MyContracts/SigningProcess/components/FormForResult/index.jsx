@@ -12,7 +12,15 @@ export default {
   },
   methods: {
     async onReSignClick() {
-      await this.$router.push({ name: 'signingProcess', query: { id: this.details.id, ac: 1 } })
+      this.$store.commit('setDetails', {
+        moduleName: this.moduleName,
+        merge: true,
+        value: {
+          signingStage: 0
+        }
+      })
+
+      await this.$router.push({ name: 'reSign', query: { id: this.details.id, ac: '1' } })
     }
   },
   render() {
@@ -44,7 +52,12 @@ export default {
                   <span>{this.details.contractAuditResult.auditMessage}</span>
                 </div>
 
-                <Button type={'primary'} onClick={this.onReSignClick}>重新签约</Button>
+                <Button
+                  type={'primary'}
+                  onClick={this.onReSignClick}
+                >
+                  重新签约
+                </Button>
               </div>
             )
           ][this.details.signingStatus - 2]

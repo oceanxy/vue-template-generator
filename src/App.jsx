@@ -53,10 +53,10 @@ export default {
             this.$route.meta.keepAlive
               ? (
                 <KeepAlive>
-                  <RouterView />
+                  <RouterView key={this.$route.fullPath} />
                 </KeepAlive>
               )
-              : <RouterView />
+              : <RouterView key={this.$route.fullPath} />
           }
         </ConfigProvider>
       </div>
