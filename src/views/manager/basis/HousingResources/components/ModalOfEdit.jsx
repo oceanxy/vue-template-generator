@@ -94,8 +94,8 @@ export default Form.create({})({
           </Form.Item>
           <Form.Item label="房源位置" class={'half'}>
             {
-              this.form.getFieldDecorator('buildId', {
-                initialValue: this.currentItem.buildId,
+              this.form.getFieldDecorator('floorId', {
+                initialValue: this.currentItem.floorId,
                 rules: [{ required: true, message: '请选择房源位置!', trigger: 'change' }]
               })(
                 <TreeSelect
@@ -174,40 +174,6 @@ export default Form.create({})({
                 </Select>
               )
             }
-          </Form.Item>
-          <Form.Item label="所在楼层" class={'half combo'} required>
-            <Row gutter={10}>
-              <Col span={13}>
-                <Form.Item>
-                  {
-                    this.form.getFieldDecorator('floorType', {
-                      initialValue: this.currentItem.floorType || 1,
-                      rules: [{ required: true, type: 'number', message: '请选择楼层类型!', trigger: 'change' }]
-                    })(
-                      <Select placeholder="请选择楼层类型">
-                        <Select.Option value={1}>正楼层</Select.Option>
-                        <Select.Option value={2}>负楼层</Select.Option>
-                      </Select>
-                    )
-                  }
-                </Form.Item>
-              </Col>
-              <Col span={11}>
-                <Form.Item>
-                  {
-                    this.form.getFieldDecorator('floorNum', {
-                      initialValue: this.currentItem.floorNum,
-                      rules: [{ required: true, type: 'number', message: '请输入楼层数!', trigger: 'blur' }]
-                    })(
-                      <InputNumber
-                        style={{ width: '100%' }}
-                        placeholder="请输入楼层数"
-                      />
-                    )
-                  }
-                </Form.Item>
-              </Col>
-            </Row>
           </Form.Item>
           <Form.Item label="工位数" class={'half'}>
             {

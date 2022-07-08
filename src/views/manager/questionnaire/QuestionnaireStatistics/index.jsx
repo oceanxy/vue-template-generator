@@ -1,5 +1,5 @@
 import './assets/styles/index.scss'
-import { Select, Spin } from 'ant-design-vue'
+import { Empty, Select, Spin } from 'ant-design-vue'
 import dynamicState from '@/mixins/dynamicState'
 import store, { dynamicModules } from '@/store/manager'
 import TGContainerWithSider from '@/components/TGContainerWithSider'
@@ -19,12 +19,12 @@ export default {
     loadingOfQuestionnairesForSelect() {
       return this.getState('loadingOfQuestionnairesForSelect', 'common')
     },
-    templateId: {
+    questionnaireId: {
       get() {
-        return this.getState('templateId', this.moduleName)
+        return this.getState('questionnaireId', this.moduleName)
       },
       async set(value) {
-        await this.$store.dispatch(`${this.moduleName}/setTemplateId`, value)
+        await this.$store.dispatch(`${this.moduleName}/setQuestionnaireId`, value)
       }
     },
     itemId() {
@@ -39,13 +39,17 @@ export default {
   },
   watch: {
     async questionnairesForSelect(value) {
-      if (value.length) {
-        await this.$store.dispatch(`${this.moduleName}/setTemplateId`, value[0].templateId)
+      if (value.length && !this.$router.query?.id) {
+        this.questionnaireId = value[0].id
       }
     }
   },
   async created() {
     await dispatch('common', 'getQuestionnairesForSelect')
+
+    if (this.$router.query?.id) {
+      this.questionnaireId = this.$router.query.id
+    }
   },
   methods: {
     setItemId(value) {
@@ -60,29 +64,31 @@ export default {
       >
         <template slot={'sider'}>
           <Select
-            vModel={this.templateId}
+            vModel={this.questionnaireId}
             placeholder={'请选择问卷'}
             class={'list-select'}
             notFoundContent={this.loadingOfQuestionnairesForSelect ? <Spin /> : undefined}
           >
             {
               this.questionnairesForSelect.map(item => (
-                <Select.Option value={item.templateId}>{item.fullName}</Select.Option>
+                <Select.Option value={item.id}>{item.fullName}</Select.Option>
               ))
             }
           </Select>
           <div class={'list'}>
             <Spin spinning={this.itemLoading} style={{ width: '100%' }}>
               {
-                this.itemOfQuestionnaireTemplate.map((item, index) => (
-                  <div
-                    class={`list-item${this.itemId === item.id ? ' checked' : ''}`}
-                    onClick={() => this.setItemId(item.id)}
-                  >
-                    <span>{index + 1}</span>
-                    <span>{item.fullName}</span>
-                  </div>
-                ))
+                this.itemOfQuestionnaireTemplate.length
+                  ? this.itemOfQuestionnaireTemplate.map((item, index) => (
+                    <div
+                      class={`list-item${this.itemId === item.id ? ' checked' : ''}`}
+                      onClick={() => this.setItemId(item.id)}
+                    >
+                      <span>{index + 1}</span>
+                      <span>{item.fullName}</span>
+                    </div>
+                  ))
+                  : <Empty />
               }
             </Spin>
           </div>

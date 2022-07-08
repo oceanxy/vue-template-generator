@@ -1,5 +1,5 @@
 import './index.scss'
-import { Spin, Tree } from 'ant-design-vue'
+import { Empty, Spin, Tree } from 'ant-design-vue'
 import TGContainerWithSider from '@/components/TGContainerWithSider'
 import { mapGetters } from 'vuex'
 import { dispatch } from '@/utils/store'
@@ -20,7 +20,7 @@ export default {
     })
 
     this.loading = true
-    await dispatch('common', 'getFloorTree')
+    await dispatch('common', 'getSideFloorTree')
     this.loading = false
   },
   data() {
@@ -30,7 +30,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      floorTree: 'floorTree',
+      sideFloorTree: 'sideFloorTree',
       currentParkTreeKeySelected: 'currentParkTreeKeySelected'
     })
   },
@@ -71,14 +71,19 @@ export default {
           class="bnm-park-sider"
           spinning={this.loading}
         >
-          <Tree
-            selectedKeys={[this.currentParkTreeKeySelected]}
-            replaceFields={{ children: 'children', title: 'name', key: 'id' }}
-            treeData={this.floorTree}
-            onSelect={this.onSelect}
-            defaultExpandedKeys={['0']}
-            showLine
-          />
+          {
+            this.sideFloorTree.length ? (
+              <Tree
+                selectedKeys={[this.currentParkTreeKeySelected]}
+                replaceFields={{ children: 'children', title: 'name', key: 'id' }}
+                treeData={this.sideFloorTree}
+                onSelect={this.onSelect}
+                defaultExpandedKeys={['0']}
+                showLine
+              />
+            ) : <Empty />
+          }
+
         </Spin>
       </TGContainerWithSider>
     )

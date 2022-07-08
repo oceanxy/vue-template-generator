@@ -84,7 +84,18 @@ export default {
    */
   getFloorTree(request) {
     return request({
-      url: '/basic/park/getFloodTree',
+      url: '/basic/park/getFloorTreeList',
+      method: 'post'
+    })
+  },
+  /**
+   * 获取侧边栏数据
+   * @param request
+   * @returns {*}
+   */
+  getSideFloorTree(request) {
+    return request({
+      url: '/basic/park/getFloorTree',
       method: 'post'
     })
   }

@@ -2,6 +2,7 @@ import { createStoreModule } from '@/store/template'
 
 export default commitRootInModule => createStoreModule({
   state: {
-    visibleOfFollowUpClues: false
+    visibleOfFollowUpClues: false,
+    visibleOfDetails: false
   }
 })

@@ -5,8 +5,8 @@ import { omit } from 'lodash'
 export default commitRootInModule => omit(
   createStoreModule({
     state: {
-      templateId: '',
-      itemId: '',
+      questionnaireId: undefined,
+      itemId: undefined,
       itemLoading: false,
       itemOfQuestionnaireTemplate: []
     },
@@ -14,8 +14,8 @@ export default commitRootInModule => omit(
       setItemLoading(state, payload) {
         state.itemLoading = payload
       },
-      setTemplateId(state, payload) {
-        state.templateId = payload
+      setQuestionnaireId(state, payload) {
+        state.questionnaireId = payload
       },
       setItemOfQuestionnaireTemplate(state, payload) {
         state.itemOfQuestionnaireTemplate = payload
@@ -25,14 +25,14 @@ export default commitRootInModule => omit(
       }
     },
     actions: {
-      async setTemplateId({ commit, dispatch }, payload) {
-        commit('setTemplateId', payload)
+      async setQuestionnaireId({ commit, dispatch }, payload) {
+        commit('setQuestionnaireId', payload)
         dispatch('getItemOfQuestionnaireTemplate')
       },
       async getItemOfQuestionnaireTemplate({ state, commit }) {
         commit('setItemLoading', true)
 
-        const response = await apis.getItemOfQuestionnaireTemplate({ templateId: state.templateId })
+        const response = await apis.getItemOfQuestionnaireTemplate({ reportId: state.questionnaireId })
 
         if (response.status) {
           commit('setItemOfQuestionnaireTemplate', response.data)

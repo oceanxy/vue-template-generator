@@ -65,5 +65,31 @@ export default {
       method: 'post',
       data
     })
+  },
+  /**
+   * 发布问卷调查/报表
+   * @param request
+   * @param data
+   * @returns {*}
+   */
+  publishQuestionnaires(request, data) {
+    return request({
+      url: '/operate/report/publish',
+      method: 'post',
+      data: qs.stringify(data)
+    })
+  },
+  /**
+   * 结束问卷调查/报表
+   * @param request
+   * @param data
+   * @returns {*}
+   */
+  finishQuestionnaires(request, data) {
+    return request({
+      url: '/operate/report/finish',
+      method: 'post',
+      data: qs.stringify(data)
+    })
   }
 }
