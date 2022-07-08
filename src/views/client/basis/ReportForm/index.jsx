@@ -1,20 +1,15 @@
 import './assets/styles/index.scss'
 import BNContainer from '@/components/BNContainer'
-import { Button, Spin } from 'ant-design-vue'
+import { Button, Spin, Empty } from 'ant-design-vue'
 import store, { dynamicModules } from '@/store/client'
 import dynamicState from '@/mixins/dynamicState'
 import { dispatch } from '@/utils/store'
-
+import { mapState } from '@/utils/store'
 export default {
   name: 'ReportForm',
   mixins: [dynamicState(store, dynamicModules)],
   computed: {
-    loading() {
-      return this.$store.state[this.moduleName].loading
-    },
-    list() {
-      return this.$store.state[this.moduleName].list
-    }
+    ...mapState(['loading', 'list'])
   },
   mounted() {
     dispatch(this.moduleName, 'getMyReportList')
@@ -53,6 +48,7 @@ export default {
               </div>
             </div>
           ))}
+          {this.list.length === 0 ? <Empty image={Empty.PRESENTED_IMAGE_SIMPLE}></Empty> : null}
         </Spin>
       </BNContainer>
     )

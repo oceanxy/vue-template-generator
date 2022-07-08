@@ -6,52 +6,63 @@
  */
 
 import './index.scss'
-import { Icon } from 'ant-design-vue'
+import { Icon, Modal } from 'ant-design-vue'
 
 export default {
   props: {
-    statusColor: {
-      type: String,
-      default: '#faad14'
-    },
     data: {
       type: Object,
       default: () => ({})
     }
   },
+  data() {
+    return {
+      previewVisible: false,
+      previewImage: ''
+    }
+  },
+  methods: {
+    onOpen(src) {
+      this.previewVisible = true
+      this.previewImage = src
+    },
+    onCancel() {
+      this.previewVisible = false
+    }
+  },
   render() {
     return (
       <div class="repair-record-item">
-        <div class="item-status" style={{ '--bgcolor': this.statusColor }}>
-          {!this.data.status ? '待处理': '已处理'}
+        <div class="item-status" style={{ '--bgcolor': this.data.disposeStatus === 2 ? '#faad14' : '#1890ff' }}>
+          {this.data.disposeStatus === 2 ? '待处理' : '已处理'}
         </div>
-        <div class="item-title">厕所马桶漏水，请快速处理</div>
-        <div class="item-desc">需要修理</div>
+        <div class="item-title">{this.data.applyProject}</div>
+        <div class="item-desc">{this.data.applyDescription}</div>
         <div class="item-images">
-          <img src="x.png" alt="tupian" />
-          <img src="x.png" alt="tupian" />
-          <img src="x.png" alt="tupian" />
-          <img src="x.png" alt="tupian" />
-          <img src="x.png" alt="tupian" />
-          <img src="x.png" alt="tupian" />
+          {this.data.imgList.map(item => {
+            return <img src={item} alt="tupian" onClick={() => this.onOpen(item)} />
+          })}
         </div>
-        {
-          this.data.status ? (
-            <div class="item-process-info">
-              <div class="item-handler">处理人：杨师傅（2022年6月1日 18:14:36）</div>
-              <div class="item-result">处理结果</div>
-              <div class="item-images">
-                <img src="x.png" alt="tupian" />
-                <img src="x.png" alt="tupian" />
-                <img src="x.png" alt="tupian" />
-              </div>
+        {this.data.disposeStatus === 1 ? (
+          <div class="item-process-info">
+            <div class="item-handler">
+              处理人：{this.data.disposeName}（{this.data.disposeTimeStr}）
             </div>
-          ) : null
-        }
+            <div class="item-result">{this.data.disposeResult}</div>
+            <div class="item-images">
+              {this.data.disposeImgList.map(item => (
+                <img src={item} alt="tupian" onClick={() => this.onOpen(item)} />
+              ))}
+            </div>
+          </div>
+        ) : null}
         <div class="item-time">
           <Icon type="history" />
-          <span>2022年6月1日 18:12:54</span>
+          <span>{this.data.applyTimeStr}</span>
         </div>
+        <Modal visible={this.previewVisible} footer={null} onCancel={() => this.onCancel()}>
+          <img alt="example" style="width: 100%" src={this.previewImage} />
+        </Modal>
       </div>
     )
   }

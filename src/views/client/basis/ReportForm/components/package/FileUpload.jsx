@@ -10,7 +10,7 @@ export default {
     return (
       <Form.Item label={this.data.fullName}>
         {this.form.getFieldDecorator(this.data.id, { initialValue: [], rules: getRules(this.data) })(
-          <Upload action={'/api/system/upload/image'} limit={1}></Upload>
+          <Upload action={'/api/system/upload/file'} limit={1}></Upload>
         )}
       </Form.Item>
     )

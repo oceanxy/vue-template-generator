@@ -10,18 +10,12 @@ export default {
     form: Object
   },
   data() {
-    return {
-      options: [
-        { label: '123', value: 1 },
-        { label: '123', value: 2 },
-        { label: '123', value: 3 }
-      ]
-    }
+    return {}
   },
   methods: {
     getItemOptionList() {
       return this.data.itemOptionList.map(item => {
-        return Object.assign(item, { label: item.itemName, value: item.optionValue })
+        return Object.assign(item, { label: item.optionValue, value: item.id })
       })
     }
   },

@@ -3,8 +3,14 @@ import BNContainer from '@/components/BNContainer'
 import icon from './assets/images/appointment-record.svg'
 import { Button, Icon } from 'ant-design-vue'
 import MeetingRoomCard from './components/MeetingRoomCard'
-
+import dynamicState from '@/mixins/dynamicState'
+import store, { dynamicModules } from '@/store/client'
 export default {
+  name: 'BookMeetingRoom',
+  mixins: [dynamicState(store, dynamicModules)],
+  mounted() {
+    this.getBookMeetingRoom()
+  },
   methods: {
     toRecords() {
       this.$router.push({ name: 'appointmentRecord' })
@@ -24,8 +30,7 @@ export default {
               我的预约记录
             </Button>
           </div>
-        }
-      >
+        }>
         <MeetingRoomCard occupied />
         <MeetingRoomCard />
         <MeetingRoomCard />

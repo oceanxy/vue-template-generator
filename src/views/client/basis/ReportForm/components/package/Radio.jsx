@@ -15,7 +15,7 @@ export default {
         })(
           <Radio.Group>
             {this.data.itemOptionList.map(item => (
-              <Radio value={item.optionValue}>{item.itemName}</Radio>
+              <Radio value={item.id}>{item.optionValue}</Radio>
             ))}
           </Radio.Group>
         )}

@@ -5,11 +5,7 @@ import store, { dynamicModules } from '@/store/client'
 import dynamicState from '@/mixins/dynamicState'
 import { dispatch } from '@/utils/store'
 import Upload from '@/components/BNUploadPictures'
-function getBase64(img, callback) {
-  const reader = new FileReader()
-  reader.addEventListener('load', () => callback(reader.result))
-  reader.readAsDataURL(img)
-}
+import { mapState, mapAction } from '@/utils/store'
 
 export default Form.create({})({
   name: 'CorporateInformation',
@@ -23,24 +19,20 @@ export default Form.create({})({
     }
   },
   computed: {
-    loading() {
-      return this.$store.state[this.moduleName].loading
-    },
-    details() {
-      return this.$store.state[this.moduleName].details
-    }
+    ...mapState(['loading', 'details'])
   },
   mounted() {
-    dispatch(this.moduleName, 'getCompanyDetail')
+    this.getCompanyDetail()
   },
 
   methods: {
     onSubmit() {
       this.form.validateFields((err, values) => {
         if (err) return
-        dispatch(this.moduleName, 'updateCompanyDetail', values)
+        this.updateCompanyDetail(values)
       })
-    }
+    },
+    ...mapAction(['getCompanyDetail', 'updateCompanyDetail'])
   },
   render() {
     // 回显图片

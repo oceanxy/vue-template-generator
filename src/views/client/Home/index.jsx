@@ -49,7 +49,7 @@ export default {
           <BNContainer
             class="tg-home-upcoming"
             width="100%"
-            moduleTitle={
+            modalTitle={
               <div class="title">
                 我的待办
                 <div class="btns">
@@ -73,8 +73,7 @@ export default {
             showBoxShadow={false}
             class="shortcut-menu-container"
             titleClass="not-login-title"
-            contentClass="shortcut-container"
-          >
+            contentClass="shortcut-container">
             <TGShortcutMenu column={3} />
           </BNContainer>
           <BNContainer
@@ -83,8 +82,7 @@ export default {
             moduleTitle="我的消息"
             showBoxShadow={false}
             showMore
-            titleClass="not-login-title"
-          >
+            titleClass="not-login-title">
             <TGList layout="dateBefore" />
           </BNContainer>
         </template>

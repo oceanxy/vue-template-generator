@@ -53,7 +53,8 @@ export const getRules = data => {
 export const getFieldItemValue = (data, value) => {
   const result = {
     resultId: '',
-    resultContent: value
+    resultContent: value,
+    resultFile: []
   }
   if (data.modType === 1) {
     result.resultId = value
@@ -62,7 +63,8 @@ export const getFieldItemValue = (data, value) => {
     result.resultId = value.join(',')
     result.resultContent = findFieldValueAndText(data, value).join(',')
   } else if (data.modType === 5 || data.modType === 6) {
-    result.resultContent = value.map(item => item.response.data[0].key).join(',')
+    result.resultFile = value.map(item => item.response.data[0])
+    result.resultContent = ''
   } else if (data.modType === 7) {
     result.resultContent = value ? value.format('YYYYMMDD') : ''
   }
@@ -76,8 +78,8 @@ export const getFieldItemValue = (data, value) => {
  */
 export const findFieldValueAndText = (data, values) => {
   return values.map(item => {
-    const findItemOpt = data.itemOptionList.find(item2 => item2.optionValue === item)
-    return findItemOpt.itemName
+    const findItemOpt = data.itemOptionList.find(item2 => item2.id === item)
+    return findItemOpt.optionValue
   })
 }
 /**
