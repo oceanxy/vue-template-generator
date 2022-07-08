@@ -1,4 +1,4 @@
-import { Icon, Upload, Button } from 'ant-design-vue'
+import { Icon, Upload, Button, message } from 'ant-design-vue'
 
 export default {
   model: {
@@ -17,7 +17,7 @@ export default {
     },
     action: {
       type: String,
-      default: '/mgapi/system/upload/image'
+      default: '/mgapi/system/upload/file'
     },
     accept: {
       type: String,
@@ -48,6 +48,12 @@ export default {
     }
   },
   methods: {
+    beforeUpload(file, fileList) {
+      if (this.fileList.length >= this.limit) {
+        message.warning(`上传数量限制为${this.limit}个`)
+        return false
+      }
+    },
     async handlePreview(file) {
       // if (!file.url && !file.preview) {
       //   file.preview = await utilityFunction.getBase64(file.originFileObj)
@@ -56,11 +62,13 @@ export default {
       // this.previewVisible = true
     },
     handleChange({ file, fileList }) {
-      if (fileList.length > this.limit) {
-        fileList = fileList.slice(0, this.limit)
-      }
-
+      // if (file.response) {
+      //   this.fileList = fileList
+      // }
       this.fileList = fileList
+      if (this.fileList.length >= this.limit) {
+        this.fileList = this.fileList.slice(0, this.limit)
+      }
       this.$emit('change', this.fileList)
     }
   },
@@ -74,6 +82,7 @@ export default {
           name={this.name}
           fileList={this.fileList}
           onPreview={this.handlePreview}
+          beforeUpload={this.beforeUpload}
           onChange={this.handleChange}
           headers={this.headers}
           multiple={true}>

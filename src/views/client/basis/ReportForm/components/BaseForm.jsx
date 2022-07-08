@@ -1,4 +1,4 @@
-import { Form, Button } from 'ant-design-vue'
+import { Form } from 'ant-design-vue'
 import BaseFormItem from './BaseFormItem'
 import { getFieldValue } from './utils'
 export default Form.create({})({
@@ -21,11 +21,7 @@ export default Form.create({})({
         {this.list.map(item => (
           <BaseFormItem data={item} form={this.form}></BaseFormItem>
         ))}
-        <Form.Item>
-          <Button htmlType="submit" type="primary">
-            确认提交
-          </Button>
-        </Form.Item>
+        <Form.Item>{this.$slots.default}</Form.Item>
       </Form>
     )
   }

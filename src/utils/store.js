@@ -37,8 +37,8 @@ export async function dispatch(moduleName, action, payload) {
 }
 /**
  * @description: 返回store模块状态
- * @param {*} keys
- * @param {*} submoduleName 子模块名称
+ * @param {Array} keys [string]
+ * @param {string} submoduleName 子模块名称
  * @return {object}
  */
 export const mapState = (keys, submoduleName) => {
@@ -56,7 +56,7 @@ export const mapState = (keys, submoduleName) => {
   return result
 }
 /**
- * @description: 返回store方法
+ * @description: 返回store模块方法
  * @param {Array} actions [string]
  * @return {object} { [key]:function(payload,submoduleName) }
  */

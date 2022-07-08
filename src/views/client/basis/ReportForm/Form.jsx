@@ -4,7 +4,8 @@ import store, { dynamicModules } from '@/store/client'
 import dynamicState from '@/mixins/dynamicState'
 import { dispatch } from '@/utils/store'
 import BaseForm from './components/BaseForm'
-import { Spin } from 'ant-design-vue'
+import { Spin, Button } from 'ant-design-vue'
+import { mapState, mapAction } from '@/utils/store'
 export default {
   name: 'ReportApplyForm',
   mixins: [dynamicState(store, dynamicModules)],
@@ -16,12 +17,7 @@ export default {
     }
   },
   computed: {
-    loading() {
-      return this.$store.state[this.moduleName].loading
-    },
-    list() {
-      return this.$store.state[this.moduleName].list
-    }
+    ...mapState(['loading', 'list'])
   },
   mounted() {
     const { id, name } = this.$route.query
@@ -30,12 +26,12 @@ export default {
   },
   methods: {
     async onSubmit(value) {
-      console.log(value)
-      const res = await dispatch(this.moduleName, 'addReport', value)
+      const res = this.addReport(value)
       if (res.status) {
         this.$router.go(-1)
       }
-    }
+    },
+    ...mapAction(['addReport'])
   },
   render() {
     return (
@@ -44,7 +40,11 @@ export default {
         modalTitle={`我的报表 > ${this.$route.query.name}`}
         contentClass="bn-report-form-content">
         <Spin spinning={this.loading}>
-          <BaseForm list={this.list} onsubmit={this.onSubmit}></BaseForm>
+          <BaseForm list={this.list} onsubmit={this.onSubmit}>
+            <Button loading={this.loading} htmlType="submit" type="primary">
+              确认提交
+            </Button>
+          </BaseForm>
         </Spin>
       </BNContainer>
     )

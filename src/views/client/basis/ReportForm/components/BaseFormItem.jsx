@@ -40,9 +40,7 @@ export default {
           <Form.Item label="佐证材料">
             {this.form.getFieldDecorator(`${this.data.id}_proof`, {
               initialValue: []
-            })(
-              <BNUploadFile action={'/api/system/upload/image'} limit={this.data.itemProveList.length}></BNUploadFile>
-            )}
+            })(<BNUploadFile action={'/api/system/upload/file'} limit={this.data.itemProveList.length}></BNUploadFile>)}
           </Form.Item>
         ) : null}
       </div>
