@@ -84,7 +84,7 @@ export const routes = [
     component: () => import('@/layouts/TGProfile'),
     meta: {
       title: '企业服务中心',
-      keepAlive: true,
+      keepAlive: false,
       requiresAuth: true,
       icon: () => import('@/layouts/components/TGMenu/assets/images/enterpriseServiceCenter')
     },
@@ -96,7 +96,7 @@ export const routes = [
         component: () => import('@/views/client/Home'),
         meta: {
           title: '企业服务中心',
-          keepAlive: true,
+          keepAlive: false,
           requiresAuth: true
         }
       },
@@ -105,7 +105,7 @@ export const routes = [
         component: TGRouterView,
         meta: {
           title: '基础服务',
-          keepAlive: true,
+          keepAlive: false,
           requiresAuth: true,
           icon: () => import('@/layouts/components/TGMenu/assets/images/basicServices')
         },
@@ -117,7 +117,7 @@ export const routes = [
             component: () => import('@/views/client/basis/Contract'),
             meta: {
               title: '我的合同',
-              keepAlive: true,
+              keepAlive: false,
               requiresAuth: true
             }
           },
@@ -126,7 +126,7 @@ export const routes = [
             component: TGRouterView,
             meta: {
               title: '我的报表',
-              keepAlive: true,
+              keepAlive: false,
               requiresAuth: true,
               hideChildren: true
             },
@@ -137,7 +137,7 @@ export const routes = [
                 component: () => import('@/views/client/basis/ReportForm'),
                 meta: {
                   title: '我的报表',
-                  keepAlive: true,
+                  keepAlive: false,
                   requiresAuth: true
                 }
               },
@@ -147,7 +147,7 @@ export const routes = [
                 component: () => import('@/views/client/basis/ReportForm/Form'),
                 meta: {
                   title: '立即填报',
-                  keepAlive: true,
+                  keepAlive: false,
                   requiresAuth: true
                 }
               },
@@ -157,7 +157,7 @@ export const routes = [
                 component: () => import('@/views/client/basis/ReportForm/Record'),
                 meta: {
                   title: '填报记录',
-                  keepAlive: true,
+                  keepAlive: false,
                   requiresAuth: true
                 }
               }
@@ -169,7 +169,7 @@ export const routes = [
             component: () => import('@/views/client/basis/CorporateInformation'),
             meta: {
               title: '企业信息管理',
-              keepAlive: true,
+              keepAlive: false,
               requiresAuth: true
             }
           },
@@ -179,9 +179,41 @@ export const routes = [
             component: () => import('@/views/client/basis/News'),
             meta: {
               title: '我的消息',
-              keepAlive: true,
+              keepAlive: false,
               requiresAuth: true
             }
+          },
+          {
+            path: 'park-news',
+            component: TGRouterView,
+            meta: {
+              title: '园区新闻',
+              keepAlive: false,
+              requiresAuth: true,
+              hideChildren: true
+            },
+            children: [
+              {
+                path: '',
+                name: 'parkNews',
+                meta: {
+                  title: '园区新闻',
+                  keepAlive: false,
+                  requiresAuth: true
+                },
+                component: () => import('@/views/client/basis/ParkNews')
+              },
+              {
+                path: 'detail',
+                name: 'parkNewsDetail',
+                meta: {
+                  title: '园区新闻详情',
+                  keepAlive: false,
+                  requiresAuth: true
+                },
+                component: () => import('@/views/client/basis/ParkNews/components/details')
+              }
+            ]
           }
         ]
       },
@@ -190,7 +222,7 @@ export const routes = [
         component: TGRouterView,
         meta: {
           title: '财务服务',
-          keepAlive: true,
+          keepAlive: false,
           requiresAuth: true,
           icon: () => import('@/layouts/components/TGMenu/assets/images/financialServices')
         },
@@ -202,7 +234,7 @@ export const routes = [
             component: () => import('@/views/client/finance/Bills'),
             meta: {
               title: '我的账单',
-              keepAlive: true,
+              keepAlive: false,
               requiresAuth: true
             }
           },
@@ -212,7 +244,7 @@ export const routes = [
             component: () => import('@/views/client/finance/Records'),
             meta: {
               title: '缴费记录',
-              keepAlive: true,
+              keepAlive: false,
               requiresAuth: true
             }
           },
@@ -222,7 +254,7 @@ export const routes = [
             component: () => import('@/views/client/finance/Invoices'),
             meta: {
               title: '我的发票',
-              keepAlive: true,
+              keepAlive: false,
               requiresAuth: true
             }
           }
@@ -233,7 +265,7 @@ export const routes = [
         component: TGRouterView,
         meta: {
           title: '物业服务',
-          keepAlive: true,
+          keepAlive: false,
           requiresAuth: true,
           icon: () => import('@/layouts/components/TGMenu/assets/images/commercialService')
         },
@@ -244,7 +276,7 @@ export const routes = [
             component: TGRouterView,
             meta: {
               title: '会议室预约',
-              keepAlive: true,
+              keepAlive: false,
               requiresAuth: true,
               hideChildren: true
             },
@@ -255,7 +287,7 @@ export const routes = [
                 component: () => import('@/views/client/properties/BookMeetingRoom'),
                 meta: {
                   title: '会议室预约',
-                  keepAlive: true,
+                  keepAlive: false,
                   requiresAuth: true
                 }
               },
@@ -265,7 +297,7 @@ export const routes = [
                 component: () => import('@/views/client/properties/BookMeetingRoom/Book'),
                 meta: {
                   title: '立即预约',
-                  keepAlive: true,
+                  keepAlive: false,
                   requiresAuth: true
                 }
               },
@@ -275,7 +307,7 @@ export const routes = [
                 component: () => import('@/views/client/properties/BookMeetingRoom/Records'),
                 meta: {
                   title: '我的预约记录',
-                  keepAlive: true,
+                  keepAlive: false,
                   requiresAuth: true
                 }
               }
@@ -287,7 +319,7 @@ export const routes = [
             component: () => import('@/views/client/properties/Repair'),
             meta: {
               title: '物业报修',
-              keepAlive: true,
+              keepAlive: false,
               requiresAuth: true
             }
           },
@@ -297,7 +329,7 @@ export const routes = [
             component: () => import('@/views/client/properties/Complaints'),
             meta: {
               title: '在线投诉',
-              keepAlive: true,
+              keepAlive: false,
               requiresAuth: true
             }
           }
@@ -309,7 +341,7 @@ export const routes = [
         component: () => import('@/views/client/MoveInto'),
         meta: {
           title: '申请入驻',
-          keepAlive: true,
+          keepAlive: false,
           requiresAuth: true,
           icon: () => import('@/layouts/components/TGMenu/assets/images/basicServices')
         }

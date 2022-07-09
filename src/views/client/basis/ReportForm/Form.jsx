@@ -26,7 +26,7 @@ export default {
   },
   methods: {
     async onSubmit(value) {
-      const res = this.addReport(value)
+      const res = await this.addReport(value)
       if (res.status) {
         this.$router.go(-1)
       }

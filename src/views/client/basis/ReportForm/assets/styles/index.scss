@@ -69,12 +69,31 @@
 }
 
 .box-content.bn-report-form-content {
-
+  background-color: #fbfbfb;
+  .bn-report-form {
+    .bn-report-form-card {
+      margin-bottom: 15px;
+      .ant-card-body {
+        padding: 12px;
+      }
+    }
+  }
 }
 
-.box-content.bn-report-record-content {
+.bn-report-record-content {
   .btns {
     text-align: right;
     margin-top: 20px;
+  }
+  .ant-table-wrapper {
+    .ant-table {
+      height: auto;
+    }
+  }
+  .bn-report-record-table {
+    .img {
+      width: 100px;
+      height: 100px;
+    }
   }
 }

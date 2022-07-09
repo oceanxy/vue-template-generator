@@ -1,4 +1,4 @@
-import { Icon, Modal, Upload } from 'ant-design-vue'
+import { Icon, Modal, Upload, message } from 'ant-design-vue'
 import utilityFunction from '@/utils/utilityFunction'
 
 export default {
@@ -45,6 +45,12 @@ export default {
     }
   },
   methods: {
+    beforeUpload(file, fileList) {
+      if (this.fileList.length >= this.limit) {
+        message.warning(`上传数量限制为${this.limit}个`)
+        return false
+      }
+    },
     handleCancel() {
       this.previewVisible = false
     },
@@ -68,11 +74,13 @@ export default {
     return (
       <div style={{ lineHeight: 0 }}>
         <Upload
+          accept={'.png,.jpg'}
           action={this.action}
           listType="picture-card"
           name={this.name}
           fileList={this.fileList}
           onPreview={this.handlePreview}
+          beforeUpload={this.beforeUpload}
           onChange={this.handleChange}
           headers={this.headers}
           multiple={true}>

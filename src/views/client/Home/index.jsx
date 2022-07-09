@@ -5,12 +5,49 @@ import TGShortcutMenu from '@/components/TGShortcutMenu'
 import TGList from '@/components/TGList'
 import TGContainerWithSider from '@/components/TGContainerWithSider'
 import TGListWithSubTitle from '@/components/TGListWithSubTitle'
+import store, { dynamicModules } from '@/store/client'
+import dynamicState from '@/mixins/dynamicState'
+import { mapState, mapAction } from '@/utils/store'
 import { createNamespacedHelpers } from 'vuex'
-const { mapState } = createNamespacedHelpers('login')
+const { mapState: loginMapState } = createNamespacedHelpers('login')
 
 export default {
+  name: 'home',
+  mixins: [dynamicState(store, dynamicModules)],
   computed: {
-    ...mapState(['userInfo'])
+    ...loginMapState(['userInfo']),
+    ...mapState(['messageLoading', 'messageList', 'backLogLoading', 'backLogInfo']),
+    messageListEffect() {
+      return this.messageList.map(item => {
+        return { id: item.id, time: item.publishTimeStr, title: item.title }
+      })
+    },
+    backLogList() {
+      return this.backLogInfo?.backLogList || []
+    }
+  },
+  mounted() {
+    this.getMessage()
+    this.getBackLogList()
+  },
+  methods: {
+    onMore() {
+      this.$router.push({
+        name: 'news'
+      })
+    },
+    onHandle(data) {
+      if (data.type === 1 || data.type === 3) {
+        this.$router.push({
+          name: 'reportForm'
+        })
+      } else {
+        this.$router.push({
+          name: 'bill'
+        })
+      }
+    },
+    ...mapAction(['getMessage', 'getBackLogList'])
   },
   render() {
     return (
@@ -51,19 +88,19 @@ export default {
             width="100%"
             modalTitle={
               <div class="title">
-                我的待办
+                我的待办（{this.backLogInfo?.countNum || 0}）
                 <div class="btns">
-                  <Button class="all">全部</Button>
+                  {/* <Button class="all">全部</Button>
                   <Divider type="vertical" />
                   <Button class="todo">待办</Button>
                   <Divider type="vertical" />
                   <Button class="in-progress">进行中</Button>
                   <Divider type="vertical" />
-                  <Button class="done">已办</Button>
+                  <Button class="done">已办</Button> */}
                 </div>
               </div>
             }>
-            <TGListWithSubTitle />
+            <TGListWithSubTitle loading={this.backLogLoading} dataSource={this.backLogList} onhandle={this.onHandle} />
           </BNContainer>
         </template>
         <template slot="sider">
@@ -79,11 +116,12 @@ export default {
           <BNContainer
             class="my-news-container"
             width="100%"
-            moduleTitle="我的消息"
+            modalTitle="我的消息"
             showBoxShadow={false}
             showMore
-            titleClass="not-login-title">
-            <TGList layout="dateBefore" />
+            titleClass="not-login-title"
+            onmore={this.onMore}>
+            <TGList loading={this.messageLoading} data={this.messageListEffect} layout="dateBefore" />
           </BNContainer>
         </template>
       </TGContainerWithSider>

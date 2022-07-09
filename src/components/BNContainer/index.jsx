@@ -51,6 +51,11 @@ export default {
       default: true
     }
   },
+  methods: {
+    onMore() {
+      this.$emit('more')
+    }
+  },
   render() {
     return (
       <div
@@ -60,7 +65,7 @@ export default {
           <div
             class={`${this.titleClass ? `${this.titleClass} ` : ''}${this.showTitleShape ? 'divider ' : ''}box-title`}>
             {this.modalTitle}
-            {this.showMore ? <Button icon="right" /> : null}
+            {this.showMore ? <Button icon="right" onclick={this.onMore} /> : null}
           </div>
         ) : null}
         {this.$slots.default ? (
