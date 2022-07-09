@@ -50,6 +50,7 @@ export default Form.create({})({
   methods: {
     async toQuestionnaireTemplates() {
       await this.$router.push({ name: 'questionnaireTemplates' })
+      this.onCancel()
     },
     async onSearchOfQuestionnaireTemplates(keyword) {
       await this.$store.dispatch('getList', {

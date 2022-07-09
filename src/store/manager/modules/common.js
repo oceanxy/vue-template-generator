@@ -26,6 +26,8 @@ export default {
     buildingsForSelect: [],
     // 楼层树
     floorTree: [],
+    // 侧边树
+    sideFloorTree: [],
     // 单位下拉列表加载状态
     loadingOfUnitsForSelect: false,
     // 单位下拉列表
@@ -60,6 +62,9 @@ export default {
     },
     setFloorTree(state, payload) {
       state.floorTree = payload
+    },
+    setSideFloorTree(state, payload) {
+      state.sideFloorTree = payload
     },
     setUnitsForSelect(state, payload) {
       state.unitsForSelect = payload
@@ -168,6 +173,18 @@ export default {
 
       if (response.status) {
         commit('setFloorTree', response.data)
+      }
+    },
+    /**
+     * 获取侧边栏数据
+     * @param commit
+     * @returns {Promise<void>}
+     */
+    async getSideFloorTree({ commit }) {
+      const response = await apis.getSideFloorTree()
+
+      if (response.status) {
+        commit('setSideFloorTree', response.data)
       }
     },
     /**

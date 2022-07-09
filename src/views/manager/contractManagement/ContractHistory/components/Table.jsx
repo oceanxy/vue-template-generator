@@ -20,28 +20,38 @@ export default {
           },
           {
             title: '类型',
+            width: 120,
+            align: 'center',
             dataIndex: 'signingTypeStr'
           },
           {
-            title: '场地/期限',
+            title: '场地',
             scopedSlots: { customRender: 'addressInfo' }
           },
           {
+            title: '期限',
+            dataIndex: 'contractTime'
+          },
+          {
             title: '费用/优惠',
+            width: 120,
             scopedSlots: { customRender: 'saleAmount' }
           },
           {
             title: '签约人',
+            width: 120,
+            align: 'center',
             dataIndex: 'signerName'
           },
           {
             title: '状态',
             align: 'center',
-            width: 80,
+            width: 100,
             scopedSlots: { customRender: 'status' }
           },
           {
             title: '签约合同',
+            width: 120,
             scopedSlots: { customRender: 'contractUrl' }
           },
           {
@@ -49,7 +59,7 @@ export default {
             key: 'operation',
             // fixed: 'right',
             align: 'center',
-            width: 150,
+            width: 140,
             scopedSlots: { customRender: 'operation' }
           }
         ],
@@ -58,11 +68,11 @@ export default {
     }
   },
   methods: {
-    onDetailsClick(record) {
-      this.$router.push({
+    async onDetailsClick(record) {
+      await this.$router.push({
         name: 'contractReviewDetails',
         query: {
-          id: record.id
+          cid: record.id
         }
       })
     }
@@ -84,20 +94,25 @@ export default {
             serialNumber: (text, record, index) => {
               return <span>{index + 1}</span>
             },
-            addressInfo: text => (
-              <div>
-                <span>{text.address}</span>
-                <br />
-                <span>{text.contractTime}</span>
-              </div>
+            addressInfo: (text, record) => (
+              <ul style={{ paddingLeft: '20px', marginBottom: 0 }}>
+                {
+                  record.address.split(',').map(item => (
+                    <li>{item}</li>
+                  ))
+                }
+              </ul>
             ),
-            saleAmount: text => (
-              <div>
-                <span style={{ color: 'red' }}>{text.amount}</span>
-                <br />
-                <span>{text.saleAmount}</span>
-              </div>
-            ),
+            saleAmount: (text, record) => {
+              return record.signingStatus === 2 || record.signingStatus === 3
+                ? (
+                  <div>
+                    <div style={{ color: 'rgb(216, 38, 34' }}>{record.amount}</div>
+                    <div>{record.saleAmount}</div>
+                  </div>
+                )
+                : <div style={{ color: '#8c8c8c' }}>未核算费用</div>
+            },
             status: (text, record) => (
               <div>
                 <span>{text.signingStatusStr}</span>
@@ -108,17 +123,18 @@ export default {
                 预览合同
               </a>
             ),
-            operation: text => (
+            operation: (text, record) => (
               <Space class="operation-space">
-                <Button type="link" size="small" onClick={() => this.onDetailsClick(text)}>
+                <Button type="link" size="small" onClick={() => this.onDetailsClick(record)}>
                   签约详情
                 </Button>
-                <Button
-                  type="link"
-                  size="small"
-                  onClick={() => this._setVisibleOfModal(text, 'visibleOfContractReview')}>
-                  用印
-                </Button>
+                {/*<Button*/}
+                {/*  type="link"*/}
+                {/*  size="small"*/}
+                {/*  onClick={() => this._setVisibleOfModal(text, 'visibleOfContractReview')}*/}
+                {/*>*/}
+                {/*  用印*/}
+                {/*</Button>*/}
               </Space>
             )
           }

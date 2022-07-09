@@ -40,6 +40,7 @@ export default {
           },
           {
             title: '状态',
+            width: 120,
             dataIndex: 'allotStatusStr'
           },
           {
@@ -47,7 +48,7 @@ export default {
             key: 'operation',
             // fixed: 'right',
             align: 'center',
-            width: 300,
+            width: 240,
             scopedSlots: { customRender: 'operation' }
           }
         ]
@@ -82,12 +83,6 @@ export default {
                 <div>{record.processDescription}</div>
               </div>
             ),
-            // status: (text, record) => (
-            //   <Switch
-            //     checked={+record.status === 1}
-            //     onChange={checked => this.onStatusChange(checked, record)}
-            //   />
-            // ),
             operation: (text, record) => (
               <Space class="operation-space">
                 <Button
@@ -100,21 +95,25 @@ export default {
                 <Button
                   type="link"
                   size="small"
-                  // onClick={() => this.onEditClick(record)}
+                  onClick={() => this.$route.push({ name: 'signingProcess', query: { cluesId: record.id } })}
                 >
                   签约
                 </Button>
+                {
+                  record.allotStatus === 5 ? (
+                    <Button
+                      type="link"
+                      size="small"
+                      // onClick={() => this.onEditClick(record)}
+                    >
+                      重新跟进
+                    </Button>
+                  ) : null
+                }
                 <Button
                   type="link"
                   size="small"
-                  // onClick={() => this.onEditClick(record)}
-                >
-                  重新跟进
-                </Button>
-                <Button
-                  type="link"
-                  size="small"
-                  onClick={() => this._setVisibleOfModal(record, 'visibleOfDetails', 'clues')}
+                  onClick={() => this._setVisibleOfModal(record, 'visibleOfDetails')}
                 >
                   查看详情
                 </Button>

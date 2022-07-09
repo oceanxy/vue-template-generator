@@ -22,7 +22,7 @@ export default {
    */
   getItemOfQuestionnaireTemplate(request, data) {
     return request({
-      url: '/operate/template/getItemShortList',
+      url: '/operate/report/getItemShortList',
       method: 'post',
       data: qs.stringify(data)
     })

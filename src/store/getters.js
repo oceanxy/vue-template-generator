@@ -30,7 +30,7 @@ export default {
   parksForSelect: state => state.common.parksForSelect,
   unitsForSelect: state => state.common.unitsForSelect,
   buildingsForSelect: state => state.common.buildingsForSelect,
-  floorTree: state => state.common.floorTree,
+  sideFloorTree: state => state.common.sideFloorTree,
   organizationTree: state => state.common.organizationTree,
   roleTree: state => state.common.roleTree,
   currentParkTreeKeySelected: state => state.common.currentParkTreeKeySelected,

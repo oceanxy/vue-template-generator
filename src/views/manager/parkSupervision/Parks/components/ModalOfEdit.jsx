@@ -177,8 +177,8 @@ export default Form.create({})({
           </Form.Item>
           <Form.Item label="监管单位">
             {
-              this.form.getFieldDecorator('regulationOrganIds', {
-                initialValue: this.currentItem.regulationOrganIds || undefined
+              this.form.getFieldDecorator('regulationUnitIds', {
+                initialValue: this.currentItem.regulationUnitIds || undefined
               })(
                 <Select
                   allowClear
@@ -197,8 +197,8 @@ export default Form.create({})({
           </Form.Item>
           <Form.Item label="运营单位">
             {
-              this.form.getFieldDecorator('operationOrganIds', {
-                initialValue: this.currentItem.operationOrganIds || undefined
+              this.form.getFieldDecorator('operationUnitIds', {
+                initialValue: this.currentItem.operationUnitIds || undefined
               })(
                 <Select
                   allowClear
@@ -217,8 +217,8 @@ export default Form.create({})({
           </Form.Item>
           <Form.Item label="物业单位">
             {
-              this.form.getFieldDecorator('propertyOrganIds', {
-                initialValue: this.currentItem.propertyOrganIds || undefined
+              this.form.getFieldDecorator('propertyUnitIds', {
+                initialValue: this.currentItem.propertyUnitIds || undefined
               })(
                 <Select
                   allowClear

@@ -78,7 +78,7 @@ export default {
 
     return (
       <BNContainer
-        modalTitle={this.details.fullName}
+        modalTitle={this.details.fullName || '-'}
         width={'100%'}
         class={'main-container chart-container'}
         contentClass={'chart-content'}

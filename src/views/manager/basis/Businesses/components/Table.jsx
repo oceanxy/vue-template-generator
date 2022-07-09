@@ -109,7 +109,7 @@ export default {
             contactAddress: (text, record) => (
               <ul style={{ paddingLeft: '20px', marginBottom: 0 }}>
                 {
-                  record.contactAddress.split(',').map(item => (
+                  record.contactAddress?.split(',').map(item => (
                     <li>{item}</li>
                   ))
                 }

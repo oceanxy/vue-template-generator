@@ -1,5 +1,6 @@
 import '../index.scss'
 import { debounce } from 'lodash'
+import ItemMultiInput from './ItemMultiInput'
 import { Button, Input, Select, Space, Switch, Table } from 'ant-design-vue'
 
 export default {
@@ -18,26 +19,21 @@ export default {
         },
         {
           title: '标题',
-          width: 160,
+          width: 140,
           scopedSlots: { customRender: 'fullName' }
         },
         {
           title: '描述',
-          width: 160,
+          width: 140,
           scopedSlots: { customRender: 'description' }
         },
         {
           title: '选项',
-          scopedSlots: { customRender: 'optionValueList' }
-        },
-        {
-          title: '数据类型',
-          width: 120,
-          scopedSlots: { customRender: 'dataType' }
+          scopedSlots: { customRender: 'itemOptionList' }
         },
         {
           title: '组件类型',
-          width: 120,
+          width: 100,
           scopedSlots: { customRender: 'modType' }
         },
         {
@@ -68,7 +64,8 @@ export default {
           scopedSlots: { customRender: 'operation' }
         }
       ],
-      dataSource: []
+      dataSource: [],
+      loading: false
     }
   },
   props: {
@@ -103,9 +100,8 @@ export default {
         id: Math.random(),
         serialNum: this.dataSource.length + 1,
         fullName: '',
-        optionValueList: [],
+        itemOptionList: [],
         description: '',
-        dataType: 1,
         modType: 1,
         isRequired: true,
         status: true
@@ -114,9 +110,12 @@ export default {
       this.dataSource.push(row)
     },
     onChange() {
+      this.loading = true
       this.$emit('change', this.dataSource)
+      this.loading = false
     },
     onMoveUp(id) {
+      this.loading = true
       const index = this.dataSource.findIndex(item => item.id === id)
       const target = this.dataSource.filter((item, i) => {
         if (index === i) {
@@ -130,9 +129,11 @@ export default {
         return index === i || index - 1 === i
       })
 
-      this.dataSource.splice(index - 1, 2, ...target)
+      this.dataSource.splice(index - 1, 2, ...([target[0], target[1]] = [target[1], target[0]]))
+      this.loading = false
     },
     onMoveDown(id) {
+      this.loading = true
       const index = this.dataSource.findIndex(item => item.id === id)
       const target = this.dataSource.filter((item, i) => {
         if (index === i) {
@@ -146,7 +147,8 @@ export default {
         return index === i || index + 1 === i
       })
 
-      this.dataSource.splice(index - 1, 2, ...target)
+      this.dataSource.splice(index, 2, ...([target[0], target[1]] = [target[1], target[0]]))
+      this.loading = false
     }
   },
   render() {
@@ -159,6 +161,10 @@ export default {
           dataSource={this.dataSource}
           pagination={false}
           rowKey="id"
+          loading={{
+            spinning: this.loading,
+            delay: 300
+          }}
           {...{
             scopedSlots: {
               fullName: (text, record) => (
@@ -168,20 +174,6 @@ export default {
                   autoSize={{ minRows: 4 }}
                   onBlur={() => this.onChange()}
                 />
-              ),
-              dataType: record => (
-                <Select
-                  vModel={record.dataType}
-                  placeholder={'数据类型'}
-                  onChange={debounce(this.onChange, 300)}
-                >
-                  <Select.Option value={1}>选择</Select.Option>
-                  <Select.Option value={2}>数值</Select.Option>
-                  <Select.Option value={3}>文本</Select.Option>
-                  <Select.Option value={4}>时间</Select.Option>
-                  <Select.Option value={5}>文件</Select.Option>
-                  <Select.Option value={6}>地区</Select.Option>
-                </Select>
               ),
               modType: record => (
                 <Select
@@ -194,12 +186,9 @@ export default {
                   <Select.Option value={3}>简答</Select.Option>
                 </Select>
               ),
-              optionValueList: record => (
-                <Select
-                  vModel={record.optionValueList}
-                  mode={'tags'}
-                  tokenSeparators={[',']}
-                  placeholder={'请输入选项，按回车确认添加'}
+              itemOptionList: record => (
+                <ItemMultiInput
+                  vModel={record.itemOptionList}
                   onChange={this.onChange}
                 />
               ),
@@ -225,11 +214,13 @@ export default {
                   />
                   <Button
                     icon="up"
+                    title={'上移'}
                     disabled={index <= 0}
                     onClick={() => this.onMoveUp(record.id)}
                   />
                   <Button
                     icon="down"
+                    title={'下移'}
                     disabled={index >= this.dataSource.length - 1}
                     onClick={() => this.onMoveDown(record.id)}
                   />

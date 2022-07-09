@@ -59,7 +59,6 @@ export default {
       }
     }
   },
-  methods: {},
   render() {
     const attributes = {
       props: {
@@ -124,7 +123,7 @@ export default {
                   type="link"
                   size="small"
                   style={record.reportStatus === 2 ? { display: 'none' } : {}}
-                  // onClick={() => this.onDeleteClick(record)}
+                  onClick={() => this.$router.push({ name: 'questionnaireRecords', query: { reportId: record.id } })}
                 >
                   问卷记录
                 </Button>
@@ -132,7 +131,7 @@ export default {
                   type="link"
                   size="small"
                   style={record.reportStatus === 2 ? { display: 'none' } : {}}
-                  // onClick={() => this.onDeleteClick(record)}
+                  onClick={() => this.$router.push({ name: 'questionnaireStatistics', query: { id: record.id } })}
                 >
                   问卷统计
                 </Button>
