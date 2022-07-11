@@ -79,7 +79,9 @@ export default Form.create({})({
       })
     },
     disabledDate(date) {
-      return date.isBefore(new Date())
+      const newDate = new Date()
+      newDate.setDate(newDate.getDate() - 1)
+      return date.isBefore(newDate)
     }
   },
   render() {
