@@ -87,62 +87,92 @@ export default {
                 {/*>*/}
                 {/*  预览*/}
                 {/*</Button>*/}
-                <Button
-                  type="link"
-                  size="small"
-                  style={record.reportStatus !== 2 ? { display: 'none' } : {}}
-                  onClick={() => this._setVisibleOfModal(record, 'visibleOfQuestionnaireSwitch')}
-                >
-                  发布
-                </Button>
-                <Button
-                  type="link"
-                  size="small"
-                  style={record.reportStatus !== 1 ? { display: 'none' } : {}}
-                  onClick={() => this._setVisibleOfModal(record, 'visibleOfQuestionnaireSwitch')}
-                >
-                  结束
-                </Button>
-                <Button
-                  type="link"
-                  size="small"
-                  style={record.reportStatus !== 2 ? { display: 'none' } : {}}
-                  onClick={() => this.onEditClick(record)}
-                >
-                  编辑
-                </Button>
-                <Button
-                  type="link"
-                  size="small"
-                  style={record.reportStatus === 1 ? { display: 'none' } : {}}
-                  onClick={() => this.onDeleteClick(record)}
-                >
-                  删除
-                </Button>
-                <Button
-                  type="link"
-                  size="small"
-                  style={record.reportStatus === 2 ? { display: 'none' } : {}}
-                  onClick={() => this.$router.push({ name: 'questionnaireRecords', query: { reportId: record.id } })}
-                >
-                  问卷记录
-                </Button>
-                <Button
-                  type="link"
-                  size="small"
-                  style={record.reportStatus === 2 ? { display: 'none' } : {}}
-                  onClick={() => this.$router.push({ name: 'questionnaireStatistics', query: { id: record.id } })}
-                >
-                  问卷统计
-                </Button>
-                <Button
-                  type="link"
-                  size="small"
-                  style={record.reportStatus === 2 ? { display: 'none' } : {}}
-                  // onClick={() => this.onDeleteClick(record)}
-                >
-                  导出结果
-                </Button>
+                {
+                  record.reportStatus === 2 ? (
+                    <Button
+                      type="link"
+                      size="small"
+                      onClick={() => this._setVisibleOfModal(
+                        { ids: record.id, reportStatus: record.reportStatus },
+                        'visibleOfQuestionnaireSwitch')
+                      }
+                    >
+                      发布
+                    </Button>
+                  ) : null
+                }
+                {
+                  record.reportStatus === 1 ? (
+                    <Button
+                      type="link"
+                      size="small"
+                      onClick={() => this._setVisibleOfModal(
+                        { ids: record.id, reportStatus: record.reportStatus },
+                        'visibleOfQuestionnaireSwitch')
+                      }
+                    >
+                      结束
+                    </Button>
+                  ) : null
+                }
+                {
+                  record.reportStatus === 2 ? (
+                    <Button
+                      type="link"
+                      size="small"
+                      onClick={() => this.onEditClick(record)}
+                    >
+                      编辑
+                    </Button>
+                  ) : null
+                }
+                {
+                  record.reportStatus !== 1 ? (
+                    <Button
+                      type="link"
+                      size="small"
+                      onClick={() => this.onDeleteClick(record)}
+                    >
+                      删除
+                    </Button>
+                  ) : null
+                }
+                {
+                  record.reportStatus !== 2 ? (
+                    <Button
+                      type="link"
+                      size="small"
+                      onClick={() => this.$router.push({
+                        name: 'questionnaireRecords',
+                        query: { reportId: record.id }
+                      })}
+                    >
+                      问卷记录
+                    </Button>
+                  ) : null
+                }
+                {
+                  record.reportStatus !== 2 ? (
+                    <Button
+                      type="link"
+                      size="small"
+                      onClick={() => this.$router.push({ name: 'questionnaireStatistics', query: { id: record.id } })}
+                    >
+                      问卷统计
+                    </Button>
+                  ) : null
+                }
+                {
+                  record.reportStatus !== 2 ? (
+                    <Button
+                      type="link"
+                      size="small"
+                      // onClick={() => this.onDeleteClick(record)}
+                    >
+                      导出结果
+                    </Button>
+                  ) : null
+                }
               </Space>
             )
           }

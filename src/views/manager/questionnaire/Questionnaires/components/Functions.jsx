@@ -1,13 +1,23 @@
 import '../assets/styles/index.scss'
 import { Button, Space } from 'ant-design-vue'
 import forFunction from '@/mixins/forFunction'
+import { mapGetters } from 'vuex'
 
 export default {
   mixins: [forFunction()],
-  data() {
-    return {
-      publishButtonDisabled: true,
-      endButtonDisabled: true
+  computed: {
+    ...mapGetters({ getState: 'getState' }),
+    selectedRows() {
+      return this.getState('selectedRows', this.moduleName)
+    },
+    currentItem() {
+      return this.getState('currentItem', this.moduleName)
+    },
+    publishButtonDisabled() {
+      return !this.selectedRows.length || !this.selectedRows.filter(item => item.reportStatus === 2).length
+    },
+    endButtonDisabled() {
+      return !this.selectedRows.length || !this.selectedRows.filter(item => item.reportStatus === 1).length
     }
   },
   methods: {},
@@ -22,14 +32,20 @@ export default {
           新增
         </Button>
         <Button
-          onClick={() => this._setVisibleOfModal({}, 'visibleOfQuestionnaireSwitch')}
+          onClick={() => this.onBulkOperations(
+            'visibleOfQuestionnaireSwitch',
+            { reportStatus: 2 })
+          }
           icon="container"
           disabled={this.publishButtonDisabled}
         >
           发布
         </Button>
         <Button
-          onClick={() => this._setVisibleOfModal({}, 'visibleOfQuestionnaireSwitch')}
+          onClick={() => this.onBulkOperations(
+            'visibleOfQuestionnaireSwitch',
+            { reportStatus: 1 })
+          }
           icon="undo"
           disabled={this.endButtonDisabled}
         >
