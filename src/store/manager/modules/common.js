@@ -35,7 +35,12 @@ export default {
     // 问卷下拉列表
     questionnairesForSelect: [],
     // 问卷下拉列表加载状态
-    loadingOfQuestionnairesForSelect: false
+    loadingOfQuestionnairesForSelect: false,
+    // 所属行业数据
+    enterpriseClassifications: {
+      loading: false,
+      list: []
+    }
   },
   mutations: {
     setAdministrativeDivision(state, payload) {
@@ -71,6 +76,9 @@ export default {
     },
     setQuestionnairesForSelect(state, payload) {
       state.questionnairesForSelect = payload
+    },
+    setEnterpriseClassifications(state, payload) {
+      state.enterpriseClassifications.list = payload
     }
   },
   actions: {
@@ -228,6 +236,25 @@ export default {
         value: false,
         moduleName: 'common',
         customizeLoading: 'loadingOfQuestionnairesForSelect'
+      }, { root: true })
+    },
+    async getEnterpriseClassifications({ commit }) {
+      commit('setLoading', {
+        value: true,
+        moduleName: 'common',
+        customizeLoading: 'enterpriseClassifications'
+      }, { root: true })
+
+      const response = await apis.getEnterpriseClassifications()
+
+      if (response.status) {
+        commit('setEnterpriseClassifications', response.data.dictionaryList)
+      }
+
+      commit('setLoading', {
+        value: false,
+        moduleName: 'common',
+        customizeLoading: 'enterpriseClassifications'
       }, { root: true })
     }
   }

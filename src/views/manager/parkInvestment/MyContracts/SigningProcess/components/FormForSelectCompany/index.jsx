@@ -35,11 +35,11 @@ export default Form.create({})({
       return this.getState('loading', this.moduleName, this.submoduleName)
     },
     enterpriseClassifications() {
-      return this.getState('enterpriseClassifications', this.moduleName, this.submoduleName)
+      return this.getState('enterpriseClassifications', 'common')
     }
   },
   async created() {
-    await dispatch(this.moduleName, 'getEnterpriseClassifications')
+    await dispatch('common', 'getEnterpriseClassifications')
   },
   methods: {
     async onSearch(keyword) {
@@ -187,9 +187,9 @@ export default Form.create({})({
             })(
               <Checkbox.Group>
                 {
-                  this.enterpriseClassifications.map(item => (
+                  this.enterpriseClassifications.list?.map(item => (
                     <Checkbox value={item.id}>{item.fullName}</Checkbox>
-                  ))
+                  )) ?? <Spin spinning={this.enterpriseClassifications.loading} />
                 }
               </Checkbox.Group>
             )

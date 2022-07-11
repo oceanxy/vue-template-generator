@@ -20,16 +20,13 @@ export default {
           新增线索
         </Button>
         <Button
-          onClick={() => this._setVisibleOfModal({}, 'visibleOfAssignLeads')}
+          onClick={() => this.onBulkOperations('visibleOfAssignLeads')}
           icon="unlock"
         >
           批量分配
         </Button>
         <Button
-          onClick={() => this._setVisibleOfModal(
-            { id: this.selectedRowKeys },
-            'visibleOfRecoverClues')
-          }
+          onClick={() => this.onBulkOperations('visibleOfRecoverClues')}
           icon="lock"
         >
           批量收回
@@ -47,6 +44,7 @@ export default {
           导入
         </Button>
         <Button
+          type="danger"
           onClick={() => this.onDeleteClick()}
           icon="delete"
           disabled={this.deleteButtonDisabled}

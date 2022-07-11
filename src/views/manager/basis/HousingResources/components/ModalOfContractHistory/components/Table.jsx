@@ -44,11 +44,6 @@ export default {
       }
     }
   },
-  methods: {
-    async onContractHistoryClick(record) {
-      await this._setVisibleOfModal(record, 'visibleOfContractHistory')
-    }
-  },
   render() {
     const attruibutes = {
       props: {

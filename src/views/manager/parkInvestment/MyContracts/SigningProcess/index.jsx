@@ -21,7 +21,6 @@ export default {
     }
   },
   async created() {
-    console.log(this.$route.query)
     if (this.$route.query.id) {
       // 存在未完成的签约流程，直接获取合同信息，接续签约
       await this.$store.dispatch('getDetails', {

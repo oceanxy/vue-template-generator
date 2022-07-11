@@ -51,7 +51,6 @@ export default Form.create({})({
     this.$watch(
       () => this.form.getFieldsValue(['roomIds', 'costCycle']),
       async (value, oldValue) => {
-        console.log(value, oldValue)
         // 比较值的变化 不用直接比较 value 和 oldValue，getFieldsValue方法每次获取的值的内存地址都不一样
         if (
           value.roomIds.length &&

@@ -95,7 +95,7 @@ export default {
                 <Button
                   type="link"
                   size="small"
-                  onClick={() => this.$route.push({ name: 'signingProcess', query: { cluesId: record.id } })}
+                  onClick={() => this.$router.push({ name: 'signingProcess', query: { cluesId: record.id } })}
                 >
                   签约
                 </Button>

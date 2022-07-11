@@ -28,17 +28,6 @@ export default {
     })
   },
   /**
-   * 获取企业分类
-   * @param request
-   * @returns {*}
-   */
-  getEnterpriseClassifications(request) {
-    return request({
-      url: '/business/companyContract/getCompanyDictionaryList',
-      method: 'post'
-    })
-  },
-  /**
    * 提交合同第一步
    * @param request
    * @param data

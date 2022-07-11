@@ -1,16 +1,10 @@
-import { Form } from 'ant-design-vue'
 import forTableModal from '@/mixins/forModal/forTableModal'
 import forModuleName from '@/mixins/forModuleName'
 import DragModal from '@/components/DragModal'
 import Inquiry from './components/Inquiry'
 import Table from './components/Table'
 
-export default Form.create({})({
-  provide() {
-    return {
-      visibleField: this.visibleField
-    }
-  },
+export default {
   name: 'HousingResources-ContractHistory',
   mixins: [forModuleName(true), forTableModal()],
   props: {
@@ -29,6 +23,11 @@ export default Form.create({})({
       visibleField: 'visibleOfContractHistory'
     }
   },
+  provide() {
+    return {
+      visibleField: this.visibleField
+    }
+  },
   render() {
     const attributes = {
       attrs: this.modalProps,
@@ -44,4 +43,4 @@ export default Form.create({})({
       </DragModal>
     )
   }
-})
+}

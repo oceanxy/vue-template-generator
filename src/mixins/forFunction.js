@@ -5,9 +5,9 @@
  * @Date: 2022-03-14 周一 15:43:52
  */
 
-import { mapGetters } from 'vuex'
-import { message, Modal } from 'ant-design-vue'
 import forIndex from '@/mixins/forIndex'
+import Message from '@/utils/message'
+import { mapGetters } from 'vuex'
 
 /**
  * 为表格功能按钮生成 mixin
@@ -26,7 +26,15 @@ export default cb => ({
       ids: ''
     }
   },
-  computed: mapGetters({ getSelectedRows: 'getSelectedRows' }),
+  computed: {
+    ...mapGetters({ getState: 'getState' }),
+    selectedRowKeys() {
+      return this.getState('selectedRowKeys', this.moduleName)
+    },
+    selectedRows() {
+      return this.getState('selectedRows', this.moduleName)
+    }
+  },
   created() {
     this.$watch(
       () => this.$store.state[this.moduleName].selectedRows,
@@ -77,22 +85,22 @@ export default cb => ({
      * @returns {Promise<void>}
      */
     async onDeleteClick() {
-      Modal.confirm({
-        title: '确认',
-        content: '确定要批量删除已选中的数据吗？',
-        okText: '确认',
-        cancelText: '取消',
-        onOk: async close => {
-          const status = await this.$store.dispatch('delete', {
+      await Message.verificationDialog(
+        async () => {
+          return await this.$store.dispatch('delete', {
             moduleName: this.moduleName
           })
-
-          if (status) {
-            message.success('删除成功！')
-          }
-
-          close()
-        }
+        },
+        '确定要批量删除已选中的数据吗？'
+      )
+    },
+    /**
+     * 批量操作之前的询问，并验证是否勾选了表格数据
+     * @param visibleField
+     */
+    async onBulkOperations(visibleField) {
+      await Message.verifySelected(this.selectedRowKeys, () => {
+        this._setVisibleOfModal({ ids: this.selectedRowKeys }, visibleField)
       })
     }
   }

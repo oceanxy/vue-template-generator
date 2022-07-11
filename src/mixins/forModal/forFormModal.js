@@ -114,7 +114,7 @@ export default () => {
        *   [customApiName]: string,
        *   [customValidation]: Function
        * }}
-       * isFetchList：是否在提交并单后立即刷新对应的列表，默认 true；
+       * isFetchList：是否在提交表单后立即刷新对应的列表，默认 true；
        * customApiName：自定义请求API
        * customValidation: 自定义验证函数
        */
@@ -164,7 +164,6 @@ export default () => {
             })
 
             if (status) {
-              await this.onCancel()
               message.success('操作成功！')
             }
 

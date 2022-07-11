@@ -1,6 +1,6 @@
-import '../index.scss'
 import { Table } from 'ant-design-vue'
 import forTable from '@/mixins/forTable'
+import { mapGetters } from 'vuex'
 
 export default {
   inject: ['submoduleName', 'visibleField'],
@@ -12,10 +12,12 @@ export default {
         columns: [
           {
             title: '时间',
+            width: 140,
             dataIndex: 'progressTime'
           },
           {
             title: '类型',
+            width: 120,
             dataIndex: 'progressType'
           },
           {
@@ -28,40 +30,32 @@ export default {
           }
         ],
         rowSelection: null,
-        class: 'modal-of-agency-history'
+        tableLayout: 'fixed'
       }
     }
   },
-  methods: {
-    async onAgencyHistoryClick(record) {
-      await this._setVisibleOfModal(record, 'visibleOfAgencyHistory')
+  computed: {
+    ...mapGetters({ getState: 'getState' }),
+    // 请求线索详情列表需要的参数（在 forTable 混合内通过全局action：getList 请求数据）
+    additionalQueryParameters() {
+      return {
+        id: this.getState('currentItem', this.moduleName).id
+      }
     }
   },
   render() {
     const attruibutes = {
       props: {
         ...this.tableProps,
-        loading: this.getLoading(this.moduleName)
+        loading: this.getLoading(this.moduleName, this.submoduleName)
       },
       attrs: {
-        class: 'modal-of-agency-history'
+        class: 'bnm-table-in-modal'
       }
     }
 
     return (
-      <Table
-        {...attruibutes}
-        {...{
-          scopedSlots: {
-            // status: (text, record) => (
-            //   <Switch
-            //     checked={+record.status === 1}
-            //     onChange={checked => this.onStatusChange(checked, record)}
-            //   />
-            // )
-          }
-        }}
-      />
+      <Table {...attruibutes} />
     )
   }
 }

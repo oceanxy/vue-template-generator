@@ -1,7 +1,7 @@
 import '../assets/styles/index.scss'
-import forModal from '@/mixins/forModal'
 import DragModal from '@/components/DragModal'
-import { dispatch } from '@/utils/store'
+import forModal from '@/mixins/forModal'
+import { message } from 'ant-design-vue'
 
 export default {
   mixins: [forModal()],
@@ -30,24 +30,22 @@ export default {
       return this.$store.state[this.moduleName].currentItem
     }
   },
-  watch: {
-    async visible(value) {
-      if (value) {
-        // await this.$store.dispatch('getAllFunctionalModules')
-      }
-    }
-  },
   methods: {
     async onSubmit() {
       this.modalProps.confirmLoading = true
-      const status = await dispatch(this.moduleName, 'takeBackClues', {
-        ids: this.currentItem.id,
-        moduleName: this.moduleName
+
+      const response = await this.$store.dispatch('custom', {
+        moduleName: this.moduleName,
+        visibleField: this.visibleField,
+        isFetchList: true,
+        customApiName: 'takeBackClues',
+        payload: this.currentItem
       })
+
       this.modalProps.confirmLoading = false
 
-      if (status) {
-        this.onCancel(this.visibleField)
+      if (response.status) {
+        message.success('操作成功！')
       }
     }
   },
@@ -56,10 +54,12 @@ export default {
       attrs: this.modalProps,
       on: {
         cancel: () => this.onCancel(this.visibleField),
-        ok: this.onSubmit
+        ok: () => this.onSubmit({ customApiName: 'takeBackClues' })
       }
     }
 
-    return <DragModal {...attributes}>收回线索后，对应的人员将不可对线索进行跟进，请谨慎操作</DragModal>
+    return <DragModal {...attributes}>
+      收回线索后，对应的人员将不可对线索进行跟进，请谨慎操作
+    </DragModal>
   }
 }

@@ -75,12 +75,20 @@ export default {
       </Button>
     )
     const recoveryButton = record => (
-      <Button type="link" size="small" onClick={() => this._setVisibleOfModal(record, 'visibleOfRecoverClues')}>
+      <Button
+        type="link"
+        size="small"
+        onClick={() => this._setVisibleOfModal({ ids: record.id }, 'visibleOfRecoverClues')}
+      >
         收回
       </Button>
     )
     const distributionButton = record => (
-      <Button type="link" size="small" onClick={() => this._setVisibleOfModal(record, 'visibleOfAssignLeads')}>
+      <Button
+        type="link"
+        size="small"
+        onClick={() => this._setVisibleOfModal({ ids: record.id }, 'visibleOfAssignLeads')}
+      >
         分配
       </Button>
     )
@@ -88,7 +96,7 @@ export default {
       <Button
         type="link"
         size="small"
-        // onClick={() => this.onAddClick(record)}
+        onClick={() => this._setVisibleOfModal({ ids: record.id }, 'visibleOfAssignLeads')}
       >
         重新开启
       </Button>
@@ -111,6 +119,7 @@ export default {
         return [detailButton(record), restartButton(record), delButton(record)]
       }
     }
+
     return (
       <Table
         ref={`${this.moduleName}Table`}

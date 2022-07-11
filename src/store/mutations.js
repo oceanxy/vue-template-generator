@@ -14,9 +14,17 @@ export default {
     customizeLoading
   }) {
     if (submoduleName) {
-      state[moduleName][submoduleName][customizeLoading || 'loading'] = value
+      if (Object.prototype.toString.call(state[moduleName][submoduleName][customizeLoading]) === '[object Object]') {
+        state[moduleName][submoduleName][customizeLoading].loading = value
+      } else {
+        state[moduleName][submoduleName][customizeLoading || 'loading'] = value
+      }
     } else {
-      state[moduleName][customizeLoading || 'loading'] = value
+      if (Object.prototype.toString.call(state[moduleName][customizeLoading]) === '[object Object]') {
+        state[moduleName][customizeLoading].loading = value
+      } else {
+        state[moduleName][customizeLoading || 'loading'] = value
+      }
     }
   },
   /**
@@ -111,9 +119,17 @@ export default {
     stateName
   }) {
     if (!submoduleName) {
-      state[moduleName][stateName || 'list'] = value
+      if (Object.prototype.toString.call(state[moduleName][stateName]) === '[object Object]') {
+        state[moduleName][stateName].list = value
+      } else {
+        state[moduleName][stateName || 'list'] = value
+      }
     } else {
-      state[moduleName][submoduleName][stateName || 'list'] = value
+      if (Object.prototype.toString.call(state[moduleName][submoduleName][stateName]) === '[object Object]') {
+        state[moduleName][submoduleName][stateName].list = value
+      } else {
+        state[moduleName][submoduleName][stateName || 'list'] = value
+      }
     }
   },
   /**

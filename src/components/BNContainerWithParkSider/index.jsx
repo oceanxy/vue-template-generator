@@ -1,8 +1,8 @@
 import './index.scss'
-import { Empty, Spin, Tree } from 'ant-design-vue'
-import TGContainerWithSider from '@/components/TGContainerWithSider'
 import { mapGetters } from 'vuex'
 import { dispatch } from '@/utils/store'
+import { Empty, Spin, Tree } from 'ant-design-vue'
+import TGContainerWithSider from '@/components/TGContainerWithSider'
 
 export default {
   inject: ['moduleName'],
@@ -72,7 +72,7 @@ export default {
           spinning={this.loading}
         >
           {
-            this.sideFloorTree.length ? (
+            this.sideFloorTree?.length ? (
               <Tree
                 selectedKeys={[this.currentParkTreeKeySelected]}
                 replaceFields={{ children: 'children', title: 'name', key: 'id' }}

@@ -235,7 +235,8 @@ export default {
     return response.status
   },
   /**
-   * 更新数据
+   * 仅用于除“新增”和“更新”外的表单提交类数据接口
+   * “新增”和“更新”请使用对应的 add 或 update 专用 action
    * @param state
    * @param dispatch
    * @param moduleName {string}
@@ -249,10 +250,10 @@ export default {
   async custom({ state, dispatch }, {
     moduleName,
     payload,
-    visibleField,
     isFetchList,
     customApiName,
-    closeModalAfterFetched = true
+    closeModalAfterFetched = true,
+    visibleField
   }) {
     const response = await apis[customApiName](payload)
 
@@ -269,6 +270,52 @@ export default {
         dispatch('getList', { moduleName })
       }
     }
+
+    return response.status
+  },
+  /**
+   * 获取下拉列表数据
+   * @param state
+   * @param dispatch
+   * @param commit
+   * @param moduleName
+   * @param submoduleName
+   * @param stateName
+   * @param payload
+   * @param customApiName
+   * @returns {Promise<*>}
+   */
+  async getListForSelect({ state, dispatch, commit }, {
+    moduleName,
+    submoduleName,
+    stateName,
+    payload,
+    customApiName
+  }) {
+    commit('setLoading', {
+      value: true,
+      moduleName,
+      submoduleName,
+      customizeLoading: stateName
+    })
+
+    const response = await apis[customApiName](payload)
+
+    if (response.status) {
+      commit('setList', {
+        value: response.data,
+        moduleName,
+        submoduleName,
+        stateName
+      })
+    }
+
+    commit('setLoading', {
+      value: false,
+      moduleName,
+      submoduleName,
+      customizeLoading: stateName
+    })
 
     return response.status
   },

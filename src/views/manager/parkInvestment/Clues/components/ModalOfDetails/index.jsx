@@ -1,4 +1,3 @@
-import './index.scss'
 import { Button, Form } from 'ant-design-vue'
 import forTableModal from '@/mixins/forModal/forTableModal'
 import forModuleName from '@/mixins/forModuleName'
@@ -6,7 +5,7 @@ import DragModal from '@/components/DragModal'
 import Table from './components/Table'
 
 export default Form.create({})({
-  name: 'Clues-ModalOfDetails',
+  name: 'Clues-ClueDetails',
   mixins: [forModuleName(true), forTableModal()],
   props: {
     /**
@@ -16,11 +15,6 @@ export default Form.create({})({
     modalTitle: {
       type: String,
       default: '{action}'
-    }
-  },
-  provide() {
-    return {
-      visibleField: this.visibleField
     }
   },
   data() {
@@ -33,12 +27,9 @@ export default Form.create({})({
       }
     }
   },
-  computed: {},
-  watch: {
-    async visible(value) {
-      if (value) {
-        //
-      }
+  provide() {
+    return {
+      visibleField: this.visibleField
     }
   },
   render() {
@@ -50,7 +41,7 @@ export default Form.create({})({
     }
 
     return (
-      <DragModal {...attributes} class={'bnm-housing-resources-container'}>
+      <DragModal {...attributes} class={'bnm-table-modal'}>
         <Table />
       </DragModal>
     )

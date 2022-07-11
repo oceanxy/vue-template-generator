@@ -6,6 +6,7 @@ export default {
       return state[moduleName][submoduleName][stateName]
     }
   },
+  // ==============以下函数式getter可能会被取消，不建议使用=============
   getLoading: state => (moduleName, submoduleName = '') => {
     if (!submoduleName) {
       return state[moduleName].loading
@@ -22,6 +23,7 @@ export default {
   getDetails: state => moduleName => state[moduleName]?.details ?? {},
   getSearch: state => moduleName => state[moduleName].search,
   getStateOfModule: state => (moduleName, submoduleName) => state[moduleName][submoduleName],
+  // ===================================================================
 
   administrativeDivision: state => state.common.administrativeDivision,
   defaultAdministrativeDivision: state => state.common.defaultAdministrativeDivision,
