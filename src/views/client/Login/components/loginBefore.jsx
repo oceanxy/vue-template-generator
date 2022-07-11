@@ -26,7 +26,7 @@ export default {
     return (
       <BNContainer
         class="pre-login-container"
-        moduleTitle="企业服务"
+        modalTitle="企业服务"
         contentClass="flex"
         width={390}
         showTitleShape={false}>

@@ -52,5 +52,17 @@ export default {
       method: 'post',
       data: qs.stringify(data)
     })
+  },
+  /**
+   * 获取首页新闻集合
+   * @param [request]
+   * @param data
+   * @returns {*}
+   */
+  getNewsHomeList(request) {
+    return request({
+      url: '/console/index/getIndexArticleList',
+      method: 'post'
+    })
   }
 }

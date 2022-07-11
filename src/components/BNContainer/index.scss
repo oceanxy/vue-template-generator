@@ -9,7 +9,7 @@
   z-index: 10;
 
   &.show-shadow {
-    box-shadow: 0 10px 32px 0 rgba(0, 62, 163, 0.10);
+    box-shadow: 0 10px 32px 0 rgba(0, 62, 163, 0.1);
   }
 
   .box-title {
@@ -48,6 +48,7 @@
     overflow: auto;
     height: 100%;
     border-top: 1px solid #d9d9d9;
+    position: relative;
 
     &.flex {
       display: flex;
@@ -56,5 +57,16 @@
       align-items: center;
       gap: 24px;
     }
+    // .bn-container-spin {
+    //   position: absolute;
+    //   top: 0;
+    //   left: 0;
+    //   right: 0;
+    //   bottom: 0;
+    //   z-index: 100;
+    //   display: flex;
+    //   align-items: center;
+    //   justify-content: center;
+    // }
   }
 }

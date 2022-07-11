@@ -5,35 +5,64 @@
 import './assets/styles/index.scss'
 import BNContainer from '@/components/BNContainer'
 import TGList from '@/components/TGList'
-
+import apis from '@/apis'
 export default {
   name: 'Login',
+  data() {
+    return {
+      leftArticle: [],
+      rightArticle: []
+    }
+  },
+  mounted() {
+    this.getNews()
+  },
   methods: {
+    async getNews() {
+      const res = await apis.getNewsHomeList()
+      if (res.status) {
+        const { leftArticle, rightArticle } = res.data
+        this.leftArticle = this.onTransformData(leftArticle.articleList)
+        this.rightArticle = this.onTransformData(rightArticle.articleList)
+      }
+    },
+    onTransformData(dataList) {
+      return dataList.map(item => {
+        item.title = item.articleTitle
+        item.time = item.publishTime
+        return item
+      })
+    },
     onLogin() {
       this.$router.push({ name: 'login' })
     },
     onLogon() {
       this.$router.push({ name: 'logon' })
+    },
+    onClickItem(data) {
+      const token = window.sessionStorage.getItem('token')
+      if (!token) {
+        this.$router.push({
+          name: 'login'
+        })
+        return
+      }
+      this.$router.push({
+        name: 'parkNewsDetail',
+        query: {
+          id: data.id
+        }
+      })
     }
   },
   render() {
     return (
       <div class="bn-login-container">
-        <BNContainer
-          moduleTitle="通知公告"
-          width={390}
-          showMore
-          showTitleShape={false}
-        >
-          <TGList />
+        <BNContainer modalTitle="通知公告" width={390} showMore showTitleShape={false}>
+          <TGList data={this.leftArticle} onclickItem={this.onClickItem} />
         </BNContainer>
-        <BNContainer
-          moduleTitle="中心政策"
-          width={390}
-          showMore
-          showTitleShape={false}
-        >
-          <TGList />
+        <BNContainer modalTitle="中心政策" width={390} showMore showTitleShape={false}>
+          <TGList data={this.leftArticle} onclickItem={this.onClickItem} />
         </BNContainer>
         <RouterView />
       </div>
