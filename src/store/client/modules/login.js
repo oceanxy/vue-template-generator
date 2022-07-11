@@ -142,17 +142,9 @@ export default {
       }
     },
     async logout({ commit, dispatch }) {
-      commit('setLoading', true)
-
-      const response = await apis.logout()
-
-      if (response.status) {
-        await dispatch('clear')
-      }
-
-      commit('setLoading', false)
-
-      return Promise.resolve(response)
+      apis.logout()
+      dispatch('clear')
+      return Promise.resolve()
     },
     async clear({ commit }) {
       commit('setUserInfo', {})

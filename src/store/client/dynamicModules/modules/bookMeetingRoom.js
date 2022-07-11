@@ -6,13 +6,20 @@ export default commitRootInModule =>
   omit(
     createStoreModule({
       state: {
-        loading: false,
         search: {
-          messagePlatform: 2
+          roomNo: ''
         }
       },
       mutations: {},
-      actions: {}
+      actions: {
+        async getList({ dispatch, commit }, { moduleName }) {
+          const res = await dispatch('getList', { moduleName }, { root: true })
+          if (res.status) {
+            //
+          }
+          return res
+        }
+      }
     }),
     ['state.visibleOfEdit']
   )
