@@ -1,5 +1,5 @@
 import './index.scss'
-import { Button, List, Tag } from 'ant-design-vue'
+import { Button, List } from 'ant-design-vue'
 import TGTitleWithShape from '@/components/TGTitleWithShape'
 
 export default {
@@ -44,27 +44,34 @@ export default {
           scopedSlots: {
             renderItem: item => (
               <List.Item class="list-container">
-                <TGTitleWithShape type={this.type} class={`shape ${['normal', 'todo', 'doing', 'done'][0]}`}>
-                  <span class="name">{item.title}</span>
-                  {/* {this.status ? <Tag color="#F5222D">急</Tag> : null} */}
+                <TGTitleWithShape
+                  type={this.type}
+                  class={`shape ${['normal', 'todo', 'doing', 'done'][+item.status || 0]}`}
+                >
+                  <span class="name">{item.fullName}</span>
+                  {
+                    this.status ? (<Tag color="#F5222D">急</Tag>) : null
+                  }
                 </TGTitleWithShape>
                 <Button.Group class="btns">
-                  <Button type="link" onclick={() => this.onHandle(item)}>
-                    处理
-                  </Button>
-                  {/* {this.status ? (
-                    <Button type="link">处理</Button>
-                  ) : (
-                    <span
-                      class={'status'}
-                      style={{
-                        color: ['#52c41a', '#faad14', '#f5222d'][item.auditStatus - 1]
-                      }}>
-                      {item.auditStatusStr}
-                    </span>
-                  )} */}
+                  {
+                    this.status
+                      ? (
+                        <Button type="link" onclick={() => this.onHandle(item)}>处理</Button>
+                      )
+                      : (
+                        <span
+                          class={'status'}
+                          style={{
+                            color: ['#52c41a', '#faad14', '#f5222d'][item.auditStatus - 1]
+                          }}
+                        >
+                          {item.auditStatusStr}
+                        </span>
+                      )
+                  }
                 </Button.Group>
-                <div class="date">{item.createTime}</div>
+                <div class="date">{item.applyTimeStr}</div>
               </List.Item>
             )
           }
