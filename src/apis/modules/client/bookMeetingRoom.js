@@ -39,5 +39,31 @@ export default {
       method: 'post',
       data: qs.stringify(data)
     })
+  },
+  /**
+   * 预约管理-分页集合
+   * @param [request]
+   * @param data
+   * @returns {*}
+   */
+  getBookMeetingRoomRecords(request, data) {
+    return request({
+      url: '/business/meetingRoomAppointment/getMeetingRoomAppointmentPageList',
+      method: 'post',
+      data: qs.stringify(data)
+    })
+  },
+  /**
+   * 预约管理-取消预约
+   * @param [request]
+   * @param data
+   * @returns {*}
+   */
+  cancelMeetingRoomAppointment(request, data) {
+    return request({
+      url: '/business/meetingRoomAppointment/cancelMeetingRoomAppointment',
+      method: 'post',
+      data: qs.stringify(data)
+    })
   }
 }

@@ -23,7 +23,12 @@ export default {
       })
     },
     backLogList() {
-      return this.backLogInfo?.backLogList || []
+      const list = this.backLogInfo?.backLogList || []
+      return list.map(item => {
+        item.fullName = item.title
+        item.status = 1
+        return item
+      })
     }
   },
   mounted() {
