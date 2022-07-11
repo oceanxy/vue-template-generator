@@ -1,0 +1,10 @@
+.bn-parknews-content {
+  .ant-table-wrapper {
+    .ant-table {
+      height: auto !important;
+      .ant-table-body {
+        max-height: initial !important;
+      }
+    }
+  }
+}

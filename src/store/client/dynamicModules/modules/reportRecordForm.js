@@ -4,7 +4,8 @@ import { createStoreModule } from '@/store/template'
 export default commitRootInModule =>
   createStoreModule({
     state: {
-      loading: false
+      loading: false,
+      list: []
     },
     actions: {
       async getReportRecord(ctx, { reportId }) {
@@ -12,7 +13,7 @@ export default commitRootInModule =>
         const res = await apis.getReportRecord({ reportId })
         commitRootInModule('setLoading', false)
         if (res.status) {
-          commitRootInModule('setList', res.data)
+          commitRootInModule('setList', res.data || [])
         }
         return res
       }

@@ -17,7 +17,8 @@ export default {
     userInfo: {
       fullName: '',
       id: ''
-    }
+    },
+    companyList: []
   },
   mutations: {
     setLoading(state, payload) {
@@ -40,6 +41,14 @@ export default {
         sessionStorage.removeItem('companyId')
       }
     },
+    setCompanyList(state, payload) {
+      if (payload) {
+        state.companyList = payload
+        sessionStorage.setItem('companyList', JSON.stringify(payload))
+      } else {
+        sessionStorage.removeItem('companyList')
+      }
+    },
     setSiteCache(state, payload) {
       if (payload) {
         sessionStorage.setItem('defaultRoute', payload.defaultMenuUrl)
@@ -48,6 +57,19 @@ export default {
         sessionStorage.removeItem('defaultRoute')
         sessionStorage.removeItem('menu')
       }
+    }
+  },
+  getters: {
+    getCompanyList(state) {
+      if (state.companyList) {
+        return state.companyList
+      }
+      const companyList = window.sessionStorage.getItem('companyList')
+      if (companyList) {
+        const list = JSON.parse(companyList)
+        state.companyList = list
+      }
+      return state.companyList
     }
   },
   actions: {
@@ -69,10 +91,11 @@ export default {
       commit('setLoading', false)
 
       if (status) {
-        const { userInfo, token, menuList, defaultMenuUrl } = response.data
+        const { userInfo, token, companyList } = response.data
 
         commit('setUserInfo', userInfo)
         commit('setAuthentication', token)
+        commit('setCompanyList', companyList)
         // commit('setSiteCache', {
         //   menuList: menuList,
         //   defaultMenuUrl: defaultMenuUrl
@@ -91,9 +114,10 @@ export default {
       })
       commit('setLoading', false)
       if (response.status) {
-        const { userInfo, token } = response.data
+        const { userInfo, token, companyList } = response.data
         commit('setUserInfo', userInfo)
         commit('setAuthentication', token)
+        commit('setCompanyList', companyList)
         // commit('setSiteCache', {
         //   menuList: menuList,
         //   defaultMenuUrl: defaultMenuUrl
@@ -101,6 +125,13 @@ export default {
         dispatch('getDetailInfo')
       }
       return response
+    },
+    //切换企业
+    async switchEnt({ dispatch, commit, state }, id) {
+      if (id === state.userInfo.companyId) return
+      commit('setCompanyId', id)
+      await dispatch('getDetailInfo')
+      window.location.reload()
     },
     async getDetailInfo({ commit }) {
       const { status, data } = await apis.getDetailInfo()

@@ -5,8 +5,9 @@ import Textarea from './package/Textarea'
 import ImageUpload from './package/ImageUpload'
 import FileUpload from './package/FileUpload'
 import Date from './package/Date'
-import { Form } from 'ant-design-vue'
+import { Form, Card } from 'ant-design-vue'
 import BNUploadFile from '@/components/BNUploadFile'
+import BNUploadPictures from '@/components/BNUploadPictures'
 export default {
   props: {
     data: Object,
@@ -33,17 +34,23 @@ export default {
       }
       return result
     }
+    const getProveType = item => {
+      if (item.fileType === 1)
+        return <BNUploadFile action={'/api/system/upload/file'} accept=".pdf" limit={1}></BNUploadFile>
+      else return <BNUploadPictures action={'/api/system/upload/image'} limit={1}></BNUploadPictures>
+    }
     return (
-      <div>
+      <Card class="bn-report-form-card">
         {getFormItem()}
-        {this.data.itemProveList.length > 0 ? (
-          <Form.Item label="佐证材料">
-            {this.form.getFieldDecorator(`${this.data.id}_proof`, {
-              initialValue: []
-            })(<BNUploadFile action={'/api/system/upload/file'} limit={this.data.itemProveList.length}></BNUploadFile>)}
+        {this.data.itemProveList.map(item => (
+          <Form.Item label={`${item.itemName}`}>
+            {this.form.getFieldDecorator(`${item.id}_proof`, {
+              initialValue: [],
+              rules: [{ required: true, type: 'array', message: '请上传佐证材料', trigger: 'change' }]
+            })(getProveType(item))}
           </Form.Item>
-        ) : null}
-      </div>
+        ))}
+      </Card>
     )
   }
 }

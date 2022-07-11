@@ -18,8 +18,8 @@ export default {
     toForm(item) {
       this.$router.push({ name: 'reportFForm', query: { id: item.id, name: item.fullName } })
     },
-    toRecord() {
-      this.$router.push({ name: 'reportFormRecord' })
+    toRecord(item) {
+      this.$router.push({ name: 'reportFormRecord', query: { id: item.id, name: item.fullName } })
     }
   },
   render() {
@@ -37,7 +37,10 @@ export default {
               </div>
               <div class="btns">
                 {item.isFill === 1 ? (
-                  <Button class="record" style={{ '--antd-wave-shadow-color': '#13c2c2' }} onClick={this.toRecord}>
+                  <Button
+                    class="record"
+                    style={{ '--antd-wave-shadow-color': '#13c2c2' }}
+                    onClick={() => this.toRecord(item)}>
                     查看填报记录
                   </Button>
                 ) : (

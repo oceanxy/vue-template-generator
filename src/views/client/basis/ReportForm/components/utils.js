@@ -54,7 +54,7 @@ export const getFieldItemValue = (data, value) => {
   const result = {
     resultId: '',
     resultContent: value,
-    resultFile: []
+    resultFile: {}
   }
   if (data.modType === 1) {
     result.resultId = value
@@ -63,7 +63,10 @@ export const getFieldItemValue = (data, value) => {
     result.resultId = value.join(',')
     result.resultContent = findFieldValueAndText(data, value).join(',')
   } else if (data.modType === 5 || data.modType === 6) {
-    result.resultFile = value.map(item => item.response.data[0])
+    const file = value.map(item => item.response.data[0])
+    if (file.length > 0) {
+      result.resultFile = file[0]
+    }
     result.resultContent = ''
   } else if (data.modType === 7) {
     result.resultContent = value ? value.format('YYYYMMDD') : ''
@@ -99,14 +102,22 @@ export const getFieldValue = (source, values) => {
   })
   return form
 }
-
+/**
+ * @description: 读取佐证材料
+ * @param {*} data
+ * @param {*} values
+ * @return {*}
+ */
 export const getProofValue = (data, values) => {
   let attachmentList = []
-  const itemValue = values[`${data.id}_proof`]
-  if (itemValue) {
-    attachmentList = itemValue.map(item => {
-      return item.response.data[0]
-    })
-  }
+  if (data.itemProveList.length === 0) return attachmentList
+
+  attachmentList = data.itemProveList.map(item => {
+    const data = values[`${item.id}_proof`]
+    return {
+      ...data[0].response.data[0],
+      proveId: item.id
+    }
+  })
   return attachmentList
 }

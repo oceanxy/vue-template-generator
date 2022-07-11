@@ -4,6 +4,7 @@ import TGTitleWithShape from '@/components/TGTitleWithShape'
 
 export default {
   props: {
+    loading: Boolean,
     /**
      * 数据
      */
@@ -28,49 +29,46 @@ export default {
       default: 'normal'
     }
   },
+  methods: {
+    onHandle(data) {
+      this.$emit('handle', data)
+    }
+  },
   render() {
     return (
       <List
+        loading={this.loading}
         class="tg-list-with-sub-title-container"
         dataSource={this.dataSource}
-        {
-          ...{
-            scopedSlots: {
-              renderItem: item => (
-                <List.Item class="list-container">
-                  <TGTitleWithShape
-                    type={this.type}
-                    class={`shape ${['normal', 'todo', 'doing', 'done'][+item.status || 0]}`}
-                  >
-                    <span class="name">{item.fullName}</span>
-                    {
-                      this.status ? (<Tag color="#F5222D">急</Tag>) : null
-                    }
-                  </TGTitleWithShape>
-                  <Button.Group class="btns">
-                    {
-                      this.status
-                        ? <Button type="link">处理</Button>
-                        : (
-                          <span
-                            class={'status'}
-                            style={{
-                              color: [
-                                '#52c41a', '#faad14', '#f5222d'
-                              ][item.auditStatus - 1]
-                            }}
-                          >
-                            {item.auditStatusStr}
-                          </span>
-                        )
-                    }
-                  </Button.Group>
-                  <div class="date">{item.applyTimeStr}</div>
-                </List.Item>
-              )
-            }
+        {...{
+          scopedSlots: {
+            renderItem: item => (
+              <List.Item class="list-container">
+                <TGTitleWithShape type={this.type} class={`shape ${['normal', 'todo', 'doing', 'done'][0]}`}>
+                  <span class="name">{item.title}</span>
+                  {/* {this.status ? <Tag color="#F5222D">急</Tag> : null} */}
+                </TGTitleWithShape>
+                <Button.Group class="btns">
+                  <Button type="link" onclick={() => this.onHandle(item)}>
+                    处理
+                  </Button>
+                  {/* {this.status ? (
+                    <Button type="link">处理</Button>
+                  ) : (
+                    <span
+                      class={'status'}
+                      style={{
+                        color: ['#52c41a', '#faad14', '#f5222d'][item.auditStatus - 1]
+                      }}>
+                      {item.auditStatusStr}
+                    </span>
+                  )} */}
+                </Button.Group>
+                <div class="date">{item.createTime}</div>
+              </List.Item>
+            )
           }
-        }
+        }}
       />
     )
   }

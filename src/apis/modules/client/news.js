@@ -39,5 +39,18 @@ export default {
       method: 'post',
       data: qs.stringify(data)
     })
+  },
+  /**
+   * 我的待办-待完善
+   * @param [request]
+   * @param data
+   * @returns {*}
+   */
+  getBackLogList(request, data) {
+    return request({
+      url: '/operate/notifyMessage/getBackLogList',
+      method: 'post',
+      data: qs.stringify(data)
+    })
   }
 }

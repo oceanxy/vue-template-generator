@@ -3,6 +3,25 @@
     <div class="tg-header" :class="{ manager: manager }">
       <div class="tg-logo" />
       <div style="flex: 1"></div>
+      <a-dropdown v-if="companyList.length > 1" class="tg-switch-ent">
+        <div>
+          <span style="margin-right: 10px">{{ userInfo.companyName }}</span>
+          <a-icon type="right" />
+        </div>
+        <template v-slot:overlay>
+          <a-menu class="header-ent-menu">
+            <a-menu-item
+              v-for="(item, index) in companyList"
+              :key="index"
+              class="item"
+              :class="[item.id == userInfo.companyId ? 'disable' : null]"
+              @click="switchEnt(item.id)"
+            >
+              <span>{{ item.companyName }}</span>
+            </a-menu-item>
+          </a-menu>
+        </template>
+      </a-dropdown>
       <template v-if="isLogin">
         <a-badge class="tg-badge" dot>
           <a-avatar icon="user" shape="circle" class="tg-avatar" />
@@ -44,14 +63,12 @@
     <t-g-breadcrumb v-if="showBreadcrumb" />
   </a-layout-header>
 </template>
-
 <script>
 import { Avatar, Badge, Dropdown, Layout, Menu, Tag } from 'ant-design-vue'
 import { createNamespacedHelpers } from 'vuex'
 import TGBreadcrumb from '@/layouts/components/TGBreadcrumb'
 import utilityFunction from '@/utils/utilityFunction'
-
-const { mapState, mapActions } = createNamespacedHelpers('login')
+const { mapState, mapActions, mapGetters } = createNamespacedHelpers('login')
 
 export default {
   name: 'TGHeader',
@@ -73,11 +90,16 @@ export default {
     [Avatar.name]: Avatar,
     [Menu.name]: Menu,
     [Menu.Item.name]: Menu.Item,
+    [Menu.SubMenu.name]: Menu.SubMenu,
     [Dropdown.name]: Dropdown,
     [Tag.name]: Tag
   },
+  data() {
+    return {}
+  },
   computed: {
     ...mapState({ userInfo: 'userInfo' }),
+    ...mapGetters({ companyList: 'getCompanyList' }),
     manager() {
       return this.layout !== 'client'
     },
@@ -92,7 +114,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions({ logout: 'logout' }),
+    ...mapActions({ logout: 'logout', switchEnt: 'switchEnt' }),
     handleLogOutClick() {
       this.logout()
     }
@@ -219,6 +241,27 @@ export default {
 
   .ant-dropdown-menu-item:not(:last-child) {
     border-bottom: 1px solid #d9d9d9;
+  }
+}
+.tg-switch-ent {
+  padding: 0 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+.header-ent-menu {
+  .ant-dropdown-menu-item {
+    line-height: 54px;
+    font-size: 15px;
+    color: #1f1f1f;
+    padding: 0 20px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  .disable {
+    color: #cdcaca;
+    cursor: default;
   }
 }
 </style>
