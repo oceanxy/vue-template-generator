@@ -29,6 +29,7 @@ export default () => {
       }
     },
     methods: {
+      // 此函数逻辑后期需要改为在每个组件内各自判断，不再在混合里统一处理
       transformValue(values) {
         let temp = cloneDeep(values)
 
@@ -74,6 +75,15 @@ export default () => {
             temp.logo = temp.logo[0].response?.data[0].key ?? temp.logo[0].key
           } else {
             temp.logo = ''
+          }
+        }
+
+        // 招商人员管理头像
+        if ('headPortrait' in temp) {
+          if (temp.headPortrait.length) {
+            temp.headPortrait = temp.headPortrait[0].response?.data[0].key ?? temp.headPortrait[0].key
+          } else {
+            temp.headPortrait = ''
           }
         }
 

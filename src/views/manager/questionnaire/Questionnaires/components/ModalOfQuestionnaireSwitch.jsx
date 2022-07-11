@@ -2,7 +2,7 @@ import '../assets/styles/index.scss'
 import forModal from '@/mixins/forModal'
 import { mapGetters } from 'vuex'
 import DragModal from '@/components/DragModal'
-import apis from '@/apis'
+import { message } from 'ant-design-vue'
 
 export default {
   mixins: [forModal()],
@@ -28,7 +28,7 @@ export default {
   computed: {
     ...mapGetters({ getState: 'getState' }),
     visible() {
-      return this.getState('visibleOfQuestionnaireSwitch', this.moduleName)
+      return this.getState(this.visibleField, this.moduleName)
     }
   },
   watch: {
@@ -46,15 +46,30 @@ export default {
   },
   methods: {
     async onSubmit() {
-      // TODO 发布/结束调用函数
-      // await apis.
+      this.modalProps.confirmLoading = true
+
+      const status = await this.$store.dispatch('custom', {
+        moduleName: this.moduleName,
+        visibleField: this.visibleField,
+        isFetchList: true,
+        customApiName: +this.currentItem.reportStatus === 2 ? 'publishQuestionnaires' : 'finishQuestionnaires',
+        payload: {
+          ids: this.currentItem.ids
+        }
+      })
+
+      if (status) {
+        message.success('操作成功！')
+      }
+
+      this.modalProps.confirmLoading = false
     }
   },
   render() {
     const attributes = {
       attrs: this.modalProps,
       on: {
-        cancel: () => this.onCancel('visibleOfQuestionnaireSwitch'),
+        cancel: () => this.onCancel(this.visibleField),
         ok: () => this.onSubmit()
       }
     }
