@@ -17,7 +17,8 @@ export default {
     userInfo: {
       fullName: '',
       id: ''
-    }
+    },
+    companyList: []
   },
   mutations: {
     setLoading(state, payload) {
@@ -43,15 +44,30 @@ export default {
       }
     }
   },
+  getters: {
+    getCompanyList(state) {
+      if (state.companyList) {
+        return state.companyList
+      }
+      const companyList = window.sessionStorage.getItem('companyList')
+      if (companyList) {
+        const list = JSON.parse(companyList)
+        state.companyList = list
+      }
+      return state.companyList
+    }
+  },
   actions: {
     async login({ commit, state }, payload) {
       commit('setLoading', true)
 
       const response = await apis.login({
-        up: encryptor.encrypt(JSON.stringify({
-          u: payload.username,
-          p: payload.password
-        })),
+        up: encryptor.encrypt(
+          JSON.stringify({
+            u: payload.username,
+            p: payload.password
+          })
+        ),
         vck: payload.picCode
       })
 
