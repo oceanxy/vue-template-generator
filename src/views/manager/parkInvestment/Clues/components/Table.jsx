@@ -52,7 +52,6 @@ export default {
       }
     }
   },
-  methods: {},
   render() {
     const attributes = {
       props: {

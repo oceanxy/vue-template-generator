@@ -79,7 +79,7 @@ export default {
     })
   },
   /**
-   * 线索进展详情列表
+   * 线索分类摘要开卡片数据
    * @param request
    * @returns {*}
    */

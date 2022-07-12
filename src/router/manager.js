@@ -301,7 +301,7 @@ export const routes = [
             component: () => import('@/views/manager/parkInvestment/MyClues'),
             meta: {
               title: '我的线索',
-              keepAlive: true,
+              keepAlive: false,
               requiresAuth: true
             }
           },

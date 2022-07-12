@@ -1,4 +1,5 @@
 import qs from 'qs'
+import apis from '@/apis'
 
 export default {
   /**
@@ -15,77 +16,38 @@ export default {
     })
   },
   /**
-   * 修改我的线索状态
-   * @param [request]
+   * 线索进展详情列表
+   * @param request
    * @param data
    * @returns {*}
    */
-  updateMyCluesStatus(request, data) {
+  getClueDetailsOfMyClues(request, data) {
+    return apis.getClueDetailsOfClues(data)
+  },
+  /**
+   * 线索跟进历史详情列表
+   * @param request
+   * @param data
+   * @returns {*}
+   */
+  getFollowUpDetailsList(request, data) {
     return request({
-      url: '/basic/park/updateStatus',
+      url: '/business/clues/progressDetail',
       method: 'post',
       data: qs.stringify(data)
     })
   },
   /**
-   * 删除我的线索
+   * 跟进线索
    * @param request
    * @param data
    * @returns {*}
    */
-  deleteMyClues(request, data) {
+  followUpLead(request, data) {
     return request({
-      url: '/basic/park/delete',
+      url: '/business/clues/addMyCluesFollow',
       method: 'post',
       data: qs.stringify(data)
-    })
-  },
-  /**
-   * 新增我的线索
-   * @param request
-   * @param data
-   * @returns {*}
-   */
-  addMyClues(request, data) {
-    return request({
-      url: '/basic/park/add',
-      method: 'post',
-      data
-    })
-  },
-  /**
-   * 更新我的线索
-   * @param request
-   * @param data
-   * @returns {*}
-   */
-  updateMyClues(request, data) {
-    return request({
-      url: '/basic/park/update',
-      method: 'post',
-      data
-    })
-  },
-  /**
-   * 获取我的线索树
-   * @param request
-   * @returns {*}
-   */
-  getParkTree(request) {
-    return request({
-      url: '/basic/park/getParkTree',
-      method: 'post'
-    })
-  },
-  /**
-   * 获取我的线索下拉列表数据
-   * @param request
-   * @returns {*}
-   */
-  getMyCluesForSelect(request) {
-    return request({
-      url: '/basic/park/getParkList',
-      method: 'post'
     })
   }
 }
