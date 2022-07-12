@@ -40,15 +40,6 @@ export default commitRootInModule => createStoreModule({
       state: {
         loading: false,
         list: []
-      },
-      mutations: {},
-      actions: {
-        // async progressDetailClues({ commit }, payload) {
-        //   const res = await apis.progressDetailClues({ id: payload.id })
-        //   if (res.status) {
-        //     commit('setList', res.data || [])
-        //   }
-        // }
       }
     }
   }

@@ -7,6 +7,7 @@ export default {
   data() {
     return {
       tableProps: {
+        rowSelection: null,
         columns: [
           {
             title: '序号',
@@ -85,38 +86,46 @@ export default {
             ),
             operation: (text, record) => (
               <Space class="operation-space">
-                <Button
-                  type="link"
-                  size="small"
-                  onClick={() => this._setVisibleOfModal(record, 'visibleOfFollowUpClues')}
-                >
-                  跟进
-                </Button>
-                <Button
-                  type="link"
-                  size="small"
-                  onClick={() => this.$router.push({ name: 'signingProcess', query: { cluesId: record.id } })}
-                >
-                  签约
-                </Button>
+                {
+                  record.allotStatus === 2 ? [
+                    <Button
+                      type="link"
+                      size="small"
+                      onClick={() => this._setVisibleOfModal(record, 'visibleOfFollowUpClues')}
+                    >
+                      跟进
+                    </Button>,
+                    <Button
+                      type="link"
+                      size="small"
+                      onClick={() => this.$router.push({ name: 'signingProcess', query: { cluesId: record.id } })}
+                    >
+                      签约
+                    </Button>
+                  ] : null
+                }
                 {
                   record.allotStatus === 5 ? (
                     <Button
                       type="link"
                       size="small"
-                      // onClick={() => this.onEditClick(record)}
+                      onClick={() => this._setVisibleOfModal(record, 'visibleOfFollowUpClues')}
                     >
                       重新跟进
                     </Button>
                   ) : null
                 }
-                <Button
-                  type="link"
-                  size="small"
-                  onClick={() => this._setVisibleOfModal(record, 'visibleOfDetails')}
-                >
-                  查看详情
-                </Button>
+                {
+                  record.allotStatus === 3 || record.allotStatus === 4 ? (
+                    <Button
+                      type="link"
+                      size="small"
+                      onClick={() => this._setVisibleOfModal(record, 'visibleOfDetails')}
+                    >
+                      查看详情
+                    </Button>
+                  ) : null
+                }
               </Space>
             )
           }
