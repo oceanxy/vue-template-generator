@@ -5,8 +5,22 @@ import forFunction from '@/mixins/forFunction'
 export default {
   mixins: [forFunction()],
   computed: {
-    selectedRowKeys() {
-      return this.$store.state[this.moduleName].selectedRowKeys
+    selectedRows() {
+      return this.$store.state[this.moduleName].selectedRows
+    },
+    assignButtonDisabled() {
+      if (this.selectedRows.length) {
+        return !this.selectedRows.filter(item => item.allotStatus !== 1).length <= 0
+      } else {
+        return true
+      }
+    },
+    takeBackButtonDisabled() {
+      if (this.selectedRows.length) {
+        return !this.selectedRows.filter(item => item.allotStatus !== 2).length <= 0
+      } else {
+        return true
+      }
     }
   },
   render() {
@@ -22,12 +36,14 @@ export default {
         <Button
           onClick={() => this.onBulkOperations('visibleOfAssignLeads')}
           icon="unlock"
+          disabled={this.assignButtonDisabled}
         >
           批量分配
         </Button>
         <Button
           onClick={() => this.onBulkOperations('visibleOfRecoverClues')}
           icon="lock"
+          disabled={this.takeBackButtonDisabled}
         >
           批量收回
         </Button>
