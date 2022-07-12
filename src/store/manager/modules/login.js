@@ -15,10 +15,12 @@ export default {
   state: {
     loading: false,
     userInfo: {
+      parkId: '',
+      parkName: '',
       fullName: '',
       id: ''
     },
-    companyList: []
+    parkList: []
   },
   mutations: {
     setLoading(state, payload) {
@@ -26,6 +28,16 @@ export default {
     },
     setUserInfo(state, payload) {
       state.userInfo = payload
+    },
+    setParkList(state, payload) {
+      state.parkList = payload || []
+    },
+    setParkInfo(state, payload) {
+      state.userInfo = {
+        ...state.userInfo,
+        parkId: payload.id,
+        parkName: payload.fullName
+      }
     },
     setAuthentication(state, payload) {
       if (payload) {
@@ -38,23 +50,12 @@ export default {
       if (payload) {
         sessionStorage.setItem('defaultRoute', payload.defaultMenuUrl)
         sessionStorage.setItem('menu', JSON.stringify(payload.menuList))
+        sessionStorage.setItem('parkList', JSON.stringify(payload.parkList))
       } else {
         sessionStorage.removeItem('defaultRoute')
         sessionStorage.removeItem('menu')
+        sessionStorage.removeItem('parkList')
       }
-    }
-  },
-  getters: {
-    getCompanyList(state) {
-      if (state.companyList) {
-        return state.companyList
-      }
-      const companyList = window.sessionStorage.getItem('companyList')
-      if (companyList) {
-        const list = JSON.parse(companyList)
-        state.companyList = list
-      }
-      return state.companyList
     }
   },
   actions: {
@@ -76,13 +77,15 @@ export default {
       commit('setLoading', false)
 
       if (status) {
-        const { userInfo, token, menuList, defaultMenuUrl } = response.data
+        const { userInfo, token, menuList, defaultMenuUrl, parkList } = response.data
 
         commit('setUserInfo', userInfo)
+        commit('setParkList', parkList)
         commit('setAuthentication', token)
         commit('setSiteCache', {
-          menuList: menuList,
-          defaultMenuUrl: defaultMenuUrl
+          menuList,
+          defaultMenuUrl,
+          parkList
         })
 
         await router.replace({ name: 'home' })
@@ -105,12 +108,17 @@ export default {
     },
     async clear({ commit }) {
       commit('setUserInfo', {})
+      commit('setParkList', [])
       commit('setAuthentication', null)
       commit('setSiteCache', null)
 
       await router.replace({ name: 'login' })
 
       return Promise.resolve()
+    },
+    async switchEnt({ dispatch, commit, state }, payload) {
+      commit('setParkInfo', payload)
+      window.location.reload()
     }
   }
 }

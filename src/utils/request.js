@@ -1,11 +1,3 @@
-/*
- * @Author: yangjialong 1476927892@qq.com
- * @Date: 2022-06-27 10:20:18
- * @LastEditors: Please set LastEditors
- * @LastEditTime: 2022-07-07 19:06:14
- * @FilePath: \vue-template-generator\src\utils\request.js
- * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
- */
 import axios from 'axios'
 import config from '@/config'
 import message from '@/utils/message'
@@ -17,16 +9,25 @@ const service = axios.create({
 
 // request interceptor
 service.interceptors.request.use(
-  config => {
+  async config => {
     const token = sessionStorage.getItem('token')
 
     if (token) {
       config.headers.token = token
     }
-    const companyId = sessionStorage.getItem('companyId')
 
-    if (companyId) {
-      config.headers.companyId = companyId
+    if (process.env.VUE_APP_PROJECT === 'development-client' || process.env.VUE_APP_PROJECT === 'production-client') {
+      const companyId = sessionStorage.getItem('companyId')
+
+      if (companyId) {
+        config.headers.companyId = companyId
+      }
+    } else {
+      const parkId = await require('@/store/manager').default.state.login.userInfo.parkId
+
+      if (parkId) {
+        config.headers.parkId = parkId
+      }
     }
 
     return config

@@ -2,27 +2,40 @@
   <a-layout-header class="tg-layout-header" :style="showBreadcrumb ? 'height: 118px;' : ''">
     <div class="tg-header" :class="{ manager: manager }">
       <div class="tg-logo" />
-      <div style="flex: 1"></div>
-      <a-dropdown v-if="companyList.length > 1" class="tg-switch-ent">
-        <div>
-          <span style="margin-right: 10px">{{ userInfo.companyName }}</span>
-          <a-icon type="right" />
-        </div>
-        <template v-slot:overlay>
-          <a-menu class="header-ent-menu">
-            <a-menu-item
-              v-for="(item, index) in companyList"
-              :key="index"
-              class="item"
-              :class="[item.id == userInfo.companyId ? 'disable' : null]"
-              @click="switchEnt(item.id)"
-            >
-              <span>{{ item.companyName }}</span>
-            </a-menu-item>
-          </a-menu>
-        </template>
-      </a-dropdown>
-      <template v-if="isLogin">
+      <div class="tg-login-info" v-if="isLogin">
+        <a-dropdown class="tg-switch-ent">
+          <div>
+            <span style="margin-right: 10px">{{ currentName }}</span>
+            <a-icon type="down" />
+          </div>
+          <template v-slot:overlay>
+            <a-menu class="header-ent-menu">
+              <template v-if="layout === 'client'">
+                <a-menu-item
+                  v-for="item in companyList"
+                  :key="item.id"
+                  class="item"
+                  :class="[item.id === userInfo.companyId ? 'disable' : null]"
+                  @click="switchEnt(item.id)"
+                >
+                  <span>{{ item.companyName }}</span>
+                </a-menu-item>
+              </template>
+              <template v-else>
+                <a-menu-item
+                  v-for="item in parkList"
+                  :key="item.id"
+                  class="item"
+                  :class="{'disable': item.id === userInfo.parkId}"
+                  :disabled="item.id === userInfo.parkId"
+                  @click="switchEnt({ id: item.id, fullName: item.fullName })"
+                >
+                  <span>{{ item.fullName }}</span>
+                </a-menu-item>
+              </template>
+            </a-menu>
+          </template>
+        </a-dropdown>
         <a-badge class="tg-badge" dot>
           <a-avatar icon="user" shape="circle" class="tg-avatar" />
         </a-badge>
@@ -58,17 +71,16 @@
             </a-menu>
           </template>
         </a-dropdown>
-      </template>
+      </div>
     </div>
     <t-g-breadcrumb v-if="showBreadcrumb" />
   </a-layout-header>
 </template>
 <script>
 import { Avatar, Badge, Dropdown, Layout, Menu, Tag } from 'ant-design-vue'
-import { createNamespacedHelpers } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import TGBreadcrumb from '@/layouts/components/TGBreadcrumb'
 import utilityFunction from '@/utils/utilityFunction'
-const { mapState, mapActions, mapGetters } = createNamespacedHelpers('login')
 
 export default {
   name: 'TGHeader',
@@ -98,8 +110,11 @@ export default {
     return {}
   },
   computed: {
-    ...mapState({ userInfo: 'userInfo' }),
-    ...mapGetters({ companyList: 'getCompanyList' }),
+    ...mapGetters({ getState: 'getState' }),
+    ...mapGetters('login', { companyList: 'getCompanyList' }),
+    userInfo() {
+      return this.getState('userInfo', 'login')
+    },
     manager() {
       return this.layout !== 'client'
     },
@@ -110,11 +125,23 @@ export default {
       if (this.userInfo.fullName) {
         return utilityFunction.firstLetterToUppercase(this.userInfo.fullName.substring(0, 1))
       }
+
       return ''
+    },
+    // 当前全局控制下拉列表的显示名称
+    currentName() {
+      if (this.layout !== 'client') {
+        return this.userInfo.parkName
+      }
+
+      return this.userInfo.companyName
+    },
+    parkList() {
+      return this.getState('parkList', 'login')
     }
   },
   methods: {
-    ...mapActions({ logout: 'logout', switchEnt: 'switchEnt' }),
+    ...mapActions('login', { logout: 'logout', switchEnt: 'switchEnt' }),
     handleLogOutClick() {
       this.logout()
     }
@@ -134,14 +161,14 @@ export default {
     margin: 0 auto;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
 
     &.manager {
       width: 100%;
       padding: 0 14px;
       background: url(./images/header-bg-left.png) no-repeat left center / auto 100%,
-        url(./images/header-bg-right.png) no-repeat right 320px center / auto 100%,
-        linear-gradient(to right, #e9f2ff, #d3e5ff);
+      url(./images/header-bg-right.png) no-repeat right 320px center / auto 100%,
+      linear-gradient(to right, #e9f2ff, #d3e5ff);
     }
 
     .tg-logo {
@@ -150,34 +177,45 @@ export default {
       background: url(./images/logo.png) no-repeat center / 100% 100%;
     }
 
-    .tg-badge {
+    .tg-login-info {
       margin-left: auto;
-
-      .tg-avatar {
-        font-size: 14px;
-        background: linear-gradient(to bottom, #007aff, #0066ff);
-      }
-    }
-
-    .tg-user-info {
-      margin-left: 20px;
-      margin-right: 20px;
       display: flex;
+      justify-content: center;
       align-items: center;
-      color: #434343;
 
-      .tg-user-name {
-        font-size: 16px;
-        padding-right: 24px;
+      .tg-switch-ent {
+        padding: 0 20px;
+        cursor: pointer;
+        margin-right: 40px;
       }
 
-      .tg-user-tags {
-        display: flex;
+      .tg-badge {
+        .tg-avatar {
+          font-size: 14px;
+          background: linear-gradient(to bottom, #007aff, #0066ff);
+        }
+      }
 
-        .ant-tag {
-          padding: 0 4px;
-          line-height: 20px;
-          border: none;
+      .tg-user-info {
+        margin-left: 20px;
+        margin-right: 20px;
+        display: flex;
+        align-items: center;
+        color: #434343;
+
+        .tg-user-name {
+          font-size: 16px;
+          padding-right: 24px;
+        }
+
+        .tg-user-tags {
+          display: flex;
+
+          .ant-tag {
+            padding: 0 4px;
+            line-height: 20px;
+            border: none;
+          }
         }
       }
     }
@@ -185,6 +223,8 @@ export default {
 }
 
 .header-menu {
+  min-width: 200px;
+
   &.ant-dropdown-menu {
     .tg-menu-user {
       display: flex;
@@ -243,12 +283,7 @@ export default {
     border-bottom: 1px solid #d9d9d9;
   }
 }
-.tg-switch-ent {
-  padding: 0 20px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-}
+
 .header-ent-menu {
   .ant-dropdown-menu-item {
     line-height: 54px;
@@ -259,6 +294,7 @@ export default {
     white-space: nowrap;
     text-overflow: ellipsis;
   }
+
   .disable {
     color: #cdcaca;
     cursor: default;
