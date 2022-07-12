@@ -1,0 +1,26 @@
+@import '@/assets/styles/theme.scss';
+
+.bnm-rescind-contract-container {
+  margin: 0 16px 16px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  gap: 18px;
+  @include container-border-radius;
+
+  .park-container.park-container {
+    margin: 0;
+  }
+
+  .bnm-rescind-contract-table {
+    .ant-tag {
+      margin-right: 0;
+      border: none;
+    }
+
+    ul {
+      padding-left: 20px;
+      margin-bottom: 0;
+    }
+  }
+}

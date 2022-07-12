@@ -69,9 +69,11 @@ body {
   overflow: hidden;
   border: none;
   flex: auto;
+
   .ant-spin-nested-loading {
     width: 100%;
   }
+
   .ant-table {
     flex: auto;
     height: 0;
@@ -157,6 +159,12 @@ body {
   display: flex;
   column-gap: 24px;
   flex-wrap: wrap;
+
+  &.label-size-small.label-size-small {
+    .ant-form-item-label {
+      width: 80px;
+    }
+  }
 
   .ant-form-item {
     width: 100%;

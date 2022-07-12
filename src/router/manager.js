@@ -511,7 +511,7 @@ export const routes = [
             }
           }
         ]
-      }
+      },
       // {
       //   path: 'discounts-lock',
       //   component: TGRouterView,
@@ -552,16 +552,69 @@ export const routes = [
       //     icon: () => import('@/layouts/components/TGMenu/assets/images/suggestions.svg')
       //   }
       // },
-      // {
-      //   path: 'cancellation-mana',
-      //   component: TGRouterView,
-      //   meta: {
-      //     title: '解约管理',
-      //     keepAlive: true,
-      //     requiresAuth: true,
-      //     icon: () => import('@/layouts/components/TGMenu/assets/images/cancellationManagement.svg')
-      //   }
-      // },
+      {
+        path: 'rescind-contract',
+        component: TGRouterView,
+        redirect: { name: 'contracts' },
+        meta: {
+          title: '解约管理',
+          keepAlive: true,
+          requiresAuth: true,
+          icon: () => import('@/layouts/components/TGMenu/assets/images/cancellationManagement.svg')
+        },
+        children: [
+          {
+            path: 'contracts',
+            name: 'contracts',
+            component: () => import('@/views/manager/rescindContract/Contracts'),
+            meta: {
+              title: '合同查询',
+              keepAlive: true,
+              requiresAuth: true
+            }
+          },
+          {
+            path: 'termination-records',
+            name: 'terminationRecords',
+            component: TGRouterView,
+            meta: {
+              title: '解约记录',
+              keepAlive: true,
+              requiresAuth: true
+            }
+          },
+          {
+            path: 'cancellation-review-park',
+            name: 'cancellationReviewOfPark',
+            component: TGRouterView,
+            meta: {
+              title: '解约审核（园区）',
+              keepAlive: true,
+              requiresAuth: true
+            }
+          },
+          {
+            path: 'cancellation-review-finance',
+            name: 'cancellationReviewOfFinance',
+            component: TGRouterView,
+            meta: {
+              title: '解约审核（财务）',
+              keepAlive: true,
+              requiresAuth: true
+            }
+          },
+          {
+            path: 'operational-business-conf',
+            name: 'operationalBusinessConf',
+            component: TGRouterView,
+            meta: {
+              title: '运营业务配置',
+              keepAlive: true,
+              requiresAuth: true
+            }
+          }
+        ]
+      }
       // {
       //   path: 'ent-ann-ass',
       //   component: TGRouterView,
