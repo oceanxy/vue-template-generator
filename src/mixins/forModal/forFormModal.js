@@ -115,6 +115,13 @@ export default () => {
           })
         }
 
+        if ('isShow' in temp) {
+          temp.isShow = temp.isShow ? 1 : 0
+        }
+        if ('isDefault' in temp) {
+          temp.isDefault = temp.isDefault ? 1 : 0
+        }
+
         return temp
       },
       /**
@@ -146,6 +153,9 @@ export default () => {
 
             // 存在ID，目前为编辑模式
             let action
+            if (typeof options.customDataHandler === 'function') {
+              values = options.customDataHandler(values)
+            }
             const payload = this.transformValue(values)
 
             if (!options.customApiName) {

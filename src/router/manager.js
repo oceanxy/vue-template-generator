@@ -511,7 +511,7 @@ export const routes = [
             }
           }
         ]
-      }
+      },
       // {
       //   path: 'discounts-lock',
       //   component: TGRouterView,
@@ -602,16 +602,29 @@ export const routes = [
       //     icon: () => import('@/layouts/components/TGMenu/assets/images/dataCollection.svg')
       //   }
       // },
-      // {
-      //   path: 'system-mana',
-      //   component: TGRouterView,
-      //   meta: {
-      //     title: '系统管理',
-      //     keepAlive: true,
-      //     requiresAuth: true,
-      //     icon: () => import('@/layouts/components/TGMenu/assets/images/systemManagement.svg')
-      //   }
-      // }
+      {
+        path: 'system',
+        component: TGRouterView,
+        redirect: { name: 'systemMenu' },
+        meta: {
+          title: '系统管理',
+          keepAlive: true,
+          requiresAuth: true,
+          icon: () => import('@/layouts/components/TGMenu/assets/images/systemManagement.svg')
+        },
+        children: [
+          {
+            path: 'menu',
+            name: 'systemMenu',
+            component: () => import('@/views/manager/system/menu'),
+            meta: {
+              title: '菜单管理',
+              keepAlive: true,
+              requiresAuth: true
+            }
+          }
+        ]
+      }
     ]
   },
   {

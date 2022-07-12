@@ -1,0 +1,16 @@
+.bnm-system-menu-container {
+}
+.bnm-modal-eidt-form {
+  .ant-modal-body {
+    .ant-form-item {
+      display: flex;
+      .ant-form-item-label {
+        width: 100px;
+        flex-shrink: 0;
+      }
+      .ant-form-item-control-wrapper {
+        flex-grow: 1;
+      }
+    }
+  }
+}
