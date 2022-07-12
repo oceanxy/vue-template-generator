@@ -1,11 +1,12 @@
 import './assets/styles/index.scss'
-import { Button, DatePicker, Form, Input, Select, Spin, TimePicker, Row, Col } from 'ant-design-vue'
+import { Button, DatePicker, Form, Input, Select, message, TimePicker, Row, Col } from 'ant-design-vue'
 import BNContainer from '@/components/BNContainer'
 import apis from '@/apis'
 import { debounce } from 'lodash'
 export default Form.create({})({
   data() {
     return {
+      loading: false,
       roomList: [],
       meetingRoomAppointmentList: []
     }
@@ -54,8 +55,33 @@ export default Form.create({})({
     onChangeDate: debounce(function () {
       this.getSubscribeList()
     }, 500),
-    onSubmit(e) {
+    async submit(values) {
+      const date = values.date.format('YYYYMMDD')
+      const form = {
+        appointmentStartTime: `${date}${values.startTime.format('HHmm')}`,
+        appointmentEndTime: `${date}${values.endTime.format('HHmm')}`,
+        description: values.description,
+        roomId: values.roomId
+      }
+      this.loading = true
+      const res = await apis.addBookMeetingRoom(form)
+      this.loading = false
+      if (res.status) {
+        message.success('提交成功')
+        this.$router.go(-1)
+      }
+    },
+    async onSubmit(e) {
       e.preventDefault()
+      this.form.validateFields(async (err, values) => {
+        if (err) return
+        this.submit(values)
+      })
+    },
+    disabledDate(date) {
+      const newDate = new Date()
+      newDate.setDate(newDate.getDate() - 1)
+      return date.isBefore(newDate)
     }
   },
   render() {
@@ -63,7 +89,7 @@ export default Form.create({})({
       const startTime = this.form.getFieldValue('startTime')
       const endTime = this.form.getFieldValue('endTime')
       if (!startTime || !endTime) return ''
-      return `${endTime.diff(startTime, 'hours', true)}小时`
+      return `${endTime.diff(startTime, 'hours', true).toFixed(1)}小时`
     }
     return (
       <BNContainer width="100%" modalTitle="会议室预约 > 立即预约" class="bn-book-meeting-room--book">
@@ -92,7 +118,7 @@ export default Form.create({})({
           <Form.Item label="会议日期">
             {this.form.getFieldDecorator('date', {
               rules: [{ required: true, type: 'object', message: '请选择会议日期', trigger: 'change' }]
-            })(<DatePicker onchange={() => this.onChangeDate()} />)}
+            })(<DatePicker disabledDate={this.disabledDate} onchange={() => this.onChangeDate()} />)}
           </Form.Item>
           {this.meetingRoomAppointmentList.length > 0 ? (
             <Form.Item label=" " colon={false}>
@@ -104,7 +130,6 @@ export default Form.create({})({
               </div>
             </Form.Item>
           ) : null}
-
           <Form.Item label="预约时间" style={{ 'margin-bottom': '0px' }}>
             <Row>
               <Col span={6}>
@@ -132,7 +157,7 @@ export default Form.create({})({
             {this.form.getFieldDecorator('description', {})(<Input.TextArea autoSize={{ minRows: 4, maxRows: 6 }} />)}
           </Form.Item>
           <Form.Item label=" " colon={false}>
-            <Button type="primary" htmlType="submit">
+            <Button loading={this.loading} type="primary" htmlType="submit">
               提交预约
             </Button>
           </Form.Item>

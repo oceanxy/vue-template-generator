@@ -75,7 +75,6 @@ export default {
   actions: {
     async login({ commit, state, dispatch }, payload) {
       commit('setLoading', true)
-
       const response = await apis.login({
         up: encryptor.encrypt(
           JSON.stringify({
