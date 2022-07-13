@@ -1,6 +1,7 @@
-.bnm-system-function-container {
+.bnm-system-role-container {
 }
-.bnm-modal-eidt-menu-form {
+.bnm-modal-eidt-role-form,
+.bnm-modal-config-role-form {
   .ant-modal-body {
     .ant-form-item {
       display: flex;
@@ -11,6 +12,9 @@
       .ant-form-item-control-wrapper {
         flex-grow: 1;
       }
+    }
+    .ant-table-wrapper .ant-table {
+      height: auto;
     }
   }
 }

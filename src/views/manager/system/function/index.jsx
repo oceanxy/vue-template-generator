@@ -10,17 +10,17 @@ import Pagination from './components/Pagination'
 import Functions from './components/Functions'
 import ModalOfEdit from './components/ModalOfEdit'
 export default {
-  name: 'SystemMenu',
+  name: 'SystemFunction',
   mixins: [dynamicState(store, dynamicModules)],
   methods: {
     onChangeTree(value) {
-      const [parentId] = value
-      this.$store.dispatch('setSearch', { payload: { parentId: parentId ?? '' }, moduleName: this.moduleName })
+      const [menuId] = value
+      this.$store.dispatch('setSearch', { payload: { menuId: menuId ?? '' }, moduleName: this.moduleName })
     }
   },
   render() {
     return (
-      <BNContainerWithSystem contentClass={'bnm-system-menu-container'}>
+      <BNContainerWithSystem contentClass={'bnm-system-function-container'}>
         <TGContainer>
           <Inquiry slot={'inquiry'} />
           <Functions slot="functions"></Functions>

@@ -614,7 +614,7 @@ export const routes = [
             }
           }
         ]
-      }
+      },
       // {
       //   path: 'ent-ann-ass',
       //   component: TGRouterView,
@@ -672,6 +672,26 @@ export const routes = [
             component: () => import('@/views/manager/system/menu'),
             meta: {
               title: '菜单管理',
+              keepAlive: true,
+              requiresAuth: true
+            }
+          },
+          {
+            path: 'function',
+            name: 'systemFunction',
+            component: () => import('@/views/manager/system/function'),
+            meta: {
+              title: '功能管理',
+              keepAlive: true,
+              requiresAuth: true
+            }
+          },
+          {
+            path: 'role',
+            name: 'systemRole',
+            component: () => import('@/views/manager/system/role'),
+            meta: {
+              title: '角色管理',
               keepAlive: true,
               requiresAuth: true
             }

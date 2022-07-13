@@ -130,6 +130,7 @@ export default () => {
        *   [isFetchList]: boolean,
        *   [customApiName]: string,
        *   [customValidation]: Function
+       *   [customDataHandler]: Function
        * }}
        * isFetchList：是否在提交表单后立即刷新对应的列表，默认 true；
        * customApiName：自定义请求API
@@ -153,6 +154,7 @@ export default () => {
 
             // 存在ID，目前为编辑模式
             let action
+            //自定义处理请求参数
             if (typeof options.customDataHandler === 'function') {
               values = options.customDataHandler(values)
             }

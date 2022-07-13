@@ -12,11 +12,14 @@ export default {
       default: () => ({ children: 'children', title: 'name', key: 'id' })
     },
     value: Array,
-    defaultExpandedKeys: []
+    defaultExpandedKeys: Array,
+    checkable: Boolean,
+    defaultCheckedKeys: Array
   },
   data() {
     return {
       selectedKeys: []
+      // defaultCheckedKeys: [] // ['2db04ff345f911e6a45a0021ccb59cb3', '134b7b0d444443ae99c4255abfb99b7e']
     }
   },
   methods: {
@@ -29,6 +32,9 @@ export default {
       // console.log(selectedKeys, selected)
       this.selectedKeys = selectedKeys
       this.$emit('change', selectedKeys)
+    },
+    onCheck(checkedKeys, e) {
+      this.$emit('check', checkedKeys, e)
     }
   },
   watch: {
@@ -50,6 +56,9 @@ export default {
             onSelect={this.onSelect}
             defaultExpandedKeys={this.defaultExpandedKeys}
             showLine
+            checkable={this.checkable}
+            checkedKeys={this.defaultCheckedKeys}
+            oncheck={this.onCheck}
           />
         ) : (
           <Empty />

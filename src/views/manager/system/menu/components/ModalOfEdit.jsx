@@ -21,7 +21,7 @@ export default Form.create({})({
     return {
       modalProps: {
         width: 700,
-        wrapClassName: 'bnm-modal-eidt-form'
+        wrapClassName: 'bnm-modal-eidt-menu-form'
       }
     }
   },
@@ -64,7 +64,7 @@ export default Form.create({})({
             <Col span={12}>
               <Form.Item label="父级菜单">
                 {this.form.getFieldDecorator('parentId', {
-                  initialValue: ['0186457913124bd6a4688f7cbc0bf56e']
+                  initialValue: this.currentItem.parentIds
                 })(<CascaderMenu />)}
               </Form.Item>
             </Col>

@@ -7,31 +7,34 @@ export default {
   },
   props: {
     checkable: Boolean,
-    defaultCheckedKeys: Array
+    defaultCheckedKeys: Array,
+    roleId: String
   },
   data() {
     return {
       loading: false,
-      menus: [],
+      treeList: [],
       selectedKeys: [],
       defaultKeys: [],
       defaultExpandedKeys: []
     }
   },
   mounted() {
-    this.getMenus()
+    //
   },
   methods: {
-    async getMenus() {
+    async getPrivilegeTree() {
+      if (!this.roleId) return
       this.loading = true
-      const res = await apis.getSystemMenuTree()
+      const res = await apis.getPrivilegeTree({ roleId: this.roleId })
       this.loading = false
       if (res.status) {
-        this.menus = res.data || []
-        if (this.menus.length > 0) {
-          this.defaultKeys = [this.menus[0].id]
-          this.defaultExpandedKeys = [this.menus[0].id]
+        this.treeList = res.data || []
+        if (this.treeList.length > 0) {
+          this.defaultKeys = [this.treeList[0].id]
+          this.defaultExpandedKeys = [this.treeList[0].id]
         }
+        this.$emit('loaded', this.treeList)
       }
     },
     onChange(data) {
@@ -45,12 +48,20 @@ export default {
       this.$emit('change', this.defaultKeys)
     }
   },
+  watch: {
+    roleId: {
+      immediate: true,
+      handler() {
+        this.getPrivilegeTree()
+      }
+    }
+  },
   render() {
     return (
       <Tree
         value={this.defaultKeys}
         loading={this.loading}
-        data={this.menus}
+        data={this.treeList}
         checkable={this.checkable}
         defaultExpandedKeys={this.defaultExpandedKeys}
         defaultCheckedKeys={this.defaultCheckedKeys}

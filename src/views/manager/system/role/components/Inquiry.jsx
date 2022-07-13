@@ -7,7 +7,7 @@ export default Form.create({})({
     return (
       <Form layout="inline" onSubmit={this.onSubmit} colon={false} class="tg-inquiry bn-search-form">
         <Space>
-          <Form.Item>{this.form.getFieldDecorator('menuName')(<Input placeholder="名称" allowClear />)}</Form.Item>
+          <Form.Item>{this.form.getFieldDecorator('fullName')(<Input placeholder="名称" allowClear />)}</Form.Item>
           <Form.Item>
             <Space>
               <Button loading={this.loading} htmlType="submit" type="primary" icon="search">

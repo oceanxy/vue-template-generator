@@ -24,7 +24,7 @@ export default {
   },
   methods: {
     async getMenus() {
-      const res = await apis.getSystemMenuTree()
+      const res = await apis.getRoleTree()
       if (res.status) {
         const data = res.data || []
         this.options = data
@@ -59,7 +59,7 @@ export default {
         field-names={this.fieldNames}
         changeOnSelect={true}
         options={this.options}
-        placeholder="请选择菜单"
+        placeholder="请选择角色"
         onchange={this.onChange}></Cascader>
     )
   }

@@ -1,5 +1,5 @@
 import '../assets/styles/index.scss'
-import { Button, Space, Table, Tag, Switch } from 'ant-design-vue'
+import { Button, Space, Table, Tag } from 'ant-design-vue'
 import forTable from '@/mixins/forTable'
 
 export default {
@@ -15,34 +15,18 @@ export default {
             scopedSlots: { customRender: 'serialNumber' }
           },
           {
-            title: '所属父级',
-            dataIndex: 'parentName'
-          },
-          {
             title: '名称',
-            dataIndex: 'menuName'
+            dataIndex: 'fullName'
           },
           {
-            title: 'URL',
-            dataIndex: 'menuUrl'
-          },
-
-          {
-            title: '是否显示',
-            // align: 'center',
-            width: 80,
-            scopedSlots: { customRender: 'isShow' }
-          },
-          {
-            title: '是否首选',
-            width: 80,
-            scopedSlots: { customRender: 'isDefault' }
+            title: '描述',
+            dataIndex: 'roleDescribe'
           },
           {
             title: '排序',
             // align: 'center',
             width: 80,
-            scopedSlots: { customRender: 'sortIndex' }
+            dataIndex: 'sortIndex'
           },
           {
             title: '状态',
@@ -55,7 +39,7 @@ export default {
             key: 'operation',
             // fixed: 'right',
             align: 'center',
-            width: 150,
+            width: 200,
             scopedSlots: { customRender: 'operation' }
           }
         ]
@@ -96,16 +80,15 @@ export default {
               return record.isDefault === 1 ? <Tag color="green">是</Tag> : <Tag color="red">否</Tag>
             },
             status: (text, record) => {
-              return (
-                <Switch
-                  checked={record.status === 1}
-                  onclick={() => this.onStatusChange(!record.status === 1, record)}></Switch>
-              )
+              return record.status === 1 ? <Tag color="green">正常</Tag> : <Tag color="red">失效</Tag>
             },
             operation: (text, record) => (
               <Space class="operation-space">
                 <Button type="link" size="small" onClick={() => this.onEditClick(record)}>
                   编辑
+                </Button>
+                <Button type="link" size="small" onClick={() => this._setVisibleOfModal(record, 'visibleOfMenu')}>
+                  配置菜单
                 </Button>
                 <Button type="link" size="small" onClick={() => this.onDeleteClick(record)}>
                   删除

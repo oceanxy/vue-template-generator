@@ -2,34 +2,38 @@ import './assets/styles/index.scss'
 import BNContainerWithSystem from '@/components/BNContainerWithSystem'
 import dynamicState from '@/mixins/dynamicState'
 import store, { dynamicModules } from '@/store/manager'
-import MenuTree from '@/components/BNContainerWithSystem/components/MenuTree'
+import RoleTree from '@/components/BNContainerWithSystem/components/RoleTree'
 import TGContainer from '@/layouts/components/TGContainer'
 import Inquiry from './components/Inquiry'
 import Table from './components/Table'
 import Pagination from './components/Pagination'
 import Functions from './components/Functions'
 import ModalOfEdit from './components/ModalOfEdit'
+import ModalOfMenu from './components/ModalOfMenu'
 export default {
-  name: 'SystemMenu',
+  name: 'SystemRole',
   mixins: [dynamicState(store, dynamicModules)],
   methods: {
     onChangeTree(value) {
-      const [parentId] = value
-      this.$store.dispatch('setSearch', { payload: { parentId: parentId ?? '' }, moduleName: this.moduleName })
+      const [menuId] = value
+      this.$store.dispatch('setSearch', { payload: { menuId: menuId ?? '' }, moduleName: this.moduleName })
     }
   },
   render() {
     return (
-      <BNContainerWithSystem contentClass={'bnm-system-menu-container'}>
+      <BNContainerWithSystem contentClass={'bnm-system-role-container'}>
         <TGContainer>
           <Inquiry slot={'inquiry'} />
           <Functions slot="functions"></Functions>
           <Table slot={'table'} />
           <Pagination slot={'pagination'} />
-          <ModalOfEdit slot={'modals'} modalTitle={'{action}菜单'} />
+          <template slot={'modals'}>
+            <ModalOfEdit modalTitle={'{action}菜单'} />
+            <ModalOfMenu modalTitle={'配置菜单'} />
+          </template>
         </TGContainer>
         <template slot="tree">
-          <MenuTree onchange={this.onChangeTree}></MenuTree>
+          <RoleTree onchange={this.onChangeTree}></RoleTree>
         </template>
       </BNContainerWithSystem>
     )

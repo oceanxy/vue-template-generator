@@ -1,6 +1,6 @@
 .bnm-system-function-container {
 }
-.bnm-modal-eidt-menu-form {
+.bnm-modal-eidt-function-form {
   .ant-modal-body {
     .ant-form-item {
       display: flex;
@@ -11,6 +11,9 @@
       .ant-form-item-control-wrapper {
         flex-grow: 1;
       }
+    }
+    .ant-table-wrapper .ant-table {
+      height: auto;
     }
   }
 }
