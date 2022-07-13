@@ -1,8 +1,7 @@
-import '../index.scss'
 import { Form, Input, Radio } from 'ant-design-vue'
 import forFormModal from '@/mixins/forModal/forFormModal'
 import DragModal from '@/components/DragModal'
-import ItemMultiInput from './ItemMultiInput'
+import ItemMultiInput from '@/views/manager/rescindContract/Contracts/components/ItemMultiInput'
 
 export default Form.create({})({
   mixins: [forFormModal()],

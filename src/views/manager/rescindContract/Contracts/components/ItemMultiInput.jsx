@@ -1,4 +1,3 @@
-import '../index.scss'
 import { Button, Input, InputNumber, Space, Table } from 'ant-design-vue'
 
 export default {

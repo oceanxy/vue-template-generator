@@ -63,29 +63,6 @@ export default {
   methods: {
     async onReSignClick(record, action) {
       await this.$router.push({ name: 'signingProcess', query: { id: record.id, ac: action } })
-    },
-    async onTerminateContract(record) {
-      Modal.confirm({
-        title: '请确认',
-        content: '确定要解约吗？',
-        okText: '确定',
-        cancelText: '取消',
-        onOk: async close => {
-          const status = this.$store.dispatch('custom', {
-            payload: { id: record.id },
-            customApiName: 'terminateContract',
-            isFetchList: true,
-            closeModalAfterFetched: false,
-            moduleName: this.moduleName
-          })
-
-          if (status) {
-            message.success([<span style={{ color: 'blue' }}>{record.appName}</span>, ' 已成功删除！'])
-          }
-
-          close()
-        }
-      })
     }
   },
   render() {
@@ -169,7 +146,7 @@ export default {
                       <Button
                         type="link"
                         size="small"
-                        onClick={() => this.onTerminateContract(record)}
+                        onClick={() => this._setVisibleOfModal(record, 'visibleOfTerminate')}
                       >
                         解约
                       </Button>

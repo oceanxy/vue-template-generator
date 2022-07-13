@@ -95,27 +95,39 @@ export default {
             ),
             operation: (text, record) => (
               <Space class="operation-space">
-                <Button
-                  type="link"
-                  size="small"
-                  onClick={() => this._setVisibleOfModal(record, 'visibleOfRenew')}
-                >
-                  续约
-                </Button>
-                <Button
-                  type="link"
-                  size="small"
-                  onClick={() => this._setVisibleOfModal(record, 'visibleOfTerminate')}
-                >
-                  解约
-                </Button>
-                <Button
-                  type="link"
-                  size="small"
-                  onClick={() => this._setVisibleOfModal(record, 'visibleOfExpirationReminder')}
-                >
-                  到期提醒
-                </Button>
+                {
+                  record.signingStatus === 3 || record.signingStatus === 9 ? (
+                    <Button
+                      type="link"
+                      size="small"
+                      onClick={() => this._setVisibleOfModal(record, 'visibleOfRenew')}
+                    >
+                      续约
+                    </Button>
+                  ) : null
+                }
+                {
+                  record.signingStatus === 3 ? (
+                    <Button
+                      type="link"
+                      size="small"
+                      onClick={() => this._setVisibleOfModal(record, 'visibleOfTerminate')}
+                    >
+                      解约
+                    </Button>
+                  ) : null
+                }
+                {
+                  record.signingStatus === 3 ? (
+                    <Button
+                      type="link"
+                      size="small"
+                      onClick={() => this._setVisibleOfModal(record, 'visibleOfExpirationReminder')}
+                    >
+                      到期提醒
+                    </Button>
+                  ) : null
+                }
               </Space>
             )
           }
