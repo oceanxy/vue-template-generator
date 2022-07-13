@@ -303,7 +303,7 @@ export default {
 
     if (response.status) {
       commit('setList', {
-        value: response.data,
+        value: response.data || [],
         moduleName,
         submoduleName,
         stateName
