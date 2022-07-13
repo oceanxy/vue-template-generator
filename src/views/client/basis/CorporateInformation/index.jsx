@@ -27,7 +27,7 @@ export default Form.create({})({
 
   methods: {
     onSubmit() {
-      this.form.validateFields((err, values) => {
+      this.form.validateFieldsAndScroll((err, values) => {
         if (err) return
         this.updateCompanyDetail(values)
       })

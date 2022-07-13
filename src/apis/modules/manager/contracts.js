@@ -38,11 +38,30 @@ export default {
       data: qs.stringify(data)
     })
   },
+  /**
+   * 发送提醒消息
+   * @param request
+   * @param data
+   * @returns {*}
+   */
   sendReminder(request, data) {
     return request({
       url: '/business/contractRemove/sendMind',
       method: 'post',
       data: qs.stringify(data)
+    })
+  },
+  /**
+   * 解约
+   * @param request
+   * @param data
+   * @returns {*}
+   */
+  terminateContract(request, data) {
+    return request({
+      url: '/business/contractRemove/removeContract',
+      method: 'post',
+      data
     })
   }
 }

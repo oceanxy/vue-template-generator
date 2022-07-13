@@ -142,13 +142,13 @@ export default () => {
           ...options
         }
 
-        this.form.validateFields(async (err, values) => {
-          let validation = true
+        let validation = true
 
-          if (typeof options.customValidation === 'function') {
-            validation = options.customValidation()
-          }
+        if (typeof options.customValidation === 'function') {
+          validation = options.customValidation()
+        }
 
+        this.form.validateFieldsAndScroll(async (err, values) => {
           if (!err && validation) {
             this.modalProps.confirmLoading = true
 
