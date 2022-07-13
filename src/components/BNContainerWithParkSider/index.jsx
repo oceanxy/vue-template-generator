@@ -12,17 +12,6 @@ export default {
       default: ''
     }
   },
-  async created() {
-    await this.$store.dispatch('common/setCurrentParkTreeKeySelected', {
-      moduleName: this.moduleName,
-      submoduleName: this.submoduleName,
-      value: '0'
-    })
-
-    this.loading = true
-    await dispatch('common', 'getSideFloorTree')
-    this.loading = false
-  },
   data() {
     return {
       loading: true
@@ -30,9 +19,24 @@ export default {
   },
   computed: {
     ...mapGetters({
+      getState: 'getState',
       sideFloorTree: 'sideFloorTree',
       currentParkTreeKeySelected: 'currentParkTreeKeySelected'
+    }),
+    treeId() {
+      return this.getState('userInfo', 'login').parkId
+    }
+  },
+  async created() {
+    await this.$store.dispatch('common/setCurrentParkTreeKeySelected', {
+      moduleName: this.moduleName,
+      submoduleName: this.submoduleName,
+      value: this.treeId
     })
+
+    this.loading = true
+    await dispatch('common', 'getSideFloorTree')
+    this.loading = false
   },
   methods: {
     /**
@@ -51,7 +55,7 @@ export default {
         await this.$store.dispatch('common/setCurrentParkTreeKeySelected', {
           moduleName: this.moduleName,
           submoduleName: this.submoduleName,
-          value: '0'
+          value: this.treeId
         })
       }
     }
@@ -78,7 +82,7 @@ export default {
                 replaceFields={{ children: 'children', title: 'name', key: 'id' }}
                 treeData={this.sideFloorTree}
                 onSelect={this.onSelect}
-                defaultExpandedKeys={['0']}
+                defaultExpandedKeys={[this.treeId, this.sideFloorTree?.[0].children?.[0].id]}
                 showLine
               />
             ) : <Empty />

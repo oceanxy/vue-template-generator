@@ -15,7 +15,7 @@ export default {
             scopedSlots: { customRender: 'index' }
           },
           {
-            title: '合同',
+            title: '合同编号',
             dataIndex: 'contractNo'
           },
           {
@@ -70,12 +70,6 @@ export default {
         {...{
           scopedSlots: {
             index: (text, record, index) => <span> {index + 1}</span>,
-            contractNo: (text, record) => (
-              <div>
-                <div>{record.fullName}</div>
-                <div>{record.contractNo}</div>
-              </div>
-            ),
             signingStatus: (text, record) => (
               <div>
                 <div>{record.signingStatusStr}</div>

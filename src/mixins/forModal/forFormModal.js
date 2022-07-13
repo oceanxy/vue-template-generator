@@ -33,6 +33,16 @@ export default () => {
       transformValue(values) {
         let temp = cloneDeep(values)
 
+        if ('billIds' in temp) {
+          // 筛选已勾选账单
+          const ordersChecked = this.pendingOrders.list.filter(item => temp.billIds.includes(item.id))
+          // 筛选已勾选账单内所有的子级ID
+          temp.billIds = ordersChecked.reduce(
+            (prev, current) => prev.concat(current.billList.reduce((p, c) => p.concat([c.id]), [])),
+            []
+          )
+        }
+
         if ('status' in temp) {
           temp.status = temp.status ? 1 : 2
         }

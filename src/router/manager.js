@@ -522,16 +522,29 @@ export const routes = [
       //     icon: () => import('@/layouts/components/TGMenu/assets/images/discountsLock.svg')
       //   }
       // },
-      // {
-      //   path: 'financial-mana',
-      //   component: TGRouterView,
-      //   meta: {
-      //     title: '财务管理',
-      //     keepAlive: false,
-      //     requiresAuth: true,
-      //     icon: () => import('@/layouts/components/TGMenu/assets/images/financialManagement.svg')
-      //   }
-      // },
+      {
+        path: 'finance',
+        component: TGRouterView,
+        redirect: { name: 'validContracts' },
+        meta: {
+          title: '财务管理',
+          keepAlive: false,
+          requiresAuth: true,
+          icon: () => import('@/layouts/components/TGMenu/assets/images/financialManagement.svg')
+        },
+        children: [
+          {
+            path: 'valid-contracts',
+            name: 'validContracts',
+            component: () => import('@/views/manager/finance/ValidContracts'),
+            meta: {
+              title: '合同管理',
+              keepAlive: false,
+              requiresAuth: true
+            }
+          }
+        ]
+      },
       // {
       //   path: 'content-release',
       //   component: TGRouterView,
