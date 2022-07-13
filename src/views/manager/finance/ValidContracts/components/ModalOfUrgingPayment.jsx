@@ -55,7 +55,7 @@ export default Form.create({})({
       on: {
         cancel: () => this.onCancel(this.visibleField),
         ok: () => this.onSubmit({
-          customApiName: 'sendReminder',
+          customApiName: 'urgingPayment',
           isFetchList: false
         })
       }

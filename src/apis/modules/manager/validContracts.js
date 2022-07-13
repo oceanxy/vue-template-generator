@@ -28,6 +28,19 @@ export default {
     })
   },
   /**
+   * 催缴
+   * @param request
+   * @param data
+   * @returns {*}
+   */
+  urgingPayment(request, data) {
+    return request({
+      url: '/business/contract/sendMindMessage',
+      method: 'post',
+      data: qs.stringify(data)
+    })
+  },
+  /**
    * 获取支付方式
    * @param request
    * @param data
