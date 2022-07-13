@@ -1,9 +1,8 @@
 import '../index.scss'
-import { Form, Select, Spin } from 'ant-design-vue'
+import { Form, Input, Radio } from 'ant-design-vue'
 import forFormModal from '@/mixins/forModal/forFormModal'
 import DragModal from '@/components/DragModal'
-import { debounce } from 'lodash'
-import { mapGetters } from 'vuex'
+import ItemMultiInput from './ItemMultiInput'
 
 export default Form.create({})({
   mixins: [forFormModal()],
@@ -20,23 +19,25 @@ export default Form.create({})({
   data() {
     return {
       modalProps: {
-        width: 400,
+        width: 810,
         okText: '确定'
       },
-      visibleField: 'visibleOfTerminate'
+      visibleField: 'visibleOfTerminate',
+      deductions: 0
     }
   },
-  computed: {
-    ...mapGetters({ getState: 'getState' })
-  },
-  watch: {
-    visible: {
-      immediate: true,
-      async handler(value) {
-        if (value) {
-          // await this.getParkTeams()
-        }
+  methods: {
+    customValidation() {
+      const value = this.form.getFieldValue('itemList') || []
+      const temp = value.filter(item => item.itemName && item.description && item.amount)
+
+      if (temp.length) {
+        this.form.setFields({ itemList: { value: temp } })
+      } else {
+        this.form.setFields({ itemList: { value, errors: [new Error('请输入扣款事项！')] } })
       }
+
+      return !!temp.length
     }
   },
   render() {
@@ -45,7 +46,8 @@ export default Form.create({})({
       on: {
         cancel: () => this.onCancel(this.visibleField),
         ok: () => this.onSubmit({
-          customApiName: 'allotClues'
+          customValidation: this.deductions ? this.customValidation : undefined,
+          customApiName: 'terminateContract'
         })
       }
     }
@@ -53,56 +55,47 @@ export default Form.create({})({
     return (
       <DragModal {...attributes}>
         <Form
-          class="bnm-form-grid bnm-form-assign-leads"
+          class="bnm-form-grid label-size-small"
           colon={false}
         >
-          {/*<Form.Item label="跟进团队">*/}
-          {/*  {*/}
-          {/*    this.form.getFieldDecorator('teamId', {*/}
-          {/*      rules: [{ required: true, message: '请选择跟进团队!', trigger: 'change' }]*/}
-          {/*    })(*/}
-          {/*      <Select*/}
-          {/*        placeholder={'输入团队名称搜索'}*/}
-          {/*        showSearch*/}
-          {/*        filterOption={false}*/}
-          {/*        onSearch={debounce(this.getParkTeams, 300)}*/}
-          {/*        notFoundContent={this.parkTeamsForSelect.loading ? <Spin /> : undefined}*/}
-          {/*      >*/}
-          {/*        {*/}
-          {/*          this.parkTeamsForSelect.list.map(item => (*/}
-          {/*            <Select.Option value={item.id} title={item.fullName}>*/}
-          {/*              {item.fullName}*/}
-          {/*            </Select.Option>*/}
-          {/*          ))*/}
-          {/*        }*/}
-          {/*      </Select>*/}
-          {/*    )*/}
-          {/*  }*/}
-          {/*</Form.Item>*/}
-          {/*<Form.Item label="跟进人">*/}
-          {/*  {*/}
-          {/*    this.form.getFieldDecorator('memberId', {*/}
-          {/*      rules: [{ required: true, message: '请选择跟进人!', trigger: 'change' }]*/}
-          {/*    })(*/}
-          {/*      <Select*/}
-          {/*        disabled={!this.teamId}*/}
-          {/*        placeholder={'输入团队成员名称搜索'}*/}
-          {/*        showSearch*/}
-          {/*        filterOption={false}*/}
-          {/*        onSearch={debounce(this.getMembersOfParkTeam, 300)}*/}
-          {/*        notFoundContent={this.membersOfParkTeamForSelect.loading ? <Spin /> : undefined}*/}
-          {/*      >*/}
-          {/*        {*/}
-          {/*          this.membersOfParkTeamForSelect.list.map(item => (*/}
-          {/*            <Select.Option value={item.id} title={item.fullName}>*/}
-          {/*              {item.fullName}*/}
-          {/*            </Select.Option>*/}
-          {/*          ))*/}
-          {/*        }*/}
-          {/*      </Select>*/}
-          {/*    )*/}
-          {/*  }*/}
-          {/*</Form.Item>*/}
+          <Form.Item label={'企业名称'}>
+            <Input vModel={this.currentItem.companyName} disabled={true} />
+          </Form.Item>
+          <Form.Item label={'签约场地'}>
+            <ul style={{ marginBottom: 0, lineHeight: '26px', paddingTop: '6px', paddingLeft: '20px' }}>
+              {
+                this.currentItem.address?.split(',').map(item => (
+                  <li>{item}</li>
+                ))
+              }
+            </ul>
+          </Form.Item>
+          <Form.Item label="解约原因">
+            {
+              this.form.getFieldDecorator('reason', {
+                rules: [{ required: true, message: '请输入解约原因!', trigger: 'change' }]
+              })(
+                <Input.TextArea placeholder={'请输入解约原因'} />
+              )
+            }
+          </Form.Item>
+          <Form.Item label={'扣款事项'} required={!!this.deductions}>
+            <Radio.Group vModel={this.deductions}>
+              <Radio value={0}>无扣款事项</Radio>
+              <Radio value={1}>有扣款事项</Radio>
+            </Radio.Group>
+            {
+              this.deductions
+                ? (
+                  this.form.getFieldDecorator('itemList', {
+                    initialValue: []
+                  })(
+                    <ItemMultiInput />
+                  )
+                )
+                : null
+            }
+          </Form.Item>
         </Form>
       </DragModal>
     )

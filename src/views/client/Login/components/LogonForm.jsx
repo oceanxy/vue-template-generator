@@ -27,9 +27,9 @@ export default Form.create({})({
         this.$router.go(-1)
       }
     },
-    validateFields(e) {
+    validateFieldsAndScroll(e) {
       e.preventDefault()
-      this.form.validateFields((err, values) => {
+      this.form.validateFieldsAndScroll((err, values) => {
         if (err) return
         this.onSubmit(values)
       })
@@ -38,7 +38,7 @@ export default Form.create({})({
   render() {
     return (
       <BNContainer modalTitle="申请入驻" width="auto">
-        <Form class="bn-logon-form" onSubmit={this.validateFields}>
+        <Form class="bn-logon-form" onSubmit={this.validateFieldsAndScroll}>
           <Row gutter={15}>
             <Col span={12}>
               <Form.Item label="企业名称">

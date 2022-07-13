@@ -96,7 +96,7 @@ export default Form.create({})({
     },
     onSubmit(e) {
       e?.preventDefault()
-      this.form.validateFields(async (err, values) => {
+      this.form.validateFieldsAndScroll(async (err, values) => {
         if (!err) {
           const payload = this.transformValue(values)
           const response = await apis.step1OfSubmitContract(payload)

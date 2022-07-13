@@ -25,7 +25,7 @@ export default Form.create({ name: 'TGLoginForm' })({
     handleSubmit(e) {
       e.preventDefault()
 
-      this.form.validateFields(async(err, values) => {
+      this.form.validateFieldsAndScroll(async(err, values) => {
         if (!err) {
           const { status } = await this.login(values)
 

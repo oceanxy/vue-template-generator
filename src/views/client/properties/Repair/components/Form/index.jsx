@@ -13,7 +13,7 @@ export default Form.create({})({
   },
   methods: {
     onSubmit() {
-      this.form.validateFields(async (err, values) => {
+      this.form.validateFieldsAndScroll(async (err, values) => {
         if (err) return
         const payload = { ...values }
         const imgDescription = payload.imgDescription

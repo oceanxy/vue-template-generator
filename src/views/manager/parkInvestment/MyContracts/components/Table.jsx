@@ -52,7 +52,7 @@ export default {
             key: 'operation',
             // fixed: 'right',
             align: 'center',
-            width: 160,
+            width: 180,
             scopedSlots: { customRender: 'operation' }
           }
         ],
