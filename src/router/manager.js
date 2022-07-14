@@ -617,21 +617,21 @@ export const routes = [
             }
           },
           {
-            path: 'cancellation-review-park',
-            name: 'cancellationReviewOfPark',
-            component: TGRouterView,
+            path: 'cancellation-review-from-park',
+            name: 'cancellationReviewFromPark',
+            component: () => import('@/views/manager/rescindContract/CancellationReviewFromPark'),
             meta: {
-              title: '解约审核（园区）',
+              title: '解约审核',
               keepAlive: false,
               requiresAuth: true
             }
           },
           {
-            path: 'cancellation-review-finance',
-            name: 'cancellationReviewOfFinance',
-            component: TGRouterView,
+            path: 'cancellation-review-from-finance',
+            name: 'cancellationReviewFromFinance',
+            component: () => import('@/views/manager/rescindContract/CancellationReviewFromFinance'),
             meta: {
-              title: '解约审核（财务）',
+              title: '解约审核',
               keepAlive: false,
               requiresAuth: true
             }

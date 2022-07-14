@@ -1,0 +1,115 @@
+import '../assets/styles/index.scss'
+import { Button, Space, Table } from 'ant-design-vue'
+import forTable from '@/mixins/forTable'
+
+export default {
+  mixins: [forTable()],
+  data() {
+    return {
+      tableProps: {
+        rowSelection: null,
+        columns: [
+          {
+            title: '序号',
+            width: 60,
+            align: 'center',
+            scopedSlots: { customRender: 'serialNumber' }
+          },
+          {
+            title: '企业',
+            dataIndex: 'companyName'
+          },
+          {
+            title: '合同编号',
+            dataIndex: 'contractNo'
+          },
+          {
+            title: '签约场地',
+            scopedSlots: { customRender: 'address' }
+          },
+          {
+            title: '签约期限',
+            dataIndex: 'contractTime'
+          },
+          {
+            title: '解约原因',
+            dataIndex: 'reason'
+          },
+          {
+            title: '提交人',
+            width: 100,
+            scopedSlots: { customRender: 'creatorName' }
+          },
+          {
+            title: '状态',
+            width: 100,
+            scopedSlots: { customRender: 'signingStatus' }
+          },
+          {
+            title: '操作',
+            key: 'operation',
+            // fixed: 'right',
+            align: 'center',
+            width: 100,
+            scopedSlots: { customRender: 'operation' }
+          }
+        ]
+      }
+    }
+  },
+  render() {
+    const attributes = {
+      props: {
+        ...this.tableProps,
+        loading: this.getLoading(this.moduleName)
+      }
+    }
+
+    return (
+      <Table
+        ref={`${this.moduleName}Table`}
+        {...attributes}
+        {...{
+          scopedSlots: {
+            serialNumber: (text, record, index) => index + 1,
+            address: (text, record) => (
+              <ul style={{ paddingLeft: '20px', marginBottom: 0 }}>
+                {
+                  record.address.split(',').map(item => (
+                    <li>{item}</li>
+                  ))
+                }
+              </ul>
+            ),
+            creatorName: (text, record) => {
+              return (
+                <div>{record.creatorName}</div>
+              )
+            },
+            signingStatus: (text, record) => (
+              <span style={{ color: ['', 'green', 'red'][+record.signingStatus - 2] }}>
+                {record.signingStatusStr}
+              </span>
+            ),
+            operation: (text, record) => (
+              <Space class="operation-space">
+                {
+                  record.signingStatus === 2 ? (
+                    <Button
+                      type="link"
+                      size="small"
+                      onClick={() => this._setVisibleOfModal(record, 'visibleOfReview')}
+                    >
+                      审核
+                    </Button>
+                  ) : null
+                }
+
+              </Space>
+            )
+          }
+        }}
+      />
+    )
+  }
+}
