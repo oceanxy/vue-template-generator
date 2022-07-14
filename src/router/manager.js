@@ -607,9 +607,9 @@ export const routes = [
             }
           },
           {
-            path: 'termination-records',
-            name: 'terminationRecords',
-            component: TGRouterView,
+            path: 'application-records',
+            name: 'applicationRecords',
+            component: () => import('@/views/manager/rescindContract/ApplicationRecords'),
             meta: {
               title: '解约记录',
               keepAlive: false,

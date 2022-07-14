@@ -175,6 +175,10 @@ body {
     overflow: auto;
     max-height: calc(90vh - 200px);
     padding: 24px 70px 24px 50px;
+
+    .ant-table {
+      height: auto;
+    }
   }
 }
 
