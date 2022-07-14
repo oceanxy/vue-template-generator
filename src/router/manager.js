@@ -552,6 +552,16 @@ export const routes = [
               keepAlive: false,
               requiresAuth: true
             }
+          },
+          {
+            path: 'fee-payment-report',
+            name: 'feePaymentReport',
+            component: () => import('@/views/manager/finance/FeePaymentReport'),
+            meta: {
+              title: '缴费记录',
+              keepAlive: false,
+              requiresAuth: true
+            }
           }
         ]
       },

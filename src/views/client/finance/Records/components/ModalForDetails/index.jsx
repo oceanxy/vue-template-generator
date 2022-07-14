@@ -1,4 +1,3 @@
-import './index.scss'
 import { Button, Table, Spin } from 'ant-design-vue'
 import forModal from '@/mixins/forModal'
 import DragModal from '@/components/DragModal'

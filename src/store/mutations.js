@@ -120,13 +120,21 @@ export default {
   }) {
     if (!submoduleName) {
       if (Object.prototype.toString.call(state[moduleName][stateName]) === '[object Object]') {
-        state[moduleName][stateName].list = value
+        if (Object.prototype.toString.call(value) === '[object Object]') {
+          state[moduleName][stateName].data = value
+        } else {
+          state[moduleName][stateName].list = value
+        }
       } else {
         state[moduleName][stateName || 'list'] = value
       }
     } else {
       if (Object.prototype.toString.call(state[moduleName][submoduleName][stateName]) === '[object Object]') {
-        state[moduleName][submoduleName][stateName].list = value
+        if (Object.prototype.toString.call(value) === '[object Object]') {
+          state[moduleName][submoduleName][stateName].data = value
+        } else {
+          state[moduleName][submoduleName][stateName].list = value
+        }
       } else {
         state[moduleName][submoduleName][stateName || 'list'] = value
       }
