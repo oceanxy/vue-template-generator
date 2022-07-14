@@ -8,36 +8,42 @@ export default {
   data() {
     return {
       // 此字段与 store 里的同名字段必须保持一致，用于控制该弹窗的可见性，默认值为 modal mixin 里的 visibleField 的值
-      visibleField: 'visibleOfBills',
+      visibleField: 'visibleOfPaymentRecords',
       tableProps: {
         columns: [
           {
             title: '序号',
             width: 60,
             align: 'center',
-            scopedSlots: { customRender: 'serialNumber' }
+            scopedSlots: { customRender: 'sNumber' }
           },
           {
-            title: '月份',
-            dataIndex: 'billMonth'
-          },
-          {
-            title: '费用类型',
-            dataIndex: 'itemName'
-          },
-          {
-            title: '明细',
-            dataIndex: 'detailDesc'
+            title: '时间',
+            dataIndex: 'createTime'
           },
           {
             title: '金额',
-            width: 100,
             dataIndex: 'amount'
           },
           {
-            title: '状态',
-            width: 100,
-            scopedSlots: { customRender: 'payStatus' }
+            title: '类型',
+            dataIndex: 'logTypeStr'
+          },
+          {
+            title: '经办人',
+            dataIndex: 'operateName'
+          },
+          {
+            title: '支付方式',
+            dataIndex: 'payTypeStr'
+          },
+          {
+            title: '交易流水',
+            dataIndex: 'serialNumber'
+          },
+          {
+            title: '备注',
+            dataIndex: 'remark'
           }
         ],
         rowKey: 'id',
@@ -51,8 +57,8 @@ export default {
   },
   computed: {
     ...mapGetters({ getState: 'getState' }),
-    pendingOrderList() {
-      return this.getState('pendingOrderList', this.moduleName)
+    paymentRecordsList() {
+      return this.getState('paymentRecordsList', this.moduleName)
     }
   },
   watch: {
@@ -62,8 +68,8 @@ export default {
         if (value) {
           this.$store.dispatch('getListForSelect', {
             moduleName: this.moduleName,
-            stateName: 'pendingOrderList',
-            customApiName: 'getListOfPendingOrder',
+            stateName: 'paymentRecordsList',
+            customApiName: 'getDetailsOfEarnestMoney',
             payload: {
               id: this.currentItem.id
             }
@@ -83,8 +89,8 @@ export default {
     const tableAttributes = {
       props: {
         ...this.tableProps,
-        loading: this.pendingOrderList.loading,
-        dataSource: this.pendingOrderList.list
+        loading: this.paymentRecordsList.loading,
+        dataSource: this.paymentRecordsList.list
       },
       attrs: {
         class: 'bnm-table-in-modal'
@@ -97,10 +103,7 @@ export default {
           {...tableAttributes}
           {...{
             scopedSlots: {
-              serialNumber: (text, record, index) => index + 1,
-              payStatus: (text, record) => (
-                <span style={{ fontWeight: 'bolder' }}>{record.payStatusStr}</span>
-              )
+              sNumber: (text, record, index) => index + 1
             }
           }}
         />

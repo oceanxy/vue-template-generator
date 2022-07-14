@@ -12,6 +12,16 @@ export default customModuleName => {
   const mixinForModal = {
     inject: ['moduleName'],
     mixins: [forIndex],
+    props: {
+      /**
+       * 标题（可定义占位符）
+       * “{action}” 为占位符，稍后会在 mixin 中替换为对应的字符，比如“新增”、“编辑”
+       */
+      modalTitle: {
+        type: String,
+        default: '{action}'
+      }
+    },
     data() {
       return {
         visibleField: '',
@@ -46,7 +56,7 @@ export default customModuleName => {
         immediate: true,
         handler(value) {
           if (value) {
-            this.modalProps.title = this.modalTitle
+            this.modalProps.title = this.$parent.$attrs.modalTitle || this.modalTitle
           }
 
           this.modalProps.visible = value

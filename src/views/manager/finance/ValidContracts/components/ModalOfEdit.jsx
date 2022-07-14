@@ -6,16 +6,6 @@ import { mapGetters } from 'vuex'
 
 export default Form.create({})({
   mixins: [forFormModal()],
-  props: {
-    /**
-     * 标题（可定义占位符）
-     * “{action}” 为占位符，稍后会在 mixin 中替换为对应的字符，比如“新增”、“编辑”
-     */
-    modalTitle: {
-      type: String,
-      default: '{action}'
-    }
-  },
   data() {
     return {
       modalProps: {
@@ -150,9 +140,9 @@ export default Form.create({})({
             <Spin spinning={this.paymentMethods.loading}>
               {
                 this.form.getFieldDecorator('payType', {
-                  rules: [{ required: true, message: '请选择房源类型!', trigger: 'change' }]
+                  rules: [{ required: true, message: '请选择支付方式!', trigger: 'change' }]
                 })(
-                  <Radio.Group placeholder="请选择房源类型" allowClear>
+                  <Radio.Group placeholder="请选择支付方式" allowClear>
                     {
                       this.paymentMethods.list.map(item => (
                         <Radio value={item.id}>{item.fullName}</Radio>

@@ -3,20 +3,9 @@ import { Form, message } from 'ant-design-vue'
 import forFormModal from '@/mixins/forModal/forFormModal'
 import DragModal from '@/components/DragModal'
 import PrivilegeTree from '@/components/BNContainerWithSystem/components/PrivilegeTree'
-import { mapState, mapAction } from '@/utils/store'
 import apis from '@/apis'
 export default Form.create({})({
   mixins: [forFormModal()],
-  props: {
-    /**
-     * 标题（可定义占位符）
-     * “{action}” 为占位符，稍后会在 mixin 中替换为对应的字符，比如“新增”、“编辑”
-     */
-    modalTitle: {
-      type: String,
-      default: '{action}'
-    }
-  },
   data() {
     return {
       visibleField: 'visibleOfMenu',

@@ -13,6 +13,15 @@ import moment from 'moment'
 export default () => {
   return {
     mixins: [forModal()],
+    props: {
+      /**
+       * 用于替换 modalTitle 内的 {action} 的候选值
+       */
+      candidateTitle: {
+        type: Array,
+        default: () => ['编辑', '新增']
+      }
+    },
     data: () => ({
       visibleField: 'visibleOfEdit'
     }),
@@ -21,7 +30,11 @@ export default () => {
         immediate: true,
         handler(value) {
           if (value) {
-            this.modalProps.title = this.modalTitle.replace('{action}', this.currentItem.id ? '编辑' : '新增')
+            this.modalProps.title = (this.$parent.$attrs.modalTitle || this.modalTitle)
+              .replace('{action}', this.currentItem.id
+                ? this.$parent.$attrs.candidateTitle?.[0] || this.candidateTitle[0]
+                : this.$parent.$attrs.candidateTitle?.[1] || this.candidateTitle[1]
+              )
           } else {
             this.form.resetFields()
           }

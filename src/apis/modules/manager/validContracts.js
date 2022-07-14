@@ -67,7 +67,7 @@ export default {
     })
   },
   /**
-   * 获取待缴费账单（）
+   * 获取待缴费账单（待缴费弹窗内的列表）
    * @param request
    * @param data
    * @returns {*}

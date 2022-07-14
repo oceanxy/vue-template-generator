@@ -542,6 +542,16 @@ export const routes = [
               keepAlive: false,
               requiresAuth: true
             }
+          },
+          {
+            path: 'earnest-money',
+            name: 'earnestMoney',
+            component: () => import('@/views/manager/finance/EarnestMoney'),
+            meta: {
+              title: '保证金查询',
+              keepAlive: false,
+              requiresAuth: true
+            }
           }
         ]
       },

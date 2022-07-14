@@ -8,16 +8,6 @@ import apis from '@/apis'
 export default {
   inject: ['submoduleName'],
   mixins: [forTableModal()],
-  props: {
-    /**
-     * 标题（可定义占位符）
-     * “{action}” 为占位符，稍后会在 mixin 中替换为对应的字符，比如“新增”、“编辑”
-     */
-    modalTitle: {
-      type: String,
-      default: '{action}'
-    }
-  },
   data() {
     return {
       modalProps: {
