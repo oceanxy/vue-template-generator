@@ -13,7 +13,9 @@ export default {
     columns: [
       {
         title: '序号',
-        scopedSlots: { customRender: 'sortIndex' }
+        width: 60,
+        align: 'center',
+        scopedSlots: { customRender: 'serialNumber' }
       },
       {
         title: '预约时间',
@@ -66,9 +68,7 @@ export default {
           rowKey="id"
           {...{
             scopedSlots: {
-              sortIndex: (text, record, index) => {
-                return <span>{index + 1}</span>
-              },
+              serialNumber: (text, record, index) => index + 1,
               appointmentDate: (text, record) => {
                 return (
                   <span>

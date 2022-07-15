@@ -12,7 +12,7 @@ export default {
             title: '序号',
             align: 'center',
             width: 60,
-            scopedSlots: { customRender: 'index' }
+            scopedSlots: { customRender: 'serialNumber' }
           },
           {
             title: '合同编号',
@@ -73,7 +73,7 @@ export default {
         {...attributes}
         {...{
           scopedSlots: {
-            index: (text, record, index) => <span> {index + 1}</span>,
+            serialNumber: (text, record, index) => index + 1,
             oweAmount: (text, record) => <div style={{ color: '#f5222d' }}>{record.oweAmount}</div>,
             address: (text, record) => (
               <ul style={{ paddingLeft: '20px', marginBottom: 0 }}>

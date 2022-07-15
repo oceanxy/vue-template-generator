@@ -16,7 +16,8 @@ export default {
           {
             title: '序号',
             width: 60,
-            scopedSlots: { customRender: 'sortIndex' }
+            align: 'center',
+            scopedSlots: { customRender: 'serialNumber' }
           },
           {
             title: '标题',
@@ -87,7 +88,7 @@ export default {
             data-source={this.list}
             {...{ props: this.tableProps }}
             scopedSlots={{
-              sortIndex: (text, record, index) => <span>{index + 1}</span>,
+              serialNumber: (text, record, index) => index + 1,
               content: (text, record) => getContent(record),
               attachment: record => {
                 return getAttachment(record)

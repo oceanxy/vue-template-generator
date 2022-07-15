@@ -8,7 +8,8 @@ export default {
       {
         title: '序号',
         width: 60,
-        scopedSlots: { customRender: 'sortIndex' }
+        align: 'center',
+        scopedSlots: { customRender: 'serialNumber' }
       },
       {
         title: '流水号',
@@ -70,7 +71,7 @@ export default {
           rowKey="id"
           {...{
             scopedSlots: {
-              sortIndex: (text, record, index) => <span>{index + 1}</span>,
+              serialNumber: (text, record, index) => index + 1,
               operation: (text, record) => (
                 <div>
                   <a onClick={() => this._setVisibleOfModal(record, 'showModalForDetails')}>查看明细</a>

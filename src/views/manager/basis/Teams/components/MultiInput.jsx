@@ -107,6 +107,7 @@ export default {
           pagination={false}
           rowKey="id"
           tableLayout={'fixed'}
+          size={'middle'}
           {...{
             scopedSlots: {
               fullName: (text, record) => (

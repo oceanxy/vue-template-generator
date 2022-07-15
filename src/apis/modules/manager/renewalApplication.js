@@ -9,83 +9,35 @@ export default {
    */
   getRenewalApplication(request, data) {
     return request({
-      url: '/business/clues/getRenewalApplicationList',
+      url: '/business/contractRenewal/getContractRenewalList',
       method: 'post',
       data: qs.stringify(data)
     })
   },
   /**
-   * 修改企业续约申请状态
-   * @param [request]
-   * @param data
-   * @returns {*}
-   */
-  updateRenewalApplicationStatus(request, data) {
-    return request({
-      url: '/basic/park/updateStatus',
-      method: 'post',
-      data: qs.stringify(data)
-    })
-  },
-  /**
-   * 删除企业续约申请
+   * 企业续约申请
    * @param request
    * @param data
    * @returns {*}
    */
-  deleteRenewalApplication(request, data) {
+  renewalApplication(request, data) {
     return request({
-      url: '/basic/park/delete',
-      method: 'post',
-      data: qs.stringify(data)
-    })
-  },
-  /**
-   * 新增企业续约申请
-   * @param request
-   * @param data
-   * @returns {*}
-   */
-  addRenewalApplication(request, data) {
-    return request({
-      url: '/basic/park/add',
+      url: '/business/contractRenewal/addContractRenewal',
       method: 'post',
       data
     })
   },
   /**
-   * 更新企业续约申请
+   * 提交续约申请审核结果
    * @param request
    * @param data
    * @returns {*}
    */
-  updateRenewalApplication(request, data) {
+  submitReviewOfRenewal(request, data) {
     return request({
-      url: '/basic/park/update',
+      url: '/business/contractRenewal/auditRenewal',
       method: 'post',
-      data
-    })
-  },
-  /**
-   * 获取企业续约申请树
-   * @param request
-   * @returns {*}
-   */
-  getParkTree(request) {
-    return request({
-      url: '/basic/park/getParkTree',
-      method: 'post'
-    })
-  },
-  /**
-   * 获取企业续约申请下拉列表数据
-   * @param request
-   * @returns {*}
-   */
-  getRenewalApplicationForSelect(request) {
-    return request({
-      url: '/basic/park/getParkList',
-      method: 'post'
+      data: qs.stringify(data)
     })
   }
 }

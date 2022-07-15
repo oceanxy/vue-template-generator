@@ -152,12 +152,13 @@ export default () => {
        * @param options {{
        *   [isFetchList]: boolean,
        *   [customApiName]: string,
-       *   [customValidation]: Function
-       *   [customDataHandler]: Function
+       *   [customValidation]: () => boolean,
+       *   [customDataHandler]: (values) => values
        * }}
-       * isFetchList：是否在提交表单后立即刷新对应的列表，默认 true；
-       * customApiName：自定义请求API
-       * customValidation: 自定义验证函数
+       * options.isFetchList：是否在提交表单后立即刷新对应的列表，默认 true；
+       * options.customApiName：自定义请求API；
+       * options.customValidation: 自定义验证函数；
+       * options.customDataHandler(): ：自定义参数处理；
        */
       onSubmit(options) {
         options = {
@@ -175,22 +176,22 @@ export default () => {
           if (!err && validation) {
             this.modalProps.confirmLoading = true
 
-            // 存在ID，目前为编辑模式
             let action
-            //自定义处理请求参数
-            if (typeof options.customDataHandler === 'function') {
-              values = options.customDataHandler(values)
-            }
-            const payload = this.transformValue(values)
+            let payload = this.transformValue(values)
 
+            // 根据 this.currentItem.id 判断当前表单的提交模式，
+            // 如果存在 options.customApiName，则可自定义请求模式
             if (!options.customApiName) {
               if (this.currentItem?.id) {
+                // 存在 ID 为编辑模式
                 action = 'update'
                 payload.id = this.currentItem.id
               } else {
+                // 不存在 ID 则为新增模式
                 action = 'add'
               }
             } else {
+              // 自定义表单提交模式
               action = 'custom'
 
               if (this.currentItem?.ids) {
@@ -198,6 +199,11 @@ export default () => {
               } else {
                 payload.id = this.currentItem.id
               }
+            }
+
+            //自定义处理请求参数
+            if (typeof options.customDataHandler === 'function') {
+              payload = options.customDataHandler(payload)
             }
 
             const status = await this.$store.dispatch(action, {

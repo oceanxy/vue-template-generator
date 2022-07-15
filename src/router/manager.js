@@ -307,57 +307,24 @@ export const routes = [
           },
           {
             path: 'my-contracts',
-            component: TGRouterView,
+            name: 'myContracts',
+            component: () => import('@/views/manager/parkInvestment/MyContracts'),
             meta: {
               title: '我的签约',
               keepAlive: false,
-              requiresAuth: true,
-              hideChildren: true
-            },
-            children: [
-              {
-                path: '',
-                name: 'myContracts',
-                component: () => import('@/views/manager/parkInvestment/MyContracts'),
-                meta: {
-                  title: '我的签约',
-                  keepAlive: false,
-                  requiresAuth: true
-                }
-              },
-              {
-                path: 'signing-process',
-                name: 'signingProcess',
-                component: () => import('@/views/manager/parkInvestment/MyContracts/SigningProcess'),
-                meta: {
-                  title: '签约',
-                  keepAlive: false,
-                  requiresAuth: true
-                }
-              },
-              {
-                path: 're-sign',
-                name: 'reSign',
-                redirect: { name: 'signingProcess' },
-                component: () => import('@/views/manager/parkInvestment/MyContracts/SigningProcess'),
-                meta: {
-                  title: '签约',
-                  keepAlive: false,
-                  requiresAuth: true
-                }
-              }
-            ]
+              requiresAuth: true
+            }
+          },
+          {
+            path: 'renewal-application',
+            name: 'renewalApplication',
+            component: () => import('@/views/manager/parkInvestment/RenewalApplication'),
+            meta: {
+              title: '企业续约申请',
+              keepAlive: false,
+              requiresAuth: true
+            }
           }
-          // {
-          //   path: 'renewal-application',
-          //   name: 'renewalApplication',
-          //   component: () => import('@/views/manager/parkInvestment/RenewalApplication'),
-          //   meta: {
-          //     title: '企业续约申请',
-          //     keepAlive: false,
-          //     requiresAuth: true
-          //   }
-          // }
         ]
       },
       {
@@ -455,6 +422,29 @@ export const routes = [
               title: '签约业务配置',
               keepAlive: false,
               requiresAuth: true
+            }
+          },
+          {
+            path: 'signing-process',
+            name: 'signingProcess',
+            component: () => import('@/views/manager/SigningProcess'),
+            meta: {
+              title: '签约',
+              keepAlive: false,
+              requiresAuth: true,
+              hide: true
+            }
+          },
+          {
+            path: 're-sign',
+            name: 'reSign',
+            redirect: { name: 'signingProcess' },
+            component: () => import('@/views/manager/SigningProcess'),
+            meta: {
+              title: '签约',
+              keepAlive: false,
+              requiresAuth: true,
+              hide: true
             }
           }
         ]

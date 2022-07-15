@@ -133,7 +133,7 @@ export default {
                       <Button
                         type="link"
                         size="small"
-                        onClick={() => this.onReSignClick(record, 2)}
+                        onClick={() => this._setVisibleOfModal(record, 'visibleOfRenew')}
                       >
                         续约
                       </Button>

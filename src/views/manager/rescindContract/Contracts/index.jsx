@@ -27,8 +27,8 @@ export default {
             <Pagination slot={'pagination'} />
             <template slot={'modals'}>
               <ModalOfExpirationReminder modalTitle={'到期提醒'} />
-              <ModalOfRenew modalTitle={'续约'} />
-              <ModalOfTerminate modalTitle={'解约'} />
+              <ModalOfRenew modalTitle={'续约申请'} />
+              <ModalOfTerminate modalTitle={'解约申请'} />
             </template>
           </TGContainer>
         </BNContainerWithParkSider>
