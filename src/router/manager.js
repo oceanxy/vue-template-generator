@@ -544,6 +544,36 @@ export const routes = [
             }
           },
           {
+            path: 'rents',
+            name: 'rents',
+            component: () => import('@/views/manager/finance/Rents'),
+            meta: {
+              title: '租金管理',
+              keepAlive: false,
+              requiresAuth: true
+            }
+          },
+          // {
+          //   path: 'property-costs',
+          //   name: 'propertyCosts',
+          //   component: () => import('@/views/manager/finance/PropertyCosts'),
+          //   meta: {
+          //     title: '物业费管理',
+          //     keepAlive: false,
+          //     requiresAuth: true
+          //   }
+          // },
+          // {
+          //   path: 'utilities',
+          //   name: 'utilities',
+          //   component: () => import('@/views/manager/finance/Utilities'),
+          //   meta: {
+          //     title: '水电费管理',
+          //     keepAlive: false,
+          //     requiresAuth: true
+          //   }
+          // },
+          {
             path: 'fee-payment-report',
             name: 'feePaymentReport',
             component: () => import('@/views/manager/finance/FeePaymentReport'),
