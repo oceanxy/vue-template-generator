@@ -16,10 +16,17 @@ export default () => {
         let temp = { ...values }
 
         if ('dateRange' in temp) {
-          temp.startTime = moment(temp.dateRange[0]).format('YYYYMMDD')
-          temp.endTime = moment(temp.dateRange[1]).format('YYYYMMDD')
+          temp.startTime = temp.dateRange[0] ? moment(temp.dateRange[0]).format('YYYYMMDD') : ''
+          temp.endTime = temp.dateRange[1] ? moment(temp.dateRange[1]).format('YYYYMMDD') : ''
 
           temp = omit(temp, 'dateRange')
+        }
+
+        if ('datetimeRange' in temp) {
+          temp.startTime = temp.datetimeRange[0] ? moment(temp.datetimeRange[0]).format('YYYYMMDDHHmm') : ''
+          temp.endTime = temp.datetimeRange[1] ? moment(temp.datetimeRange[1]).format('YYYYMMDDHHmm') : ''
+
+          temp = omit(temp, 'datetimeRange')
         }
 
         return temp
@@ -36,7 +43,7 @@ export default () => {
       onSubmit(e) {
         e?.preventDefault()
 
-        this.form.validateFields(async (err, values) => {
+        this.form.validateFieldsAndScroll(async (err, values) => {
           if (!err) {
             const payload = this.transformValue(values)
 

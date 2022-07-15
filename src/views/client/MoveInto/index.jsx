@@ -19,9 +19,9 @@ export default Form.create({})({
     dispatch(this.moduleName, 'getParkList')
   },
   methods: {
-    validateFields(e) {
+    validateFieldsAndScroll(e) {
       e.preventDefault()
-      this.form.validateFields((err, values) => {
+      this.form.validateFieldsAndScroll((err, values) => {
         if (err) return
         dispatch(this.moduleName, 'onSubmit', values)
       })
@@ -30,7 +30,7 @@ export default Form.create({})({
   render() {
     return (
       <BNContainer width="100%" modalTitle="申请入驻" contentClass="bn-info-moveinfo">
-        <Form class="bn-logon-form" onSubmit={this.validateFields}>
+        <Form class="bn-logon-form" onSubmit={this.validateFieldsAndScroll}>
           <Row gutter={15}>
             <Col span={12}>
               <Form.Item label="企业名称">

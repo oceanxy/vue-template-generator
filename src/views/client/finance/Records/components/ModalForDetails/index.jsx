@@ -1,20 +1,9 @@
-import './index.scss'
 import { Button, Table, Spin } from 'ant-design-vue'
 import forModal from '@/mixins/forModal'
 import DragModal from '@/components/DragModal'
 import { dispatch } from '@/utils/store'
 
 export default {
-  props: {
-    /**
-     * 标题（可定义占位符）
-     * “{action}” 为占位符，稍后会在 mixin 中替换为对应的字符，比如“新增”、“编辑”
-     */
-    modalTitle: {
-      type: String,
-      default: '{action}'
-    }
-  },
   mixins: [forModal()],
   data() {
     return {

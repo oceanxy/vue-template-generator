@@ -15,7 +15,7 @@ export default {
             scopedSlots: { customRender: 'index' }
           },
           {
-            title: '合同',
+            title: '合同编号',
             dataIndex: 'contractNo'
           },
           {
@@ -70,12 +70,6 @@ export default {
         {...{
           scopedSlots: {
             index: (text, record, index) => <span> {index + 1}</span>,
-            contractNo: (text, record) => (
-              <div>
-                <div>{record.fullName}</div>
-                <div>{record.contractNo}</div>
-              </div>
-            ),
             signingStatus: (text, record) => (
               <div>
                 <div>{record.signingStatusStr}</div>
@@ -95,27 +89,39 @@ export default {
             ),
             operation: (text, record) => (
               <Space class="operation-space">
-                <Button
-                  type="link"
-                  size="small"
-                  onClick={() => this._setVisibleOfModal(record, 'visibleOfRenew')}
-                >
-                  续约
-                </Button>
-                <Button
-                  type="link"
-                  size="small"
-                  onClick={() => this._setVisibleOfModal(record, 'visibleOfTerminate')}
-                >
-                  解约
-                </Button>
-                <Button
-                  type="link"
-                  size="small"
-                  onClick={() => this._setVisibleOfModal(record, 'visibleOfExpirationReminder')}
-                >
-                  到期提醒
-                </Button>
+                {
+                  record.signingStatus === 3 || record.signingStatus === 9 ? (
+                    <Button
+                      type="link"
+                      size="small"
+                      onClick={() => this._setVisibleOfModal(record, 'visibleOfRenew')}
+                    >
+                      续约
+                    </Button>
+                  ) : null
+                }
+                {
+                  record.signingStatus === 3 ? (
+                    <Button
+                      type="link"
+                      size="small"
+                      onClick={() => this._setVisibleOfModal(record, 'visibleOfTerminate')}
+                    >
+                      解约
+                    </Button>
+                  ) : null
+                }
+                {
+                  record.signingStatus === 3 ? (
+                    <Button
+                      type="link"
+                      size="small"
+                      onClick={() => this._setVisibleOfModal(record, 'visibleOfExpirationReminder')}
+                    >
+                      到期提醒
+                    </Button>
+                  ) : null
+                }
               </Space>
             )
           }

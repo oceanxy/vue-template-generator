@@ -1,8 +1,8 @@
-import { message, Modal } from 'ant-design-vue'
+import { message as Message, Modal } from 'ant-design-vue'
 import config from '@/config'
 
 // 全局消息弹窗设置
-message.config({
+Message.config({
   maxCount: config.maxMessageCount
 })
 
@@ -22,7 +22,7 @@ export default {
       option.content = option.message
     }
 
-    message.error(option)
+    Message.error(option)
   },
   /**
    * 执行批量操作前的表格多选非空验证
@@ -32,7 +32,7 @@ export default {
    */
   async verifySelected(selection, callback, content) {
     if (!selection.length) {
-      message.warning('请至少勾选一项！')
+      Message.warning('请至少勾选一项！')
       return
     }
 
@@ -56,10 +56,10 @@ export default {
       content,
       okText: '确定',
       cancelText: '取消',
-      async onOk(close) {
+      onOk: async close => {
         if (typeof callback === 'function') {
-          const response = await callback()
-          this.message(response)
+          const status = await callback()
+          this.message(status)
         }
 
         close()
@@ -68,15 +68,13 @@ export default {
   },
   /**
    * 消息框
-   * @param response 返回体
+   * @param status 返回体
    */
-  message(response) {
-    const { status, message } = response
-
+  message(status) {
     if (status) {
-      message.success('操作成功！')
+      Message.success('操作成功！')
     } else {
-      message.error('操作失败！')
+      Message.error('操作失败！')
     }
   }
 }

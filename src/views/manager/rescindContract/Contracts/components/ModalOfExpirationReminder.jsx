@@ -6,16 +6,6 @@ import { mapGetters } from 'vuex'
 
 export default Form.create({})({
   mixins: [forFormModal()],
-  props: {
-    /**
-     * 标题（可定义占位符）
-     * “{action}” 为占位符，稍后会在 mixin 中替换为对应的字符，比如“新增”、“编辑”
-     */
-    modalTitle: {
-      type: String,
-      default: '{action}'
-    }
-  },
   data() {
     return {
       modalProps: {
@@ -30,7 +20,7 @@ export default Form.create({})({
       return this.getState('currentParkTreeKeySelected', 'common')
     },
     reminderMethods() {
-      return this.getState('reminderMethods', this.moduleName)
+      return this.getState('reminderMethods', 'common')
     }
   },
   watch: {
@@ -39,7 +29,7 @@ export default Form.create({})({
       async handler(value) {
         if (value) {
           await this.$store.dispatch('getListForSelect', {
-            moduleName: this.moduleName,
+            moduleName: 'common',
             stateName: 'reminderMethods',
             customApiName: 'getReminderMethods',
             payload: {

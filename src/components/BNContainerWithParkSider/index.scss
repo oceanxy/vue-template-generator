@@ -11,8 +11,9 @@
     flex: none;
 
     .bnm-park-sider {
+      flex: auto;
       border-right: 1px solid #d9d9d9;
-      height: 100%;
+      height: 0;
       padding: 20px 10px;
       overflow-y: auto;
       overflow-x: hidden;

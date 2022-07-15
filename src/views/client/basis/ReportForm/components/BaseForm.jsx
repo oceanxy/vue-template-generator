@@ -8,7 +8,7 @@ export default Form.create({})({
   methods: {
     onSubmit(e) {
       e.preventDefault()
-      this.form.validateFields((err, values) => {
+      this.form.validateFieldsAndScroll((err, values) => {
         if (err) return
         const form = getFieldValue(this.list, values)
         this.$emit('submit', form)

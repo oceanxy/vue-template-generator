@@ -40,6 +40,11 @@ export default {
     enterpriseClassifications: {
       loading: false,
       list: []
+    },
+    // 提醒方式数据
+    reminderMethods: {
+      loading: false,
+      list: []
     }
   },
   mutations: {
@@ -189,7 +194,7 @@ export default {
      * @returns {Promise<void>}
      */
     async getSideFloorTree({ commit }) {
-      const response = await apis.getSideFloorTree()
+      const response = await apis.getFloorTree()
 
       if (response.status) {
         commit('setSideFloorTree', response.data)

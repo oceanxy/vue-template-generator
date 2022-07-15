@@ -13,6 +13,15 @@ import moment from 'moment'
 export default () => {
   return {
     mixins: [forModal()],
+    props: {
+      /**
+       * 用于替换 modalTitle 内的 {action} 的候选值
+       */
+      candidateTitle: {
+        type: Array,
+        default: () => ['编辑', '新增']
+      }
+    },
     data: () => ({
       visibleField: 'visibleOfEdit'
     }),
@@ -21,7 +30,11 @@ export default () => {
         immediate: true,
         handler(value) {
           if (value) {
-            this.modalProps.title = this.modalTitle.replace('{action}', this.currentItem.id ? '编辑' : '新增')
+            this.modalProps.title = (this.$parent.$attrs.modalTitle || this.modalTitle)
+              .replace('{action}', this.currentItem.id
+                ? this.$parent.$attrs.candidateTitle?.[0] || this.candidateTitle[0]
+                : this.$parent.$attrs.candidateTitle?.[1] || this.candidateTitle[1]
+              )
           } else {
             this.form.resetFields()
           }
@@ -32,6 +45,16 @@ export default () => {
       // 此函数逻辑后期需要改为在每个组件内各自判断，不再在混合里统一处理
       transformValue(values) {
         let temp = cloneDeep(values)
+
+        if ('billIds' in temp) {
+          // 筛选已勾选账单
+          const ordersChecked = this.pendingOrders.list.filter(item => temp.billIds.includes(item.id))
+          // 筛选已勾选账单内所有的子级ID
+          temp.billIds = ordersChecked.reduce(
+            (prev, current) => prev.concat(current.billList.reduce((p, c) => p.concat([c.id]), [])),
+            []
+          )
+        }
 
         if ('status' in temp) {
           temp.status = temp.status ? 1 : 2
@@ -115,6 +138,13 @@ export default () => {
           })
         }
 
+        if ('isShow' in temp) {
+          temp.isShow = temp.isShow ? 1 : 0
+        }
+        if ('isDefault' in temp) {
+          temp.isDefault = temp.isDefault ? 1 : 0
+        }
+
         return temp
       },
       /**
@@ -123,6 +153,7 @@ export default () => {
        *   [isFetchList]: boolean,
        *   [customApiName]: string,
        *   [customValidation]: Function
+       *   [customDataHandler]: Function
        * }}
        * isFetchList：是否在提交表单后立即刷新对应的列表，默认 true；
        * customApiName：自定义请求API
@@ -134,18 +165,22 @@ export default () => {
           ...options
         }
 
-        this.form.validateFields(async (err, values) => {
-          let validation = true
+        let validation = true
 
-          if (typeof options.customValidation === 'function') {
-            validation = options.customValidation()
-          }
+        if (typeof options.customValidation === 'function') {
+          validation = options.customValidation()
+        }
 
+        this.form.validateFieldsAndScroll(async (err, values) => {
           if (!err && validation) {
             this.modalProps.confirmLoading = true
 
             // 存在ID，目前为编辑模式
             let action
+            //自定义处理请求参数
+            if (typeof options.customDataHandler === 'function') {
+              values = options.customDataHandler(values)
+            }
             const payload = this.transformValue(values)
 
             if (!options.customApiName) {

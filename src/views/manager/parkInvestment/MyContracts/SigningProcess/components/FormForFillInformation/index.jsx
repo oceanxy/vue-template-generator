@@ -135,7 +135,7 @@ export default Form.create({})({
     },
     onSubmit(e) {
       e?.preventDefault()
-      this.form.validateFields(async (err, values) => {
+      this.form.validateFieldsAndScroll(async (err, values) => {
         if (!err) {
           this.loading = true
 

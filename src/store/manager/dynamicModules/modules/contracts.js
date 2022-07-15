@@ -7,13 +7,8 @@ export default commitRootInModule => omit(
       visibleOfRenew: false,
       visibleOfExpirationReminder: false,
       visibleOfTerminate: false,
-      // 园区团队下拉列表数据（仅本模块专用）
+      // 合同数据（按状态分类）
       contractCards: {
-        loading: false,
-        list: []
-      },
-      // 到期提醒弹窗内的提醒方式数据
-      reminderMethods: {
         loading: false,
         list: []
       }

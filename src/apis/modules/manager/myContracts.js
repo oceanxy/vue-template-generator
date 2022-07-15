@@ -13,18 +13,5 @@ export default {
       method: 'post',
       data: qs.stringify(data)
     })
-  },
-  /**
-   * 解约
-   * @param request
-   * @param data
-   * @returns {*}
-   */
-  terminateContract(request, data) {
-    return request({
-      url: '/business/companyContract/removeContract',
-      method: 'post',
-      data: qs.stringify(data)
-    })
   }
 }
