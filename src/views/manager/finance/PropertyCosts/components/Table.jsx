@@ -36,6 +36,14 @@ export default {
           {
             title: '结清状态',
             dataIndex: 'payStatusStr'
+          },
+          {
+            title: '操作',
+            key: 'operation',
+            // fixed: 'right',
+            align: 'center',
+            width: 150,
+            scopedSlots: { customRender: 'operation' }
           }
         ]
       }
@@ -65,6 +73,17 @@ export default {
                   ))
                 }
               </ul>
+            ),
+            operation: (text, record) => (
+              <Space class="operation-space">
+                <Button
+                  type="link"
+                  size="small"
+                  onClick={() => this.onEditClick(record)}
+                >
+                  修改金额
+                </Button>
+              </Space>
             )
           }
         }}

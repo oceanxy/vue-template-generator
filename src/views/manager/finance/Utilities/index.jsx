@@ -7,18 +7,20 @@ import Inquiry from './components/Inquiry'
 import Functions from './components/Functions'
 import Table from './components/Table'
 import Pagination from './components/Pagination'
+import ModalOfEdit from './components/ModalOfEdit'
 
 export default {
   name: 'Utilities',
   mixins: [dynamicState(store, dynamicModules)],
   render() {
     return (
-      <BNContainerWithParkSider contentClass="bnm-rents-container">
+      <BNContainerWithParkSider contentClass="bnm-utilities-container">
         <TGContainer>
           <Inquiry slot={'inquiry'} />
           <Functions slot={'functions'} />
           <Table slot={'table'} />
           <Pagination slot={'pagination'} />
+          <ModalOfEdit slot={'modals'} modalTitle={'{action}金额'} />
         </TGContainer>
       </BNContainerWithParkSider>
     )
