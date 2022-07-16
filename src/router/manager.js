@@ -307,57 +307,24 @@ export const routes = [
           },
           {
             path: 'my-contracts',
-            component: TGRouterView,
+            name: 'myContracts',
+            component: () => import('@/views/manager/parkInvestment/MyContracts'),
             meta: {
               title: '我的签约',
               keepAlive: false,
-              requiresAuth: true,
-              hideChildren: true
-            },
-            children: [
-              {
-                path: '',
-                name: 'myContracts',
-                component: () => import('@/views/manager/parkInvestment/MyContracts'),
-                meta: {
-                  title: '我的签约',
-                  keepAlive: false,
-                  requiresAuth: true
-                }
-              },
-              {
-                path: 'signing-process',
-                name: 'signingProcess',
-                component: () => import('@/views/manager/parkInvestment/MyContracts/SigningProcess'),
-                meta: {
-                  title: '签约',
-                  keepAlive: false,
-                  requiresAuth: true
-                }
-              },
-              {
-                path: 're-sign',
-                name: 'reSign',
-                redirect: { name: 'signingProcess' },
-                component: () => import('@/views/manager/parkInvestment/MyContracts/SigningProcess'),
-                meta: {
-                  title: '签约',
-                  keepAlive: false,
-                  requiresAuth: true
-                }
-              }
-            ]
+              requiresAuth: true
+            }
+          },
+          {
+            path: 'renewal-application',
+            name: 'renewalApplication',
+            component: () => import('@/views/manager/parkInvestment/RenewalApplication'),
+            meta: {
+              title: '企业续约申请',
+              keepAlive: false,
+              requiresAuth: true
+            }
           }
-          // {
-          //   path: 'renewal-application',
-          //   name: 'renewalApplication',
-          //   component: () => import('@/views/manager/parkInvestment/RenewalApplication'),
-          //   meta: {
-          //     title: '企业续约申请',
-          //     keepAlive: false,
-          //     requiresAuth: true
-          //   }
-          // }
         ]
       },
       {
@@ -456,6 +423,29 @@ export const routes = [
               keepAlive: false,
               requiresAuth: true
             }
+          },
+          {
+            path: 'signing-process',
+            name: 'signingProcess',
+            component: () => import('@/views/manager/SigningProcess'),
+            meta: {
+              title: '签约',
+              keepAlive: false,
+              requiresAuth: true,
+              hide: true
+            }
+          },
+          {
+            path: 're-sign',
+            name: 'reSign',
+            redirect: { name: 'signingProcess' },
+            component: () => import('@/views/manager/SigningProcess'),
+            meta: {
+              title: '签约',
+              keepAlive: false,
+              requiresAuth: true,
+              hide: true
+            }
           }
         ]
       },
@@ -549,6 +539,36 @@ export const routes = [
             component: () => import('@/views/manager/finance/EarnestMoney'),
             meta: {
               title: '保证金查询',
+              keepAlive: false,
+              requiresAuth: true
+            }
+          },
+          {
+            path: 'rents',
+            name: 'rents',
+            component: () => import('@/views/manager/finance/Rents'),
+            meta: {
+              title: '租金管理',
+              keepAlive: false,
+              requiresAuth: true
+            }
+          },
+          {
+            path: 'property-costs',
+            name: 'propertyCosts',
+            component: () => import('@/views/manager/finance/PropertyCosts'),
+            meta: {
+              title: '物业费管理',
+              keepAlive: false,
+              requiresAuth: true
+            }
+          },
+          {
+            path: 'utilities',
+            name: 'utilities',
+            component: () => import('@/views/manager/finance/Utilities'),
+            meta: {
+              title: '水电费管理',
               keepAlive: false,
               requiresAuth: true
             }

@@ -10,15 +10,15 @@ export default Form.create({})({
       modalProps: {
         width: 690
       },
-      visibleField: 'visibleOfContractReview'
+      visibleField: 'visibleOfReview'
     }
   },
   render() {
     const attributes = {
       attrs: this.modalProps,
       on: {
-        cancel: () => this.onCancel('visibleOfContractReview'),
-        ok: () => this.onSubmit({ customApiName: 'contractReviewSubmit' })
+        cancel: () => this.onCancel(this.visibleField),
+        ok: () => this.onSubmit({ customApiName: 'submitReviewOfRenewal' })
       }
     }
 
@@ -30,7 +30,8 @@ export default Form.create({})({
         >
           <Form.Item label="审核结果">
             {
-              this.form.getFieldDecorator('signingStatus', {
+              this.form.getFieldDecorator('auditStatus', {
+                initialValue: 3,
                 rules: [{ required: true, type: 'number', message: '请选择审核结果！', trigger: 'change' }]
               })(
                 <Radio.Group>
@@ -41,11 +42,11 @@ export default Form.create({})({
             }
           </Form.Item>
           {
-            this.form.getFieldValue('signingStatus') === 4
+            this.form.getFieldValue('auditStatus') === 4
               ? (
                 <Form.Item label="审核意见">
                   {
-                    this.form.getFieldDecorator('auditOpinion', {
+                    this.form.getFieldDecorator('opinion', {
                       rules: [{ required: true, whitespace: true, message: '请输入审核意见！', trigger: 'blur' }]
                     })(
                       <Input.TextArea placeholder="请输入审核意见" />

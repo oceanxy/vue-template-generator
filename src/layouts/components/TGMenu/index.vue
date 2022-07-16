@@ -14,7 +14,11 @@
         :menu-info="route"
         @subMenuClick="titleClick"
       />
-      <a-menu-item v-else :key="route.path">
+      <a-menu-item
+        v-else
+        :key="route.path"
+        :style="route.meta.hide ? { display: 'none' } : ''"
+      >
         <a-icon theme="filled" v-if="route.meta.icon" :component="route.meta.icon" />
         <span>{{ route.meta && route.meta.title }}</span>
       </a-menu-item>
@@ -46,7 +50,11 @@ const TGSubMenu = {
         :menu-info="route"
         @subMenuClick="titleClick"
       />
-      <a-menu-item v-else :key="route.path">
+      <a-menu-item
+        v-else
+        :key="route.path"
+        :style="route.meta.hide ? { display: 'none' } : ''"
+      >
         <a-icon v-if="route.meta.icon" :component="route.meta.icon" />
         <span>{{ route.meta && route.meta.title }}</span>
       </a-menu-item>

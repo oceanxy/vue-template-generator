@@ -10,39 +10,56 @@ export default {
         columns: [
           {
             title: '序号',
-            dataIndex: ''
+            width: 60,
+            align: 'center',
+            scopedSlots: { customRender: 'serialNumber' }
           },
           {
             title: '申请时间',
-            dataIndex: 'appName'
+            width: 160,
+            dataIndex: 'applyTimeStr'
           },
           {
             title: '申请企业',
-            dataIndex: 'remark'
+            dataIndex: 'companyName'
           },
           {
             title: '签约场地',
-            align: 'center',
-            dataIndex: 'zz'
+            scopedSlots: { customRender: 'address' }
           },
           {
-            title: '申请类型',
+            title: '续约模式',
+            width: 120,
+            dataIndex: 'renewalTypeStr'
+          },
+          {
+            title: '费用核算',
+            width: 120,
+            dataIndex: 'accountingTypeStr'
+          },
+          {
+            title: '审核状态',
+            width: 100,
             align: 'center',
-            dataIndex: 'xx'
+            scopedSlots: { customRender: 'auditStatus' }
           },
           {
             title: '操作',
             key: 'operation',
             // fixed: 'right',
             align: 'center',
-            width: 300,
+            width: 120,
             scopedSlots: { customRender: 'operation' }
           }
         ]
       }
     }
   },
-  methods: {},
+  methods: {
+    async toRenewContract(record) {
+      await this.$router.push({ name: 'signingProcess', query: { id: record.contractId } })
+    }
+  },
   render() {
     const attributes = {
       props: {
@@ -57,35 +74,41 @@ export default {
         {...attributes}
         {...{
           scopedSlots: {
-            // status: (text, record) => (
-            //   <Switch
-            //     checked={+record.status === 1}
-            //     onChange={checked => this.onStatusChange(checked, record)}
-            //   />
-            // ),
+            serialNumber: (text, record, index) => index + 1,
+            address: (text, record) => (
+              <ul style={{ paddingLeft: '20px', marginBottom: 0 }}>
+                {
+                  record.address?.split(',').map(item => (
+                    <li>{item}</li>
+                  ))
+                }
+              </ul>
+            ),
+            auditStatus: (text, record) => ['待审核', '审核通过', '审核失败'][+record.auditStatus - 2],
             operation: (text, record) => (
               <Space class="operation-space">
-                <Button
-                  type="link"
-                  size="small"
-                  // onClick={() => this.onEditClick(record)}
-                >
-                  前往续约
-                </Button>
-                <Button
-                  type="link"
-                  size="small"
-                  // onClick={() => this.onEditClick(record)}
-                >
-                  前往解约
-                </Button>
-                <Button
-                  type="link"
-                  size="small"
-                  onClick={() => this._setVisibleOfModal(record, 'visibleOfRejectApplication')}
-                >
-                  拒绝申请
-                </Button>
+                {
+                  record.auditStatus === 2 ? (
+                    <Button
+                      type="link"
+                      size="small"
+                      onClick={() => this._setVisibleOfModal(record, 'visibleOfReview')}
+                    >
+                      审核申请
+                    </Button>
+                  ) : null
+                }
+                {
+                  record.auditStatus === 3 ? (
+                    <Button
+                      type="link"
+                      size="small"
+                      onClick={() => this.toRenewContract(record)}
+                    >
+                      前往续约
+                    </Button>
+                  ) : null
+                }
               </Space>
             )
           }

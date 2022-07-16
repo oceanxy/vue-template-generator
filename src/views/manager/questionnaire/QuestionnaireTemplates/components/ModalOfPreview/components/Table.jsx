@@ -11,7 +11,8 @@ export default {
           {
             title: '序号',
             width: 60,
-            dataIndex: 'serialNum'
+            align: 'center',
+            scopedSlots: { customRender: 'serialNumber' }
           },
           {
             title: '标题',
@@ -67,6 +68,7 @@ export default {
         {...attruibutes}
         {...{
           scopedSlots: {
+            serialNumber: (text, record, index) => index + 1,
             itemOptionList: (text, record) => (
               <ol style={{ paddingLeft: '20px', marginBottom: 0 }}>
                 {

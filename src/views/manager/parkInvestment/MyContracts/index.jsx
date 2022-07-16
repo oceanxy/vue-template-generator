@@ -7,6 +7,7 @@ import Table from './components/Table'
 import Pagination from './components/Pagination'
 import Functions from './components/Functions'
 import ModalOfTerminate from './components/ModalOfTerminate'
+import ModalOfRenew from './components/ModalOfRenew'
 
 export default {
   name: 'MyContracts',
@@ -19,7 +20,8 @@ export default {
         <Table slot={'table'} />
         <Pagination slot={'pagination'} />
         <template slot={'modals'}>
-          <ModalOfTerminate modalTitle={'解约'} />
+          <ModalOfTerminate modalTitle={'解约申请'} />
+          <ModalOfRenew modalTitle={'解约申请'} />
         </template>
       </TGContainer>
     )

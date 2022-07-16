@@ -1,3 +1,4 @@
+
 import forTable from '@/mixins/forTable'
 import { Button, Table } from 'ant-design-vue'
 import forIndex from '@/mixins/forIndex'
@@ -8,7 +9,9 @@ export default {
     columns: [
       {
         title: '序号',
-        scopedSlots: { customRender: 'allPath' }
+        width: 60,
+        align: 'center',
+        scopedSlots: { customRender: 'serialNumber' }
       },
       {
         title: '开票时间',
@@ -55,6 +58,7 @@ export default {
         rowKey="id"
         {...{
           scopedSlots: {
+            serialNumber: (text, record, index) => index + 1,
             operation: (text, record) => (
               <Button type="link" onClick={this.onDownloadClick}>下载发票</Button>
             )

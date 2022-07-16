@@ -1,3 +1,10 @@
+/**
+ * 签约流程
+ * @Author: Oceanxy
+ * @Email: xyzsyx@163.com
+ * @Date: 2022-07-15 周五 10:58:47
+ */
+
 import '../assets/styles/index.scss'
 import forModal from '@/mixins/forModal'
 import DragModal from '@/components/DragModal'

@@ -15,44 +15,27 @@ export default Form.create({})({
         <Space>
           <Form.Item>
             {
-              this.form.getFieldDecorator('pageName')(
+              this.form.getFieldDecorator('companyName')(
                 <Input placeholder="企业名称" allowClear />
               )
             }
           </Form.Item>
           <Form.Item>
             {
-              this.form.getFieldDecorator('pageName1')(
-                <Input placeholder="场地名称" allowClear />
-              )
-            }
-          </Form.Item>
-          <Form.Item>
-            {
-              this.form.getFieldDecorator('appId')(
-                <Select placeholder="请选择类型" allowClear>
-                  {
-                    this.allSiteApps.map(item => (
-                      <Select.Option value={item.id}>
-                        {item.appName}
-                      </Select.Option>
-                    ))
-                  }
+              this.form.getFieldDecorator('accountingType')(
+                <Select placeholder="请选择费用核算模式" allowClear>
+                  <Select.Option value={1}>沿用旧合同</Select.Option>
+                  <Select.Option value={2}>重新核算</Select.Option>
                 </Select>
               )
             }
           </Form.Item>
           <Form.Item>
             {
-              this.form.getFieldDecorator('appId')(
-                <Select placeholder="请选择状态" allowClear>
-                  {
-                    this.allSiteApps.map(item => (
-                      <Select.Option value={item.id}>
-                        {item.appName}
-                      </Select.Option>
-                    ))
-                  }
+              this.form.getFieldDecorator('renewalType')(
+                <Select placeholder="请选择续约模式" allowClear>
+                  <Select.Option value={1}>旧合同延期</Select.Option>
+                  <Select.Option value={2}>签订新合同</Select.Option>
                 </Select>
               )
             }

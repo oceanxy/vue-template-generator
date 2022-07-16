@@ -1,4 +1,3 @@
-import '../index.scss'
 import { Form, Radio } from 'ant-design-vue'
 import forFormModal from '@/mixins/forModal/forFormModal'
 import DragModal from '@/components/DragModal'

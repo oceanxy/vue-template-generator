@@ -15,43 +15,34 @@ export default {
             scopedSlots: { customRender: 'serialNumber' }
           },
           {
-            title: '合同编号',
-            dataIndex: 'contractNo'
-          },
-          {
-            title: '企业名称',
-            dataIndex: 'companyName'
+            title: '月份',
+            width: 150,
+            dataIndex: 'billMonth'
           },
           {
             title: '场地',
-            scopedSlots: { customRender: 'address' }
+            dataIndex: 'address'
+            // scopedSlots: { customRender: 'address' }
           },
           {
-            title: '保证金',
-            width: 100,
-            dataIndex: 'marginAmount'
+            title: '企业',
+            dataIndex: 'companyName'
           },
           {
-            title: '累计账单',
-            width: 100,
-            dataIndex: 'billAmount'
+            title: '金额',
+            width: 150,
+            dataIndex: 'amountStr'
           },
           {
-            title: '累计缴费',
-            width: 100,
-            dataIndex: 'payAmount'
-          },
-          {
-            title: '当前欠缴',
-            width: 100,
-            scopedSlots: { customRender: 'oweAmount' }
+            title: '结清状态',
+            dataIndex: 'payStatusStr'
           },
           {
             title: '操作',
             key: 'operation',
             // fixed: 'right',
             align: 'center',
-            width: 300,
+            width: 150,
             scopedSlots: { customRender: 'operation' }
           }
         ]
@@ -74,7 +65,6 @@ export default {
         {...{
           scopedSlots: {
             serialNumber: (text, record, index) => index + 1,
-            oweAmount: (text, record) => <div style={{ color: '#f5222d' }}>{record.oweAmount}</div>,
             address: (text, record) => (
               <ul style={{ paddingLeft: '20px', marginBottom: 0 }}>
                 {
@@ -91,28 +81,7 @@ export default {
                   size="small"
                   onClick={() => this.onEditClick(record)}
                 >
-                  企业缴费
-                </Button>
-                <Button
-                  type="link"
-                  size="small"
-                  onClick={() => this._setVisibleOfModal(record, 'visibleOfUrgingPayment')}
-                >
-                  催费消息
-                </Button>
-                <Button
-                  type="link"
-                  size="small"
-                  onClick={() => this._setVisibleOfModal(record, 'visibleOfBills')}
-                >
-                  账单查询
-                </Button>
-                <Button
-                  type="link"
-                  size="small"
-                  onClick={() => this._setVisibleOfModal(record, 'visibleOfPaymentRecords')}
-                >
-                  缴费记录
+                  修改金额
                 </Button>
               </Space>
             )

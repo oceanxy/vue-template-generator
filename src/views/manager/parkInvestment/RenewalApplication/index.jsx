@@ -5,7 +5,7 @@ import dynamicState from '@/mixins/dynamicState'
 import store, { dynamicModules } from '@/store/manager'
 import Table from './components/Table'
 import Pagination from './components/Pagination'
-import ModalOfRejectApplication from './components/ModalOfRejectApplication'
+import ModalOfReview from './components/ModalOfReview'
 
 export default {
   name: 'RenewalApplication',
@@ -17,7 +17,7 @@ export default {
         <Table slot={'table'} />
         <Pagination slot={'pagination'} />
         <template slot={'modals'}>
-          <ModalOfRejectApplication modalTitle={'拒绝申请'} />
+          <ModalOfReview modalTitle={'审核续约申请'} />
         </template>
       </TGContainer>
     )
