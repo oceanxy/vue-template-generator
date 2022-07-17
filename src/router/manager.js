@@ -688,6 +688,16 @@ export const routes = [
               keepAlive: false,
               requiresAuth: true
             }
+          },
+          {
+            path: 'indicators',
+            name: 'indicators',
+            component: () => import('@/views/manager/annualAssessment/Indicators'),
+            meta: {
+              title: '指标管理',
+              keepAlive: false,
+              requiresAuth: true
+            }
           }
         ]
       },
