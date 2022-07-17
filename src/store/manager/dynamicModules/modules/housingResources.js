@@ -3,7 +3,6 @@ import apis from '@/apis'
 
 export default commitRootInModule => createStoreModule({
   state: {
-    visibleOfEdit: false,
     visibleOfContractHistory: false,
     supportingFacilities: []
   },
