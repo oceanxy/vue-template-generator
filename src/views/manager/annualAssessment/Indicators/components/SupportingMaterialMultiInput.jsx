@@ -91,9 +91,9 @@ export default {
   },
   render() {
     return (
-      <div class="tg-multi-input questionnaire-item-table-container">
+      <div class="tg-multi-input">
         <Table
-          class="multi-input-table questionnaire-item-table"
+          class="multi-input-table"
           tableLayout={'fixed'}
           columns={this.columns}
           dataSource={this.dataSource}

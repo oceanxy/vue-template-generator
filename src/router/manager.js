@@ -721,16 +721,28 @@ export const routes = [
       //     icon: () => import('@/layouts/components/TGMenu/assets/images/workOrderManagement.svg')
       //   }
       // },
-      // {
-      //   path: 'data-col',
-      //   component: TGRouterView,
-      //   meta: {
-      //     title: '数据采集',
-      //     keepAlive: false,
-      //     requiresAuth: true,
-      //     icon: () => import('@/layouts/components/TGMenu/assets/images/dataCollection.svg')
-      //   }
-      // },
+      {
+        path: 'data-collection',
+        component: TGRouterView,
+        meta: {
+          title: '数据采集',
+          keepAlive: false,
+          requiresAuth: true,
+          icon: () => import('@/layouts/components/TGMenu/assets/images/dataCollection.svg')
+        },
+        children: [
+          {
+            path: 'data-collection-templates',
+            name: 'dataCollectionTemplates',
+            component: () => import('@/views/manager/dataCollection/DataCollectionTemplates'),
+            meta: {
+              title: '模版管理',
+              keepAlive: false,
+              requiresAuth: true
+            }
+          }
+        ]
+      },
       {
         path: 'system',
         component: TGRouterView,

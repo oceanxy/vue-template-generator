@@ -2,7 +2,7 @@ import qs from 'qs'
 
 export default {
   /**
-   * 获取指标类别列表
+   * 获取指标列表
    * @param [request]
    * @param data
    * @returns {*}
@@ -15,7 +15,20 @@ export default {
     })
   },
   /**
-   * 修改指标类别状态
+   * 获取指标下拉列表数据
+   * @param request
+   * @param data
+   * @returns {*}
+   */
+  getIndicatorsForSelect(request, data) {
+    return request({
+      url: '/operate/target/getTargetSearchPageList',
+      method: 'post',
+      data: qs.stringify(data)
+    })
+  },
+  /**
+   * 修改指标状态
    * @param [request]
    * @param data
    * @returns {*}
@@ -28,7 +41,7 @@ export default {
     })
   },
   /**
-   * 删除指标类别
+   * 删除指标
    * @param request
    * @param data
    * @returns {*}
@@ -41,7 +54,7 @@ export default {
     })
   },
   /**
-   * 新增指标类别
+   * 新增指标
    * @param request
    * @param data
    * @returns {*}
@@ -54,7 +67,7 @@ export default {
     })
   },
   /**
-   * 更新指标类别
+   * 更新指标
    * @param request
    * @param data
    * @returns {*}
