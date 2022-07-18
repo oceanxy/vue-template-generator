@@ -24,7 +24,16 @@ export default {
           scopedSlots: { customRender: 'score' }
         },
         {
-          title: '操作',
+          title: (
+            <Button
+              icon={'plus'}
+              ghost
+              size={'small'}
+              type={'primary'}
+              class={'plus-btn'}
+              onClick={this.onCreateRow}
+            />
+          ),
           width: 60,
           align: 'center',
           scopedSlots: { customRender: 'operation' }
@@ -77,16 +86,6 @@ export default {
   render() {
     return (
       <div class="tg-multi-input">
-        <Button
-          icon={'plus'}
-          ghost
-          size={'small'}
-          type={'primary'}
-          class={'plus-btn'}
-          onClick={this.onCreateRow}
-        >
-          添加评分标准
-        </Button>
         <Table
           class="multi-input-table"
           tableLayout={'fixed'}

@@ -1,4 +1,4 @@
-import { Button, Input, InputNumber, Select, Space, Table } from 'ant-design-vue'
+import { Button, Input, Select, Space, Table } from 'ant-design-vue'
 
 export default {
   model: {
@@ -29,7 +29,16 @@ export default {
           scopedSlots: { customRender: 'isMust' }
         },
         {
-          title: '操作',
+          title: (
+            <Button
+              icon={'plus'}
+              ghost
+              size={'small'}
+              type={'primary'}
+              class={'plus-btn'}
+              onClick={this.onCreateRow}
+            />
+          ),
           width: 60,
           align: 'center',
           scopedSlots: { customRender: 'operation' }
@@ -83,16 +92,6 @@ export default {
   render() {
     return (
       <div class="tg-multi-input questionnaire-item-table-container">
-        <Button
-          icon={'plus'}
-          ghost
-          size={'small'}
-          type={'primary'}
-          class={'plus-btn'}
-          onClick={this.onCreateRow}
-        >
-          添加佐证材料
-        </Button>
         <Table
           class="multi-input-table questionnaire-item-table"
           tableLayout={'fixed'}

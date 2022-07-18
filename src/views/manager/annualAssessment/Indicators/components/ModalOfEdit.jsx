@@ -1,5 +1,5 @@
 import '../assets/styles/index.scss'
-import { Form, Input, InputNumber, Radio, Switch } from 'ant-design-vue'
+import { Form, Input, InputNumber, Radio, Spin, Switch, TreeSelect } from 'ant-design-vue'
 import forFormModal from '@/mixins/forModal/forFormModal'
 import { mapGetters } from 'vuex'
 import DragModal from '@/components/DragModal'
@@ -17,8 +17,32 @@ export default Form.create({})({
   },
   computed: {
     ...mapGetters({ getState: 'getState' }),
-    indicatorCategoryTree() {
-      return this.getState('indicatorCategoryTree', 'common')
+    indicatorCategoryLikeTree() {
+      return this.getState('indicatorCategoryLikeTree', this.moduleName)
+    }
+  },
+  watch: {
+    visible: {
+      immediate: true,
+      async handler(value) {
+        if (value) {
+          await this.$store.dispatch('getListForSelect', {
+            moduleName: this.moduleName,
+            stateName: 'indicatorCategoryLikeTree',
+            customApiName: 'getIndicatorCategoryLikeTree'
+          })
+        }
+      }
+    }
+  },
+  methods: {
+    // 此处验证仅是配合自定义验证，用于在输入控件 change 或 blur 后清空验证信息
+    validator(rule, value, callback) {
+      if (Array.isArray(value) && value.length) {
+        callback()
+      }
+
+      callback(new Error(rule.message))
     }
   },
   render() {
@@ -26,7 +50,29 @@ export default Form.create({})({
       attrs: this.modalProps,
       on: {
         cancel: () => this.onCancel(),
-        ok: () => this.onSubmit()
+        ok: () => this.onSubmit({
+          customValidation: () => {
+            const targetOptionList = this.form.getFieldValue('targetOptionList') || []
+            const _targetOptionList = targetOptionList.filter(item => item.serialNum && item.optionValue && item.score)
+
+            if (_targetOptionList.length) {
+              this.form.setFields({ targetOptionList: { value: _targetOptionList } })
+            } else {
+              this.form.setFields({ targetOptionList: { value: targetOptionList, errors: [new Error('请输入评分标准！')] } })
+            }
+
+            const targetProveList = this.form.getFieldValue('targetProveList') || []
+            const _targetProveList = targetProveList.filter(item => item.serialNum && item.fullName)
+
+            if (_targetProveList.length) {
+              this.form.setFields({ targetProveList: { value: _targetProveList } })
+            } else {
+              this.form.setFields({ targetProveList: { value: targetProveList, errors: [new Error('请输入佐证材料！')] } })
+            }
+
+            return !!_targetOptionList.length && !!_targetProveList.length
+          }
+        })
       }
     }
 
@@ -36,7 +82,7 @@ export default Form.create({})({
           class="bnm-form-grid"
           colon={false}
         >
-          <Form.Item label="名称">
+          <Form.Item label="名称" class={'half'}>
             {
               this.form.getFieldDecorator('fullName', {
                 initialValue: this.currentItem.fullName,
@@ -45,6 +91,26 @@ export default Form.create({})({
                 <Input placeholder="请输入名称" allowClear />
               )
             }
+          </Form.Item>
+          <Form.Item label="类别" class={'half'}>
+            <Spin spinning={this.indicatorCategoryLikeTree.loading}>
+              {
+                this.form.getFieldDecorator('catId', {
+                  initialValue: this.currentItem.catId,
+                  rules: [{ required: true, message: '请选择指标类别!', trigger: 'change' }]
+                })(
+                  <TreeSelect
+                    treeDefaultExpandedKeys={[this.currentItem.catId]}
+                    showSearch
+                    allowClear
+                    treeData={this.indicatorCategoryLikeTree.list}
+                    replaceFields={{ children: 'children', title: 'name', key: 'id', value: 'id' }}
+                    searchPlaceholder={'请输入关键字以搜索'}
+                    placeholder={'请选择指标类别'}
+                  />
+                )
+              }
+            </Spin>
           </Form.Item>
           <Form.Item label="类型">
             {
@@ -73,7 +139,7 @@ export default Form.create({})({
             {
               this.form.getFieldDecorator('targetOptionList', {
                 initialValue: this.currentItem.targetOptionList || [],
-                rules: [{ required: true, type: 'array', message: '请输入评分标准!', trigger: 'change' }]
+                rules: [{ required: true, validator: this.validator, message: '请输入评分标准!', trigger: 'change' }]
               })(
                 <GradingMultiInput />
               )
@@ -83,7 +149,7 @@ export default Form.create({})({
             {
               this.form.getFieldDecorator('targetProveList', {
                 initialValue: this.currentItem.targetProveList || [],
-                rules: [{ required: true, type: 'array', message: '请输入评分标准!', trigger: 'change' }]
+                rules: [{ required: true, validator: this.validator, message: '请输入佐证材料!', trigger: 'change' }]
               })(
                 <SupportingMaterialMultiInput />
               )

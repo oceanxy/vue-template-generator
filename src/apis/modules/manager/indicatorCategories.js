@@ -76,5 +76,16 @@ export default {
       url: '/operate/targetCatalog/getTargetCatalogTree',
       method: 'post'
     })
+  },
+  /**
+   * 获取指标分类树
+   * @param request
+   * @returns {*}
+   */
+  getIndicatorCategoryLikeTree(request) {
+    return request({
+      url: '/operate/targetCatalog/getTargetCatalogTreeList',
+      method: 'post'
+    })
   }
 }
