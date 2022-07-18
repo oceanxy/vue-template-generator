@@ -16,7 +16,7 @@ export default commitRootInModule =>
           const res = await apis.reportGetItemList({ reportId })
           commitRootInModule('setLoading', false)
           if (res.status) {
-            commitRootInModule('setList', res.data)
+            commitRootInModule('setList', res.data.itemList || [])
           }
         },
         async addReport({ state }, payload) {

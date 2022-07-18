@@ -54,7 +54,7 @@ export const getFieldItemValue = (data, value) => {
   const result = {
     resultId: '',
     resultContent: value,
-    resultFile: {}
+    resultFile: []
   }
   if (data.modType === 1) {
     result.resultId = value
@@ -65,7 +65,7 @@ export const getFieldItemValue = (data, value) => {
   } else if (data.modType === 5 || data.modType === 6) {
     const file = value.map(item => item.response.data[0])
     if (file.length > 0) {
-      result.resultFile = file[0]
+      result.resultFile = file
     }
     result.resultContent = ''
   } else if (data.modType === 7) {

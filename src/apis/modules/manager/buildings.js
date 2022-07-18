@@ -98,5 +98,16 @@ export default {
       url: '/basic/park/getFloorTree',
       method: 'post'
     })
+  },
+  /**
+   * 获取房间树
+   * @param request
+   * @returns {*}
+   */
+  getRoomTreeList(request) {
+    return request({
+      url: '/basic/park/getRoomTreeList',
+      method: 'post'
+    })
   }
 }

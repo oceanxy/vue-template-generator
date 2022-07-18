@@ -32,6 +32,9 @@ export function createStoreModule(target = {}) {
     mutations: {
       ...target.mutations
     },
+    getters: {
+      ...target.getters
+    },
     actions: {
       ...target.actions
     },

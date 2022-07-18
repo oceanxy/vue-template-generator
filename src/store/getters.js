@@ -25,7 +25,13 @@ export default {
   getStateOfModule: state => (moduleName, submoduleName) => state[moduleName][submoduleName],
   // ===================================================================
 
-  administrativeDivision: state => state.common.administrativeDivision,
+  administrativeDivision: state => {
+    let result= []
+    if (state.common){
+      result=state.common.administrativeDivision
+    }
+    return result
+  },
   defaultAdministrativeDivision: state => state.common.defaultAdministrativeDivision,
   units: state => state.common.units,
   parkTree: state => state.common.parkTree,
