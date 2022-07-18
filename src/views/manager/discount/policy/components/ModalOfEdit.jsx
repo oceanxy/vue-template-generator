@@ -61,9 +61,11 @@ export default Form.create({})({
       const data = {
         ...values
       }
+      console.log(values)
       data.isLongTime = data.isLongTime ? 1 : 0
       data.starTime = data.starTime?.format('YYYYMMDD') ?? ''
       data.endTime = data.endTime?.format('YYYYMMDD') ?? ''
+      data.roomIds = this.details.roomIds
       data.itemIdList = this.saleItemList
         .filter(item => {
           const index = data.itemIdList.findIndex(item2 => item.id === item2)
@@ -94,12 +96,10 @@ export default Form.create({})({
       console.log(value, e)
     },
     onSelectRoomDone(data, statisticsData) {
-      this.form.setFieldsValue({
-        roomIds: data
-      })
       this.$store.commit('setDetails', {
         value: {
           ...this.details,
+          roomIds: data,
           scopeDesc: `${statisticsData[2]}栋，${statisticsData[3]}个楼层，${statisticsData[4]}个房间`
         },
         moduleName: this.moduleName
@@ -116,6 +116,15 @@ export default Form.create({})({
       this.form.setFieldsValue({
         saleAmount: undefined
       })
+    },
+    onChangeIsLongTime(checked) {
+      this.$store.commit('setDetails', {
+        value: {
+          ...this.details,
+          isLongTime: checked ? 1 : 0
+        },
+        moduleName: this.moduleName
+      })
     }
   },
   render() {
@@ -127,7 +136,7 @@ export default Form.create({})({
       }
     }
     const saleType = this.form.getFieldValue('saleType')
-    const isLongTime = this.form.getFieldValue('isLongTime')
+
     return (
       <DragModal {...attributes}>
         <Form class="" colon={false}>
@@ -145,10 +154,10 @@ export default Form.create({})({
                 {this.form.getFieldDecorator('isLongTime', {
                   initialValue: this.details.isLongTime === 1,
                   valuePropName: 'checked'
-                })(<Switch></Switch>)}
+                })(<Switch onchange={checked => this.onChangeIsLongTime(checked)}></Switch>)}
               </Form.Item>
             </Col>
-            {isLongTime ? null : (
+            {this.details.isLongTime === 1 ? null : (
               <Col span={12}>
                 <Form.Item label="开始日期">
                   {this.form.getFieldDecorator('starTime', {
@@ -158,7 +167,7 @@ export default Form.create({})({
                 </Form.Item>
               </Col>
             )}
-            {isLongTime ? null : (
+            {this.details.isLongTime === 1 ? null : (
               <Col span={12}>
                 <Form.Item label="结束日期">
                   {this.form.getFieldDecorator('endTime', {
@@ -229,18 +238,26 @@ export default Form.create({})({
             )}
             <Col span={24}>
               <Form.Item label="优惠范围">
-                {this.form.getFieldDecorator('roomIds', {
+                {/* {this.form.getFieldDecorator('roomIds', {
                   initialValue: this.details.roomIds || [],
                   rules: [{ required: true, type: 'array', message: '请选择优惠类型!', trigger: 'blur' }]
-                })(<Button onclick={() => this.set_visibleOfRooms(true)}>选择房源</Button>)}
-
+                })()} */}
+                <Button onclick={() => this.set_visibleOfRooms(true)}>选择房源</Button>
                 {this.details.scopeDesc ? <Alert type="success" message={this.details.scopeDesc}></Alert> : null}
               </Form.Item>
             </Col>
             <Col span={24}>
               <Form.Item label="优惠对象">
                 {this.form.getFieldDecorator('contractType', {
-                  initialValue: this.details.contractType || 1
+                  initialValue: this.details.contractType ?? 1,
+                  rules: [
+                    {
+                      required: true,
+                      type: 'number',
+                      message: '请选择优惠对象!',
+                      trigger: 'change'
+                    }
+                  ]
                 })(
                   <Radio.Group>
                     <Radio value={1}>所有类型</Radio>
@@ -279,7 +296,15 @@ export default Form.create({})({
             <Col span={24}>
               <Form.Item label="优惠互斥">
                 {this.form.getFieldDecorator('isCoexist', {
-                  initialValue: this.details.isCoexist || 1
+                  initialValue: this.details.isCoexist ?? 1,
+                  rules: [
+                    {
+                      required: true,
+                      type: 'number',
+                      message: '请选择优惠互斥!',
+                      trigger: 'change'
+                    }
+                  ]
                 })(
                   <Radio.Group>
                     <Radio value={1}>可与其他优惠共存</Radio>
@@ -291,7 +316,7 @@ export default Form.create({})({
             <Col span={12}>
               <Form.Item label="排序">
                 {this.form.getFieldDecorator('sortIndex', {
-                  initialValue: `${this.details.sortIndex || ''}` || undefined
+                  initialValue: `${this.details.sortIndex ?? ''}` || undefined
                 })(<InputNumber placeholder="越大排在越前" allowClear style={{ width: '100%' }} />)}
               </Form.Item>
             </Col>

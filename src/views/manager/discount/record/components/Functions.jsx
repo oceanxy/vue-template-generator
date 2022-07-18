@@ -10,9 +10,9 @@ export default {
         <Button type="primary" onClick={() => this.onAddClick()} icon="plus">
           新增
         </Button>
-        <Button type="primary" disabled={this.deleteButtonDisabled} onClick={() => this.onDeleteClick()} icon="delete">
+        {/* <Button type="primary" disabled={this.deleteButtonDisabled} onClick={() => this.onDeleteClick()} icon="delete">
           删除
-        </Button>
+        </Button> */}
       </Space>
     )
   }

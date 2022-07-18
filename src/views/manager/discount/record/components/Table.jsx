@@ -1,5 +1,5 @@
 import '../assets/styles/index.scss'
-import { Button, Space, Table, Switch } from 'ant-design-vue'
+import { Button, Space, Table, Tag } from 'ant-design-vue'
 import forTable from '@/mixins/forTable'
 
 export default {
@@ -15,34 +15,34 @@ export default {
             scopedSlots: { customRender: 'serialNumber' }
           },
           {
-            title: '名称',
-            dataIndex: 'ruleName'
+            title: '企业',
+            dataIndex: 'companyName'
           },
           {
-            title: '优惠费项',
+            title: '位置',
             dataIndex: 'itemName'
           },
           {
-            title: '折扣',
-            dataIndex: 'saleType'
+            title: '优惠政策',
+            dataIndex: 'ruleName'
           },
           {
-            title: '优惠时间',
-            dataIndex: 'saleTime'
+            title: '优惠额',
+            dataIndex: 'saleAmount',
+            scopedSlots: { customRender: 'saleAmount' }
           },
           {
-            title: '优惠范围',
-            dataIndex: 'scopeDesc'
+            title: '创建人',
+            dataIndex: 'creatorName'
           },
+          // {
+          //   title: '手机号码',
+          //   align: 'center',
+          //   dataIndex: 'saleCompanyType'
+          // },
           {
-            title: '优惠企业类型',
-            align: 'center',
-            dataIndex: 'saleCompanyType'
-          },
-          {
-            title: '优惠合同类型',
-            align: 'center',
-            dataIndex: 'saleContractType'
+            title: '创建时间',
+            dataIndex: 'createTimeStr'
           },
           {
             title: '状态',
@@ -69,7 +69,17 @@ export default {
         loading: this.getLoading(this.moduleName)
       }
     }
-
+    const getStatus = record => {
+      if (record.auditStatus === 1) {
+        return <Tag color="green">已生效</Tag>
+      } else if (record.auditStatus === 2) {
+        return <Tag color="red">已驳回</Tag>
+      } else if (record.auditStatus === 3) {
+        return <Tag color="orange">待审核</Tag>
+      } else if (record.auditStatus === 4) {
+        return <Tag color="#666">编辑中</Tag>
+      }
+    }
     return (
       <Table
         ref={`${this.moduleName}Table`}
@@ -77,12 +87,9 @@ export default {
         {...{
           scopedSlots: {
             serialNumber: (text, record, index) => index + 1,
+            saleAmount: (text, record) => <span style={{ color: 'red' }}>{record.saleAmount}</span>,
             status: (text, record) => {
-              return (
-                <Switch
-                  checked={record.status === 1}
-                  onChange={checked => this.onStatusChange(checked, record)}></Switch>
-              )
+              return getStatus(record)
             },
             operation: (text, record) => (
               <Space class="operation-space">
