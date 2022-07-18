@@ -1,3 +1,4 @@
+import '../index.scss'
 import { Button, Input, InputNumber, Space, Table } from 'ant-design-vue'
 
 export default {
@@ -5,47 +6,37 @@ export default {
     prop: 'value',
     event: 'change'
   },
+  props: {
+    value: {
+      type: Array,
+      default: () => []
+    },
+    disabled: {
+      type: Boolean,
+      default: false
+    }
+  },
   data() {
     return {
       columns: [
         {
-          title: '序号',
-          width: 60,
-          align: 'center',
-          dataIndex: 'serialNum'
-        },
-        {
-          title: '描述',
+          title: '选项',
+          width: 105,
           scopedSlots: { customRender: 'optionValue' }
         },
         {
-          title: '基准分',
-          width: 150,
+          title: '得分',
+          width: 50,
           scopedSlots: { customRender: 'score' }
         },
         {
-          title: (
-            <Button
-              icon={'plus'}
-              ghost
-              size={'small'}
-              type={'primary'}
-              class={'plus-btn'}
-              onClick={this.onCreateRow}
-            />
-          ),
-          width: 60,
+          title: '操作',
+          width: 32,
           align: 'center',
           scopedSlots: { customRender: 'operation' }
         }
       ],
       dataSource: []
-    }
-  },
-  props: {
-    value: {
-      type: Array,
-      default: () => []
     }
   },
   watch: {
@@ -72,7 +63,6 @@ export default {
     onCreateRow() {
       const row = {
         id: Math.random(),
-        serialNum: this.dataSource.length + 1,
         optionValue: '',
         score: ''
       }
@@ -85,14 +75,25 @@ export default {
   },
   render() {
     return (
-      <div class="tg-multi-input">
+      <div class="tg-multi-input data-collection-item-table-container">
+        <Button
+          icon={'plus'}
+          ghost
+          size={'small'}
+          type={'primary'}
+          class={'plus-btn'}
+          onClick={this.onCreateRow}
+          disabled={this.disabled}
+        >
+          添加选项
+        </Button>
         <Table
-          class="multi-input-table"
+          class="multi-input-table item-table"
           tableLayout={'fixed'}
           columns={this.columns}
           dataSource={this.dataSource}
           pagination={false}
-          size={'middle'}
+          showHeader={false}
           rowKey="id"
           {...{
             scopedSlots: {
@@ -101,6 +102,7 @@ export default {
                   vModel={record.optionValue}
                   placeholder="选项"
                   onBlur={() => this.onChange()}
+                  disabled={this.disabled}
                 />
               ),
               score: record => (
@@ -109,11 +111,13 @@ export default {
                   style={{ width: '100%' }}
                   placeholder={'得分'}
                   onBlur={() => this.onChange()}
+                  disabled={this.disabled}
                 />
               ),
               operation: (text, record) => (
                 <Space>
                   <Button
+                    disabled={this.disabled}
                     icon="minus"
                     onClick={() => this.onDelClick(record.id)}
                   />

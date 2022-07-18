@@ -2,38 +2,38 @@ import qs from 'qs'
 
 export default {
   /**
-   * 获取问卷模版管理列表
+   * 获取数据采集模版管理列表
    * @param [request]
    * @param data
    * @returns {*}
    */
-  getQuestionnaireTemplates(request, data) {
+  getDataCollectionTemplates(request, data) {
     return request({
-      url: '/operate/template/getQuestionnairePageList',
+      url: '/operate/template/getTemplatePageList',
       method: 'post',
       data: qs.stringify(data)
     })
   },
   /**
-   * 获取问卷模版项
+   * 获取数据采集模版搜索数据
    * @param [request]
    * @param data
    * @returns {*}
    */
-  getItemOfQuestionnaireTemplate(request, data) {
+  getItemsOfDataCollectionTemplate(request, data) {
     return request({
-      url: '/operate/report/getItemShortList',
+      url: '/operate/template/getCollectSearchPageList',
       method: 'post',
       data: qs.stringify(data)
     })
   },
   /**
-   * 修改问卷模版管理状态
+   * 修改数据采集模版管理状态
    * @param [request]
    * @param data
    * @returns {*}
    */
-  updateQuestionnaireTemplatesStatus(request, data) {
+  updateDataCollectionTemplatesStatus(request, data) {
     return request({
       url: '/operate/template/updateStatus',
       method: 'post',
@@ -41,12 +41,12 @@ export default {
     })
   },
   /**
-   * 删除问卷模版管理
+   * 删除数据采集模版管理
    * @param request
    * @param data
    * @returns {*}
    */
-  deleteQuestionnaireTemplates(request, data) {
+  deleteDataCollectionTemplates(request, data) {
     return request({
       url: '/operate/template/delete',
       method: 'post',
@@ -54,27 +54,27 @@ export default {
     })
   },
   /**
-   * 新增问卷模版管理
+   * 新增数据采集模版管理
    * @param request
    * @param data
    * @returns {*}
    */
-  addQuestionnaireTemplates(request, data) {
+  addDataCollectionTemplates(request, data) {
     return request({
-      url: '/operate/template/addQuestionnaire',
+      url: '/operate/template/add',
       method: 'post',
       data
     })
   },
   /**
-   * 更新问卷模版管理
+   * 更新数据采集模版管理
    * @param request
    * @param data
    * @returns {*}
    */
-  updateQuestionnaireTemplates(request, data) {
+  updateDataCollectionTemplates(request, data) {
     return request({
-      url: '/operate/template/updateQuestionnaire',
+      url: '/operate/template/update',
       method: 'post',
       data
     })
@@ -85,7 +85,7 @@ export default {
    * @param data
    * @returns {*}
    */
-  getDetailsOfQuestionnaireTemplates(request, data) {
+  getDetailsOfDataCollectionTemplates(request, data) {
     return request({
       url: '/operate/template/getTemplate',
       method: 'post',
