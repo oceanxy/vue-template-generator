@@ -45,6 +45,13 @@ export default {
     reminderMethods: {
       loading: false,
       list: []
+    },
+    // 当前左侧指标分类树选中的ID
+    indicatorCategoryIdSelected: '0',
+    // 指标分类树（带顶级）
+    indicatorCategoryTree: {
+      list: [],
+      loading: false
     }
   },
   mutations: {
@@ -84,6 +91,9 @@ export default {
     },
     setEnterpriseClassifications(state, payload) {
       state.enterpriseClassifications.list = payload
+    },
+    setIndicatorCategoryIdSelected(state, payload) {
+      state.indicatorCategoryIdSelected = payload
     }
   },
   actions: {
@@ -97,12 +107,36 @@ export default {
      * @param value {string}
      * @returns {Promise<void>}
      */
-    async setCurrentParkTreeKeySelected({ state, commit, dispatch }, { moduleName, submoduleName, value }) {
+    async setCurrentParkTreeKeySelected({ state, commit, dispatch }, {
+      moduleName,
+      submoduleName,
+      value
+    }) {
       if (state.currentParkTreeKeySelected !== value) {
         dispatch('setSearch', { payload: { treeId: value }, moduleName, submoduleName }, { root: true })
-      }
 
-      commit('setCurrentParkTreeKeySelected', value)
+        commit('setCurrentParkTreeKeySelected', value)
+      }
+    },
+    /**
+     * 设置当前选中的指标分类ID
+     * @param state
+     * @param commit
+     * @param dispatch
+     * @param moduleName {string}
+     * @param submoduleName {string}
+     * @param value {string}
+     */
+    setIndicatorCategoryIdSelected({ state, commit, dispatch }, {
+      moduleName,
+      submoduleName,
+      value
+    }) {
+      if (state.indicatorCategoryIdSelected !== value) {
+        dispatch('setSearch', { payload: { parentId: value }, moduleName, submoduleName }, { root: true })
+
+        commit('setIndicatorCategoryIdSelected', value)
+      }
     },
     /**
      * 获取行政区划级联数据

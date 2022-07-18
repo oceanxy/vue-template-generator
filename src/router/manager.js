@@ -691,16 +691,39 @@ export const routes = [
           }
         ]
       },
-      // {
-      //   path: 'ent-ann-ass',
-      //   component: TGRouterView,
-      //   meta: {
-      //     title: '企业年度考核',
-      //     keepAlive: false,
-      //     requiresAuth: true,
-      //     icon: () => import('@/layouts/components/TGMenu/assets/images/enterpriseAnnualAssessment.svg')
-      //   }
-      // },
+      {
+        path: 'annual-assessment',
+        component: TGRouterView,
+        redirect: { name: 'indicatorCategories' },
+        meta: {
+          title: '企业年度考核',
+          keepAlive: false,
+          requiresAuth: true,
+          icon: () => import('@/layouts/components/TGMenu/assets/images/enterpriseAnnualAssessment.svg')
+        },
+        children: [
+          {
+            path: 'indicator-categories',
+            name: 'indicatorCategories',
+            component: () => import('@/views/manager/annualAssessment/IndicatorCategories'),
+            meta: {
+              title: '指标类别管理',
+              keepAlive: false,
+              requiresAuth: true
+            }
+          },
+          {
+            path: 'indicators',
+            name: 'indicators',
+            component: () => import('@/views/manager/annualAssessment/Indicators'),
+            meta: {
+              title: '指标管理',
+              keepAlive: false,
+              requiresAuth: true
+            }
+          }
+        ]
+      },
       // {
       //   path: 'conf-room-mana',
       //   component: TGRouterView,
