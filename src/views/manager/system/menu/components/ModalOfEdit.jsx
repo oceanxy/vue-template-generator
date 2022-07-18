@@ -112,7 +112,6 @@ export default Form.create({})({
               </Form.Item>
             </Col>
             <Col span={12}>
-              {this.currentItem?.status}
               <Form.Item label="状态">
                 {this.form.getFieldDecorator('status', {
                   initialValue: this.currentItem.status === 1,

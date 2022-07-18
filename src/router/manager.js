@@ -502,16 +502,39 @@ export const routes = [
           }
         ]
       },
-      // {
-      //   path: 'discounts-lock',
-      //   component: TGRouterView,
-      //   meta: {
-      //     title: '优惠管理',
-      //     keepAlive: false,
-      //     requiresAuth: true,
-      //     icon: () => import('@/layouts/components/TGMenu/assets/images/discountsLock.svg')
-      //   }
-      // },
+      {
+        path: 'discounts',
+        component: TGRouterView,
+        redirect: { name: 'discountsPolicy' },
+        meta: {
+          title: '优惠管理',
+          keepAlive: false,
+          requiresAuth: true,
+          icon: () => import('@/layouts/components/TGMenu/assets/images/discountsLock.svg')
+        },
+        children: [
+          {
+            path: 'policy',
+            name: 'discountsPolicy',
+            component: () => import('@/views/manager/discount/policy'),
+            meta: {
+              title: '优惠政策',
+              keepAlive: false,
+              requiresAuth: true
+            }
+          },
+          {
+            path: 'record',
+            name: 'discountsRecord',
+            component: () => import('@/views/manager/discount/record'),
+            meta: {
+              title: '优惠记录',
+              keepAlive: false,
+              requiresAuth: true
+            }
+          }
+        ]
+      },
       {
         path: 'finance',
         component: TGRouterView,
@@ -745,6 +768,16 @@ export const routes = [
             component: () => import('@/views/manager/system/role'),
             meta: {
               title: '角色管理',
+              keepAlive: true,
+              requiresAuth: true
+            }
+          },
+          {
+            path: 'user',
+            name: 'systemUser',
+            component: () => import('@/views/manager/system/user'),
+            meta: {
+              title: '员工管理',
               keepAlive: true,
               requiresAuth: true
             }
