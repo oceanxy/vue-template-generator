@@ -35,7 +35,7 @@ export default {
         </Button>
         <Button
           onClick={() => this.onBulkOperations(
-            'visibleOfQuestionnaireSwitch',
+            'visibleOfReportSwitch',
             { reportStatus: 2 })
           }
           icon="container"
@@ -45,7 +45,7 @@ export default {
         </Button>
         <Button
           onClick={() => this.onBulkOperations(
-            'visibleOfQuestionnaireSwitch',
+            'visibleOfReportSwitch',
             { reportStatus: 1 })
           }
           icon="undo"

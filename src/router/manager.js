@@ -763,6 +763,16 @@ export const routes = [
               keepAlive: false,
               requiresAuth: true
             }
+          },
+          {
+            path: 'report-forms',
+            name: 'reportForms',
+            component: () => import('@/views/manager/dataCollection/ReportForms'),
+            meta: {
+              title: '报表管理',
+              keepAlive: false,
+              requiresAuth: true
+            }
           }
         ]
       },

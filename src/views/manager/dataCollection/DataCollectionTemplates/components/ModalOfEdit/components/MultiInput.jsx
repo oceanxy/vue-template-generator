@@ -104,6 +104,8 @@ export default {
             item.id = item.id || Math.random()
             item.disabled = !!item.targetId
             item.targetId = item.targetId || ''
+            item.isRequired = !!item.isRequired
+            item.status = !!item.status
             return item
           })
         } else {
@@ -224,10 +226,7 @@ export default {
           dataSource={this.dataSource}
           pagination={false}
           rowKey="id"
-          loading={{
-            spinning: this.loading,
-            delay: 100
-          }}
+          loading={this.loading}
           {...{
             scopedSlots: {
               targetId: (text, record) => (
