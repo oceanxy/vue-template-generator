@@ -57,7 +57,8 @@ export default {
             width: 100,
             scopedSlots: { customRender: 'operation' }
           }
-        ]
+        ],
+        rowSelection: null
       }
     }
   },
@@ -70,14 +71,12 @@ export default {
       }
     }
     const getStatus = record => {
-      if (record.auditStatus === 1) {
+      if (record.auditStatus === 3) {
         return <Tag color="green">已生效</Tag>
-      } else if (record.auditStatus === 2) {
-        return <Tag color="red">已驳回</Tag>
-      } else if (record.auditStatus === 3) {
-        return <Tag color="orange">待审核</Tag>
       } else if (record.auditStatus === 4) {
-        return <Tag color="#666">编辑中</Tag>
+        return <Tag color="red">已驳回</Tag>
+      } else if (record.auditStatus === 2) {
+        return <Tag color="orange">待审核</Tag>
       }
     }
     return (
@@ -91,16 +90,18 @@ export default {
             status: (text, record) => {
               return getStatus(record)
             },
-            operation: (text, record) => (
-              <Space class="operation-space">
-                <Button type="link" size="small" onClick={() => this.onEditClick(record)}>
-                  编辑
-                </Button>
-                <Button type="link" size="small" onClick={() => this.onDeleteClick(record)}>
-                  删除
-                </Button>
-              </Space>
-            )
+            operation: (text, record) => {
+              return record.auditStatus !== 3 ? (
+                <Space class="operation-space">
+                  <Button type="link" size="small" onClick={() => this.onEditClick(record)}>
+                    编辑
+                  </Button>
+                  <Button type="link" size="small" onClick={() => this.onDeleteClick(record)}>
+                    删除
+                  </Button>
+                </Space>
+              ) : null
+            }
           }
         }}
       />

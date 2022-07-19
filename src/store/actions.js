@@ -16,12 +16,7 @@ export default {
    * 单独传是防止被下次setSearch时覆盖， 例如其他页面跳转过来时携带的参数：id）
    * @param payload {Object} 数据列表的常驻查询对象，一般定义在Inquiry组件中
    */
-  async setSearch({ state, commit, dispatch }, {
-    moduleName,
-    submoduleName,
-    payload,
-    additionalQueryParameters
-  }) {
+  async setSearch({ state, commit, dispatch }, { moduleName, submoduleName, payload, additionalQueryParameters }) {
     commit('setSearch', {
       payload,
       moduleName,
@@ -56,13 +51,10 @@ export default {
    * @param customApiName {string} 自定义请求api的名字
    * @returns {Promise<void>}
    */
-  async getList({ state, commit }, {
-    moduleName,
-    submoduleName,
-    additionalQueryParameters = {},
-    stateName,
-    customApiName
-  }) {
+  async getList(
+    { state, commit },
+    { moduleName, submoduleName, additionalQueryParameters = {}, stateName, customApiName }
+  ) {
     commit('setLoading', { value: true, moduleName, submoduleName })
 
     let response
@@ -72,13 +64,9 @@ export default {
       if (customApiName) {
         api = customApiName
       } else {
-        api = `get${
-          submoduleName
-            ? `${UF.firstLetterToUppercase(submoduleName)}Of`
-            : ''
-        }${
-          UF.firstLetterToUppercase(moduleName)
-        }`
+        api = `get${submoduleName ? `${UF.firstLetterToUppercase(submoduleName)}Of` : ''}${UF.firstLetterToUppercase(
+          moduleName
+        )}`
       }
     }
 
@@ -149,23 +137,14 @@ export default {
    * @param stateName {string} 需要设置的字段，默认 state.details
    * @returns {Promise<void>}
    */
-  async getDetails({ state, commit }, {
-    moduleName,
-    submoduleName,
-    payload = {},
-    stateName
-  }) {
+  async getDetails({ state, commit }, { moduleName, submoduleName, payload = {}, stateName }) {
     commit('setLoading', { value: true, moduleName, submoduleName })
 
     let api = 'getDetails'
 
     if (!config.mock) {
-      api = `getDetailsOf${
-        UF.firstLetterToUppercase(moduleName)
-      }${
-        submoduleName
-          ? UF.firstLetterToUppercase(submoduleName)
-          : ''
+      api = `getDetailsOf${UF.firstLetterToUppercase(moduleName)}${
+        submoduleName ? UF.firstLetterToUppercase(submoduleName) : ''
       }`
     }
 
@@ -247,14 +226,10 @@ export default {
    * @param visibleField {string} 控制弹窗的字段，依赖 closeModalAfterFetched
    * @returns {Promise<*>}
    */
-  async custom({ state, dispatch }, {
-    moduleName,
-    payload,
-    isFetchList,
-    customApiName,
-    closeModalAfterFetched = true,
-    visibleField
-  }) {
+  async custom(
+    { state, dispatch },
+    { moduleName, payload, isFetchList, customApiName, closeModalAfterFetched = true, visibleField }
+  ) {
     const response = await apis[customApiName](payload)
 
     if (response.status) {
@@ -285,13 +260,10 @@ export default {
    * @param customApiName
    * @returns {Promise<*>}
    */
-  async getListForSelect({ state, dispatch, commit }, {
-    moduleName,
-    submoduleName,
-    stateName,
-    payload,
-    customApiName
-  }) {
+  async getListForSelect(
+    { state, dispatch, commit },
+    { moduleName, submoduleName, stateName, payload, customApiName }
+  ) {
     commit('setLoading', {
       value: true,
       moduleName,
@@ -302,8 +274,15 @@ export default {
     const response = await apis[customApiName](payload)
 
     if (response.status) {
+      const data = response.data
+      let result = []
+      if (data instanceof Array) {
+        result = data
+      } else {
+        result = data.rows || []
+      }
       commit('setList', {
-        value: response.data || [],
+        value: result,
         moduleName,
         submoduleName,
         stateName
@@ -382,9 +361,9 @@ export default {
   async downExcel({ state }, { moduleName, submoduleName, additionalQueryParameters, fileName }) {
     let api = 'getExcel'
     if (!config.mock) {
-      api = `getExcel${
-        submoduleName ? `${UF.firstLetterToUppercase(submoduleName)}Of` : ''
-      }${UF.firstLetterToUppercase(moduleName)}`
+      api = `getExcel${submoduleName ? `${UF.firstLetterToUppercase(submoduleName)}Of` : ''}${UF.firstLetterToUppercase(
+        moduleName
+      )}`
     }
 
     const payload = {
@@ -411,12 +390,7 @@ export default {
    * @param moduleName {string} 要设置的状态所在的store模块的名称
    * @param submoduleName {string} 要设置的状态所在的store子模块的名称，依赖 moduleName
    */
-  setModalVisible({ commit }, {
-    statusField,
-    statusValue,
-    moduleName,
-    submoduleName
-  }) {
+  setModalVisible({ commit }, { statusField, statusValue, moduleName, submoduleName }) {
     commit('setModalVisible', {
       field: statusField || 'visibleOfEdit',
       value: statusValue,
@@ -441,11 +415,7 @@ export default {
    * @param moduleName {string}
    * @param [submoduleName] {string}
    */
-  setRowSelected({ commit, state }, {
-    moduleName,
-    submoduleName,
-    payload
-  }) {
+  setRowSelected({ commit, state }, { moduleName, submoduleName, payload }) {
     commit('setRowSelected', { moduleName, submoduleName, payload })
   }
 }

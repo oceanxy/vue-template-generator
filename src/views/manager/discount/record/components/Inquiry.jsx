@@ -10,12 +10,13 @@ export default Form.create({})({
     return (
       <Form layout="inline" onSubmit={this.onSubmit} colon={false} class="tg-inquiry bn-search-form">
         <Space>
-          <Form.Item>{this.form.getFieldDecorator('ruleName')(<Input placeholder="政策名称" allowClear />)}</Form.Item>
+          <Form.Item>{this.form.getFieldDecorator('ruleName')(<Input placeholder="企业名称" allowClear />)}</Form.Item>
           <Form.Item>
             {this.form.getFieldDecorator('status')(
               <Select placeholder="全部状态" allowClear>
-                <Select.Option value={1}>正常</Select.Option>
-                <Select.Option value={2}>失效</Select.Option>
+                <Select.Option value={2}>待审核</Select.Option>
+                <Select.Option value={3}>审核通过</Select.Option>
+                <Select.Option value={4}>审核拒绝</Select.Option>
               </Select>
             )}
           </Form.Item>

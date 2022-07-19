@@ -61,7 +61,6 @@ export default Form.create({})({
       const data = {
         ...values
       }
-      console.log(values)
       data.isLongTime = data.isLongTime ? 1 : 0
       data.starTime = data.starTime?.format('YYYYMMDD') ?? ''
       data.endTime = data.endTime?.format('YYYYMMDD') ?? ''

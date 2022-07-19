@@ -19,7 +19,7 @@ export default {
         <Table slot={'table'} />
         <Pagination slot={'pagination'} />
         <template slot={'modals'}>
-          <ModalOfEdit modalTitle={'{action}优惠政策'}></ModalOfEdit>
+          <ModalOfEdit modalTitle={'{action}优惠记录'}></ModalOfEdit>
         </template>
       </TGContainer>
     )
