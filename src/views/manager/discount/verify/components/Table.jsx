@@ -1,7 +1,6 @@
 import '../assets/styles/index.scss'
 import { Button, Space, Table, Tag } from 'ant-design-vue'
 import forTable from '@/mixins/forTable'
-
 export default {
   mixins: [forTable()],
   data() {
@@ -51,6 +50,11 @@ export default {
             scopedSlots: { customRender: 'status' }
           },
           {
+            title: '企业文件',
+            dataIndex: 'file',
+            scopedSlots: { customRender: 'file' }
+          },
+          {
             title: '操作',
             key: 'operation',
             // fixed: 'right',
@@ -94,17 +98,21 @@ export default {
             status: (text, record) => {
               return getStatus(record)
             },
+            file: (text, record) => (
+              <Button type="link" onClick={() => this._setVisibleOfModal(record, 'visibleOfFile')}>
+                查看
+              </Button>
+            ),
             operation: (text, record) => {
-              return record.auditStatus !== 3 ? (
+              return (
                 <Space class="operation-space">
-                  <Button type="link" size="small" onClick={() => this.onEditClick(record)}>
-                    编辑
-                  </Button>
-                  <Button type="link" size="small" onClick={() => this.onDeleteClick(record)}>
-                    删除
-                  </Button>
+                  {record.auditStatus === 2 ? (
+                    <Button type="link" size="small" onClick={() => this._setVisibleOfModal(record, 'visibleOfAudit')}>
+                      审核
+                    </Button>
+                  ) : null}
                 </Space>
-              ) : null
+              )
             }
           }
         }}

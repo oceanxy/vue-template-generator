@@ -155,6 +155,8 @@ export default {
     }
 
     commit('setLoading', { value: false, moduleName, submoduleName })
+
+    return res
   },
   /**
    * 新增数据

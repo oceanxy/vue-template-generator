@@ -36,6 +36,7 @@ export default Form.create({})({
       } else {
         data.parentId = ''
       }
+      data.id = this.currentItem?.id ?? ''
       return data
     }
   },

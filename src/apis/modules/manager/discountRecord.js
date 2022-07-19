@@ -28,6 +28,19 @@ export default {
     })
   },
   /**
+   * 企业优惠记录修改
+   * @param request
+   * @param data
+   * @returns {*}
+   */
+  updateDiscountRecord(request, data) {
+    return request({
+      url: '/business/saleRecord/update',
+      method: 'post',
+      data
+    })
+  },
+  /**
    * 删除优惠记录
    * @param request
    * @param data
@@ -49,7 +62,7 @@ export default {
    */
   getDetailsOfDiscountRecord(request, data) {
     return request({
-      url: '/business/saleRecord/getSaleRecord',
+      url: '/business/saleRecord/getSaleRecordDetail',
       method: 'post',
       data: qs.stringify(data)
     })
@@ -76,6 +89,32 @@ export default {
   saleRecord_getSaleRulePageList(request, data) {
     return request({
       url: '/business/saleRecord/getSaleRulePageList',
+      method: 'post',
+      data: qs.stringify(data)
+    })
+  },
+  /**
+   * 获取企业详情
+   * @param request
+   * @param data
+   * @returns {*}
+   */
+  saleRecord_getCompanyProperties(request, data) {
+    return request({
+      url: '/business/saleRecord/getCompanyProperties',
+      method: 'post',
+      data: qs.stringify(data)
+    })
+  },
+  /**
+   * 获取企业文件详情
+   * @param request
+   * @param data
+   * @returns {*}
+   */
+  saleRecord_getAttachmentList(request, data) {
+    return request({
+      url: '/business/saleRecord/getAttachmentList',
       method: 'post',
       data: qs.stringify(data)
     })

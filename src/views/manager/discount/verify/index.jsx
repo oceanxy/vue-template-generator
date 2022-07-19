@@ -5,22 +5,23 @@ import dynamicState from '@/mixins/dynamicState'
 import store, { dynamicModules } from '@/store/manager'
 import Table from './components/Table'
 import Pagination from './components/Pagination'
-import Functions from './components/Functions'
-import ModalOfEdit from './components/ModalOfEdit'
+import ModalOfAudit from './components/ModalOfAudit'
 import ModalOfEnterprise from '../components/ModalOfEnterprise'
+import ModalOfFile from '../components/ModalOfFile'
+
 export default {
-  name: 'DiscountRecord',
+  name: 'DiscountVerify',
   mixins: [dynamicState(store, dynamicModules)],
   render() {
     return (
-      <TGContainer class="bnm-discount-record-container">
+      <TGContainer class="bnm-discount-verify-container">
         <Inquiry slot={'inquiry'} />
-        <Functions slot="functions"></Functions>
         <Table slot={'table'} />
         <Pagination slot={'pagination'} />
         <template slot={'modals'}>
-          <ModalOfEdit modalTitle={'{action}优惠记录'}></ModalOfEdit>
+          <ModalOfAudit modalTitle={'{action}优惠记录'}></ModalOfAudit>
           <ModalOfEnterprise modalTitle={'企业详情'}></ModalOfEnterprise>
+          <ModalOfFile modalTitle={'企业文件'}></ModalOfFile>
         </template>
       </TGContainer>
     )

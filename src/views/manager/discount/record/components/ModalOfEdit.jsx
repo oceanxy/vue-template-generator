@@ -17,7 +17,7 @@ export default Form.create({})({
     }
   },
   computed: {
-    ...mapState(['bussienssSelect', 'discountSelect'])
+    ...mapState(['bussienssSelect', 'discountSelect', 'details'])
   },
   async created() {},
   watch: {
@@ -26,6 +26,7 @@ export default Form.create({})({
       async handler(value) {
         if (value) {
           this.getBussienss()
+          this.getDetails()
         } else {
           this.bussienssInfo = null
         }
@@ -33,14 +34,30 @@ export default Form.create({})({
     }
   },
   methods: {
-    ...mapMutation(['set_visibleOfRooms']),
     customDataHandler(values) {
       return {
         contractId: this.bussienssInfo.contractId,
         ruleId: values.ruleId,
+        id: this.currentItem.id ?? '',
         attachmentList: values.attachmentList.map(item => {
-          return item.response.data[0]
+          return item?.response?.data[0] ?? item
         })
+      }
+    },
+    async getDetails() {
+      if (!this.currentItem.id) return
+      const res = await this.$store.dispatch('getDetails', {
+        payload: { id: this.currentItem.id },
+        moduleName: this.moduleName
+      })
+      if (res.status) {
+        const data = res.data
+        this.bussienssInfo = {
+          companyName: data.companyName,
+          contractId: data.contractId,
+          list: res.data.list
+        }
+        this.getDiscount(data.ruleName)
       }
     },
     getBussienss(keyword) {
@@ -93,14 +110,27 @@ export default Form.create({})({
         ok: () => this.onSubmit({ customDataHandler: this.customDataHandler })
       }
     }
+    const getAttachmentList = () => {
+      const list = this.details.attachmentList || []
+      return list.map(item => {
+        return {
+          ...item,
+          url: item.path,
+          uid: 'attachmentList',
+          status: 'done',
+          name: item.fileName
+        }
+      })
+    }
     return (
       <DragModal {...attributes}>
         <Form class="" colon={false}>
           <Row gutter={10}>
             <Col span={24}>
               <Form.Item label="企业名称">
-                {this.form.getFieldDecorator('ruleName', {
-                  rules: [{ required: true, message: '请选择企业名称!', trigger: 'change' }]
+                {this.form.getFieldDecorator('companyName', {
+                  initialValue: this.details.companyName ?? undefined,
+                  rules: [{ required: true, message: '请选择企业!', trigger: 'change' }]
                 })(
                   <Select
                     placeholder={'输入企业名称搜索'}
@@ -132,7 +162,7 @@ export default Form.create({})({
             <Col span={24}>
               <Form.Item label="优惠政策">
                 {this.form.getFieldDecorator('ruleId', {
-                  initialValue: undefined,
+                  initialValue: this.details.ruleId ?? undefined,
                   rules: [{ required: true, message: '请选择优惠政策!', trigger: 'change' }]
                 })(
                   <Select
@@ -154,7 +184,7 @@ export default Form.create({})({
             <Col span={24}>
               <Form.Item label="租金优惠">
                 {this.form.getFieldDecorator('amount', {
-                  initialValue: ''
+                  initialValue: this.details.saleAmount ?? undefined
                 })(<Input placeholder="请输入" disabled={true} style={{ width: '100%' }}></Input>)}
               </Form.Item>
             </Col>
@@ -162,7 +192,7 @@ export default Form.create({})({
               <Form.Item label="附件">
                 <span>请上传相关申请文件</span>
                 {this.form.getFieldDecorator('attachmentList', {
-                  initialValue: []
+                  initialValue: getAttachmentList()
                 })(<BNUploadFile limit={3}></BNUploadFile>)}
               </Form.Item>
             </Col>

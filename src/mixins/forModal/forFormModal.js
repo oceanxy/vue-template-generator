@@ -30,11 +30,12 @@ export default () => {
         immediate: true,
         handler(value) {
           if (value) {
-            this.modalProps.title = (this.$parent.$attrs.modalTitle || this.modalTitle)
-              .replace('{action}', this.currentItem.id
+            this.modalProps.title = (this.$parent.$attrs.modalTitle || this.modalTitle).replace(
+              '{action}',
+              this.currentItem.id
                 ? this.$parent.$attrs.candidateTitle?.[0] || this.candidateTitle[0]
                 : this.$parent.$attrs.candidateTitle?.[1] || this.candidateTitle[1]
-              )
+            )
           } else {
             this.form.resetFields()
           }
@@ -200,12 +201,10 @@ export default () => {
                 payload.id = this.currentItem.id
               }
             }
-
             //自定义处理请求参数
             if (typeof options.customDataHandler === 'function') {
               payload = options.customDataHandler(payload)
             }
-
             const status = await this.$store.dispatch(action, {
               moduleName: this.moduleName,
               visibleField: this.visibleField,

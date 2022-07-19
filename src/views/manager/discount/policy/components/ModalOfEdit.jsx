@@ -64,7 +64,7 @@ export default Form.create({})({
       data.isLongTime = data.isLongTime ? 1 : 0
       data.starTime = data.starTime?.format('YYYYMMDD') ?? ''
       data.endTime = data.endTime?.format('YYYYMMDD') ?? ''
-      data.roomIds = this.details.roomIds
+
       data.itemIdList = this.saleItemList
         .filter(item => {
           const index = data.itemIdList.findIndex(item2 => item.id === item2)
@@ -76,15 +76,15 @@ export default Form.create({})({
             isChoice: 1
           }
         })
-
-      data.companyTypeIds = data.companyTypeIds.map(item => {
-        const findData = this.companyDictionaryList.find(item2 => item === item2.id)
-        return {
-          ...findData,
-          isCheck: 1
-        }
-      })
-      data.scopeDesc = this.details.scopeDesc
+      // data.roomIds = this.details.roomIds
+      // data.companyTypeIds = data.companyTypeIds.map(item => {
+      //   const findData = this.companyDictionaryList.find(item2 => item === item2.id)
+      //   return {
+      //     ...findData,
+      //     isCheck: 1
+      //   }
+      // })
+      // data.scopeDesc = this.details.scopeDesc
 
       return data
     },
@@ -135,6 +135,13 @@ export default Form.create({})({
       }
     }
     const saleType = this.form.getFieldValue('saleType')
+    const validateNum = (rule, value, callback) => {
+      if (value) {
+        callback()
+        return
+      }
+      callback(new Error('请输入'))
+    }
 
     return (
       <DragModal {...attributes}>
@@ -205,6 +212,7 @@ export default Form.create({})({
                   <Radio.Group onchange={this.onchangeSaleType}>
                     <Radio value={1}>按比例优惠</Radio>
                     <Radio value={2}>按金额优惠</Radio>
+                    <Radio value={3}>月度金额减免</Radio>
                   </Radio.Group>
                 )}
               </Form.Item>
@@ -213,7 +221,8 @@ export default Form.create({})({
               <Col span={24}>
                 <Form.Item label=" ">
                   {this.form.getFieldDecorator('saleAmount', {
-                    initialValue: this.details.saleAmount
+                    initialValue: this.details.saleAmount ?? undefined,
+                    rules: [{ required: true, validator: validateNum, message: '请输入金额!', trigger: 'blur' }]
                   })(
                     <InputNumber
                       min={0}
@@ -226,21 +235,29 @@ export default Form.create({})({
                   )}
                 </Form.Item>
               </Col>
-            ) : (
+            ) : null}
+            {saleType === 2 ? (
               <Col span={24}>
                 <Form.Item label=" ">
                   {this.form.getFieldDecorator('saleAmount', {
-                    initialValue: this.details.saleAmount
-                  })(<InputNumber placeholder="请输入金额" allowClear style={{ width: '100%' }} />)}
+                    initialValue: this.details.saleAmount ?? undefined,
+                    rules: [{ required: true, validator: validateNum, message: '请输入金额!', trigger: 'blur' }]
+                  })(<InputNumber placeholder="请输入" step={0.1} allowClear style={{ width: '100%' }} />)}
                 </Form.Item>
               </Col>
-            )}
-            <Col span={24}>
+            ) : null}
+            {saleType === 3 ? (
+              <Col span={24}>
+                <Form.Item label=" ">
+                  {this.form.getFieldDecorator('saleAmount', {
+                    initialValue: this.details.saleAmount ?? undefined,
+                    rules: [{ required: true, validator: validateNum, message: '请输入减免月份数!', trigger: 'blur' }]
+                  })(<InputNumber placeholder="请输入减免月份数" step={1} allowClear style={{ width: '100%' }} />)}
+                </Form.Item>
+              </Col>
+            ) : null}
+            {/* <Col span={24}>
               <Form.Item label="优惠范围">
-                {/* {this.form.getFieldDecorator('roomIds', {
-                  initialValue: this.details.roomIds || [],
-                  rules: [{ required: true, type: 'array', message: '请选择优惠类型!', trigger: 'blur' }]
-                })()} */}
                 <Button onclick={() => this.set_visibleOfRooms(true)}>选择房源</Button>
                 {this.details.scopeDesc ? <Alert type="success" message={this.details.scopeDesc}></Alert> : null}
               </Form.Item>
@@ -291,7 +308,7 @@ export default Form.create({})({
                   )}
                 </Card>
               </Form.Item>
-            </Col>
+            </Col> */}
             <Col span={24}>
               <Form.Item label="优惠互斥">
                 {this.form.getFieldDecorator('isCoexist', {

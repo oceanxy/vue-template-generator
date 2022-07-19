@@ -1,29 +1,20 @@
-import apis from '@/apis'
 import { createStoreModule } from '@/store/template'
-import { message } from 'ant-design-vue'
+import apis from '@/apis'
 export default commitRootInModule =>
   createStoreModule({
     state: {
-      visibleOfEdit: false,
+      visibleOfAudit: false,
       visibleOfEnterprise: false,
       visibleOfFile: false,
-      bussienssSelect: {
-        loading: false,
-        list: []
-      },
-      discountSelect: {
-        loading: false,
-        list: []
-      },
       bussienssInfo: [],
-      attachmentList: []
+      bussienssFile: []
     },
     mutations: {
       set_bussienssInfo(state, payload) {
         state.bussienssInfo = payload
       },
-      set_attachmentList(state, payload) {
-        state.attachmentList = payload
+      set_bussienssFile(state, payload) {
+        state.bussienssFile = payload
       }
     },
     actions: {
@@ -34,11 +25,11 @@ export default commitRootInModule =>
           commit('set_bussienssInfo', res.data)
         }
       },
-      // 获取附件详情
+      // 企业文件弹窗
       async getAttachmentList({ commit }, { id }) {
         const res = await apis.saleRecord_getAttachmentList({ id })
         if (res.status) {
-          commit('set_attachmentList', res.data)
+          commit('set_bussienssFile', res.data)
         }
       }
     },
