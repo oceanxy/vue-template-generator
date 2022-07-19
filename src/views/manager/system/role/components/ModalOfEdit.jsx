@@ -39,7 +39,7 @@ export default Form.create({})({
       } else {
         data.indexMenuId = ''
       }
-
+      data.id = this.currentItem?.id ?? ''
       return data
     }
   },

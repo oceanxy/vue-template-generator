@@ -1,0 +1,25 @@
+.bnm-modal-discount-bussienss-file {
+  .file-table {
+    width: 100%;
+    border: none;
+    tr {
+      height: 40px;
+    }
+    .file-list {
+      margin: 0;
+      padding: 0;
+      .item {
+        list-style: none;
+        border: 1px solid #eee;
+        background-color: rgba(#eee, 0.3);
+        padding: 3px 10px;
+        display: flex;
+        justify-content: space-between;
+        margin-top: 10px;
+        &:first-child {
+          margin-top: 0;
+        }
+      }
+    }
+  }
+}

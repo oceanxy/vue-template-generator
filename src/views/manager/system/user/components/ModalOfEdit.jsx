@@ -74,6 +74,7 @@ export default Form.create({})({
 
       data.birthDate = data.birthDate ? data.birthDate.format('YYYYMMDD') : ''
 
+      data.id = this.currentItem?.id ?? ''
       return data
     },
     onChangeAddressList(value, selectedOptions) {

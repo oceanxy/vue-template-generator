@@ -532,6 +532,16 @@ export const routes = [
               keepAlive: false,
               requiresAuth: true
             }
+          },
+          {
+            path: 'verify',
+            name: 'discountsVerify',
+            component: () => import('@/views/manager/discount/verify'),
+            meta: {
+              title: '优惠政策审核',
+              keepAlive: false,
+              requiresAuth: true
+            }
           }
         ]
       },

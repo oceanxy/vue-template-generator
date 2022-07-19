@@ -1,6 +1,6 @@
 @import '@/assets/styles/theme.scss';
 
-.bnm-discount-record-container {
+.bnm-discount-verify-container {
   margin: 0 16px 16px;
   padding: 20px;
   background: #ffffff;
@@ -8,8 +8,11 @@
   flex-direction: column;
   height: 100%;
   @include container-border-radius;
+  .tg-container-content {
+    grid-template: 40px 1fr 32px/1fr !important;
+  }
 }
-.bnm-modal-eidt-discount-record-form {
+.bnm-modal-discount-verify-form-audit {
   .ant-modal-body {
     .ant-form-item {
       display: flex;
@@ -24,11 +27,5 @@
     .ant-table-wrapper .ant-table {
       height: auto;
     }
-  }
-}
-.bnm-modal-file-discount-record {
-  .file-table {
-    width: 100%;
-    border: none;
   }
 }
