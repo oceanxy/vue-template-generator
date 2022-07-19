@@ -41,13 +41,13 @@ export default {
         scopedSlots: { customRender: 'description' }
       },
       {
-        title: '选项',
-        scopedSlots: { customRender: 'itemOptionList' }
-      },
-      {
         title: '组件类型',
         width: 100,
         scopedSlots: { customRender: 'modType' }
+      },
+      {
+        title: '选项',
+        scopedSlots: { customRender: 'itemOptionList' }
       },
       {
         title: '是否必填',
@@ -190,8 +190,12 @@ export default {
       record.isRequired = true
       record.status = true
       record.disabled = true
+
+      this.loading = false
     },
     async onIndicatorChange(value, record) {
+      this.loading = true
+
       if (value !== '') {
         if (record.fullName || record.itemOptionList?.length || record.description) {
           Modal.confirm({
@@ -206,13 +210,16 @@ export default {
             },
             onCancel: () => {
               record.targetId = ''
+              this.loading = false
             }
           })
         } else {
           this.resetRow(value, record)
         }
       } else {
+        record.targetId = ''
         record.disabled = false
+        this.loading = false
       }
     }
   },
@@ -279,14 +286,18 @@ export default {
                 >
                   <Select.Option value={1}>单选</Select.Option>
                   <Select.Option value={2}>多选</Select.Option>
-                  <Select.Option value={3}>简答</Select.Option>
+                  <Select.Option value={3}>单行文本</Select.Option>
+                  <Select.Option value={4}>多行文本</Select.Option>
+                  <Select.Option value={5}>图片</Select.Option>
+                  <Select.Option value={6}>文件</Select.Option>
+                  <Select.Option value={7}>时间</Select.Option>
                 </Select>
               ),
               itemOptionList: record => (
                 <ItemMultiInput
                   vModel={record.itemOptionList}
                   onChange={this.onChange}
-                  disabled={record.disabled}
+                  disabled={record.disabled || (record.modType !== 1 && record.modType !== 2)}
                 />
               ),
               description: record => (

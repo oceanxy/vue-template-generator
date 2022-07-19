@@ -205,7 +205,7 @@ export default Form.create({})({
           <Form.Item label="填报园区">
             <Spin spinning={this.parks.loading}>
               {
-                this.form.getFieldDecorator('parkIds', {
+                this.form.getFieldDecorator('parkIdList', {
                   initialValue: this.details.parkIdList,
                   rules: [{ required: true, type: 'array', message: '请选择填报园区!', trigger: 'change' }]
                 })(
@@ -222,7 +222,7 @@ export default Form.create({})({
           </Form.Item>
           <Form.Item label="填报对象">
             {
-              this.form.getFieldDecorator('fillObj', {
+              this.form.getFieldDecorator('fillObjList', {
                 initialValue: this.details.fillObjList,
                 rules: [{ required: true, type: 'array', message: '请选择填报对象!', trigger: 'change' }]
               })(
