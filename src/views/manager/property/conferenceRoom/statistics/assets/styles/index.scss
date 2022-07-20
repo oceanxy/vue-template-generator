@@ -1,0 +1,19 @@
+@import '@/assets/styles/theme.scss';
+
+.bnm-conferenceroom-statistics-container {
+  margin: 0 16px 16px;
+  padding: 20px;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  @include container-border-radius;
+  .tg-container-content {
+    grid-template: 40px 40px 1fr 32px/1fr !important;
+  }
+}
+.bnm-modal-conferenceroom-statistics-detail {
+  .ant-modal-body {
+    padding: 15px;
+  }
+}

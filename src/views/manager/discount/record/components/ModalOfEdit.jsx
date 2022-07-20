@@ -3,7 +3,7 @@ import { Col, Form, Select, Row, Spin, Card, Input, message } from 'ant-design-v
 import { debounce } from 'lodash'
 import forFormModal from '@/mixins/forModal/forFormModal'
 import DragModal from '@/components/DragModal'
-import { mapState, mapAction, mapMutation } from '@/utils/store'
+import { mapState } from '@/utils/store'
 import BNUploadFile from '@/components/BNUploadFile'
 export default Form.create({})({
   mixins: [forFormModal()],

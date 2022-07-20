@@ -18,6 +18,7 @@ import DragModal from '@/components/DragModal'
 import { mapState, mapAction, mapMutation } from '@/utils/store'
 import ModalOfRooms from './ModalOfRooms'
 import moment from 'moment'
+
 export default Form.create({})({
   mixins: [forFormModal()],
   data() {

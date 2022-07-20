@@ -30,23 +30,24 @@ export default {
             title: '优惠时间',
             dataIndex: 'saleTime'
           },
-          {
-            title: '优惠范围',
-            dataIndex: 'scopeDesc'
-          },
-          {
-            title: '优惠企业类型',
-            align: 'center',
-            dataIndex: 'saleCompanyType'
-          },
-          {
-            title: '优惠合同类型',
-            align: 'center',
-            dataIndex: 'saleContractType'
-          },
+          // {
+          //   title: '优惠范围',
+          //   dataIndex: 'scopeDesc'
+          // },
+          // {
+          //   title: '优惠企业类型',
+          //   align: 'center',
+          //   dataIndex: 'saleCompanyType'
+          // },
+          // {
+          //   title: '优惠合同类型',
+          //   align: 'center',
+          //   dataIndex: 'saleContractType'
+          // },
           {
             title: '状态',
             dataIndex: 'status',
+            width: 60,
             scopedSlots: { customRender: 'status' }
           },
           {
