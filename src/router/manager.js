@@ -502,16 +502,49 @@ export const routes = [
           }
         ]
       },
-      // {
-      //   path: 'discounts-lock',
-      //   component: TGRouterView,
-      //   meta: {
-      //     title: '优惠管理',
-      //     keepAlive: false,
-      //     requiresAuth: true,
-      //     icon: () => import('@/layouts/components/TGMenu/assets/images/discountsLock.svg')
-      //   }
-      // },
+      {
+        path: 'discounts',
+        component: TGRouterView,
+        redirect: { name: 'discountsPolicy' },
+        meta: {
+          title: '优惠管理',
+          keepAlive: false,
+          requiresAuth: true,
+          icon: () => import('@/layouts/components/TGMenu/assets/images/discountsLock.svg')
+        },
+        children: [
+          {
+            path: 'policy',
+            name: 'discountsPolicy',
+            component: () => import('@/views/manager/discount/policy'),
+            meta: {
+              title: '优惠政策',
+              keepAlive: false,
+              requiresAuth: true
+            }
+          },
+          {
+            path: 'record',
+            name: 'discountsRecord',
+            component: () => import('@/views/manager/discount/record'),
+            meta: {
+              title: '优惠记录',
+              keepAlive: false,
+              requiresAuth: true
+            }
+          },
+          {
+            path: 'verify',
+            name: 'discountsVerify',
+            component: () => import('@/views/manager/discount/verify'),
+            meta: {
+              title: '优惠政策审核',
+              keepAlive: false,
+              requiresAuth: true
+            }
+          }
+        ]
+      },
       {
         path: 'finance',
         component: TGRouterView,
@@ -668,16 +701,39 @@ export const routes = [
           }
         ]
       },
-      // {
-      //   path: 'ent-ann-ass',
-      //   component: TGRouterView,
-      //   meta: {
-      //     title: '企业年度考核',
-      //     keepAlive: false,
-      //     requiresAuth: true,
-      //     icon: () => import('@/layouts/components/TGMenu/assets/images/enterpriseAnnualAssessment.svg')
-      //   }
-      // },
+      {
+        path: 'annual-assessment',
+        component: TGRouterView,
+        redirect: { name: 'indicatorCategories' },
+        meta: {
+          title: '企业年度考核',
+          keepAlive: false,
+          requiresAuth: true,
+          icon: () => import('@/layouts/components/TGMenu/assets/images/enterpriseAnnualAssessment.svg')
+        },
+        children: [
+          {
+            path: 'indicator-categories',
+            name: 'indicatorCategories',
+            component: () => import('@/views/manager/annualAssessment/IndicatorCategories'),
+            meta: {
+              title: '指标类别管理',
+              keepAlive: false,
+              requiresAuth: true
+            }
+          },
+          {
+            path: 'indicators',
+            name: 'indicators',
+            component: () => import('@/views/manager/annualAssessment/Indicators'),
+            meta: {
+              title: '指标管理',
+              keepAlive: false,
+              requiresAuth: true
+            }
+          }
+        ]
+      },
       // {
       //   path: 'conf-room-mana',
       //   component: TGRouterView,
@@ -698,16 +754,38 @@ export const routes = [
       //     icon: () => import('@/layouts/components/TGMenu/assets/images/workOrderManagement.svg')
       //   }
       // },
-      // {
-      //   path: 'data-col',
-      //   component: TGRouterView,
-      //   meta: {
-      //     title: '数据采集',
-      //     keepAlive: false,
-      //     requiresAuth: true,
-      //     icon: () => import('@/layouts/components/TGMenu/assets/images/dataCollection.svg')
-      //   }
-      // },
+      {
+        path: 'data-collection',
+        component: TGRouterView,
+        meta: {
+          title: '数据采集',
+          keepAlive: false,
+          requiresAuth: true,
+          icon: () => import('@/layouts/components/TGMenu/assets/images/dataCollection.svg')
+        },
+        children: [
+          {
+            path: 'data-collection-templates',
+            name: 'dataCollectionTemplates',
+            component: () => import('@/views/manager/dataCollection/DataCollectionTemplates'),
+            meta: {
+              title: '模版管理',
+              keepAlive: false,
+              requiresAuth: true
+            }
+          },
+          {
+            path: 'report-forms',
+            name: 'reportForms',
+            component: () => import('@/views/manager/dataCollection/ReportForms'),
+            meta: {
+              title: '报表管理',
+              keepAlive: false,
+              requiresAuth: true
+            }
+          }
+        ]
+      },
       {
         path: 'system',
         component: TGRouterView,
@@ -745,6 +823,16 @@ export const routes = [
             component: () => import('@/views/manager/system/role'),
             meta: {
               title: '角色管理',
+              keepAlive: true,
+              requiresAuth: true
+            }
+          },
+          {
+            path: 'user',
+            name: 'systemUser',
+            component: () => import('@/views/manager/system/user'),
+            meta: {
+              title: '员工管理',
               keepAlive: true,
               requiresAuth: true
             }

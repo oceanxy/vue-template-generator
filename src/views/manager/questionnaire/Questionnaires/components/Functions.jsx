@@ -14,10 +14,12 @@ export default {
       return this.getState('currentItem', this.moduleName)
     },
     publishButtonDisabled() {
-      return !this.selectedRows.length || !this.selectedRows.filter(item => item.reportStatus === 2).length
+      return !this.selectedRows.length ||
+        this.selectedRows.filter(item => item.reportStatus === 2).length !== this.selectedRows.length
     },
     endButtonDisabled() {
-      return !this.selectedRows.length || !this.selectedRows.filter(item => item.reportStatus === 1).length
+      return !this.selectedRows.length ||
+        this.selectedRows.filter(item => item.reportStatus === 1).length !== this.selectedRows.length
     }
   },
   methods: {},

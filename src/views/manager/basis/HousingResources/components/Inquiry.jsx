@@ -23,33 +23,35 @@ export default Form.create({})({
               )
             }
           </Form.Item>
-          <Input.Group compact class={'number-range'}>
-            {
-              this.form.getFieldDecorator('min')(
-                <InputNumber
-                  placeholder={'最小值'}
-                  title={'单价最小值'}
-                  min={0}
-                  precision={2}
-                />
-              )
-            }
-            <Input
-              placeholder={'~'}
-              disabled
-              class={'identifier'}
-            />
-            {
-              this.form.getFieldDecorator('max')(
-                <InputNumber
-                  placeholder={'最大值'}
-                  title={'单价最大值'}
-                  min={0}
-                  precision={2}
-                />
-              )
-            }
-          </Input.Group>
+          <Form.Item>
+            <Input.Group compact class={'number-range'}>
+              {
+                this.form.getFieldDecorator('min')(
+                  <InputNumber
+                    placeholder={'最小值'}
+                    title={'单价最小值'}
+                    min={0}
+                    precision={2}
+                  />
+                )
+              }
+              <Input
+                placeholder={'~'}
+                disabled
+                class={'identifier'}
+              />
+              {
+                this.form.getFieldDecorator('max')(
+                  <InputNumber
+                    placeholder={'最大值'}
+                    title={'单价最大值'}
+                    min={0}
+                    precision={2}
+                  />
+                )
+              }
+            </Input.Group>
+          </Form.Item>
           <Form.Item>
             {
               this.form.getFieldDecorator('renovationStatus')(

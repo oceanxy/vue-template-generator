@@ -5,7 +5,6 @@ import DragModal from '@/components/DragModal'
 import MultiInput from './components/MultiInput'
 import { cloneDeep } from 'lodash'
 import { mapGetters } from 'vuex'
-import details from '@/views/manager/basis/Businesses/Details'
 
 export default Form.create({})({
   mixins: [forFormModal()],

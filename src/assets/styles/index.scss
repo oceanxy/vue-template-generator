@@ -54,12 +54,19 @@ body {
     }
   }
 
-  .number-range {
+  .number-range.number-range {
     display: flex;
+    flex-wrap: nowrap;
+
+    & > .ant-input-number {
+      flex: auto;
+    }
 
     .identifier {
       text-align: center;
-      width: 30px;
+      width: 24px;
+      flex: none;
+      padding: 4px;
     }
   }
 }
@@ -224,6 +231,10 @@ body {
 
     &.half {
       width: calc((100% - 24px) / 2);
+    }
+
+    &.one-third {
+      width: calc((100% - 48px) / 3);
     }
 
     &.combo {

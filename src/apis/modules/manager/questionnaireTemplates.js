@@ -80,7 +80,7 @@ export default {
     })
   },
   /**
-   *
+   * 获取模版详情
    * @param request
    * @param data
    * @returns {*}

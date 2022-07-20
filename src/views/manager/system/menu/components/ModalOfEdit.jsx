@@ -36,6 +36,7 @@ export default Form.create({})({
       } else {
         data.parentId = ''
       }
+      data.id = this.currentItem?.id ?? ''
       return data
     }
   },
@@ -112,7 +113,6 @@ export default Form.create({})({
               </Form.Item>
             </Col>
             <Col span={12}>
-              {this.currentItem?.status}
               <Form.Item label="状态">
                 {this.form.getFieldDecorator('status', {
                   initialValue: this.currentItem.status === 1,

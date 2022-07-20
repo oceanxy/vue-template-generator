@@ -60,7 +60,7 @@ export default cb => ({
   methods: {
     /**
      * 新增
-     * @param initialValue {Object} 初始化默认值
+     * @param [initialValue] {Object} 初始化默认值
      * @returns {Promise<void>}
      */
     async onAddClick(initialValue = {}) {

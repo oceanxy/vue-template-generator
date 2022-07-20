@@ -63,6 +63,7 @@ export default Form.create({})({
       const data = {
         ...values
       }
+
       if (data.menuId.length > 0) {
         data.menuId = data.menuId[data.menuId.length - 1]
       } else {

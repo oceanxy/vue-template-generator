@@ -56,6 +56,26 @@ export const mapState = (keys, submoduleName) => {
   return result
 }
 /**
+ * @description: 返回store模块getter
+ * @param {Array} keys [string]
+ * @param {string} submoduleName 子模块名称
+ * @return {object}
+ */
+export const mapGetter = (keys, submoduleName) => {
+  const result = keys.reduce((modules, item) => {
+    modules[item] = function () {
+      const moduleNameData = this.$store.getters
+      if (submoduleName) {
+        return moduleNameData[`${this.moduleName}/${this.submoduleName}/${item}`]
+      } else {
+        return moduleNameData[`${this.moduleName}/${item}`]
+      }
+    }
+    return modules
+  }, {})
+  return result
+}
+/**
  * @description: 返回store模块方法
  * @param {Array} actions [string]
  * @return {object} { [key]:function(payload,submoduleName) }
@@ -67,6 +87,24 @@ export const mapAction = actions => {
         return this.$store.dispatch(`${this.moduleName}/${submoduleName}/${item}`, payload)
       } else {
         return this.$store.dispatch(`${this.moduleName}/${item}`, payload)
+      }
+    }
+    return modules
+  }, {})
+  return result
+}
+/**
+ * @description: 返回store模块同步方法
+ * @param {Array} actions [string]
+ * @return {object} { [key]:function(payload,submoduleName) }
+ */
+export const mapMutation = actions => {
+  const result = actions.reduce((modules, item) => {
+    modules[item] = function (payload, submoduleName) {
+      if (submoduleName) {
+        this.$store.commit(`${this.moduleName}/${submoduleName}/${item}`, payload)
+      } else {
+        this.$store.commit(`${this.moduleName}/${item}`, payload)
       }
     }
     return modules
