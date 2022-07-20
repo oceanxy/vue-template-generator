@@ -22,7 +22,7 @@ export default {
    */
   getFloorsByBuilding(request, data) {
     return request({
-      url: '/basic/build/getFloodList',
+      url: '/basic/build/getFloorList',
       method: 'post',
       data: qs.stringify(data)
     })
