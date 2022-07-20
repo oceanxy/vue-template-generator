@@ -98,7 +98,7 @@ export default {
                 <Button
                   type="link"
                   size="small"
-                  onClick={() => this.onAddClick(record)}
+                  onClick={() => this.onDeleteClick(record)}
                 >
                   删除
                 </Button>

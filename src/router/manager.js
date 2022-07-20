@@ -120,7 +120,7 @@ export const routes = [
             component: TGRouterView,
             redirect: 'teams',
             meta: {
-              title: '团队管理',
+              title: '招商团队管理',
               keepAlive: false,
               requiresAuth: true,
               hideChildren: true
@@ -131,7 +131,7 @@ export const routes = [
                 name: 'teams',
                 component: () => import('@/views/manager/basis/Teams'),
                 meta: {
-                  title: '团队管理',
+                  title: '招商团队管理',
                   keepAlive: false,
                   requiresAuth: true
                 }
@@ -141,7 +141,7 @@ export const routes = [
                 name: 'teamMembers',
                 component: () => import('@/views/manager/basis/Teams/Members'),
                 meta: {
-                  title: '成员管理',
+                  title: '团队成员管理',
                   keepAlive: false,
                   requiresAuth: true
                 }

@@ -142,8 +142,8 @@ export default Form.create({})({
               <Form.Item label="登录密码" class={'half'}>
                 {
                   this.form.getFieldDecorator('loginPwd', {
-                    initialValue: this.currentItem.loginPwd,
-                    rules: [{ required: true, message: '请输入登录密码!', trigger: 'blur' }]
+                    initialValue: this.currentItem.loginPwd
+                    // rules: [{ required: true, message: '请输入登录密码!', trigger: 'blur' }]
                   })(
                     <Input placeholder="请输入登录密码" />
                   )
@@ -167,8 +167,8 @@ export default Form.create({})({
           </Form.Item>
           <Form.Item label="监管单位">
             {
-              this.form.getFieldDecorator('regulationUnitIds', {
-                initialValue: this.currentItem.regulationUnitIds || undefined
+              this.form.getFieldDecorator('regulationUnitIdList', {
+                initialValue: this.currentItem.regulationUnitIdList || undefined
               })(
                 <Select
                   allowClear
@@ -187,8 +187,8 @@ export default Form.create({})({
           </Form.Item>
           <Form.Item label="运营单位">
             {
-              this.form.getFieldDecorator('operationUnitIds', {
-                initialValue: this.currentItem.operationUnitIds || undefined
+              this.form.getFieldDecorator('operationUnitIdList', {
+                initialValue: this.currentItem.operationUnitIdList || undefined
               })(
                 <Select
                   allowClear
@@ -207,8 +207,8 @@ export default Form.create({})({
           </Form.Item>
           <Form.Item label="物业单位">
             {
-              this.form.getFieldDecorator('propertyUnitIds', {
-                initialValue: this.currentItem.propertyUnitIds || undefined
+              this.form.getFieldDecorator('propertyUnitIdList', {
+                initialValue: this.currentItem.propertyUnitIdList || undefined
               })(
                 <Select
                   allowClear
