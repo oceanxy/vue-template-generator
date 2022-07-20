@@ -8,6 +8,8 @@ import apis from '@/apis'
 export default {
   namespaced: true,
   state: {
+    //配套设施集合
+    roomEquipment: [],
     // 行政区划
     administrativeDivision: [],
     // 默认行政区划
@@ -60,6 +62,9 @@ export default {
     }
   },
   mutations: {
+    setRoomEquipment(state, payload) {
+      state.roomEquipment = payload
+    },
     setAdministrativeDivision(state, payload) {
       state.administrativeDivision = payload.treeList || []
       state.defaultAdministrativeDivision = payload.defaultIds || []
@@ -112,11 +117,7 @@ export default {
      * @param value {string}
      * @returns {Promise<void>}
      */
-    async setCurrentParkTreeKeySelected({ state, commit, dispatch }, {
-      moduleName,
-      submoduleName,
-      value
-    }) {
+    async setCurrentParkTreeKeySelected({ state, commit, dispatch }, { moduleName, submoduleName, value }) {
       if (state.currentParkTreeKeySelected !== value) {
         dispatch('setSearch', { payload: { treeId: value }, moduleName, submoduleName }, { root: true })
 
@@ -132,15 +133,23 @@ export default {
      * @param submoduleName {string}
      * @param value {string}
      */
-    setIndicatorCategoryIdSelected({ state, commit, dispatch }, {
-      moduleName,
-      submoduleName,
-      value
-    }) {
+    setIndicatorCategoryIdSelected({ state, commit, dispatch }, { moduleName, submoduleName, value }) {
       if (state.indicatorCategoryIdSelected !== value) {
         dispatch('setSearch', { payload: { parentId: value }, moduleName, submoduleName }, { root: true })
 
         commit('setIndicatorCategoryIdSelected', value)
+      }
+    },
+    /**
+     * 获取配套设施集合
+     * @param commit
+     * @returns {Promise<void>}
+     */
+    async getFacilityList({ commit }) {
+      const response = await apis.dictionary_getFacilityList()
+
+      if (response.status) {
+        commit('setRoomEquipment', response.data)
       }
     },
     /**
@@ -245,11 +254,15 @@ export default {
      * @returns {Promise<void>}
      */
     async getUnitsForSelect({ commit }) {
-      commit('setLoading', {
-        value: true,
-        moduleName: 'common',
-        customizeLoading: 'loadingOfUnitsForSelect'
-      }, { root: true })
+      commit(
+        'setLoading',
+        {
+          value: true,
+          moduleName: 'common',
+          customizeLoading: 'loadingOfUnitsForSelect'
+        },
+        { root: true }
+      )
 
       const response = await apis.getUnitsForSelect()
 
@@ -257,18 +270,26 @@ export default {
         commit('setUnitsForSelect', response.data)
       }
 
-      commit('setLoading', {
-        value: false,
-        moduleName: 'common',
-        customizeLoading: 'loadingOfUnitsForSelect'
-      }, { root: true })
+      commit(
+        'setLoading',
+        {
+          value: false,
+          moduleName: 'common',
+          customizeLoading: 'loadingOfUnitsForSelect'
+        },
+        { root: true }
+      )
     },
     async getQuestionnairesForSelect({ commit }) {
-      commit('setLoading', {
-        value: true,
-        moduleName: 'common',
-        customizeLoading: 'loadingOfQuestionnairesForSelect'
-      }, { root: true })
+      commit(
+        'setLoading',
+        {
+          value: true,
+          moduleName: 'common',
+          customizeLoading: 'loadingOfQuestionnairesForSelect'
+        },
+        { root: true }
+      )
 
       const response = await apis.getQuestionnairesForSelect()
 
@@ -276,18 +297,26 @@ export default {
         commit('setQuestionnairesForSelect', response.data)
       }
 
-      commit('setLoading', {
-        value: false,
-        moduleName: 'common',
-        customizeLoading: 'loadingOfQuestionnairesForSelect'
-      }, { root: true })
+      commit(
+        'setLoading',
+        {
+          value: false,
+          moduleName: 'common',
+          customizeLoading: 'loadingOfQuestionnairesForSelect'
+        },
+        { root: true }
+      )
     },
     async getEnterpriseClassifications({ commit }) {
-      commit('setLoading', {
-        value: true,
-        moduleName: 'common',
-        customizeLoading: 'enterpriseClassifications'
-      }, { root: true })
+      commit(
+        'setLoading',
+        {
+          value: true,
+          moduleName: 'common',
+          customizeLoading: 'enterpriseClassifications'
+        },
+        { root: true }
+      )
 
       const response = await apis.getEnterpriseClassifications()
 
@@ -295,11 +324,15 @@ export default {
         commit('setEnterpriseClassifications', response.data.dictionaryList)
       }
 
-      commit('setLoading', {
-        value: false,
-        moduleName: 'common',
-        customizeLoading: 'enterpriseClassifications'
-      }, { root: true })
+      commit(
+        'setLoading',
+        {
+          value: false,
+          moduleName: 'common',
+          customizeLoading: 'enterpriseClassifications'
+        },
+        { root: true }
+      )
     }
   }
 }

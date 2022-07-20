@@ -787,12 +787,53 @@ export const routes = [
         ]
       },
       {
+        path: 'conference-room',
+        meta: {
+          title: '会议室管理',
+          keepAlive: false,
+          requiresAuth: true,
+          icon: () => import('@/layouts/components/TGMenu/assets/images/systemManagement.svg')
+        },
+        component: TGRouterView,
+        children: [
+          {
+            path: '',
+            meta: {
+              title: '会议室管理',
+              keepAlive: false,
+              requiresAuth: true
+            },
+            component: () => import('@/views/manager/property/conferenceRoom/manage')
+          },
+          {
+            path: 'subscribe',
+            name: 'conferenceRoomSubscribe',
+            meta: {
+              title: '会议室预约',
+              keepAlive: false,
+              requiresAuth: true
+            },
+            component: () => import('@/views/manager/property/conferenceRoom/subscribe')
+          },
+          {
+            path: 'statistics',
+            name: 'conferenceRoomStatistics',
+            meta: {
+              title: '使用统计',
+              keepAlive: false,
+              requiresAuth: true
+            },
+            component: () => import('@/views/manager/property/conferenceRoom/statistics')
+          }
+        ]
+      },
+      {
         path: 'system',
         component: TGRouterView,
         redirect: { name: 'systemMenu' },
         meta: {
           title: '系统管理',
-          keepAlive: true,
+          keepAlive: false,
           requiresAuth: true,
           icon: () => import('@/layouts/components/TGMenu/assets/images/systemManagement.svg')
         },
@@ -803,7 +844,7 @@ export const routes = [
             component: () => import('@/views/manager/system/menu'),
             meta: {
               title: '菜单管理',
-              keepAlive: true,
+              keepAlive: false,
               requiresAuth: true
             }
           },
@@ -813,7 +854,7 @@ export const routes = [
             component: () => import('@/views/manager/system/function'),
             meta: {
               title: '功能管理',
-              keepAlive: true,
+              keepAlive: false,
               requiresAuth: true
             }
           },
@@ -823,7 +864,7 @@ export const routes = [
             component: () => import('@/views/manager/system/role'),
             meta: {
               title: '角色管理',
-              keepAlive: true,
+              keepAlive: false,
               requiresAuth: true
             }
           },
@@ -833,7 +874,7 @@ export const routes = [
             component: () => import('@/views/manager/system/user'),
             meta: {
               title: '员工管理',
-              keepAlive: true,
+              keepAlive: false,
               requiresAuth: true
             }
           }
