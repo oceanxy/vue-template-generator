@@ -54,6 +54,11 @@ export default {
     indicatorCategoryTree: {
       list: [],
       loading: false
+    },
+    // 指标树
+    indicators: {
+      loading: false,
+      list: []
     }
   },
   mutations: {

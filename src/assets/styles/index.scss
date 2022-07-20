@@ -233,6 +233,10 @@ body {
       width: calc((100% - 24px) / 2);
     }
 
+    &.one-third {
+      width: calc((100% - 48px) / 3);
+    }
+
     &.combo {
       margin-bottom: 0;
     }

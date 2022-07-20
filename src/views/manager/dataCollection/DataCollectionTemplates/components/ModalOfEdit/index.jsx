@@ -30,7 +30,7 @@ export default Form.create({})({
       return this.getState('details', this.moduleName)
     },
     indicators() {
-      return this.getState('indicators', this.moduleName)
+      return this.getState('indicators', 'common')
     }
   },
   watch: {
@@ -59,7 +59,7 @@ export default Form.create({})({
     async onSearch(keyword) {
       if (keyword || keyword === undefined) {
         await this.$store.dispatch('getListForSelect', {
-          moduleName: this.moduleName,
+          moduleName: 'common',
           stateName: 'indicators',
           customApiName: 'getIndicatorsForSelect',
           payload: {
@@ -72,7 +72,6 @@ export default Form.create({})({
   render() {
     const attributes = {
       attrs: this.modalProps,
-      props: { loading: true },
       on: {
         cancel: () => this.onCancel(),
         ok: () => this.onSubmit({
@@ -99,9 +98,7 @@ export default Form.create({})({
 
     return (
       <DragModal {...attributes} class={'bnm-data-collection-templates-add-template'}>
-        <Form
-          class="bnm-form-grid"
-        >
+        <Form class="bnm-form-grid">
           <Form.Item label="模版名称" class={'half'}>
             {
               this.form.getFieldDecorator('fullName', {
