@@ -9,7 +9,7 @@ export default {
    */
   getRepair(request, data) {
     return request({
-      url: '/operate/propertyRepair/getWorkOrderList',
+      url: '/operate/workOrder/getMyWorkOrderPage',
       method: 'post',
       data: qs.stringify(data)
     })
@@ -22,9 +22,9 @@ export default {
    */
   addRepair(request, data) {
     return request({
-      url: '/operate/propertyRepair/addWorkOrder',
+      url: '/operate/workOrder/add',
       method: 'post',
-      data: data
+      data: qs.stringify(data)
     })
   }
 }

@@ -1,3 +1,10 @@
-.bn-invoices-container {
-
+.bn-web-invoices-container {
+  .bn-web-invoices-table {
+    .ant-table {
+      height: auto;
+    }
+    .ant-table-body {
+      max-height: none !important;
+    }
+  }
 }

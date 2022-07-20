@@ -9,7 +9,7 @@ export default {
    */
   getComplaintsPageList(request, data) {
     return request({
-      url: '/operate/propertyComplaints/getComplaintsPageList',
+      url: '/operate/complaint/getMyComplaintPage',
       method: 'post',
       data: qs.stringify(data)
     })
@@ -22,9 +22,9 @@ export default {
    */
   addPropertyComplaints(request, data) {
     return request({
-      url: '/operate/propertyComplaints/add',
+      url: '/operate/complaint/add',
       method: 'post',
-      data: data
+      data: qs.stringify(data)
     })
   }
 }

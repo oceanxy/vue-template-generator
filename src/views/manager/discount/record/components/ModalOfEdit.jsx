@@ -92,9 +92,8 @@ export default Form.create({})({
     onChangeBussienss(id) {
       const findData = this.bussienssSelect.list.find(item => item.id === id)
       this.bussienssInfo = Object.assign({}, findData || {})
-      if (this.discountSelect.list.length === 0) {
-        this.getDiscount()
-      }
+      this.form.setFieldsValue({ ruleId: undefined, amount: undefined })
+      this.getDiscount()
     },
     onChangeDiscount(id) {
       const findData = this.discountSelect.list.find(item => item.id === id)
@@ -182,7 +181,7 @@ export default Form.create({})({
               </Form.Item>
             </Col>
             <Col span={24}>
-              <Form.Item label="租金优惠">
+              <Form.Item label="优惠金额">
                 {this.form.getFieldDecorator('amount', {
                   initialValue: this.details.saleAmount ?? undefined
                 })(<Input placeholder="请输入" disabled={true} style={{ width: '100%' }}></Input>)}

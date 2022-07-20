@@ -23,15 +23,11 @@ export default {
     // 列表是通用的，这里转换字段
     listEffect() {
       return this.list.map(item => {
-        item.disposeStatus = item.acceptStatus === 2 ? 1 : 2
-        item.applyProject = this.complaintsTypeEnum[item.complaintsType]
-        item.applyDescription = item.content
-        item.imgList = item.descriptionImgList || []
-        // item.disposeName=item.disposeName
-        // item.disposeTimeStr = item.disposeTimeStr
-        // item.disposeResult = item.disposeResult
-        item.disposeImgList = item.disposeResultImgsList || []
-        item.applyTimeStr = item.complaintsTimeStr
+        item.acceptStatus = item.acceptStatus === 2 || item.acceptStatus === 4 ? 2 : item.acceptStatus
+        item.repairItem = item.complaintTypeStr
+
+        item.description = item.content
+        item.repairTimeStr = item.complaintTimeStr
 
         return item
       })

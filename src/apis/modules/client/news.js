@@ -9,7 +9,7 @@ export default {
    */
   getNews(request, data) {
     return request({
-      url: '/operate/notifyMessage/getNotifyMessageList',
+      url: '/operate/notifyMessage/getNotifyMessagePageList',
       method: 'post',
       data: qs.stringify(data)
     })
