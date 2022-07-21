@@ -36,7 +36,6 @@ export default {
     value: {
       immediate: true,
       handler(value) {
-        console.log(value)
         if (value && value.length) {
           this.fileList = value
         } else {
