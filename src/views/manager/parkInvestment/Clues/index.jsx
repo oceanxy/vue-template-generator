@@ -56,6 +56,7 @@ export default {
     getCardList() {
       return this.cluesCountList.map((item, index) => {
         const _data = this.cardList[index]
+
         return { ...item, ..._data }
       })
     }

@@ -5,6 +5,7 @@ import store, { dynamicModules } from '@/store/client'
 import dynamicState from '@/mixins/dynamicState'
 import { mapAction, mapState } from '@/utils/store'
 import moment from 'moment'
+
 export default {
   name: 'ReportRecordForm',
   mixins: [dynamicState(store, dynamicModules)],
@@ -40,6 +41,7 @@ export default {
   },
   mounted() {
     const { id, name } = this.$route.query
+
     this.reportInfo = {
       id,
       name
@@ -58,9 +60,11 @@ export default {
         return <span>{moment().format(item.resultContent, 'YYYY-MM-DD')}</span>
       } else if (item.modType === 5) {
         const url = item.resultFile?.path || ''
+
         return url ? <img src={url} class="img"></img> : ''
       } else if (item.modType === 6) {
         const resultFile = item.resultFile
+
         return (
           <a href={resultFile?.path || ''} target="_brank">
             {resultFile?.fileName || ''}
@@ -72,6 +76,7 @@ export default {
     }
     const getAttachment = item => {
       if (!item.attachmentList || item.attachmentList.length === 0) return <span>无</span>
+
       return item.attachmentList.map(item => (
         <div>
           <a href={item.path} target="_brank">
@@ -80,6 +85,7 @@ export default {
         </div>
       ))
     }
+
     return (
       <BNContainer width="100%" class="bn-report-record-content" modalTitle={`我的报表 > ${this.$route.query.name}`}>
         <Spin spinning={this.loading}>

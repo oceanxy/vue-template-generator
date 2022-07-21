@@ -9,6 +9,7 @@ import store, { dynamicModules } from '@/store/client'
 import dynamicState from '@/mixins/dynamicState'
 import { mapState, mapAction } from '@/utils/store'
 import { createNamespacedHelpers } from 'vuex'
+
 const { mapState: loginMapState } = createNamespacedHelpers('login')
 
 export default {
@@ -24,9 +25,11 @@ export default {
     },
     backLogList() {
       const list = this.backLogInfo?.backLogList || []
+
       return list.map(item => {
         item.fullName = item.title
         item.status = 1
+
         return item
       })
     }

@@ -62,6 +62,7 @@ export default {
           }
         }
       }
+
       if (this.details.signingStage === 1) {
         Component = require('./components/FormForSelectCompany')
       } else if (this.details.signingStage === 2) {

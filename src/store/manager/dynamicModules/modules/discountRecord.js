@@ -1,6 +1,7 @@
 import apis from '@/apis'
 import { createStoreModule } from '@/store/template'
 import { message } from 'ant-design-vue'
+
 export default commitRootInModule =>
   createStoreModule({
     state: {
@@ -30,6 +31,7 @@ export default commitRootInModule =>
       // 企业详情弹窗
       async getCompanyProperties({ commit }, { companyId }) {
         const res = await apis.saleRecord_getCompanyProperties({ companyId })
+
         if (res.status) {
           commit('set_bussienssInfo', res.data)
         }
@@ -37,6 +39,7 @@ export default commitRootInModule =>
       // 获取附件详情
       async getAttachmentList({ commit }, { id }) {
         const res = await apis.saleRecord_getAttachmentList({ id })
+
         if (res.status) {
           commit('set_attachmentList', res.data)
         }

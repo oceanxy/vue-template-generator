@@ -20,6 +20,7 @@ const Title = {
         const tx = 0
         const ty = 0
         const transformStr = `translate(${tx}px,${ty}px)`
+
         this.updateTransform(transformStr, tx, ty)
         this.position.dx = tx
         this.position.dy = ty
@@ -43,6 +44,7 @@ const Title = {
       const tx = event.pageX - this.position.startX
       const ty = event.pageY - this.position.startY
       const transformStr = `translate(${tx}px,${ty}px)`
+
       this.updateTransform(transformStr, tx, ty)
       this.position.dx = tx
       this.position.dy = ty

@@ -4,6 +4,7 @@ import { Col, Form, Row, Input, message, Radio } from 'ant-design-vue'
 import forFormModal from '@/mixins/forModal/forFormModal'
 import DragModal from '@/components/DragModal'
 import { mapState } from '@/utils/store'
+
 export default Form.create({})({
   mixins: [forFormModal()],
   data() {
@@ -48,6 +49,7 @@ export default Form.create({})({
           this.onSubmit({ customApiName: 'auditRecordDiscountVerify', customDataHandler: this.customDataHandler })
       }
     }
+
     return (
       <DragModal {...attributes}>
         <Form class="" colon={false}>

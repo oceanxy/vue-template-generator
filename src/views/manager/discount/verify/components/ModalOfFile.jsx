@@ -4,6 +4,7 @@ import { Row, Col } from 'ant-design-vue'
 import forModal from '@/mixins/forModal'
 import DragModal from '@/components/DragModal'
 import { mapState, mapAction } from '@/utils/store'
+
 export default {
   mixins: [forModal()],
   data() {
@@ -42,6 +43,7 @@ export default {
         cancel: () => this.onCancel('visibleOfEnterprise')
       }
     }
+
     return (
       <DragModal {...attributes}>
         <table class="file-table">

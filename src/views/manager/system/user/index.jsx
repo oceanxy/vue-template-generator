@@ -17,6 +17,7 @@ export default {
   methods: {
     onChangeTree(value) {
       const [organId] = value
+
       this.$store.dispatch('setSearch', { payload: { organId: organId ?? '' }, moduleName: this.moduleName })
     }
   },

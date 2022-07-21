@@ -145,6 +145,7 @@ export default {
 
       // Find dragObject
       let dragObj
+
       this.loop(null, dragKey, (item, index, arr) => {
         arr.splice(index, 1)
         dragObj = item

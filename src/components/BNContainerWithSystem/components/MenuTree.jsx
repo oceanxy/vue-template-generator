@@ -1,5 +1,6 @@
 import apis from '@/apis'
 import Tree from '../Tree'
+
 export default {
   model: {
     prop: 'value',
@@ -25,9 +26,12 @@ export default {
     async getMenus() {
       this.loading = true
       const res = await apis.getSystemMenuTree()
+
       this.loading = false
+
       if (res.status) {
         this.menus = res.data || []
+
         if (this.menus.length > 0) {
           this.defaultKeys = [this.menus[0].id]
           this.defaultExpandedKeys = [this.menus[0].id]

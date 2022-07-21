@@ -5,6 +5,7 @@ import forFormModal from '@/mixins/forModal/forFormModal'
 import DragModal from '@/components/DragModal'
 import CascaderMenu from '@/components/BNContainerWithSystem/components/CascaderMenu'
 import { mapState, mapAction } from '@/utils/store'
+
 export default Form.create({})({
   mixins: [forFormModal()],
   data() {
@@ -31,12 +32,15 @@ export default Form.create({})({
       const data = {
         ...values
       }
+
       if (data.parentId.length > 0) {
         data.parentId = data.parentId[data.parentId.length - 1]
       } else {
         data.parentId = ''
       }
+
       data.id = this.currentItem?.id ?? ''
+
       return data
     }
   },
@@ -48,6 +52,7 @@ export default Form.create({})({
         ok: () => this.onSubmit({ customDataHandler: this.customDataHandler })
       }
     }
+
     return (
       <DragModal {...attributes}>
         <Form class="" colon={false}>

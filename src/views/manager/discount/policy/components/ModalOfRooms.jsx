@@ -3,6 +3,7 @@ import '../assets/styles/index.scss'
 import DragModal from '@/components/DragModal'
 import { mapState, mapAction, mapMutation } from '@/utils/store'
 import RoomsTree from '@/components/BNContainerWithSystem/components/RoomsTree'
+
 // import moment from 'moment'
 export default {
   inject: ['moduleName'],
@@ -49,6 +50,7 @@ export default {
     },
     onSubmit() {
       const fullRoomData = this.fullRoomData || []
+
       this.$emit(
         'done',
         fullRoomData.filter(item => item.tag === '4').map(item => item.id),
@@ -68,12 +70,15 @@ export default {
           if (item.tag in mapData && keys.has(item.id)) {
             mapData[item.tag] += 1
           }
+
           if (item.children && item.children.length > 0) {
             fn(item.children)
           }
         })
       }
+
       fn(this.treeList || [])
+
       return mapData
     },
     onCancel() {
@@ -91,6 +96,7 @@ export default {
         ok: () => this.onSubmit()
       }
     }
+
     return (
       <DragModal {...attributes}>
         <RoomsTree

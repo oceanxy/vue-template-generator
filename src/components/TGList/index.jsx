@@ -1,6 +1,7 @@
 import './index.scss'
 import { List } from 'ant-design-vue'
 import moment from 'moment'
+
 export default {
   props: {
     /**

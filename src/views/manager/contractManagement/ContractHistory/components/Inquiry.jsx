@@ -1,6 +1,7 @@
 import { Button, Form, Input, Select, Space } from 'ant-design-vue'
 import forInquiry from '@/mixins/forInquiry'
 import '../assets/styles/index.scss'
+
 export default Form.create({})({
   mixins: [forInquiry()],
   computed: {
@@ -11,6 +12,7 @@ export default Form.create({})({
   methods: {},
   render() {
     const signingStatusEnum = Object.entries(this.signingStatusEnum)
+
     return (
       <Form layout="inline" onSubmit={this.onSubmit} colon={false} class="tg-inquiry bn-search-form">
         <Space>

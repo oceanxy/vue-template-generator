@@ -3,6 +3,7 @@ import { Form, message, Input } from 'ant-design-vue'
 import forFormModal from '@/mixins/forModal/forFormModal'
 import DragModal from '@/components/DragModal'
 import apis from '@/apis'
+
 export default Form.create({})({
   mixins: [forFormModal()],
   data() {
@@ -31,12 +32,15 @@ export default Form.create({})({
     async onSubmit() {
       this.form.validateFields(async (err, values) => {
         if (err) return
+
         this.modalProps.confirmLoading = true
         const res = await apis.employeeResetPwd({
           ids: this.currentItem.id,
           ...values
         })
+
         this.modalProps.confirmLoading = false
+
         if (res.status) {
           message.success('重置完成')
           this.onCancel(this.visibleField)
@@ -52,6 +56,7 @@ export default Form.create({})({
         ok: () => this.onSubmit()
       }
     }
+
     return (
       <DragModal {...attributes}>
         <Form class="" colon={false}>

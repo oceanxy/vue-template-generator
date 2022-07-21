@@ -1,6 +1,7 @@
 import apis from '@/apis'
 import { createStoreModule } from '@/store/template'
 import { message } from 'ant-design-vue'
+
 export default commitRootInModule =>
   createStoreModule({
     state: {
@@ -20,10 +21,13 @@ export default commitRootInModule =>
       async getMeetingRoomAppointmentDetailList({ commit, state }, { payload }) {
         commit('set_detailLoading', true)
         const res = await apis.getMeetingRoomAppointmentDetailList(payload)
+
         commit('set_detailLoading', false)
+
         if (res.status) {
           commit('set_detailList', res.data.rows || [])
         }
+
         return res
       }
     },

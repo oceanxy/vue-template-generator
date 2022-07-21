@@ -1,5 +1,6 @@
 import { Modal, Badge, Button } from 'ant-design-vue'
 import './index.scss'
+
 export default {
   props: {
     imageUrls: Array,
@@ -15,16 +16,20 @@ export default {
   computed: {
     firstUrl() {
       let url = ''
+
       if (this.imageUrls.length > 0) {
         url = this.imageUrls[this.imageUrls.length - 1]
       }
+
       return url
     },
     curUrl() {
       let url = ''
+
       if (this.imageUrls.length > 0) {
         url = this.imageUrls[this.curIndex]
       }
+
       return url
     }
   },

@@ -390,6 +390,7 @@ const router = new VueRouter({
 
 router.beforeEach(async (to, from, next) => {
   let title = to.meta.title || ''
+
   if (title) {
     title += ' | '
   }
@@ -399,13 +400,16 @@ router.beforeEach(async (to, from, next) => {
   //判断是否自动登录
   if (to.query.token) {
     const res = await store.dispatch('login/bbsLogin', to.query.token)
+
     if (res.status) {
       next({ name: 'loginAfter' })
     } else {
       window.location.href = res.data
     }
+
     return
   }
+
   // 判断该路由是否需要登录权限
   // 获取存储在sessionStorage内的token，防止刷新页面导致vuex被清空而跳转到登录页
   const token = sessionStorage.getItem('token')

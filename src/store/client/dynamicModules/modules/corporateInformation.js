@@ -13,9 +13,12 @@ export default commitRootInModule =>
       actions: {
         async getCompanyDetail({ commit, rootState }) {
           const { userInfo } = rootState.login
+
           commitRootInModule('setLoading', true)
           const res = await apis.notifyMessageGetCompanyDetail({ companyId: userInfo.companyId })
+
           commitRootInModule('setLoading', false)
+
           if (res.status) {
             commitRootInModule('setDetails', res.data)
           }
@@ -26,20 +29,27 @@ export default commitRootInModule =>
             ...payload
           }
           const [logo] = form.logo
+
           form.logo = logo ? logo.response.data[0].key : ''
           const [businessLicense] = form.businessLicense
+
           form.businessLicense = businessLicense ? businessLicense.response.data[0].key : ''
           const [legalPersonIdCardFront] = form.legalPersonIdCardFront
+
           form.legalPersonIdCardFront = legalPersonIdCardFront ? legalPersonIdCardFront.response.data[0].key : ''
           const [legalPersonIdCardReverse] = form.legalPersonIdCardReverse
+
           form.legalPersonIdCardReverse = legalPersonIdCardReverse ? legalPersonIdCardReverse.response.data[0].key : ''
 
           commitRootInModule('setLoading', true)
           const res = await apis.notifyMessageUpdateCompanyDetail(form)
+
           commitRootInModule('setLoading', false)
+
           if (res.status) {
             message.success('保存成功')
           }
+
           return res
         }
       }

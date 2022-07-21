@@ -62,6 +62,7 @@ export default {
         if (value.length) {
           this.dataSource = value.map(item => {
             item.id = item.id || Math.random()
+
             return item
           })
         } else {
@@ -74,6 +75,7 @@ export default {
   methods: {
     onDelClick(id) {
       const index = this.dataSource.findIndex(item => item.id === id)
+
       this.dataSource.splice(index, 1)
 
       this.emit()

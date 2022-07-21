@@ -2,6 +2,7 @@ import './assets/styles/modalOfFile.scss'
 import forModal from '@/mixins/forModal'
 import DragModal from '@/components/DragModal'
 import { mapState, mapAction, mapMutation } from '@/utils/store'
+
 // import { Button } from 'ant-design-vue'
 export default {
   mixins: [forModal()],
@@ -41,6 +42,7 @@ export default {
         cancel: () => this.onCancel(this.visibleField)
       }
     }
+
     return (
       <DragModal {...attributes}>
         <table class="file-table">

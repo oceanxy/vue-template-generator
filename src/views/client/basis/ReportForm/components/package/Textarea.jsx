@@ -1,5 +1,6 @@
 import { Input, Form } from 'ant-design-vue'
 import { getRules } from '../utils'
+
 export default {
   props: {
     data: Object,

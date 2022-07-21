@@ -1,5 +1,6 @@
 import apis from '@/apis'
 import Tree from '../Tree'
+
 export default {
   model: {
     prop: 'value',
@@ -25,15 +26,20 @@ export default {
   methods: {
     async getPrivilegeTree() {
       if (!this.roleId) return
+
       this.loading = true
       const res = await apis.getPrivilegeTree({ roleId: this.roleId })
+
       this.loading = false
+
       if (res.status) {
         this.treeList = res.data || []
+
         if (this.treeList.length > 0) {
           this.defaultKeys = [this.treeList[0].id]
           this.defaultExpandedKeys = [this.treeList[0].id]
         }
+
         this.$emit('loaded', this.treeList)
       }
     },

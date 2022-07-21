@@ -170,6 +170,7 @@ export default {
             formatter: params => {
               return '<div class="tooltip-container"><div class="name">' + params.name + '</div>' + (params.data.value.reduce((domStr, item) => {
                 const count = item.count.toLocaleString()
+
                 return domStr += '<div class="value"><span>' + item.name + '</span><span>' + count + '</span></div>'
               }, '') || '<div class="value"><p>暂无数据</p></div>') + '</div>'
             }
@@ -225,8 +226,10 @@ export default {
       this.$_mapInstance = echarts.init(this.$refs.map)
 
       const svg = await axios(svgMap)
+
       echarts.registerMap('fj', { svg: svg.data })
       const svgContainer = await axios(svgMapContainer)
+
       echarts.registerMap('fjContainer', { svg: svgContainer.data })
 
       this.$_mapInstance.setOption(this.option)

@@ -49,11 +49,13 @@ service.interceptors.request.use(
 service.interceptors.response.use(
   async response => {
     const res = response.data
+
     if (response.config.responseType === 'blob') {
       return Promise.resolve(res)
     } else if (res?.status) {
       return Promise.resolve(res)
     }
+
     message.showMessage({
       message: res.message,
       type: 'error'
@@ -71,6 +73,7 @@ service.interceptors.response.use(
 
       store.default.dispatch('login/clear')
     }
+
     return Promise.resolve({
       code: 0,
       status: false,

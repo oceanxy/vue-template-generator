@@ -4,6 +4,7 @@ import forModal from '@/mixins/forModal'
 import DragModal from '@/components/DragModal'
 import { mapState, mapAction, mapMutation } from '@/utils/store'
 import { omit } from 'lodash'
+
 export default {
   mixins: [forModal()],
   data() {
@@ -92,6 +93,7 @@ export default {
         roomId: this.currentItem.roomId
       }
       const res = await this.getMeetingRoomAppointmentDetailList({ payload: query })
+
       if (res.status) {
         this.paginationProps.total = res.data.totalNum
       }
@@ -111,6 +113,7 @@ export default {
         loading: this.detailLoading
       }
     }
+
     return (
       <DragModal {...attributes}>
         <Table

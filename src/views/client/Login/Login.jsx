@@ -8,7 +8,9 @@ import TGLoginForm from '@/views/client/Login/components/TGLoginForm'
 import TGTabPane from '@/components/TGTabPane'
 import BNContainer from '@/components/BNContainer'
 import { createNamespacedHelpers } from 'vuex'
+
 const { mapActions } = createNamespacedHelpers('login')
+
 export default {
   name: 'Login',
   props: {
@@ -22,6 +24,7 @@ export default {
   }),
   mounted() {
     const { token } = this.$route.query
+
     if (token) {
       this.bbsLogin(token)
     }

@@ -5,6 +5,7 @@ import forFormModal from '@/mixins/forModal/forFormModal'
 import DragModal from '@/components/DragModal'
 import { mapState } from '@/utils/store'
 import BNUploadFile from '@/components/BNUploadFile'
+
 export default Form.create({})({
   mixins: [forFormModal()],
   data() {
@@ -46,12 +47,15 @@ export default Form.create({})({
     },
     async getDetails() {
       if (!this.currentItem.id) return
+
       const res = await this.$store.dispatch('getDetails', {
         payload: { id: this.currentItem.id },
         moduleName: this.moduleName
       })
+
       if (res.status) {
         const data = res.data
+
         this.bussienssInfo = {
           companyName: data.companyName,
           contractId: data.contractId,
@@ -75,8 +79,10 @@ export default Form.create({})({
     getDiscount(keyword) {
       if (!this.bussienssInfo) {
         message.warn('请选择企业')
+
         return
       }
+
       this.$store.dispatch('getListForSelect', {
         moduleName: this.moduleName,
         stateName: 'discountSelect',
@@ -91,6 +97,7 @@ export default Form.create({})({
     },
     onChangeBussienss(id) {
       const findData = this.bussienssSelect.list.find(item => item.id === id)
+
       this.bussienssInfo = Object.assign({}, findData || {})
       this.form.setFieldsValue({ ruleId: undefined, amount: undefined })
       this.getDiscount()
@@ -98,6 +105,7 @@ export default Form.create({})({
     onChangeDiscount(id) {
       const findData = this.discountSelect.list.find(item => item.id === id)
       const data = Object.assign({}, findData || {})
+
       this.form.setFieldsValue({ amount: data.amount })
     }
   },
@@ -111,6 +119,7 @@ export default Form.create({})({
     }
     const getAttachmentList = () => {
       const list = this.details.attachmentList || []
+
       return list.map(item => {
         return {
           ...item,
@@ -121,6 +130,7 @@ export default Form.create({})({
         }
       })
     }
+
     return (
       <DragModal {...attributes}>
         <Form class="" colon={false}>

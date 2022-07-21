@@ -2,6 +2,7 @@ import { Form, Input, Row, Col, Button, message } from 'ant-design-vue'
 import BNContainer from '@/components/BNContainer'
 import Upload from '@/components/BNUploadPictures'
 import apis from '@/apis'
+
 export default Form.create({})({
   data() {
     return {
@@ -15,13 +16,18 @@ export default Form.create({})({
         ...values
       }
       const [businessLicense] = form.businessLicense
+
       form.businessLicense = businessLicense ? businessLicense.response.data[0].key : ''
       const [legalPersonIdCardFront] = form.legalPersonIdCardFront
+
       form.legalPersonIdCardFront = legalPersonIdCardFront ? legalPersonIdCardFront.response.data[0].key : ''
       const [legalPersonIdCardReverse] = form.legalPersonIdCardReverse
+
       form.legalPersonIdCardReverse = legalPersonIdCardReverse ? legalPersonIdCardReverse.response.data[0].key : ''
       const res = await apis.notifyMessageEnterprisesIncome(form)
+
       this.loading = false
+
       if (res.status) {
         message.success('申请成功')
         this.$router.go(-1)
@@ -31,6 +37,7 @@ export default Form.create({})({
       e.preventDefault()
       this.form.validateFieldsAndScroll((err, values) => {
         if (err) return
+
         this.onSubmit(values)
       })
     }

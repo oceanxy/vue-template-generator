@@ -16,6 +16,7 @@ export default {
   },
   async mounted() {
     const { cid } = this.$route.query
+
     await dispatch(this.moduleName, 'getContractPreview', { id: cid })
   },
   render() {

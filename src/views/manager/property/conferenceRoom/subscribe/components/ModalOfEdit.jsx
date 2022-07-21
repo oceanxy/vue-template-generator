@@ -5,6 +5,7 @@ import DragModal from '@/components/DragModal'
 import { debounce } from 'lodash'
 import { mapState, mapAction } from '@/utils/store'
 import moment from 'moment'
+
 export default Form.create({})({
   mixins: [forFormModal()],
   data() {

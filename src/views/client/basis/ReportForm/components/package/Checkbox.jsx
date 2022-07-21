@@ -1,5 +1,6 @@
 import { Checkbox, Form } from 'ant-design-vue'
 import { getRules } from '../utils'
+
 export default {
   model: {
     prop: 'value',

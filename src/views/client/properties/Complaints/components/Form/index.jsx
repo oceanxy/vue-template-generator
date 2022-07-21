@@ -3,6 +3,7 @@ import BNContainer from '@/components/BNContainer'
 import { Button, Form, Input, Radio } from 'ant-design-vue'
 import Upload from '@/components/BNUploadPictures'
 import { mapAction, mapState } from '@/utils/store'
+
 export default Form.create({})({
   inject: ['moduleName', 'complaintsTypeEnum'],
   data() {
@@ -15,13 +16,16 @@ export default Form.create({})({
     onSubmit() {
       this.form.validateFieldsAndScroll(async (err, values) => {
         if (err) return
+
         const payload = { ...values }
+
         payload.imgs = payload.imgs
           .map(item => {
             return item.response.data[0].key
           })
           .join(',')
         const res = await this.addPropertyComplaints(payload)
+
         if (res.status) {
           this.form.resetFields()
         }
@@ -31,6 +35,7 @@ export default Form.create({})({
   },
   render() {
     const complaintsTypeEnum = Object.keys(this.complaintsTypeEnum)
+
     return (
       <BNContainer class="bn-complaints-form" width="100%" modalTitle="投诉建议">
         <Form labelCol={{ span: 4 }} wrapperCol={{ span: 20 }}>

@@ -1,6 +1,7 @@
 import { Button, Form, Input, Space, DatePicker } from 'ant-design-vue'
 import forInquiry from '@/mixins/forInquiry'
 import '../assets/styles/index.scss'
+
 export default Form.create({})({
   mixins: [forInquiry()],
   render() {

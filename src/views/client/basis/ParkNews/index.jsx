@@ -4,6 +4,7 @@ import Pagination from './components/Pagination'
 import Table from './components/Table'
 import store, { dynamicModules } from '@/store/client'
 import dynamicState from '@/mixins/dynamicState'
+
 export default {
   name: 'Parknews',
   mixins: [dynamicState(store, dynamicModules)],

@@ -1,5 +1,6 @@
 import { createStoreModule } from '@/store/template'
 import apis from '@/apis'
+
 export default commitRootInModule =>
   createStoreModule({
     state: {
@@ -21,6 +22,7 @@ export default commitRootInModule =>
       // 企业详情弹窗
       async getCompanyProperties({ commit }, { companyId }) {
         const res = await apis.saleRecord_getCompanyProperties({ companyId })
+
         if (res.status) {
           commit('set_bussienssInfo', res.data)
         }
@@ -28,6 +30,7 @@ export default commitRootInModule =>
       // 企业文件弹窗
       async getAttachmentList({ commit }, { id }) {
         const res = await apis.saleRecord_getAttachmentList({ id })
+
         if (res.status) {
           commit('set_bussienssFile', res.data)
         }

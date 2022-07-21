@@ -9,6 +9,7 @@ import './index.scss'
 import { Button, Divider, Empty, Spin } from 'ant-design-vue'
 import BNContainer from '@/components/BNContainer'
 import PropertyCard from '@/components/PropertyCard'
+
 export default {
   props: {
     loading: Boolean,
@@ -33,9 +34,11 @@ export default {
     onChangePager(type) {
       if (type === 'up') {
         if (this.pageIndex <= 0) return
+
         this.$emit('pagerChange', this.pageIndex - 1)
       } else if (type === 'next') {
         if (this.pageIndex + 1 >= Number.parseInt(this.pageTotal / 10 + 1)) return
+
         this.$emit('pagerChange', this.pageIndex + 1)
       }
     }

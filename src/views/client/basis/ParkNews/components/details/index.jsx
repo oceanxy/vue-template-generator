@@ -4,6 +4,7 @@ import store, { dynamicModules } from '@/store/client'
 import dynamicState from '@/mixins/dynamicState'
 import { Spin, Space } from 'ant-design-vue'
 import { mapState } from '@/utils/store'
+
 export default {
   name: 'ParknewsDetail',
   mixins: [dynamicState(store, dynamicModules)],
@@ -15,6 +16,7 @@ export default {
   },
   mounted() {
     const { id } = this.$route.query
+
     this.getDetail(id)
   },
   methods: {

@@ -1,5 +1,6 @@
 import apis from '@/apis'
 import Tree from '../Tree'
+
 export default {
   model: {
     prop: 'value',
@@ -26,13 +27,17 @@ export default {
     async getPrivilegeTree() {
       this.loading = true
       const res = await apis.getRoomTreeList()
+
       this.loading = false
+
       if (res.status) {
         this.treeList = res.data || []
+
         if (this.treeList.length > 0) {
           this.defaultKeys = [this.treeList[0].id]
           this.defaultExpandedKeys = [this.treeList[0].id]
         }
+
         this.$emit('loaded', this.treeList)
       }
     },

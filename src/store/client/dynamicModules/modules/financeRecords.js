@@ -25,7 +25,9 @@ export default commitRootInModule =>
         async getFinanceRecordsDetails({ commit, state }) {
           commit('setModalForDetailsLoading', true)
           const res = await apis.getFinanceRecordsDetails({ id: state.currentItem.id })
+
           commit('setModalForDetailsLoading', false)
+
           if (res.status) {
             commit('setRecordsDetailsList', res.data)
           }

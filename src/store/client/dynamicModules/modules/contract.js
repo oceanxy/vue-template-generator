@@ -18,7 +18,9 @@ export default commitRootInModule =>
         async getContracts({ commit }) {
           commitRootInModule('setLoading', true)
           const res = await apis.getWebContracts()
+
           commitRootInModule('setLoading', false)
+
           if (res.status) {
             commitRootInModule('setList', res.data)
           }
@@ -26,6 +28,7 @@ export default commitRootInModule =>
         async getContractPreview(ctx, { id }) {
           commitRootInModule('setLoading', true)
           const res = await apis.getNotifyMessageContractPreview({ id })
+
           commitRootInModule('setLoading', false)
 
           return res

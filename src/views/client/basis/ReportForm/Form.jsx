@@ -6,6 +6,7 @@ import { dispatch } from '@/utils/store'
 import BaseForm from './components/BaseForm'
 import { Spin, Button } from 'ant-design-vue'
 import { mapState, mapAction } from '@/utils/store'
+
 export default {
   name: 'ReportApplyForm',
   mixins: [dynamicState(store, dynamicModules)],
@@ -21,12 +22,14 @@ export default {
   },
   mounted() {
     const { id, name } = this.$route.query
+
     this.$store.commit('setDetails', { value: { id, name }, moduleName: this.moduleName })
     dispatch(this.moduleName, 'getItemList', id)
   },
   methods: {
     async onSubmit(value) {
       const res = await this.addReport(value)
+
       if (res.status) {
         this.$router.go(-1)
       }

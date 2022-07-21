@@ -39,6 +39,7 @@ export default {
       const buffer = await dispatch(this.moduleName, 'getContractPreview', { id: item.id })
       const blob = new Blob([buffer], { type: 'application/pdf' })
       const url = URL.createObjectURL(blob)
+
       window.open(url)
       setTimeout(() => {
         URL.revokeObjectURL(url)
@@ -73,6 +74,7 @@ export default {
     )
     const addBtns = item => {
       let result = []
+
       switch (item.signingStatus) {
         case 2: //待审核
           result = [previewBtn(item), downloadBtn(item)]
@@ -89,8 +91,10 @@ export default {
         default:
           break
       }
+
       return result
     }
+
     return (
       <BNContainer width="100%" modalTitle="我的合同" contentClass="bn-contract-content">
         <Spin spinning={this.loading}></Spin>

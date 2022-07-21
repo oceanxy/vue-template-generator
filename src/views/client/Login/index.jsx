@@ -6,6 +6,7 @@ import './assets/styles/index.scss'
 import BNContainer from '@/components/BNContainer'
 import TGList from '@/components/TGList'
 import apis from '@/apis'
+
 export default {
   name: 'Login',
   data() {
@@ -20,8 +21,10 @@ export default {
   methods: {
     async getNews() {
       const res = await apis.getNewsHomeList()
+
       if (res.status) {
         const { leftArticle, rightArticle } = res.data
+
         this.leftArticle = this.onTransformData(leftArticle.articleList)
         this.rightArticle = this.onTransformData(rightArticle.articleList)
       }
@@ -30,6 +33,7 @@ export default {
       return dataList.map(item => {
         item.title = item.articleTitle
         item.time = item.publishTime
+
         return item
       })
     },
@@ -41,12 +45,15 @@ export default {
     },
     onClickItem(data) {
       const token = window.sessionStorage.getItem('token')
+
       if (!token) {
         this.$router.push({
           name: 'login'
         })
+
         return
       }
+
       this.$router.push({
         name: 'parkNewsDetail',
         query: {

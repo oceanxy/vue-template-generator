@@ -5,7 +5,9 @@ import DragModal from '@/components/DragModal'
 import BNUploadPictures from '@/components/BNUploadPictures'
 import { mapState, mapAction } from '@/utils/store'
 import { createNamespacedHelpers } from 'vuex'
+
 const { mapState: commonMapState, mapActions: commonMapActions } = createNamespacedHelpers('common')
+
 export default Form.create({})({
   mixins: [forFormModal()],
   data() {
@@ -41,6 +43,7 @@ export default Form.create({})({
       const data = {
         ...values
       }
+
       data.id = this.currentItem?.id ?? ''
       data.imgs = data.imgs
         .map(item => {
@@ -64,6 +67,7 @@ export default Form.create({})({
     }
     const getImgs = () => {
       let result = []
+
       if (this.currentItem.imgList) {
         result = this.currentItem.imgList.map((item, index) => {
           return {
@@ -74,17 +78,21 @@ export default Form.create({})({
           }
         })
       }
+
       return result
     }
     const getFacilityList = () => {
       let result = []
+
       if (this.currentItem.facilityList) {
         result = this.currentItem.facilityList.map((item, index) => {
           return item.id
         })
       }
+
       return result
     }
+
     return (
       <DragModal {...attributes}>
         <Form class="" colon={false}>

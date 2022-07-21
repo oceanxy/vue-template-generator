@@ -23,6 +23,7 @@ export default Form.create({})({
     },
     remarkRequired() {
       const price = this.form.getFieldsValue(['amount', 'realAmount'])
+
       return price.amount !== price.realAmount
     }
   },

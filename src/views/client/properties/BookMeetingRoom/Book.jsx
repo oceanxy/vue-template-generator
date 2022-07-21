@@ -3,6 +3,7 @@ import { Button, DatePicker, Form, Input, Select, message, TimePicker, Row, Col 
 import BNContainer from '@/components/BNContainer'
 import apis from '@/apis'
 import { debounce } from 'lodash'
+
 export default Form.create({})({
   data() {
     return {
@@ -13,6 +14,7 @@ export default Form.create({})({
   },
   mounted() {
     const { id } = this.$route.params
+
     if (id) {
       this.roomList = [{ ...this.$route.params }]
     } else {
@@ -31,6 +33,7 @@ export default Form.create({})({
         roomNo: value
       }
       const res = await apis.getBookMeetingRoom(query)
+
       if (res.status) {
         this.roomList = res.data.rows || []
       }
@@ -41,7 +44,9 @@ export default Form.create({})({
         id: this.form.getFieldValue('roomId'),
         appointmentDateDay: this.form.getFieldValue('date')
       }
+
       if (!query.id || !query.appointmentDateDay) return
+
       query.appointmentDateDay = query.appointmentDateDay.format('YYYYMMDD')
       const res = await apis.getMeetingRoomAppointmentList(query)
 
@@ -63,9 +68,12 @@ export default Form.create({})({
         description: values.description,
         roomId: values.roomId
       }
+
       this.loading = true
       const res = await apis.addBookMeetingRoom(form)
+
       this.loading = false
+
       if (res.status) {
         message.success('提交成功')
         this.$router.go(-1)
@@ -75,12 +83,15 @@ export default Form.create({})({
       e.preventDefault()
       this.form.validateFieldsAndScroll(async (err, values) => {
         if (err) return
+
         this.submit(values)
       })
     },
     disabledDate(date) {
       const newDate = new Date()
+
       newDate.setDate(newDate.getDate() - 1)
+
       return date.isBefore(newDate)
     }
   },
@@ -88,9 +99,12 @@ export default Form.create({})({
     const getDiffTime = () => {
       const startTime = this.form.getFieldValue('startTime')
       const endTime = this.form.getFieldValue('endTime')
+
       if (!startTime || !endTime) return ''
+
       return `${endTime.diff(startTime, 'hours', true).toFixed(1)}小时`
     }
+
     return (
       <BNContainer width="100%" modalTitle="会议室预约 > 立即预约" class="bn-book-meeting-room--book">
         <Form class="book-meeting-room-form" labelCol={{ span: 6 }} wrapperCol={{ span: 14 }} onsubmit={this.onSubmit}>

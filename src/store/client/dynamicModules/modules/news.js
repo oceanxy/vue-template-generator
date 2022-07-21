@@ -2,6 +2,7 @@ import apis from '@/apis'
 import { message, Modal } from 'ant-design-vue'
 import { createStoreModule } from '@/store/template'
 import { omit } from 'lodash'
+
 export default commitRootInModule =>
   omit(
     createStoreModule({
@@ -21,7 +22,9 @@ export default commitRootInModule =>
         async updateIsReadAll({ commit }) {
           commit('set_readLoading', true)
           const res = await apis.updateIsReadAll({ messagePlatform: 2 })
+
           commit('set_readLoading', false)
+
           if (res.status) {
             message.success('操作成功')
           }
@@ -29,8 +32,10 @@ export default commitRootInModule =>
         async delNews({ state, dispatch }, moduleName) {
           if (state.selectedRowKeys.length === 0) {
             message.warn('请选择数据')
+
             return
           }
+
           Modal.confirm({
             title: '确认',
             content: '确定要删除吗？',

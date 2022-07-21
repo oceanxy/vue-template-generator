@@ -57,6 +57,7 @@ export default {
         loading: this.getLoading(this.moduleName)
       }
     }
+
     return (
       <div>
         <Table

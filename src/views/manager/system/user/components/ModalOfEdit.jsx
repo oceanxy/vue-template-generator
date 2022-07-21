@@ -6,6 +6,7 @@ import CascaderRole from '@/components/BNContainerWithSystem/components/Cascader
 import CascaderOrgan from '@/components/BNContainerWithSystem/components/CascaderOrgan'
 import { mapState, mapAction } from '@/utils/store'
 import { mapGetters } from 'vuex'
+
 // import moment from 'moment'
 export default Form.create({})({
   mixins: [forFormModal()],
@@ -33,6 +34,7 @@ export default Form.create({})({
       async handler(value) {
         if (value) {
           const res = await this.getDetail({ id: this.currentItem.id, moduleName: this.moduleName })
+
           if (res.status) {
             if (res.data.provinceId) {
               this.addressList = [res.data.provinceId, res.data.cityId, res.data.countyId]
@@ -65,6 +67,7 @@ export default Form.create({})({
       }
 
       const [province, city, county] = this.addressList
+
       data.provinceId = province?.id ?? ''
       data.provinceName = province?.name ?? ''
       data.cityId = city?.id ?? ''
@@ -75,6 +78,7 @@ export default Form.create({})({
       data.birthDate = data.birthDate ? data.birthDate.format('YYYYMMDD') : ''
 
       data.id = this.currentItem?.id ?? ''
+
       return data
     },
     onChangeAddressList(value, selectedOptions) {

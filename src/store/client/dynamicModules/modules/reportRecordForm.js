@@ -11,10 +11,13 @@ export default commitRootInModule =>
       async getReportRecord(ctx, { reportId }) {
         commitRootInModule('setLoading', true)
         const res = await apis.getReportRecord({ reportId })
+
         commitRootInModule('setLoading', false)
+
         if (res.status) {
           commitRootInModule('setList', res.data || [])
         }
+
         return res
       }
     }

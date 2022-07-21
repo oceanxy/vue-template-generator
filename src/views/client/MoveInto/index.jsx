@@ -4,6 +4,7 @@ import store, { dynamicModules } from '@/store/client'
 import dynamicState from '@/mixins/dynamicState'
 import Upload from '@/components/BNUploadPictures'
 import { dispatch } from '@/utils/store'
+
 export default Form.create({})({
   name: 'MoveInfo',
   mixins: [dynamicState(store, dynamicModules)],
@@ -23,7 +24,9 @@ export default Form.create({})({
       e.preventDefault()
       this.form.validateFieldsAndScroll(async (err, values) => {
         if (err) return
+
         const res = await dispatch(this.moduleName, 'onSubmit', values)
+
         if (res.status) {
           this.form.resetFields()
         }

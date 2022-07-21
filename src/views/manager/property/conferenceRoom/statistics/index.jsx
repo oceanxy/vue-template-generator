@@ -7,6 +7,7 @@ import Table from './components/Table'
 import Pagination from './components/Pagination'
 import ModalOfDetail from './components/ModalOfDetail'
 import Functions from './components/Functions'
+
 export default {
   name: 'ConferenceRoomStatistics',
   mixins: [dynamicState(store, dynamicModules)],

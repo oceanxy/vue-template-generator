@@ -6,6 +6,7 @@ import store, { dynamicModules } from '@/store/client'
 import { mapState, mapAction } from '@/utils/store'
 import Pagination from './components/Pagination'
 import apis from '@/apis'
+
 export default {
   name: 'BookMeetingRoomRecords',
   mixins: [dynamicState(store, dynamicModules)],
@@ -50,6 +51,7 @@ export default {
         content: '确定取消预约？',
         onOk: async () => {
           await this.cancelMeetingRoomAppointment({ id: item.id, moduleName: this.moduleName })
+
           return Promise.resolve()
         },
         onCancel() {}

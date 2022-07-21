@@ -20,6 +20,7 @@ export default Form.create({})({
     },
     remarkRequired() {
       const amount = this.form.getFieldValue('amount')
+
       return amount !== this.currentItem.amount
     }
   },

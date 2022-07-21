@@ -2,6 +2,7 @@ import { Descriptions } from 'ant-design-vue'
 import forModal from '@/mixins/forModal'
 import DragModal from '@/components/DragModal'
 import { mapAction, mapMutation, mapState } from '@/utils/store'
+
 export default {
   mixins: [forModal()],
   data() {
@@ -39,6 +40,7 @@ export default {
         cancel: () => this.onCancel(this.visibleField)
       }
     }
+
     return (
       <DragModal {...attributes}>
         <Descriptions column={2} bordered={true}>
