@@ -744,16 +744,49 @@ export const routes = [
           }
         ]
       },
-      // {
-      //   path: 'conf-room-mana',
-      //   component: TGRouterView,
-      //   meta: {
-      //     title: '会议室管理',
-      //     keepAlive: false,
-      //     requiresAuth: true,
-      //     icon: () => import('@/layouts/components/TGMenu/assets/images/conferenceRoomManagement.svg')
-      //   }
-      // },
+      {
+        path: 'conference-room',
+        redirect: { name: 'conferenceRoom' },
+        component: TGRouterView,
+        meta: {
+          title: '会议室管理',
+          keepAlive: false,
+          requiresAuth: true,
+          icon: () => import('@/layouts/components/TGMenu/assets/images/conferenceRoomManagement.svg')
+        },
+        children: [
+          {
+            path: '',
+            name: 'conferenceRoom',
+            component: () => import('@/views/manager/property/conferenceRoom/manage'),
+            meta: {
+              title: '会议室管理',
+              keepAlive: false,
+              requiresAuth: true
+            }
+          },
+          {
+            path: 'subscribe',
+            name: 'conferenceRoomSubscribe',
+            component: () => import('@/views/manager/property/conferenceRoom/subscribe'),
+            meta: {
+              title: '会议室预约',
+              keepAlive: false,
+              requiresAuth: true
+            }
+          },
+          {
+            path: 'statistics',
+            name: 'conferenceRoomStatistics',
+            component: () => import('@/views/manager/property/conferenceRoom/statistics'),
+            meta: {
+              title: '使用统计',
+              keepAlive: false,
+              requiresAuth: true
+            }
+          }
+        ]
+      },
       // {
       //   path: 'work-order-mana',
       //   component: TGRouterView,
@@ -838,47 +871,6 @@ export const routes = [
                 }
               }
             ]
-          }
-        ]
-      },
-      {
-        path: 'conference-room',
-        meta: {
-          title: '会议室管理',
-          keepAlive: false,
-          requiresAuth: true,
-          icon: () => import('@/layouts/components/TGMenu/assets/images/systemManagement.svg')
-        },
-        component: TGRouterView,
-        children: [
-          {
-            path: '',
-            meta: {
-              title: '会议室管理',
-              keepAlive: false,
-              requiresAuth: true
-            },
-            component: () => import('@/views/manager/property/conferenceRoom/manage')
-          },
-          {
-            path: 'subscribe',
-            name: 'conferenceRoomSubscribe',
-            meta: {
-              title: '会议室预约',
-              keepAlive: false,
-              requiresAuth: true
-            },
-            component: () => import('@/views/manager/property/conferenceRoom/subscribe')
-          },
-          {
-            path: 'statistics',
-            name: 'conferenceRoomStatistics',
-            meta: {
-              title: '使用统计',
-              keepAlive: false,
-              requiresAuth: true
-            },
-            component: () => import('@/views/manager/property/conferenceRoom/statistics')
           }
         ]
       },
