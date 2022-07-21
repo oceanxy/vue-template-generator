@@ -30,7 +30,7 @@ export default {
           },
           {
             title: '地址',
-            dataIndex: 'address'
+            scopedSlots: { customRender: 'address' }
           },
           {
             title: '监管单位',
