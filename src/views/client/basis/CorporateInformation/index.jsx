@@ -29,6 +29,7 @@ export default Form.create({})({
     onSubmit() {
       this.form.validateFieldsAndScroll((err, values) => {
         if (err) return
+
         this.updateCompanyDetail(values)
       })
     },
@@ -37,6 +38,7 @@ export default Form.create({})({
   render() {
     // 回显图片
     const fileListLogo = []
+
     if (this.details.logo) {
       fileListLogo.push({
         uid: 'logo',
@@ -46,7 +48,9 @@ export default Form.create({})({
         name: this.details.logo?.substring(this.details.logo?.lastIndexOf('/'))
       })
     }
+
     const fileListBusinessLicense = []
+
     if (this.details.businessLicense) {
       fileListBusinessLicense.push({
         uid: 'businessLicense',
@@ -56,7 +60,9 @@ export default Form.create({})({
         name: this.details.businessLicense?.substring(this.details.businessLicense?.lastIndexOf('/'))
       })
     }
+
     const fileListLegalPersonIdCardFront = []
+
     if (this.details.legalPersonIdCardFront) {
       fileListLegalPersonIdCardFront.push({
         uid: 'legalPersonIdCardFront',
@@ -66,7 +72,9 @@ export default Form.create({})({
         name: this.details.legalPersonIdCardFront?.substring(this.details.legalPersonIdCardFront?.lastIndexOf('/'))
       })
     }
+
     const fileListLegalPersonIdCardReverse = []
+
     if (this.details.legalPersonIdCardReverse) {
       fileListLegalPersonIdCardReverse.push({
         uid: 'legalPersonIdCardReverse',
@@ -76,6 +84,7 @@ export default Form.create({})({
         name: this.details.legalPersonIdCardReverse?.substring(this.details.legalPersonIdCardReverse?.lastIndexOf('/'))
       })
     }
+
     return (
       <BNContainer width="100%" modalTitle="企业信息管理" contentClass="bn-cor-info-content">
         <Spin spinning={this.loading}>

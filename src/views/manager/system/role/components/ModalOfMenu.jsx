@@ -4,6 +4,7 @@ import forFormModal from '@/mixins/forModal/forFormModal'
 import DragModal from '@/components/DragModal'
 import PrivilegeTree from '@/components/BNContainerWithSystem/components/PrivilegeTree'
 import apis from '@/apis'
+
 export default Form.create({})({
   mixins: [forFormModal()],
   data() {
@@ -37,11 +38,13 @@ export default Form.create({})({
       const data = {
         ...values
       }
+
       if (data.parentId.length > 0) {
         data.parentId = data.parentId[data.parentId.length - 1]
       } else {
         data.parentId = ''
       }
+
       if (data.indexMenuId.length > 0) {
         data.indexMenuId = data.indexMenuId[data.indexMenuId.length - 1]
       } else {
@@ -56,7 +59,9 @@ export default Form.create({})({
         roleId: this.currentItem.id,
         privilegeInfoList: this.defaultCheckedKeysData
       })
+
       this.modalProps.confirmLoading = false
+
       if (res.status) {
         message.success('配置完成')
         this.onCancel(this.visibleField)
@@ -65,6 +70,7 @@ export default Form.create({})({
     onCheck(values, e) {
       this.defaultCheckedKeysData = e.checkedNodes.map(item => {
         const props = item.data.props
+
         return {
           objId: props.id,
           plType: props.tag
@@ -78,11 +84,13 @@ export default Form.create({})({
           if (item.checked) {
             result.push({ objId: item.id, plType: item.tag })
           }
+
           if (item.children && item.children.length > 0) {
             recursion(item.children)
           }
         })
       }
+
       recursion(treeList)
       this.defaultCheckedKeysData = result
     }
@@ -95,6 +103,7 @@ export default Form.create({})({
         ok: () => this.onSubmit()
       }
     }
+
     return (
       <DragModal {...attributes}>
         <PrivilegeTree

@@ -71,6 +71,7 @@ export default {
         this.loading = false
 
         const blob = new Blob([response], { type: 'application/pdf' })
+
         this.previewUrl = window.URL.createObjectURL(blob)
 
         // 按钮倒计时
@@ -90,6 +91,7 @@ export default {
         id: this.details.id,
         templateId: this.templateId
       })
+
       this.submitLoading = false
 
       if (response.status) {

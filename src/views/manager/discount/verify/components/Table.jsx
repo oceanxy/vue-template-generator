@@ -1,6 +1,7 @@
 import '../assets/styles/index.scss'
 import { Button, Space, Table, Tag } from 'ant-design-vue'
 import forTable from '@/mixins/forTable'
+
 export default {
   mixins: [forTable()],
   data() {
@@ -84,6 +85,7 @@ export default {
         return <Tag color="orange">待审核</Tag>
       }
     }
+
     return (
       <Table
         ref={`${this.moduleName}Table`}

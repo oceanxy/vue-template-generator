@@ -5,6 +5,7 @@ import store, { dynamicModules } from '@/store/client'
 import dynamicState from '@/mixins/dynamicState'
 import { dispatch } from '@/utils/store'
 import { mapState } from '@/utils/store'
+
 export default {
   name: 'ReportForm',
   mixins: [dynamicState(store, dynamicModules)],

@@ -27,6 +27,7 @@ export default {
   getBase64(file) {
     return new Promise((resolve, reject) => {
       const reader = new FileReader()
+
       reader.readAsDataURL(file)
       reader.onload = () => resolve(reader.result)
       reader.onerror = error => reject(error)
@@ -50,8 +51,10 @@ export default {
       window.navigator.msSaveBlob(blob, fileName)
     } else {
       const tmpa = document.createElement('a')
+
       tmpa.download = fileName
       const urlObj = URL.createObjectURL(blob)
+
       tmpa.href = urlObj
       tmpa.click() // 模拟点击实现下载
       setTimeout(function () {

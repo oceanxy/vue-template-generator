@@ -6,6 +6,7 @@ import Inquiry from './components/Inquiry'
 import Table from './components/Table'
 import Pagination from './components/Pagination'
 import ModalOfEdit from './components/ModalOfEdit'
+
 export default {
   name: 'ConferenceRoomManage',
   mixins: [dynamicState(store, dynamicModules)],

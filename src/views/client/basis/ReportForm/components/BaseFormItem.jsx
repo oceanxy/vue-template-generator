@@ -8,6 +8,7 @@ import Date from './package/Date'
 import { Form, Card } from 'ant-design-vue'
 import BNUploadFile from '@/components/BNUploadFile'
 import BNUploadPictures from '@/components/BNUploadPictures'
+
 export default {
   props: {
     data: Object,
@@ -17,6 +18,7 @@ export default {
     const getFormItem = () => {
       let result
       const { modType } = this.data
+
       if (modType === 1) {
         result = <Radio data={this.data} form={this.form}></Radio>
       } else if (modType === 2) {
@@ -32,6 +34,7 @@ export default {
       } else if (modType === 7) {
         result = <Date data={this.data} form={this.form}></Date>
       }
+
       return result
     }
     const getProveType = item => {
@@ -39,6 +42,7 @@ export default {
         return <BNUploadFile action={'/api/system/upload/file'} accept=".pdf" limit={1}></BNUploadFile>
       else return <BNUploadPictures action={'/api/system/upload/image'} limit={1}></BNUploadPictures>
     }
+
     return (
       <Card class="bn-report-form-card">
         {getFormItem()}

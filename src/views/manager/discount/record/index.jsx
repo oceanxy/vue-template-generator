@@ -8,6 +8,7 @@ import Pagination from './components/Pagination'
 import Functions from './components/Functions'
 import ModalOfEdit from './components/ModalOfEdit'
 import ModalOfEnterprise from '../components/ModalOfEnterprise'
+
 export default {
   name: 'DiscountRecord',
   mixins: [dynamicState(store, dynamicModules)],

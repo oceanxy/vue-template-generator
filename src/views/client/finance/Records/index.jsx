@@ -6,6 +6,7 @@ import BNContainer from '@/components/BNContainer'
 import ModalForDetails from '@/views/client/finance/Records/components/ModalForDetails'
 import ModalForInvoice from '@/views/client/finance/Records/components/ModalForInvoice'
 import Pagination from './components/Pagination'
+
 export default {
   name: 'FinanceRecords',
   mixins: [dynamicState(store, dynamicModules)],

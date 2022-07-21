@@ -33,6 +33,7 @@ export default {
   async verifySelected(selection, callback, content) {
     if (!selection.length) {
       Message.warning('请至少勾选一项！')
+
       return
     }
 
@@ -59,6 +60,7 @@ export default {
       onOk: async close => {
         if (typeof callback === 'function') {
           const status = await callback()
+
           this.message(status)
         }
 

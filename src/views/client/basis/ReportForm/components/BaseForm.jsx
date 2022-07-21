@@ -1,6 +1,7 @@
 import { Form } from 'ant-design-vue'
 import BaseFormItem from './BaseFormItem'
 import { getFieldValue } from './utils'
+
 export default Form.create({})({
   props: {
     list: Array
@@ -10,7 +11,9 @@ export default Form.create({})({
       e.preventDefault()
       this.form.validateFieldsAndScroll((err, values) => {
         if (err) return
+
         const form = getFieldValue(this.list, values)
+
         this.$emit('submit', form)
       })
     }

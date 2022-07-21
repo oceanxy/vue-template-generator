@@ -21,11 +21,13 @@ export default {
     //欠费账单
     oweList() {
       const list = this.details?.oweList || []
+
       return list
     },
     //已结清账单
     clearList() {
       const list = this.details?.clearList || []
+
       return list
     }
   },

@@ -3,6 +3,7 @@ import { Button, Space, Table, Modal, Switch } from 'ant-design-vue'
 import forTable from '@/mixins/forTable'
 import ImagePreview from '@/components/ImagePreview'
 import { mapAction } from '@/utils/store'
+
 export default {
   mixins: [forTable()],
   data() {
@@ -69,15 +70,18 @@ export default {
         cancelText: '取消',
         onOk: async close => {
           const res = await this.delConferenceRoomManage({ id: record.id })
+
           if (res.status) {
             this.fetchList()
           }
+
           close()
         }
       })
     },
     async onStatusChange(status, record) {
       const res = await this.updateStatus({ id: record.id, status })
+
       if (res.status) {
         this.fetchList()
       }

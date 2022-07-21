@@ -2,6 +2,7 @@ import '../assets/styles/index.scss'
 import { Button, Space, Table, Modal, Tag } from 'ant-design-vue'
 import forTable from '@/mixins/forTable'
 import { mapAction } from '@/utils/store'
+
 export default {
   mixins: [forTable()],
   data() {
@@ -62,9 +63,11 @@ export default {
         cancelText: '取消',
         onOk: async close => {
           const res = await this.cancelMeetingRoomAppointment({ id: record.id })
+
           if (res.status) {
             this.fetchList()
           }
+
           close()
         }
       })
@@ -87,6 +90,7 @@ export default {
         return <Tag color="green">已使用</Tag>
       }
     }
+
     return (
       <Table
         ref={`${this.moduleName}Table`}

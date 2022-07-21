@@ -1,6 +1,7 @@
 import apis from '@/apis'
 import { createStoreModule } from '@/store/template'
 import { message } from 'ant-design-vue'
+
 export default commitRootInModule =>
   createStoreModule({
     state: {
@@ -20,10 +21,13 @@ export default commitRootInModule =>
       async cancelMeetingRoomAppointment({ state }, { id }) {
         commitRootInModule('setLoading', true)
         const res = await apis.cancelMeetingRoomAppointment({ id })
+
         commitRootInModule('setLoading', false)
+
         if (res.status) {
           message.success('取消成功')
         }
+
         return res
       }
     },

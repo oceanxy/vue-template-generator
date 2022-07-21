@@ -14,7 +14,9 @@ export default commitRootInModule =>
         async getItemList({ commit }, reportId) {
           commitRootInModule('setLoading', true)
           const res = await apis.reportGetItemList({ reportId })
+
           commitRootInModule('setLoading', false)
+
           if (res.status) {
             commitRootInModule('setList', res.data.itemList || [])
           }
@@ -24,12 +26,16 @@ export default commitRootInModule =>
             reportId: state.details.id,
             reportResultList: payload
           }
+
           commitRootInModule('setLoading', true)
           const res = await apis.addReport(form)
+
           commitRootInModule('setLoading', false)
+
           if (res.status) {
             message.success('填报成功')
           }
+
           return res
         }
       }

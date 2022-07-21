@@ -10,12 +10,14 @@ import Pagination from './components/Pagination'
 import Functions from './components/Functions'
 import ModalOfEdit from './components/ModalOfEdit'
 import ModalOfMenu from './components/ModalOfMenu'
+
 export default {
   name: 'SystemRole',
   mixins: [dynamicState(store, dynamicModules)],
   methods: {
     onChangeTree(value) {
       const [menuId] = value
+
       this.$store.dispatch('setSearch', { payload: { menuId: menuId ?? '' }, moduleName: this.moduleName })
     }
   },

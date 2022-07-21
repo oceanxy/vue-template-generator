@@ -106,6 +106,7 @@ export default {
             item.targetId = item.targetId || ''
             item.isRequired = !!item.isRequired
             item.status = !!item.status
+
             return item
           })
         } else {
@@ -120,6 +121,7 @@ export default {
   methods: {
     onDelClick(id) {
       const index = this.dataSource.findIndex(item => item.id === id)
+
       this.dataSource.splice(index, 1)
     },
     onCreateRow() {

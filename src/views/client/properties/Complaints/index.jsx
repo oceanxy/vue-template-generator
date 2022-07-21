@@ -5,6 +5,7 @@ import PropertyRecords from '@/components/PropertyRecords'
 import dynamicState from '@/mixins/dynamicState'
 import store, { dynamicModules } from '@/store/client'
 import { mapState, mapAction } from '@/utils/store'
+
 export default {
   name: 'Complaints',
   mixins: [dynamicState(store, dynamicModules)],

@@ -1,5 +1,6 @@
 import { Cascader } from 'ant-design-vue'
 import apis from '@/apis'
+
 export default {
   model: {
     prop: 'value',
@@ -25,8 +26,10 @@ export default {
   methods: {
     async getMenus() {
       const res = await apis.getSystemMenuTree()
+
       if (res.status) {
         const data = res.data || []
+
         this.options = data
         // if (data.length > 0) {
         //   this.options = data[0].children

@@ -2,6 +2,7 @@ import { Button, Space, Radio } from 'ant-design-vue'
 import forFunction from '@/mixins/forFunction'
 import '../assets/styles/index.scss'
 import { mapState, mapAction } from '@/utils/store'
+
 export default {
   mixins: [forFunction()],
   computed: {

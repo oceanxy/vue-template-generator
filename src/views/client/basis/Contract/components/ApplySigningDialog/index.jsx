@@ -23,14 +23,18 @@ export default Form.create({})({
         if (err) {
           return
         }
+
         const form = {
           applyType: this.applyType,
           id: this.currentItem.id
         }
+
         Object.assign(form, values)
         this.modalProps.confirmLoading = true
         const res = await apis.notifyMessageContractApply(form)
+
         this.modalProps.confirmLoading = false
+
         if (res.status) {
           this.$store.dispatch(`${this.moduleName}/getContracts`)
           message.success('申请成功')

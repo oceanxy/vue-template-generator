@@ -10,9 +10,12 @@ export default commitRootInModule =>
       actions: {
         async getUserCompanyBillList({ commit, rootState }) {
           const { userInfo } = rootState.login
+
           commitRootInModule('setLoading', true)
           const res = await apis.getUserCompanyBillList({ companyId: userInfo.companyId })
+
           commitRootInModule('setLoading', false)
+
           if (res.status) {
             commitRootInModule('setDetails', res.data)
           }

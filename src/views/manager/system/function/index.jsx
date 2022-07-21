@@ -9,12 +9,14 @@ import Table from './components/Table'
 import Pagination from './components/Pagination'
 import Functions from './components/Functions'
 import ModalOfEdit from './components/ModalOfEdit'
+
 export default {
   name: 'SystemFunction',
   mixins: [dynamicState(store, dynamicModules)],
   methods: {
     onChangeTree(value) {
       const [menuId] = value
+
       this.$store.dispatch('setSearch', { payload: { menuId: menuId ?? '' }, moduleName: this.moduleName })
     }
   },

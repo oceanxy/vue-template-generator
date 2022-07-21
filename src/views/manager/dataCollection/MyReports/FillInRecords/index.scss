@@ -6,12 +6,26 @@
   height: 100%;
   @include container-border-radius;
 
-  .bnm-fill-in-records-content {
-    display: flex;
-    flex-direction: column;
-  }
-
   .tg-universal-box {
-    height: 100%
+    height: 100%;
+
+    .bnm-fill-in-records-content {
+      display: flex;
+      flex-direction: column;
+
+      .title {
+        flex: none;
+        font-size: 18px;
+        height: 46px;
+        line-height: 46px;
+      }
+
+      .btn {
+        flex: none;
+        height:46px;
+        line-height: 46px;
+        text-align: center;
+      }
+    }
   }
 }

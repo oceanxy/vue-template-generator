@@ -69,6 +69,7 @@ export default {
         return <Tag color="#a3a2a5">{row.payStatusStr}</Tag>
       }
     }
+
     return (
       <Table
         ref={`${this.moduleName}Table`}

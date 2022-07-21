@@ -1,5 +1,6 @@
 import './assets/index.scss'
 import TGContainerWithSider from '@/components/TGContainerWithSider'
+
 export default {
   inject: ['moduleName'],
   props: {

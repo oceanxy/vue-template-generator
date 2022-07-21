@@ -131,6 +131,7 @@ export default Form.create({})({
     importTemplate(itemsSelected) {
       const old = this.form.getFieldValue('itemList')
       const items = cloneDeep(itemsSelected)
+
       items.forEach(item => {
         item.id = Math.random()
         item.serialNum = +item.serialNum + +old.length

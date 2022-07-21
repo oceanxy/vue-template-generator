@@ -1,6 +1,7 @@
 import Upload from '@/components/BNUploadFile'
 import { Form } from 'ant-design-vue'
 import { getRules } from '../utils'
+
 export default {
   props: {
     data: Object,

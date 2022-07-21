@@ -7,6 +7,7 @@ import dynamicState from '@/mixins/dynamicState'
 import store, { dynamicModules } from '@/store/client'
 import Pagination from './components/Pagination'
 import { mapAction, mapState } from '@/utils/store'
+
 export default {
   name: 'BookMeetingRoom',
   mixins: [dynamicState(store, dynamicModules)],

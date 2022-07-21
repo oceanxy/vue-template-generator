@@ -42,6 +42,7 @@ export default Form.create({})({
         if (value) {
           this.getSaleItemList()
           this.getCompanyDictionaryList()
+
           if (this.currentItem.id) {
             this.$store.dispatch('getDetails', { payload: { id: this.currentItem.id }, moduleName: this.moduleName })
           }
@@ -62,6 +63,7 @@ export default Form.create({})({
       const data = {
         ...values
       }
+
       data.isLongTime = data.isLongTime ? 1 : 0
       data.starTime = data.starTime?.format('YYYYMMDD') ?? ''
       data.endTime = data.endTime?.format('YYYYMMDD') ?? ''
@@ -69,6 +71,7 @@ export default Form.create({})({
       data.itemIdList = this.saleItemList
         .filter(item => {
           const index = data.itemIdList.findIndex(item2 => item.id === item2)
+
           return index > -1
         })
         .map(item => {
@@ -107,6 +110,7 @@ export default Form.create({})({
     },
     onAllCompanyDictionaryList({ target }) {
       const ids = this.companyDictionaryList.map(item => item.id)
+
       this.isAllCheckbox = target.checked
       this.form.setFieldsValue({
         companyTypeIds: this.isAllCheckbox ? ids : []
@@ -139,8 +143,10 @@ export default Form.create({})({
     const validateNum = (rule, value, callback) => {
       if (value) {
         callback()
+
         return
       }
+
       callback(new Error('请输入'))
     }
 

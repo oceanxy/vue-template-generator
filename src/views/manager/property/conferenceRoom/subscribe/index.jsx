@@ -7,6 +7,7 @@ import Table from './components/Table'
 import Pagination from './components/Pagination'
 import ModalOfEdit from './components/ModalOfEdit'
 import Functions from './components/Functions'
+
 export default {
   name: 'ConferenceRoomSubscribe',
   mixins: [dynamicState(store, dynamicModules)],

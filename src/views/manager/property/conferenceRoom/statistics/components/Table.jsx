@@ -2,6 +2,7 @@ import '../assets/styles/index.scss'
 import { Button, Space, Table } from 'ant-design-vue'
 import forTable from '@/mixins/forTable'
 import { mapAction } from '@/utils/store'
+
 export default {
   mixins: [forTable()],
   data() {
@@ -60,6 +61,7 @@ export default {
         loading: this.getLoading(this.moduleName)
       }
     }
+
     return (
       <Table
         ref={`${this.moduleName}Table`}

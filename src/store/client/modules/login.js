@@ -64,11 +64,15 @@ export default {
       if (state.companyList) {
         return state.companyList
       }
+
       const companyList = window.sessionStorage.getItem('companyList')
+
       if (companyList) {
         const list = JSON.parse(companyList)
+
         state.companyList = list
       }
+
       return state.companyList
     }
   },
@@ -111,9 +115,12 @@ export default {
       const response = await apis.bbsLogin({
         token: payload
       })
+
       commit('setLoading', false)
+
       if (response.status) {
         const { userInfo, token, companyList } = response.data
+
         commit('setUserInfo', userInfo)
         commit('setAuthentication', token)
         commit('setCompanyList', companyList)
@@ -123,11 +130,13 @@ export default {
         // })
         dispatch('getDetailInfo')
       }
+
       return response
     },
     //切换企业
     async switchEnt({ dispatch, commit, state }, id) {
       if (id === state.userInfo.companyId) return
+
       commit('setCompanyId', id)
       await dispatch('getDetailInfo')
       window.location.reload()
@@ -143,6 +152,7 @@ export default {
     async logout({ commit, dispatch }) {
       apis.logout()
       dispatch('clear')
+
       return Promise.resolve()
     },
     async clear({ commit }) {

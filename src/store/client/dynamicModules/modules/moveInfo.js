@@ -23,22 +23,29 @@ export default commitRootInModule =>
             ...values
           }
           const [businessLicense] = form.businessLicense
+
           form.businessLicense = businessLicense ? businessLicense.response.data[0].key : ''
           const [legalPersonIdCardFront] = form.legalPersonIdCardFront
+
           form.legalPersonIdCardFront = legalPersonIdCardFront ? legalPersonIdCardFront.response.data[0].key : ''
           const [legalPersonIdCardReverse] = form.legalPersonIdCardReverse
+
           form.legalPersonIdCardReverse = legalPersonIdCardReverse ? legalPersonIdCardReverse.response.data[0].key : ''
           commitRootInModule('setLoading', true)
           const res = await apis.notifyMessageEnterprisesIncome(form)
+
           commitRootInModule('setLoading', false)
           this.loading = false
+
           if (res.status) {
             message.success('申请成功')
           }
+
           return res
         },
         async getParkList({ commit }) {
           const res = await apis.notifyMessageGetParkList()
+
           if (res.status) {
             commit('setParkList', res.data)
           }

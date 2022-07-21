@@ -5,6 +5,7 @@ import DragModal from '@/components/DragModal'
 import CascaderMenu from '@/components/BNContainerWithSystem/components/CascaderMenu'
 import CascaderRole from '@/components/BNContainerWithSystem/components/CascaderRole'
 import { mapState, mapAction } from '@/utils/store'
+
 export default Form.create({})({
   mixins: [forFormModal()],
   data() {
@@ -29,17 +30,21 @@ export default Form.create({})({
       const data = {
         ...values
       }
+
       if (data.parentId.length > 0) {
         data.parentId = data.parentId[data.parentId.length - 1]
       } else {
         data.parentId = ''
       }
+
       if (data.indexMenuId.length > 0) {
         data.indexMenuId = data.indexMenuId[data.indexMenuId.length - 1]
       } else {
         data.indexMenuId = ''
       }
+
       data.id = this.currentItem?.id ?? ''
+
       return data
     }
   },
@@ -51,6 +56,7 @@ export default Form.create({})({
         ok: () => this.onSubmit({ customDataHandler: this.customDataHandler })
       }
     }
+
     return (
       <DragModal {...attributes}>
         <Form class="" colon={false}>

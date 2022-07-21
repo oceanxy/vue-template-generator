@@ -34,11 +34,13 @@ export default () => {
             ? temp.appointmentDateStartMonth.format('YYYYMM')
             : ''
         }
+
         if ('appointmentDateEndMonth' in temp) {
           temp.appointmentDateEndMonth = temp.appointmentDateEndMonth
             ? temp.appointmentDateEndMonth.format('YYYYMM')
             : ''
         }
+
         return temp
       },
       async onClear() {
