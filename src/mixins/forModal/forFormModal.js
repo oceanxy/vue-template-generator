@@ -62,18 +62,6 @@ export default () => {
           temp.status = temp.status ? 1 : 2
         }
 
-        if ('regulationOrganIds' in temp) {
-          temp.regulationOrganIds = temp.regulationOrganIds.join()
-        }
-
-        if ('operationOrganIds' in temp) {
-          temp.operationOrganIds = temp.operationOrganIds.join()
-        }
-
-        if ('propertyOrganIds' in temp) {
-          temp.propertyOrganIds = temp.propertyOrganIds.join()
-        }
-
         if ('dateRange' in temp) {
           temp.startTime = moment(temp.dateRange[0]).format('YYYYMMDDHHmm')
           temp.endTime = moment(temp.dateRange[1]).format('YYYYMMDDHHmm')

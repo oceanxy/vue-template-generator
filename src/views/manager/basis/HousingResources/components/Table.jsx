@@ -26,7 +26,7 @@ export default {
           },
           {
             title: '位置',
-            scopedSlots: { customRender: 'address' }
+            dataIndex: 'floorNameStr'
           },
           {
             title: '面积（㎡）',
@@ -34,9 +34,9 @@ export default {
             dataIndex: 'roomArea'
           },
           {
-            title: '单价',
+            title: '单价（㎡）',
             align: 'center',
-            scopedSlots: { customRender: 'price' }
+            dataIndex: 'priceStr'
           },
           {
             title: '工位数',
@@ -88,8 +88,6 @@ export default {
             imgList: (text, record) => (
               <img src={record.imgList[0]?.path} alt={''} class={'bnm-table-img'} />
             ),
-            address: (text, record) => `${record.buildName}/${record.floorName}`,
-            price: (text, record) => `￥${record.price}/${['月', '季', '年'][record.priceType - 1]}`,
             status: (text, record) => (
               <Switch
                 checked={+record.status === 1}

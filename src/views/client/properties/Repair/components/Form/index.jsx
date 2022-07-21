@@ -16,8 +16,7 @@ export default Form.create({})({
       this.form.validateFieldsAndScroll(async (err, values) => {
         if (err) return
         const payload = { ...values }
-        const imgDescription = payload.imgDescription
-        payload.imgDescription = imgDescription
+        payload.imgs = payload.imgs
           .map(item => {
             return item.response.data[0].key
           })
@@ -35,19 +34,19 @@ export default Form.create({})({
       <BNContainer class="bn-repair-form" width="100%" modalTitle="物业报修">
         <Form labelCol={{ span: 4 }} wrapperCol={{ span: 20 }}>
           <Form.Item label="报修项">
-            {this.form.getFieldDecorator('applyProject', {
+            {this.form.getFieldDecorator('repairItem', {
               initialValue: '',
               rules: [{ required: true, message: '此项必填', trigger: 'blur' }]
             })(<Input placeholder="请输入" />)}
           </Form.Item>
           <Form.Item label="描述说明">
-            {this.form.getFieldDecorator('applyDescription', {
+            {this.form.getFieldDecorator('description', {
               initialValue: '',
               rules: [{ required: true, message: '此项必填', trigger: 'blur' }]
             })(<Input.TextArea placeholder="请输入" autoSize={{ minRows: 4, maxRows: 6 }} />)}
           </Form.Item>
           <Form.Item label="图片说明">
-            {this.form.getFieldDecorator('imgDescription', {
+            {this.form.getFieldDecorator('imgs', {
               initialValue: [],
               rules: [{ required: true, type: 'array', message: '此项必填', trigger: 'change' }]
             })(<Upload action={'/api/system/upload/image'} limit={10}></Upload>)}

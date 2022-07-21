@@ -20,7 +20,7 @@ export default commitRootInModule => omit(createStoreModule(
        * @returns {Promise<void>}
        */
       async getFloorsByBuilding({ commit, state }) {
-        const response = await apis.getFloorsByBuilding({ id: state.search.buildId })
+        const response = await apis.getFloorsByBuilding({ buildId: state.search.buildId })
 
         if (response.status) {
           commit('setFloors', response.data)

@@ -91,6 +91,44 @@ export default Form.create({})({
               )
             }
           </Form.Item>
+          <Form.Item label="管理员账号" class={'half'}>
+            {
+              this.form.getFieldDecorator('loginAccount', {
+                initialValue: this.currentItem.loginAccount,
+                rules: [{ required: true, message: '请输入管理员登录账号!', trigger: 'blur' }]
+              })(
+                <Input placeholder="请输入登录账号" disabled={!!this.currentItem.id} />
+              )
+            }
+          </Form.Item>
+          {
+            // this.currentItem.id ? null : (
+            //   <Form.Item label="登录密码" class={'half'}>
+            //     {
+            //       this.form.getFieldDecorator('loginPwd', {
+            //         initialValue: this.currentItem.loginPwd
+            //         // rules: [{ required: true, message: '请输入登录密码!', trigger: 'blur' }]
+            //       })(
+            //         <Input placeholder="请输入登录密码" />
+            //       )
+            //     }
+            //   </Form.Item>
+            // )
+          }
+          <Form.Item label="类型" class={'half'}>
+            {
+              this.form.getFieldDecorator('parkType', {
+                initialValue: this.currentItem.parkType || 1,
+                rules: [{ required: true, type: 'number', message: '请选择类型!', trigger: 'blur' }]
+              })(
+                <Select placeholder="请选择类型">
+                  <Select.Option value={1}>普通中心</Select.Option>
+                  <Select.Option value={2}>扩展中心</Select.Option>
+                  <Select.Option value={3}>培育中心</Select.Option>
+                </Select>
+              )
+            }
+          </Form.Item>
           <Form.Item label="地址" class={'custom'} required>
             <Row gutter={16}>
               <Col span={10}>
@@ -125,48 +163,10 @@ export default Form.create({})({
               </Col>
             </Row>
           </Form.Item>
-          <Form.Item label="管理员账号" class={'half'}>
-            {
-              this.form.getFieldDecorator('loginAccount', {
-                initialValue: this.currentItem.loginAccount,
-                rules: [{ required: true, message: '请输入管理员登录账号!', trigger: 'blur' }]
-              })(
-                <Input placeholder="请输入登录账号" disabled={!!this.currentItem.id} />
-              )
-            }
-          </Form.Item>
-          {
-            this.currentItem.id ? null : (
-              <Form.Item label="登录密码" class={'half'}>
-                {
-                  this.form.getFieldDecorator('loginPwd', {
-                    initialValue: this.currentItem.loginPwd,
-                    rules: [{ required: true, message: '请输入登录密码!', trigger: 'blur' }]
-                  })(
-                    <Input placeholder="请输入登录密码" />
-                  )
-                }
-              </Form.Item>
-            )
-          }
-          <Form.Item label="类型" class={'half'}>
-            {
-              this.form.getFieldDecorator('parkType', {
-                initialValue: this.currentItem.parkType || 1,
-                rules: [{ required: true, type: 'number', message: '请选择类型!', trigger: 'blur' }]
-              })(
-                <Select placeholder="请选择类型">
-                  <Select.Option value={1}>普通中心</Select.Option>
-                  <Select.Option value={2}>扩展中心</Select.Option>
-                  <Select.Option value={3}>培育中心</Select.Option>
-                </Select>
-              )
-            }
-          </Form.Item>
           <Form.Item label="监管单位">
             {
-              this.form.getFieldDecorator('regulationUnitIds', {
-                initialValue: this.currentItem.regulationUnitIds || undefined
+              this.form.getFieldDecorator('regulationUnitIdList', {
+                initialValue: this.currentItem.regulationUnitIdList || undefined
               })(
                 <Select
                   allowClear
@@ -185,8 +185,8 @@ export default Form.create({})({
           </Form.Item>
           <Form.Item label="运营单位">
             {
-              this.form.getFieldDecorator('operationUnitIds', {
-                initialValue: this.currentItem.operationUnitIds || undefined
+              this.form.getFieldDecorator('operationUnitIdList', {
+                initialValue: this.currentItem.operationUnitIdList || undefined
               })(
                 <Select
                   allowClear
@@ -205,8 +205,8 @@ export default Form.create({})({
           </Form.Item>
           <Form.Item label="物业单位">
             {
-              this.form.getFieldDecorator('propertyUnitIds', {
-                initialValue: this.currentItem.propertyUnitIds || undefined
+              this.form.getFieldDecorator('propertyUnitIdList', {
+                initialValue: this.currentItem.propertyUnitIdList || undefined
               })(
                 <Select
                   allowClear

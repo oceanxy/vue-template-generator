@@ -16,8 +16,7 @@ export default Form.create({})({
       this.form.validateFieldsAndScroll(async (err, values) => {
         if (err) return
         const payload = { ...values }
-        const descriptionImg = payload.descriptionImg
-        payload.descriptionImg = descriptionImg
+        payload.imgs = payload.imgs
           .map(item => {
             return item.response.data[0].key
           })
@@ -36,13 +35,12 @@ export default Form.create({})({
       <BNContainer class="bn-complaints-form" width="100%" modalTitle="投诉建议">
         <Form labelCol={{ span: 4 }} wrapperCol={{ span: 20 }}>
           <Form.Item label="投诉类型" class="radio-group">
-            {this.form.getFieldDecorator('complaintsType', {
-              initialValue: '',
+            {this.form.getFieldDecorator('complaintType', {
               rules: [{ required: true, type: 'number', message: '此项必填', trigger: 'change' }]
             })(
               <Radio.Group>
                 {complaintsTypeEnum.map(item => {
-                  return <Radio value={item}>{this.complaintsTypeEnum[item]}</Radio>
+                  return <Radio value={+item}>{this.complaintsTypeEnum[item]}</Radio>
                 })}
               </Radio.Group>
             )}
@@ -54,7 +52,7 @@ export default Form.create({})({
             })(<Input.TextArea autoSize={{ minRows: 4, maxRows: 6 }} />)}
           </Form.Item>
           <Form.Item label="图片说明">
-            {this.form.getFieldDecorator('descriptionImg', {
+            {this.form.getFieldDecorator('imgs', {
               initialValue: [],
               rules: [{ required: true, type: 'array', message: '此项必填', trigger: 'change' }]
             })(<Upload action={'/api/system/upload/image'} limit={10}></Upload>)}

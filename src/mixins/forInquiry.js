@@ -29,6 +29,16 @@ export default () => {
           temp = omit(temp, 'datetimeRange')
         }
 
+        if ('appointmentDateStartMonth' in temp) {
+          temp.appointmentDateStartMonth = temp.appointmentDateStartMonth
+            ? temp.appointmentDateStartMonth.format('YYYYMM')
+            : ''
+        }
+        if ('appointmentDateEndMonth' in temp) {
+          temp.appointmentDateEndMonth = temp.appointmentDateEndMonth
+            ? temp.appointmentDateEndMonth.format('YYYYMM')
+            : ''
+        }
         return temp
       },
       async onClear() {

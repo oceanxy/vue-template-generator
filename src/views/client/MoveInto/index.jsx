@@ -21,9 +21,12 @@ export default Form.create({})({
   methods: {
     validateFieldsAndScroll(e) {
       e.preventDefault()
-      this.form.validateFieldsAndScroll((err, values) => {
+      this.form.validateFieldsAndScroll(async (err, values) => {
         if (err) return
-        dispatch(this.moduleName, 'onSubmit', values)
+        const res = await dispatch(this.moduleName, 'onSubmit', values)
+        if (res.status) {
+          this.form.resetFields()
+        }
       })
     }
   },

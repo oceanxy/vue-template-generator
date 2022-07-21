@@ -86,7 +86,7 @@ export default Form.create({})({
               )
             }
           </Form.Item>
-          <Form.Item label="账号" class={'half'}>
+          <Form.Item label="登录账号" class={'half'}>
             {
               this.form.getFieldDecorator('loginAccount', {
                 initialValue: this.currentItem.loginAccount,
@@ -97,18 +97,18 @@ export default Form.create({})({
             }
           </Form.Item>
           {
-            this.currentItem?.id ? null : (
-              <Form.Item label="登录密码" class={'half'}>
-                {
-                  this.form.getFieldDecorator('loginPwd', {
-                    initialValue: this.currentItem.loginPwd,
-                    rules: [{ required: true, message: '请输入登录密码!', trigger: 'blur' }]
-                  })(
-                    <Input placeholder="请输入登录密码" allowClear />
-                  )
-                }
-              </Form.Item>
-            )
+            // this.currentItem?.id ? null : (
+            //   <Form.Item label="登录密码" class={'half'}>
+            //     {
+            //       this.form.getFieldDecorator('loginPwd', {
+            //         initialValue: this.currentItem.loginPwd,
+            //         rules: [{ required: true, message: '请输入登录密码!', trigger: 'blur' }]
+            //       })(
+            //         <Input placeholder="请输入登录密码" allowClear />
+            //       )
+            //     }
+            //   </Form.Item>
+            // )
           }
           <Form.Item label="负责人" class={'half'}>
             {

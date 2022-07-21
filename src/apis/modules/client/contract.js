@@ -7,7 +7,7 @@ export default {
    * @param data
    * @returns {*}
    */
-  getContracts(request, data = {}) {
+  getWebContracts(request, data = {}) {
     return request({
       url: '/operate/notifyMessage/getUserContractList',
       method: 'post',

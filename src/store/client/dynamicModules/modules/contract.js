@@ -17,7 +17,7 @@ export default commitRootInModule =>
       actions: {
         async getContracts({ commit }) {
           commitRootInModule('setLoading', true)
-          const res = await apis.getContracts()
+          const res = await apis.getWebContracts()
           commitRootInModule('setLoading', false)
           if (res.status) {
             commitRootInModule('setList', res.data)
