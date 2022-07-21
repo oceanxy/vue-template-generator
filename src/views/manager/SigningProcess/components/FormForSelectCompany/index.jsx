@@ -26,6 +26,7 @@ export default Form.create({})({
     list() {
       if (+this.$route.query.ac === 1 || +this.$route.query.ac === 2) {
         this.companyInfoSelected = this.details.list
+
         return [{ id: this.details.companyId, companyName: this.details.companyName }]
       }
 
@@ -88,7 +89,7 @@ export default Form.create({})({
       if ('companyTypeList' in temp) {
         temp.companyTypeList = temp.companyTypeList.map(id => ({
           id,
-          fullName: (this.enterpriseClassifications?.find(item => item.id === id)).fullName
+          fullName: (this.enterpriseClassifications.list?.find(item => item.id === id)).fullName
         }))
       }
 
@@ -181,19 +182,21 @@ export default Form.create({})({
           }
         </Form.Item>
         <Form.Item label="所属行业">
-          {
-            this.form.getFieldDecorator('companyTypeList', {
-              initialValue: this.details.companyTypeList || []
-            })(
-              <Checkbox.Group>
-                {
-                  this.enterpriseClassifications.list?.map(item => (
-                    <Checkbox value={item.id}>{item.fullName}</Checkbox>
-                  )) ?? <Spin spinning={this.enterpriseClassifications.loading} />
-                }
-              </Checkbox.Group>
-            )
-          }
+          <Spin spinning={this.enterpriseClassifications.loading}>
+            {
+              this.form.getFieldDecorator('companyTypeList', {
+                initialValue: this.details.companyTypeList || []
+              })(
+                <Checkbox.Group>
+                  {
+                    this.enterpriseClassifications.list?.map(item => (
+                      <Checkbox value={item.id}>{item.fullName}</Checkbox>
+                    ))
+                  }
+                </Checkbox.Group>
+              )
+            }
+          </Spin>
         </Form.Item>
         {
           this.form.getFieldValue('companyCategory') === 2
