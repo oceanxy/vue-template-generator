@@ -34,7 +34,7 @@ export default {
           },
           {
             title: '监管单位',
-            dataIndex: 'regulationOrganName'
+            dataIndex: 'regulationUnitNames'
           },
           {
             title: '状态',
@@ -69,6 +69,7 @@ export default {
         {...{
           scopedSlots: {
             serialNumber: (text, record, index) => index + 1,
+            address: (text, record) => `${record.provinceName}${record.cityName}${record.countyName}${record.address}`,
             status: (text, record) => (
               <Switch
                 checked={+record.status === 1}

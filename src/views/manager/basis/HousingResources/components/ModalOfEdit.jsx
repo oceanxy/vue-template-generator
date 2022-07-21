@@ -115,7 +115,7 @@ export default Form.create({})({
               )
             }
           </Form.Item>
-          <Form.Item label="出租单价" class={'half combo'} required>
+          <Form.Item label="单价（㎡）" class={'half combo'} required>
             <Row gutter={10}>
               <Col span={13}>
                 <Form.Item>

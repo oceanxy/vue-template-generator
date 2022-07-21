@@ -80,6 +80,7 @@ export default {
         {...{
           scopedSlots: {
             serialNumber: (text, record, index) => index + 1,
+            address: (text, record) => `${record.provinceName}${record.cityName}${record.countyName}${record.address}`,
             status: (text, record) => (
               <Switch
                 checked={+record.status === 1}

@@ -86,7 +86,7 @@ export default Form.create({})({
               )
             }
           </Form.Item>
-          <Form.Item label="账号" class={'half'}>
+          <Form.Item label="登录账号" class={'half'}>
             {
               this.form.getFieldDecorator('loginAccount', {
                 initialValue: this.currentItem.loginAccount,
