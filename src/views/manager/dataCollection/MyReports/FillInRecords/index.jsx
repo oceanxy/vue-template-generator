@@ -56,6 +56,11 @@ export default {
       return this.getState(this.stateName, this.moduleName, this.submoduleName)
     }
   },
+  methods: {
+    toFillOutReport() {
+      this.$router.push({ name: 'fillOutReport', query: { reportId: this.data.id, fillObj: this.data.fillObj } })
+    }
+  },
   render() {
     const attributes = {
       props: {
@@ -73,15 +78,18 @@ export default {
           modalTitle={'填报记录'}
           contentClass={'bnm-fill-in-records-content'}
         >
+          <div class={'title'}>
+            {this.data.fullName}
+          </div>
           <Table
             ref={`${this.moduleName}Table`}
             {...attributes}
             {...{
               scopedSlots: {
                 attachmentList: (text, record) => (
-                  <ol>
+                  <ol style={{ paddingLeft: '20px', marginBottom: 0 }}>
                     {
-                      record.attachmentList.map(item => (
+                      record.attachmentList?.map(item => (
                         <li>{item.fileName}</li>
                       ))
                     }
@@ -90,8 +98,8 @@ export default {
               }
             }}
           />
-          <div>
-            <Button type={'primary'}>重新填报</Button>
+          <div class={'btn'}>
+            <Button type={'primary'} onClick={this.toFillOutReport}>重新填报</Button>
           </div>
         </BNContainer>
       </div>
