@@ -183,7 +183,7 @@ export default {
                 >
                   <Select.Option value={1}>单选</Select.Option>
                   <Select.Option value={2}>多选</Select.Option>
-                  <Select.Option value={3}>简答</Select.Option>
+                  <Select.Option value={4}>简答</Select.Option>
                 </Select>
               ),
               itemOptionList: record => (

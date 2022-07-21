@@ -35,7 +35,7 @@ export default {
    */
   deleteQuestionnaires(request, data) {
     return request({
-      url: '/operate/questionnaire/delete',
+      url: '/operate/report/delete',
       method: 'post',
       data: qs.stringify(data)
     })
