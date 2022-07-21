@@ -86,14 +86,20 @@ body {
     height: 0;
     border: 0;
 
-    .ant-table-header,
-    .ant-table-body {
-      overflow: auto !important;
+    .ant-table-thead > tr > th {
+      border: none;
+      background: none;
     }
 
-    .ant-table-header {
+    .ant-table-header,
+    .ant-table-thead {
       background: #f2f7fc !important;
-      height: 46px;
+    }
+
+    .ant-table-header,
+    .ant-table-body {
+      margin-bottom: 0 !important;
+      overflow: auto !important;
     }
   }
 

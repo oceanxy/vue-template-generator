@@ -17,8 +17,11 @@ export default Form.create({})({
   },
   computed: {
     ...mapGetters({
-      buildingsForSelect: 'buildingsForSelect'
+      getState: 'getState'
     }),
+    floorTree() {
+      return this.getState('floorTree', 'common')
+    },
     supportingFacilities() {
       return this.$store.state[this.moduleName].supportingFacilities
     }
@@ -28,13 +31,8 @@ export default Form.create({})({
       immediate: true,
       async handler(value) {
         if (value) {
-          if (!this.buildingsForSelect.length) {
-            await dispatch('common', 'getBuildingsForSelect')
-          }
-
-          if (!this.supportingFacilities.length) {
-            await dispatch(this.moduleName, 'getSupportingFacilities')
-          }
+          await dispatch('common', 'getFloorTree')
+          await dispatch(this.moduleName, 'getSupportingFacilities')
         }
       }
     }
@@ -91,8 +89,9 @@ export default Form.create({})({
                 <TreeSelect
                   showSearch
                   allowClear
+                  treeDefaultExpandedKeys={[this.currentItem.floorId]}
                   dropdownClassName={'bnm-select-dropdown'}
-                  treeData={this.buildingsForSelect}
+                  treeData={this.floorTree}
                   replaceFields={{ children: 'children', title: 'name', key: 'id', value: 'id' }}
                   searchPlaceholder={'请输入关键字以搜索'}
                   placeholder={'请选择房源位置'}

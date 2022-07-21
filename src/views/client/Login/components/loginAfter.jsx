@@ -7,7 +7,9 @@ import BNContainer from '@/components/BNContainer'
 import TGShortcutMenu from '@/components/TGShortcutMenu'
 import { Button, Tag } from 'ant-design-vue'
 import { createNamespacedHelpers } from 'vuex'
+
 const { mapState } = createNamespacedHelpers('login')
+
 export default {
   name: 'Login',
   data: () => ({
@@ -42,7 +44,8 @@ export default {
           </div>
         }
         width={390}
-        showTitleShape={false}>
+        showTitleShape={false}
+      >
         <div class="corporate-services">{this.userInfo.fullName}</div>
         <div class="corporate-services-tags">
           {/* <Tag color="blue">已入驻</Tag> */}

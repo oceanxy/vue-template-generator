@@ -1,4 +1,4 @@
-import { Icon, Modal, Upload, message } from 'ant-design-vue'
+import { Icon, message, Modal, Upload } from 'ant-design-vue'
 import utilityFunction from '@/utils/utilityFunction'
 
 export default {
@@ -48,6 +48,7 @@ export default {
     beforeUpload(file, fileList) {
       if (this.fileList.length >= this.limit) {
         message.warning(`上传数量限制为${this.limit}个`)
+
         return false
       }
     },
@@ -58,6 +59,7 @@ export default {
       if (!file.url && !file.preview) {
         file.preview = await utilityFunction.getBase64(file.originFileObj)
       }
+
       this.previewImage = file.url || file.preview
       this.previewVisible = true
     },
@@ -83,13 +85,18 @@ export default {
           beforeUpload={this.beforeUpload}
           onChange={this.handleChange}
           headers={this.headers}
-          multiple={true}>
-          {this.fileList.length < this.limit ? (
-            <div className={'tg-upload-pic'}>
-              <Icon type={'plus'} />
-              <div className="ant-upload-text">上传</div>
-            </div>
-          ) : null}
+          multiple={true}
+        >
+          {
+            this.fileList.length < this.limit
+              ? (
+                <div class={'tg-upload-pic'}>
+                  <Icon type={'plus'} />
+                  <div class="ant-upload-text">上传</div>
+                </div>
+              )
+              : null
+          }
         </Upload>
         <Modal visible={this.previewVisible} footer={null} onCancel={this.handleCancel}>
           <img alt="example" style="width: 100%" src={this.previewImage} />

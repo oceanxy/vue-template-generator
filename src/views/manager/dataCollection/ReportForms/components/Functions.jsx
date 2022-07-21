@@ -31,7 +31,7 @@ export default {
           onClick={() => this.onAddClick()}
           icon="plus"
         >
-          新增
+          报表制作
         </Button>
         <Button
           onClick={() => this.onBulkOperations(

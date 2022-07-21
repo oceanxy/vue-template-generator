@@ -22,6 +22,10 @@ export default {
     accept: {
       type: String,
       default: '*'
+    },
+    placeholder: {
+      type: String,
+      default: '选择文件'
     }
   },
   data() {
@@ -51,6 +55,7 @@ export default {
     beforeUpload(file, fileList) {
       if (this.fileList.length >= this.limit) {
         message.warning(`上传数量限制为${this.limit}个`)
+
         return false
       }
     },
@@ -66,9 +71,11 @@ export default {
       //   this.fileList = fileList
       // }
       this.fileList = fileList
+
       if (this.fileList.length >= this.limit) {
         this.fileList = this.fileList.slice(0, this.limit)
       }
+
       this.$emit('change', this.fileList)
     }
   },
@@ -85,9 +92,11 @@ export default {
           beforeUpload={this.beforeUpload}
           onChange={this.handleChange}
           headers={this.headers}
-          multiple={true}>
+          multiple={true}
+        >
           <Button>
-            <Icon type="upload" /> 选择文件
+            <Icon type="upload" />
+            {this.placeholder}
           </Button>
         </Upload>
       </div>

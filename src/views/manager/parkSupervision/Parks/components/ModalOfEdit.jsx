@@ -32,9 +32,7 @@ export default Form.create({})({
             await dispatch('common', 'getAdministrativeDivision')
           }
 
-          if (!this.unitsForSelect.length) {
-            await dispatch('common', 'getUnitsForSelect')
-          }
+          await dispatch('common', 'getUnitsForSelect')
         }
       }
     }

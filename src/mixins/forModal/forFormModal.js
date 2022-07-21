@@ -50,6 +50,7 @@ export default () => {
         if ('billIds' in temp) {
           // 筛选已勾选账单
           const ordersChecked = this.pendingOrders.list.filter(item => temp.billIds.includes(item.id))
+
           // 筛选已勾选账单内所有的子级ID
           temp.billIds = ordersChecked.reduce(
             (prev, current) => prev.concat(current.billList.reduce((p, c) => p.concat([c.id]), [])),
@@ -142,6 +143,7 @@ export default () => {
         if ('isShow' in temp) {
           temp.isShow = temp.isShow ? 1 : 0
         }
+
         if ('isDefault' in temp) {
           temp.isDefault = temp.isDefault ? 1 : 0
         }
@@ -201,10 +203,12 @@ export default () => {
                 payload.id = this.currentItem.id
               }
             }
+
             //自定义处理请求参数
             if (typeof options.customDataHandler === 'function') {
               payload = options.customDataHandler(payload)
             }
+
             const status = await this.$store.dispatch(action, {
               moduleName: this.moduleName,
               visibleField: this.visibleField,

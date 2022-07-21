@@ -1,0 +1,25 @@
+@import '@/assets/styles/theme.scss';
+
+.bnm-fill-out-report-container {
+  margin: 0 16px 16px;
+  background: #ffffff;
+  height: 100%;
+  @include container-border-radius;
+
+  .ant-spin-container {
+    height: 100%;
+  }
+
+  .tg-universal-box {
+    height: 100%;
+
+    .ant-form {
+      width: 600px;
+      margin: 60px auto;
+    }
+
+    .box-content {
+      height: 0;
+    }
+  }
+}

@@ -27,9 +27,11 @@ export default {
 
   administrativeDivision: state => {
     let result= []
+
     if (state.common){
       result=state.common.administrativeDivision
     }
+
     return result
   },
   defaultAdministrativeDivision: state => state.common.defaultAdministrativeDivision,

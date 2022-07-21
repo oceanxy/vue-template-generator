@@ -35,26 +35,29 @@ export async function dispatch(moduleName, action, payload) {
 
   return await store.default.dispatch(`${moduleName}/${action}`, payload)
 }
+
 /**
- * @description: 返回store模块状态
- * @param {Array} keys [string]
- * @param {string} submoduleName 子模块名称
- * @return {object}
+ * 返回store模块状态
+ * @param {string[]} keys 状态的键名
+ * @param {string} [submoduleName] 子模块名称
+ * @return {Object}
  */
 export const mapState = (keys, submoduleName) => {
-  const result = keys.reduce((modules, item) => {
-    modules[item] = function () {
+  return keys.reduce((modules, item) => {
+    modules[item] = function() {
       const moduleNameData = this.$store.state[this.moduleName]
+
       if (submoduleName) {
         return moduleNameData[submoduleName][item]
       } else {
         return moduleNameData[item]
       }
     }
+
     return modules
   }, {})
-  return result
 }
+
 /**
  * @description: 返回store模块getter
  * @param {Array} keys [string]
@@ -63,18 +66,22 @@ export const mapState = (keys, submoduleName) => {
  */
 export const mapGetter = (keys, submoduleName) => {
   const result = keys.reduce((modules, item) => {
-    modules[item] = function () {
+    modules[item] = function() {
       const moduleNameData = this.$store.getters
+
       if (submoduleName) {
         return moduleNameData[`${this.moduleName}/${this.submoduleName}/${item}`]
       } else {
         return moduleNameData[`${this.moduleName}/${item}`]
       }
     }
+
     return modules
   }, {})
+
   return result
 }
+
 /**
  * @description: 返回store模块方法
  * @param {Array} actions [string]
@@ -82,17 +89,20 @@ export const mapGetter = (keys, submoduleName) => {
  */
 export const mapAction = actions => {
   const result = actions.reduce((modules, item) => {
-    modules[item] = function (payload, submoduleName) {
+    modules[item] = function(payload, submoduleName) {
       if (submoduleName) {
         return this.$store.dispatch(`${this.moduleName}/${submoduleName}/${item}`, payload)
       } else {
         return this.$store.dispatch(`${this.moduleName}/${item}`, payload)
       }
     }
+
     return modules
   }, {})
+
   return result
 }
+
 /**
  * @description: 返回store模块同步方法
  * @param {Array} actions [string]
@@ -100,14 +110,16 @@ export const mapAction = actions => {
  */
 export const mapMutation = actions => {
   const result = actions.reduce((modules, item) => {
-    modules[item] = function (payload, submoduleName) {
+    modules[item] = function(payload, submoduleName) {
       if (submoduleName) {
         this.$store.commit(`${this.moduleName}/${submoduleName}/${item}`, payload)
       } else {
         this.$store.commit(`${this.moduleName}/${item}`, payload)
       }
     }
+
     return modules
   }, {})
+
   return result
 }

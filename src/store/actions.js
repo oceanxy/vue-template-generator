@@ -51,10 +51,13 @@ export default {
    * @param customApiName {string} 自定义请求api的名字
    * @returns {Promise<void>}
    */
-  async getList(
-    { state, commit },
-    { moduleName, submoduleName, additionalQueryParameters = {}, stateName, customApiName }
-  ) {
+  async getList({ state, commit }, {
+    moduleName,
+    submoduleName,
+    additionalQueryParameters = {},
+    stateName,
+    customApiName
+  }) {
     commit('setLoading', { value: true, moduleName, submoduleName })
 
     let response
@@ -220,18 +223,24 @@ export default {
    * “新增”和“更新”请使用对应的 add 或 update 专用 action
    * @param state
    * @param dispatch
-   * @param moduleName {string}
-   * @param payload {Object}
-   * @param isFetchList {boolean}
+   * @param payload {Object} 参数
    * @param customApiName {string} 自定义请求API
+   * @param isFetchList {boolean} 是否提交后立即刷新本模块列表，默认false
    * @param closeModalAfterFetched {boolean} 成功执行操作后是否关闭弹窗，默认true。不是在弹窗内调用时，请始终传递 false
+   * @param moduleName {string} 模块名。依赖 closeModalAfterFetched 或 isFetchList
+   * @param submoduleName {string} 子级模块名。依赖 closeModalAfterFetched 或 isFetchList
    * @param visibleField {string} 控制弹窗的字段，依赖 closeModalAfterFetched
    * @returns {Promise<*>}
    */
-  async custom(
-    { state, dispatch },
-    { moduleName, payload, isFetchList, customApiName, closeModalAfterFetched = true, visibleField }
-  ) {
+  async custom({ state, dispatch }, {
+    payload,
+    customApiName,
+    isFetchList,
+    closeModalAfterFetched = true,
+    moduleName,
+    submoduleName,
+    visibleField
+  }) {
     const response = await apis[customApiName](payload)
 
     if (response.status) {
@@ -239,12 +248,13 @@ export default {
         dispatch('setModalVisible', {
           statusField: visibleField,
           statusValue: false,
-          moduleName
+          moduleName,
+          submoduleName
         })
       }
 
       if (isFetchList) {
-        dispatch('getList', { moduleName })
+        dispatch('getList', { moduleName, submoduleName })
       }
     }
 
@@ -278,11 +288,13 @@ export default {
     if (response.status) {
       const data = response.data
       let result = []
+
       if (data instanceof Array) {
         result = data
       } else {
         result = data.rows || []
       }
+
       commit('setList', {
         value: result,
         moduleName,
@@ -362,6 +374,7 @@ export default {
    */
   async downExcel({ state }, { moduleName, submoduleName, additionalQueryParameters, fileName }) {
     let api = 'getExcel'
+
     if (!config.mock) {
       api = `getExcel${submoduleName ? `${UF.firstLetterToUppercase(submoduleName)}Of` : ''}${UF.firstLetterToUppercase(
         moduleName
@@ -380,6 +393,7 @@ export default {
 
     const buffer = await apis[api](payload)
     const blob = new Blob([buffer])
+
     UF.downFile(blob, `${fileName}.xlsx`)
 
     return buffer

@@ -29,6 +29,7 @@ export default (isSubmodule = false) => {
 
         if (!name) {
           console.warn('请设置组件的名称(name)，动态创建store模块需要该属性！')
+
           return null
         }
 
@@ -48,7 +49,6 @@ export default (isSubmodule = false) => {
       computed: {
         submoduleName() {
           let name = this.$options.name || ''
-
           const index = name.indexOf('-')
 
           if (index > -1) {
@@ -57,6 +57,7 @@ export default (isSubmodule = false) => {
 
           if (!name) {
             console.warn('请设置组件的名称(name，格式 “{parentName}-{name}”)，获取子模块数据需要该属性！')
+
             return null
           }
 

@@ -731,6 +731,16 @@ export const routes = [
               keepAlive: false,
               requiresAuth: true
             }
+          },
+          {
+            path: 'report-audit',
+            name: 'reportAudit',
+            component: () => import('@/views/manager/annualAssessment/ReportAudit'),
+            meta: {
+              title: '报表审核',
+              keepAlive: false,
+              requiresAuth: true
+            }
           }
         ]
       },
@@ -757,6 +767,7 @@ export const routes = [
       {
         path: 'data-collection',
         component: TGRouterView,
+        redirect: { name: 'reportForms' },
         meta: {
           title: '数据采集',
           keepAlive: false,
@@ -783,6 +794,50 @@ export const routes = [
               keepAlive: false,
               requiresAuth: true
             }
+          },
+          {
+            path: 'my-reports',
+            redirect: { name: 'myReports' },
+            component: TGRouterView,
+            meta: {
+              title: '我的报表',
+              keepAlive: false,
+              requiresAuth: true,
+              hideChildren: true
+            },
+            children: [
+              {
+                path: '',
+                name: 'myReports',
+                component: () => import('@/views/manager/dataCollection/MyReports'),
+                meta: {
+                  title: '我的报表',
+                  keepAlive: false,
+                  requiresAuth: true,
+                  hideChildren: true
+                }
+              },
+              {
+                path: 'fill-out-report',
+                name: 'fillOutReport',
+                component: () => import('@/views/manager/dataCollection/MyReports/FillOutReport'),
+                meta: {
+                  title: '立即填报',
+                  keepAlive: false,
+                  requiresAuth: true
+                }
+              },
+              {
+                path: 'fill-in-records',
+                name: 'fillInRecords',
+                component: () => import('@/views/manager/dataCollection/MyReports/FillInRecords'),
+                meta: {
+                  title: '填报记录',
+                  keepAlive: false,
+                  requiresAuth: true
+                }
+              }
+            ]
           }
         ]
       },
@@ -883,6 +938,7 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   let title = to.meta.title || ''
+
   if (title) {
     title += ' | '
   }

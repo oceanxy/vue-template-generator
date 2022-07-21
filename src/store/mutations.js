@@ -121,7 +121,11 @@ export default {
     if (!submoduleName) {
       if (Object.prototype.toString.call(state[moduleName][stateName]) === '[object Object]') {
         if (Object.prototype.toString.call(value) === '[object Object]') {
-          state[moduleName][stateName].data = value
+          if ('data' in state[moduleName][stateName]) {
+            state[moduleName][stateName].data = value
+          } else {
+            state[moduleName][stateName] = value
+          }
         } else {
           state[moduleName][stateName].list = value
         }
@@ -131,7 +135,11 @@ export default {
     } else {
       if (Object.prototype.toString.call(state[moduleName][submoduleName][stateName]) === '[object Object]') {
         if (Object.prototype.toString.call(value) === '[object Object]') {
-          state[moduleName][submoduleName][stateName].data = value
+          if ('data' in state[moduleName][submoduleName][stateName]) {
+            state[moduleName][submoduleName][stateName].data = value
+          } else {
+            state[moduleName][submoduleName][stateName] = value
+          }
         } else {
           state[moduleName][submoduleName][stateName].list = value
         }

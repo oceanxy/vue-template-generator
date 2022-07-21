@@ -192,7 +192,7 @@ export default Form.create({})({
                 initialValue: this.details.fillPeriod,
                 rules: [{ required: true, type: 'number', message: '请选择填报周期!', trigger: 'change' }]
               })(
-                <Select>
+                <Select placeholder={'请选择填报周期'}>
                   <Select.Option value={1}>按周填报</Select.Option>
                   <Select.Option value={2}>按月填报</Select.Option>
                   <Select.Option value={3}>按季填报</Select.Option>
