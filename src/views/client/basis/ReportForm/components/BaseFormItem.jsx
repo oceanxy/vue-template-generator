@@ -47,7 +47,7 @@ export default {
       <Card class="bn-report-form-card">
         {getFormItem()}
         {this.data.itemProveList.map(item => (
-          <Form.Item label={`${item.itemName}`}>
+          <Form.Item label={`${item.fullName}`}>
             {this.form.getFieldDecorator(`${item.id}_proof`, {
               initialValue: [],
               rules: [{ required: true, type: 'array', message: '请上传佐证材料', trigger: 'change' }]
