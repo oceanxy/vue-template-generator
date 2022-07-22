@@ -133,6 +133,9 @@ export default Form.create({})({
 
       return temp
     },
+    onCouponChange(item, saleAmount) {
+      item.realAmount = item.realAmount - +saleAmount || 0
+    },
     onSubmit(e) {
       e?.preventDefault()
       this.form.validateFieldsAndScroll(async (err, values) => {
@@ -234,12 +237,22 @@ export default Form.create({})({
                             <div class={'fee-item'}>
                               <span class={'label preferential'}>优惠</span>
                               <Select
+                                allowClear
                                 vModel={item.saleId}
                                 class={'value select'}
                                 placeholder={'请选择优惠券'}
                                 title={'请选择优惠券'}
                               >
-                                {/*<Select.Option value={}>{}</Select.Option>*/}
+                                {
+                                  item.saleList?.map(saleItem => (
+                                    <Select.Option
+                                      value={saleItem.id}
+                                      onClick={() => this.onCouponChange(item, saleItem.amount)}
+                                    >
+                                      {saleItem.saleName}
+                                    </Select.Option>
+                                  ))
+                                }
                               </Select>
                             </div>
                             <div class={'fee-item'}>
