@@ -158,7 +158,7 @@ export default {
           (this.dataSource.itemProveList || []).length
             ? (
               <div style={{ background: '#fafafa', padding: '10px' }}>
-                <div>请上传项目佐证：</div>
+                <div>请上传佐证材料：</div>
                 <UploadFiles
                   dataSource={this.dataSource.itemProveList || []}
                   vModel={this.innerValue.attachmentList}

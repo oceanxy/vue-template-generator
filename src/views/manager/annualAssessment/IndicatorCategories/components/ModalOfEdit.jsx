@@ -67,8 +67,7 @@ export default Form.create({})({
           <Form.Item label="描述">
             {
               this.form.getFieldDecorator('description', {
-                initialValue: this.currentItem.description,
-                rules: [{ required: true, message: '请输入描述!', trigger: 'blur' }]
+                initialValue: this.currentItem.description
               })(
                 <Input.TextArea placeholder="请输入排序值" />
               )
