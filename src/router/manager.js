@@ -871,7 +871,67 @@ export const routes = [
                 }
               }
             ]
-          }
+          },
+          {
+            path: 'unit-report-details',
+            name: 'unitReportDetails',
+            component: () => import('@/views/manager/dataCollection/UnitReportDetails'),
+            meta: {
+              title: '监管单位报表明细',
+              keepAlive: false,
+              requiresAuth: true
+            }
+          },
+          {
+            path: 'unreported-units',
+            name: 'unreportedUnits',
+            component: () => import('@/views/manager/dataCollection/UnreportedUnits'),
+            meta: {
+              title: '未填报监管单位名单',
+              keepAlive: false,
+              requiresAuth: true
+            }
+          },
+          // {
+          //   path: 'park-report-details',
+          //   name: 'parkReportDetails',
+          //   component: () => import('@/views/manager/dataCollection/ParkReportDetails'),
+          //   meta: {
+          //     title: '园区报表明细',
+          //     keepAlive: false,
+          //     requiresAuth: true
+          //   }
+          // },
+          // {
+          //   path: 'unreported-parks',
+          //   name: 'unreportedParks',
+          //   component: () => import('@/views/manager/dataCollection/UnreportedParks'),
+          //   meta: {
+          //     title: '未填报园区名单',
+          //     keepAlive: false,
+          //     requiresAuth: true
+          //   }
+          // },
+          // {
+          //   path: 'enterprise-report-details',
+          //   name: 'enterpriseReportDetails',
+          //   component: () => import('@/views/manager/dataCollection/EnterpriseReportDetails'),
+          //   meta: {
+          //     title: '企业报表明细',
+          //     keepAlive: false,
+          //     requiresAuth: true
+          //   }
+          // },
+          // {
+          //   path: 'unreported-enterprises',
+          //   name: 'unreportedEnterprises',
+          //   component: () => import('@/views/manager/dataCollection/UnreportedEnterprises'),
+          //   meta: {
+          //     title: '未填报企业名单',
+          //     keepAlive: false,
+          //     requiresAuth: true
+          //   }
+          // }
         ]
       },
       {

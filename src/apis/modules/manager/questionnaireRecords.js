@@ -15,7 +15,7 @@ export default {
     })
   },
   /**
-   * 获取问卷记录列表
+   * 获取问卷/报表记录详情列表
    * @param request
    * @param data
    * @returns {*}
