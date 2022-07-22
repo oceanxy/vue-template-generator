@@ -9,11 +9,11 @@ import ModalOfDetails from './components/ModalOfDetails'
 import Functions from './components/Functions'
 
 export default {
-  name: 'UnitReportDetails',
+  name: 'EnterpriseReportDetails',
   mixins: [dynamicState(store, dynamicModules)],
   render() {
     return (
-      <TGContainer class="bnm-unit-report-details-container">
+      <TGContainer class="bnm-enterprise-report-details-container">
         <Functions slot={'functions'} />
         <Inquiry slot={'inquiry'} />
         <Table slot={'table'} />

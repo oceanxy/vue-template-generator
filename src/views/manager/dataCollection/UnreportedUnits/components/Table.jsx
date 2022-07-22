@@ -23,8 +23,8 @@ export default {
             dataIndex: 'objName'
           },
           {
-            title: '园区',
-            dataIndex: 'parkName'
+            title: '场所',
+            dataIndex: 'place'
           },
           {
             title: '联系电话',

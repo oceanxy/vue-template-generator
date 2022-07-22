@@ -6,9 +6,7 @@ export default {
   mixins: [forTable()],
   data() {
     return {
-      visibleField: 'visibleOfDetails',
       tableProps: {
-        rowSelection: null,
         columns: [
           {
             title: '序号',
@@ -21,16 +19,12 @@ export default {
             dataIndex: 'reportName'
           },
           {
-            title: '监管单位',
-            dataIndex: 'objName'
-          },
-          {
-            title: '场所',
-            dataIndex: 'place'
+            title: '园区',
+            dataIndex: 'parkName'
           },
           {
             title: '联系电话',
-            dataIndex: 'phone'
+            scopedSlots: { customRender: 'phone' }
           },
           {
             title: '填报状态',
@@ -42,7 +36,7 @@ export default {
             key: 'operation',
             // fixed: 'right',
             align: 'center',
-            width: 240,
+            width: 100,
             scopedSlots: { customRender: 'operation' }
           }
         ]
@@ -69,9 +63,9 @@ export default {
                 <Button
                   type="link"
                   size="small"
-                  onClick={() => this._setVisibleOfModal(record, 'visibleOfDetails')}
+                  onClick={() => this._setVisibleOfModal(record, 'visibleOfRemind')}
                 >
-                  查看详情
+                  催报
                 </Button>
               </Space>
             )

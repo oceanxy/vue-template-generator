@@ -1,25 +1,25 @@
 import './assets/styles/index.scss'
-import Inquiry from './components/Inquiry'
-import TGContainer from '@/layouts/components/TGContainer'
 import dynamicState from '@/mixins/dynamicState'
 import store, { dynamicModules } from '@/store/manager'
+import TGContainer from '@/layouts/components/TGContainer'
+import Inquiry from './components/Inquiry'
 import Table from './components/Table'
 import Pagination from './components/Pagination'
-import ModalOfDetails from './components/ModalOfDetails'
+import ModalOfRemind from './components/ModalOfRemind'
 import Functions from './components/Functions'
 
 export default {
-  name: 'UnitReportDetails',
+  name: 'UnreportedEnterprises',
   mixins: [dynamicState(store, dynamicModules)],
   render() {
     return (
-      <TGContainer class="bnm-unit-report-details-container">
-        <Functions slot={'functions'} />
+      <TGContainer class="bnm-unreported-enterprise-container">
         <Inquiry slot={'inquiry'} />
+        <Functions slot={'functions'} />
         <Table slot={'table'} />
         <Pagination slot={'pagination'} />
         <template slot={'modals'}>
-          <ModalOfDetails modalTitle={'查看详情'} />
+          <ModalOfRemind modalTitle={'催报'} />
         </template>
       </TGContainer>
     )

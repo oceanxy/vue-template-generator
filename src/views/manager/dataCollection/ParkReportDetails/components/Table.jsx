@@ -21,12 +21,8 @@ export default {
             dataIndex: 'reportName'
           },
           {
-            title: '监管单位',
-            dataIndex: 'objName'
-          },
-          {
-            title: '场所',
-            dataIndex: 'place'
+            title: '中心',
+            dataIndex: 'parkName'
           },
           {
             title: '联系电话',

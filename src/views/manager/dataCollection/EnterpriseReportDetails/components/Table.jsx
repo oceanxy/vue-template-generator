@@ -21,7 +21,7 @@ export default {
             dataIndex: 'reportName'
           },
           {
-            title: '监管单位',
+            title: '企业',
             dataIndex: 'objName'
           },
           {
