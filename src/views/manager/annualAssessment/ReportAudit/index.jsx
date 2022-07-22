@@ -1,5 +1,5 @@
 import './assets/styles/index.scss'
-import BNContainerWithIndicatorCategorySider from '@/components/BNContainerWithIndicatorCategorySider'
+import BNContainerWithParkSider from '@/components/BNContainerWithParkSider'
 import TGContainer from '@/layouts/components/TGContainer'
 import dynamicState from '@/mixins/dynamicState'
 import store, { dynamicModules } from '@/store/manager'
@@ -8,23 +8,25 @@ import Functions from './components/Functions'
 import Table from './components/Table'
 import Pagination from './components/Pagination'
 import ModalOfEdit from './components/ModalOfEdit'
+import ModalOfDetails from './components/ModalOfDetails'
 
 export default {
   name: 'ReportAudit',
   mixins: [dynamicState(store, dynamicModules)],
   render() {
     return (
-      <BNContainerWithIndicatorCategorySider contentClass="bnm-report-audit-container">
+      <BNContainerWithParkSider contentClass="bnm-report-audit-container">
         <TGContainer>
           <Inquiry slot={'inquiry'} />
           <Functions slot={'functions'} />
           <Table slot={'table'} />
           <Pagination slot={'pagination'} />
           <template slot={'modals'}>
-            <ModalOfEdit modalTitle={'{action}指标类别'} />
+            <ModalOfEdit modalTitle={'报表审核'} />
+            <ModalOfDetails modalTitle={'详情'} />
           </template>
         </TGContainer>
-      </BNContainerWithIndicatorCategorySider>
+      </BNContainerWithParkSider>
     )
   }
 }

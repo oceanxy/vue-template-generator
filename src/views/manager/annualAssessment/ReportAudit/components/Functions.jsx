@@ -15,19 +15,12 @@ export default {
     return (
       <Space class="tg-function">
         <Button
-          type="primary"
-          onClick={() => this.onAddClick({ parentId: this.indicatorCategoryIdSelected })}
-          icon="plus"
-        >
-          新增
-        </Button>
-        <Button
           type="danger"
-          onClick={() => this.onDeleteClick()}
+          onClick={() => this.onAuditClick()}
           icon="delete"
-          disabled={this.deleteButtonDisabled}
+          disabled={this.auditButtonDisabled}
         >
-          删除
+          审核
         </Button>
       </Space>
     )

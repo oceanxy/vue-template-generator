@@ -15,30 +15,30 @@ export default {
             scopedSlots: { customRender: 'serialNumber' }
           },
           {
-            title: '指标类别名称',
-            dataIndex: 'fullName'
+            title: '企业名称',
+            dataIndex: 'objName'
           },
           {
-            title: '类型',
-            dataIndex: 'parentName'
+            title: '考核年度',
+            dataIndex: 'year'
           },
           {
-            title: '描述',
-            dataIndex: 'description'
+            title: '考核得分',
+            dataIndex: 'score'
           },
           {
-            title: '排序',
-            dataIndex: 'sortIndex'
-          },
-          {
-            title: '创建时间',
+            title: '提交时间',
             dataIndex: 'createTimeStr'
+          },
+          {
+            title: '租金补缴额',
+            dataIndex: 'rentPay'
           },
           {
             title: '状态',
             align: 'center',
             width: 80,
-            scopedSlots: { customRender: 'status' }
+            dataIndex: 'auditStatusStr'
           },
           {
             title: '操作',
@@ -78,16 +78,16 @@ export default {
                 <Button
                   type="link"
                   size="small"
-                  onClick={() => this.onEditClick(record)}
+                  onClick={() => this.onAuditClick(record)}
                 >
-                  编辑
+                  审核
                 </Button>
                 <Button
                   type="link"
                   size="small"
-                  onClick={() => this.onDeleteClick(record)}
+                  onClick={() => this._setVisibleOfModal(record, 'visibleOfDetails')}
                 >
-                  删除
+                  查看详情
                 </Button>
               </Space>
             )

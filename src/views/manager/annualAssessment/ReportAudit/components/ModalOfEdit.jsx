@@ -1,5 +1,5 @@
 import '../assets/styles/index.scss'
-import { Form, Input, InputNumber, Spin, Switch, TreeSelect } from 'ant-design-vue'
+import { Form, Input, InputNumber, Radio } from 'ant-design-vue'
 import forFormModal from '@/mixins/forModal/forFormModal'
 import { mapGetters } from 'vuex'
 import DragModal from '@/components/DragModal'
@@ -9,7 +9,7 @@ export default Form.create({})({
   data() {
     return {
       modalProps: {
-        width: 810
+        width: 600
       }
     }
   },
@@ -24,7 +24,7 @@ export default Form.create({})({
       attrs: this.modalProps,
       on: {
         cancel: () => this.onCancel(),
-        ok: () => this.onSubmit()
+        ok: () => this.onSubmit({ customApiName: 'auditReport' })
       }
     }
 
@@ -34,64 +34,39 @@ export default Form.create({})({
           class="bnm-form-grid"
           colon={false}
         >
-          <Form.Item label="指标类别名称" class={'half'}>
+          <Form.Item label="审核结果">
             {
-              this.form.getFieldDecorator('fullName', {
-                initialValue: this.currentItem.fullName,
-                rules: [{ required: true, message: '请输入指标类别名称!', trigger: 'blur' }]
+              this.form.getFieldDecorator('auditStatus', {
+                rules: [{ required: true, type: 'number', message: '请选择审核结果!', trigger: 'change' }]
               })(
-                <Input placeholder="请输入指标类别名称" allowClear />
+                <Radio.Group>
+                  <Radio value={1}>通过</Radio>
+                  <Radio value={3}>驳回</Radio>
+                </Radio.Group>
               )
             }
           </Form.Item>
-          <Form.Item label="父级" class={'half'}>
-            <Spin spinning={this.indicatorCategoryTree.loading}>
-              {
-                this.form.getFieldDecorator('parentId', {
-                  initialValue: this.currentItem.parentId,
-                  rules: [{ required: true, message: '请选择父级指标类别!', trigger: 'change' }]
-                })(
-                  <TreeSelect
-                    treeDefaultExpandedKeys={[this.currentItem.parentId]}
-                    showSearch
-                    allowClear
-                    treeData={this.indicatorCategoryTree.list}
-                    replaceFields={{ children: 'children', title: 'name', key: 'id', value: 'id' }}
-                    searchPlaceholder={'请输入关键字以搜索'}
-                    placeholder={'请选择父级指标类别'}
-                  />
-                )
-              }
-            </Spin>
-          </Form.Item>
-          <Form.Item label="描述">
+          <Form.Item label="租金补缴金额">
             {
-              this.form.getFieldDecorator('description', {
-                initialValue: this.currentItem.description,
-                rules: [{ required: true, message: '请输入描述!', trigger: 'blur' }]
+              this.form.getFieldDecorator('rentPay', {
+                initialValue: 0,
+                rules: [{ required: true, type: 'number', message: '请输入补缴租金金额!', trigger: 'blur' }]
               })(
-                <Input.TextArea placeholder="请输入排序值" />
+                <InputNumber
+                  placeholder="请输入补缴租金金额"
+                  allowClear
+                  precision={2}
+                  style={{ width: '100%' }}
+                />
               )
             }
           </Form.Item>
-          <Form.Item label="排序" class={'half'}>
+          <Form.Item label="审核意见">
             {
-              this.form.getFieldDecorator('sortIndex', {
-                initialValue: this.currentItem.sortIndex || 0,
-                rules: [{ required: true, type: 'number', message: '请输入排序值!', trigger: 'blur' }]
+              this.form.getFieldDecorator('auditOpinion', {
+                rules: [{ required: true, message: '请输入审核意见!', trigger: 'blur' }]
               })(
-                <InputNumber placeholder="请输入排序值" style={{ width: '100%' }} />
-              )
-            }
-          </Form.Item>
-          <Form.Item label="状态" class={'half'}>
-            {
-              this.form.getFieldDecorator('status', {
-                valuePropName: 'checked',
-                initialValue: this.currentItem.id ? this.currentItem.status === 1 : true,
-                rules: [{ required: true, type: 'boolean', message: '请选择状态!', trigger: 'blur' }]
-              })(
-                <Switch />
+                <Input.TextArea placeholder="请输入审核意见" />
               )
             }
           </Form.Item>

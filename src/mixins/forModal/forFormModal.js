@@ -146,10 +146,10 @@ export default () => {
        *   [customValidation]: () => boolean,
        *   [customDataHandler]: (values) => values
        * }}
-       * options.isFetchList：是否在提交表单后立即刷新对应的列表，默认 true；
-       * options.customApiName：自定义请求API；
-       * options.customValidation: 自定义验证函数；
-       * options.customDataHandler(): ：自定义参数处理；
+       * options.isFetchList 是否在提交表单后立即刷新对应的列表，默认 true；
+       * options.customApiName 自定义请求API；
+       * options.customValidation 自定义验证函数；
+       * options.customDataHandler 自定义参数处理；
        */
       onSubmit(options) {
         options = {
