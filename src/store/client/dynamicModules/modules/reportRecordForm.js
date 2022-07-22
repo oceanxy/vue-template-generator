@@ -15,7 +15,7 @@ export default commitRootInModule =>
         commitRootInModule('setLoading', false)
 
         if (res.status) {
-          commitRootInModule('setList', res.data || [])
+          commitRootInModule('setList', res.data.reportResultList || [])
         }
 
         return res
