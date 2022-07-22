@@ -57,7 +57,10 @@ export default {
   },
   methods: {
     async toRenewContract(record) {
-      await this.$router.push({ name: 'signingProcess', query: { id: record.contractId } })
+      await this.$router.push({
+        name: 'signingProcess',
+        query: { id: record.contractId, ac: 2 }
+      })
     }
   },
   render() {
