@@ -86,7 +86,8 @@ export default {
                   ? (
                     <Button>
                       <Icon type="upload" />
-                      选择{[' PDF 文件', ' JPG/JPEG/PNG 图片', ''][this.dataSource[index].fileType - 1]}
+                      选择 {this.dataSource[index].fullName}
+                      {[' PDF 文件', ' JPG/PNG 图片', ''][this.dataSource[index].fileType - 1]}
                     </Button>
                   )
                   : null
