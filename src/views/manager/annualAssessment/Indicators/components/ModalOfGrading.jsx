@@ -22,25 +22,12 @@ export default {
             dataIndex: 'targetName'
           },
           {
-            title: '时间',
-            dataIndex: 'createTimeStr'
-          },
-          {
-            title: '创建人',
-            dataIndex: 'creatorName'
-          },
-          {
-            title: '选项值',
+            title: '选项',
             dataIndex: 'optionValue'
           },
           {
             title: '分值',
             dataIndex: 'score'
-          },
-
-          {
-            title: '状态',
-            dataIndex: 'statusStr'
           }
         ],
         rowKey: 'id',

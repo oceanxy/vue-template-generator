@@ -15,7 +15,7 @@ export default {
             scopedSlots: { customRender: 'serialNumber' }
           },
           {
-            title: '指标类别名称',
+            title: '名称',
             dataIndex: 'fullName'
           },
           {

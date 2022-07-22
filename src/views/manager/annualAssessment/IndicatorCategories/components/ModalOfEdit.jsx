@@ -34,22 +34,22 @@ export default Form.create({})({
           class="bnm-form-grid"
           colon={false}
         >
-          <Form.Item label="指标类别名称" class={'half'}>
+          <Form.Item label="名称" class={'half'}>
             {
               this.form.getFieldDecorator('fullName', {
                 initialValue: this.currentItem.fullName,
-                rules: [{ required: true, message: '请输入指标类别名称!', trigger: 'blur' }]
+                rules: [{ required: true, message: '请输入名称!', trigger: 'blur' }]
               })(
-                <Input placeholder="请输入指标类别名称" allowClear />
+                <Input placeholder="请输入名称" allowClear />
               )
             }
           </Form.Item>
-          <Form.Item label="父级" class={'half'}>
+          <Form.Item label="类别" class={'half'}>
             <Spin spinning={this.indicatorCategoryTree.loading}>
               {
                 this.form.getFieldDecorator('parentId', {
                   initialValue: this.currentItem.parentId,
-                  rules: [{ required: true, message: '请选择父级指标类别!', trigger: 'change' }]
+                  rules: [{ required: true, message: '请选择指标类别!', trigger: 'change' }]
                 })(
                   <TreeSelect
                     treeDefaultExpandedKeys={[this.currentItem.parentId]}
@@ -58,7 +58,7 @@ export default Form.create({})({
                     treeData={this.indicatorCategoryTree.list}
                     replaceFields={{ children: 'children', title: 'name', key: 'id', value: 'id' }}
                     searchPlaceholder={'请输入关键字以搜索'}
-                    placeholder={'请选择父级指标类别'}
+                    placeholder={'请选择指标类别'}
                   />
                 )
               }

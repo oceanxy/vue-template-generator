@@ -53,7 +53,8 @@ export default Form.create({})({
         ok: () => this.onSubmit({
           customValidation: () => {
             const targetOptionList = this.form.getFieldValue('targetOptionList') || []
-            const _targetOptionList = targetOptionList.filter(item => item.serialNum && item.optionValue && item.score)
+            // eslint-disable-next-line max-len
+            const _targetOptionList = targetOptionList.filter(item => item.serialNum && item.optionValue && (item.score || 0 === item.score))
 
             if (_targetOptionList.length) {
               this.form.setFields({ targetOptionList: { value: _targetOptionList } })
@@ -61,16 +62,7 @@ export default Form.create({})({
               this.form.setFields({ targetOptionList: { value: targetOptionList, errors: [new Error('请输入评分标准！')] } })
             }
 
-            const targetProveList = this.form.getFieldValue('targetProveList') || []
-            const _targetProveList = targetProveList.filter(item => item.serialNum && item.fullName)
-
-            if (_targetProveList.length) {
-              this.form.setFields({ targetProveList: { value: _targetProveList } })
-            } else {
-              this.form.setFields({ targetProveList: { value: targetProveList, errors: [new Error('请输入佐证材料！')] } })
-            }
-
-            return !!_targetOptionList.length && !!_targetProveList.length
+            return !!_targetOptionList.length
           }
         })
       }
@@ -120,8 +112,8 @@ export default Form.create({})({
               })(
                 <Radio.Group>
                   <Radio value={1}>标准评估项</Radio>
-                  <Radio value={2}>扣分项</Radio>
-                  <Radio value={3}>加分项</Radio>
+                  <Radio value={2}>加分项</Radio>
+                  <Radio value={3}>减分项</Radio>
                 </Radio.Group>
               )
             }
@@ -148,8 +140,7 @@ export default Form.create({})({
           <Form.Item label={'佐证材料'}>
             {
               this.form.getFieldDecorator('targetProveList', {
-                initialValue: this.currentItem.targetProveList || [],
-                rules: [{ required: true, validator: this.validator, message: '请输入佐证材料!', trigger: 'change' }]
+                initialValue: this.currentItem.targetProveList || []
               })(
                 <SupportingMaterialMultiInput />
               )

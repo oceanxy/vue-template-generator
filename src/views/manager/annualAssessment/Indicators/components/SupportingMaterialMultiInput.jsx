@@ -20,7 +20,7 @@ export default {
         },
         {
           title: '文件类型',
-          width: 100,
+          width: 120,
           scopedSlots: { customRender: 'fileType' }
         },
         {
@@ -65,7 +65,6 @@ export default {
           })
         } else {
           this.dataSource = []
-          this.onCreateRow()
         }
       }
     }
