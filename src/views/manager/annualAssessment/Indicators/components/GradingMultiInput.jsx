@@ -20,7 +20,7 @@ export default {
         },
         {
           title: '基准分',
-          width: 150,
+          width: 100,
           scopedSlots: { customRender: 'score' }
         },
         {
