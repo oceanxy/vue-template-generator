@@ -744,16 +744,49 @@ export const routes = [
           }
         ]
       },
-      // {
-      //   path: 'conf-room-mana',
-      //   component: TGRouterView,
-      //   meta: {
-      //     title: '会议室管理',
-      //     keepAlive: false,
-      //     requiresAuth: true,
-      //     icon: () => import('@/layouts/components/TGMenu/assets/images/conferenceRoomManagement.svg')
-      //   }
-      // },
+      {
+        path: 'conference-room',
+        redirect: { name: 'conferenceRoom' },
+        component: TGRouterView,
+        meta: {
+          title: '会议室管理',
+          keepAlive: false,
+          requiresAuth: true,
+          icon: () => import('@/layouts/components/TGMenu/assets/images/conferenceRoomManagement.svg')
+        },
+        children: [
+          {
+            path: '',
+            name: 'conferenceRoom',
+            component: () => import('@/views/manager/property/conferenceRoom/manage'),
+            meta: {
+              title: '会议室管理',
+              keepAlive: false,
+              requiresAuth: true
+            }
+          },
+          {
+            path: 'subscribe',
+            name: 'conferenceRoomSubscribe',
+            component: () => import('@/views/manager/property/conferenceRoom/subscribe'),
+            meta: {
+              title: '会议室预约',
+              keepAlive: false,
+              requiresAuth: true
+            }
+          },
+          {
+            path: 'statistics',
+            name: 'conferenceRoomStatistics',
+            component: () => import('@/views/manager/property/conferenceRoom/statistics'),
+            meta: {
+              title: '使用统计',
+              keepAlive: false,
+              requiresAuth: true
+            }
+          }
+        ]
+      },
       // {
       //   path: 'work-order-mana',
       //   component: TGRouterView,
@@ -838,47 +871,66 @@ export const routes = [
                 }
               }
             ]
-          }
-        ]
-      },
-      {
-        path: 'conference-room',
-        meta: {
-          title: '会议室管理',
-          keepAlive: false,
-          requiresAuth: true,
-          icon: () => import('@/layouts/components/TGMenu/assets/images/systemManagement.svg')
-        },
-        component: TGRouterView,
-        children: [
-          {
-            path: '',
-            meta: {
-              title: '会议室管理',
-              keepAlive: false,
-              requiresAuth: true
-            },
-            component: () => import('@/views/manager/property/conferenceRoom/manage')
           },
           {
-            path: 'subscribe',
-            name: 'conferenceRoomSubscribe',
+            path: 'unit-report-details',
+            name: 'unitReportDetails',
+            component: () => import('@/views/manager/dataCollection/UnitReportDetails'),
             meta: {
-              title: '会议室预约',
+              title: '监管单位报表明细',
               keepAlive: false,
               requiresAuth: true
-            },
-            component: () => import('@/views/manager/property/conferenceRoom/subscribe')
+            }
           },
           {
-            path: 'statistics',
-            name: 'conferenceRoomStatistics',
+            path: 'unreported-units',
+            name: 'unreportedUnits',
+            component: () => import('@/views/manager/dataCollection/UnreportedUnits'),
             meta: {
-              title: '使用统计',
+              title: '未填报监管单位名单',
               keepAlive: false,
               requiresAuth: true
-            },
-            component: () => import('@/views/manager/property/conferenceRoom/statistics')
+            }
+          },
+          {
+            path: 'park-report-details',
+            name: 'parkReportDetails',
+            component: () => import('@/views/manager/dataCollection/ParkReportDetails'),
+            meta: {
+              title: '园区报表明细',
+              keepAlive: false,
+              requiresAuth: true
+            }
+          },
+          {
+            path: 'unreported-parks',
+            name: 'unreportedParks',
+            component: () => import('@/views/manager/dataCollection/UnreportedParks'),
+            meta: {
+              title: '未填报园区名单',
+              keepAlive: false,
+              requiresAuth: true
+            }
+          },
+          {
+            path: 'enterprise-report-details',
+            name: 'enterpriseReportDetails',
+            component: () => import('@/views/manager/dataCollection/EnterpriseReportDetails'),
+            meta: {
+              title: '企业报表明细',
+              keepAlive: false,
+              requiresAuth: true
+            }
+          },
+          {
+            path: 'unreported-enterprises',
+            name: 'unreportedEnterprises',
+            component: () => import('@/views/manager/dataCollection/UnreportedEnterprises'),
+            meta: {
+              title: '未填报企业名单',
+              keepAlive: false,
+              requiresAuth: true
+            }
           }
         ]
       },

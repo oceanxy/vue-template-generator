@@ -6,6 +6,14 @@
   height: 100%;
   @include container-border-radius;
 
+  .tg-universal-box {
+    height: 100%;
+
+    .box-content {
+      height: 0;
+    }
+  }
+
   .ant-card-body {
     display: flex;
     flex-direction: column;
