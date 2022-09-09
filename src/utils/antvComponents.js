@@ -1,10 +1,8 @@
 // 引入特定组件
 // 配合babel-plugin-import，此时会自动引入对应的样式文件
-import {
-  Button, Icon, Input, Tree,
+import {Button, Icon, Input, Tree,
   Form, FormModel, Spin, Select,
-  Modal
-} from 'ant-design-vue'
+  Modal} from 'ant-design-vue'
 import Vue from 'vue'
 
 // 按需注册特定组件

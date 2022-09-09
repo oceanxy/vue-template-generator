@@ -1,0 +1,40 @@
+@import '@/assets/styles/theme.scss';
+
+.bnm-rescind-contract-container {
+  margin: 0 16px 16px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  gap: 18px;
+  overflow: hidden;
+  @include container-border-radius;
+
+  .bnm-rescind-contract-card-container {
+    flex: none;
+    height: 110px;
+  }
+
+  .bnm-rescind-contract-content.bnm-rescind-contract-content {
+    margin: 0;
+    flex: auto;
+    overflow: hidden;
+  }
+
+  .bnm-rescind-contract-table {
+    .ant-tag {
+      margin-right: 0;
+      border: none;
+    }
+  }
+}
+
+@media screen and (max-width: 1366px) {
+  .bnm-rescind-contract-container {
+    .bnm-rescind-contract-card-container {
+      height: 75px;
+      .ant-card-body {
+        padding: 10px;
+      }
+    }
+  }
+}

@@ -1,0 +1,16 @@
+@import '@/assets/styles/theme.scss';
+
+.bnm-task-statistics-container {
+  margin: 0 16px 16px;
+  padding: 20px;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  @include container-border-radius;
+
+  .tg-container-content.tg-container-content {
+    grid-template: 40px 1fr 32px/1fr;
+  }
+}

@@ -10,13 +10,68 @@ body {
 }
 
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  position: relative;
   color: #2c3e50;
 
-  // 可视化项目
-  width: 1920px;
-  height: 1080px;
-  overflow: hidden;
+  // 可视化项目缩放页面专用
+  //width: 1920px;
+  //height: 1080px;
+  //overflow: hidden;
+
+  #loading {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    & > div {
+      width: 64px;
+      height: 20px;
+      display: flex;
+      gap: 6px;
+
+      span {
+        width: 6px;
+        height: 100%;
+        border-radius: 3px;
+        background: #50a9fb;
+        -webkit-animation: load 1s ease infinite;
+
+        &:nth-child(2) {
+          -webkit-animation-delay: 0.2s;
+        }
+
+        &:nth-child(3) {
+          -webkit-animation-delay: 0.4s;
+        }
+
+        &:nth-child(4) {
+          -webkit-animation-delay: 0.6s;
+        }
+
+        &:nth-child(5) {
+          -webkit-animation-delay: 0.8s;
+        }
+
+        @-webkit-keyframes load {
+          0%, 100% {
+            height: 20px;
+            background: #50a9fb;
+          }
+
+          50% {
+            height: 40px;
+            margin: -10px 0;
+            background: #1890ff;
+          }
+        }
+      }
+    }
+  }
 }
 
 #nav {
@@ -32,42 +87,423 @@ body {
   color: #42b983;
 }
 
-.uni-log-search-form,
-.tg-search-form {
-  display: flex;
+@font-face {
+  font-family: DOUYU;
+  src: url(../fonts/douyuFont-2.otf);
+}
 
-  .ant-form-item {
-    flex: auto;
+@font-face {
+  font-family: BigruixianBlackGBV;
+  src: url(../fonts/BigruixianBlackGBV.TTF);
+}
+
+.tg-not-found {
+  position: relative;
+  height: 100%;
+  z-index: 2;
+
+  .tg-not-found-content {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .hint {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex: auto;
+      width: 100%;
+      height: 60%;
+      max-height: 600px;
+      min-height: 400px;
+      padding-top: 400px;
+      font-size: 16px;
+      background: url('../notFound.png') no-repeat center top / auto 100%;
+    }
+  }
+}
+
+.tg-inquiry {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  row-gap: 8px;
+  column-gap: 16px;
+
+  & > .ant-form-item {
+    flex: none;
+    width: 150px;
+    margin-right: 0 !important;
+
+    .ant-form-item-control-wrapper,
+    .ant-form-item-children > * {
+      width: 100%;
+    }
+
+    &.tg-inquiry-date-range {
+      width: 220px;
+    }
+  }
+
+  .number-range.number-range {
     display: flex;
     align-items: center;
 
-    .ant-form-item-control-wrapper {
-      width: 200px;
+    .ant-form-item-children {
+      display: flex;
+      align-items: center;
+      flex-wrap: nowrap;
+
+      .ant-form-item {
+        margin-right: 0;
+
+        &:first-child,
+        &:last-child {
+          flex: auto;
+        }
+
+        &:first-child {
+          .ant-input-number {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+          }
+        }
+
+        &:last-child {
+          .ant-input-number {
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+          }
+        }
+      }
+
+      .identifier {
+        width: 40px;
+
+        .ant-input {
+          text-align: center;
+          flex: none;
+          padding: 0 4px;
+          border-left: none;
+          border-right: none;
+          border-radius: 0;
+        }
+      }
     }
+  }
+
+  .tg-function {
+    margin-left: auto;
   }
 }
 
-.uni-log-table,
-.tg-table {
+.ant-table-wrapper {
   overflow: hidden;
-  border: none;
 
-  .ant-table {
-    border: 0 !important;
+  .bnm-table-field-highlight {
+    color: #13c2c2;
+    font-size: 15px;
+    font-weight: bolder;
   }
 
-  .operation-space {
-    .ant-space-item {
-      margin-right: 0 !important;
+  .bnm-table-multiple-field {
+    p {
+      margin: 0;
+
+      &.highlight {
+        font-weight: 600;
+        font-size: 15px;
+      }
+
+      &:last-child {
+        color: #999999;
+      }
     }
   }
 }
+
+.ant-table {
+  .ant-table-thead > tr > th {
+    border: none;
+    background: none;
+  }
+
+  .ant-table-header,
+  .ant-table-thead {
+    background: #f2f7fc !important;
+  }
+
+  .ant-table-header,
+  .ant-table-body {
+    //margin-bottom: 0 !important;
+    //overflow: auto !important;
+  }
+}
+
+.records-details-table {
+  //.ant-spin-container {
+  //  width: 100%;
+  //}
+  //
+  //.ant-table-thead th {
+  //  background: #f5f5f5;
+  //}
+  //
+  //.ant-table {
+  //  height: auto !important;
+  //}
+
+  .ant-table-footer {
+    padding: 0;
+    background: #ffffff;
+
+    .receivable {
+      padding: 16px;
+      display: flex;
+
+      span:last-child {
+        margin-left: auto;
+      }
+    }
+
+    .actually-received {
+      padding: 16px;
+      background: #fff7e6;
+      display: flex;
+      color: #fa8c16;
+
+      span:last-child {
+        margin-left: auto;
+      }
+    }
+  }
+}
+
+.ant-descriptions {
+  .ant-descriptions-item {
+    display: flex;
+    padding: 2px 0;
+
+    .ant-descriptions-item-label {
+      flex: none;
+      font-size: 14px;
+      color: #595959;
+    }
+
+    .ant-descriptions-item-content {
+      font-size: 14px;
+      color: #434343;
+      flex: auto;
+    }
+  }
+}
+
+.ant-spin-nested-loading,
+.ant-spin-container {
+  height: 100%;
+}
+
+/********************************* 弹出框 *************************************/
 
 .ant-modal-wrap {
-  // 防止拖动ant-modal时出现滚动条
-  overflow: hidden !important;
-
   .ant-modal-content {
     transform: var(--transform);
   }
+
+  .ant-modal-body {
+    overflow: auto;
+    max-height: calc(90vh - 200px);
+    padding: 24px 70px 24px 50px;
+
+    .ant-table {
+      height: auto;
+    }
+  }
+}
+
+.bnm-table-modal .ant-modal-wrap {
+  .ant-modal-body {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .bnm-table-in-modal {
+    height: auto;
+    overflow-y: auto;
+    max-height: 580px;
+  }
+}
+
+/************************************************************************************/
+
+/********************************* 表单自定义栅格化 *************************************/
+.bnm-form-grid {
+  display: flex;
+  column-gap: 24px;
+  flex-wrap: wrap;
+
+  &.label-size-small.label-size-small {
+    .ant-form-item-label {
+      width: 90px;
+    }
+  }
+
+  .ant-form-item {
+    width: 100%;
+    display: flex;
+
+    .ant-form-item-label {
+      width: 130px;
+      flex: none;
+    }
+
+    .ant-form-item-control-wrapper {
+      flex: auto;
+
+      .ant-form-item-children {
+        .hint {
+          line-height: 20px;
+          margin-bottom: 0;
+          margin-top: 4px;
+          color: #c3c3c3;
+        }
+      }
+    }
+
+    &.half {
+      width: calc((100% - 24px) / 2);
+    }
+
+    &.one-third {
+      width: calc((100% - 48px) / 3);
+    }
+
+    &.combo {
+      margin-bottom: 0;
+    }
+
+    &.custom {
+      display: flex;
+      align-items: center;
+
+      .ant-form-item-children {
+        width: 100%;
+        display: flex;
+        column-gap: 24px;
+
+        .ant-row {
+          flex: auto;
+        }
+
+        .ant-form-item {
+          margin-bottom: 0;
+        }
+      }
+    }
+  }
+
+  .bnm-form-checkbox {
+    padding: 9px 0 2px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+
+    label {
+      margin-left: 0;
+    }
+  }
+}
+
+/**********************************************************************/
+
+/*****************定义滚动条高宽及背景高宽 分别对应横竖滚动条的尺寸***********/
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+  background-color: #f5f5f5;
+}
+
+// 定义滚动条轨道内阴影 圆角
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 3px rgba(91, 91, 91, 0.3);
+  border-radius: 3px;
+  background-color: #f5f5f5;
+}
+
+// 定义滑块内阴影 圆角
+::-webkit-scrollbar-thumb {
+  border-radius: 3px;
+  box-shadow: inset 0 0 3px rgba(211, 211, 211, 0.3);
+  background-color: #d3d3d3;
+}
+
+@media screen and (max-width: 1366px) {
+  ::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+}
+
+/**********************************************************************/
+
+/******************************* 可增减表格 ****************************/
+.tg-multi-input {
+  .multi-input-table {
+    .ant-table {
+      height: auto;
+    }
+
+    td {
+      padding: 6px;
+    }
+  }
+}
+
+/**********************************************************************/
+
+/******************************* 上图图片 ****************************/
+.tg-upload-pic {
+  //width: 100%;
+  //display: flex;
+  //flex-wrap: wrap;
+}
+
+/**********************************************************************/
+
+/******************************* SelectTree 父节点只做展开/折叠功能 ****************************/
+.bnm-select-dropdown {
+  overflow-x: hidden !important;
+
+  .ant-select-tree-switcher {
+    position: relative;
+  }
+
+  .ant-select-tree-switcher_open::before,
+  .ant-select-tree-switcher_close::before {
+    content: '';
+    position: absolute;
+    right: -310px;
+    top: 0;
+    left: 0;
+    bottom: 0;
+  }
+}
+
+/********************************************************************/
+
+.bnm-tree-select-dropdown {
+  max-height: 550px !important;
+}
+
+.ant-btn.ant-btn-link {
+  padding: 0;
+}
+
+.ant-empty.ant-empty-normal {
+  margin: 0;
+  padding: 24px 0;
 }

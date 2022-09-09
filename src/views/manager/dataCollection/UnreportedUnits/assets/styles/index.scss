@@ -1,0 +1,12 @@
+@import '@/assets/styles/theme.scss';
+
+.bnm-unreported-units-container {
+  margin: 0 16px 16px;
+  padding: 20px;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  @include container-border-radius;
+}

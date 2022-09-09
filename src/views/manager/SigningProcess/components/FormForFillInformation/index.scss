@@ -1,0 +1,92 @@
+.bnm-fill-info-container {
+  .bnm-fill-info-form {
+    width: 900px;
+    margin: auto;
+
+    .fill-info-hatchery-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      height: auto;
+
+      .fill-info-hatchery-table {
+        flex: auto;
+
+        .ant-table {
+          height: unset;
+        }
+      }
+
+      .ant-btn {
+        flex: none;
+      }
+    }
+
+    .fill-info-amount-due-container {
+      width: 100%;
+
+      .fee-item-container {
+        display: grid;
+        grid-template-columns: 114px 160px 1fr 220px;
+        gap: 10px;
+        align-items: center;
+
+        .fee-item {
+          background: #f2f7fc;
+          padding: 0 10px;
+          height: 32px;
+          margin: 6px 0;
+          display: flex;
+          align-items: center;
+
+          .label {
+            width: 60px;
+            color: #c0c0c0;
+            flex: none;
+
+            &.preferential {
+              width: 30px;
+            }
+          }
+
+          .value {
+            margin-left: 12px;
+            flex: auto;
+          }
+
+          .select {
+            width: 20px;
+          }
+
+          .total {
+            color: #fa8c16;
+            overflow: hidden;
+          }
+
+          .ant-select {
+            margin-left: 12px;
+
+            .ant-select-selection {
+              background: none;
+              border: none;
+              outline: none;
+              box-shadow: none;
+            }
+          }
+
+          &.coupon {
+            height: auto;
+          }
+        }
+      }
+    }
+  }
+}
+
+.modal-of-choose-venue {
+  .bnm-alert-info {
+    margin-bottom: 17px !important;
+    border: 1px solid #9bcbff !important;
+    border-radius: 2px;
+  }
+}

@@ -1,0 +1,50 @@
+@import '@/assets/styles/theme.scss';
+
+.bnm-venue-reservation-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin: 0 16px 16px;
+  height: 100%;
+
+  .venue-reservation-remind {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 28px 35px 28px 100px;
+    background: url(../images/icon.png) no-repeat left 35px center / 58px, linear-gradient(89deg, #e9f2ff 0%, #f6faff 100%);
+    border: 1px solid #ffffff;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.02);
+    @include container-border-radius;
+
+    p {
+      margin: 0;
+
+      &:first-child {
+        font-size: 16px;
+        font-weight: 500;
+        color: #007aff;
+      }
+
+      &:last-child {
+        font-size: 12px;
+        font-weight: 400;
+        color: #3595ff;
+      }
+    }
+  }
+
+  .venue-reservation-form-container {
+    @include container-border-radius;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.02);
+    background: #ffffff;
+    padding: 10vh 10vw;
+    flex: auto;
+    overflow-y: auto;
+
+    .venue-reservation-form {
+      width: 500px;
+      margin: 0 auto;
+    }
+  }
+}

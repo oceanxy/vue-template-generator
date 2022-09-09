@@ -1,0 +1,12 @@
+@import '@/assets/styles/theme.scss';
+
+.bnm-workorder-statistics-container {
+  margin: 0 16px 16px;
+  padding: 20px;
+  background: #ffffff;
+  flex-grow: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  @include container-border-radius;
+}

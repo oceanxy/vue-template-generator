@@ -1,0 +1,54 @@
+.tg-container-with-sider {
+  display: flex;
+  gap: 10px;
+  height: 100%;
+  overflow: hidden;
+
+  & > .tg-container-with-sider--main {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    height: 100%;
+    flex: auto;
+  }
+
+  & > .tg-container-with-sider--sider {
+    position: relative;
+    width: 320px;
+    height: 100%;
+    flex: none;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: width 0.2s ease;
+
+    & > .tg-container-trigger {
+      position: absolute;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      right: -16px;
+      top: calc(50% - 24px);
+      width: 16px;
+      height: 48px;
+      border-radius: 0 6px 6px 0;
+      border: 1px solid #d9d9d9;
+      border-left: 0;
+      cursor: pointer;
+      color: #bfbfbf;
+
+      &:hover {
+        color: #1890ff;
+      }
+    }
+
+    &.hide {
+      width: 0 !important;
+
+      & > *:not(.tg-container-trigger) {
+        opacity: 0;
+      }
+    }
+  }
+}

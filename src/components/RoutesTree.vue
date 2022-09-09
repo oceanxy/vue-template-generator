@@ -133,7 +133,7 @@ export default {
       }
     },
     onDragEnter(info) {
-      console.log(info)
+      // console.log(info)
       // expandedKeys 需要受控时设置
       // this.expandedKeys = info.expandedKeys
     },
@@ -145,6 +145,7 @@ export default {
 
       // Find dragObject
       let dragObj
+
       this.loop(null, dragKey, (item, index, arr) => {
         arr.splice(index, 1)
         dragObj = item
@@ -194,7 +195,9 @@ export default {
           isOperation: true
         })
 
-        nodeData = { ...nodeData, ...item }
+        nodeData = {
+          ...nodeData, ...item 
+        }
       })
 
       if (!nodeData.expanded) {

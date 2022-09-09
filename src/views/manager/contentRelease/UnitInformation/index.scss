@@ -1,0 +1,37 @@
+.bnm-unit-information-container {
+  margin: 0 16px 16px;
+  height: auto;
+  overflow-y: auto;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 16px;
+
+  .conf-item {
+    background: #ffffff;
+    padding: 20px 20px 28px;
+    height: auto;
+
+    .ant-spin-container {
+      height: auto;
+    }
+  }
+
+  .conf-title {
+    display: flex;
+    align-items: flex-start;
+
+    &.unit {
+      flex-direction: column;
+
+      .title {
+        width: 100%;
+        display: flex;
+        align-items: center;
+      }
+    }
+
+    .ant-btn {
+      margin-left: auto;
+    }
+  }
+}

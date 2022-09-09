@@ -1,0 +1,46 @@
+@import '@/assets/styles/theme.scss';
+
+.bnm-my-clues-container {
+  margin: 0 16px 16px;
+  padding: 20px;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  @include container-border-radius;
+
+  .tg-container-content.tg-container-content {
+    grid-template: 40px 1fr 32px/1fr;
+  }
+}
+
+.bnm-my-clues-follow-up-modal {
+  .ant-modal-body {
+    padding: 24px;
+
+    .ant-form-item-label {
+      width: 74px;
+    }
+  }
+
+  .ant-timeline {
+    padding-top: 14px;
+
+    .ant-timeline-item {
+      padding-bottom: 6px;
+
+      .datetime {
+        color: #999999;
+      }
+
+      .type {
+        color: #2f9bff;
+      }
+
+      .desc {
+
+      }
+    }
+  }
+}

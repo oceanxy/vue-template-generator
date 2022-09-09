@@ -1,0 +1,29 @@
+@import '@/assets/styles/theme.scss';
+
+.bnm-contentrelease-information-container {
+  margin: 0 16px 16px;
+  padding: 20px;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  flex-grow: 1;
+  @include container-border-radius;
+}
+.bnm-modal-contentrelease-information-form {
+  .ant-modal-body {
+    .ant-form-item {
+      display: flex;
+      .ant-form-item-label {
+        width: 100px;
+        flex-shrink: 0;
+      }
+      .ant-form-item-control-wrapper {
+        flex-grow: 1;
+      }
+    }
+    .ant-table-wrapper .ant-table {
+      height: auto;
+    }
+  }
+}

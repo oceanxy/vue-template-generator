@@ -1,0 +1,128 @@
+.box-content.bn-report-content {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+
+  .report-form {
+    border-left: 4px solid #007aff;
+    border-radius: 4px;
+    padding: 24px 45px;
+    background: #fafafa;
+    display: flex;
+
+    .content {
+      flex: auto;
+
+      .title {
+        font-size: 16px;
+        font-weight: 700;
+        color: #262626;
+        line-height: 30px;
+      }
+
+      .description {
+        font-size: 14px;
+        font-weight: 500;
+        color: #8c8c8c;
+        line-height: 28px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .datetime {
+        font-size: 14px;
+        font-weight: 500;
+        color: #bfbfbf;
+        line-height: 30px;
+        padding-left: 30px;
+
+        background: url(../images/datetime.png) no-repeat center left / 16px;
+      }
+    }
+
+    .btns {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex: none;
+
+      .record {
+        color: #ffffff;
+
+        &:hover {
+          border-color: currentColor;
+        }
+      }
+    }
+
+    &.record {
+      border-color: #13c2c2;
+
+      .btns {
+        .record {
+          background: #13c2c2;
+        }
+      }
+    }
+  }
+}
+
+.box-content.bn-report-form-content {
+  background-color: #fbfbfb;
+
+  .bn-report-form {
+    padding-bottom: 40px;
+
+    .bn-report-form-card {
+      margin-bottom: 15px;
+
+      .ant-card-body {
+        padding: 12px;
+      }
+    }
+
+    .bnm-report-form-classified-info {
+      width: 100%;
+      font-size: 14px;
+      font-weight: 600;
+      padding-left: 10px;
+      padding-bottom: 4px;
+      margin-bottom: 20px;
+      border-bottom: 1px solid #c3c3c3;
+
+      p {
+        margin: 0;
+      }
+    }
+  }
+}
+
+.bn-report-record-content {
+  .btns {
+    text-align: right;
+    margin-top: 20px;
+  }
+
+  .ant-table-wrapper {
+    .ant-table {
+      height: auto;
+    }
+  }
+
+  .bn-report-record-table {
+    .img {
+      width: 100px;
+      height: 100px;
+      display: inline-block;
+      margin-right: 10px;
+      margin-bottom: 10px;
+    }
+
+    .fill-text {
+      word-break: break-all;
+      display: block;
+      word-wrap: break-word;
+    }
+  }
+}

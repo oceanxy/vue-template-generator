@@ -1,0 +1,35 @@
+@import '@/assets/styles/theme.scss';
+
+.bnm-signing-process-container {
+  margin: 0 16px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  height: 0;
+  flex: auto;
+
+  .signing-process-wrapper {
+    width: 100%;
+    flex: auto;
+    background: none;
+
+    .signing-process-content {
+      border: none;
+      @include container-border-radius;
+      box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.02);
+      background: #ffffff;
+
+      .signing-process-loading {
+        height: 100%;
+
+        .ant-spin-container {
+          height: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          font-size: 24px;
+        }
+      }
+    }
+  }
+}

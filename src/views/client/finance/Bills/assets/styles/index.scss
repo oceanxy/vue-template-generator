@@ -1,0 +1,79 @@
+.bn-bills-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  .summary {
+    border-radius: 4px;
+    padding: 30px 32px;
+    flex: none;
+    display: flex;
+    align-items: center;
+    background: url('../images/summary-bg.png') no-repeat center right 100px / auto 100%,
+      linear-gradient(to right, #ffffff, #cfe2ff);
+
+    .label {
+      line-height: 44px;
+      font-size: 16px;
+      color: #1f1f1f;
+      background: url('../images/summary-icon.png') no-repeat center left / 44px;
+      padding-left: 62px;
+    }
+
+    .sum {
+      font-size: 24px;
+      color: #f5222d;
+      font-family: DINPro-Bold;
+    }
+
+    .amount {
+      font-size: 16px;
+      color: #8c8c8c;
+    }
+
+    .btn {
+      margin-left: auto;
+    }
+  }
+
+  .bills-tabs {
+    flex: auto;
+    background: #ffffff;
+    display: flex;
+    flex-direction: column;
+
+    .ant-tabs-bar {
+      flex: none;
+      margin: 0;
+    }
+
+    .ant-tabs-content {
+      flex: auto;
+      height: 0;
+
+      .ant-table-wrapper {
+        height: 100%;
+      }
+    }
+
+    .ant-tabs-nav {
+      margin-left: 20px;
+      line-height: 56px;
+      font-size: 16px;
+
+      &.ant-tabs-tab-active {
+        color: #007aff;
+      }
+    }
+
+    .ant-tabs-ink-bar {
+      height: 4px;
+      border-radius: 4px 4px 0 0;
+      border-color: #007aff;
+    }
+
+    .ant-tabs-tabpane {
+      padding: 20px;
+    }
+  }
+}

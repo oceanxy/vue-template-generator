@@ -1,0 +1,60 @@
+.bnm-contract-review-result-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  .prompt {
+    padding-top: 240px;
+    text-align: center;
+    color: #8c8c8c;
+    width: 400px;
+    background: no-repeat center top / 240px;
+
+    &.under-review {
+      background-image: url('../images/under-review.png');
+    }
+
+    &.approved {
+      background-image: url('../images/approved.png');
+
+      .info-box {
+        background: #f2f7fc;
+        border: 1px solid #cee5ff;
+        border-radius: 2px;
+        padding: 24px;
+        margin-top: 24px;
+        color: #434343;
+      }
+
+      .ant-btn {
+        margin-top: 16px;
+      }
+    }
+
+    &.not-pass {
+      background-image: url('../images/not-pass.png');
+
+      .info-box {
+        background: #fafafa;
+        border: 1px solid #f0f0f0;
+        border-radius: 2px;
+        padding: 24px 24px 24px 100px;
+        text-align: left;
+        margin-top: 24px;
+        color: #434343;
+
+        &:before {
+          content: '反驳原因：';
+          float: left;
+          margin-left: -70px;
+        }
+      }
+
+      .ant-btn {
+        margin-top: 26px;
+      }
+    }
+  }
+}

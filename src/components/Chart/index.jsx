@@ -23,10 +23,10 @@ export default {
     option: {
       handler(value) {
         if (this.notMerge) {
-          this.$_chartInstance.clear()
+          this.$_chartInstance?.clear()
         }
 
-        this.$_chartInstance.setOption(value, this.notMerge)
+        this.$_chartInstance?.setOption(value, this.notMerge)
       },
       deep: true
     }
@@ -59,7 +59,7 @@ export default {
       <div
         ref="chartContainer"
         // style={{ '--height': this.$_chartHeight }}
-        class="fj-chart-container"
+        class="tg-chart-container"
       >
         <div ref="chart" class="chart-container" />
       </div>

@@ -1,8 +1,16 @@
+import TGHeader from '@/layouts/components/TGHeader'
+import { Layout } from 'ant-design-vue'
+
 export default {
-  name: '404',
+  name: 'NotFound',
   render() {
     return (
-      <div>404</div>
+      <Layout class={'tg-not-found'}>
+        <TGHeader layout="manager" />
+        <Layout class={'tg-not-found-content'}>
+          <div class={'hint'}>页面走丢了~</div>
+        </Layout>
+      </Layout>
     )
   }
 }

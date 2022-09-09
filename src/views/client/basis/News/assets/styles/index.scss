@@ -1,0 +1,13 @@
+.box-content.bn-news-content {
+  display: grid;
+  grid-template: 32px 1fr 32px / 1fr;
+  flex-direction: column;
+  gap: 16px;
+  grid-row-gap: 20px;
+
+  .bnc-news-button {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+}

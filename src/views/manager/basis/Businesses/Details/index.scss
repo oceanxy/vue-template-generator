@@ -1,0 +1,58 @@
+.bnm-businesses-details-content {
+  display: flex;
+  flex-direction: column;
+  flex: auto;
+  height: 100%;
+
+  .ant-tabs-bar {
+    flex: none;
+    margin: 0;
+    padding-bottom: 16px;
+  }
+
+  .ant-tabs-content {
+    flex: auto;
+    height: 0;
+
+    .ant-tabs-tabpane {
+      overflow-y: auto;
+    }
+
+    .ant-table-wrapper {
+      height: 100%;
+    }
+  }
+
+  .bnm-businesses-details-cards {
+    height: 100%;
+  }
+
+  .ant-descriptions-item-label {
+    width: 80px;
+  }
+
+  .ant-tabs-ink-bar {
+    height: 4px;
+    background: #007aff;
+    border-radius: 4px 4px 0 0;
+  }
+
+  .ant-tabs-tab {
+    font-size: 16px;
+    font-weight: 400;
+    color: #8c8c8c;
+
+    &.ant-tabs-tab-active {
+      font-weight: 700;
+      color: #007aff;
+    }
+  }
+
+  .empty {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+}

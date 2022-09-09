@@ -1,0 +1,32 @@
+@import '@/assets/styles/theme.scss';
+
+.bnm-invoice-statistics-container {
+  margin: 0 16px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  height: 100%;
+  overflow: hidden;
+  overflow: hidden;
+  @include container-border-radius;
+
+  .bnm-invoice-statistics-chart {
+    height: 420px;
+    flex: none;
+  }
+
+  .bnm-invoice-statistics-table {
+    flex: auto;
+  }
+}
+
+@media screen and (max-width: 1366px) {
+  .bnm-invoice-statistics-container {
+    margin: 0 10px 10px;
+    gap: 15px;
+
+    .bnm-invoice-statistics-chart {
+      height: 42vh;
+    }
+  }
+}

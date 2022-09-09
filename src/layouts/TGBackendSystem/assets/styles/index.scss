@@ -1,0 +1,152 @@
+#tg-responsive-layout {
+  position: relative;
+  overflow: hidden;
+  height: 100%;
+  z-index: 2;
+
+  .logo {
+    height: 32px;
+    margin: 16px;
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  .trigger {
+    font-size: 18px;
+    line-height: 64px;
+    padding: 0 24px;
+    cursor: pointer;
+    transition: color 0.3s;
+  }
+
+  .trigger:hover {
+    color: #1890ff;
+  }
+
+  .tg-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+    background: #f2f7fc;
+    min-width: 1106px;
+  }
+
+  .ant-layout {
+    overflow: hidden;
+  }
+
+  @media screen and (max-width: 1366px) {
+    .tg-layout-header {
+      height: 54px;
+      line-height: 54px;
+
+      .tg-logo {
+        width: 205px;
+        height: 32px;
+      }
+    }
+
+    .tg-content {
+      .tg-breadcrumb {
+        padding: 10px 20px;
+        font-size: 12px;
+      }
+
+      .bn-park-content-container {
+        padding: 10px;
+      }
+    }
+
+    .tg-sider.tg-sider {
+      width: 168px !important;
+      flex: 0 0 168px !important;
+      max-width: 168px !important;
+      min-width: 168px !important;
+
+      &.collapsed {
+        width: 80px !important;
+        flex: 0 0 80px !important;
+        max-width: 80px !important;
+        min-width: 80px !important;
+
+        .ant-layout-sider-trigger {
+          width: 80px !important;
+        }
+      }
+
+      &.ant-layout-sider-has-trigger {
+        padding-bottom: 32px;
+      }
+
+      .ant-layout-sider-trigger {
+        width: 168px !important;
+        height: 32px;
+        line-height: 32px;
+
+        .anticon {
+          font-size: 12px;
+        }
+      }
+
+      .ant-menu-item,
+      .ant-menu-submenu-title {
+        font-size: 12px;
+        height: 32px;
+        line-height: 32px;
+
+        .anticon {
+          font-size: 16px;
+        }
+      }
+    }
+
+    .bn-park-sider-container {
+      width: 190px;
+
+      .ant-tree {
+        font-size: 12px;
+      }
+
+      .tg-container-trigger {
+        width: 12px;
+        height: 36px;
+        right: -12px;
+        font-size: 12px;
+      }
+    }
+  }
+
+  .tg-sider {
+    width: 230px !important;
+    flex: 0 0 230px !important;
+    max-width: 230px !important;
+    min-width: 230px !important;
+
+
+    .ant-layout-sider-trigger {
+      width: 230px !important;
+      overflow: hidden;
+      background: radial-gradient(at 66% 15%, #f2f7fc 25%, #d3e5ff 50%, #ffffff 100%);
+      background-position: 0px 0px;
+      color: rgba(0, 0, 0, 0.45);
+      font-size: 16px;
+      transition: all 0.3s;
+
+      &:hover {
+        background-position: 10px -10px;
+        transform: scale(1.1) translate(-4.5%, 4.5%);
+      }
+    }
+
+    &.collapsed {
+      width: 80px !important;
+      flex: 0 0 80px !important;
+      max-width: 80px !important;
+      min-width: 80px !important;
+
+      .ant-layout-sider-trigger {
+        width: 80px !important;
+      }
+    }
+  }
+}

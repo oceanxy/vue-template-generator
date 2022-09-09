@@ -1,0 +1,25 @@
+.bnm-cs-by-complaint-status {
+  display: flex;
+
+  .table {
+    flex: auto;
+
+    .ant-table-small {
+      border-left: none;
+      border-right: none;
+      border-top: none;
+    }
+  }
+
+  .charts {
+    flex: none;
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .chart {
+      flex: 50%;
+    }
+  }
+}
