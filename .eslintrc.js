@@ -139,7 +139,7 @@ module.exports = {
     'brace-style': [
       2,
       '1tbs',
-      {allowSingleLine: true}
+      { allowSingleLine: true }
     ],
     // 双峰驼命名格式
     camelcase: 0,
@@ -164,11 +164,6 @@ module.exports = {
     'func-names': 0,
     // 文件末尾强制换行
     'eol-last': 2,
-    indent: [
-      2,
-      2,
-      {SwitchCase: 1}
-    ],
     // 强制在对象字面量的属性中键和值之间使用一致的间距
     'key-spacing': [
       2,
@@ -208,7 +203,7 @@ module.exports = {
     // 强制函数中的变量要么一起声明要么分开声明
     'one-var': [
       2,
-      {initialized: 'never'}
+      { initialized: 'never' }
     ],
     // 强制操作符使用一致的换行符
     'operator-linebreak': [
@@ -253,7 +248,15 @@ module.exports = {
     // 要求使用 const 声明那些声明后不再被修改的变量
     'prefer-const': 2,
     // 要求或禁止模板字符串中的嵌入表达式周围空格的使用
-    'template-curly-spacing': 1,
+    'template-curly-spacing': 0,
+    'indent': [
+      2,
+      2,
+      {
+        SwitchCase: 1,
+        ignoredNodes: ['TemplateLiteral']
+      }
+    ],
     // 要求或禁止在语句间填充空行
     'padding-line-between-statements': [
       2,

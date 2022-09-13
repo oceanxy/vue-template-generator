@@ -36,7 +36,7 @@ export default {
 
     if (component) {
       // route.component = resolve => require(['@/' + component.slice(2)], resolve)
-      route.component = () => import('@/' + component.slice(2))
+      route.component = () => import(`@/views${component.slice(7)}`)
     } else {
       route.component = () => import('@/layouts/components/TGRouterView')
     }
