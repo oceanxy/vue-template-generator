@@ -1,3 +1,5 @@
+import apis from '@/apis'
+
 export default {
   /**
    * 获取组织机构树
@@ -5,9 +7,6 @@ export default {
    * @returns {*}
    */
   getOrganTree(request) {
-    return request({
-      url: '/system/organ/getOrganTree',
-      method: 'post'
-    })
+    return apis.getOrganizationTree()
   }
 }

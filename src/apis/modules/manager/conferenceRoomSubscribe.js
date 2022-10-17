@@ -65,5 +65,42 @@ export default {
       method: 'post',
       data: qs.stringify(data)
     })
+  },
+  /**
+   * 获取楼层树
+   * @param request
+   * @returns {*}
+   */
+  getMeetingRoomTree(request) {
+    return request({
+      url: '/business/meetingRoomAppointment/getRoomTreeList',
+      method: 'post'
+    })
+  },
+  /**
+   * 获取新增/编辑内的企业树
+   * @param request
+   * @param data
+   * @returns {*}
+   */
+  getMeetingUseCompanyList(request, data) {
+    return request({
+      url: '/business/meetingRoomAppointment/getMeetingUseCompanyList',
+      method: 'post',
+      data: qs.stringify(data)
+    })
+  },
+  /**
+   * 获取新增/编辑内的会议室树
+   * @param request
+   * @param data
+   * @returns {*}
+   */
+  getBookMeetingRoom(request, data) {
+    return request({
+      url: '/business/meetingRoomAppointment/getMeetingRoomSearchPageList',
+      method: 'post',
+      data: qs.stringify(data)
+    })
   }
 }

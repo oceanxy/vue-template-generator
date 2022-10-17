@@ -20,7 +20,7 @@
     padding: 24px;
 
     .ant-form-item-label {
-      width: 74px;
+      width: 100px;
     }
   }
 
@@ -39,7 +39,8 @@
       }
 
       .desc {
-
+        padding: 0;
+        margin: 0;
       }
     }
   }

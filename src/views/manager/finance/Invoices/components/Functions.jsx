@@ -18,6 +18,7 @@ export default {
         <Button
           onClick={() => this.onExport('发票数据')}
           icon={'export'}
+          disabled={this.exportButtonDisabled}
         >
           导出
         </Button>

@@ -18,7 +18,6 @@ export default {
           {
             title: '月份',
             width: 150,
-            fixed: true,
             dataIndex: 'billMonth'
           },
           {
@@ -71,9 +70,7 @@ export default {
           scopedSlots: {
             serialNumber: (text, record, index) => index + 1,
             address: (text, record) => (
-              <ul style={{
-                paddingLeft: '20px', marginBottom: 0
-              }}>
+              <ul style={{ paddingLeft: '20px', marginBottom: 0 }}>
                 {
                   record.address?.split(',').map(item => (
                     <li>{item}</li>
@@ -83,13 +80,17 @@ export default {
             ),
             operation: (text, record) => (
               <Space>
-                <Button
-                  type="link"
-                  size="small"
-                  onClick={() => this.onEditClick(record)}
-                >
-                  修改金额
-                </Button>
+                {
+                  record.payStatus === 1 ? (
+                    <Button
+                      type="link"
+                      size="small"
+                      onClick={() => this.onEditClick(record)}
+                    >
+                      修改金额
+                    </Button>
+                  ) : null
+                }
               </Space>
             )
           }

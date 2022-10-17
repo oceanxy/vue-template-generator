@@ -68,6 +68,31 @@
       }
     }
   }
+
+  .bnm-contract-select-template {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+
+    .item {
+      flex: auto;
+      display: flex;
+      height: 32px;
+      align-items: center;
+
+      & > span:last-child {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        width: 100%;
+      }
+
+      .ant-upload-list-item {
+        margin-top: 0;
+      }
+    }
+  }
 }
 
 .bnm-preview-container-container {

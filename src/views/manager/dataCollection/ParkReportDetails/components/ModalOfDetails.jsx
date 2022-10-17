@@ -27,7 +27,7 @@ export default Form.create({})({
           },
           {
             title: '填写结果',
-            dataIndex: 'resultContent'
+            scopedSlots: { customRender: 'resultContent' }
           }
         ],
         rowKey: 'id',
@@ -63,7 +63,7 @@ export default Form.create({})({
   render() {
     const attributes = {
       attrs: this.modalProps,
-      on: {cancel: () => this.onCancel(this.visibleField)}
+      on: { cancel: () => this.onCancel(this.visibleField) }
     }
 
     const tableAttributes = {
@@ -72,12 +72,46 @@ export default Form.create({})({
         loading: this.details.loading,
         dataSource: this.details.list
       },
-      attrs: {class: 'bnm-table-in-modal'}
+      attrs: { class: 'bnm-table-in-modal' }
     }
 
     return (
       <DragModal {...attributes} class={'bnm-table-modal'}>
-        <Table {...tableAttributes} />
+        <Table
+          {...tableAttributes}
+          {...{
+            scopedSlots: {
+              resultContent: (text, record) => {
+                if (record.modType === 5 || record.modType === 6) {
+                  return (
+                    <ul
+                      style={{
+                        paddingLeft: 0,
+                        marginBottom: 0,
+                        listStyle: 'none'
+                      }}
+                    >
+                      {
+                        record.resultFile?.map(item => (
+                          <li>
+                            <a
+                              target="_blank"
+                              href={item.path}
+                            >
+                              {item.fileName}
+                            </a>
+                          </li>
+                        ))
+                      }
+                    </ul>
+                  )
+                }
+
+                return record.resultContent
+              }
+            }
+          }}
+        />
       </DragModal>
     )
   }

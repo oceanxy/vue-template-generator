@@ -7,24 +7,16 @@ import { mapState } from '@/utils/store'
 export default {
   name: 'MyReports',
   mixins: [dynamicState()],
-  computed: {...mapState(['list', 'loading'])},
+  computed: { ...mapState(['list', 'loading']) },
   async created() {
-    await this.$store.dispatch('getList', {moduleName: this.moduleName})
+    await this.$store.dispatch('getList', { moduleName: this.moduleName })
   },
   methods: {
     async fillOutNow(reportId, fillObj) {
-      await this.$router.push({
-        name: 'fillOutReport', query: {
-          reportId, fillObj
-        }
-      })
+      await this.$router.push({ name: 'fillOutReport', query: { reportId, fillObj } })
     },
     async fillInRecord(reportId, fillObj) {
-      await this.$router.push({
-        name: 'fillInRecords', query: {
-          reportId, fillObj
-        }
-      })
+      await this.$router.push({ name: 'fillInRecords', query: { reportId, fillObj } })
     }
   },
   render() {
@@ -36,7 +28,10 @@ export default {
           showBoxShadow={false}
         >
           <Spin spinning={this.loading}>
-            <Space direction="vertical" style={{ width: '100%' }}>
+            <Space
+              direction="vertical"
+              style={{ width: '100%' }}
+            >
               {
                 this.list.length
                   ? this.list.map(item => (

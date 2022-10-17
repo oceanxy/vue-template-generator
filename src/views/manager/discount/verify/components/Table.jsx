@@ -17,7 +17,6 @@ export default {
           },
           {
             title: '企业',
-            fixed: true,
             width: 200,
             dataIndex: 'companyName',
             scopedSlots: { customRender: 'companyName' }
@@ -113,7 +112,10 @@ export default {
               return getStatus(record)
             },
             file: (text, record) => (
-              <Button type="link" onClick={() => this._setVisibleOfModal(record, 'visibleOfFile')}>
+              <Button
+                type="link"
+                onClick={() => this._setVisibleOfModal(record, 'visibleOfFile')}
+              >
                 查看
               </Button>
             ),
@@ -121,7 +123,11 @@ export default {
               return (
                 <Space>
                   {record.auditStatus === 2 ? (
-                    <Button type="link" size="small" onClick={() => this._setVisibleOfModal(record, 'visibleOfAudit')}>
+                    <Button
+                      type="link"
+                      size="small"
+                      onClick={() => this._setVisibleOfModal(record, 'visibleOfAudit')}
+                    >
                       审核
                     </Button>
                   ) : null}

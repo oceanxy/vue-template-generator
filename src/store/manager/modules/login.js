@@ -115,7 +115,9 @@ export default {
 
       return Promise.resolve(true)
     },
-    async switchEnt({ dispatch, commit, state }, payload) {
+    async switchEnt({
+      dispatch, commit, state
+    }, payload) {
       commit('setParkInfo', payload)
       window.location.reload()
     }

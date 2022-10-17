@@ -10,14 +10,17 @@ import ModalOfEdit from './components/ModalOfEdit'
 export default {
   name: 'AccountOpening',
   mixins: [dynamicState()],
-  render () {
+  render() {
     return (
       <BNContainerWithParkSider contentClass={'bnm-account-opening-container'}>
         <TGContainer>
           <Inquiry slot={'inquiry'} />
           <Table slot={'table'} />
           <TGPagination slot={'pagination'} />
-          <ModalOfEdit slot={'modals'} modalTitle={'账号开通审核'} />
+          <ModalOfEdit
+            slot={'modals'}
+            modalTitle={'账号开通审核'}
+          />
         </TGContainer>
       </BNContainerWithParkSider>
     )

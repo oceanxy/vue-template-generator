@@ -1,5 +1,5 @@
 import '../assets/styles/index.scss'
-import { Button, Checkbox, DatePicker, Form, Input, message, Select, Spin } from 'ant-design-vue'
+import { Checkbox, DatePicker, Form, Input, message, Select, Spin } from 'ant-design-vue'
 import forFormModal from '@/mixins/forModal/forFormModal'
 import DragModal from '@/components/DragModal'
 import MultiInput from '../../DataCollectionTemplates/components/ModalOfEdit/components/MultiInput'
@@ -14,10 +14,11 @@ export default Form.create({})({
     return {
       modalProps: {
         width: 1440,
+        destroyOnClose: true
         // footer: [
         //   <Button onClick={() => this.onCancel()}>取消</Button>,
         //   // <Button onClick={() => this.onCancel(this.visibleField)}>预览</Button>,
-        //   <Button type={'primary'} onClick={() => this.onSubmit()}>保存</Button>
+        //   <Button type={'primary'} onClick={() => this.handleSubmit()}>保存</Button>
         // ]
       },
       // 填报内容内选择器已选中的模版ID
@@ -40,6 +41,22 @@ export default Form.create({})({
     },
     templates() {
       return this.getState('templates', this.moduleName)
+    },
+    /**
+     * 取填报项中所有已选择的 targetId 并去重
+     * @returns {any[]}
+     */
+    selectedIndicatorIds() {
+      return [
+        ...new Set(
+          this.form.getFieldValue('itemList')
+            .map(item => item.targetId || item.id) // 筛选出所有项的targetId
+            .filter(item => !!item) // 筛选掉空字符串
+        )
+      ]
+    },
+    currentAllIndicatorIds() {
+      return this.indicators.list.map(indicator => indicator.id)
     }
   },
   watch: {
@@ -49,22 +66,21 @@ export default Form.create({})({
         if (value) {
           await Promise.all([
             this.handleDetails(),
-            this.onSearchIndicators(undefined)
+            this.getIndicators()
           ])
+        } else {
+          this.$refs.table?.$children[0].form.resetFields()
         }
       }
     }
   },
   methods: {
-    async onSearchIndicators(keyword) {
-      if (keyword || keyword === undefined) {
-        await this.$store.dispatch('getListForSelect', {
-          moduleName: 'common',
-          stateName: 'indicators',
-          customApiName: 'getIndicatorsForSelect',
-          payload: { fullName: keyword }
-        })
-      }
+    async getIndicators() {
+      await this.$store.dispatch('getListForSelect', {
+        moduleName: 'common',
+        stateName: 'indicators',
+        customApiName: 'getIndicatorsForSelect'
+      })
     },
     async onSearchTemplate(keyword) {
       if (keyword) {
@@ -90,25 +106,14 @@ export default Form.create({})({
       }
     },
     async onTemplateSelected(template) {
-      // 获取填报项中所有已选择的 targetId 和 fullName，并去重
-      const existItemWithTargetId = [...new Set(this.form.getFieldValue('itemList').map(item => item.targetId))]
-      const existItemWithTargetName = [...new Set(this.form.getFieldValue('itemList').map(item => item.fullName))]
-
-      // 从新选择的模版的填报项中排除掉已选择的 targetId 和 fullName。
-      const templateSelected = {
-        ...template,
-        itemList: template.itemList.filter(item => {
-          if (item.targetId) {
-            return !existItemWithTargetId.includes(item.targetId)
-          } else {
-            return !existItemWithTargetName.includes(item.fullName)
-          }
-        })
-      }
+      const templateSelected = cloneDeep(template)
 
       if (templateSelected.itemList.length) {
         this.$store.commit('setDetails', {
-          value: { templateSelected },
+          value: {
+            templateSelected,
+            selectedIndicatorIds: this.selectedIndicatorIds
+          },
           moduleName: this.moduleName,
           merge: true
         })
@@ -119,21 +124,104 @@ export default Form.create({})({
           moduleName: this.moduleName
         })
       } else {
-        message.warning('该模版当前无可用填报项，请重新选择！')
+        message.warning('当前模板内的所有填报项已经添加成功，请勿重复添加！')
       }
 
-      this.templateIdSelected = undefined
+      this.$nextTick(() => {
+        this.templateIdSelected = undefined
+      })
+    },
+    onAddItem() {
+      this.$refs.searchTemplate.$el.scrollIntoView()
+    },
+    onRowIndicatorChange() {
+      this.modalProps.okButtonProps.props.disabled = false
     },
     importTemplate(itemsSelected) {
       const old = this.form.getFieldValue('itemList')
       const items = cloneDeep(itemsSelected)
+      const additionalIndicator = []
 
-      items.forEach(item => {
-        item.id = Math.random()
-        item.serialNum = +item.serialNum + +old.length
+      items.forEach((item, index) => {
+        item.serialNum = +old.length + index + 1
+
+        // 更新填报项组件需要的指标数据，以防回填后出现只显示ID，不显示具体名称的问题
+        if (item.targetId && !this.currentAllIndicatorIds.includes(item.targetId)) {
+          additionalIndicator.push({ fullName: `${item.fullName}（从${item.objName}导入）`, id: item.targetId })
+        }
       })
 
+      if (additionalIndicator.length) {
+        this.$store.commit('setDetails', {
+          value: {
+            ...this.indicators,
+            list: this.indicators.list.concat(additionalIndicator)
+          },
+          moduleName: 'common',
+          stateName: 'indicators'
+        })
+      }
+
       this.form.setFieldsValue({ itemList: old.concat(items) })
+      this.modalProps.okButtonProps.props.disabled = false
+    },
+    handleSubmit() {
+      this.onSubmit({
+        customValidation: () => {
+          let validationResult
+
+          // 第一阶段验证，验证表单
+          this.$refs.table.$children[0].form.validateFieldsAndScroll(err => {
+            validationResult = !err
+          })
+
+          // 第二阶段验证，验证填报项的选项字段
+          const itemList = cloneDeep(this.form.getFieldValue('itemList'))
+
+          for (let i = 0; i < itemList.length; i++) {
+            if (itemList[i].modType < 3) {
+              /* =======触发填报项内选项的验证（这里仅仅是触发，以突出显示红色边框）===================== */
+              if (itemList[i].itemOptionList?.length < 1) {
+                validationResult = false
+                itemList[i].itemOptionList = [{ hasError: true }]
+              }
+
+              if (itemList[i].itemOptionList?.length === 1 && (
+                itemList[i].itemOptionList[0].optionValue === '' ||
+                itemList[i].itemOptionList[0].optionValue === undefined
+              )) {
+                validationResult = false
+                itemList[i].itemOptionList[0].hasError = true
+              }
+
+              if (itemList[i].itemOptionList?.length > 1) {
+                itemList[i].itemOptionList.forEach(itemOption => {
+                  if (itemOption.optionValue === '' && itemOption.score !== '') {
+                    validationResult = false
+                    itemOption.hasError = true
+                  }
+                })
+              }
+
+              this.form.setFieldsValue({ itemList })
+              /* ================================================================================ */
+            }
+          }
+
+          // 返回验证结果
+          return validationResult
+        },
+        customDataHandler: values => {
+          const temp = cloneDeep(values)
+
+          temp.itemList.forEach(item => {
+            item.isRequired = item.isRequired ? 1 : 0
+            item.status = item.status ? 1 : 0
+          })
+
+          return temp
+        }
+      })
     }
   },
   render() {
@@ -141,54 +229,39 @@ export default Form.create({})({
       attrs: this.modalProps,
       on: {
         cancel: () => this.onCancel(),
-        ok: () => this.onSubmit({
-          customValidation: () => {
-            let validationResult
-            const itemList = this.form.getFieldValue('itemList')
-            const temp = itemList.filter(item => {
-              if (item.modType === 1 || item.modType === 2) {
-                return item.fullName && item.description && item.itemOptionList?.length
-              } else {
-                return item.fullName && item.description
-              }
-            })
-
-            if (itemList.length && temp.length === itemList.length) {
-              this.form.setFields({ itemList: { value: itemList } })
-              validationResult = true
-            } else {
-              this.form.setFields({
-                itemList: {
-                  value: temp, errors: [new Error('请补全填报内容！')]
-                }
-              })
-              validationResult = false
-            }
-
-            return validationResult
-          }
-        })
+        ok: () => this.handleSubmit()
       }
     }
 
     return (
       <DragModal class={'bnm-report-forms-edit'} {...attributes}>
         <Form class="bnm-form-grid">
-          <Form.Item label="报表名称" class={'one-third'}>
+          <Form.Item
+            label="报表名称"
+            class={'one-third'}
+          >
             {
               this.form.getFieldDecorator('fullName', {
                 initialValue: this.currentItem.fullName,
                 rules: [
                   {
-                    required: true, message: '请输入模版名称!', trigger: 'blur'
+                    required: true,
+                    message: '请输入模版名称!',
+                    trigger: 'blur'
                   }
                 ]
               })(
-                <Input placeholder="请输入模版名称" allowClear />
+                <Input
+                  placeholder="请输入模版名称"
+                  allowClear
+                />
               )
             }
           </Form.Item>
-          <Form.Item label="填报时间" class={'one-third'}>
+          <Form.Item
+            label="填报时间"
+            class={'one-third'}
+          >
             {
               this.form.getFieldDecorator('dateRange', {
                 initialValue: this.details.startTime
@@ -199,21 +272,33 @@ export default Form.create({})({
                   : [],
                 rules: [
                   {
-                    required: true, type: 'array', message: '请输入填报时间!', trigger: 'change'
+                    required: true,
+                    type: 'array',
+                    message: '请输入填报时间!',
+                    trigger: 'change'
                   }
                 ]
               })(
-                <DatePicker.RangePicker style={{ width: '100%' }} allowClear />
+                <DatePicker.RangePicker
+                  style={{ width: '100%' }}
+                  allowClear
+                />
               )
             }
           </Form.Item>
-          <Form.Item label="填报周期" class={'one-third'}>
+          <Form.Item
+            label="填报周期"
+            class={'one-third'}
+          >
             {
               this.form.getFieldDecorator('fillPeriod', {
                 initialValue: this.details.fillPeriod,
                 rules: [
                   {
-                    required: true, type: 'number', message: '请选择填报周期!', trigger: 'change'
+                    required: true,
+                    type: 'number',
+                    message: '请选择填报周期!',
+                    trigger: 'change'
                   }
                 ]
               })(
@@ -233,7 +318,10 @@ export default Form.create({})({
                 initialValue: this.details.parkIdList,
                 rules: [
                   {
-                    required: true, type: 'array', message: '请选择填报园区!', trigger: 'change'
+                    required: true,
+                    type: 'array',
+                    message: '请选择填报园区!',
+                    trigger: 'change'
                   }
                 ]
               })(
@@ -253,7 +341,10 @@ export default Form.create({})({
                 initialValue: this.details.fillObjList,
                 rules: [
                   {
-                    required: true, type: 'array', message: '请选择填报对象!', trigger: 'change'
+                    required: true,
+                    type: 'array',
+                    message: '请选择填报对象!',
+                    trigger: 'change'
                   }
                 ]
               })(
@@ -267,48 +358,47 @@ export default Form.create({})({
               )
             }
           </Form.Item>
-          <Form.Item label="填报项">
-            <Select
-              vModel={this.templateIdSelected}
-              placeholder={'输入名称搜索模版，可从选中模版导入填报项'}
-              showSearch
-              filterOption={false}
-              onSearch={debounce(this.onSearchTemplate, 300)}
-              notFoundContent={this.templates.loading ? <Spin /> : undefined}
-            >
-              {
-                this.templates.list.map(item => (
-                  <Select.Option
-                    value={item.id}
-                    title={item.fullName}
-                    onClick={() => this.onTemplateSelected(item)}
-                  >
-                    {item.fullName}
-                  </Select.Option>
-                ))
-              }
-            </Select>
+          <Form.Item
+            label="填报项"
+            required
+          >
             {
-              this.form.getFieldDecorator('itemList', {
-                initialValue: this.details.itemList || [],
-                rules: [
-                  {
-                    required: true,
-                    type: 'array',
-                    message: '请补全填报内容!',
-                    trigger: 'change'
-                  }
-                ]
-              })(
+              this.form.getFieldDecorator('itemList', { initialValue: this.details.itemList || [] })(
                 <MultiInput
+                  ref={'table'}
                   visible={this.visible}
                   mode={this.currentItem.id ? 'edit' : 'add'}
                   indicators={this.indicators}
-                  onSearch={this.onSearchIndicators}
+                  selectedIndicatorIds={this.selectedIndicatorIds}
                   templateType={1}
                   parentForm={this.form}
                   affixTarget={() => document.querySelector('.bnm-report-forms-edit .ant-modal-body')}
-                  affixOffsetTop={-142}
+                  affixOffsetTop={-44}
+                  onAddItem={this.onAddItem}
+                  onRowIndicatorChange={this.onRowIndicatorChange}
+                  footer={() => (
+                    <Select
+                      ref={'searchTemplate'}
+                      vModel={this.templateIdSelected}
+                      placeholder={'搜索模版，从模版导入填报项'}
+                      showSearch
+                      filterOption={false}
+                      onSearch={debounce(this.onSearchTemplate, 300)}
+                      notFoundContent={this.templates.loading ? <Spin /> : undefined}
+                    >
+                      {
+                        this.templates.list.map(item => (
+                          <Select.Option
+                            value={item.id}
+                            title={item.fullName}
+                            onClick={() => this.onTemplateSelected(item)}
+                          >
+                            {item.fullName}
+                          </Select.Option>
+                        ))
+                      }
+                    </Select>
+                  )}
                 />
               )
             }
@@ -325,7 +415,10 @@ export default Form.create({})({
             }
           </Form.Item>
         </Form>
-        <ModalOfTemplateItems modalTitle={'引用模版'} onChange={this.importTemplate} />
+        <ModalOfTemplateItems
+          modalTitle={'引用模版'}
+          onChange={this.importTemplate}
+        />
       </DragModal>
     )
   }

@@ -21,14 +21,18 @@ export default {
     }
   },
   async created() {
+    if (this.indicatorCategoryIdSelected !== '0') {
+      // 重新进入页面时，初始化/重置指标分类ID
+      // isFetchList为false代表本次修改状态不触发页面表格数据更新
+      // indicatorCategoryIdSelected 取值‘0’，代表所有分类（与后端约定）
+      await this.setIndicatorCategoryIdSelected('0', false)
+    }
+
     await this.$store.dispatch('getListForSelect', {
       moduleName: 'common',
       stateName: 'indicatorCategoryTree',
       customApiName: 'getIndicatorCategoryTree'
     })
-  },
-  async destroyed() {
-    await this.setIndicatorCategoryIdSelected('')
   },
   methods: {
     /**
@@ -43,12 +47,14 @@ export default {
         await this.setIndicatorCategoryIdSelected(this.indicatorCategoryTree.list?.[0].id || '0')
       }
     },
-    async setIndicatorCategoryIdSelected(value) {
-      await this.$store.dispatch('common/setIndicatorCategoryIdSelected', {
-        moduleName: this.moduleName,
-        submoduleName: this.submoduleName,
-        value
-      })
+    async setIndicatorCategoryIdSelected(value, isFetchList) {
+      if (value !== this.indicatorCategoryIdSelected) {
+        await this.$store.dispatch('common/setIndicatorCategoryIdSelected', {
+          moduleName: this.moduleName,
+          submoduleName: this.submoduleName,
+          payload: { value, isFetchList }
+        })
+      }
     }
   },
   render() {
@@ -71,12 +77,15 @@ export default {
               <Tree
                 selectedKeys={[this.indicatorCategoryIdSelected]}
                 replaceFields={{
-                  children: 'children', title: 'name', key: 'id'
+                  children: 'children',
+                  title: 'name',
+                  key: 'id'
                 }}
                 treeData={this.indicatorCategoryTree.list}
                 onSelect={this.onSelect}
                 defaultExpandedKeys={[
                   this.indicatorCategoryIdSelected,
+                  this.indicatorCategoryTree.list?.[0].id,
                   this.indicatorCategoryTree.list?.[0].children?.[0].id
                 ]}
                 showLine

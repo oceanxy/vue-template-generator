@@ -1,10 +1,10 @@
 .bnm-dc-templates-edit {
   .ant-form-item-label.ant-form-item-label {
-    width: 90px;
+    width: 100px;
   }
 }
 
-.data-collection-item-table-container {
+.bnm-data-collection-item-table-container {
   .plus-btn {
     margin-left: 6px;
   }
@@ -12,6 +12,30 @@
   .item-table {
     .ant-table-placeholder {
       display: none;
+    }
+  }
+}
+
+// 得分非必填，重置错误样式
+.has-error .bnm-data-collection-item-table-container .item-table .ant-input-number {
+  border-color: rgb(217, 217, 217) !important;
+  outline: none;
+  box-shadow: none;
+}
+
+.bnm-report-items {
+  .ant-table {
+    .ant-form-item {
+      margin-bottom: 0;
+    }
+
+    .ant-form-explain {
+      display: none;
+    }
+
+    .ant-table-body {
+      margin-left: 0;
+      margin-right: 0;
     }
   }
 }

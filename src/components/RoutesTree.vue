@@ -7,7 +7,11 @@
         title="添加菜单"
         @click="addRootNode"
       />
-      <a-button class="generator" @click="generateRoutes">生成路由文件</a-button>
+      <a-button
+        class="generator"
+        @click="generateRoutes"
+      >生成路由文件
+      </a-button>
     </div>
     <a-tree
       :expandedKeys.sync="expandedKeys"
@@ -54,7 +58,10 @@
             @click="deleteNode(nodeData)"
           />
         </a-button-group>
-        <a-button-group v-else class="tree-buttons">
+        <a-button-group
+          v-else
+          class="tree-buttons"
+        >
           <a-button
             :disabled="!currentNodeTitle"
             icon="check"

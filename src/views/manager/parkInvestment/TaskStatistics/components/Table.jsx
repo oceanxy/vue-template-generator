@@ -11,50 +11,59 @@ export default {
           {
             title: '序号',
             width: 60,
+            fixed: true,
             align: 'center',
             scopedSlots: { customRender: 'serialNumber' }
           },
           {
             title: '团队',
+            width: 120,
             dataIndex: 'teamName'
           },
           {
             title: '成员',
+            width: 120,
             dataIndex: 'memberName'
           },
           {
             title: '分配线索',
+            width: 120,
             dataIndex: 'cluesCount'
           },
           {
             title: '跟进中',
             align: 'center',
+            width: 120,
             dataIndex: 'followCluesCount'
           },
           {
             title: '已结束',
             align: 'center',
+            width: 120,
             dataIndex: 'endCluesCount'
           },
           {
             title: '签约中',
             align: 'center',
+            width: 120,
             dataIndex: 'signingCluesCount'
           },
           {
             title: '已签约',
             align: 'center',
+            width: 120,
             dataIndex: 'endSigningCluesCount'
           },
           {
             title: '转化率',
             align: 'center',
+            width: 120,
             dataIndex: 'conversionRate'
           },
           {
             title: '操作',
             key: 'operation',
-            // fixed: 'right',
+            fixed: 'right',
             align: 'center',
             width: 100,
             scopedSlots: { customRender: 'operation' }
@@ -91,6 +100,7 @@ export default {
                 <Button
                   type="link"
                   size="small"
+                  disabled={this.exportButtonDisabled}
                   onClick={() =>
                     this.onExport(
                       {

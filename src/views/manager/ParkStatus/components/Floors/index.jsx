@@ -1,14 +1,14 @@
 import './index.scss'
 import { mapGetters } from 'vuex'
-import { dispatch } from '@/utils/store'
+import { Spin } from 'ant-design-vue'
 
 export default {
   inject: ['moduleName'],
   data() {
-    return {currentId: ''}
+    return { currentId: '' }
   },
   computed: {
-    ...mapGetters({getState: 'getState'}),
+    ...mapGetters({ getState: 'getState' }),
     search() {
       return this.getState('search', this.moduleName)
     },
@@ -17,9 +17,17 @@ export default {
     }
   },
   watch: {
-    async 'search.buildId'(value) {
-      if (value) {
-        await dispatch(this.moduleName, 'getFloorsByBuilding')
+    'search.buildId': {
+      immediate: true,
+      async handler(value) {
+        if (value) {
+          await this.$store.dispatch('getListForSelect', {
+            moduleName: this.moduleName,
+            stateName: 'floors',
+            customApiName: 'getFloorsByBuilding',
+            payload: { buildId: value }
+          })
+        }
       }
     }
   },
@@ -37,28 +45,29 @@ export default {
   },
   render() {
     return (
-      <ul
+      <Spin
+        spinning={this.floors.loading}
         class="park-status-main--floor"
-        onClick={this.onClick}
-        slot="sider"
       >
-        <li
-          value={''}
-          class={this.currentId === '' ? 'active' : ''}
-        >
-          全部
-        </li>
-        {
-          this.floors.map(item => (
-            <li
-              id={item.id}
-              class={this.currentId === item.id ? 'active' : ''}
-            >
-              {item.fullName}
-            </li>
-          ))
-        }
-      </ul>
+        <ul onClick={this.onClick}>
+          <li
+            value={''}
+            class={this.currentId === '' ? 'active' : ''}
+          >
+            全部
+          </li>
+          {
+            this.floors.list.map(item => (
+              <li
+                id={item.id}
+                class={this.currentId === item.id ? 'active' : ''}
+              >
+                {item.fullName}
+              </li>
+            ))
+          }
+        </ul>
+      </Spin>
     )
   }
 }

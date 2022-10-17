@@ -10,18 +10,22 @@
   flex-direction: column;
   @include container-border-radius;
 }
+
 .bnm-modal-workorder-take-form {
   .ant-modal-body {
     .ant-form-item {
       display: flex;
+
       .ant-form-item-label {
         width: 100px;
         flex-shrink: 0;
       }
+
       .ant-form-item-control-wrapper {
         flex-grow: 1;
       }
     }
+
     .ant-table-wrapper .ant-table {
       height: auto;
     }

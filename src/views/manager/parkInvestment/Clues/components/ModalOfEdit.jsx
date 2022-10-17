@@ -5,16 +5,15 @@ import DragModal from '@/components/DragModal'
 import { mapGetters } from 'vuex'
 import { dispatch } from '@/utils/store'
 import moment from 'moment'
-import { debounce } from 'lodash'
 
 export default Form.create({})({
   mixins: [forFormModal()],
-  data () {
+  data() {
     return { modalProps: { width: 810 } }
   },
   computed: {
     ...mapGetters({ getState: 'getState' }),
-    enterpriseClassifications () {
+    enterpriseClassifications() {
       return this.getState('enterpriseClassifications', 'common')
     }
     // parkTeamsForSelect () {
@@ -30,7 +29,7 @@ export default Form.create({})({
   watch: {
     visible: {
       immediate: true,
-      async handler (value) {
+      async handler(value) {
         if (value) {
           await dispatch('common', 'getEnterpriseClassifications')
           // await this.getParkTeams()
@@ -44,11 +43,11 @@ export default Form.create({})({
     // }
   },
   methods: {
-    customDataHandler (values) {
+    customDataHandler(values) {
       values.gatherTime = values.gatherTime ? values.gatherTime.format('YYYYMMDDHHmmss') : ''
 
       return values
-    },
+    }
     /**
      * 获取园区团队数据
      * @param [value] {string}
@@ -79,7 +78,7 @@ export default Form.create({})({
     //   })
     // }
   },
-  render () {
+  render() {
     const attributes = {
       attrs: this.modalProps,
       on: {
@@ -90,36 +89,53 @@ export default Form.create({})({
 
     return (
       <DragModal {...attributes}>
-        <Form class="bnm-form-grid" colon={false}>
+        <Form
+          class="bnm-form-grid"
+          colon={false}
+        >
           <Form.Item label="线索标题">
             {
               this.form.getFieldDecorator('title', {
                 initialValue: this.currentItem.title,
-                rules: [{
-                  required: true, message: '请输入线索标题', trigger: 'blur'
-                }]
+                rules: [
+                  {
+                    required: true, message: '请输入线索标题', trigger: 'blur'
+                  }
+                ]
               })(
-                <Input placeholder="请输入" allowClear />
+                <Input
+                  placeholder="请输入"
+                  allowClear
+                />
               )
             }
           </Form.Item>
-          <Form.Item label="线索来源" class={'half'}>
+          <Form.Item
+            label="线索来源"
+            class={'half'}
+          >
             {
               this.form.getFieldDecorator('cluesResource', { initialValue: this.currentItem.cluesResource })(
-                <Input placeholder="请输入" allowClear />
+                <Input
+                  placeholder="请输入"
+                  allowClear
+                />
               )
             }
           </Form.Item>
-          <Form.Item label="所属行业" class={'half'}>
+          <Form.Item
+            label="所属行业"
+            class={'half'}
+          >
             {
               this.form.getFieldDecorator('industry', { initialValue: this.currentItem.industry || undefined })(
                 <Select
                   placeholder="请选择所属行业"
                   allowClear
-                  notFoundContent={this.enterpriseClassifications.loading ? <Spin /> : undefined}
+                  notFoundContent={this.enterpriseClassifications?.loading ? <Spin /> : undefined}
                 >
                   {
-                    this.enterpriseClassifications.list.map(item => (
+                    this.enterpriseClassifications?.list.map(item => (
                       <Select.Option value={item.id}>{item.fullName}</Select.Option>
                     ))
                   }
@@ -127,14 +143,23 @@ export default Form.create({})({
               )
             }
           </Form.Item>
-          <Form.Item label="采集人" class={'half'}>
+          <Form.Item
+            label="采集人"
+            class={'half'}
+          >
             {
               this.form.getFieldDecorator('gatherName', { initialValue: this.currentItem.gatherName })(
-                <Input placeholder={'请输入采集人姓名'} allowClear />
+                <Input
+                  placeholder={'请输入采集人姓名'}
+                  allowClear
+                />
               )
             }
           </Form.Item>
-          <Form.Item label="采集时间" class={'half'}>
+          <Form.Item
+            label="采集时间"
+            class={'half'}
+          >
             {
               this.form.getFieldDecorator('gatherTime', {
                 initialValue: this.currentItem.gatherTime
@@ -153,11 +178,16 @@ export default Form.create({})({
             {
               this.form.getFieldDecorator('cluesDescription', {
                 initialValue: this.currentItem.cluesDescription,
-                rules: [{
-                  required: true, message: '请输入线索描述', trigger: 'blur'
-                }]
+                rules: [
+                  {
+                    required: true, message: '请输入线索描述', trigger: 'blur'
+                  }
+                ]
               })(
-                <Input.TextArea placeholder={'请输入线索描述'} autoSize={{ minRows: 6 }} />
+                <Input.TextArea
+                  placeholder={'请输入线索描述'}
+                  autoSize={{ minRows: 6 }}
+                />
               )
             }
           </Form.Item>

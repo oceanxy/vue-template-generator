@@ -1,5 +1,5 @@
 import '../assets/styles/index.scss'
-import { Button, Space, Table, Modal, Switch } from 'ant-design-vue'
+import { Button, Space, Switch, Table } from 'ant-design-vue'
 import forTable from '@/mixins/forTable'
 import ImagePreview from '@/components/ImagePreview'
 
@@ -12,6 +12,7 @@ export default {
           {
             title: '序号',
             width: 60,
+            fixed: true,
             align: 'center',
             scopedSlots: { customRender: 'serialNumber' }
           },
@@ -29,31 +30,34 @@ export default {
           },
           {
             title: '性别',
-            width: 60,
+            width: 80,
             align: 'center',
             dataIndex: 'genderStr'
           },
           {
             title: '手机号码',
-            width: 100,
+            width: 120,
             dataIndex: 'mobile'
           },
           {
             title: '身份证号',
-
+            width: 200,
             dataIndex: 'idCard'
           },
           {
             title: '邮箱',
+            width: 200,
             dataIndex: 'email'
           },
-          {
-            title: '所在单位',
-            dataIndex: 'unitName'
-          },
+          // {
+          //   title: '所在单位',
+          //   dataIndex: 'unitName'
+          // },
           {
             title: '状态',
             width: 80,
+            fixed: 'right',
+            align: 'center',
             scopedSlots: { customRender: 'status' }
           },
           {
@@ -61,7 +65,7 @@ export default {
             key: 'operation',
             fixed: 'right',
             align: 'center',
-            width: 150,
+            width: 120,
             scopedSlots: { customRender: 'operation' }
           }
         ]
@@ -105,10 +109,18 @@ export default {
             },
             operation: (text, record) => (
               <Space>
-                <Button type="link" size="small" onClick={() => this.onEditClick(record)}>
+                <Button
+                  type="link"
+                  size="small"
+                  onClick={() => this.onEditClick(record)}
+                >
                   编辑
                 </Button>
-                <Button type="link" size="small" onClick={() => this.onDeleteClick(record)}>
+                <Button
+                  type="link"
+                  size="small"
+                  onClick={() => this.onDeleteClick(record)}
+                >
                   删除
                 </Button>
               </Space>

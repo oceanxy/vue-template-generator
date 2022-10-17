@@ -55,7 +55,7 @@ export default {
     async itemId() {
       await this._dispatch(
         'getList',
-        {additionalQueryParameters: { itemId: this.itemId }},
+        { additionalQueryParameters: { itemId: this.itemId } },
         {
           root: true,
           submoduleName: this.submoduleName
@@ -77,7 +77,7 @@ export default {
         class={'results-table'}
         ref={`${this.moduleName}Table`}
         {...attributes}
-        {...{scopedSlots: {serialNumber: (text, record, index) => index + 1}}}
+        {...{ scopedSlots: { serialNumber: (text, record, index) => index + 1 } }}
       />
     )
   }

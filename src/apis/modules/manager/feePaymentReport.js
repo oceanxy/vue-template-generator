@@ -28,6 +28,19 @@ export default {
     })
   },
   /**
+   * 开具发票
+   * @param request
+   * @param data
+   * @returns {*}
+   */
+  billing(request, data) {
+    return request({
+      url: 'business/invoice/add',
+      method: 'post',
+      data
+    })
+  },
+  /**
    * 确认收款
    * @param request
    * @param data

@@ -17,13 +17,12 @@ export default {
           },
           {
             title: '名称',
-            fixed: true,
-            width: 100,
+            width: 200,
             dataIndex: 'fullName'
           },
           {
             title: '类型',
-            width: 60,
+            width: 80,
             dataIndex: 'reportTypeStr'
           },
           {
@@ -57,13 +56,13 @@ export default {
           {
             title: '已填报',
             align: 'center',
-            width: 60,
+            width: 80,
             dataIndex: 'finishNum'
           },
           {
             title: '未填报',
             align: 'center',
-            width: 60,
+            width: 80,
             dataIndex: 'unFinishNum'
           },
           // {
@@ -71,18 +70,18 @@ export default {
           //   dataIndex: ''
           // },
           {
-            title: '状态',
+            title: '发布状态',
             align: 'center',
-            width: 60,
+            width: 100,
             fixed: 'right',
-            dataIndex: 'statusStr'
+            dataIndex: 'reportStatusStr'
           },
           {
             title: '操作',
             key: 'operation',
             fixed: 'right',
             align: 'center',
-            width: 250,
+            width: 200,
             scopedSlots: { customRender: 'operation' }
           }
         ]
@@ -127,25 +126,22 @@ export default {
             ),
             operation: (text, record) => (
               <Space>
-                {/*<Button*/}
-                {/*  type="link"*/}
-                {/*  size="small"*/}
-                {/*  // onClick={() => this.onEditClick(record)}*/}
-                {/*>*/}
-                {/*  预览*/}
-                {/*</Button>*/}
+                <Button
+                  type="link"
+                  size="small"
+                  onClick={() => this._setVisibleOfModal(record, 'visibleOfPreview')}
+                >
+                  预览
+                </Button>
                 {
                   record.reportStatus === 2 ? (
                     <Button
                       type="link"
                       size="small"
                       onClick={() => this._setVisibleOfModal(
-                        {
-                          ids: record.id, reportStatus: record.reportStatus
-                        },
+                        { ids: record.id, reportStatus: record.reportStatus },
                         'visibleOfReportSwitch'
-                      )
-                      }
+                      )}
                     >
                       发布
                     </Button>
@@ -157,12 +153,9 @@ export default {
                       type="link"
                       size="small"
                       onClick={() => this._setVisibleOfModal(
-                        {
-                          ids: record.id, reportStatus: record.reportStatus
-                        },
+                        { ids: record.id, reportStatus: record.reportStatus },
                         'visibleOfReportSwitch'
-                      )
-                      }
+                      )}
                     >
                       结束
                     </Button>

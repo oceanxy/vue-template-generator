@@ -14,6 +14,10 @@ export default commitRootInModule =>
       businessSelect: {
         loading: false,
         list: []
+      },
+      meetingRoomTree: {
+        loading: false,
+        list: []
       }
     },
     mutations: {},

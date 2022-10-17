@@ -1,11 +1,13 @@
 <template>
   <a-menu
+    ref="menu"
+    id="menu"
+    class="t-g-menu-container"
     v-model="selectedKeys"
     :inline-collapsed="collapsed"
     :open-keys.sync="openKeys"
     mode="inline"
     @click="menuClick"
-    class="t-g-menu-container"
   >
     <template v-for="route in menuRoutes">
       <t-g-sub-menu
@@ -20,7 +22,11 @@
         :key="route.path || Math.random()"
         :style="route.meta.hide ? { display: 'none' } : ''"
       >
-        <a-icon theme="filled" v-if="route.meta.icon" :component="route.meta.icon" />
+        <a-icon
+          theme="filled"
+          v-if="route.meta.icon"
+          :component="route.meta.icon"
+        />
         <span>{{ route.meta && route.meta.title }}</span>
       </a-menu-item>
     </template>
@@ -42,7 +48,10 @@ const TGSubMenu = {
       @titleClick="titleClick"
     >
     <div slot="title">
-      <a-icon v-if="menuInfo.meta.icon" :component="menuInfo.meta.icon" />
+      <a-icon
+        v-if="menuInfo.meta.icon"
+        :component="menuInfo.meta.icon"
+      />
       <span>{{ menuInfo.meta && menuInfo.meta.title }}</span>
     </div>
     <template v-for="route in menuInfo.children">
@@ -58,7 +67,10 @@ const TGSubMenu = {
         :key="route.path || Math.random()"
         :style="route.meta.hide ? { display: 'none' } : ''"
       >
-        <a-icon v-if="route.meta.icon" :component="route.meta.icon" />
+        <a-icon
+          v-if="route.meta.icon"
+          :component="route.meta.icon"
+        />
         <span>{{ route.meta && route.meta.title }}</span>
       </a-menu-item>
     </template>
@@ -106,7 +118,9 @@ export default {
       /**
        * 生成用于菜单显示的路由，根据 routes 生成
        */
-      menuRoutes: []
+      menuRoutes: [],
+      // 菜单滚动条距离顶部的初始值
+      menuScrollTop: 0
     }
   },
   watch: {
@@ -138,37 +152,29 @@ export default {
     if (openKeys) {
       this.openKeys = JSON.parse(openKeys)
     }
-  },
-  mounted() {
+
     this.getMenuRoutes()
   },
   methods: {
-    async getMenuRoutes() {
-      if (process.env.VUE_APP_PROJECT === 'development-client' || process.env.VUE_APP_PROJECT === 'production-client') {
-        const terminal = process.env.VUE_APP_PROJECT.match(/(?<=(-)).*/g)[0]
-        const res = await import('@/router/' + terminal)
+    getMenuRoutes() {
+      const tempMenu = JSON.parse(sessionStorage.getItem('menu'))[0]
+      const menu = utilityFunction.generateRoute(tempMenu)
 
-        this.menuRoutes = res.menuRoutes
-      } else {
-        const tempMenu = JSON.parse(sessionStorage.getItem('menu'))[0]
-        const menu = utilityFunction.generateRoute(tempMenu)
+      const routes = menu.children
+      const rootRoute = {
+        ...menu,
+        children: undefined
+      }
 
-        const routes = menu.children
-        const rootRoute = {
-          ...menu,
-          children: undefined
+      this.menuRoutes = routes.reduce((menuRoutes, route) => {
+        if (!route.path) {
+          menuRoutes.push(rootRoute)
+        } else {
+          menuRoutes.push(route)
         }
 
-        this.menuRoutes = routes.reduce((menuRoutes, route) => {
-          if (!route.path) {
-            menuRoutes.push(rootRoute)
-          } else {
-            menuRoutes.push(route)
-          }
-
-          return menuRoutes
-        }, [])
-      }
+        return menuRoutes
+      }, [])
     },
     // 点击菜单，路由跳转，当点击 MenuItem 才会触发此函数
     menuClick({ keyPath }) {
@@ -184,6 +190,14 @@ export default {
       // 检测是否是跳转到本路由
       if (toPath !== this.$route.path) {
         this.$router.push({ path: toPath })
+        this.menuScrollTop = this.$refs.menu.$el.scrollTop
+
+        setTimeout(() => {
+          document.getElementById('menu').scrollTo({
+            top: this.menuScrollTop,
+            behavior: 'smooth'
+          })
+        }, 200)
       }
     },
     titleClick(e) {

@@ -18,7 +18,6 @@ export default {
           {
             title: '报表',
             width: 200,
-            fixed: true,
             dataIndex: 'reportName'
           },
           {

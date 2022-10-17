@@ -28,12 +28,12 @@ export default {
           },
           {
             title: '类型',
-            width: 80,
+            width: 120,
             dataIndex: 'templateTypeStr'
           },
           {
             title: '创建人',
-            width: 60,
+            width: 120,
             dataIndex: 'creatorName'
           },
           {
@@ -44,15 +44,16 @@ export default {
           {
             title: '状态',
             align: 'center',
-            width: 120,
+            width: 80,
+            fixed: 'right',
             scopedSlots: { customRender: 'status' }
           },
           {
             title: '操作',
             key: 'operation',
-            // fixed: 'right',
+            fixed: 'right',
             align: 'center',
-            width: 150,
+            width: 120,
             scopedSlots: { customRender: 'operation' }
           }
         ]

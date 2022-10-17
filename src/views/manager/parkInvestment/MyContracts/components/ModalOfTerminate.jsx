@@ -34,11 +34,7 @@ export default Form.create({})({
       if (temp.length) {
         this.form.setFields({ itemList: { value: temp } })
       } else {
-        this.form.setFields({
-          itemList: {
-            value, errors: [new Error('请输入扣款事项！')]
-          }
-        })
+        this.form.setFields({ itemList: { value, errors: [new Error('请输入扣款事项！')] } })
       }
 
       return !!temp.length
@@ -63,12 +59,17 @@ export default Form.create({})({
           colon={false}
         >
           <Form.Item label={'企业名称'}>
-            <Input vModel={this.currentItem.companyName} disabled={true} />
+            <Input
+              vModel={this.currentItem.companyName}
+              disabled={true}
+            />
           </Form.Item>
           <Form.Item label={'签约场地'}>
-            <ul style={{
-              marginBottom: 0, lineHeight: '26px', paddingTop: '6px', paddingLeft: '20px'
-            }}>
+            <ul
+              style={{
+                marginBottom: 0, lineHeight: '26px', paddingTop: '6px', paddingLeft: '20px'
+              }}
+            >
               {
                 this.currentItem.address?.split(',').map(item => (
                   <li>{item}</li>
@@ -79,15 +80,23 @@ export default Form.create({})({
           <Form.Item label="解约原因">
             {
               this.form.getFieldDecorator('reason', {
-                rules: [{
-                  required: true, message: '请输入解约原因!', trigger: 'change'
-                }]
+                rules: [
+                  {
+                    required: true, message: '请输入解约原因!', trigger: 'change'
+                  }
+                ]
               })(
-                <Input.TextArea placeholder={'请输入解约原因'} autoSize={{ minRows: 6 }} />
+                <Input.TextArea
+                  placeholder={'请输入解约原因'}
+                  autoSize={{ minRows: 6 }}
+                />
               )
             }
           </Form.Item>
-          <Form.Item label={'扣款事项'} required={!!this.deductions}>
+          <Form.Item
+            label={'扣款事项'}
+            required={!!this.deductions}
+          >
             <Radio.Group vModel={this.deductions}>
               <Radio value={0}>无扣款事项</Radio>
               <Radio value={1}>有扣款事项</Radio>
@@ -95,7 +104,7 @@ export default Form.create({})({
             {
               this.deductions
                 ? (
-                  this.form.getFieldDecorator('itemList', {initialValue: []})(
+                  this.form.getFieldDecorator('itemList', { initialValue: [] })(
                     <ItemMultiInput />
                   )
                 )

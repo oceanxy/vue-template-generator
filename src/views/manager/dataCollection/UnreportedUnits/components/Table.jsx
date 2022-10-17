@@ -18,7 +18,6 @@ export default {
           {
             title: '报表',
             width: 150,
-            fixed: true,
             dataIndex: 'reportName'
           },
           {
@@ -40,6 +39,7 @@ export default {
             title: '填报状态',
             width: 100,
             fixed: 'right',
+            align: 'center',
             dataIndex: 'fillStatus'
           },
           {

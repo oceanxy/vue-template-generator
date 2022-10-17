@@ -117,5 +117,18 @@ export default {
       method: 'post',
       data: qs.stringify(data)
     })
+  },
+  /**
+   * 获取报表预览
+   * @param request
+   * @param data
+   * @returns {*}
+   */
+  getReportPreview(request, data) {
+    return request({
+      url: '/operate/report/getReportPreview',
+      method: 'post',
+      data: qs.stringify(data)
+    })
   }
 }

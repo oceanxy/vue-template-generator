@@ -4,21 +4,39 @@ import forFormModal from '@/mixins/forModal/forFormModal'
 import DragModal from '@/components/DragModal'
 import MultiInput from '@/views/manager/basis/Teams/components/MultiInput'
 import BNUploadPictures from '@/components/BNUploadPictures'
-import { mapGetters } from 'vuex'
+import { cloneDeep } from 'lodash'
 // import { mapGetters } from 'vuex'
 // import { dispatch } from '@/utils/store'
 
 export default Form.create({})({
   mixins: [forFormModal()],
   data() {
-    return { modalProps: { width: 900 } }
+    return {
+      modalProps: {
+        width: 900,
+        destroyOnClose: true
+      }
+    }
   },
-  // computed: {
-  //   ...mapGetters({ getState: 'getState' }),
-  //   parksForSelect() {
-  //     return this.getState('parksForSelect', 'common') || []
-  //   }
-  // },
+  computed: {
+    //   ...mapGetters({ getState: 'getState' }),
+    //   parksForSelect() {
+    //     return this.getState('parksForSelect', 'common') || []
+    //   },
+    fileList() {
+      return this.currentItem.logo
+        ? [
+          {
+            uid: 'logo',
+            key: this.currentItem.logo,
+            url: this.currentItem.logoStr,
+            status: 'done',
+            name: this.currentItem.logo?.substring(this.currentItem.logo?.lastIndexOf('/'))
+          }
+        ]
+        : []
+    }
+  },
   // watch: {
   //   visible: {
   //     immediate: true,
@@ -41,7 +59,7 @@ export default Form.create({})({
             // 新增时要做团队成员的验证，编辑时该字段为只读，不做验证
             if (!this.currentItem.id) {
               const teamMemberList = this.form.getFieldValue('teamMemberList')
-              const hasPersonInCharge = teamMemberList.filter(item => item.fullName && item.mobile && item.idCard)
+              const hasPersonInCharge = teamMemberList.filter(item => item.fullName && item.mobile)
 
               if (!teamMemberList.length) {
                 validationResult = false
@@ -60,22 +78,20 @@ export default Form.create({})({
             }
 
             return validationResult
+          },
+          customDataHandler: values => {
+            const temp = cloneDeep(values)
+
+            if (temp.logo.length) {
+              temp.logo = temp.logo[0].response?.data[0].key ?? temp.logo[0].key
+            } else {
+              temp.logo = ''
+            }
+
+            return temp
           }
         })
       }
-    }
-
-    // 回显图片
-    const fileList = []
-
-    if (this.currentItem.logo) {
-      fileList.push({
-        uid: 'logo',
-        url: this.currentItem.logoStr,
-        key: this.currentItem.logo,
-        status: 'done',
-        name: this.currentItem.logo?.substring(this.currentItem.logo?.lastIndexOf('/'))
-      })
     }
 
     return (
@@ -86,12 +102,15 @@ export default Form.create({})({
         >
           <Form.Item label="LOGO">
             {
-              this.form.getFieldDecorator('logo', { initialValue: fileList })(
+              this.form.getFieldDecorator('logo', { initialValue: this.fileList })(
                 <BNUploadPictures limit={1} />
               )
             }
           </Form.Item>
-          <Form.Item label="名称" class={'half'}>
+          <Form.Item
+            label="名称"
+            class={'half'}
+          >
             {
               this.form.getFieldDecorator('fullName', {
                 initialValue: this.currentItem.fullName,
@@ -101,14 +120,23 @@ export default Form.create({})({
                   }
                 ]
               })(
-                <Input placeholder="请输入名称" allowClear />
+                <Input
+                  placeholder="请输入名称"
+                  allowClear
+                />
               )
             }
           </Form.Item>
-          <Form.Item label="编号" class={'half'}>
+          <Form.Item
+            label="编号"
+            class={'half'}
+          >
             {
               this.form.getFieldDecorator('teamNo', { initialValue: this.currentItem.teamNo })(
-                <Input placeholder="请输入编号" allowClear />
+                <Input
+                  placeholder="请输入编号"
+                  allowClear
+                />
               )
             }
           </Form.Item>
@@ -136,7 +164,12 @@ export default Form.create({})({
             {
               // 编辑时，不在 this.form 内注册该字段，仅只读
               this.currentItem.id
-                ? <MultiInput vModel={this.currentItem.teamMemberList} disabled />
+                ? (
+                  <MultiInput
+                    vModel={this.currentItem.teamMemberList}
+                    disabled
+                  />
+                )
                 : this.form.getFieldDecorator('teamMemberList', {
                   initialValue: this.currentItem.teamMemberList || [],
                   rules: [
@@ -155,11 +188,18 @@ export default Form.create({})({
           <Form.Item label="描述">
             {
               this.form.getFieldDecorator('description', { initialValue: this.currentItem.description })(
-                <Input.TextArea placeholder="请输入描述" autoSize={{ minRows: 6 }} allowClear />
+                <Input.TextArea
+                  placeholder="请输入描述"
+                  autoSize={{ minRows: 6 }}
+                  allowClear
+                />
               )
             }
           </Form.Item>
-          <Form.Item label="排序" class={'half'}>
+          <Form.Item
+            label="排序"
+            class={'half'}
+          >
             {
               this.form.getFieldDecorator('sortIndex', {
                 initialValue: this.currentItem.sortIndex || 0,
@@ -172,18 +212,27 @@ export default Form.create({})({
                   }
                 ]
               })(
-                <InputNumber style={{ width: '100%' }} placeholder="请输入排序值" />
+                <InputNumber
+                  style={{ width: '100%' }}
+                  placeholder="请输入排序值"
+                />
               )
             }
           </Form.Item>
-          <Form.Item label="状态" class={'half'}>
+          <Form.Item
+            label="状态"
+            class={'half'}
+          >
             {
               this.form.getFieldDecorator('status', {
                 valuePropName: 'checked',
                 initialValue: this.currentItem.id ? this.currentItem.status === 1 : true,
                 rules: [
                   {
-                    required: true, type: 'boolean', message: '请选择状态!', trigger: 'blur'
+                    required: true,
+                    type: 'boolean',
+                    message: '请选择状态!',
+                    trigger: 'change'
                   }
                 ]
               })(

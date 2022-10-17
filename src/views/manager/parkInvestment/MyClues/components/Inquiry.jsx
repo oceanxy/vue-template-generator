@@ -16,14 +16,20 @@ export default Form.create({})({
         <Form.Item>
           {
             this.form.getFieldDecorator('title')(
-              <Input placeholder="线索标题" allowClear />
+              <Input
+                placeholder="线索标题"
+                allowClear
+              />
             )
           }
         </Form.Item>
         <Form.Item>
           {
             this.form.getFieldDecorator('allotStatus')(
-              <Select placeholder="请选择状态" allowClear>
+              <Select
+                placeholder="请选择状态"
+                allowClear
+              >
                 <Select.Option value={2}>跟进中</Select.Option>
                 <Select.Option value={3}>签约中</Select.Option>
                 <Select.Option value={4}>已签约</Select.Option>

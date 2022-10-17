@@ -7,7 +7,7 @@ export default Form.create({})({
   mixins: [forFormModal()],
   data() {
     return {
-      modalProps: {width: 690},
+      modalProps: { width: 690 },
       visibleField: 'visibleOfShortMessage'
     }
   },
@@ -33,9 +33,11 @@ export default Form.create({})({
             {
               this.form.getFieldDecorator('sendObj', {
                 initialValue: [],
-                rules: [{
-                  required: true, type: 'array', message: '请输入内容!', trigger: 'change'
-                }]
+                rules: [
+                  {
+                    required: true, type: 'array', message: '请输入内容!', trigger: 'change'
+                  }
+                ]
               })(
                 <Checkbox.Group>
                   <Checkbox value={1}>法人</Checkbox>
@@ -48,11 +50,16 @@ export default Form.create({})({
             {
               this.form.getFieldDecorator('content', {
                 initialValue: '',
-                rules: [{
-                  required: true, message: '请输入内容!', trigger: 'blur'
-                }]
+                rules: [
+                  {
+                    required: true, message: '请输入内容!', trigger: 'blur'
+                  }
+                ]
               })(
-                <Input.TextArea placeholder={'请输入内容'} autoSize={{ minRows: 6 }} />
+                <Input.TextArea
+                  placeholder={'请输入内容'}
+                  autoSize={{ minRows: 6 }}
+                />
               )
             }
           </Form.Item>

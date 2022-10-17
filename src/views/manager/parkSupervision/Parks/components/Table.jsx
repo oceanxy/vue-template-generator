@@ -5,7 +5,7 @@ import ImagePreview from '@/components/ImagePreview'
 
 export default {
   mixins: [forTable()],
-  data () {
+  data() {
     return {
       tableProps: {
         columns: [
@@ -25,7 +25,6 @@ export default {
           },
           {
             title: '编号',
-            fixed: true,
             width: 100,
             dataIndex: 'parkNo'
           },
@@ -62,7 +61,7 @@ export default {
       }
     }
   },
-  render () {
+  render() {
     const attributes = {
       props: {
         ...this.tableProps,

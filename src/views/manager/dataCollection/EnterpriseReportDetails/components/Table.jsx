@@ -8,7 +8,6 @@ export default {
     return {
       visibleField: 'visibleOfDetails',
       tableProps: {
-        rowSelection: null,
         columns: [
           {
             title: '序号',
@@ -19,7 +18,6 @@ export default {
           },
           {
             title: '报表',
-            fixed: true,
             width: 150,
             dataIndex: 'reportName'
           },
@@ -73,8 +71,20 @@ export default {
             serialNumber: (text, record, index) => index + 1,
             operation: (text, record) => (
               <Space>
-                <Button type="link" size="small" onClick={() => this._setVisibleOfModal(record, 'visibleOfDetails')}>
+                <Button
+                  type="link"
+                  size="small"
+                  onClick={() => this._setVisibleOfModal(record, 'visibleOfDetails')}
+                >
                   查看详情
+                </Button>
+                <Button
+                  type="link"
+                  size="small"
+                  disabled={this.exportButtonDisabled}
+                  onClick={() => this.onExport({ recordIds: record.id }, '企业报表明细')}
+                >
+                  导出
                 </Button>
               </Space>
             )

@@ -9,7 +9,7 @@ export default {
     async onSelect(date) {
       await this.$store.dispatch('setSearch', {
         moduleName: this.moduleName,
-        payload: {currentTime: moment(date).format('YYYYMMDD')}
+        payload: { currentTime: moment(date).format('YYYYMMDD') }
       })
     }
   },

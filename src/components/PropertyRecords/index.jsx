@@ -53,7 +53,11 @@ export default {
           <div class="title">
             {this.title}
             <div class="btns">
-              <Select placeholder="全部状态" style={{ width: '120px' }} onchange={value => this.statusSearch(value)}>
+              <Select
+                placeholder="全部状态"
+                style={{ width: '120px' }}
+                onchange={value => this.statusSearch(value)}
+              >
                 <Select.Option value={''}>全部状态</Select.Option>
                 <Select.Option value={2}>待处理</Select.Option>
                 <Select.Option value={1}>已处理</Select.Option>

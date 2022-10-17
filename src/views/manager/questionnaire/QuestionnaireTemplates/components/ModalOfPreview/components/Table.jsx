@@ -53,7 +53,7 @@ export default {
         dataSource: this.itemList,
         loading: this.loading
       },
-      attrs: {class: 'bnm-table-in-modal'}
+      attrs: { class: 'bnm-table-in-modal' }
     }
 
     return (
@@ -63,9 +63,7 @@ export default {
           scopedSlots: {
             serialNumber: (text, record, index) => index + 1,
             itemOptionList: (text, record) => (
-              <ol style={{
-                paddingLeft: '20px', marginBottom: 0 
-              }}>
+              <ol style={{ paddingLeft: '20px', marginBottom: 0 }}>
                 {
                   record.itemOptionList.map(item => (
                     <li>{item.optionValue}</li>

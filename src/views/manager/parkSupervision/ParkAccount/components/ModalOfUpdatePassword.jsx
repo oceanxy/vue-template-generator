@@ -7,7 +7,7 @@ export default Form.create({ name: 'updatePasswordForm' })({
   mixins: [forFormModal()],
   data() {
     return {
-      modalProps: {width: 500},
+      modalProps: { width: 500 },
       visibleField: 'visibleOfUpdatePassword'
     }
   },
@@ -40,9 +40,11 @@ export default Form.create({ name: 'updatePasswordForm' })({
           <Form.Item label="新密码">
             {
               this.form.getFieldDecorator('pwd', {
-                rules: [{
-                  required: true, message: '请输入新登录密码!', trigger: 'blur' 
-                }]
+                rules: [
+                  {
+                    required: true, message: '请输入新登录密码!', trigger: 'blur'
+                  }
+                ]
               })(
                 <Input placeholder={'请输入新登录密码'} />
               )

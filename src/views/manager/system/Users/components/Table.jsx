@@ -17,13 +17,13 @@ export default {
           },
           {
             title: '用户名',
-            width: 100,
+            width: 120,
             fixed: true,
             dataIndex: 'loginName'
           },
           {
             title: '角色',
-            width: 160,
+            width: 120,
             dataIndex: 'roleNames'
           },
           {
@@ -41,7 +41,7 @@ export default {
           {
             title: '手机号码',
             // align: 'center',
-            width: 100,
+            width: 120,
             dataIndex: 'mobile'
           },
           {
@@ -53,7 +53,7 @@ export default {
           },
           {
             title: '操作',
-            width: 200,
+            width: 160,
             align: 'center',
             fixed: 'right',
             scopedSlots: { customRender: 'operation' }
@@ -66,8 +66,7 @@ export default {
     async onDetailsClick(record) {
       await this.$router.push({
         name: 'contractReviewDetails',
-        query: {cid: record.id // contractID
-        }
+        query: { cid: record.id } // contractID
       })
     }
   },
@@ -93,13 +92,25 @@ export default {
             },
             operation: (text, record) => (
               <Space>
-                <Button type="link" size="small" onClick={() => this.onEditClick(record)}>
+                <Button
+                  type="link"
+                  size="small"
+                  onClick={() => this.onEditClick(record)}
+                >
                   编辑
                 </Button>
-                <Button type="link" size="small" onClick={() => this._setVisibleOfModal(record, 'visibleOfResetPwd')}>
+                <Button
+                  type="link"
+                  size="small"
+                  onClick={() => this._setVisibleOfModal(record, 'visibleOfResetPwd')}
+                >
                   重置密码
                 </Button>
-                <Button type="link" size="small" onClick={() => this.onDeleteClick(record)}>
+                <Button
+                  type="link"
+                  size="small"
+                  onClick={() => this.onDeleteClick(record)}
+                >
                   删除
                 </Button>
               </Space>

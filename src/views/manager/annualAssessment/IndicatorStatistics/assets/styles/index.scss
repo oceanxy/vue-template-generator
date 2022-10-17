@@ -23,7 +23,8 @@
         gap: 10px;
 
         .list-select {
-          width: calc((100% - 10px) / 2);
+          //width: calc((100% - 10px) / 2);
+          width: 100%;
           flex: none;
         }
       }
@@ -72,7 +73,10 @@
   }
 
   .tg-container-with-sider--main {
+    overflow-y: auto;
+
     .main-container {
+      min-height: 300px;
       box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.02);
       flex: auto;
 

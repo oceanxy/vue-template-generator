@@ -15,8 +15,18 @@ export default Form.create({})({
       >
         <Form.Item>
           {
+            this.form.getFieldDecorator('companyName')(
+              <Input placeholder={'请输入企业名称'} allowClear />
+            )
+          }
+        </Form.Item>
+        <Form.Item>
+          {
             this.form.getFieldDecorator('selectType')(
-              <Select placeholder="请选择查询方式" allowClear>
+              <Select
+                placeholder="请选择查询方式"
+                allowClear
+              >
                 <Select.Option value={1}>按面积</Select.Option>
                 <Select.Option value={2}>按单价</Select.Option>
               </Select>
@@ -58,7 +68,10 @@ export default Form.create({})({
         <Form.Item>
           {
             this.form.getFieldDecorator('renovationStatus')(
-              <Select placeholder="请选择装修情况" allowClear>
+              <Select
+                placeholder="请选择装修情况"
+                allowClear
+              >
                 <Select.Option value={1}>简装</Select.Option>
                 <Select.Option value={2}>精装</Select.Option>
                 <Select.Option value={3}>豪装</Select.Option>
@@ -70,9 +83,39 @@ export default Form.create({})({
         <Form.Item>
           {
             this.form.getFieldDecorator('status')(
-              <Select placeholder="请选择状态" allowClear>
+              <Select
+                placeholder="请选择状态"
+                allowClear
+              >
                 <Select.Option value={1}>启用</Select.Option>
                 <Select.Option value={2}>停用</Select.Option>
+              </Select>
+            )
+          }
+        </Form.Item>
+        <Form.Item>
+          {
+            this.form.getFieldDecorator('useStatus')(
+              <Select
+                placeholder="请选择房间状态"
+                allowClear
+              >
+                <Select.Option value={1}>预定</Select.Option>
+                <Select.Option value={2}>使用中</Select.Option>
+                <Select.Option value={3}>空闲</Select.Option>
+              </Select>
+            )
+          }
+        </Form.Item>
+        <Form.Item>
+          {
+            this.form.getFieldDecorator('roomType')(
+              <Select
+                placeholder="请选择房间类型"
+                allowClear
+              >
+                <Select.Option value={1}>普通房源</Select.Option>
+                <Select.Option value={2}>会议室</Select.Option>
               </Select>
             )
           }

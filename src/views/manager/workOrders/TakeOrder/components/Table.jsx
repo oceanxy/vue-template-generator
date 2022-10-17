@@ -15,6 +15,7 @@ export default {
             title: '序号',
             width: 60,
             align: 'center',
+            fixed: true,
             scopedSlots: { customRender: 'serialNumber' }
           },
           {
@@ -69,7 +70,7 @@ export default {
             key: 'operation',
             fixed: 'right',
             align: 'center',
-            width: 100,
+            width: 80,
             scopedSlots: { customRender: 'operation' }
           }
         ],
@@ -133,11 +134,17 @@ export default {
             },
             operation: (text, record) => (
               <Space>
-                {record.acceptStatus === 4 ? (
-                  <Button type="link" size="small" onClick={() => this._setVisibleOfModal(record, 'visibleOfEdit')}>
-                    处理
-                  </Button>
-                ) : null}
+                {
+                  record.acceptStatus === 4 || record.acceptStatus === 2 ? (
+                    <Button
+                      type="link"
+                      size="small"
+                      onClick={() => this._setVisibleOfModal(record, 'visibleOfEdit')}
+                    >
+                      处理
+                    </Button>
+                  ) : null
+                }
               </Space>
             )
           }

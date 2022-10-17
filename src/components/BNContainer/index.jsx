@@ -79,7 +79,11 @@ export default {
                 {this.modalTitle}
                 {
                   this.showMore
-                    ? <Button class={'more-btn'} icon="right" onclick={this.onMore} />
+                    ? <Button
+                      class={'more-btn'}
+                      icon="right"
+                      onclick={this.onMore}
+                    />
                     : null
                 }
               </div>

@@ -17,7 +17,10 @@ export default {
           <Inquiry slot={'inquiry'} />
           <Table slot={'table'} />
           <TGPagination slot={'pagination'} />
-          <ModalOfContractReview slot={'modals'} modalTitle={'签约审核'} />
+          <ModalOfContractReview
+            slot={'modals'}
+            modalTitle={'签约审核'}
+          />
         </TGContainer>
       </BNContainerWithParkSider>
     )

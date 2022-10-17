@@ -70,7 +70,10 @@ export default Form.create({})({
 
     return (
       <DragModal {...attributes}>
-        <Form class="" colon={false}>
+        <Form
+          class=""
+          colon={false}
+        >
           <Row gutter={10}>
             <Col span={24}>
               <Form.Item label="名称">
@@ -83,18 +86,24 @@ export default Form.create({})({
                       trigger: 'blur'
                     }
                   ]
-                })(<Input placeholde="请输入" allowClear></Input>)}
+                })(<Input
+                  placeholde="请输入"
+                  allowClear
+                ></Input>)}
               </Form.Item>
             </Col>
             <Col span={24}>
               <Form.Item label="所属父级">
-                {this.form.getFieldDecorator('parentCatId', {
-                  initialValue: this.currentItem.parentCatId ?? this.search.parentCatId
-                })(
+                {this.form.getFieldDecorator(
+                  'parentCatId',
+                  { initialValue: this.currentItem.parentCatId ?? this.search.parentCatId }
+                )(
                   <TreeSelect
                     treeData={this.informationTypes}
                     show-search
-                    replaceFields={{ children: 'children', title: 'name', key: 'id', value: 'id' }}
+                    replaceFields={{
+                      children: 'children', title: 'name', key: 'id', value: 'id'
+                    }}
                     treeNodeFilterProp={'title'}
                     style="width: 100%"
                     placeholder="请选择"
@@ -106,9 +115,10 @@ export default Form.create({})({
             <Col span={24}>
               <Form.Item label="描述">
                 {
-                  this.form.getFieldDecorator('description', {
-                    initialValue: this.currentItem.description ?? undefined
-                  })(
+                  this.form.getFieldDecorator(
+                    'description',
+                    { initialValue: this.currentItem.description ?? undefined }
+                  )(
                     <Input.TextArea
                       placeholder="请输入描述"
                       autoSize={{ minRows: 6 }}
@@ -120,9 +130,12 @@ export default Form.create({})({
             </Col>
             <Col span={12}>
               <Form.Item label="排序">
-                {this.form.getFieldDecorator('sortIndex', {
-                  initialValue: this.currentItem.sortIndex ?? undefined
-                })(<InputNumber placeholder="请输入" allowClear style={{ width: '100%' }} />)}
+                {this.form.getFieldDecorator('sortIndex', { initialValue: this.currentItem.sortIndex ?? undefined })(
+                  <InputNumber
+                    placeholder="请输入"
+                    allowClear
+                    style={{ width: '100%' }}
+                  />)}
               </Form.Item>
             </Col>
             <Col span={12}>

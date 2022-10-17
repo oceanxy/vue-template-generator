@@ -18,7 +18,6 @@ export default {
           {
             title: '月份',
             width: 150,
-            fixed: true,
             dataIndex: 'billMonth'
           },
           {
@@ -71,10 +70,12 @@ export default {
           scopedSlots: {
             serialNumber: (text, record, index) => index + 1,
             address: (text, record) => (
-              <ul style={{
-                paddingLeft: '20px',
-                marginBottom: 0
-              }}>
+              <ul
+                style={{
+                  paddingLeft: '20px',
+                  marginBottom: 0
+                }}
+              >
                 {
                   record.address?.split(',').map(item => (
                     <li>{item}</li>

@@ -91,7 +91,10 @@ export default Form.create({})({
                   }
                 ]
               })(
-                <Radio.Group placeholder="请选择审核结果" allowClear>
+                <Radio.Group
+                  placeholder="请选择审核结果"
+                  allowClear
+                >
                   <Radio value={3}>通过</Radio>
                   <Radio value={4}>拒绝</Radio>
                 </Radio.Group>
@@ -124,7 +127,11 @@ export default Form.create({})({
                   }
                 ]
               })(
-                <Input.TextArea placeholder="请输入审核意见" autoSize={{ minRows: 6 }} allowClear />
+                <Input.TextArea
+                  placeholder="请输入审核意见"
+                  autoSize={{ minRows: 6 }}
+                  allowClear
+                />
               )
             }
           </Form.Item>

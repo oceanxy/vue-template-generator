@@ -25,13 +25,18 @@ export default {
   },
   methods: {
     onVenueReservation(id) {
-      this.$router.push({
-        name: 'venueReservation', query: { id }
-      })
+      this.$router.push({ name: 'venueReservation', query: { id } })
     },
-    onSigningProcess(id) {
+    onSigningProcess(item) {
       this.$router.push({
-        name: 'signingProcess', query: { rid: id }
+        name: 'signingProcess',
+        query: item.contractId
+          ? {
+            id: item.contractId,
+            rid: item.id,
+            ac: item.signingType // ac(signingType): 1 新约 2 续约
+          }
+          : { rid: item.id }
       })
     }
   },
@@ -44,7 +49,10 @@ export default {
         {
           this.dataSource.length
             ? this.dataSource.map(item => (
-              <div class="bnm-meeting-room" style={{ '--color': this.statusColor[item.useStatus - 1] }}>
+              <div
+                class="bnm-meeting-room"
+                style={{ '--color': this.statusColor[item.useStatus - 1] }}
+              >
                 <div class="info">
                   <div class="title">
                     <Tag>{item.useStatusStr}</Tag>
@@ -59,7 +67,12 @@ export default {
                       : (
                         <div class="bnm-meeting-room-btns">
                           {/*<Button ghost onClick={() => this.onVenueReservation(item.id)}>场地预定</Button>*/}
-                          <Button ghost onClick={() => this.onSigningProcess(item.id)}>客户签约</Button>
+                          <Button
+                            ghost
+                            onClick={() => this.onSigningProcess(item)}
+                          >
+                            客户签约
+                          </Button>
                         </div>
                       )
                   }
@@ -81,7 +94,7 @@ export default {
                     }
                     {
                       item.useStatus === 1 || item.useStatus === 3 ? (
-                        <Menu.Item onClick={() => this.onSigningProcess(item.id)}>客户签约</Menu.Item>
+                        <Menu.Item onClick={() => this.onSigningProcess(item)}>客户签约</Menu.Item>
                       ) : null
                     }
                     {
@@ -118,7 +131,10 @@ export default {
                         <Menu.Item
                           onClick={
                             () => this._setVisibleOfModal(
-                              { id: item.contractId },
+                              {
+                                ...item,
+                                id: item.contractId
+                              },
                               'visibleOfTerminate'
                             )
                           }

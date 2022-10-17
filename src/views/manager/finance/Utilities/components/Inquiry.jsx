@@ -16,13 +16,19 @@ export default Form.create({})({
         <Form.Item>
           {
             this.form.getFieldDecorator('companyName')(
-              <Input placeholder="企业名称" allowClear />
+              <Input
+                placeholder="企业名称"
+                allowClear
+              />
             )
           }
         </Form.Item>
         <Form.Item>
           {this.form.getFieldDecorator('payStatus')(
-            <Select placeholder="请选择支付状态" allowClear>
+            <Select
+              placeholder="请选择支付状态"
+              allowClear
+            >
               <Select.Option value={1}>待支付</Select.Option>
               <Select.Option value={2}>支付中</Select.Option>
               <Select.Option value={3}>已支付</Select.Option>
@@ -34,12 +40,21 @@ export default Form.create({})({
         </Form.Item>
         <Form.Item>
           {this.form.getFieldDecorator('billMonth')(
-            <DatePicker.MonthPicker placeholder="请选择月份" style={{ width: '100%' }} allowClear />
+            <DatePicker.MonthPicker
+              placeholder="请选择月份"
+              style={{ width: '100%' }}
+              allowClear
+            />
           )}
         </Form.Item>
         <Form.Item>
           <Space>
-            <Button loading={this.loading} htmlType="submit" type="primary" icon="search">
+            <Button
+              loading={this.loading}
+              htmlType="submit"
+              type="primary"
+              icon="search"
+            >
               查询
             </Button>
             {/*<Button onClick={this.onClear} icon="reload">重置</Button>*/}

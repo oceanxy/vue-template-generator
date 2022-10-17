@@ -2,7 +2,6 @@ import { Form } from 'ant-design-vue'
 import forTableModal from '@/mixins/forModal/forTableModal'
 import forModuleName from '@/mixins/forModuleName'
 import DragModal from '@/components/DragModal'
-import Inquiry from './components/Inquiry'
 import Table from './components/Table'
 
 export default Form.create({})({
@@ -15,12 +14,12 @@ export default Form.create({})({
     }
   },
   provide() {
-    return {visibleField: this.visibleField}
+    return { visibleField: this.visibleField }
   },
   render() {
     const attributes = {
       attrs: this.modalProps,
-      on: {cancel: () => this.onCancel(this.visibleField)}
+      on: { cancel: () => this.onCancel(this.visibleField) }
     }
 
     return (

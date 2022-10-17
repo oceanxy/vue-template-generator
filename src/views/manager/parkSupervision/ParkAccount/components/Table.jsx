@@ -4,7 +4,7 @@ import forTable from '@/mixins/forTable'
 
 export default {
   mixins: [forTable()],
-  data () {
+  data() {
     return {
       tableProps: {
         columns: [
@@ -17,13 +17,12 @@ export default {
           },
           {
             title: '用户名',
-            fixed: true,
-            width: 100,
+            width: 120,
             dataIndex: 'loginName'
           },
           {
             title: '角色',
-            width: 200,
+            width: 100,
             dataIndex: 'roleNames'
           },
           {
@@ -33,7 +32,7 @@ export default {
           },
           {
             title: '姓名',
-            width: 60,
+            width: 120,
             dataIndex: 'fullName'
           },
           {
@@ -61,11 +60,11 @@ export default {
     }
   },
   methods: {
-    async onUpdatePasswordClick (record) {
+    async onUpdatePasswordClick(record) {
       await this._setVisibleOfModal(record, 'visibleOfUpdatePassword')
     }
   },
-  render () {
+  render() {
     const attributes = {
       props: {
         ...this.tableProps,

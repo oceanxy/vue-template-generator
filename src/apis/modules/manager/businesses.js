@@ -15,6 +15,20 @@ export default {
     })
   },
   /**
+   * 获取企业详情
+   * @param request
+   * @param data
+   * @returns {*}
+   */
+  getDetailsOfBusinesses(request, data) {
+    return request({
+      // url: '/business/company/getCompany',
+      url: '/business/invoice/getInvoiceDetail',
+      method: 'post',
+      data: qs.stringify(data)
+    })
+  },
+  /**
    * 获取已签约企业集合
    * @param request
    * @param data
@@ -91,6 +105,19 @@ export default {
       method: 'get',
       params,
       responseType: 'blob'
+    })
+  },
+  /**
+   * 删除企业
+   * @param request
+   * @param data
+   * @returns {*}
+   */
+  deleteBusinesses(request, data) {
+    return request({
+      url: '/business/company/delete',
+      method: 'post',
+      data: qs.stringify(data)
     })
   }
 }

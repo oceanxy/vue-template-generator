@@ -2,21 +2,17 @@
 
 .bnm-invoice-statistics-container {
   margin: 0 16px 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  height: 100%;
-  overflow: hidden;
-  overflow: hidden;
+  overflow-y: auto;
   @include container-border-radius;
 
   .bnm-invoice-statistics-chart {
     height: 420px;
-    flex: none;
   }
 
   .bnm-invoice-statistics-table {
-    flex: auto;
+    margin-top: 16px;
+
+    .bnm-invoice-statistics-content {}
   }
 }
 

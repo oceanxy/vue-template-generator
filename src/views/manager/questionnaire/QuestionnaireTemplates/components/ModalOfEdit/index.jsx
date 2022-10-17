@@ -16,7 +16,10 @@ export default Form.create({})({
         footer: [
           <Button onClick={() => this.onCancel()}>取消</Button>,
           // <Button onClick={() => this.onCancel(this.visibleField)}>预览</Button>,
-          <Button type={'primary'} onClick={() => this.handleSubmit()}>保存</Button>
+          <Button
+            type={'primary'}
+            onClick={() => this.handleSubmit()}
+          >保存</Button>
         ]
       }
     }
@@ -48,36 +51,41 @@ export default Form.create({})({
       }
     }
   },
-  methods: {
-    handleSubmit() {
-      this.onSubmit({
-        customValidation: () => {
-          const itemList = this.form
-            .getFieldValue('itemList')
-            .filter(item => item.fullName && item.description)
-
-          if (itemList.length) {
-            this.form.setFields({ itemList: { value: itemList } })
-          } else {
-            this.form.setFields({
-              itemList: {
-                value: this.form.getFieldValue('itemList'),
-                errors: [new Error('请补全模版项目！')]
-              }
-            })
-          }
-
-          return !!itemList.length
-        }
-      })
-    }
-  },
   render() {
     const attributes = {
       attrs: this.modalProps,
       on: {
         cancel: () => this.onCancel(),
-        ok: () => this.handleSubmit()
+        ok: () => this.onSubmit({
+          customValidation: () => {
+            const itemList = this.form
+              .getFieldValue('itemList')
+              .filter(item => item.fullName && item.description)
+
+            if (itemList.length) {
+              this.form.setFields({ itemList: { value: itemList } })
+            } else {
+              this.form.setFields({
+                itemList: {
+                  value: this.form.getFieldValue('itemList'),
+                  errors: [new Error('请补全模版项目！')]
+                }
+              })
+            }
+
+            return !!itemList.length
+          },
+          customDataHandler: values => {
+            const temp = cloneDeep(values)
+
+            temp.itemList.forEach(item => {
+              item.isRequired = item.isRequired ? 1 : 0
+              item.status = item.status ? 1 : 0
+            })
+
+            return temp
+          }
+        })
       }
     }
 
@@ -94,7 +102,10 @@ export default Form.create({})({
     return (
       <DragModal {...attributes} class={'bnm-questionnaire-templates-edit'}>
         <Form class="bnm-form-grid">
-          <Form.Item label="模版名称" class={'half'}>
+          <Form.Item
+            label="模版名称"
+            class={'half'}
+          >
             {
               this.form.getFieldDecorator('fullName', {
                 initialValue: this.currentItem.fullName,
@@ -106,7 +117,10 @@ export default Form.create({})({
                   }
                 ]
               })(
-                <Input placeholder="请输入模版名称" allowClear />
+                <Input
+                  placeholder="请输入模版名称"
+                  allowClear
+                />
               )
             }
           </Form.Item>

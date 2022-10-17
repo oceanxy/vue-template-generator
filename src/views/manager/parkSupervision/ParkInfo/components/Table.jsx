@@ -18,7 +18,6 @@ export default {
           {
             title: '楼栋',
             width: 100,
-            fixed: true,
             dataIndex: 'buildName'
           },
           {
@@ -63,7 +62,7 @@ export default {
       <Table
         ref={`${this.moduleName}Table`}
         {...attributes}
-        {...{scopedSlots: {serialNumber: (text, record, index) => index + 1}}}
+        {...{ scopedSlots: { serialNumber: (text, record, index) => index + 1 } }}
       />
     )
   }

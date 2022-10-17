@@ -433,13 +433,25 @@ function createConstRoutes() {
                 },
                 {
                   path: 'contract-history-details',
-                  name: 'contractHistoryDetails',
-                  component: () => import('@/views/manager/basis/Businesses/Details'),
+                  component: () => import('@/layouts/components/BNContainerWithBusinesses'),
                   meta: {
-                    title: '签约详情',
+                    title: '详情',
                     keepAlive: false,
                     requiresAuth: true
-                  }
+                  },
+                  children: [
+                    {
+                      path: '',
+                      name: 'contractHistoryDetails',
+                      component: () =>
+                        import('@/views/manager/contractManagement/ContractReview/components/ContractReviewDetails'),
+                      meta: {
+                        title: '详情',
+                        keepAlive: false,
+                        requiresAuth: true
+                      }
+                    }
+                  ]
                 }
               ]
             },
@@ -529,17 +541,17 @@ function createConstRoutes() {
                 keepAlive: false,
                 requiresAuth: true
               }
-            },
-            {
-              path: 'questionnaire-templates',
-              name: 'questionnaireTemplates',
-              component: () => import('@/views/manager/questionnaire/QuestionnaireTemplates'),
-              meta: {
-                title: '问卷模版管理',
-                keepAlive: false,
-                requiresAuth: true
-              }
             }
+            // {
+            //   path: 'questionnaire-templates',
+            //   name: 'questionnaireTemplates',
+            //   component: () => import('@/views/manager/questionnaire/QuestionnaireTemplates'),
+            //   meta: {
+            //     title: '问卷模版管理',
+            //     keepAlive: false,
+            //     requiresAuth: true
+            //   }
+            // }
           ]
         },
         {
@@ -590,7 +602,7 @@ function createConstRoutes() {
           component: TGRouterView,
           redirect: { name: 'validContracts' },
           meta: {
-            title: '财务管理',
+            title: '费用缴纳',
             keepAlive: false,
             requiresAuth: true,
             icon: () => import('@/layouts/components/TGMenu/assets/images/financialManagement')
@@ -598,13 +610,47 @@ function createConstRoutes() {
           children: [
             {
               path: 'valid-contracts',
-              name: 'validContracts',
-              component: () => import('@/views/manager/finance/ValidContracts'),
+              component: TGRouterView,
               meta: {
                 title: '合同管理',
                 keepAlive: false,
-                requiresAuth: true
-              }
+                requiresAuth: true,
+                hideChildren: true
+              },
+              children: [
+                {
+                  path: '',
+                  name: 'validContracts',
+                  component: () => import('@/views/manager/finance/ValidContracts'),
+                  meta: {
+                    title: '合同管理',
+                    keepAlive: false,
+                    requiresAuth: true
+                  }
+                },
+                {
+                  path: 'valid-contract-details',
+                  component: () => import('@/layouts/components/BNContainerWithBusinesses'),
+                  meta: {
+                    title: '签约详情',
+                    keepAlive: false,
+                    requiresAuth: true
+                  },
+                  children: [
+                    {
+                      path: '',
+                      name: 'validContractDetails',
+                      component: () =>
+                        import('@/views/manager/contractManagement/ContractReview/components/ContractReviewDetails'),
+                      meta: {
+                        title: '签约详情',
+                        keepAlive: false,
+                        requiresAuth: true
+                      }
+                    }
+                  ]
+                }
+              ]
             },
             {
               path: 'earnest-money',
@@ -701,7 +747,7 @@ function createConstRoutes() {
         {
           path: 'content-release',
           component: TGRouterView,
-          redirect: { name: 'notices' },
+          redirect: { name: 'informationTypes' },
           meta: {
             title: '内容发布',
             keepAlive: false,
@@ -808,6 +854,16 @@ function createConstRoutes() {
               component: () => import('@/views/manager/suggestions/AssignComplaints'),
               meta: {
                 title: '投诉分配',
+                keepAlive: false,
+                requiresAuth: true
+              }
+            },
+            {
+              path: 'business-requirements',
+              name: 'businessRequirements',
+              component: () => import('@/views/manager/suggestions/BusinessRequirements'),
+              meta: {
+                title: '企业需求',
                 keepAlive: false,
                 requiresAuth: true
               }

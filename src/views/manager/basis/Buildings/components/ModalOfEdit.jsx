@@ -3,19 +3,28 @@ import { Checkbox, Col, Form, Input, InputNumber, Row, Select, Switch } from 'an
 import forFormModal from '@/mixins/forModal/forFormModal'
 import DragModal from '@/components/DragModal'
 import BNUploadPictures from '@/components/BNUploadPictures'
-import { mapGetters } from 'vuex'
+import { cloneDeep, omit } from 'lodash'
 
 export default Form.create({})({
   mixins: [forFormModal()],
   data() {
-    return { modalProps: { width: 810 } }
+    return { modalProps: { width: 900 } }
   },
-  // computed: {
-  //   ...mapGetters({ getState: 'getState' }),
-  //   parksForSelect() {
-  //     return this.getState('parksForSelect', 'common') || []
-  //   }
-  // },
+  computed: {
+    //   ...mapGetters({ getState: 'getState' }),
+    //   parksForSelect() {
+    //     return this.getState('parksForSelect', 'common') || []
+    //   }
+    fileList() {
+      return this.currentItem.imgList?.map((item, index) => ({
+        uid: index,
+        key: item.key,
+        url: item.path,
+        status: 'done',
+        name: item.path.substring(item.path.lastIndexOf('/'))
+      })) ?? []
+    }
+  },
   // watch: {
   //   visible: {
   //     immediate: true,
@@ -31,18 +40,19 @@ export default Form.create({})({
       attrs: this.modalProps,
       on: {
         cancel: () => this.onCancel(),
-        ok: () => this.onSubmit()
+        ok: () => this.onSubmit({
+          customDataHandler: values => {
+            let temp = cloneDeep(values)
+
+            temp.isUnderground = temp.isUnderground ? 1 : 0
+            temp.imgs = temp.imgList?.map(item => item.response?.data[0].key ?? item.key).join()
+            temp = omit(temp, 'imgList')
+
+            return temp
+          }
+        })
       }
     }
-
-    // 回显图片
-    const fileList = this.currentItem.imgList?.map((item, index) => ({
-      uid: index,
-      url: item.path,
-      key: item.key,
-      status: 'done',
-      name: item.path.substring(item.path.lastIndexOf('/'))
-    })) ?? []
 
     return (
       <DragModal {...attributes}>
@@ -53,10 +63,13 @@ export default Form.create({})({
           <Form.Item label="图片">
             {
               this.form.getFieldDecorator('imgList', {
-                initialValue: fileList,
+                initialValue: this.fileList,
                 rules: [
                   {
-                    required: true, type: 'array', message: '请上传图片!', trigger: 'change'
+                    required: true,
+                    type: 'array',
+                    message: '请上传图片!',
+                    trigger: 'change'
                   }
                 ]
               })(
@@ -64,27 +77,41 @@ export default Form.create({})({
               )
             }
           </Form.Item>
-          <Form.Item label="编号" class={'half'}>
+          <Form.Item
+            label="编号"
+            class={'half'}
+          >
             {
               this.form.getFieldDecorator('buildNo', {
                 initialValue: this.currentItem.buildNo,
                 rules: [
                   {
-                    required: true, message: '请输入编号!', trigger: 'blur'
+                    required: true,
+                    message: '请输入编号!',
+                    trigger: 'blur'
                   }
                 ]
               })(
-                <Input placeholder="请输入编号" allowClear />
+                <Input
+                  placeholder="请输入编号"
+                  allowClear
+                />
               )
             }
           </Form.Item>
-          <Form.Item label={'类型'} class={'half'}>
+          <Form.Item
+            label={'类型'}
+            class={'half'}
+          >
             {
               this.form.getFieldDecorator('buildType', {
                 initialValue: this.currentItem.buildType || undefined,
                 rules: [
                   {
-                    required: true, type: 'number', message: '请选择类型!', trigger: 'change'
+                    required: true,
+                    type: 'number',
+                    message: '请选择类型!',
+                    trigger: 'change'
                   }
                 ]
               })(
@@ -116,42 +143,58 @@ export default Form.create({})({
           {/*    )*/}
           {/*  }*/}
           {/*</Form.Item>*/}
-          <Form.Item label="名称" class={'half'}>
+          <Form.Item
+            label="名称"
+            class={'half'}
+          >
             {
               this.form.getFieldDecorator('fullName', {
                 initialValue: this.currentItem.fullName,
                 rules: [
                   {
-                    required: true, message: '请输入楼栋名称!', trigger: 'change'
+                    required: true,
+                    message: '请输入楼栋名称!',
+                    trigger: 'change'
                   }
                 ]
               })(
-                <Input placeholder="请输入楼栋名称" allowClear />
+                <Input
+                  placeholder="请输入楼栋名称"
+                  allowClear
+                />
               )
             }
           </Form.Item>
-          <Form.Item label="楼层数" class={'half combo'} required>
+          <Form.Item
+            label="楼层数"
+            class={'half combo'}
+            required
+          >
             <Row gutter={20}>
-              <Col span={10}>
+              <Col span={13}>
                 <Form.Item>
                   {
                     this.form.getFieldDecorator('floorNum', {
                       initialValue: this.currentItem.floorNum,
                       rules: [
                         {
-                          required: true, type: 'number', message: '请输入楼层数!', trigger: 'blur'
+                          required: true,
+                          type: 'number',
+                          message: '请输入楼层数!',
+                          trigger: 'blur'
                         }
                       ]
                     })(
                       <InputNumber
                         min={0}
+                        style={{ width: '100%' }}
                         placeholder="请输入楼层数"
                       />
                     )
                   }
                 </Form.Item>
               </Col>
-              <Col span={14}>
+              <Col span={11}>
                 <Form.Item>
                   {
                     this.form.getFieldDecorator('isUnderground', {
@@ -165,13 +208,19 @@ export default Form.create({})({
               </Col>
             </Row>
           </Form.Item>
-          <Form.Item label={'地下楼层数'} class={'half'}>
+          <Form.Item
+            label={'地下楼层数'}
+            class={'half'}
+          >
             {
               this.form.getFieldDecorator('undergroundNum', {
                 initialValue: this.currentItem.undergroundNum,
                 rules: [
                   {
-                    required: true, type: 'number', message: '请输入地下楼层数!', trigger: 'blur'
+                    required: true,
+                    type: 'number',
+                    message: '请输入地下楼层数!',
+                    trigger: 'blur'
                   }
                 ]
               })(
@@ -183,28 +232,43 @@ export default Form.create({})({
               )
             }
           </Form.Item>
-          <Form.Item label="排序" class={'half'}>
+          <Form.Item
+            label="排序"
+            class={'half'}
+          >
             {
               this.form.getFieldDecorator('sortIndex', {
                 initialValue: this.currentItem.sortIndex || 0,
                 rules: [
                   {
-                    required: true, type: 'number', message: '请输入排序值!', trigger: 'blur'
+                    required: true,
+                    type: 'number',
+                    message: '请输入排序值!',
+                    trigger: 'blur'
                   }
                 ]
               })(
-                <InputNumber style={{ width: '100%' }} placeholder="请输入排序值" />
+                <InputNumber
+                  style={{ width: '100%' }}
+                  placeholder="请输入排序值"
+                />
               )
             }
           </Form.Item>
-          <Form.Item label="状态" class={'half'}>
+          <Form.Item
+            label="状态"
+            class={'half'}
+          >
             {
               this.form.getFieldDecorator('status', {
                 valuePropName: 'checked',
                 initialValue: this.currentItem.id ? this.currentItem.status === 1 : true,
                 rules: [
                   {
-                    required: true, type: 'boolean', message: '请选择状态!', trigger: 'blur'
+                    required: true,
+                    type: 'boolean',
+                    message: '请选择状态!',
+                    trigger: 'change'
                   }
                 ]
               })(

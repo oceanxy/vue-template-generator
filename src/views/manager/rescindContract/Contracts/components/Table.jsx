@@ -4,7 +4,7 @@ import forTable from '@/mixins/forTable'
 
 export default {
   mixins: [forTable()],
-  data () {
+  data() {
     return {
       tableProps: {
         columns: [
@@ -61,7 +61,7 @@ export default {
       }
     }
   },
-  render () {
+  render() {
     const attributes = {
       props: {
         ...this.tableProps,
@@ -100,7 +100,11 @@ export default {
             operation: (text, record) => (
               <Space>
                 {record.signingStatus === 3 || record.signingStatus === 9 ? (
-                  <Button type="link" size="small" onClick={() => this._setVisibleOfModal(record, 'visibleOfRenew')}>
+                  <Button
+                    type="link"
+                    size="small"
+                    onClick={() => this._setVisibleOfModal(record, 'visibleOfRenew')}
+                  >
                     续约
                   </Button>
                 ) : null}

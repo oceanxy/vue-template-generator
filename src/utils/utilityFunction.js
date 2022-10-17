@@ -34,9 +34,10 @@ export default {
       route.name = routeName
     }
 
-    if (component) {
-      // route.component = resolve => require(['@/' + component.slice(2)], resolve)
+    if (component?.includes('views')) {
       route.component = () => import(`@/views${component.slice(7)}`)
+    } else if (component?.includes('layouts')) {
+      route.component = () => import(`@/layouts${component.slice(9)}`)
     } else {
       route.component = () => import('@/layouts/components/TGRouterView')
     }

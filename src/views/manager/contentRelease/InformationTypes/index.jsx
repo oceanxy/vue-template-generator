@@ -36,7 +36,10 @@ export default {
           </template>
         </TGContainer>
         <template slot="tree">
-          <InformationTypeTree onchange={this.onChangeTree} onloaded={this.onLoadedTree}></InformationTypeTree>
+          <InformationTypeTree
+            onchange={this.onChangeTree}
+            onloaded={this.onLoadedTree}
+          />
         </template>
       </BNContainerWithCountentSider>
     )

@@ -18,7 +18,6 @@ export default {
           {
             title: '问卷标题',
             width: 160,
-            fixed: true,
             dataIndex: 'fullName'
           },
           {
@@ -119,10 +118,9 @@ export default {
                       type="link"
                       size="small"
                       onClick={() => this._setVisibleOfModal(
-                        {
-                          ids: record.id, reportStatus: record.reportStatus
-                        },
-                        'visibleOfQuestionnaireSwitch')
+                        { ids: record.id, reportStatus: record.reportStatus },
+                        'visibleOfQuestionnaireSwitch'
+                      )
                       }
                     >
                       结束
@@ -170,9 +168,7 @@ export default {
                     <Button
                       type="link"
                       size="small"
-                      onClick={() => this.$router.push({
-                        name: 'questionnaireStatistics', query: { id: record.id }
-                      })}
+                      onClick={() => this.$router.push({ name: 'questionnaireStatistics', query: { id: record.id } })}
                     >
                       问卷统计
                     </Button>
@@ -183,7 +179,8 @@ export default {
                     <Button
                       type="link"
                       size="small"
-                      // onClick={() => this.onDeleteClick(record)}
+                      disabled={this.exportButtonDisabled}
+                      onClick={() => this.onExport({ reportId: record.id }, '问卷调查')}
                     >
                       导出结果
                     </Button>

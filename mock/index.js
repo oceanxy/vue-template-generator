@@ -32,15 +32,13 @@ const mockModule = modulesFiles.keys().reduce((modules, modulePath) => {
   return modules
 }, {})
 
-// 注册需要被mockjs拦截的接口
+// 注册需要被 mock js 拦截的接口
 export default Object.entries(mockModule).map(([modelKey, mockModel]) => {
   // 把接口地址中的"/"替换为转义字符“\/”
   const url = modelKey.replaceAll('/', '\\/')
 
   mock(new RegExp(`${url}(|\\?\\S*)$`), options => {
-    const printOptions = {
-      ...options
-    }
+    const printOptions = { ...options }
 
     if (printOptions.body?.includes('&')) {
       printOptions.body = URL.parse(`?${printOptions.body}`, true).query

@@ -8,6 +8,11 @@
   height: 100%;
   overflow: hidden;
   @include container-border-radius;
+  overflow-y: auto;
+
+  & > .tg-universal-box {
+    min-height: 300px;
+  }
 
   .bnm-billing-statistics-chart {
     height: 42vh;

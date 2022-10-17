@@ -11,16 +11,18 @@ export default {
           {
             title: '序号',
             width: 60,
+            fixed: true,
             align: 'center',
             scopedSlots: { customRender: 'serialNumber' }
           },
           {
             title: '企业名称',
+            fixed: true,
             dataIndex: 'objName'
           },
           {
-            title: '考核年度',
-            dataIndex: 'year'
+            title: '报表名称',
+            dataIndex: 'reportName'
           },
           {
             title: '考核得分',
@@ -37,15 +39,16 @@ export default {
           {
             title: '状态',
             align: 'center',
+            fixed: 'right',
             width: 80,
             dataIndex: 'auditStatusStr'
           },
           {
             title: '操作',
             key: 'operation',
-            // fixed: 'right',
+            fixed: 'right',
             align: 'center',
-            width: 200,
+            width: 120,
             scopedSlots: { customRender: 'operation' }
           }
         ]
@@ -78,7 +81,7 @@ export default {
                 <Button
                   type="link"
                   size="small"
-                  onClick={() => this.onAuditClick(record)}
+                  onClick={() => this.onAuditClick(record.id)}
                 >
                   审核
                 </Button>

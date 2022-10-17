@@ -17,7 +17,10 @@ export default {
           <Inquiry slot={'inquiry'} />
           <Table slot={'table'} />
           <TGPagination slot={'pagination'} />
-          <ModalOfEdit slot={'modals'} modalTitle={'{action}金额'} />
+          <ModalOfEdit
+            slot={'modals'}
+            modalTitle={'{action}金额'}
+          />
         </TGContainer>
       </BNContainerWithParkSider>
     )

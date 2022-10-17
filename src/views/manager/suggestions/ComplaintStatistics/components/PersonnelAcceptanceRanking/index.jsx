@@ -28,19 +28,25 @@ export default {
             title: '受理数',
             dataIndex: 'totalNum',
             align: 'center',
-            width: 80
+            width: 90
           },
           {
-            title: '待处理数',
+            title: '待处理',
             dataIndex: 'waitNum',
             align: 'center',
-            width: 80
+            width: 90
           },
           {
-            title: '已处理数',
+            title: '已处理',
             dataIndex: 'acceptNum',
             align: 'center',
-            width: 80
+            width: 90
+          },
+          {
+            title: '处理中',
+            dataIndex: 'acceptingNum',
+            align: 'center',
+            width: 90
           }
         ]
       }

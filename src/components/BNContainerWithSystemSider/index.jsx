@@ -29,17 +29,11 @@ export default {
     }
   },
   async created() {
-    await Promise.all([
-      this.$store.dispatch('getListForSelect', {
-        moduleName: 'system',
-        stateName: 'menuTree',
-        customApiName: 'getSystemMenuTree'
-      }),
-      this.setCurrentMenuId('')
-    ])
-  },
-  async destroyed() {
-    await this.setCurrentMenuId('')
+    await this.$store.dispatch('getListForSelect', {
+      moduleName: 'system',
+      stateName: 'menuTree',
+      customApiName: 'getSystemMenuTree'
+    })
   },
   methods: {
     /**
@@ -54,10 +48,10 @@ export default {
         await this.setCurrentMenuId('')
       }
     },
-    async setCurrentMenuId(menuId) {
+    async setCurrentMenuId(value, isFetchList) {
       await this.$store.dispatch('system/setCurrentMenuId', {
         moduleName: this.moduleName,
-        value: menuId
+        payload: { value, isFetchList }
       })
     }
   },

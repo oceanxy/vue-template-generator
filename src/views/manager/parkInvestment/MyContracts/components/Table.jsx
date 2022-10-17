@@ -17,7 +17,6 @@ export default {
           },
           {
             title: '企业',
-            fixed: true,
             width: 200,
             dataIndex: 'companyName'
           },
@@ -70,11 +69,7 @@ export default {
   },
   methods: {
     async onReSignClick(record, action) {
-      await this.$router.push({
-        name: 'signingProcess', query: {
-          id: record.id, ac: action
-        }
-      })
+      await this.$router.push({ name: 'signingProcess', query: { id: record.id, ac: action } })
     }
   },
   render() {
@@ -103,14 +98,23 @@ export default {
                 : <div style={{ color: '#8c8c8c' }}>未核算费用</div>
             },
             contractUrl: (text, record) => (
-              record.contractUrl ? <a href={record.contractUrl} target="_blank">合同下载</a> : '-'
+              record.contractUrl ? (
+                <a
+                  href={record.contractUrl}
+                  target="_blank"
+                >
+                  合同下载
+                </a>
+              ) : '-'
             ),
             signingStatus: (text, record) => `${record.signingStatusStr}（${record.signingStage}/4）`,
             address: (text, record) => (
-              <ul style={{
-                paddingLeft: '20px',
-                marginBottom: 0
-              }}>
+              <ul
+                style={{
+                  paddingLeft: '20px',
+                  marginBottom: 0
+                }}
+              >
                 {
                   record.address?.split(',').map(item => (
                     <li>{item}</li>
@@ -121,7 +125,7 @@ export default {
             operation: (text, record) => (
               <Space>
                 {
-                  record.signingStatus === 2 || record.signingStatus === 3 ||record.signingStatus === 4 ? (
+                  record.signingStatus === 2 || record.signingStatus === 3 || record.signingStatus === 4 ? (
                     <Button
                       type="link"
                       size="small"

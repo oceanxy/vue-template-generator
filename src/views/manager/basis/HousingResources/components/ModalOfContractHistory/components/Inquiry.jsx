@@ -36,14 +36,20 @@ export default Form.create({})({
         <Form.Item>
           {
             this.form.getFieldDecorator('companyName', { initialValue: '' })(
-              <Input placeholder="企业名称" allowClear />
+              <Input
+                placeholder="企业名称"
+                allowClear
+              />
             )
           }
         </Form.Item>
         <Form.Item>
           {
             this.form.getFieldDecorator('signingStatus', { initialValue: undefined })(
-              <Select placeholder="请选择签约状态" allowClear>
+              <Select
+                placeholder="请选择签约状态"
+                allowClear
+              >
                 <Select.Option value={1}>签约中</Select.Option>
                 <Select.Option value={2}>已解约</Select.Option>
               </Select>

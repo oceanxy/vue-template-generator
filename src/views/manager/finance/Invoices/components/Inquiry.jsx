@@ -16,14 +16,20 @@ export default Form.create({})({
         <Form.Item>
           {
             this.form.getFieldDecorator('companyName')(
-              <Input placeholder="企业名称" allowClear />
+              <Input
+                placeholder="企业名称"
+                allowClear
+              />
             )
           }
         </Form.Item>
         <Form.Item>
           {
             this.form.getFieldDecorator('invoiceStatus')(
-              <Select placeholder="请选择状态" allowClear>
+              <Select
+                placeholder="请选择状态"
+                allowClear
+              >
                 <Select.Option value={1}>已开票</Select.Option>
                 <Select.Option value={2}>待开票</Select.Option>
               </Select>
@@ -32,7 +38,12 @@ export default Form.create({})({
         </Form.Item>
         <Form.Item>
           <Space>
-            <Button loading={this.loading} htmlType="submit" type="primary" icon="search">
+            <Button
+              loading={this.loading}
+              htmlType="submit"
+              type="primary"
+              icon="search"
+            >
               查询
             </Button>
             {/*<Button onClick={this.onClear} icon="reload">重置</Button>*/}

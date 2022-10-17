@@ -134,7 +134,11 @@ export default {
               />
             ),
             serviceStar: (text, record) => (
-              <Rate value={record.serviceStar} count={5} disabled />
+              <Rate
+                value={record.serviceStar}
+                count={5}
+                disabled
+              />
             ),
             operation: (text, record) => (
               <Space>

@@ -1,5 +1,5 @@
 import './assets/styles/index.scss'
-import BNContainerWithSystemSider from '@/components/BNContainerWithSystemSider'
+import BNContainerWithSider from '@/components/BNContainerWithSider'
 import dynamicState from '@/mixins/dynamicState'
 import TGContainer from '@/layouts/components/TGContainer'
 import Inquiry from './components/Inquiry'
@@ -13,7 +13,16 @@ export default {
   mixins: [dynamicState()],
   render() {
     return (
-      <BNContainerWithSystemSider contentClass={'bnm-system-user-container'}>
+      <BNContainerWithSider
+        contentClass={'bnm-sider-container'}
+        apiOptions={{
+          apiName: 'getOrganizationTree',
+          stateName: 'organizationTree',
+          moduleName: 'common'
+        }}
+        treeIdField={'organId'}
+        notNoneMode={true}
+      >
         <TGContainer>
           <Inquiry slot={'inquiry'} />
           <Table slot={'table'} />
@@ -23,7 +32,7 @@ export default {
             <ModalOfResetPwd modalTitle={'重置密码'} />
           </template>
         </TGContainer>
-      </BNContainerWithSystemSider>
+      </BNContainerWithSider>
     )
   }
 }

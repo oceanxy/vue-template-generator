@@ -28,14 +28,12 @@ export default {
     }
   },
   async created() {
-    await this.setCurrentParkTreeKeySelected(this.treeId)
+    // 将登录信息的treeId作为树的默认值
+    await this.setCurrentParkTreeKeySelected(this.treeId, false)
 
     this.loading = true
     await dispatch('common', 'getSideFloorTree')
     this.loading = false
-  },
-  async destroyed() {
-    await this.setCurrentParkTreeKeySelected('')
   },
   methods: {
     /**
@@ -50,12 +48,14 @@ export default {
         await this.setCurrentParkTreeKeySelected(this.treeId)
       }
     },
-    async setCurrentParkTreeKeySelected(value) {
-      await this.$store.dispatch('common/setCurrentParkTreeKeySelected', {
-        moduleName: this.moduleName,
-        submoduleName: this.submoduleName,
-        value
-      })
+    async setCurrentParkTreeKeySelected(value, isFetchList) {
+      if (value !== this.currentParkTreeKeySelected) {
+        await this.$store.dispatch('common/setCurrentParkTreeKeySelected', {
+          moduleName: this.moduleName,
+          submoduleName: this.submoduleName,
+          payload: { value, isFetchList }
+        })
+      }
     }
   },
   render() {

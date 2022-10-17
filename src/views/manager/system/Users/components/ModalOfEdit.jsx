@@ -1,18 +1,19 @@
 import '../assets/styles/index.scss'
-import { Cascader, Col, Form, Input, Radio, Row, Switch } from 'ant-design-vue'
+import { Cascader, Col, Form, Input, InputNumber, Radio, Row, Switch } from 'ant-design-vue'
 import forFormModal from '@/mixins/forModal/forFormModal'
 import DragModal from '@/components/DragModal'
 import CascaderRole from '@/components/BNContainerWithSystemSider/components/CascaderRole'
 import CascaderOrgan from '@/components/BNContainerWithSystemSider/components/CascaderOrgan'
 import { mapAction } from '@/utils/store'
 import { mapGetters } from 'vuex'
+import { verifyIDNumber, verifyMobileNumber, verifyPhoneNumber } from '@/utils/validators'
 
 export default Form.create({})({
   mixins: [forFormModal()],
   data() {
     return {
       modalProps: {
-        width: 700,
+        width: 810,
         wrapClassName: 'bnm-modal-edit-user-form'
       },
       addressList: []
@@ -38,7 +39,8 @@ export default Form.create({})({
       async handler(value) {
         if (value) {
           const res = await this.getDetail({
-            id: this.currentItem.id, moduleName: this.moduleName
+            id: this.currentItem.id,
+            moduleName: this.moduleName
           })
 
           if (res.status) {
@@ -49,7 +51,8 @@ export default Form.create({})({
         } else {
           this.addressList = []
           this.$store.commit('setDetails', {
-            value: {}, moduleName: this.moduleName
+            value: {},
+            moduleName: this.moduleName
           })
         }
       }
@@ -67,7 +70,7 @@ export default Form.create({})({
       }
 
       if (data.roleIds.length > 0) {
-        data.roleIds = data.roleIds.split(',').slice(-1)[0]
+        data.roleIds = data.roleIds.at(-1)
       } else {
         data.roleIds = ''
       }
@@ -105,91 +108,145 @@ export default Form.create({})({
 
     return (
       <DragModal {...attributes}>
-        <Form class="" colon={false}>
+        <Form
+          class=""
+          colon={false}
+        >
           <Row gutter={10}>
             <Col span={24}>
               <Form.Item label="所属组织">
-                {this.form.getFieldDecorator('organId', {
-                  initialValue: this.details.organParentIds || [],
-                  rules: [
-                    {
-                      required: true, type: 'array', message: '请选择组织!', trigger: 'change'
-                    }
-                  ]
-                })(<CascaderOrgan />)}
+                {
+                  this.form.getFieldDecorator('organId', {
+                    initialValue: this.details.organParentIds || [],
+                    rules: [
+                      {
+                        required: true, type: 'array', message: '请选择组织!', trigger: 'change'
+                      }
+                    ]
+                  })(
+                    <CascaderOrgan />
+                  )
+                }
               </Form.Item>
             </Col>
             <Col span={12}>
               <Form.Item label="登录账号">
-                {this.form.getFieldDecorator('loginName', {
-                  initialValue: this.details.loginName,
-                  rules: [
-                    {
-                      required: true, message: '请输入账号!', trigger: 'blur'
-                    }
-                  ]
-                })(<Input placeholder="请输入登录账号" allowClear />)}
-              </Form.Item>
-            </Col>
-            {this.currentItem.id ? null : (
-              <Col span={12}>
-                <Form.Item label="登录密码">
-                  {this.form.getFieldDecorator('loginPwd', {
-                    initialValue: this.details.loginPwd,
+                {
+                  this.form.getFieldDecorator('loginName', {
+                    initialValue: this.details.loginName,
                     rules: [
                       {
-                        required: true, message: '请输入密码!', trigger: 'blur'
+                        required: true, message: '请输入账号!', trigger: 'blur'
                       }
                     ]
-                  })(<Input placeholder="请输入登录密码" allowClear />)}
-                </Form.Item>
-              </Col>
-            )}
-
+                  })(
+                    <Input
+                      placeholder="请输入登录账号"
+                      allowClear
+                    />
+                  )
+                }
+              </Form.Item>
+            </Col>
+            {
+              this.currentItem.id
+                ? null
+                : (
+                  <Col span={12}>
+                    <Form.Item label="登录密码">
+                      {
+                        this.form.getFieldDecorator('loginPwd', {
+                          initialValue: this.details.loginPwd,
+                          rules: [
+                            {
+                              required: true, message: '请输入密码!', trigger: 'blur'
+                            }
+                          ]
+                        })(
+                          <Input
+                            placeholder="请输入登录密码"
+                            allowClear
+                          />
+                        )}
+                    </Form.Item>
+                  </Col>
+                )
+            }
             <Col span={12}>
               <Form.Item label="角色">
-                {this.form.getFieldDecorator('roleIds', {
-                  initialValue: this.details.roleParentIds || [],
-                  rules: [
-                    {
-                      required: true, type: 'array', message: '请选择角色!', trigger: 'change'
-                    }
-                  ]
-                })(<CascaderRole onchange={this.onChangeRole} />)}
+                {
+                  this.form.getFieldDecorator('roleIds', {
+                    initialValue: this.details.roleParentIds || [],
+                    rules: [
+                      {
+                        required: true, type: 'array', message: '请选择角色!', trigger: 'change'
+                      }
+                    ]
+                  })(
+                    <CascaderRole onchange={this.onChangeRole} />
+                  )
+                }
               </Form.Item>
             </Col>
             <Col span={12}>
               <Form.Item label="姓名">
-                {this.form.getFieldDecorator('fullName', {
-                  initialValue: this.details.fullName,
-                  rules: [
-                    {
-                      required: true, message: '请输入姓名!', trigger: 'blur'
-                    }
-                  ]
-                })(<Input placeholder="请输入姓名" allowClear />)}
+                {
+                  this.form.getFieldDecorator('fullName', {
+                    initialValue: this.details.fullName,
+                    rules: [
+                      {
+                        required: true, message: '请输入姓名!', trigger: 'blur'
+                      }
+                    ]
+                  })(
+                    <Input
+                      placeholder="请输入姓名"
+                      allowClear
+                    />
+                  )
+                }
               </Form.Item>
             </Col>
             <Col span={12}>
-              <Form.Item label="身份证号">
-                {this.form.getFieldDecorator('idCard', { initialValue: this.details.idCard })(
-                  <Input placeholder="请输入身份证号码" allowClear />)}
+              <Form.Item label="身份证号码">
+                {
+                  this.form.getFieldDecorator('idCard', {
+                    initialValue: this.details.idCard,
+                    rules: [{ validator: verifyIDNumber }]
+                  })(
+                    <Input
+                      placeholder="请输入身份证号码"
+                      allowClear
+                    />
+                  )
+                }
               </Form.Item>
             </Col>
             <Col span={12}>
               <Form.Item label="手机号码">
-                {this.form.getFieldDecorator('mobile', { initialValue: this.details.mobile })(
-                  <Input placeholder="请输入手机号码" allowClear />)}
+                {
+                  this.form.getFieldDecorator('mobile', {
+                    initialValue: this.details.mobile,
+                    rules: [{ validator: verifyMobileNumber }]
+                  })(
+                    <Input
+                      placeholder="请输入手机号码"
+                      allowClear
+                    />
+                  )
+                }
               </Form.Item>
             </Col>
             <Col span={12}>
               <Form.Item label="性别">
-                {this.form.getFieldDecorator('gender', { initialValue: this.details.gender })(
-                  <Radio.Group>
-                    <Radio value={1}>男</Radio>
-                    <Radio value={2}>女</Radio>
-                  </Radio.Group>
-                )}
+                {
+                  this.form.getFieldDecorator('gender', { initialValue: this.details.gender })(
+                    <Radio.Group>
+                      <Radio value={1}>男</Radio>
+                      <Radio value={2}>女</Radio>
+                    </Radio.Group>
+                  )
+                }
               </Form.Item>
             </Col>
             {/* <Col span={12}>
@@ -201,46 +258,68 @@ export default Form.create({})({
             </Col> */}
             <Col span={12}>
               <Form.Item label="电子邮箱">
-                {this.form.getFieldDecorator('email', {
-                  initialValue: this.details.email,
-                  rules: [
-                    {
-                      required: false, type: 'email', message: '格式错误!', trigger: 'blur'
-                    }
-                  ]
-                })(<Input placeholder="请输入电子邮箱" allowClear />)}
+                {
+                  this.form.getFieldDecorator('email', {
+                    initialValue: this.details.email,
+                    rules: [
+                      {
+                        required: false,
+                        type: 'email',
+                        message: '格式错误!',
+                        trigger: 'blur'
+                      }
+                    ]
+                  })(
+                    <Input
+                      placeholder="请输入电子邮箱"
+                      allowClear
+                    />
+                  )
+                }
               </Form.Item>
             </Col>
             <Col span={12}>
               <Form.Item label="联系电话">
-                {this.form.getFieldDecorator('phone', { initialValue: this.details.phone })(<Input
-                  placeholder="请输入联系电话"
-                  allowClear
-                />)}
+                {
+                  this.form.getFieldDecorator('phone', {
+                    initialValue: this.details.phone,
+                    rules: [{ validators: verifyPhoneNumber }]
+                  })(
+                    <Input
+                      placeholder="请输入联系电话"
+                      allowClear
+                    />
+                  )
+                }
               </Form.Item>
             </Col>
             <Col span={24}></Col>
             <Col span={12}>
               <Form.Item label="联系地址">
-                {this.form.getFieldDecorator('addressList', { initialValue: this.addressList })(
-                  <Cascader
-                    placeholder="请选择省市区"
-                    expandTrigger={'hover'}
-                    allowClear
-                    options={this.administrativeDivision}
-                    fieldNames={{
-                      label: 'name', value: 'id', children: 'children'
-                    }}
-                    onchange={this.onChangeAddressList}
-                  />
-                )}
+                {
+                  this.form.getFieldDecorator('addressList', { initialValue: this.addressList })(
+                    <Cascader
+                      placeholder="请选择省市区"
+                      expandTrigger={'hover'}
+                      allowClear
+                      options={this.administrativeDivision}
+                      fieldNames={{
+                        label: 'name', value: 'id', children: 'children'
+                      }}
+                      onchange={this.onChangeAddressList}
+                    />
+                  )
+                }
               </Form.Item>
             </Col>
             <Col span={12}>
               <Form.Item label="">
                 {
                   this.form.getFieldDecorator('address', { initialValue: this.details.address })(
-                    <Input placeholder="请输入" allowClear />
+                    <Input
+                      placeholder="请输入"
+                      allowClear
+                    />
                   )
                 }
               </Form.Item>
@@ -249,9 +328,10 @@ export default Form.create({})({
               <Form.Item label="简介">
                 {
                   this.form.getFieldDecorator('description', { initialValue: this.details.description })(
-                    <Input
+                    <Input.TextArea
                       placeholder="请输入简介"
                       allowClear
+                      autoSize={{ minRows: 6 }}
                     />
                   )
                 }
@@ -261,14 +341,20 @@ export default Form.create({})({
               <Form.Item label="排序">
                 {
                   this.form.getFieldDecorator('sortIndex', {
-                    initialValue: `${this.details.sortIndex || ''}` || undefined,
+                    initialValue: this.details.sortIndex || 0,
                     rules: [
                       {
-                        required: true, message: '请输入排序值!', trigger: 'blur'
+                        required: true,
+                        type: 'number',
+                        message: '请输入排序值!',
+                        trigger: 'blur'
                       }
                     ]
                   })(
-                    <Input placeholder="越大排在越前" allowClear />
+                    <InputNumber
+                      placeholder="越大排在越前"
+                      allowClear
+                    />
                   )
                 }
               </Form.Item>

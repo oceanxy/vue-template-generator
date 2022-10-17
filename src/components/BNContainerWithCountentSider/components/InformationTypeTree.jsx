@@ -10,7 +10,10 @@ export default {
   },
   props: {
     checkable: Boolean,
-    defaultCheckedKeys: Array,
+    defaultCheckedKeys: {
+      type: Array,
+      default: () => []
+    },
     roleId: String
   },
   data() {
@@ -42,10 +45,10 @@ export default {
       if (res.status) {
         const list = res.data || []
 
-        if (list.length > 0) {
-          this.defaultKeys = [list[0].id]
-          this.defaultExpandedKeys = [list[0].id]
-        }
+        // if (list.length > 0) {
+        //   this.defaultKeys = [list[0].id]
+        //   this.defaultExpandedKeys = [list[0].id]
+        // }
 
         this.$emit('loaded', list, this.defaultKeys)
       }
@@ -72,7 +75,8 @@ export default {
         defaultExpandedKeys={this.defaultExpandedKeys}
         defaultCheckedKeys={this.defaultCheckedKeys}
         onchange={this.onChange}
-        oncheck={this.onCheck}></Tree>
+        oncheck={this.onCheck}
+      />
     )
   }
 }

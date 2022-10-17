@@ -1,11 +1,11 @@
 import '../assets/styles/index.scss'
-import { Button, Space, Switch, Table } from 'ant-design-vue'
+import { Button, Space, Table } from 'ant-design-vue'
 import forTable from '@/mixins/forTable'
 import ImagePreview from '@/components/ImagePreview'
 
 export default {
   mixins: [forTable()],
-  data () {
+  data() {
     return {
       tableProps: {
         columns: [
@@ -55,13 +55,13 @@ export default {
             width: 140,
             dataIndex: 'teamName'
           },
-          {
-            title: '状态',
-            align: 'center',
-            fixed: 'right',
-            width: 80,
-            scopedSlots: { customRender: 'status' }
-          },
+          // {
+          //   title: '状态',
+          //   align: 'center',
+          //   fixed: 'right',
+          //   width: 80,
+          //   scopedSlots: { customRender: 'status' }
+          // },
           {
             title: '操作',
             key: 'operation',
@@ -74,7 +74,7 @@ export default {
       }
     }
   },
-  render () {
+  render() {
     const attributes = {
       props: {
         ...this.tableProps,
@@ -89,12 +89,12 @@ export default {
         {...{
           scopedSlots: {
             serialNumber: (text, record, index) => index + 1,
-            status: (text, record) => (
-              <Switch
-                checked={+record.status === 1}
-                onChange={checked => this.onStatusChange({ checked, record })}
-              />
-            ),
+            // status: (text, record) => (
+            //   <Switch
+            //     checked={+record.status === 1}
+            //     onChange={checked => this.onStatusChange({ checked, record })}
+            //   />
+            // ),
             headPortrait: (text, record) => (
               <ImagePreview
                 imageUrls={record.headPortraitStr ? [record.headPortraitStr] : []}

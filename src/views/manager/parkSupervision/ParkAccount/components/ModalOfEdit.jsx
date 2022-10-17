@@ -5,6 +5,8 @@ import DragModal from '@/components/DragModal'
 import dynamicState from '@/mixins/dynamicState'
 import { mapGetters } from 'vuex'
 import { dispatch } from '@/utils/store'
+import { verifyIDNumber, verifyMobileNumber } from '@/utils/validators'
+import { cloneDeep } from 'lodash'
 
 export default Form.create({ name: 'editForm' })({
   mixins: [
@@ -17,10 +19,10 @@ export default Form.create({ name: 'editForm' })({
   computed: {
     ...mapGetters({ getState: 'getState' }),
     organizationTree() {
-      return this.getState('organizationTree', 'common') || []
+      return this.getState('organizationTree', 'common')
     },
     roleTree() {
-      return this.getState('roleTree', 'common') || []
+      return this.getState('roleTree', 'common') || { loading: false, list: [] }
     },
     administrativeDivision() {
       return this.getState('administrativeDivision', 'common') || []
@@ -42,7 +44,15 @@ export default Form.create({ name: 'editForm' })({
       attrs: this.modalProps,
       on: {
         cancel: () => this.onCancel(),
-        ok: () => this.onSubmit()
+        ok: () => this.onSubmit({
+          customDataHandler: values => {
+            const temp = cloneDeep(values)
+
+            temp.roleIds = temp.roleIds.join()
+
+            return temp
+          }
+        })
       }
     }
 
@@ -60,7 +70,9 @@ export default Form.create({ name: 'editForm' })({
                 initialValue: this.currentItem.organId,
                 rules: [
                   {
-                    required: true, message: '请选择组织机构!', trigger: 'blur'
+                    required: true,
+                    message: '请选择组织机构!',
+                    trigger: 'blur'
                   }
                 ]
               })(
@@ -68,9 +80,12 @@ export default Form.create({ name: 'editForm' })({
                   showSearch
                   allowClear
                   disabled
-                  treeData={this.organizationTree}
+                  treeData={this.organizationTree?.list ?? []}
                   replaceFields={{
-                    children: 'children', title: 'name', key: 'id', value: 'id'
+                    children: 'children',
+                    title: 'name',
+                    key: 'id',
+                    value: 'id'
                   }}
                   treeNodeFilterProp={'title'}
                   placeholder={'请选择所属组织机构'}
@@ -79,27 +94,40 @@ export default Form.create({ name: 'editForm' })({
               )
             }
           </Form.Item>
-          <Form.Item label="登录账号" class={'half'}>
+          <Form.Item
+            label="登录账号"
+            class={'half'}
+          >
             {
               this.form.getFieldDecorator('loginName', {
                 initialValue: this.currentItem.loginName,
                 rules: [
                   {
-                    required: true, message: '请输入登录账号!', trigger: 'blur'
+                    required: true,
+                    message: '请输入登录账号!',
+                    trigger: 'blur'
                   }
                 ]
               })(
-                <Input placeholder={'请输入登录账号'} disabled />
+                <Input
+                  placeholder={'请输入登录账号'}
+                  disabled
+                />
               )
             }
           </Form.Item>
-          <Form.Item label="姓名" class={'half'}>
+          <Form.Item
+            label="姓名"
+            class={'half'}
+          >
             {
               this.form.getFieldDecorator('fullName', {
                 initialValue: this.currentItem.fullName,
                 rules: [
                   {
-                    required: true, message: '请输入姓名!', trigger: 'blur'
+                    required: true,
+                    message: '请输入姓名!',
+                    trigger: 'blur'
                   }
                 ]
               })(
@@ -113,7 +141,10 @@ export default Form.create({ name: 'editForm' })({
                 initialValue: this.currentItem.roleIds?.split(','),
                 rules: [
                   {
-                    required: true, type: 'array', message: '请选择角色!', trigger: 'blur'
+                    required: true,
+                    type: 'array',
+                    message: '请选择角色!',
+                    trigger: 'blur'
                   }
                 ]
               })(
@@ -121,9 +152,12 @@ export default Form.create({ name: 'editForm' })({
                   showSearch
                   allowClear
                   multiple
-                  treeData={this.roleTree}
+                  treeData={this.roleTree.list}
                   replaceFields={{
-                    children: 'children', title: 'name', key: 'id', value: 'id'
+                    children: 'children',
+                    title: 'name',
+                    key: 'id',
+                    value: 'id'
                   }}
                   treeNodeFilterProp={'title'}
                   placeholder={'请选择角色'}
@@ -132,35 +166,51 @@ export default Form.create({ name: 'editForm' })({
               )
             }
           </Form.Item>
-          <Form.Item label="手机号码" class={'half'}>
+          <Form.Item
+            label="手机号码"
+            class={'half'}
+          >
             {
               this.form.getFieldDecorator('mobile', {
                 initialValue: this.currentItem.mobile,
                 rules: [
                   {
-                    required: true, message: '请输入手机号码!', trigger: 'blur'
-                  }
+                    required: true,
+                    message: '请输入手机号码!',
+                    trigger: 'blur'
+                  },
+                  { validator: verifyMobileNumber }
                 ]
               })(
-                <Input placeholder={'请输入手机号码'} allowClear />
+                <Input
+                  placeholder={'请输入手机号码'}
+                  allowClear
+                />
               )
             }
           </Form.Item>
-          <Form.Item label="身份证号" class={'half'}>
+          <Form.Item
+            label="身份证号"
+            class={'half'}
+          >
             {
               this.form.getFieldDecorator('idCard', {
                 initialValue: this.currentItem.idCard,
                 rules: [
-                  {
-                    required: true, message: '请输入身份证号码!', trigger: 'blur'
-                  }
+                  { validator: verifyIDNumber }
                 ]
               })(
-                <Input placeholder={'请输入身份证号码'} allowClear />
+                <Input
+                  placeholder={'请输入身份证号码'}
+                  allowClear
+                />
               )
             }
           </Form.Item>
-          <Form.Item label="联系地址" class={'custom'}>
+          <Form.Item
+            label="联系地址"
+            class={'custom'}
+          >
             <Row gutter={16}>
               <Col span={10}>
                 <Form.Item>
@@ -180,7 +230,9 @@ export default Form.create({ name: 'editForm' })({
                         allowClear
                         options={this.administrativeDivision}
                         fieldNames={{
-                          label: 'name', value: 'id', children: 'children'
+                          label: 'name',
+                          value: 'id',
+                          children: 'children'
                         }}
                       />
                     )
@@ -191,7 +243,10 @@ export default Form.create({ name: 'editForm' })({
                 <Form.Item>
                   {
                     this.form.getFieldDecorator('address', { initialValue: this.currentItem.address })(
-                      <Input placeholder="请输入详细地址" allowClear />
+                      <Input
+                        placeholder="请输入详细地址"
+                        allowClear
+                      />
                     )
                   }
                 </Form.Item>
@@ -201,18 +256,31 @@ export default Form.create({ name: 'editForm' })({
           <Form.Item label="简介">
             {
               this.form.getFieldDecorator('description', { initialValue: this.currentItem.description })(
-                <Input.TextArea placeholder="请输入简介" autoSize={{ minRows: 6 }} allowClear />
+                <Input.TextArea
+                  placeholder="请输入简介"
+                  autoSize={{ minRows: 6 }}
+                  allowClear
+                />
               )
             }
           </Form.Item>
-          <Form.Item label="排序" class={'half'}>
+          <Form.Item
+            label="排序"
+            class={'half'}
+          >
             {
               this.form.getFieldDecorator('sortIndex', { initialValue: this.currentItem.sortIndex || 0 })(
-                <InputNumber style={{ width: '100%' }} placeholder="请输入排序值" />
+                <InputNumber
+                  style={{ width: '100%' }}
+                  placeholder="请输入排序值"
+                />
               )
             }
           </Form.Item>
-          <Form.Item label="状态" class={'half'}>
+          <Form.Item
+            label="状态"
+            class={'half'}
+          >
             {
               this.form.getFieldDecorator('status', {
                 valuePropName: 'checked',

@@ -16,21 +16,20 @@ export default Form.create({ name: 'inquiryForm' })({
         <Form.Item>
           {
             this.form.getFieldDecorator('fullName')(
-              <Input placeholder="姓名/手机号码" allowClear />
-            )
-          }
-        </Form.Item>
-        <Form.Item>
-          {
-            this.form.getFieldDecorator('teamName')(
-              <Input placeholder="团队名称" allowClear />
+              <Input
+                placeholder="编号/名称"
+                allowClear
+              />
             )
           }
         </Form.Item>
         <Form.Item>
           {
             this.form.getFieldDecorator('status')(
-              <Select placeholder="请选择状态" allowClear>
+              <Select
+                placeholder="请选择状态"
+                allowClear
+              >
                 <Select.Option value={1}>启用</Select.Option>
                 <Select.Option value={2}>停用</Select.Option>
               </Select>

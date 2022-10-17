@@ -11,6 +11,7 @@ export default {
    * @param dispatch
    * @param moduleName {string}
    * @param submoduleName {string}
+   * @param [isFetchList=true] {boolean} 是否触发页面列表数据更新的请求，默认true
    * @param payload {Object} 数据列表的常驻查询对象，一般定义在Inquiry组件中
    * @param additionalQueryParameters {Object} 需要传递给查询(获取列表数据)的附加参数
    *    （不在查询表单内，额外的附加查询参数，单独传是防止被下次setSearch时覆盖， 例如其他页面跳转过来时携带的参数：id）
@@ -20,6 +21,7 @@ export default {
   }, {
     moduleName,
     submoduleName,
+    isFetchList = true,
     payload,
     additionalQueryParameters
   }) {
@@ -29,22 +31,24 @@ export default {
       submoduleName
     })
 
-    const hasPagination = 'pagination' in (submoduleName ? state[moduleName][submoduleName] : state[moduleName])
+    if (isFetchList) {
+      const hasPagination = 'pagination' in (submoduleName ? state[moduleName][submoduleName] : state[moduleName])
 
-    additionalQueryParameters = {
-      ...additionalQueryParameters,
-      ...(hasPagination ? { pageIndex: 0 } : {})
+      additionalQueryParameters = {
+        ...additionalQueryParameters,
+        ...(hasPagination ? { pageIndex: 0 } : {})
+      }
+
+      await dispatch(
+        'getList',
+        {
+          moduleName,
+          submoduleName,
+          additionalQueryParameters
+        },
+        { root: true }
+      )
     }
-
-    await dispatch(
-      'getList',
-      {
-        moduleName,
-        submoduleName,
-        additionalQueryParameters
-      },
-      { root: true }
-    )
   },
   /**
    * 获取列表数据
@@ -291,35 +295,40 @@ export default {
     return response.status
   },
   /**
-   * 通常仅用于除“新增”和“更新”外的表单提交类数据接口
-   * “新增”和“更新”请使用对应的 add 或 update 专用 action
-   * 如有不适用于其他 action 的场景时，再考虑使用本 action
+   * 通常仅用于除“新增”和“更新”外的表单提交类数据接口。
+   * “新增”和“更新”请使用对应的 add 或 update 专用 action。
+   * 如有不适用于其他 action 的场景时，再考虑使用本 action。
    * @param state
    * @param dispatch
+   * @param commit
    * @param payload {Object} 参数
    * @param customApiName {string} 自定义请求API
    * @param [stateName] {string} 用于接收接口返回值的 state 字段名称，在相应模块的 store.state 内定义
    * @param [closeModalAfterFetched=true] {boolean} 成功执行操作后是否关闭弹窗，默认true。不在弹窗内调用时，请始终传递 false
+   * @param [isFetchList] {boolean} 是否提交后立即刷新本模块列表，默认false
    * @param [moduleName] {string} 模块名。依赖 closeModalAfterFetched 或 isFetchList
    * @param [submoduleName] {string} 子级模块名。依赖 closeModalAfterFetched 或 isFetchList
    * @param [visibleField] {string} 控制弹窗的字段，依赖 closeModalAfterFetched
-   * @param [isFetchList] {boolean} 是否提交后立即刷新本模块列表，默认false
-   * @param [parametersOfGetListAction] {...{
+   * @param parametersOfGetListAction {...{
    *  additionalQueryParameters: {};
    *  stateName: string;
    *  customApiName: string
    * }} 用于操作后刷新列表的参数，依赖 isFetchList
    * @returns {Promise<*>}
    */
-  async custom({ state, dispatch, commit }, {
+  async custom({
+    state,
+    dispatch,
+    commit
+  }, {
     payload,
     customApiName,
     stateName,
     closeModalAfterFetched = true,
+    isFetchList,
     moduleName,
     submoduleName,
     visibleField,
-    isFetchList,
     ...parametersOfGetListAction
   }) {
     const response = await apis[customApiName](payload)
@@ -355,9 +364,9 @@ export default {
     return response.status
   },
   /**
-   * 获取下拉列表数据
+   * 获取下拉列表数据或包含下拉列表数据的对象。
    * 专用于 store 内定义为类似如下数据结构的 state 请求数据：
-   *    [stateName]: { list?: Array, data?: Object loading: Boolean }
+   *    [stateName]: { list?: Array, data?: Object, loading: Boolean }
    * @param state
    * @param dispatch
    * @param commit
@@ -435,17 +444,13 @@ export default {
     payload,
     customFieldName
   }) {
-    commit('setLoading', {
-      value: true, moduleName
-    })
+    commit('setLoading', { value: true, moduleName })
 
     const api = `update${UF.firstLetterToUppercase(moduleName)}${UF.firstLetterToUppercase(customFieldName)}`
 
     const { status } = await apis[api](payload)
 
-    commit('setLoading', {
-      value: false, moduleName
-    })
+    commit('setLoading', { value: false, moduleName })
 
     return status
   },
@@ -460,15 +465,15 @@ export default {
    * @param additionalQueryParameters {Object} 删除成功后刷新列表的参数（注意此参数非删除参数）
    * @returns {Promise<*>}
    */
-  async delete({ state, dispatch, commit }, {
+  async delete({
+    state, dispatch, commit
+  }, {
     moduleName,
     submoduleName,
     ids,
     additionalQueryParameters
   }) {
-    commit('setLoading', {
-      value: true, moduleName
-    })
+    commit('setLoading', { value: true, moduleName })
 
     if (!ids?.length) {
       ids = state[moduleName].selectedRowKeys
@@ -485,6 +490,22 @@ export default {
         })
       }
 
+      // 清空删除前已选中的行数据的ID集合
+      commit('setDetails', {
+        value: [],
+        moduleName,
+        submoduleName,
+        stateName: 'selectedRowKeys'
+      })
+
+      // 清空删除前已选中的行数据
+      commit('setDetails', {
+        value: [],
+        moduleName,
+        submoduleName,
+        stateName: 'selectedRows'
+      })
+
       // 重新请求数据
       dispatch('getList', {
         moduleName,
@@ -492,9 +513,7 @@ export default {
         additionalQueryParameters
       })
     } else {
-      commit('setLoading', {
-        value: false, moduleName
-      })
+      commit('setLoading', { value: false, moduleName })
     }
 
     return response.status
@@ -560,12 +579,17 @@ export default {
   },
   /**
    * 设置当前正在操作的对象为一个新的副本
+   * @param state
    * @param commit
    * @param moduleName {string}
    * @param value {Object}
    * @param merge {boolean} 是否是合并操作
    */
-  setCurrentItem({ state, commit }, { moduleName, value, merge = false }) {
+  setCurrentItem({ state, commit }, {
+    moduleName,
+    value,
+    merge = false
+  }) {
     if (!merge) {
       commit('setCurrentItem', {
         moduleName,

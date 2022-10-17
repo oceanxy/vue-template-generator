@@ -13,6 +13,13 @@
 
 .bnm-report-forms-edit {
   .ant-form-item-label.ant-form-item-label {
-    width: 90px;
+    width: 100px;
   }
+}
+
+.bnm-report-form-preview .ant-form-item-label {
+  width: 100%;
+  text-align: left;
+  white-space: normal;
+  line-height: 20px;
 }

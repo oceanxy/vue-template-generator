@@ -68,7 +68,7 @@ export default {
             moduleName: this.moduleName,
             stateName: 'paymentRecordsList',
             customApiName: 'getListOfPaymentRecords',
-            payload: {id: this.currentItem.id}
+            payload: { id: this.currentItem.id }
           })
         }
       }
@@ -77,7 +77,7 @@ export default {
   render() {
     const attributes = {
       attrs: this.modalProps,
-      on: {cancel: () => this.onCancel(this.visibleField)}
+      on: { cancel: () => this.onCancel(this.visibleField) }
     }
 
     const tableAttributes = {
@@ -86,7 +86,7 @@ export default {
         loading: this.paymentRecordsList.loading,
         dataSource: this.paymentRecordsList.list
       },
-      attrs: {class: 'bnm-table-in-modal'}
+      attrs: { class: 'bnm-table-in-modal' }
     }
 
     return (

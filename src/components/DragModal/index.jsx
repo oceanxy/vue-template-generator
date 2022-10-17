@@ -70,9 +70,7 @@ const Title = {
     return (
       <div
         ref="tdom"
-        style={{
-          cursor: 'move', userSelect: 'none' 
-        }}
+        style={{ cursor: 'move', userSelect: 'none' }}
       >
         {this.$slots.default}
       </div>
@@ -81,7 +79,7 @@ const Title = {
 }
 
 export default {
-  data: () => ({style: {}}),
+  data: () => ({ style: {} }),
   methods: {
     onMove(value) {
       this.style = value
@@ -89,17 +87,15 @@ export default {
   },
   render() {
     const titleAttribute = {
-      props: {isShow: this.$attrs.visible},
-      on: {move: this.onMove}
+      props: { isShow: this.$attrs.visible },
+      on: { move: this.onMove }
     }
 
     const attributes = {
       props: {
         ..._.omit(this.$attrs, ['title', 'dialogStyle']),
         title: <Title {...titleAttribute}>{this.$attrs.title}</Title>,
-        dialogStyle: {
-          ...this.$attrs.dialogStyle, ...this.style 
-        }
+        dialogStyle: { ...this.$attrs.dialogStyle, ...this.style }
       },
       on: this.$listeners
     }

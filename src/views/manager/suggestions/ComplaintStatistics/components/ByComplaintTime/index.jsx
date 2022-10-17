@@ -131,7 +131,10 @@ export default {
         width={'100%'}
       >
         <Spin spinning={this.complaintStatisticsByYears.loading}>
-          <Chart option={this.option} notMerge={true} />
+          <Chart
+            option={this.option}
+            notMerge={true}
+          />
         </Spin>
       </BNContainer>
     )

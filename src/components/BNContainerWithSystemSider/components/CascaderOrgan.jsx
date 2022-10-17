@@ -6,7 +6,7 @@ export default {
     prop: 'value',
     event: 'change'
   },
-  props: {value: Array},
+  props: { value: Array },
   data() {
     return {
       options: [],
@@ -61,7 +61,8 @@ export default {
         changeOnSelect={true}
         options={this.options}
         placeholder="请选择菜单"
-        onchange={this.onChange}></Cascader>
+        onchange={this.onChange}
+      ></Cascader>
     )
   }
 }

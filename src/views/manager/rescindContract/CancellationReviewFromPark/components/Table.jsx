@@ -29,12 +29,12 @@ export default {
           },
           {
             title: '签约场地',
-            width: 120,
+            width: 180,
             scopedSlots: { customRender: 'address' }
           },
           {
             title: '签约期限',
-            width: 120,
+            width: 180,
             dataIndex: 'contractTime'
           },
           {
@@ -81,10 +81,12 @@ export default {
           scopedSlots: {
             serialNumber: (text, record, index) => index + 1,
             address: (text, record) => (
-              <ul style={{
-                paddingLeft: '20px',
-                marginBottom: 0
-              }}>
+              <ul
+                style={{
+                  paddingLeft: '20px',
+                  marginBottom: 0
+                }}
+              >
                 {
                   record.address?.split(',').map(item => (
                     <li>{item}</li>

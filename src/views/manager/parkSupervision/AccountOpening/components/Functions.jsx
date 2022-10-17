@@ -19,7 +19,7 @@ function controlButtonPermissions(selectedRows) {
     }
   }
 
-  return {auditButtonDisabled: !selectedRows.length || isDisabled}
+  return { auditButtonDisabled: !selectedRows.length || isDisabled }
 }
 
 export default {

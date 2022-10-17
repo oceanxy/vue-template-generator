@@ -14,10 +14,16 @@ export default Form.create({})({
         colon={false}
         class="tg-inquiry"
       >
-        <Form.Item>{this.form.getFieldDecorator('fullName')(<Input placeholder="标题" allowClear />)}</Form.Item>
+        <Form.Item>{this.form.getFieldDecorator('fullName')(<Input
+          placeholder="标题"
+          allowClear
+        />)}</Form.Item>
         <Form.Item>
           {this.form.getFieldDecorator('reportStatus')(
-            <Select placeholder="请选择状态" allowClear>
+            <Select
+              placeholder="请选择状态"
+              allowClear
+            >
               <Select.Option value={1}>已发布</Select.Option>
               <Select.Option value={2}>待发布</Select.Option>
               <Select.Option value={3}>已结束</Select.Option>
@@ -26,7 +32,12 @@ export default Form.create({})({
         </Form.Item>
         <Form.Item>
           <Space>
-            <Button loading={this.loading} htmlType="submit" type="primary" icon="search">
+            <Button
+              loading={this.loading}
+              htmlType="submit"
+              type="primary"
+              icon="search"
+            >
               查询
             </Button>
             {/*<Button onClick={this.onClear} icon="reload">重置</Button>*/}

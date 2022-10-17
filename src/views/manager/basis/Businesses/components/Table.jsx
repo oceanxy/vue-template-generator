@@ -1,5 +1,5 @@
 import '../assets/styles/index.scss'
-import { Button, Dropdown, Icon, Menu, Space, Table } from 'ant-design-vue'
+import { Button, Dropdown, Icon, Menu, Space, Table, Tag } from 'ant-design-vue'
 import forTable from '@/mixins/forTable'
 
 export default {
@@ -31,7 +31,7 @@ export default {
           {
             title: '用户名',
             align: 'center',
-            width: 100,
+            width: 120,
             key: 'loginAccount',
             dataIndex: 'loginAccount'
           },
@@ -55,13 +55,13 @@ export default {
           {
             title: '负责人',
             align: 'center',
-            width: 100,
+            width: 120,
             key: 'dutyPerson',
             dataIndex: 'dutyPerson'
           },
           {
             title: '联系电话',
-            width: 100,
+            width: 120,
             key: 'dutyPersonMobile',
             dataIndex: 'dutyPersonMobile'
           },
@@ -78,7 +78,7 @@ export default {
             key: 'operation',
             fixed: 'right',
             align: 'center',
-            width: 200,
+            width: 220,
             scopedSlots: { customRender: 'operation' }
           }
         ]
@@ -86,12 +86,10 @@ export default {
     }
   },
   methods: {
-    onDetailsClick(record) {
-      this.$router.push({
+    async onDetailsClick(record) {
+      await this.$router.push({
         name: 'businessesDetails',
-        query: {
-          bid: record.id // businessId
-        }
+        query: { bid: record.id } // businessId
       })
     },
     async onShortMessage(record) {
@@ -128,18 +126,24 @@ export default {
               </span>
             ),
             contactAddress: (text, record) => (
-              <ul style={{
-                paddingLeft: '20px',
-                marginBottom: 0
-              }}>
+              <ul
+                style={{
+                  paddingLeft: '20px',
+                  marginBottom: 0
+                }}
+              >
                 {
                   record.contactAddress?.split(',').map(item => (
-                    <li>{item}</li>
+                    <li>{item || '-'}</li>
                   ))
                 }
               </ul>
             ),
-            signingStatus: (text, record) => record.signingStatusStr,
+            signingStatus: (text, record) => (
+              <Tag color={['', '', 'green', '', '', 'red', 'orange'][+record.signingStatus - 1]}>
+                {record.signingStatusStr}
+              </Tag>
+            ),
             operation: (text, record) => (
               <Space>
                 <Button
@@ -152,7 +156,10 @@ export default {
                 <Dropdown>
                   <Button type="link">
                     企业服务
-                    <Icon type={'caret-down'} class="caret-down" />
+                    <Icon
+                      type={'caret-down'}
+                      class="caret-down"
+                    />
                   </Button>
                   <Menu slot="overlay">
                     <Menu.Item onClick={() => this.onBills(record)}>账单查询</Menu.Item>
@@ -161,6 +168,13 @@ export default {
                     <Menu.Item onClick={() => this.onShortMessage(record)}>发送短信</Menu.Item>
                   </Menu>
                 </Dropdown>
+                <Button
+                  type="link"
+                  size="small"
+                  onClick={() => this.onDeleteClick(record)}
+                >
+                  删除
+                </Button>
               </Space>
             )
           }

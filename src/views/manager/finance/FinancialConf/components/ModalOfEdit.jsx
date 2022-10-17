@@ -79,7 +79,10 @@ export default Form.create({})({
           <Form.Item label="计费单位">
             {
               this.form.getFieldDecorator('chargeUnit', { initialValue: this.currentItem.chargeUnit })(
-                <Select placeholder={'请输入金额'} disabled={true}>
+                <Select
+                  placeholder={'请输入金额'}
+                  disabled={true}
+                >
                   <Select.Option value={this.currentItem.chargeUnit}>
                     {this.currentItem.chargeUnit}
                   </Select.Option>
@@ -173,7 +176,10 @@ export default Form.create({})({
               ]
               : null
           }
-          <Form.Item label="是否必选" class={'half'}>
+          <Form.Item
+            label="是否必选"
+            class={'half'}
+          >
             {
               this.form.getFieldDecorator('isMust', {
                 rules: [
@@ -196,7 +202,11 @@ export default Form.create({})({
           <Form.Item label="描述">
             {
               this.form.getFieldDecorator('description', { initialValue: this.currentItem.description })(
-                <Input.TextArea placeholder="请输入描述" autoSize={{ minRows: 6 }} allowClear />
+                <Input.TextArea
+                  placeholder="请输入描述"
+                  autoSize={{ minRows: 6 }}
+                  allowClear
+                />
               )
             }
           </Form.Item>

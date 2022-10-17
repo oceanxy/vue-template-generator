@@ -33,19 +33,30 @@ export default Form.create({})({
           class="bnm-form-grid label-size-small"
           colon={false}
         >
-          <Form.Item label="企业" class={'combo'}>
+          <Form.Item
+            label="企业"
+            class={'combo'}
+          >
             {this.currentItem.companyName}
           </Form.Item>
           <Form.Item label="发票">
-            <div>请上传发票</div>
             {
               this.form.getFieldDecorator('invoiceUrl', {
                 initialValue: undefined,
                 rules: [
-                  { required: true, type: 'array', message: '请上传发票', trigger: 'change' }
+                  {
+                    required: true,
+                    type: 'array',
+                    message: '请上传发票',
+                    trigger: 'change'
+                  }
                 ]
               })(
-                <BNUploadFile accept=".jpg,.png,.jpeg" limit={1} />
+                <BNUploadFile
+                  accept=".pdf"
+                  placeholder={'选择发票'}
+                  limit={1}
+                />
               )
             }
           </Form.Item>

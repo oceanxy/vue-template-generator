@@ -11,6 +11,7 @@ export default {
           {
             title: '序号',
             width: 60,
+            fixed: true,
             align: 'center',
             scopedSlots: { customRender: 'serialNumber' }
           },
@@ -67,7 +68,6 @@ export default {
       }
     }
   },
-  methods: {},
   render() {
     const attributes = {
       props: {
@@ -93,10 +93,18 @@ export default {
             },
             operation: (text, record) => (
               <Space>
-                <Button type="link" size="small" onClick={() => this.onEditClick(record)}>
+                <Button
+                  type="link"
+                  size="small"
+                  onClick={() => this.onEditClick(record)}
+                >
                   编辑
                 </Button>
-                <Button type="link" size="small" onClick={() => this.onDeleteClick(record)}>
+                <Button
+                  type="link"
+                  size="small"
+                  onClick={() => this.onDeleteClick(record)}
+                >
                   删除
                 </Button>
               </Space>

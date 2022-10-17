@@ -52,7 +52,10 @@ export default {
     return (
       <DragModal {...attributes} class={'bnm-table-modal'}>
         <Tabs vModel={this.defaultActiveKey}>
-          <Tabs.TabPane key={1} tab={'欠缴账单'}>
+          <Tabs.TabPane
+            key={1}
+            tab={'欠缴账单'}
+          >
             <Table
               size={'middle'}
               pagination={false}
@@ -77,7 +80,10 @@ export default {
               dataSource={this.details.data.oweItemList}
             />
           </Tabs.TabPane>
-          <Tabs.TabPane key={2} tab={'扣款事项'}>
+          <Tabs.TabPane
+            key={2}
+            tab={'扣款事项'}
+          >
             <Table
               size={'middle'}
               pagination={false}

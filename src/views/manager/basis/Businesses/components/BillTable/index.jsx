@@ -73,7 +73,10 @@ export default {
                     企业服务
                   </Button>
                   <Dropdown>
-                    <Icon type="caret-down" class="caret-down" />
+                    <Icon
+                      type="caret-down"
+                      class="caret-down"
+                    />
                     <Menu slot="overlay">
                       <Menu.Item>重置密码</Menu.Item>
                       <Menu.Item>账单查询</Menu.Item>

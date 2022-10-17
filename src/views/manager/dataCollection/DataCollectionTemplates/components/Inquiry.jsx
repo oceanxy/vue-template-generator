@@ -23,7 +23,10 @@ export default Form.create({})({
         <Form.Item>
           {
             this.form.getFieldDecorator('status')(
-              <Select placeholder="请选择状态" allowClear>
+              <Select
+                placeholder="请选择状态"
+                allowClear
+              >
                 <Select.Option value={1}>启用</Select.Option>
                 <Select.Option value={2}>停用</Select.Option>
               </Select>

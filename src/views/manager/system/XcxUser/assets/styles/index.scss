@@ -1,4 +1,5 @@
 @import '@/assets/styles/theme.scss';
+
 .bnm-system-xcxuser-container {
   margin: 0 16px 16px;
   padding: 20px;
@@ -9,19 +10,23 @@
   overflow: hidden;
   @include container-border-radius;
 }
+
 .bnm-modal-edit-user-form,
 .bnm-modal-config-resetpwd {
   .ant-modal-body {
     .ant-form-item {
       display: flex;
+
       .ant-form-item-label {
         width: 100px;
         flex-shrink: 0;
       }
+
       .ant-form-item-control-wrapper {
         flex-grow: 1;
       }
     }
+
     .ant-table-wrapper .ant-table {
       height: auto;
     }

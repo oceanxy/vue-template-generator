@@ -16,36 +16,43 @@ export default {
           },
           {
             title: '名称',
+            width: 200,
+            fixed: true,
             dataIndex: 'fullName'
           },
           {
             title: '类型',
+            width: 100,
             dataIndex: 'parentName'
           },
           {
             title: '描述',
+            width: 200,
             dataIndex: 'description'
           },
           {
-            title: '排序',
-            dataIndex: 'sortIndex'
+            title: '创建时间',
+            width: 160,
+            dataIndex: 'createTimeStr'
           },
           {
-            title: '创建时间',
-            dataIndex: 'createTimeStr'
+            title: '排序',
+            width: 100,
+            dataIndex: 'sortIndex'
           },
           {
             title: '状态',
             align: 'center',
             width: 80,
+            fixed: 'right',
             scopedSlots: { customRender: 'status' }
           },
           {
             title: '操作',
             key: 'operation',
-            // fixed: 'right',
+            fixed: 'right',
             align: 'center',
-            width: 200,
+            width: 120,
             scopedSlots: { customRender: 'operation' }
           }
         ]

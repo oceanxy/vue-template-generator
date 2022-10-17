@@ -6,7 +6,7 @@ import DragModal from '@/components/DragModal'
 export default Form.create({})({
   mixins: [forFormModal()],
   data() {
-    return {modalProps: {width: 400}}
+    return { modalProps: { width: 400 } }
   },
   render() {
     const attributes = {
@@ -26,9 +26,11 @@ export default Form.create({})({
           <Form.Item label="金额">
             {
               this.form.getFieldDecorator('amount', {
-                rules: [{
-                  required: true, type: 'number', message: '请输入金额！', trigger: 'blur' 
-                }]
+                rules: [
+                  {
+                    required: true, type: 'number', message: '请输入金额！', trigger: 'blur'
+                  }
+                ]
               })(
                 <InputNumber
                   style={{ width: '100%' }}

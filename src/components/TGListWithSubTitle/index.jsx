@@ -59,7 +59,10 @@ export default {
                   {
                     item.status
                       ? (
-                        <Button type="link" onclick={() => this.onHandle(item)}>
+                        <Button
+                          type="link"
+                          onclick={() => this.onHandle(item)}
+                        >
                           处理
                         </Button>
                       )

@@ -2,6 +2,7 @@ import { Button, Form, Input, message, Radio, Select, Spin } from 'ant-design-vu
 import { mapGetters } from 'vuex'
 import { cloneDeep, debounce } from 'lodash'
 import BNUploadPictures from '@/components/BNUploadPictures'
+import { verifyPhoneNumber } from '@/utils/validators'
 
 export default Form.create({})({
   inject: ['moduleName'],
@@ -154,7 +155,10 @@ export default Form.create({})({
             )
           }
         </Form.Item>
-        <Form.Item label={'投诉人姓名'} class={'half'}>
+        <Form.Item
+          label={'投诉人姓名'}
+          class={'half'}
+        >
           {
             this.form.getFieldDecorator('complainantName', {
               rules: [
@@ -165,11 +169,17 @@ export default Form.create({})({
                 }
               ]
             })(
-              <Input placeholder="请输入投诉人姓名" allowClear />
+              <Input
+                placeholder="请输入投诉人姓名"
+                allowClear
+              />
             )
           }
         </Form.Item>
-        <Form.Item label={'投诉人电话'} class={'half'}>
+        <Form.Item
+          label={'投诉人电话'}
+          class={'half'}
+        >
           {
             this.form.getFieldDecorator('complainantPhone', {
               rules: [
@@ -177,10 +187,14 @@ export default Form.create({})({
                   required: true,
                   message: '请输入投诉人电话！',
                   trigger: 'blur'
-                }
+                },
+                { validator: verifyPhoneNumber }
               ]
             })(
-              <Input placeholder="请输入投诉人电话" allowClear />
+              <Input
+                placeholder="请输入投诉人电话"
+                allowClear
+              />
             )
           }
         </Form.Item>
@@ -215,7 +229,10 @@ export default Form.create({})({
             )
           }
         </Form.Item>
-        <Form.Item label={' '} colon={false}>
+        <Form.Item
+          label={' '}
+          colon={false}
+        >
           <Button
             icon={this.loading ? 'loading' : 'check'}
             type={'primary'}

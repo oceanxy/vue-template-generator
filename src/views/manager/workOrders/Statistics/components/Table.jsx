@@ -1,5 +1,5 @@
 import '../assets/styles/index.scss'
-import { Button, Space, Table } from 'ant-design-vue'
+import { Table } from 'ant-design-vue'
 import forTable from '@/mixins/forTable'
 
 export default {
@@ -11,6 +11,7 @@ export default {
           {
             title: '序号',
             width: 60,
+            fixed: true,
             align: 'center',
             scopedSlots: { customRender: 'serialNumber' }
           },
@@ -21,13 +22,14 @@ export default {
           },
           {
             title: '部门',
+            width: 100,
             dataIndex: 'organName'
           },
-          {
-            title: '工种',
-            width: 150,
-            dataIndex: 'workType'
-          },
+          // {
+          //   title: '工种',
+          //   width: 150,
+          //   dataIndex: 'workType'
+          // },
           {
             title: '手机号码',
             width: 150,

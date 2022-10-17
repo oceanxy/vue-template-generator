@@ -4,15 +4,11 @@ import { message } from 'ant-design-vue'
 
 export default commitRootInModule =>
   createStoreModule({
-    state: {
-      visibleOfEdit: false
-    },
+    state: { visibleOfEdit: false },
     mutations: {},
     actions: {
       async handleWorkOrder({ state }, { payload }) {
-        const form = {
-          ...payload
-        }
+        const form = { ...payload }
         const res = await apis.handleWorkOrder(form)
 
         if (res.status) {

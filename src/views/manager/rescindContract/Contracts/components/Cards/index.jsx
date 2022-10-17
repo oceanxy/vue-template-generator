@@ -40,7 +40,10 @@ export default {
                   {item.name}
                   {
                     item.specialTips ? (
-                      <Tag color={'red'} style={{ border: 'none' }}>{item.specialTips}</Tag>
+                      <Tag
+                        color={'red'}
+                        style={{ border: 'none' }}
+                      >{item.specialTips}</Tag>
                     ) : null
                   }
                 </div>

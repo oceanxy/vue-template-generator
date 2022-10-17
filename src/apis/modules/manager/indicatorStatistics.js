@@ -50,5 +50,19 @@ export default {
       method: 'post',
       data: qs.stringify(data)
     })
+  },
+  /**
+   * 导出数据
+   * @param request
+   * @param params
+   * @returns {*}
+   */
+  getExcelOfIndicatorStatistics(request, params) {
+    return request({
+      url: '/operate/reportResult/exportResultExcel',
+      method: 'get',
+      params,
+      responseType: 'blob'
+    })
   }
 }

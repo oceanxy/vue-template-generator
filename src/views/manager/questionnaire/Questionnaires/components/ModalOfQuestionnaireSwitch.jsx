@@ -43,7 +43,7 @@ export default {
         visibleField: this.visibleField,
         isFetchList: true,
         customApiName: +this.currentItem.reportStatus === 2 ? 'publishQuestionnaires' : 'finishQuestionnaires',
-        payload: {ids: this.currentItem.ids}
+        payload: { ids: this.currentItem.ids }
       })
 
       if (status) {

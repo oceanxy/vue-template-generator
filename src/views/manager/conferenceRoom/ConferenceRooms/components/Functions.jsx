@@ -7,7 +7,11 @@ export default {
   render() {
     return (
       <Space class="tg-function">
-        <Button type="primary" onClick={() => this.onAddClick()} icon="plus">
+        <Button
+          type="primary"
+          onClick={() => this.onAddClick()}
+          icon="plus"
+        >
           新增
         </Button>
       </Space>

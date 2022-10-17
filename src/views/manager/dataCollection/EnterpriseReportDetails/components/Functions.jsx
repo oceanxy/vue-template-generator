@@ -1,19 +1,19 @@
 import '../assets/styles/index.scss'
 import { Button, Space } from 'ant-design-vue'
 import forFunction from '@/mixins/forFunction'
-import Message from '@/utils/message'
 
 export default {
   mixins: [forFunction()],
   render() {
     return (
       <Space class="tg-function">
-        {/*<Button*/}
-        {/*  // onClick={() => this.onAddClick({ templateType: 1 })}*/}
-        {/*  icon="export"*/}
-        {/*>*/}
-        {/*  导出*/}
-        {/*</Button>*/}
+        <Button
+          onClick={() => this.onExport('企业报表明细', { recordIds: this.selectedRowKeys.join() })}
+          icon="export"
+          disabled={!this.selectedRowKeys.length || this.exportButtonDisabled}
+        >
+          导出
+        </Button>
       </Space>
     )
   }

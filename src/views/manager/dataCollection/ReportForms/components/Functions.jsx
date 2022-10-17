@@ -36,7 +36,8 @@ export default {
         <Button
           onClick={() => this.onBulkOperations(
             'visibleOfReportSwitch',
-            { reportStatus: 2 })
+            { reportStatus: 2 }
+          )
           }
           icon="container"
           disabled={this.publishButtonDisabled}
@@ -46,7 +47,8 @@ export default {
         <Button
           onClick={() => this.onBulkOperations(
             'visibleOfReportSwitch',
-            { reportStatus: 1 })
+            { reportStatus: 1 }
+          )
           }
           icon="undo"
           disabled={this.endButtonDisabled}

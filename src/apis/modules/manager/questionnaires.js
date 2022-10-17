@@ -104,5 +104,19 @@ export default {
       method: 'post',
       data: qs.stringify(data)
     })
+  },
+  /**
+   * 导出结果
+   * @param request
+   * @param params
+   * @returns {*}
+   */
+  getExcelOfQuestionnaires(request, params) {
+    return request({
+      url: '/operate/questionnaire/exportResultExcel',
+      method: 'get',
+      params,
+      responseType: 'blob'
+    })
   }
 }

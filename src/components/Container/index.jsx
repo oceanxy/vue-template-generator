@@ -36,7 +36,7 @@ export default {
       <div
         class="tg-container"
         {
-          ...{style: this.height ? {height: this.height + 'px'} : {}}
+          ...{ style: this.height ? { height: this.height + 'px' } : {} }
         }
       >
         <div class={`icon-container${this.icon ? ` ${this.icon}` : ''}`}>

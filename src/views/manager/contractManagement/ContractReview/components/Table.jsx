@@ -44,7 +44,7 @@ export default {
             align: 'center',
             fixed: 'right',
             width: 100,
-            scopedSlots: { customRender: 'signingStatus' }
+            scopedSlots: { customRender: 'signingStatusStr' }
           },
           {
             title: '操作',
@@ -84,12 +84,14 @@ export default {
             serialNumber: (text, record, index) => {
               return <span>{index + 1}</span>
             },
-            signingStatus: (text, record) => (
-              <span>{['签约中', '待审核', '已签约', '审核驳回'][+record.signingStatus - 1]}</span>
-            ),
+            signingStatusStr: (text, record) => record.signingStatusStr,
             operation: (text, record) => (
               <Space>
-                <Button type="link" size="small" onClick={() => this.onDetailsClick(record)}>
+                <Button
+                  type="link"
+                  size="small"
+                  onClick={() => this.onDetailsClick(record)}
+                >
                   签约详情
                 </Button>
                 {record.signingStatus === 2 ? (

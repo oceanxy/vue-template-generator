@@ -1,6 +1,5 @@
 import apis from '@/apis'
 import { createStoreModule } from '@/store/template'
-import { message } from 'ant-design-vue'
 
 export default commitRootInModule =>
   createStoreModule({
@@ -28,9 +27,7 @@ export default commitRootInModule =>
         const res = await apis.getDetailsOfSystemUser({ id })
 
         if (res.status) {
-          commit('setDetails', {
-            value: res.data, moduleName 
-          }, { root: true })
+          commit('setDetails', { value: res.data, moduleName }, { root: true })
         }
 
         return res

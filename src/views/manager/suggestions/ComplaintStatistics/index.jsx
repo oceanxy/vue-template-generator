@@ -30,10 +30,16 @@ export default {
           class={'bnm-complaint-statistics-tables'}
           defaultActiveKey={1}
         >
-          <Tabs.TabPane key={1} tab={'投诉企业排行'}>
+          <Tabs.TabPane
+            key={1}
+            tab={'投诉企业排行'}
+          >
             <ComplaintCompanyRanking />
           </Tabs.TabPane>
-          <Tabs.TabPane key={2} tab={'人员受理排行'}>
+          <Tabs.TabPane
+            key={2}
+            tab={'人员受理排行'}
+          >
             <PersonnelAcceptanceRanking />
           </Tabs.TabPane>
           <Button

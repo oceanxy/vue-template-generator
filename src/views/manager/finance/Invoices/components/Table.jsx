@@ -17,11 +17,13 @@ export default {
           },
           {
             title: '企业',
+            width: 200,
             dataIndex: 'companyName'
           },
           {
-            title: '场地',
-            scopedSlots: { customRender: 'address' }
+            title: '税号',
+            width: 150,
+            dataIndex: 'taxNum'
           },
           {
             title: '开票金额',
@@ -32,6 +34,11 @@ export default {
             title: '发票抬头',
             width: 100,
             dataIndex: 'invoiceHead'
+          },
+          {
+            title: '场地',
+            width: 150,
+            scopedSlots: { customRender: 'address' }
           },
           {
             title: '开票状态',
@@ -95,10 +102,19 @@ export default {
                         type="link"
                         size="small"
                       >
-                        <a href={record.invoiceUrl} target={'_blank'}>下载发票</a>
+                        <a
+                          href={record.invoiceUrl}
+                          target={'_blank'}
+                        >
+                          下载发票
+                        </a>
                       </Button>
                     )
-                    : (
+                    : null
+                }
+                {
+                  record.invoiceStatus !== 1 && +record.amountVal !== 0
+                    ? (
                       <Button
                         type="link"
                         size="small"
@@ -107,6 +123,7 @@ export default {
                         开具发票
                       </Button>
                     )
+                    : null
                 }
               </Space>
             )

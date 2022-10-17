@@ -230,10 +230,16 @@ export default {
                 />
               ),
               isRequired: record => (
-                <Switch vModel={record.isRequired} onChange={this.onChange} />
+                <Switch
+                  vModel={record.isRequired}
+                  onChange={this.onChange}
+                />
               ),
               status: record => (
-                <Switch vModel={record.status} onChange={this.onChange} />
+                <Switch
+                  vModel={record.status}
+                  onChange={this.onChange}
+                />
               ),
               operation: (text, record, index) => (
                 <Space>

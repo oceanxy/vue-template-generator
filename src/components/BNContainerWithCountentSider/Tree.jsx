@@ -52,7 +52,11 @@ export default {
   },
   render() {
     return (
-      <Spin slot={'sider'} class="bnm-content-sider" spinning={this.loading}>
+      <Spin
+        slot={'sider'}
+        class="bnm-content-sider"
+        spinning={this.loading}
+      >
         {this.data?.length ? (
           <Tree
             selectedKeys={this.selectedKeys}

@@ -8,7 +8,10 @@
       <span v-if="routes.indexOf(route) === routes.length - 1">
         {{ handleBreadcrumbName(route) }}
       </span>
-      <router-link v-else :to="route.path || '/'">
+      <router-link
+        v-else
+        :to="route.path || '/'"
+      >
         {{ handleBreadcrumbName(route) }}
       </router-link>
     </template>

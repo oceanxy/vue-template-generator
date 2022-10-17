@@ -2,7 +2,7 @@ import '../assets/styles/index.scss'
 import { Button, Space, Switch, Table, Tag } from 'ant-design-vue'
 import forTable from '@/mixins/forTable'
 import ImagePreview from '@/components/ImagePreview'
-import { mapAction } from '@/utils/store'
+import { mapGetters } from 'vuex'
 
 export default {
   mixins: [forTable()],
@@ -12,44 +12,48 @@ export default {
         columns: [
           {
             title: '序号',
-            width: 60,
+            width: 80,
+            fixed: true,
             align: 'center',
             scopedSlots: { customRender: 'serialNumber' }
           },
           {
+            title: '标题',
+            width: 300,
+            dataIndex: 'articleTitle'
+          },
+          {
             title: '封面图',
-            dataIndex: 'coverImg',
+            align: 'center',
             width: 120,
             scopedSlots: { customRender: 'coverImg' }
           },
           {
-            title: '标题',
-            dataIndex: 'articleTitle'
-          },
-          {
             title: '类别',
-            width: 100,
+            width: 120,
+            align: 'center',
             dataIndex: 'catName'
           },
           {
             title: '附件',
-            width: 100,
+            width: 200,
             dataIndex: 'attachmentList',
             scopedSlots: { customRender: 'attachmentList' }
           },
           {
             title: '创建人',
-            width: 100,
+            width: 120,
             dataIndex: 'author'
           },
           {
             title: '创建时间',
-            width: 100,
+            width: 150,
             dataIndex: 'createTimeStr'
           },
           {
             title: '状态',
-            width: 80,
+            width: 120,
+            align: 'center',
             dataIndex: 'status',
             scopedSlots: { customRender: 'status' }
           },
@@ -66,12 +70,17 @@ export default {
       }
     }
   },
-  methods: { ...mapAction([]) },
+  computed: {
+    ...mapGetters({ getState: 'getState' }),
+    loading() {
+      return this.getState('loading', this.moduleName)
+    }
+  },
   render() {
     const attributes = {
       props: {
         ...this.tableProps,
-        loading: this.getLoading(this.moduleName)
+        loading: this.loading
       }
     }
 
@@ -102,16 +111,26 @@ export default {
               return (
                 <Switch
                   checked={record.status === 1}
-                  onChange={checked => this.onStatusChange({ checked, record, nameKey: 'articleTitle' })}
+                  onChange={checked => this.onStatusChange({
+                    checked, record, nameKey: 'articleTitle'
+                  })}
                 />
               )
             },
             operation: (text, record) => (
               <Space>
-                <Button type="link" size="small" onClick={() => this.onEditClick(record)}>
+                <Button
+                  type="link"
+                  size="small"
+                  onClick={() => this.onEditClick(record)}
+                >
                   编辑
                 </Button>
-                <Button type="link" size="small" onClick={() => this.onDeleteClick(record)}>
+                <Button
+                  type="link"
+                  size="small"
+                  onClick={() => this.onDeleteClick(record)}
+                >
                   删除
                 </Button>
               </Space>

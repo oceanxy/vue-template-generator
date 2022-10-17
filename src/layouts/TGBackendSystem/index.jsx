@@ -7,7 +7,7 @@ import TGBreadcrumb from '@/layouts/components/TGBreadcrumb'
 
 export default {
   name: 'TGBackendSystemLayout',
-  data: () => ({collapsed: false}),
+  data: () => ({ collapsed: false }),
   render() {
     return (
       <Layout id="tg-responsive-layout">

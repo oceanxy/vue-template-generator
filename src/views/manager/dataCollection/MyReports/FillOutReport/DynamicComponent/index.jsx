@@ -1,6 +1,6 @@
 import { Checkbox, DatePicker, Input, Radio } from 'ant-design-vue'
 import { cloneDeep } from 'lodash'
-import UploadFiles from './UploadFiles'
+import UploadSupportingDocuments from './UploadSupportingDocuments'
 import BNUploadPictures from '@/components/BNUploadPictures'
 import BNUploadFile from '@/components/BNUploadFile'
 
@@ -17,15 +17,19 @@ export default {
     dataSource: {
       type: Object,
       required: true
+    },
+    disabled: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
-    return {innerValue: {}}
+    return { innerValue: {} }
   },
   created() {
     this.innerValue = cloneDeep(this.value)
     this.innerValue.itemId = this.dataSource.id
-    this.innerValue.attachmentList = new Array(this.dataSource.itemProveList.length).fill({})
+    this.innerValue.attachmentList = new Array(this.dataSource.itemProveList?.length ?? 0).fill({})
 
     if (this.dataSource.modType === 1) {
       this.innerValue.resultId = ''
@@ -42,7 +46,7 @@ export default {
       this.innerValue[field] = value
       this.$emit('change', this.innerValue)
     },
-    onUploadChange(value) {
+    onUploadSupportingDocumentChange(value) {
       this.innerValue.attachmentList = value
       this.$emit('change', this.innerValue)
     },
@@ -54,15 +58,18 @@ export default {
         return (
           <Radio.Group
             vModel={this.innerValue.resultId}
+            disabled={this.disabled}
             onChange={e => this.onComponentChange('resultId', e.target.value)}
           >
             {
-              this.dataSource.itemOptionList.map(item => (
-                <Radio value={item.id}>
-                  {item.optionValue}
-                  {/*{item.score ? `（${item.score}分）` : ''}*/}
-                </Radio>
-              ))
+              this.dataSource.itemOptionList?.length
+                ? this.dataSource.itemOptionList.map(item => (
+                  <Radio value={item.id}>
+                    {item.optionValue}
+                    {/*{item.score ? `（${item.score}分）` : ''}*/}
+                  </Radio>
+                ))
+                : '暂无选项'
             }
           </Radio.Group>
         )
@@ -73,15 +80,18 @@ export default {
         return (
           <Checkbox.Group
             vModel={this.innerValue.resultIdList}
+            disabled={this.disabled}
             onChange={value => this.onComponentChange('resultIdList', value)}
           >
             {
-              this.dataSource.itemOptionList.map(item => (
-                <Checkbox value={item.id}>
-                  {item.optionValue}
-                  {/*{item.score ? `（${item.score}分）` : ''}*/}
-                </Checkbox>
-              ))
+              this.dataSource.itemOptionList?.length
+                ? this.dataSource.itemOptionList.map(item => (
+                  <Checkbox value={item.id}>
+                    {item.optionValue}
+                    {/*{item.score ? `（${item.score}分）` : ''}*/}
+                  </Checkbox>
+                ))
+                : '暂无选项'
             }
           </Checkbox.Group>
         )
@@ -93,6 +103,7 @@ export default {
           <Input
             vModel={this.innerValue.resultContent}
             placeholder={`请输入${fullName}`}
+            disabled={this.disabled}
             onChange={e => this.onComponentChange('resultContent', e.target.value)}
           />
         )
@@ -105,6 +116,7 @@ export default {
             vModel={this.innerValue.resultContent}
             placeholder={`请输入${fullName}`}
             autoSize={{ minRows: 6 }}
+            disabled={this.disabled}
             onChange={e => this.onComponentChange('resultContent', e.target.value)}
           />
         )
@@ -117,7 +129,8 @@ export default {
             limit={5}
             vModel={this.innerValue.resultFile}
             placeholder={`请选择${fullName}`}
-            onChange={value => this.onComponentChange('resultFile', value.map(item => item.response.data[0]))}
+            disabled={this.disabled}
+            onChange={value => this.onComponentChange('resultFile', value.map(item => item.response?.data[0] ?? item))}
           />
         )
       }
@@ -129,7 +142,8 @@ export default {
             limit={5}
             vModel={this.innerValue.resultFile}
             placeholder={`请选择${fullName}`}
-            onChange={value => this.onComponentChange('resultFile', value.map(item => item.response.data[0]))}
+            disabled={this.disabled}
+            onChange={value => this.onComponentChange('resultFile', value.map(item => item.response?.data[0] ?? item))}
           />
         )
       }
@@ -141,6 +155,7 @@ export default {
             vModel={this.innerValue.resultContent}
             style={{ width: '100%' }}
             valueFormat={'YYYYMMDD'}
+            disabled={this.disabled}
             onChange={value => this.onComponentChange('resultContent', value)}
           />
         )
@@ -151,19 +166,18 @@ export default {
   },
   render() {
     return (
-      <div>
+      <div key={this.dataSource.id}>
         {this.getComponent()}
         {
           (this.dataSource.itemProveList || []).length
             ? (
-              <div style={{
-                background: '#fafafa', padding: '10px'
-              }}>
+              <div style={{ background: '#fafafa', padding: '10px' }}>
                 <div>请上传佐证材料：</div>
-                <UploadFiles
+                <UploadSupportingDocuments
                   dataSource={this.dataSource.itemProveList || []}
                   vModel={this.innerValue.attachmentList}
-                  onChange={this.onUploadChange}
+                  disabled={this.disabled}
+                  onChange={this.onUploadSupportingDocumentChange}
                 />
               </div>
             )

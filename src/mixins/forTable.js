@@ -36,7 +36,8 @@ export default (isInject = true, isFetchList = true) => {
           pagination: false,
           scroll: {}, // 注意：此属性不要手动设置，在this.resize方法内已经自动分配
           size: 'middle'
-        }
+        },
+        exportButtonDisabled: false
       }
     },
     computed: {
@@ -239,12 +240,21 @@ export default (isInject = true, isFetchList = true) => {
        * @returns {Promise<void>}
        */
       async onExport(payload, fileName) {
+        message.loading({
+          content: '正在导出，请稍候...',
+          duration: 0
+        })
+        this.exportButtonDisabled = true
+
         await this.$store.dispatch('downExcel', {
           moduleName: this.moduleName,
           submoduleName: this.submoduleName,
           queryParameters: payload,
           fileName: fileName
         })
+
+        this.exportButtonDisabled = false
+        message.destroy()
       },
       /**
        * 重新布局，根据页面大小判断是否显示Table组件的滚动条

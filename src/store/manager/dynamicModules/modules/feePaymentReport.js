@@ -5,12 +5,21 @@ export default commitRootInModule => omit(
   createStoreModule({
     state: {
       visibleOfPaymentRecords: false,
+      visibleOfBilling: false,
       // 缴费明细
       paymentRecordsList: {
+        loading: false,
+        data: {}
+      },
+      details: {
         loading: false,
         data: {}
       }
     }
   }),
-  ['state.details']
+  [
+    'state.visibleOfEdit',
+    'state.selectedRows',
+    'state.selectedRowKeys'
+  ]
 )

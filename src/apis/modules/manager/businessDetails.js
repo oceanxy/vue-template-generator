@@ -13,7 +13,8 @@ export default {
 
     if (data.cid) {
       // cid 合同ID
-      url = '/business/contractAudit/getContractDetail'
+      // url = '/business/contractAudit/getContractDetail'
+      url = '/business/contractAudit/getContractDetailV2'
       data.id = data.cid
       data = omit(data, 'cid')
     } else {

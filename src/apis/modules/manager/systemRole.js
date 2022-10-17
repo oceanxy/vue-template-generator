@@ -68,17 +68,6 @@ export default {
     })
   },
   /**
-   * 获取角色树
-   * @param request
-   * @returns {*}
-   */
-  getRoleTree(request) {
-    return request({
-      url: '/system/role/getRoleTree',
-      method: 'post'
-    })
-  },
-  /**
    * 获取菜单树
    * @param request
    * @returns {*}

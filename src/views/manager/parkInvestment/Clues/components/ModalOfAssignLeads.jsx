@@ -38,7 +38,7 @@ export default Form.create({})({
       }
     },
     async teamId(value) {
-      this.form.setFieldsValue({'memberId': undefined})
+      this.form.setFieldsValue({ 'memberId': undefined })
 
       if (value) {
         await this.getMembersOfParkTeam()
@@ -94,11 +94,13 @@ export default Form.create({})({
           <Form.Item label="跟进团队">
             {
               this.form.getFieldDecorator('teamId', {
-                rules: [{
-                  required: true,
-                  message: '请选择跟进团队!',
-                  trigger: 'change'
-                }]
+                rules: [
+                  {
+                    required: true,
+                    message: '请选择跟进团队!',
+                    trigger: 'change'
+                  }
+                ]
               })(
                 <Select
                   placeholder={'输入团队名称搜索'}
@@ -109,7 +111,10 @@ export default Form.create({})({
                 >
                   {
                     this.parkTeamsForSelect.list.map(item => (
-                      <Select.Option value={item.id} title={item.fullName}>
+                      <Select.Option
+                        value={item.id}
+                        title={item.fullName}
+                      >
                         {item.fullName}
                       </Select.Option>
                     ))
@@ -121,11 +126,13 @@ export default Form.create({})({
           <Form.Item label="跟进人">
             {
               this.form.getFieldDecorator('memberId', {
-                rules: [{
-                  required: true,
-                  message: '请选择跟进人!',
-                  trigger: 'change'
-                }]
+                rules: [
+                  {
+                    required: true,
+                    message: '请选择跟进人!',
+                    trigger: 'change'
+                  }
+                ]
               })(
                 <Select
                   disabled={!this.teamId}
@@ -137,7 +144,10 @@ export default Form.create({})({
                 >
                   {
                     this.membersOfParkTeamForSelect.list.map(item => (
-                      <Select.Option value={item.id} title={item.fullName}>
+                      <Select.Option
+                        value={item.id}
+                        title={item.fullName}
+                      >
                         {item.fullName}
                       </Select.Option>
                     ))

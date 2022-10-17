@@ -8,7 +8,7 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'MyReports-FillInRecords',
   mixins: [
-    dynamicState({injectSubmoduleName: true}),
+    dynamicState({ injectSubmoduleName: true }),
     forTable(false)
   ],
   data() {
@@ -28,7 +28,7 @@ export default {
           },
           {
             title: '答案',
-            dataIndex: 'resultContent'
+            scopedSlots: { customRender: 'resultContent' }
           },
           {
             title: '佐证',
@@ -54,11 +54,11 @@ export default {
     }
   },
   methods: {
-    toFillOutReport() {
-      this.$router.push({
+    async toFillOutReport() {
+      await this.$router.push({
         name: 'fillOutReport', query: {
           reportId: this.data.id,
-          fillObj: this.data.fillObj
+          fillObj: this.$route.query.fillObj
         }
       })
     }
@@ -96,12 +96,20 @@ export default {
                       ))
                     }
                   </ol>
-                )
+                ),
+                resultContent: (text, record) => record.resultFile?.length
+                  ? record.resultFile.map(item => <a href={item.path} target={'_blank'}>{item.fileName}</a>)
+                  : record.resultContent
               }
             }}
           />
           <div class={'btn'}>
-            <Button type={'primary'} onClick={this.toFillOutReport}>重新填报</Button>
+            <Button
+              type={'primary'}
+              onClick={this.toFillOutReport}
+            >
+              重新填报
+            </Button>
           </div>
         </BNContainer>
       </div>

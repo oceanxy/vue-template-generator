@@ -16,14 +16,20 @@ export default Form.create({})({
         <Form.Item>
           {
             this.form.getFieldDecorator('reportName')(
-              <Input placeholder="报表名称" allowClear />
+              <Input
+                placeholder="报表名称"
+                allowClear
+              />
             )
           }
         </Form.Item>
         <Form.Item>
           {
             this.form.getFieldDecorator('objName')(
-              <Input placeholder="企业名称" allowClear />
+              <Input
+                placeholder="企业名称"
+                allowClear
+              />
             )
           }
         </Form.Item>

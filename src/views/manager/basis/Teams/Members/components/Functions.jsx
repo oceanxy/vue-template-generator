@@ -6,7 +6,7 @@ export default {
   mixins: [forFunction()],
   render() {
     return (
-      <Space class='tg-function'>
+      <Space class="tg-function">
         <Button
           type="primary"
           onClick={() => this.onAddClick()}

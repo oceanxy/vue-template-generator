@@ -33,7 +33,7 @@ export default {
           },
           {
             title: '占用时段',
-            width: 120,
+            width: 170,
             scopedSlots: { customRender: 'timeInterval' }
           },
           {
@@ -121,19 +121,31 @@ export default {
               <Space>
                 {
                   record.appointmentStatus === 1 ? (
-                    <Button type="link" size="small" onClick={() => this.onCancelSubscribe(record)}>
+                    <Button
+                      type="link"
+                      size="small"
+                      onClick={() => this.onCancelSubscribe(record)}
+                    >
                       取消预约
                     </Button>
                   ) : null
                 }
                 {
                   record.appointmentStatus === 1 ? (
-                    <Button type="link" size="small" onClick={() => this.onEditClick(record)}>
+                    <Button
+                      type="link"
+                      size="small"
+                      onClick={() => this.onEditClick(record)}
+                    >
                       编辑
                     </Button>
                   ) : null
                 }
-                <Button type="link" size="small" onClick={() => this.onDeleteClick(record)}>
+                <Button
+                  type="link"
+                  size="small"
+                  onClick={() => this.onDeleteClick(record)}
+                >
                   删除
                 </Button>
               </Space>

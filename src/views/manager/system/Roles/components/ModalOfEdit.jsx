@@ -26,7 +26,7 @@ export default Form.create({})({
   },
   methods: {
     customDataHandler(values) {
-      const data = {...values}
+      const data = { ...values }
 
       if (data.parentId.length > 0) {
         data.parentId = data.parentId[data.parentId.length - 1]
@@ -56,54 +56,103 @@ export default Form.create({})({
 
     return (
       <DragModal {...attributes}>
-        <Form class="" colon={false}>
+        <Form
+          class=""
+          colon={false}
+        >
           <Row gutter={10}>
             <Col span={12}>
               <Form.Item label="所属角色">
-                {this.form.getFieldDecorator('parentId', {
-                  initialValue: this.currentItem.parentIds || [],
-                  rules: [{
-                    required: true, type: 'array', message: '请选择角色!', trigger: 'change'
-                  }]
-                })(<CascaderRole />)}
+                {
+                  this.form.getFieldDecorator('parentId', {
+                    initialValue: this.currentItem.parentIds || [],
+                    rules: [
+                      {
+                        required: true,
+                        type: 'array',
+                        message: '请选择角色!',
+                        trigger: 'change'
+                      }
+                    ]
+                  })(
+                    <CascaderRole />
+                  )
+                }
               </Form.Item>
             </Col>
             <Col span={12}>
               <Form.Item label="名称">
-                {this.form.getFieldDecorator('fullName', {
-                  initialValue: this.currentItem.fullName,
-                  rules: [{
-                    required: true, message: '请输入名称!', trigger: 'blur'
-                  }]
-                })(<Input placeholder="请输入名称" allowClear />)}
+                {
+                  this.form.getFieldDecorator('fullName', {
+                    initialValue: this.currentItem.fullName,
+                    rules: [
+                      {
+                        required: true,
+                        message: '请输入名称!',
+                        trigger: 'blur'
+                      }
+                    ]
+                  })(
+                    <Input
+                      placeholder="请输入名称"
+                      allowClear
+                    />
+                  )
+                }
               </Form.Item>
             </Col>
             <Col span={12}>
               <Form.Item label="默认菜单">
-                {this.form.getFieldDecorator('indexMenuId', {initialValue: this.currentItem.indexMenuIds || []})(<CascaderMenu />)}
+                {
+                  this.form.getFieldDecorator('indexMenuId', { initialValue: this.currentItem.indexMenuIds || [] })(
+                    <CascaderMenu />
+                  )
+                }
               </Form.Item>
             </Col>
             <Col span={12}>
               <Form.Item label="描述">
-                {this.form.getFieldDecorator('roleDescribe', {initialValue: this.currentItem.roleDescribe})(<Input placeholder="请输入名称" allowClear />)}
+                {
+                  this.form.getFieldDecorator('roleDescribe', { initialValue: this.currentItem.roleDescribe })(
+                    <Input
+                      placeholder="请输入名称"
+                      allowClear
+                    />
+                  )
+                }
               </Form.Item>
             </Col>
             <Col span={12}>
               <Form.Item label="排序">
-                {this.form.getFieldDecorator('sortIndex', {
-                  initialValue: `${this.currentItem.sortIndex || ''}` || undefined,
-                  rules: [{
-                    required: true, message: '请输入排序!', trigger: 'blur'
-                  }]
-                })(<Input placeholder="越大排在越前" allowClear />)}
+                {
+                  this.form.getFieldDecorator('sortIndex', {
+                    initialValue: `${this.currentItem.sortIndex || ''}` || undefined,
+                    rules: [
+                      {
+                        required: true,
+                        message: '请输入排序!',
+                        trigger: 'blur'
+                      }
+                    ]
+                  })(
+                    <Input
+                      placeholder="越大排在越前"
+                      allowClear
+                    />
+                  )
+                }
               </Form.Item>
             </Col>
             <Col span={12}>
               <Form.Item label="状态">
-                {this.form.getFieldDecorator('status', {
-                  initialValue: this.currentItem.status === 1,
-                  valuePropName: 'checked'
-                })(<Switch />)}
+                {
+                  this.form.getFieldDecorator('status', {
+                    initialValue: this.currentItem.id ? this.currentItem.status === 1 : true,
+                    valuePropName: 'checked'
+                  })(
+                    <Switch />
+                  )
+                }
               </Form.Item>
             </Col>
           </Row>

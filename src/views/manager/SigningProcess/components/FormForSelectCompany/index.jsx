@@ -86,19 +86,18 @@ export default Form.create({})({
         temp.signingType = this.$route.query.ac
       }
 
-      if ('dateRange' in temp) {
-        temp.startTime = moment(temp.dateRange[0]).format('YYYYMMDD')
-        temp.endTime = moment(temp.dateRange[1]).format('YYYYMMDD')
-
-        temp = omit(temp, 'dateRange')
+      if (this.$route.query.cluesId) {
+        temp.cluesId = this.$route.query.cluesId
       }
 
-      if ('companyTypeList' in temp) {
-        temp.companyTypeList = temp.companyTypeList.map(id => ({
-          id,
-          fullName: (this.enterpriseClassifications.list?.find(item => item.id === id)).fullName
-        }))
-      }
+      temp.startTime = moment(temp.dateRange[0]).format('YYYYMMDD')
+      temp.endTime = moment(temp.dateRange[1]).format('YYYYMMDD')
+      temp.companyTypeList = temp.companyTypeList.map(id => ({
+        id,
+        fullName: (this.enterpriseClassifications?.list.find(item => item.id === id)).fullName
+      }))
+
+      temp = omit(temp, 'dateRange')
 
       return temp
     },
@@ -233,7 +232,7 @@ export default Form.create({})({
           }
         </Form.Item>
         <Form.Item label="所属行业">
-          <Spin spinning={this.enterpriseClassifications.loading}>
+          <Spin spinning={this.enterpriseClassifications?.loading}>
             {
               this.form.getFieldDecorator('companyTypeList', {
                 initialValue: this.details.companyTypeList || [],
@@ -248,7 +247,7 @@ export default Form.create({})({
               })(
                 <Checkbox.Group class={'industry'}>
                   {
-                    this.enterpriseClassifications.list?.map(item => (
+                    this.enterpriseClassifications?.list.map(item => (
                       <Checkbox value={item.id}>{item.fullName}</Checkbox>
                     ))
                   }
@@ -274,7 +273,10 @@ export default Form.create({})({
           {
             this.form.getFieldDecorator('dateRange', {
               initialValue: this.details.starTime
-                ? [moment(this.details.starTime, 'YYYYMMDD'), moment(this.details.endTime, 'YYYYMMDD')]
+                ? [
+                  moment(this.details.starTime, 'YYYYMMDD'),
+                  moment(this.details.endTime, 'YYYYMMDD')
+                ]
                 : [],
               rules: [
                 {
@@ -290,7 +292,11 @@ export default Form.create({})({
           }
         </Form.Item>
         <Form.Item label={' '}>
-          <Button type="primary" html-type="submit" loading={this.loading}>下一步</Button>
+          <Button
+            type="primary"
+            html-type="submit"
+            loading={this.loading}
+          >下一步</Button>
         </Form.Item>
       </Form>
     )

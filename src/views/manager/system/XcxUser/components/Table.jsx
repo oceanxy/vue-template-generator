@@ -62,9 +62,7 @@ export default {
     async onDetailsClick(record) {
       await this.$router.push({
         name: 'systemXcxUser',
-        query: {
-          cid: record.id // contractID
-        }
+        query: { cid: record.id } // contractID
       })
     }
   },
@@ -109,7 +107,8 @@ export default {
             companyListName: (text, record) => (
               <ul
                 style={{
-                  paddingLeft: '20px', marginBottom: 0
+                  paddingLeft: '20px',
+                  marginBottom: 0
                 }}
               >
                 {
@@ -124,10 +123,18 @@ export default {
             },
             operation: (text, record) => (
               <Space>
-                <Button type="link" size="small" onClick={() => this.onEditClick(record)}>
+                <Button
+                  type="link"
+                  size="small"
+                  onClick={() => this.onEditClick(record)}
+                >
                   编辑
                 </Button>
-                <Button type="link" size="small" onClick={() => this.onDeleteClick(record)}>
+                <Button
+                  type="link"
+                  size="small"
+                  onClick={() => this.onDeleteClick(record)}
+                >
                   删除
                 </Button>
               </Space>

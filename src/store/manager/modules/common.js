@@ -15,13 +15,19 @@ export default {
     // 默认行政区划
     defaultAdministrativeDivision: [],
     // 组织机构树
-    organizationTree: [],
+    organizationTree: {
+      loading: false,
+      list: []
+    },
     // 中心树
     parkTree: [],
     // 角色树
-    roleTree: [],
+    roleTree: {
+      loading: false,
+      list: []
+    },
     // 当前选中的中心树节点的 key（id）
-    currentParkTreeKeySelected: '0',
+    currentParkTreeKeySelected: '',
     // 中心下拉列表
     parksForSelect: [],
     // 楼栋下拉列表
@@ -49,7 +55,7 @@ export default {
       list: []
     },
     // 当前左侧指标分类树选中的ID
-    indicatorCategoryIdSelected: '0',
+    indicatorCategoryIdSelected: '',
     // 指标分类树（带顶级）
     indicatorCategoryTree: {
       list: [],
@@ -75,13 +81,13 @@ export default {
       state.defaultAdministrativeDivision = payload.defaultIds || []
     },
     setOrganizationTree(state, payload) {
-      state.organizationTree = payload
+      state.organizationTree.list = payload
     },
     setParkTree(state, payload) {
       state.parkTree = payload
     },
     setRoleTree(state, payload) {
-      state.roleTree = payload
+      state.roleTree.list = payload
     },
     setCurrentParkTreeKeySelected(state, payload) {
       state.currentParkTreeKeySelected = payload
@@ -120,6 +126,7 @@ export default {
      * @param moduleName {string}
      * @param submoduleName {string}
      * @param value {string}
+     * @param isFetchList {boolean} 是否触发页面列表更新的请求
      * @returns {Promise<void>}
      */
     async setCurrentParkTreeKeySelected(
@@ -130,22 +137,23 @@ export default {
       }, {
         moduleName,
         submoduleName,
-        value
+        payload: { value, isFetchList }
       }
     ) {
       if (state.currentParkTreeKeySelected !== value) {
-        dispatch(
-          'setSearch',
-          {
-            payload: { treeId: value },
-            moduleName,
-            submoduleName
-          },
-          { root: true }
-        )
-
         commit('setCurrentParkTreeKeySelected', value)
       }
+
+      dispatch(
+        'setSearch',
+        {
+          payload: { treeId: value },
+          isFetchList,
+          moduleName,
+          submoduleName
+        },
+        { root: true }
+      )
     },
     /**
      * 设置当前选中的指标分类ID
@@ -155,21 +163,29 @@ export default {
      * @param moduleName {string}
      * @param submoduleName {string}
      * @param value {string}
+     * @param isFetchList {boolean} 是否触发页面列表更新的请求
      */
-    setIndicatorCategoryIdSelected({ state, commit, dispatch }, { moduleName, submoduleName, value }) {
+    setIndicatorCategoryIdSelected({
+      state, commit, dispatch
+    }, {
+      moduleName,
+      submoduleName,
+      payload: { value, isFetchList }
+    }) {
       if (state.indicatorCategoryIdSelected !== value) {
-        dispatch(
-          'setSearch',
-          {
-            payload: { parentId: value },
-            moduleName,
-            submoduleName
-          },
-          { root: true }
-        )
-
         commit('setIndicatorCategoryIdSelected', value)
       }
+
+      dispatch(
+        'setSearch',
+        {
+          payload: { catId: value },
+          isFetchList,
+          moduleName,
+          submoduleName
+        },
+        { root: true }
+      )
     },
     /**
      * 获取配套设施集合

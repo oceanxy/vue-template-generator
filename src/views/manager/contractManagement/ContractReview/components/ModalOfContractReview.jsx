@@ -7,7 +7,7 @@ export default Form.create({})({
   mixins: [forFormModal()],
   data() {
     return {
-      modalProps: {width: 690},
+      modalProps: { width: 690 },
       visibleField: 'visibleOfContractReview'
     }
   },
@@ -29,9 +29,11 @@ export default Form.create({})({
           <Form.Item label="审核结果">
             {
               this.form.getFieldDecorator('signingStatus', {
-                rules: [{
-                  required: true, type: 'number', message: '请选择审核结果！', trigger: 'change'
-                }]
+                rules: [
+                  {
+                    required: true, type: 'number', message: '请选择审核结果！', trigger: 'change'
+                  }
+                ]
               })(
                 <Radio.Group>
                   <Radio value={3}>通过</Radio>
@@ -46,11 +48,16 @@ export default Form.create({})({
                 <Form.Item label="审核意见">
                   {
                     this.form.getFieldDecorator('auditOpinion', {
-                      rules: [{
-                        required: true, whitespace: true, message: '请输入审核意见！', trigger: 'blur'
-                      }]
+                      rules: [
+                        {
+                          required: true, whitespace: true, message: '请输入审核意见！', trigger: 'blur'
+                        }
+                      ]
                     })(
-                      <Input.TextArea placeholder="请输入审核意见" autoSize={{ minRows: 6 }} />
+                      <Input.TextArea
+                        placeholder="请输入审核意见"
+                        autoSize={{ minRows: 6 }}
+                      />
                     )
                   }
                 </Form.Item>

@@ -1,10 +1,10 @@
 import '../assets/styles/index.scss'
-import { Button, Space, Table, Tag, Switch } from 'ant-design-vue'
+import { Button, Space, Table, Tag } from 'ant-design-vue'
 import forTable from '@/mixins/forTable'
 
 export default {
   mixins: [forTable()],
-  data () {
+  data() {
     return {
       tableProps: {
         columns: [
@@ -17,13 +17,11 @@ export default {
           },
           {
             title: '所属菜单',
-            fixed: true,
             width: 120,
             dataIndex: 'menuName'
           },
           {
             title: '名称',
-            fixed: true,
             width: 120,
             dataIndex: 'fnName'
           },
@@ -58,16 +56,14 @@ export default {
     }
   },
   methods: {
-    async onDetailsClick (record) {
+    async onDetailsClick(record) {
       await this.$router.push({
         name: 'contractReviewDetails',
-        query: {
-          cid: record.id // contractID
-        }
+        query: { cid: record.id } // contractID
       })
     }
   },
-  render () {
+  render() {
     const attributes = {
       props: {
         ...this.tableProps,
@@ -95,10 +91,18 @@ export default {
             },
             operation: (text, record) => (
               <Space>
-                <Button type="link" size="small" onClick={() => this.onEditClick(record)}>
+                <Button
+                  type="link"
+                  size="small"
+                  onClick={() => this.onEditClick(record)}
+                >
                   编辑
                 </Button>
-                <Button type="link" size="small" onClick={() => this.onDeleteClick(record)}>
+                <Button
+                  type="link"
+                  size="small"
+                  onClick={() => this.onDeleteClick(record)}
+                >
                   删除
                 </Button>
               </Space>

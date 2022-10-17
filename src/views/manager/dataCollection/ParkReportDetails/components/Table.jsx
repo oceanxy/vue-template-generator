@@ -8,24 +8,27 @@ export default {
     return {
       visibleField: 'visibleOfDetails',
       tableProps: {
-        rowSelection: null,
         columns: [
           {
             title: '序号',
+            fixed: true,
             width: 60,
             align: 'center',
             scopedSlots: { customRender: 'serialNumber' }
           },
           {
             title: '报表',
+            width: 120,
             dataIndex: 'reportName'
           },
           {
             title: '中心',
+            width: 120,
             dataIndex: 'parkName'
           },
           {
             title: '联系电话',
+            width: 120,
             dataIndex: 'phone'
           },
           {
@@ -36,9 +39,9 @@ export default {
           {
             title: '操作',
             key: 'operation',
-            // fixed: 'right',
+            fixed: 'right',
             align: 'center',
-            width: 240,
+            width: 120,
             scopedSlots: { customRender: 'operation' }
           }
         ]
@@ -68,6 +71,14 @@ export default {
                   onClick={() => this._setVisibleOfModal(record, 'visibleOfDetails')}
                 >
                   查看详情
+                </Button>
+                <Button
+                  type="link"
+                  size="small"
+                  disabled={this.exportButtonDisabled}
+                  onClick={() => this.onExport({ recordIds: record.id }, '园区报表明细')}
+                >
+                  导出
                 </Button>
               </Space>
             )

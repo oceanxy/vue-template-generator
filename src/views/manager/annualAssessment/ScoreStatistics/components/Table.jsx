@@ -11,13 +11,13 @@ export default {
           {
             title: '序号',
             width: 60,
+            fixed: true,
             align: 'center',
             scopedSlots: { customRender: 'serialNumber' }
           },
           {
-            title: '考核年度',
-            align: 'center',
-            dataIndex: 'year'
+            title: '报表名称',
+            dataIndex: 'reportName'
           },
           {
             title: '填报企业数',
@@ -57,9 +57,9 @@ export default {
           {
             title: '操作',
             key: 'operation',
-            // fixed: 'right',
+            fixed: 'right',
             align: 'center',
-            width: 180,
+            width: 100,
             scopedSlots: { customRender: 'operation' }
           }
         ],
@@ -97,13 +97,13 @@ export default {
                 >
                   指标统计
                 </Button>
-                <Button
-                  type="link"
-                  size="small"
-                  // onClick={() => this._setVisibleOfModal(record, 'visibleOfResults')}
-                >
-                  导出明细
-                </Button>
+                {/*<Button*/}
+                {/*  type="link"*/}
+                {/*  size="small"*/}
+                {/*  // onClick={() => this._setVisibleOfModal(record, 'visibleOfResults')}*/}
+                {/*>*/}
+                {/*  导出明细*/}
+                {/*</Button>*/}
               </Space>
             )
           }

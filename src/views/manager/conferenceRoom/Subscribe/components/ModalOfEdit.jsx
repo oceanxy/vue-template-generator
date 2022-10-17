@@ -1,8 +1,8 @@
 import '../assets/styles/index.scss'
-import { Col, DatePicker, Form, Input, Row, Select } from 'ant-design-vue'
+import { DatePicker, Form, Input, Select, Spin } from 'ant-design-vue'
 import forFormModal from '@/mixins/forModal/forFormModal'
 import DragModal from '@/components/DragModal'
-import { debounce } from 'lodash'
+import { cloneDeep, debounce, omit } from 'lodash'
 import { mapState } from '@/utils/store'
 import moment from 'moment'
 
@@ -18,37 +18,38 @@ export default Form.create({})({
     }
   },
   computed: { ...mapState(['roomList', 'businessSelect']) },
-  mounted() {
-  },
   watch: {
     visible: {
       immediate: true,
       async handler(value) {
         if (value) {
-          this.getRoomList(this.currentItem.roomNo || '')
-          this.getBusiness(this.currentItem.companyName || '')
+          await Promise.all([
+            this.getRoomList(this.currentItem.roomNo || ''),
+            this.getBusiness(this.currentItem.companyName || '')
+          ])
         }
       }
     }
   },
   methods: {
-    getRoomList(keyword) {
-      this.$store.dispatch('getListForSelect', {
+    async getRoomList(keyword) {
+      await this.$store.dispatch('getListForSelect', {
         moduleName: this.moduleName,
         stateName: 'roomList',
         customApiName: 'getBookMeetingRoom',
         payload: {
           pageIndex: 0,
           pageSize: 20,
-          roomNo: keyword
+          roomNo: keyword,
+          companyId: this.form.getFieldValue('companyId')
         }
       })
     },
-    getBusiness(keyword) {
-      this.$store.dispatch('getListForSelect', {
+    async getBusiness(keyword) {
+      await this.$store.dispatch('getListForSelect', {
         moduleName: this.moduleName,
         stateName: 'businessSelect',
-        customApiName: 'getUseCompanyList',
+        customApiName: 'getMeetingUseCompanyList',
         payload: {
           pageIndex: 0,
           pageSize: 20,
@@ -57,10 +58,12 @@ export default Form.create({})({
       })
     },
     customDataHandler(values) {
-      const data = { ...values }
+      let data = cloneDeep(values)
 
-      data.appointmentEndTime = data.appointmentEndTime.format('YYYYMMDDHHmm')
-      data.appointmentStartTime = data.appointmentStartTime.format('YYYYMMDDHHmm')
+      data.appointmentStartTime = data.dateTimeRange[0].format('YYYYMMDDHHmm')
+      data.appointmentEndTime = data.dateTimeRange[1].format('YYYYMMDDHHmm')
+
+      data = omit(data, 'dateTimeRange')
 
       return data
     }
@@ -76,122 +79,134 @@ export default Form.create({})({
 
     return (
       <DragModal {...attributes}>
-        <Form class="" colon={false}>
-          <Row gutter={10}>
-            <Col span={24}>
-              <Form.Item label="会议室">
-                {this.form.getFieldDecorator('roomId', {
-                  initialValue: this.currentItem.roomId ?? undefined,
-                  rules: [
-                    {
-                      required: true,
-                      message: '请选择会议室!',
-                      trigger: 'change'
-                    }
-                  ]
-                })(
-                  <Select
-                    placeholder={'输入会议室名称搜索'}
-                    showSearch
-                    filterOption={false}
-                    onSearch={debounce(this.getRoomList, 300)}
-                    notFoundContent={this.roomList.loading ? <Spin /> : undefined}
-                  >
-                    {this.roomList.list.map(item => (
-                      <Select.Option value={item.id} title={item.roomNo}>
-                        {item.roomNo}
-                      </Select.Option>
-                    ))}
-                  </Select>
-                )}
-              </Form.Item>
-            </Col>
-            <Col span={24}>
-              <Form.Item label="企业">
-                {this.form.getFieldDecorator('companyId', {
-                  initialValue: this.currentItem.companyId ?? undefined,
-                  rules: [
-                    {
-                      required: true,
-                      message: '请选择企业!',
-                      trigger: 'change'
-                    }
-                  ]
-                })(
-                  <Select
-                    placeholder={'输入企业名称搜索'}
-                    showSearch
-                    filterOption={false}
-                    onSearch={debounce(this.getBusiness, 300)}
-                    notFoundContent={this.businessSelect.loading ? <Spin /> : undefined}
-                  >
-                    {this.businessSelect.list.map(item => (
-                      <Select.Option value={item.companyId} title={item.companyName}>
+        <Form
+          class="bnm-form-grid"
+          colon={false}
+        >
+          <Form.Item label="企业">
+            {
+              this.form.getFieldDecorator('companyId', {
+                initialValue: this.currentItem.companyId ?? undefined,
+                rules: [
+                  {
+                    required: true,
+                    message: '请选择企业!',
+                    trigger: 'change'
+                  }
+                ]
+              })(
+                <Select
+                  placeholder={'输入企业名称搜索'}
+                  showSearch
+                  allowClear
+                  filterOption={false}
+                  onSearch={debounce(this.getBusiness, 300)}
+                  notFoundContent={this.businessSelect.loading ? <Spin /> : undefined}
+                >
+                  {
+                    this.businessSelect.list.map(item => (
+                      <Select.Option
+                        value={item.companyId}
+                        title={item.companyName}
+                      >
                         {item.companyName}
                       </Select.Option>
-                    ))}
-                  </Select>
-                )}
-              </Form.Item>
-            </Col>
-            <Col span={15}>
-              <Form.Item label="占用时段">
-                {this.form.getFieldDecorator('appointmentStartTime', {
-                  initialValue: this.currentItem.appointmentStartTimeStr
-                    ? moment(this.currentItem.appointmentStartTimeStr)
-                    : undefined,
-                  rules: [
-                    {
-                      required: true,
-                      type: 'object',
-                      message: '请选择开始时间!',
-                      trigger: 'change'
-                    }
-                  ]
-                })(
-                  <DatePicker showTime={true} format="YYYY-MM-DD HH:mm:ss" placeholder="请选择" allowClear></DatePicker>
-                )}
-              </Form.Item>
-            </Col>
-            <Col span={9}>
-              <Form.Item label="">
-                {this.form.getFieldDecorator('appointmentEndTime', {
-                  initialValue: this.currentItem.appointmentEndTimeStr
-                    ? moment(this.currentItem.appointmentEndTimeStr)
-                    : undefined,
-                  rules: [
-                    {
-                      required: true,
-                      type: 'object',
-                      message: '请选择结束时间!',
-                      trigger: 'change'
-                    }
-                  ]
-                })(
-                  <DatePicker showTime={true} format="YYYY-MM-DD HH:mm:ss" placeholder="请选择" allowClear></DatePicker>
-                )}
-              </Form.Item>
-            </Col>
-            <Col span={24}>
-              <Form.Item label="预约说明">
-                {
-                  this.form.getFieldDecorator('description', {
-                    initialValue: this.currentItem.description ?? undefined,
-                    rules: [
-                      {
-                        required: true,
-                        type: 'string',
-                        message: '请输入预约说明!',
-                        trigger: 'blur'
-                      }
+                    ))
+                  }
+                </Select>
+              )
+            }
+          </Form.Item>
+          <Form.Item label="会议室">
+            {
+              this.form.getFieldDecorator('roomId', {
+                initialValue: this.currentItem.roomId ?? undefined,
+                rules: [
+                  {
+                    required: true,
+                    message: '请选择会议室!',
+                    trigger: 'change'
+                  }
+                ]
+              })(
+                <Select
+                  placeholder={'输入房号搜索（不支持楼栋和楼层的搜索）'}
+                  showSearch
+                  filterOption={false}
+                  allowClear
+                  onSearch={debounce(this.getRoomList, 300)}
+                  notFoundContent={this.roomList.loading ? <Spin /> : undefined}
+                >
+                  {
+                    this.roomList.list.map(item => (
+                      <Select.Option
+                        value={item.id}
+                        title={item.roomNo}
+                      >
+                        {item.roomNo}
+                      </Select.Option>
+                    ))
+                  }
+                </Select>
+              )
+            }
+          </Form.Item>
+          <Form.Item label="占用时段">
+            {
+              this.form.getFieldDecorator('dateTimeRange', {
+                initialValue: this.currentItem.appointmentStartTimeStr && this.currentItem.appointmentEndTimeStr
+                  ? [moment(this.currentItem.appointmentStartTimeStr), moment(this.currentItem.appointmentEndTimeStr)]
+                  : [],
+                rules: [
+                  {
+                    required: true,
+                    type: 'array',
+                    message: '请选择占用时段!',
+                    trigger: 'change'
+                  }
+                ]
+              })(
+                <DatePicker.RangePicker
+                  format="YYYY-MM-DD HH:mm"
+                  placeholder={['开始时间', '结束时间']}
+                  showTime={{ format: 'HH:mm' }}
+                  disabledTime={() => ({
+                    disabledMinutes: () => [
+                      1, 2, 3, 4, 5, 6, 7, 8, 9,
+                      11, 12, 13, 14, 15, 16, 17, 18, 19,
+                      21, 22, 23, 24, 25, 26, 27, 28, 29,
+                      31, 32, 33, 34, 35, 36, 37, 38, 39,
+                      41, 42, 43, 44, 45, 46, 47, 48, 49,
+                      51, 52, 53, 54, 55, 56, 57, 58, 59
                     ]
-                  })(
-                    <Input.TextArea placeholder="请输入" autoSize={{ minRows: 6 }} allowClear />
-                  )
-                }
-              </Form.Item>
-            </Col>
-          </Row>
+                  })}
+                  allowClear
+                  style={{ width: '100%' }}
+                />
+              )
+            }
+          </Form.Item>
+          <Form.Item label="预约说明">
+            {
+              this.form.getFieldDecorator('description', {
+                initialValue: this.currentItem.description ?? undefined,
+                rules: [
+                  {
+                    required: true,
+                    type: 'string',
+                    message: '请输入预约说明!',
+                    trigger: 'blur'
+                  }
+                ]
+              })(
+                <Input.TextArea
+                  placeholder="请输入"
+                  autoSize={{ minRows: 6 }}
+                  allowClear
+                />
+              )
+            }
+          </Form.Item>
         </Form>
       </DragModal>
     )

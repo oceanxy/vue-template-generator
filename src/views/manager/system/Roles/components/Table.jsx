@@ -18,7 +18,6 @@ export default {
           {
             title: '名称',
             width: 140,
-            fixed: true,
             dataIndex: 'fullName'
           },
           {
@@ -55,8 +54,7 @@ export default {
     async onDetailsClick(record) {
       await this.$router.push({
         name: 'contractReviewDetails',
-        query: {cid: record.id // contractID
-        }
+        query: { cid: record.id } // contractID
       })
     }
   },
@@ -88,13 +86,25 @@ export default {
             },
             operation: (text, record) => (
               <Space>
-                <Button type="link" size="small" onClick={() => this.onEditClick(record)}>
+                <Button
+                  type="link"
+                  size="small"
+                  onClick={() => this.onEditClick(record)}
+                >
                   编辑
                 </Button>
-                <Button type="link" size="small" onClick={() => this._setVisibleOfModal(record, 'visibleOfMenu')}>
+                <Button
+                  type="link"
+                  size="small"
+                  onClick={() => this._setVisibleOfModal(record, 'visibleOfMenu')}
+                >
                   配置菜单
                 </Button>
-                <Button type="link" size="small" onClick={() => this.onDeleteClick(record)}>
+                <Button
+                  type="link"
+                  size="small"
+                  onClick={() => this.onDeleteClick(record)}
+                >
                   删除
                 </Button>
               </Space>

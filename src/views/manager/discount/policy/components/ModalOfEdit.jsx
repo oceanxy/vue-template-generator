@@ -1,5 +1,5 @@
 import '../assets/styles/index.scss'
-import { Checkbox, Col, DatePicker, Form, Input, InputNumber, Radio, Row, Switch, Spin } from 'ant-design-vue'
+import { Checkbox, Col, DatePicker, Form, Input, InputNumber, Radio, Row, Spin, Switch } from 'ant-design-vue'
 import forFormModal from '@/mixins/forModal/forFormModal'
 import DragModal from '@/components/DragModal'
 import { mapAction, mapMutation, mapState } from '@/utils/store'
@@ -20,7 +20,6 @@ export default Form.create({})({
     }
   },
   computed: { ...mapState(['loading', 'details', 'saleItemList', 'companyDictionaryList']) },
-  async created() {},
   watch: {
     visible: {
       immediate: true,
@@ -139,7 +138,10 @@ export default Form.create({})({
     return (
       <DragModal {...attributes}>
         <Spin spinning={this.loading}>
-          <Form class="" colon={false}>
+          <Form
+            class=""
+            colon={false}
+          >
             <Row gutter={10}>
               <Col span={24}>
                 <Form.Item label="政策名称">
@@ -176,7 +178,10 @@ export default Form.create({})({
                           trigger: 'change'
                         }
                       ]
-                    })(<DatePicker placeholder="请选择" allowClear />)}
+                    })(<DatePicker
+                      placeholder="请选择"
+                      allowClear
+                    />)}
                   </Form.Item>
                 </Col>
               )}
@@ -193,7 +198,10 @@ export default Form.create({})({
                           trigger: 'change'
                         }
                       ]
-                    })(<DatePicker placeholder="请选择" allowClear />)}
+                    })(<DatePicker
+                      placeholder="请选择"
+                      allowClear
+                    />)}
                   </Form.Item>
                 </Col>
               )}
@@ -278,7 +286,12 @@ export default Form.create({})({
                           trigger: 'blur'
                         }
                       ]
-                    })(<InputNumber placeholder="请输入" step={0.1} allowClear style={{ width: '100%' }} />)}
+                    })(<InputNumber
+                      placeholder="请输入"
+                      step={0.1}
+                      allowClear
+                      style={{ width: '100%' }}
+                    />)}
                   </Form.Item>
                 </Col>
               ) : null}
@@ -295,7 +308,12 @@ export default Form.create({})({
                           trigger: 'blur'
                         }
                       ]
-                    })(<InputNumber placeholder="请输入减免月份数" step={1} allowClear style={{ width: '100%' }} />)}
+                    })(<InputNumber
+                      placeholder="请输入减免月份数"
+                      step={1}
+                      allowClear
+                      style={{ width: '100%' }}
+                    />)}
                   </Form.Item>
                 </Col>
               ) : null}
@@ -375,7 +393,11 @@ export default Form.create({})({
               <Col span={12}>
                 <Form.Item label="排序">
                   {this.form.getFieldDecorator('sortIndex', { initialValue: this.details.sortIndex || 0 })(
-                    <InputNumber placeholder="越大排在越前" allowClear style={{ width: '100%' }} />
+                    <InputNumber
+                      placeholder="越大排在越前"
+                      allowClear
+                      style={{ width: '100%' }}
+                    />
                   )}
                 </Form.Item>
               </Col>

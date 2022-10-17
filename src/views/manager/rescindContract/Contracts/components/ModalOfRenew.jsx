@@ -1,5 +1,5 @@
 import '../index.scss'
-import { Button, Form, notification, Radio } from 'ant-design-vue'
+import { Form, notification, Radio } from 'ant-design-vue'
 import forFormModal from '@/mixins/forModal/forFormModal'
 import DragModal from '@/components/DragModal'
 import { omit } from 'lodash'

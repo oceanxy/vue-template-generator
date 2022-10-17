@@ -14,7 +14,10 @@ export default {
           scopedSlots: { customRender: 'fullName' }
         },
         {
-          title: <Button icon={'plus'} onClick={this.onCreateRow} />,
+          title: <Button
+            icon={'plus'}
+            onClick={this.onCreateRow}
+          />,
           width: 60,
           align: 'center',
           scopedSlots: { customRender: 'operation' }
@@ -86,7 +89,10 @@ export default {
                 />
               ),
               operation: (text, record) => (
-                <Button icon="delete" onClick={() => this.onDelClick(record.id)} />
+                <Button
+                  icon="delete"
+                  onClick={() => this.onDelClick(record.id)}
+                />
               )
             }
           }}

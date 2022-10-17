@@ -25,7 +25,7 @@ export default {
           x: '59%',
           y: '55%'
         },
-        tooltip: {trigger: 'item'},
+        tooltip: { trigger: 'item' },
         legend: {
           top: 10,
           left: 'center',

@@ -4,7 +4,7 @@ import forTable from '@/mixins/forTable'
 
 export default {
   mixins: [forTable()],
-  data () {
+  data() {
     return {
       tableProps: {
         columns: [
@@ -67,14 +67,14 @@ export default {
     }
   },
   methods: {
-    async onDetailsClick (record) {
+    async onDetailsClick(record) {
       await this.$router.push({
-        name: 'contractReviewDetails',
+        name: 'validContractDetails',
         query: { cid: record.id }
       })
     }
   },
-  render () {
+  render() {
     const attributes = {
       props: {
         ...this.tableProps,

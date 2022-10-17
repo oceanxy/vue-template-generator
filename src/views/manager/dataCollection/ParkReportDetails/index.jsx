@@ -5,7 +5,6 @@ import dynamicState from '@/mixins/dynamicState'
 import Table from './components/Table'
 import TGPagination from '@/components/TGPagination'
 import ModalOfDetails from './components/ModalOfDetails'
-import Functions from './components/Functions'
 
 export default {
   name: 'ParkReportDetails',
@@ -13,7 +12,6 @@ export default {
   render() {
     return (
       <TGContainer class="bnm-park-report-details-container">
-        <Functions slot={'functions'} />
         <Inquiry slot={'inquiry'} />
         <Table slot={'table'} />
         <TGPagination slot={'pagination'} />

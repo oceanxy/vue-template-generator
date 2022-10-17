@@ -16,28 +16,40 @@ export default Form.create({})({
         <Form.Item style={{ width: '220px' }}>
           {
             this.form.getFieldDecorator('dateRange', { initialValue: [] })(
-              <DatePicker.RangePicker style={{ width: '100%' }} allowClear />
+              <DatePicker.RangePicker
+                style={{ width: '100%' }}
+                allowClear
+              />
             )
           }
         </Form.Item>
         <Form.Item>
           {
             this.form.getFieldDecorator('companyName')(
-              <Input placeholder="企业名称" allowClear />
+              <Input
+                placeholder="企业名称"
+                allowClear
+              />
             )
           }
         </Form.Item>
         <Form.Item>
           {
             this.form.getFieldDecorator('assigneeName')(
-              <Input placeholder="受理人姓名" allowClear />
+              <Input
+                placeholder="受理人姓名"
+                allowClear
+              />
             )
           }
         </Form.Item>
         <Form.Item>
           {
             this.form.getFieldDecorator('complaintType')(
-              <Select placeholder="投诉类型" allowClear>
+              <Select
+                placeholder="投诉类型"
+                allowClear
+              >
                 <Select.Option value={1}>园区管理</Select.Option>
                 <Select.Option value={2}>服务态度</Select.Option>
                 <Select.Option value={3}>服务质量</Select.Option>
@@ -49,7 +61,10 @@ export default Form.create({})({
         <Form.Item>
           {
             this.form.getFieldDecorator('acceptStatus')(
-              <Select placeholder="处理状态" allowClear>
+              <Select
+                placeholder="处理状态"
+                allowClear
+              >
                 <Select.Option value={1}>已处理</Select.Option>
                 <Select.Option value={2}>待处理</Select.Option>
                 <Select.Option value={3}>已撤销</Select.Option>

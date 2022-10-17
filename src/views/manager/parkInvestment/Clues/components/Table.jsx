@@ -4,7 +4,7 @@ import forTable from '@/mixins/forTable'
 
 export default {
   mixins: [forTable()],
-  data () {
+  data() {
     return {
       tableProps: {
         columns: [
@@ -17,8 +17,7 @@ export default {
           },
           {
             title: '目标客户',
-            fixed: true,
-            width: 260,
+            width: 200,
             dataIndex: 'title'
           },
           {
@@ -53,14 +52,14 @@ export default {
             key: 'operation',
             fixed: 'right',
             align: 'center',
-            width: 260,
+            width: 200,
             scopedSlots: { customRender: 'operation' }
           }
         ]
       }
     }
   },
-  render () {
+  render() {
     const attributes = {
       props: {
         ...this.tableProps,
@@ -77,7 +76,11 @@ export default {
       }
     }
     const detailButton = record => (
-      <Button type="link" size="small" onClick={() => this._setVisibleOfModal(record, 'visibleOfDetails')}>
+      <Button
+        type="link"
+        size="small"
+        onClick={() => this._setVisibleOfModal(record, 'visibleOfDetails')}
+      >
         查看详情
       </Button>
     )
@@ -109,7 +112,11 @@ export default {
       </Button>
     )
     const delButton = record => (
-      <Button type="link" size="small" onClick={() => this.onDeleteClick(record)}>
+      <Button
+        type="link"
+        size="small"
+        onClick={() => this.onDeleteClick(record)}
+      >
         删除
       </Button>
     )

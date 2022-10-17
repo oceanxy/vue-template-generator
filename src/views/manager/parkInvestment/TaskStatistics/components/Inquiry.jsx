@@ -14,7 +14,10 @@ export default Form.create({})({
         colon={false}
         class="tg-inquiry"
       >
-        <Form.Item>{this.form.getFieldDecorator('pageName')(<Input placeholder="姓名" allowClear />)}</Form.Item>
+        <Form.Item>{this.form.getFieldDecorator('pageName')(<Input
+          placeholder="姓名"
+          allowClear
+        />)}</Form.Item>
         {/* <Form.Item>
             {
               this.form.getFieldDecorator('appId')(
@@ -32,7 +35,12 @@ export default Form.create({})({
           </Form.Item> */}
         <Form.Item>
           <Space>
-            <Button loading={this.loading} htmlType="submit" type="primary" icon="search">
+            <Button
+              loading={this.loading}
+              htmlType="submit"
+              type="primary"
+              icon="search"
+            >
               查询
             </Button>
             {/*<Button onClick={this.onClear} icon="reload">重置</Button>*/}

@@ -4,7 +4,7 @@ import forTable from '@/mixins/forTable'
 
 export default {
   mixins: [forTable()],
-  data () {
+  data() {
     return {
       tableProps: {
         columns: [
@@ -18,7 +18,6 @@ export default {
           {
             title: '单位名称',
             width: 200,
-            fixed: true,
             dataIndex: 'unitName'
           },
           {
@@ -86,7 +85,7 @@ export default {
     }
   },
   methods: {},
-  render () {
+  render() {
     const attributes = {
       props: {
         ...this.tableProps,

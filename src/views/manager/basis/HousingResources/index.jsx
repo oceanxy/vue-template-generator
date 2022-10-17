@@ -11,7 +11,7 @@ import ModalOfContractHistory from './components/ModalOfContractHistory'
 export default {
   name: 'HousingResources',
   mixins: [dynamicState()],
-  render () {
+  render() {
     return (
       <BNContainerWithParkSider contentClass="bnm-housing-resources-container">
         <TGContainer>

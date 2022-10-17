@@ -27,7 +27,6 @@ export default {
           {
             title: '活动',
             width: 160,
-            fixed: true,
             scopedSlots: { customRender: 'activityName' }
           },
           {

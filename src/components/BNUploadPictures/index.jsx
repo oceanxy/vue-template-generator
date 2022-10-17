@@ -19,6 +19,10 @@ export default {
     action: {
       type: String,
       default: '/mgapi/system/upload/image'
+    },
+    disabled: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -27,7 +31,7 @@ export default {
       previewImage: '',
       previewVisible: false,
       name: 'files',
-      headers: {token: sessionStorage.getItem('token')}
+      headers: { token: sessionStorage.getItem('token') }
     }
   },
   watch: {
@@ -35,7 +39,19 @@ export default {
       immediate: true,
       handler(value) {
         if (value && value.length) {
-          this.fileList = value
+          this.fileList = value.map((item, index) => {
+            if ('uid' in item) {
+              return item
+            } else {
+              return {
+                uid: item.key + index,
+                key: item.key,
+                url: item.path,
+                status: 'done',
+                name: item.fileName
+              }
+            }
+          })
         } else {
           this.fileList = []
         }
@@ -67,12 +83,21 @@ export default {
       }
 
       this.fileList = fileList
-      this.$emit('change', this.fileList)
+
+      if (file.status === 'done') {
+        this.$emit('change', this.fileList)
+      }
     }
   },
   render() {
     return (
-      <div style={{ lineHeight: 0 }}>
+      <div
+        style={{
+          margin: '4px 0',
+          lineHeight: 0,
+          flex: 'auto'
+        }}
+      >
         <Upload
           accept={'.png,.jpg'}
           action={this.action}
@@ -84,6 +109,7 @@ export default {
           onChange={this.handleChange}
           headers={this.headers}
           multiple={true}
+          disabled={this.disabled}
         >
           {
             this.fileList.length < this.limit
@@ -96,8 +122,16 @@ export default {
               : null
           }
         </Upload>
-        <Modal visible={this.previewVisible} footer={null} onCancel={this.handleCancel}>
-          <img alt="example" style="width: 100%" src={this.previewImage} />
+        <Modal
+          visible={this.previewVisible}
+          footer={null}
+          onCancel={this.handleCancel}
+        >
+          <img
+            alt="example"
+            style="width: 100%"
+            src={this.previewImage}
+          />
         </Modal>
       </div>
     )

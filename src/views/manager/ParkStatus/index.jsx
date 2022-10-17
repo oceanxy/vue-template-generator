@@ -22,8 +22,14 @@ export default {
           width="100%"
           modalTitle={<Inquiry />}
         />
-        <TGContainerWithSider class="park-status-content" siderClass="park-status-sider">
-          <div class="park-status-main" slot="default">
+        <TGContainerWithSider
+          class="park-status-content"
+          siderClass="park-status-sider"
+        >
+          <div
+            class="park-status-main"
+            slot="default"
+          >
             <TGContainerWithSider siderClass="park-status-floor-container">
               <MeetingRooms slot={'default'} />
               <Floors slot={'sider'} />

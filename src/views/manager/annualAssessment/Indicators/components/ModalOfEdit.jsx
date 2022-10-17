@@ -60,7 +60,8 @@ export default Form.create({})({
               } else {
                 this.form.setFields({
                   targetOptionList: {
-                    value: targetOptionList, errors: [new Error('请输入评分标准！')]
+                    value: targetOptionList,
+                    errors: [new Error('请输入评分标准！')]
                   }
                 })
               }
@@ -90,7 +91,10 @@ export default Form.create({})({
                   }
                 ]
               })(
-                <Input placeholder="请输入名称" allowClear />
+                <Input
+                  placeholder="请输入名称"
+                  allowClear
+                />
               )
             }
           </Form.Item>
@@ -112,7 +116,10 @@ export default Form.create({})({
               )
             }
           </Form.Item>
-          <Form.Item label="类别" class={'half'}>
+          <Form.Item
+            label="类别"
+            class={'half'}
+          >
             <Spin spinning={this.indicatorCategoryLikeTree.loading}>
               {
                 this.form.getFieldDecorator('catId', {
@@ -139,7 +146,10 @@ export default Form.create({})({
               }
             </Spin>
           </Form.Item>
-          <Form.Item label={'组件类型'} class={'half'}>
+          <Form.Item
+            label={'组件类型'}
+            class={'half'}
+          >
             {
               this.form.getFieldDecorator('modType', {
                 initialValue: this.currentItem.modType || 1,
@@ -187,7 +197,10 @@ export default Form.create({})({
           <Form.Item label="解释">
             {
               this.form.getFieldDecorator('description', { initialValue: this.currentItem.description })(
-                <Input.TextArea placeholder="请输入解释" autoSize={{ minRows: 6 }} />
+                <Input.TextArea
+                  placeholder="请输入解释"
+                  autoSize={{ minRows: 6 }}
+                />
               )
             }
           </Form.Item>
@@ -198,7 +211,10 @@ export default Form.create({})({
               )
             }
           </Form.Item>
-          <Form.Item label="排序" class={'half'}>
+          <Form.Item
+            label="排序"
+            class={'half'}
+          >
             {
               this.form.getFieldDecorator('sortIndex', {
                 initialValue: this.currentItem.sortIndex || 0,
@@ -208,18 +224,27 @@ export default Form.create({})({
                   }
                 ]
               })(
-                <InputNumber placeholder="请输入排序值" style={{ width: '100%' }} />
+                <InputNumber
+                  placeholder="请输入排序值"
+                  style={{ width: '100%' }}
+                />
               )
             }
           </Form.Item>
-          <Form.Item label="状态" class={'half'}>
+          <Form.Item
+            label="状态"
+            class={'half'}
+          >
             {
               this.form.getFieldDecorator('status', {
                 valuePropName: 'checked',
                 initialValue: this.currentItem.id ? this.currentItem.status === 1 : true,
                 rules: [
                   {
-                    required: true, type: 'boolean', message: '请选择状态!', trigger: 'blur'
+                    required: true,
+                    type: 'boolean',
+                    message: '请选择状态!',
+                    trigger: 'change'
                   }
                 ]
               })(

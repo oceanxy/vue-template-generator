@@ -75,7 +75,7 @@ export default Form.create({})({
   render() {
     const attributes = {
       attrs: this.modalProps,
-      on: {cancel: () => this.onCancel(this.visibleField)}
+      on: { cancel: () => this.onCancel(this.visibleField) }
     }
 
     const tableAttributes = {
@@ -84,7 +84,7 @@ export default Form.create({})({
         loading: this.details.loading,
         dataSource: this.details.list
       },
-      attrs: {class: 'bnm-table-in-modal records-details-table'}
+      attrs: { class: 'bnm-table-in-modal records-details-table' }
     }
 
     return (
@@ -96,12 +96,13 @@ export default Form.create({})({
               result: (text, record) => {
                 if (record.modType === 5 || record.modType === 6) {
                   return (
-                    <ol style={{
-                      paddingLeft: '20px', marginBottom: 0 
-                    }}>
+                    <ol style={{ paddingLeft: '20px', marginBottom: 0 }}>
                       {
                         record.resultFile?.map(item => (
-                          <li><a target="_blank" href={item.path}>{item.fileName}</a></li>
+                          <li><a
+                            target="_blank"
+                            href={item.path}
+                          >{item.fileName}</a></li>
                         ))
                       }
                     </ol>
@@ -116,9 +117,7 @@ export default Form.create({})({
           <template slot="footer">
             <div class="actually-received">
               <span>综合得分</span>
-              <span style={{
-                width: '60px', textAlign: 'center' 
-              }}>
+              <span style={{ width: '60px', textAlign: 'center' }}>
                 {this.currentItem.score}
               </span>
             </div>

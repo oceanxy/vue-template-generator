@@ -6,6 +6,7 @@ import Inquiry from './components/Inquiry'
 import Table from './components/Table'
 import TGPagination from '@/components/TGPagination'
 import ModalOfPaymentRecords from './components/ModalOfPaymentRecords'
+import ModalOfBilling from './components/ModalOfBilling'
 
 export default {
   name: 'FeePaymentReport',
@@ -19,6 +20,7 @@ export default {
           <TGPagination slot={'pagination'} />
           <template slot={'modals'}>
             <ModalOfPaymentRecords modalTitle={'查看明细'} />
+            <ModalOfBilling modalTitle={'开具发票'} />
           </template>
         </TGContainer>
       </BNContainerWithParkSider>

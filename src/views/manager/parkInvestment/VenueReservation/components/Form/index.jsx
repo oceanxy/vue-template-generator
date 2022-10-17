@@ -9,11 +9,8 @@ export default Form.create({})({
   },
   computed: {
     ...mapGetters({ getState: 'getState' }),
-    organizationTree() {
-      return this.getState('organizationTree', 'common') || []
-    },
     roleTree() {
-      return this.getState('roleTree', 'common') || []
+      return this.getState('roleTree', 'common') || { loading: false, list: [] }
     },
     parksForSelect() {
       return this.getState('parksForSelect', 'common') || []
@@ -24,7 +21,6 @@ export default Form.create({})({
   },
   async created() {
     await Promise.all([
-      dispatch('common', 'getOrganizationTree'),
       dispatch('common', 'getParksForSelect'),
       dispatch('common', 'getRoleTree'),
       dispatch('common', 'getAdministrativeDivision')
@@ -99,7 +95,10 @@ export default Form.create({})({
             )
           }
         </Form.Item>
-        <Form.Item label={' '} colon={false}>
+        <Form.Item
+          label={' '}
+          colon={false}
+        >
           <Button
             icon={this.loading ? 'loading' : 'check'}
             type={'primary'}

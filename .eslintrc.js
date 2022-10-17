@@ -303,7 +303,7 @@ module.exports = {
       {
         'ObjectExpression': {
           'multiline': true,
-          'minProperties': 2
+          'minProperties': 3
         },
         'ObjectPattern': {
           'multiline': true,

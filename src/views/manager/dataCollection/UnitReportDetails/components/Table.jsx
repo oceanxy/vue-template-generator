@@ -8,7 +8,6 @@ export default {
     return {
       visibleField: 'visibleOfDetails',
       tableProps: {
-        rowSelection: null,
         columns: [
           {
             title: '序号',
@@ -20,7 +19,6 @@ export default {
           {
             title: '报表',
             width: 150,
-            fixed: true,
             dataIndex: 'reportName'
           },
           {
@@ -41,6 +39,7 @@ export default {
           {
             title: '填报状态',
             width: 100,
+            align: 'center',
             fixed: 'right',
             dataIndex: 'fillStatus'
           },
@@ -49,7 +48,7 @@ export default {
             key: 'operation',
             fixed: 'right',
             align: 'center',
-            width: 150,
+            width: 120,
             scopedSlots: { customRender: 'operation' }
           }
         ]
@@ -79,6 +78,14 @@ export default {
                   onClick={() => this._setVisibleOfModal(record, 'visibleOfDetails')}
                 >
                   查看详情
+                </Button>
+                <Button
+                  type="link"
+                  size="small"
+                  disabled={this.exportButtonDisabled}
+                  onClick={() => this.onExport({ recordIds: record.id }, '监管单位报表明细')}
+                >
+                  导出
                 </Button>
               </Space>
             )

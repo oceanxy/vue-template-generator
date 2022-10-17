@@ -1,7 +1,14 @@
+/* eslint-disable max-len */
 export default {
   render() {
     return (
-      <svg width="20" height="20" viewBox="0 0 20 20" stroke="currentColor" xmlns="http://www.w3.org/2000/svg">
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 20 20"
+        stroke="currentColor"
+        xmlns="http://www.w3.org/2000/svg"
+      >
         <path
           d="M4.16671 18.3334H15.8334C16.2936 18.3334 16.6667 17.9603 16.6667 17.5V5.83335L12.9167 1.66669H4.16671C3.70647 1.66669 3.33337 2.03978 3.33337 2.50002V17.5C3.33337 17.9603 3.70647 18.3334 4.16671 18.3334Z"
           fill="none"
@@ -14,8 +21,20 @@ export default {
           fill="none"
           stroke-width="1.25"
         />
-        <path d="M10 7.91669V9.16669" fill="none" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
-        <path d="M10 13.3333V14.5833" fill="none" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
+        <path
+          d="M10 7.91669V9.16669"
+          fill="none"
+          stroke-width="1.25"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <path
+          d="M10 13.3333V14.5833"
+          fill="none"
+          stroke-width="1.25"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
         <path
           d="M12.4284 8.75L11.5446 9.63387"
           fill="none"

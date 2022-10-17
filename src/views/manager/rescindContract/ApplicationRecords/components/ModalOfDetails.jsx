@@ -11,7 +11,10 @@ export default {
       modalProps: {
         width: 800,
         footer: [
-          <Button type={'primary'} onClick={() => this.onCancel(this.visibleField)}>取消</Button>
+          <Button
+            type={'primary'}
+            onClick={() => this.onCancel(this.visibleField)}
+          >取消</Button>
         ]
       },
       visibleField: 'visibleOfDetails'
@@ -32,7 +35,7 @@ export default {
             moduleName: this.moduleName,
             stateName: 'details',
             customApiName: 'getDetailsOfApplicationRecords',
-            payload: {id: this.currentItem.id}
+            payload: { id: this.currentItem.id }
           })
         }
       }
@@ -41,13 +44,17 @@ export default {
   render() {
     const attributes = {
       attrs: this.modalProps,
-      on: {cancel: () => this.onCancel(this.visibleField)}
+      on: { cancel: () => this.onCancel(this.visibleField) }
     }
 
     return (
       <DragModal {...attributes} class={'bnm-table-modal'}>
         <Spin spinning={this.details.loading}>
-          <Descriptions bordered column={1} class={'bnm-modal-descriptions'}>
+          <Descriptions
+            bordered
+            column={1}
+            class={'bnm-modal-descriptions'}
+          >
             <Descriptions.Item label={'扣款事项'}>
               <Table
                 size={'middle'}

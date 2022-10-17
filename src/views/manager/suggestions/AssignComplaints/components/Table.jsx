@@ -23,7 +23,7 @@ export default {
           },
           {
             title: '来源',
-            width: 80,
+            width: 100,
             dataIndex: 'sourceTypeStr'
           },
           {
@@ -34,7 +34,7 @@ export default {
           {
             title: '投诉类型',
             align: 'center',
-            width: 80,
+            width: 100,
             dataIndex: 'complaintTypeStr'
           },
           {
@@ -44,14 +44,14 @@ export default {
           },
           {
             title: '图片',
-            width: 80,
+            width: 100,
             align: 'center',
             scopedSlots: { customRender: 'acceptImg' }
           },
           {
             title: '当前受理人',
             align: 'center',
-            width: 80,
+            width: 100,
             dataIndex: 'assigneeName'
           },
           {
@@ -70,7 +70,7 @@ export default {
             key: 'operation',
             fixed: 'right',
             align: 'center',
-            width: 100,
+            width: 160,
             scopedSlots: { customRender: 'operation' }
           }
         ]
@@ -95,8 +95,8 @@ export default {
             acceptImg: (text, record) => (
               <ImagePreview
                 imageUrls={record.acceptImgList?.map(item => item.path) ?? []}
-                width={80}
-                height={80}
+                width={32}
+                height={32}
               />
             ),
             acceptStatus: (text, record) => (
@@ -106,7 +106,8 @@ export default {
                     '#52c41a',
                     '#f5222d',
                     '#faad14',
-                    '#89c5ff'
+                    '#89c5ff',
+                    '#fa8c16'
                   ][record.acceptStatus - 1]
                 }}
               >{record.acceptStatusStr}</span>
@@ -114,7 +115,7 @@ export default {
             operation: (text, record) => (
               <Space>
                 {
-                  record.acceptStatus === 2
+                  record.acceptStatus === 2 || record.acceptStatus === 4 || record.acceptStatus === 5
                     ? [
                       <Button
                         type="link"

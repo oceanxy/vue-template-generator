@@ -7,7 +7,7 @@ export default Form.create({})({
   mixins: [forFormModal()],
   data() {
     return {
-      modalProps: {width: 500},
+      modalProps: { width: 500 },
       visibleField: 'visibleOfUrgingPayment'
     }
   },
@@ -29,7 +29,7 @@ export default Form.create({})({
             moduleName: 'common',
             stateName: 'reminderMethods',
             customApiName: 'getReminderMethods',
-            payload: {treeId: this.currentParkTreeKeySelected}
+            payload: { treeId: this.currentParkTreeKeySelected }
           })
         }
       }
@@ -49,15 +49,20 @@ export default Form.create({})({
 
     return (
       <DragModal {...attributes}>
-        <Form class="bnm-form-grid label-size-small" colon={false}>
+        <Form
+          class="bnm-form-grid label-size-small"
+          colon={false}
+        >
           <Form.Item label="催缴方式">
             <Spin spinning={this.reminderMethods.loading}>
               {
                 this.form.getFieldDecorator('remindTypeId', {
                   initialValue: 1,
-                  rules: [{
-                    required: true, type: 'number', message: '请选择催缴方式！', trigger: 'change'
-                  }]
+                  rules: [
+                    {
+                      required: true, type: 'number', message: '请选择催缴方式！', trigger: 'change'
+                    }
+                  ]
                 })(
                   <Radio.Group>
                     {
@@ -73,9 +78,11 @@ export default Form.create({})({
           <Form.Item label="催缴内容">
             {
               this.form.getFieldDecorator('content', {
-                rules: [{
-                  required: true, message: '请输入催缴内容！', trigger: 'blur'
-                }]
+                rules: [
+                  {
+                    required: true, message: '请输入催缴内容！', trigger: 'blur'
+                  }
+                ]
               })(
                 <Input.TextArea
                   placeholder={'请输入催缴内容'}

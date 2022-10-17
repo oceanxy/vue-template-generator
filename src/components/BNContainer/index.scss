@@ -14,8 +14,7 @@
 
   .box-title {
     position: relative;
-    height: 6.4vh;
-    padding: 0 2.4vh;
+    padding: 0 20px 6px;
     min-height: 40px;
     // line-height: 64px;
     box-sizing: border-box;
@@ -26,6 +25,11 @@
     color: #262626;
     gap: 1vh;
     flex: none;
+    white-space: nowrap;
+
+    .box-title-label {
+      white-space: nowrap;
+    }
 
     & > *:not(.box-title) {
       display: flex;

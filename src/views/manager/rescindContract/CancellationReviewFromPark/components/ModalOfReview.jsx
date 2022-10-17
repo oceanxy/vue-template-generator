@@ -8,7 +8,7 @@ export default Form.create({})({
   mixins: [forFormModal()],
   data() {
     return {
-      modalProps: {width: 700},
+      modalProps: { width: 700 },
       visibleField: 'visibleOfReview'
     }
   },
@@ -27,7 +27,7 @@ export default Form.create({})({
             moduleName: this.moduleName,
             stateName: 'details',
             customApiName: 'getDetailsOfApplicationRecords',
-            payload: {id: this.currentItem.id}
+            payload: { id: this.currentItem.id }
           })
         }
       }
@@ -77,11 +77,16 @@ export default Form.create({})({
           <Form.Item label="审核结果">
             {
               this.form.getFieldDecorator('auditStatus', {
-                rules: [{
-                  required: true, type: 'number', message: '请选择审核结果！', trigger: 'change'
-                }]
+                rules: [
+                  {
+                    required: true, type: 'number', message: '请选择审核结果！', trigger: 'change'
+                  }
+                ]
               })(
-                <Radio.Group placeholder="请选择审核结果" allowClear>
+                <Radio.Group
+                  placeholder="请选择审核结果"
+                  allowClear
+                >
                   <Radio value={3}>通过</Radio>
                   <Radio value={4}>拒绝</Radio>
                 </Radio.Group>
@@ -91,11 +96,17 @@ export default Form.create({})({
           <Form.Item label="审核意见">
             {
               this.form.getFieldDecorator('opinion', {
-                rules: [{
-                  required: true, message: '请输入审核意见！', trigger: 'blur'
-                }]
+                rules: [
+                  {
+                    required: true, message: '请输入审核意见！', trigger: 'blur'
+                  }
+                ]
               })(
-                <Input.TextArea placeholder="请输入审核意见" autoSize={{ minRows: 6 }} allowClear />
+                <Input.TextArea
+                  placeholder="请输入审核意见"
+                  autoSize={{ minRows: 6 }}
+                  allowClear
+                />
               )
             }
           </Form.Item>

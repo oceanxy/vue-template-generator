@@ -14,10 +14,18 @@ export default Form.create({})({
         class="tg-inquiry"
       >
         <Space>
-          <Form.Item>{this.form.getFieldDecorator('fullName')(<Input placeholder="名称" allowClear />)}</Form.Item>
+          <Form.Item>{this.form.getFieldDecorator('fullName')(<Input
+            placeholder="名称"
+            allowClear
+          />)}</Form.Item>
           <Form.Item>
             <Space>
-              <Button loading={this.loading} htmlType="submit" type="primary" icon="search">
+              <Button
+                loading={this.loading}
+                htmlType="submit"
+                type="primary"
+                icon="search"
+              >
                 查询
               </Button>
               {/*<Button onClick={this.onClear} icon="reload">重置</Button>*/}

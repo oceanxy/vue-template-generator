@@ -60,6 +60,7 @@ export default {
       <TGContainerWithSider
         siderOnLeft
         class={'bnm-questionnaire-statistics-container'}
+        contentClass={'bnm-questionnaire-statistics-content'}
       >
         <template slot={'sider'}>
           <Select
@@ -75,7 +76,10 @@ export default {
             }
           </Select>
           <div class={'list'}>
-            <Spin spinning={this.itemLoading} style={{ width: '100%' }}>
+            <Spin
+              spinning={this.itemLoading}
+              style={{ width: '100%' }}
+            >
               {
                 this.itemOfQuestionnaireTemplate.length
                   ? this.itemOfQuestionnaireTemplate.map((item, index) => (

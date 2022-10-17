@@ -108,9 +108,7 @@ export default {
             ),
             targetProveList: (text, record) => (
               <ol
-                style={{
-                  paddingLeft: '20px', marginBottom: 0
-                }}
+                style={{ paddingLeft: '20px', marginBottom: 0 }}
               >
                 {
                   record.targetProveList?.map(item => (

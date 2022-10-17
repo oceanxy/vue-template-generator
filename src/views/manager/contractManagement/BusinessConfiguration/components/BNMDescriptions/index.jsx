@@ -25,7 +25,10 @@ export default {
         title={
           <div class={'business-configuration-title'}>
             <span>{this.title}</span>
-            {this.showButton ? <Button ghost type={'primary'}>配置</Button> : null}
+            {this.showButton ? <Button
+              ghost
+              type={'primary'}
+            >配置</Button> : null}
           </div>
         }
       >

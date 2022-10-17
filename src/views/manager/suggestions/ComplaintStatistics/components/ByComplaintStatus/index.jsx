@@ -12,14 +12,14 @@ export default {
       option: {
         title: {
           textStyle: {
-            fontSize: 20,
+            fontSize: '1.2rem',
             color: '#1f1f1f',
             lineHeight: 16,
             fontFamily: 'Source Han Sans CN',
             opacity: 0.7
           },
           subtextStyle: {
-            fontSize: 14,
+            fontSize: '.9rem',
             color: '#8c8c8c',
             lineHeight: 10,
             fontFamily: 'Source Han Sans CN',
@@ -32,7 +32,7 @@ export default {
         series: [
           {
             type: 'pie',
-            radius: ['65%', '90%'],
+            radius: ['55%', '75%'],
             center: ['55%', '50%'],
             hoverAnimation: false,
             startAngle: -135,
@@ -44,7 +44,8 @@ export default {
         ]
       },
       option1: {},
-      option2: {}
+      option2: {},
+      option3: {}
     })
   },
   computed: {
@@ -57,6 +58,12 @@ export default {
     'complaintStatisticsByStatus.list'(value) {
       const option1 = cloneDeep(this.option)
       const option2 = cloneDeep(this.option)
+      const option3 = cloneDeep(this.option)
+      const total = value.reduce((acc, value) => {
+        acc = acc + value.count
+
+        return acc
+      }, 0)
 
       option1.color = ['#3595ff', '#ebf4fd']
       option1.title.text = value[0]?.percent
@@ -66,7 +73,7 @@ export default {
           value: value[0]?.count,
           itemStyle: { borderRadius: '50%' }
         },
-        { value: value[1]?.count }
+        { value: total }
       ]
       this.option1 = option1
 
@@ -78,9 +85,21 @@ export default {
           value: value[1]?.count,
           itemStyle: { borderRadius: '50%' }
         },
-        { value: value[0]?.count }
+        { value: total }
       ]
       this.option2 = option2
+
+      option3.color = ['#a0d911', '#f4fbe2']
+      option3.title.text = value[2]?.percent
+      option3.title.subtext = value[2]?.fullName
+      option3.series[0].data = [
+        {
+          value: value[2]?.count,
+          itemStyle: { borderRadius: '50%' }
+        },
+        { value: total }
+      ]
+      this.option3 = option3
     }
   },
   async created() {
@@ -113,7 +132,7 @@ export default {
               dataIndex: 'count'
             },
             {
-              title: '占比',
+              title: '占比1',
               dataIndex: 'percent'
             }
           ]}
@@ -129,6 +148,11 @@ export default {
           <Chart
             class={'chart'}
             option={this.option2}
+            notMerge={true}
+          />
+          <Chart
+            class={'chart'}
+            option={this.option3}
             notMerge={true}
           />
         </div>

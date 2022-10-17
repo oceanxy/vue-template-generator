@@ -10,6 +10,24 @@ export default Form.create({})({
   data() {
     return { modalProps: { width: 810 } }
   },
+  computed: {
+    /**
+     * 回显图片
+     * @returns {*|*[]}
+     */
+    fileList() {
+      return this.currentItem.coverImg
+        ? [
+          {
+            uid: 'coverImg',
+            key: this.currentItem.coverImg,
+            url: this.currentItem.coverImgStr,
+            status: 'done',
+            name: this.currentItem.coverImg?.substring(this.currentItem.coverImg?.lastIndexOf('/'))
+          }
+        ] : []
+    }
+  },
   render() {
     const attributes = {
       attrs: this.modalProps,
@@ -31,25 +49,12 @@ export default Form.create({})({
       }
     }
 
-    // 回显图片
-    const fileList = []
-
-    if (this.currentItem.coverImg) {
-      fileList.push({
-        uid: 'coverImg',
-        url: this.currentItem.coverImgStr,
-        key: this.currentItem.coverImg,
-        status: 'done',
-        name: this.currentItem.coverImg?.substring(this.currentItem.coverImg?.lastIndexOf('/'))
-      })
-    }
-
     return (
       <DragModal {...attributes} class={'bnm-from-grid'}>
         <Form class="bnm-form-grid">
           <Form.Item label="封面图片">
             {
-              this.form.getFieldDecorator('coverImg', { initialValue: fileList })(
+              this.form.getFieldDecorator('coverImg', { initialValue: this.fileList })(
                 <BNUploadPictures limit={1} />
               )
             }
@@ -66,7 +71,10 @@ export default Form.create({})({
                   }
                 ]
               })(
-                <Input placeholder="请输入活动名称" allowClear />
+                <Input
+                  placeholder="请输入活动名称"
+                  allowClear
+                />
               )
             }
           </Form.Item>
@@ -86,7 +94,10 @@ export default Form.create({})({
                   }
                 ]
               })(
-                <DatePicker.RangePicker showTime style={{ width: '100%' }} />
+                <DatePicker.RangePicker
+                  showTime
+                  style={{ width: '100%' }}
+                />
               )
             }
           </Form.Item>
@@ -102,7 +113,10 @@ export default Form.create({})({
                   }
                 ]
               })(
-                <Input placeholder="请输入活动场所" allowClear />
+                <Input
+                  placeholder="请输入活动场所"
+                  allowClear
+                />
               )
             }
           </Form.Item>
@@ -118,15 +132,19 @@ export default Form.create({})({
                   }
                 ]
               })(
-                <Input placeholder="请输入主办单位" allowClear />
+                <Input
+                  placeholder="请输入主办单位"
+                  allowClear
+                />
               )
             }
           </Form.Item>
           <Form.Item label="参与对象">
             {
-              this.form.getFieldDecorator('participationObjs', {
-                initialValue: this.currentItem.participationObjIds || []
-              })(
+              this.form.getFieldDecorator(
+                'participationObjs',
+                { initialValue: this.currentItem.participationObjIds || [] }
+              )(
                 <Checkbox.Group>
                   <Checkbox value={1}>个人</Checkbox>
                   <Checkbox value={2}>公司/团队</Checkbox>
@@ -134,14 +152,17 @@ export default Form.create({})({
               )
             }
           </Form.Item>
-          {/*<Form.Item label="资讯链接">*/}
-          {/*  {*/}
-          {/*    this.form.getFieldDecorator('articleIdList', { initialValue: this.currentItem.articleIdList || [] })(*/}
-          {/*      <MultiInput placeholder="请输入资讯链接" />*/}
-          {/*    )*/}
-          {/*  }*/}
-          {/*</Form.Item>*/}
-          <Form.Item label="排序" class={'half'}>
+          {/*<Form.Item label="资讯链接">
+            {
+              this.form.getFieldDecorator('articleIdList', { initialValue: this.currentItem.articleIdList || [] })(
+                <MultiInput placeholder="请输入资讯链接" />
+              )
+            }
+          </Form.Item>*/}
+          <Form.Item
+            label="排序"
+            class={'half'}
+          >
             {
               this.form.getFieldDecorator('sortIndex', {
                 initialValue: this.currentItem.sortIndex || 0,
@@ -154,18 +175,27 @@ export default Form.create({})({
                   }
                 ]
               })(
-                <InputNumber style={{ width: '100%' }} placeholder="请输入排序值" />
+                <InputNumber
+                  style={{ width: '100%' }}
+                  placeholder="请输入排序值"
+                />
               )
             }
           </Form.Item>
-          <Form.Item label="状态" class={'half'}>
+          <Form.Item
+            label="状态"
+            class={'half'}
+          >
             {
               this.form.getFieldDecorator('status', {
                 valuePropName: 'checked',
                 initialValue: this.currentItem.id ? this.currentItem.status === 1 : true,
                 rules: [
                   {
-                    required: true, type: 'boolean', message: '请选择状态!', trigger: 'blur'
+                    required: true,
+                    type: 'boolean',
+                    message: '请选择状态!',
+                    trigger: 'change'
                   }
                 ]
               })(

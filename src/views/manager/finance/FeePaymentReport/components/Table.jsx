@@ -15,13 +15,12 @@ export default {
             title: '序号',
             align: 'center',
             width: 60,
-
+            fixed: true,
             scopedSlots: { customRender: 'serialNumber' }
           },
           {
             title: '流水号',
             width: 120,
-            fixed: true,
             dataIndex: 'paySerialNumber'
           },
           {
@@ -68,8 +67,7 @@ export default {
             title: '操作',
             key: 'operation',
             fixed: 'right',
-            align: 'center',
-            width: 200,
+            width: 250,
             scopedSlots: { customRender: 'operation' }
           }
         ]
@@ -107,8 +105,8 @@ export default {
             payCredentials: (text, record) => (
               <ImagePreview
                 imageUrls={record.payCredentialsList || []}
-                width={80}
-                height={80}
+                width={32}
+                height={32}
               />
             ),
             payStatus: (text, record) => (
@@ -128,18 +126,18 @@ export default {
               </span>
             ),
             address: (text, record) => (
-              <ul
-                style={{
-                  paddingLeft: '20px',
-                  marginBottom: 0
-                }}
-              >
-                {
-                  record.address?.split(',').map(item => (
-                    <li>{item}</li>
-                  ))
-                }
-              </ul>
+              record.address
+                ? (
+                  <ul
+                    style={{
+                      paddingLeft: '20px',
+                      marginBottom: 0
+                    }}
+                  >
+                    {record.address.split(',').map(item => <li>{item}</li>)}
+                  </ul>
+                )
+                : '-'
             ),
             operation: (text, record) => (
               <Space>
@@ -158,6 +156,43 @@ export default {
                       onClick={() => this.confirmedPaid(record.id)}
                     >
                       确认收款
+                    </Button>
+                  ) : null
+                }
+                {
+                  record.isInvoice === 1 ? (
+                    <Button
+                      type="link"
+                      size="small"
+                      onClick={() => this._setVisibleOfModal(record, 'visibleOfBilling')}
+                    >
+                      开具发票
+                    </Button>
+                  ) : null
+                }
+                {
+                  record.isInvoice === 3 ? (
+                    <Button
+                      type="link"
+                      size="small"
+                      onClick={() => this._setVisibleOfModal(record, 'visibleOfBilling')}
+                    >
+                      重新上传发票
+                    </Button>
+                  ) : null
+                }
+                {
+                  record.isInvoice === 3 ? (
+                    <Button
+                      type="link"
+                      size="small"
+                    >
+                      <a
+                        href={record.invoiceUrl}
+                        target={'_blank'}
+                      >
+                        下载发票
+                      </a>
                     </Button>
                   ) : null
                 }

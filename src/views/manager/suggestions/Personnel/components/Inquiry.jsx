@@ -16,14 +16,20 @@ export default Form.create({})({
         <Form.Item>
           {
             this.form.getFieldDecorator('fullName')(
-              <Input placeholder="姓名/手机号码" allowClear />
+              <Input
+                placeholder="姓名/手机号码"
+                allowClear
+              />
             )
           }
         </Form.Item>
         <Form.Item>
           {
             this.form.getFieldDecorator('gender')(
-              <Select placeholder="性别" allowClear>
+              <Select
+                placeholder="性别"
+                allowClear
+              >
                 <Select.Option value={1}>男</Select.Option>
                 <Select.Option value={2}>女</Select.Option>
               </Select>

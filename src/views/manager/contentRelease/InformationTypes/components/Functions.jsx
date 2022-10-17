@@ -7,10 +7,18 @@ export default {
   render() {
     return (
       <Space class="tg-function">
-        <Button onClick={() => this.onAddClick()} icon="plus">
+        <Button
+          onClick={() => this.onAddClick()}
+          type={'primary'}
+          icon="plus"
+        >
           新增
         </Button>
-        <Button disabled={this.deleteButtonDisabled} onClick={() => this.onDeleteClick()} icon="delete">
+        <Button
+          disabled={this.deleteButtonDisabled}
+          onClick={() => this.onDeleteClick()}
+          icon="delete"
+        >
           删除
         </Button>
       </Space>

@@ -17,7 +17,6 @@ export default {
           },
           {
             title: '问卷标题',
-            fixed: true,
             width: 250,
             dataIndex: 'reportName'
           },
@@ -67,9 +66,14 @@ export default {
         {...attributes}
         {...{
           scopedSlots: {
+            serialNumber: (text, record, index) => index + 1,
             operation: (text, record) => (
               <Space>
-                <Button type="link" size="small" onClick={() => this._setVisibleOfModal(record, 'visibleOfResults')}>
+                <Button
+                  type="link"
+                  size="small"
+                  onClick={() => this._setVisibleOfModal(record, 'visibleOfResults')}
+                >
                   查看结果
                 </Button>
               </Space>

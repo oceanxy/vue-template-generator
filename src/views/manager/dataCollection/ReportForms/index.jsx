@@ -7,6 +7,7 @@ import TGPagination from '@/components/TGPagination'
 import ModalOfEdit from './components/ModalOfEdit'
 import ModalOfReportItems from './components/ModalOfReportItems'
 import ModalOfReportSwitch from './components/ModalOfReportSwitch'
+import ModalOfPreview from './components/ModalOfPreview'
 
 export default {
   name: 'ReportForms',
@@ -21,6 +22,7 @@ export default {
           <ModalOfEdit modalTitle={'{action}报表'} />
           <ModalOfReportItems modalTitle={'填报项'} />
           <ModalOfReportSwitch modalTitle={'{action}报表'} />
+          <ModalOfPreview modalTitle={'预览报表'} />
         </template>
       </TGContainer>
     )

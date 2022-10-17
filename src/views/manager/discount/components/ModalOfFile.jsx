@@ -1,7 +1,7 @@
 import './assets/styles/modalOfFile.scss'
 import forModal from '@/mixins/forModal'
 import DragModal from '@/components/DragModal'
-import { mapState, mapAction, mapMutation } from '@/utils/store'
+import { mapAction, mapMutation, mapState } from '@/utils/store'
 
 // import { Button } from 'ant-design-vue'
 export default {
@@ -16,7 +16,7 @@ export default {
       }
     }
   },
-  computed: {...mapState(['businessFile'])},
+  computed: { ...mapState(['businessFile']) },
   watch: {
     visible: {
       immediate: true,
@@ -36,7 +36,7 @@ export default {
   render() {
     const attributes = {
       attrs: this.modalProps,
-      on: {cancel: () => this.onCancel(this.visibleField)}
+      on: { cancel: () => this.onCancel(this.visibleField) }
     }
 
     return (
@@ -55,7 +55,10 @@ export default {
                 {this.businessFile.map(item => (
                   <li class="item">
                     <span>{item.fileName}</span>
-                    <a href={item.path} target="_brank">
+                    <a
+                      href={item.path}
+                      target="_brank"
+                    >
                       下载
                     </a>
                   </li>

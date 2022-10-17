@@ -38,7 +38,7 @@ export default {
     ...mapGetters({ getState: 'getState' }),
     // 请求线索详情列表需要的参数（在 forTable 混合内通过全局action：getList 请求数据）
     additionalQueryParameters() {
-      return {id: this.getState('currentItem', this.moduleName).id}
+      return { id: this.getState('currentItem', this.moduleName).id }
     }
   },
   render() {
@@ -47,7 +47,7 @@ export default {
         ...this.tableProps,
         loading: this.getLoading(this.moduleName, this.submoduleName)
       },
-      attrs: {class: 'bnm-table-in-modal'}
+      attrs: { class: 'bnm-table-in-modal' }
     }
 
     return (

@@ -9,7 +9,7 @@ export default {
   name: 'SigningProcess',
   mixins: [dynamicState()],
   computed: {
-    ...mapGetters({getState: 'getState'}),
+    ...mapGetters({ getState: 'getState' }),
     loading() {
       return this.getState('loading', this.moduleName)
     },
@@ -32,14 +32,14 @@ export default {
         this.$store.commit('setDetails', {
           moduleName: this.moduleName,
           merge: true,
-          value: {signingStage: 1}
+          value: { signingStage: 1 }
         })
       }
     } else {
       // 未携带参数进入流程，则为新签约流程，重置合同信息
       this.$store.commit('setDetails', {
         moduleName: this.moduleName,
-        value: {signingStage: 1}
+        value: { signingStage: 1 }
       })
     }
   },
@@ -51,7 +51,10 @@ export default {
           if (this.loading) {
             return <Spin class={'signing-process-loading'}>正在加载签约流程，请稍等...</Spin>
           } else {
-            return <Spin class={'signing-process-loading'} spinning={this.loading}>发生错误，加载签约流程失败！</Spin>
+            return <Spin
+              class={'signing-process-loading'}
+              spinning={this.loading}
+            >发生错误，加载签约流程失败！</Spin>
           }
         }
       }

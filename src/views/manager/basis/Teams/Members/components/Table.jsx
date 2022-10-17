@@ -81,7 +81,9 @@ export default {
             isLeader: (text, record) => (
               <Switch
                 checked={+record.isLeader === 1}
-                onChange={checked => this.onStatusChange({ checked, record, customFieldName: 'isLeader' })}
+                onChange={checked => this.onStatusChange({
+                  checked, record, customFieldName: 'isLeader'
+                })}
               />
             ),
             operation: (text, record) => (

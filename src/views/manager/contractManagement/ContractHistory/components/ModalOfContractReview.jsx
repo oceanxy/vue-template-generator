@@ -1,5 +1,5 @@
 import '../assets/styles/index.scss'
-import { Form, Input, Radio, Select, Switch } from 'ant-design-vue'
+import { Form, Input, Radio } from 'ant-design-vue'
 import forFormModal from '@/mixins/forModal/forFormModal'
 import { mapState } from 'vuex'
 import DragModal from '@/components/DragModal'
@@ -8,7 +8,7 @@ export default Form.create({})({
   mixins: [forFormModal()],
   data() {
     return {
-      modalProps: {width: 690},
+      modalProps: { width: 690 },
       visibleField: 'visibleOfContractReview'
     }
   },
@@ -42,7 +42,7 @@ export default Form.create({})({
         >
           <Form.Item label="审核结果">
             {
-              this.form.getFieldDecorator('xx', {initialValue: this.currentItem.sortIndex || 0})(
+              this.form.getFieldDecorator('xx', { initialValue: this.currentItem.sortIndex || 0 })(
                 <Radio.Group>
                   <Radio value={1}>通过</Radio>
                   <Radio value={2}>驳回</Radio>
@@ -52,8 +52,11 @@ export default Form.create({})({
           </Form.Item>
           <Form.Item label="审核意见">
             {
-              this.form.getFieldDecorator('ss', {initialValue: this.currentItem.sortIndex || 0})(
-                <Input.TextArea placeholder="请输入简介" autoSize={{ minRows: 6 }} />
+              this.form.getFieldDecorator('ss', { initialValue: this.currentItem.sortIndex || 0 })(
+                <Input.TextArea
+                  placeholder="请输入简介"
+                  autoSize={{ minRows: 6 }}
+                />
               )
             }
           </Form.Item>

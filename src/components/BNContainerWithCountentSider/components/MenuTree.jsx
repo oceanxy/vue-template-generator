@@ -59,7 +59,8 @@ export default {
         defaultExpandedKeys={this.defaultExpandedKeys}
         defaultCheckedKeys={this.defaultCheckedKeys}
         onchange={this.onChange}
-        oncheck={this.onCheck}></Tree>
+        oncheck={this.onCheck}
+      ></Tree>
     )
   }
 }

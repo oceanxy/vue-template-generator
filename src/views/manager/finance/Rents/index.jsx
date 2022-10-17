@@ -7,7 +7,7 @@ import Table from './components/Table'
 import TGPagination from '@/components/TGPagination'
 
 export default {
-  name: 'Utilities',
+  name: 'Rents',
   mixins: [dynamicState()],
   render() {
     return (

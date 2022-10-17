@@ -15,9 +15,7 @@ export default commitRootInModule => createStoreModule({
       return response.status
     },
     async getListOfAccountApplicationRecord({ commit }) {
-      commit('setLoading', {
-        value: true, moduleName: 'accountOpening'
-      }, { root: true })
+      commit('setLoading', { value: true, moduleName: 'accountOpening' }, { root: true })
 
       const response = await apis.getListOfAccountApplicationRecord()
 
@@ -25,9 +23,7 @@ export default commitRootInModule => createStoreModule({
         commit('setListOfAccountApplicationRecord', response.data)
       }
 
-      commit('setLoading', {
-        value: false, moduleName: 'accountOpening'
-      }, { root: true })
+      commit('setLoading', { value: false, moduleName: 'accountOpening' }, { root: true })
     }
   }
 })

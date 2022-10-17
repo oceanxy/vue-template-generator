@@ -14,6 +14,7 @@ export default {
           {
             title: '序号',
             width: 60,
+            fixed: true,
             align: 'center',
             scopedSlots: { customRender: 'serialNumber' }
           },
@@ -69,7 +70,7 @@ export default {
             key: 'operation',
             fixed: 'right',
             align: 'center',
-            width: 180,
+            width: 160,
             scopedSlots: { customRender: 'operation' }
           }
         ],
@@ -107,27 +108,8 @@ export default {
         return <Tag>已撤销</Tag>
       } else if (record.acceptStatus === 4) {
         return <Tag color="orange">处理中</Tag>
-      }
-    }
-    const getBtns = record => {
-      if (record.acceptStatus === 2) {
-        return [
-          <Button type="link" size="small" onClick={() => this.onEditClick(record)}>
-            编辑
-          </Button>,
-          <Button type="link" size="small" onClick={() => this._setVisibleOfModal(record, 'visibleOfDistribute')}>
-            派单
-          </Button>,
-          <Button type="link" size="small" onClick={() => this.cancelOrder(record)}>
-            撤销
-          </Button>
-        ]
-      } else if (record.acceptStatus === 4) {
-        return [
-          <Button type="link" size="small" onClick={() => this.cancelOrder(record)}>
-            撤销
-          </Button>
-        ]
+      } else if (record.acceptStatus === 5) {
+        return <Tag color="yellow">待分配</Tag>
       }
     }
 
@@ -152,7 +134,43 @@ export default {
             acceptStatus: (text, record) => {
               return getStatus(record)
             },
-            operation: (text, record) => <Space>{getBtns(record)}</Space>
+            operation: (text, record) => (
+              <Space>
+                {
+                  record.acceptStatus === 2 || record.acceptStatus === 5 ? (
+                    <Button
+                      type="link"
+                      size="small"
+                      onClick={() => this.onEditClick(record)}
+                    >
+                      编辑
+                    </Button>
+                  ) : null
+                }
+                {
+                  record.acceptStatus === 5 || record.acceptStatus === 2 || record.acceptStatus === 4 ? (
+                    <Button
+                      type="link"
+                      size="small"
+                      onClick={() => this.cancelOrder(record)}
+                    >
+                      撤销
+                    </Button>
+                  ) : null
+                }
+                {
+                  record.acceptStatus === 5 ? (
+                    <Button
+                      type="link"
+                      size="small"
+                      onClick={() => this._setVisibleOfModal(record, 'visibleOfDistribute')}
+                    >
+                      派单
+                    </Button>
+                  ) : null
+                }
+              </Space>
+            )
           }
         }}
       />

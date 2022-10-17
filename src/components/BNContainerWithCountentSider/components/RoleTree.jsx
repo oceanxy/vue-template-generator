@@ -49,7 +49,8 @@ export default {
         loading={this.loading}
         data={this.treeList}
         defaultExpandedKeys={this.defaultExpandedKeys}
-        onchange={this.onChange}></Tree>
+        onchange={this.onChange}
+      ></Tree>
     )
   }
 }

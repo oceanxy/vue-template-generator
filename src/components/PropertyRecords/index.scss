@@ -22,12 +22,15 @@
     flex-direction: column;
     gap: 10px;
     padding: 16px;
+
     .repair-record-item {
       margin-top: 15px;
+
       &:first-child {
         margin-top: 0;
       }
     }
+
     .pager-btn {
       text-align: right;
       padding: 16px;

@@ -9,7 +9,7 @@ import ModalOfEdit from '../XcxUser/components/ModalOfEdit'
 export default {
   name: 'SystemXcxUser',
   mixins: [dynamicState()],
-  render () {
+  render() {
     return (
       <TGContainer class="bnm-system-xcxuser-container">
         <Inquiry slot={'inquiry'} />

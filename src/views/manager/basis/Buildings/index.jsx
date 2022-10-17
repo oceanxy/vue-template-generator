@@ -9,13 +9,16 @@ import ModalOfEdit from './components/ModalOfEdit'
 export default {
   name: 'Buildings',
   mixins: [dynamicState()],
-  render () {
+  render() {
     return (
       <TGContainer class="bnm-buildings-container">
         <Inquiry slot={'inquiry'} />
         <Table slot={'table'} />
         <TGPagination slot={'pagination'} />
-        <ModalOfEdit slot={'modals'} modalTitle={'{action}楼栋'} />
+        <ModalOfEdit
+          slot={'modals'}
+          modalTitle={'{action}楼栋'}
+        />
       </TGContainer>
     )
   }

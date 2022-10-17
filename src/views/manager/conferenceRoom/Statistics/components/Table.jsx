@@ -1,5 +1,5 @@
 import '../assets/styles/index.scss'
-import { Button, Space, Table } from 'ant-design-vue'
+import { Space, Table } from 'ant-design-vue'
 import forTable from '@/mixins/forTable'
 import { mapAction } from '@/utils/store'
 
@@ -43,7 +43,7 @@ export default {
           {
             title: '操作',
             key: 'operation',
-            width: 150,
+            width: 120,
             fixed: 'right',
             align: 'center',
             scopedSlots: { customRender: 'operation' }
@@ -53,7 +53,7 @@ export default {
       }
     }
   },
-  methods: {...mapAction(['cancelMeetingRoomAppointment'])},
+  methods: { ...mapAction(['cancelMeetingRoomAppointment']) },
   render() {
     const attributes = {
       props: {

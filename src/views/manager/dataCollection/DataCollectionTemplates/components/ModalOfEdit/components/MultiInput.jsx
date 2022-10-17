@@ -1,9 +1,9 @@
 import '../index.scss'
 import { cloneDeep, debounce } from 'lodash'
 import ItemMultiInput from './ItemMultiInput'
-import { Affix, Button, Input, Modal, Select, Space, Spin, Switch, Table } from 'ant-design-vue'
+import { Affix, Button, Form, Input, Modal, Select, Space, Spin, Switch, Table } from 'ant-design-vue'
 
-export default {
+export default Form.create({})({
   model: {
     prop: 'value',
     event: 'change'
@@ -25,6 +25,10 @@ export default {
       type: Object,
       default: () => ({})
     },
+    selectedIndicatorIds: {
+      type: Array,
+      default: () => []
+    },
     parentForm: {
       type: Object,
       required: true
@@ -36,6 +40,10 @@ export default {
     affixTarget: {
       type: Function,
       required: true
+    },
+    footer: {
+      type: Function,
+      default: () => null
     }
   },
   data() {
@@ -52,7 +60,7 @@ export default {
         scopedSlots: { customRender: 'targetId' }
       },
       {
-        title: '标题',
+        title: <div class="ant-form-item-required">标题</div>,
         width: 140,
         scopedSlots: { customRender: 'fullName' }
       },
@@ -62,12 +70,13 @@ export default {
         scopedSlots: { customRender: 'description' }
       },
       {
-        title: '组件类型',
+        title: <div class="ant-form-item-required">组件类型</div>,
         width: 100,
         scopedSlots: { customRender: 'modType' }
       },
       {
-        title: '选项',
+        title: <div class="ant-form-item-required">选项（单选或多选时必填）</div>,
+        width: 300,
         scopedSlots: { customRender: 'itemOptionList' }
       },
       {
@@ -85,6 +94,7 @@ export default {
       {
         title: (
           <Affix
+            ref={'affix'}
             offsetTop={this.affixOffsetTop}
             target={this.affixTarget}
           >
@@ -107,7 +117,8 @@ export default {
     return {
       columns,
       dataSource: [],
-      loading: false
+      loading: false,
+      prevIndicatorId: undefined // 用于保存填报项内指标字段变动前的值
     }
   },
   watch: {
@@ -141,6 +152,10 @@ export default {
       }
     }
   },
+  mounted() {
+    // 根据官方文档，解决Affix固钉移到target容器外的问题
+    this.$refs.affix.updatePosition()
+  },
   methods: {
     onDelClick(id) {
       const dataSource = cloneDeep(this.dataSource)
@@ -156,7 +171,11 @@ export default {
       this.dataSource = dataSource
       this.$emit('change', dataSource)
     },
-    onCreateRow() {
+    /**
+     * 增加一行填报项
+     * @param [isTriggeredManually] {boolean} 是否是手动触发
+     */
+    onCreateRow(isTriggeredManually) {
       const row = {
         id: Math.random(),
         disabled: false,
@@ -171,11 +190,25 @@ export default {
       }
 
       this.dataSource.push(row)
+
+      if (isTriggeredManually) {
+        this.$emit('addItem')
+      }
     },
-    onChange() {
-      this.loading = true
-      this.$emit('change', this.dataSource)
-      this.loading = false
+    onChange(field) {
+      // 加 $nextTick 是保证 ItemMultiInput 等子组件的 value 即时回传。（否则可能导致此处取不到子组件最新值的问题）
+      this.$nextTick(() => {
+        this.loading = true
+
+        if (field) {
+          const [key, index] = field.split('-')
+
+          this.dataSource[index][key] = this.form.getFieldValue(field)
+        }
+
+        this.$emit('change', this.dataSource)
+        this.loading = false
+      })
     },
     onMoveUp(id) {
       this.loading = true
@@ -216,16 +249,31 @@ export default {
       this.loading = false
     },
     resetRow(value, record) {
+      const index = this.dataSource.findIndex(item => item.id === record.id)
       const temp = this.indicators.list.find(item => item.id === value)
+      const oldItem = this.dataSource[index]
 
-      record.targetId = temp.id
-      record.fullName = temp.fullName
-      record.itemOptionList = temp.targetOptionList
-      record.description = temp.description
-      record.modType = 1
-      record.isRequired = true
-      record.status = true
-      record.disabled = true
+      this.dataSource.splice(index, 1, {
+        id: oldItem.id,
+        serialNum: oldItem.serialNum,
+        targetId: temp.id,
+        fullName: temp.fullName,
+        itemOptionList: temp.targetOptionList,
+        description: temp.description,
+        modType: temp.modType,
+        isRequired: true,
+        status: true,
+        disabled: true
+      })
+
+      // 加上次判断，避免有时无法给需要验证的表单项赋值的问题
+      if (this.form.getFieldValue(`fullName-${index}`) !== temp.fullName) {
+        this.form.setFieldsValue({
+          [`fullName-${index}`]: temp.fullName,
+          [`modType-${index}`]: temp.modType,
+          [`itemOptionList-${index}`]: temp.targetOptionList
+        })
+      }
 
       this.loading = false
     },
@@ -240,10 +288,18 @@ export default {
       })
 
       if (value !== '') {
-        if (record.fullName || record.itemOptionList?.length || record.description) {
+        if (
+          record.fullName ||
+          record.description ||
+          (
+            Array.isArray(record.itemOptionList)
+              ? record.itemOptionList
+              : []
+          ).filter(item => item.optionValue || item.score).length
+        ) {
           Modal.confirm({
             title: '请确认',
-            content: '当前行存在已输入的数据，若要使用指标数据来覆盖，请单击“覆盖”按钮，否则请单击“取消”按钮。',
+            content: '当前行存在已输入的数据，若要使用指标数据来覆盖已存在的数据，请单击“覆盖”按钮，否则请单击“取消”按钮。',
             okText: '覆盖',
             cancelText: '取消',
             onOk: async close => {
@@ -252,7 +308,14 @@ export default {
               close()
             },
             onCancel: () => {
-              record.targetId = ''
+              record.targetId = this.prevIndicatorId
+
+              if (this.prevIndicatorId) {
+                this.prevIndicatorId = undefined // 下拉列表展开时保存的指标ID已无意义，现重置为初始值
+              } else {
+                record.disabled = false
+              }
+
               this.loading = false
             }
           })
@@ -264,11 +327,18 @@ export default {
         record.disabled = false
         this.loading = false
       }
+
+      this.$emit('rowIndicatorChange')
+    },
+    onIndicatorDropdownVisibleChange(open, record) {
+      if (open) {
+        this.prevIndicatorId = record.targetId
+      }
     }
   },
   render() {
     return (
-      <div class="tg-multi-input">
+      <Form class="tg-multi-input bnm-report-items">
         <Table
           class="multi-input-table"
           tableLayout={'fixed'}
@@ -276,8 +346,9 @@ export default {
           dataSource={this.dataSource}
           pagination={false}
           rowKey="id"
-          size={'middle'}
+          size={'small'}
           loading={this.loading}
+          footer={this.footer}
           {...{
             scopedSlots: {
               targetId: (text, record) => (
@@ -286,23 +357,23 @@ export default {
                   title={'输入指标名称搜索'}
                   placeholder={'输入指标名称搜索'}
                   showSearch
-                  filterOption={false}
-                  onSearch={debounce(this.$listeners.search, 300)}
                   notFoundContent={this.indicators.loading ? <Spin /> : undefined}
                   onChange={value => this.onIndicatorChange(value, record)}
+                  onDropdownVisibleChange={open => this.onIndicatorDropdownVisibleChange(open, record)}
                   dropdownStyle={{ minWidth: '240px' }}
+                  optionFilterProp={'children'}
                 >
-                  <Select.OptGroup>
-                    <span slot={'label'}>自定义输入</span>
-                    <Select.Option value={''}>自定义输入</Select.Option>
+                  <Select.OptGroup label={'自定义'}>
+                    <Select.Option value={''}>手动输入</Select.Option>
                   </Select.OptGroup>
-                  <Select.OptGroup>
-                    <span slot={'label'}>从指标导入（输入关键字可搜索指标）</span>
+                  <Select.OptGroup label={'从指标导入'}>
                     {
                       this.indicators.list.map(item => (
                         <Select.Option
                           value={item.id}
+                          label={item.fullName}
                           title={item.fullName}
+                          disabled={this.selectedIndicatorIds.includes(item.id)}
                         >
                           {item.fullName}
                         </Select.Option>
@@ -311,52 +382,92 @@ export default {
                   </Select.OptGroup>
                 </Select>
               ),
-              fullName: (text, record) => (
-                <Input.TextArea
-                  vModel={record.fullName}
-                  placeholder="问卷标题"
-                  autoSize={{ minRows: 6 }}
-                  onBlur={() => this.onChange()}
-                  disabled={record.disabled}
-                />
+              fullName: (text, record, index) => (
+                <Form.Item>
+                  {
+                    this.form.getFieldDecorator(`fullName-${index}`, {
+                      initialValue: record.fullName,
+                      rules: [
+                        {
+                          required: true,
+                          message: '请填写问卷标题',
+                          trigger: 'blur'
+                        }
+                      ]
+                    })(
+                      <Input.TextArea
+                        placeholder="问卷标题"
+                        autoSize={{ minRows: 6 }}
+                        onBlur={() => this.onChange(`fullName-${index}`)}
+                        disabled={record.disabled}
+                      />
+                    )
+                  }
+                </Form.Item>
               ),
-              modType: record => (
-                <Select
-                  vModel={record.modType}
-                  placeholder={'组件类型'}
-                  onChange={debounce(this.onChange, 300)}
-                  disabled={record.disabled}
-                >
-                  <Select.Option value={1}>单选</Select.Option>
-                  <Select.Option value={2}>多选</Select.Option>
-                  <Select.Option value={3}>单行文本</Select.Option>
-                  <Select.Option value={4}>多行文本</Select.Option>
-                  <Select.Option value={5}>图片</Select.Option>
-                  <Select.Option value={6}>文件</Select.Option>
-                  <Select.Option value={7}>时间</Select.Option>
-                </Select>
+              modType: (text, record, index) => (
+                <Form.Item>
+                  {
+                    this.form.getFieldDecorator(`modType-${index}`, { initialValue: record.modType })(
+                      <Select
+                        placeholder={'组件类型'}
+                        onChange={debounce(() => this.onChange(`modType-${index}`), 300)}
+                        disabled={record.disabled}
+                      >
+                        <Select.Option value={1}>单选</Select.Option>
+                        <Select.Option value={2}>多选</Select.Option>
+                        <Select.Option value={3}>单行文本</Select.Option>
+                        <Select.Option value={4}>多行文本</Select.Option>
+                        <Select.Option value={5}>图片</Select.Option>
+                        <Select.Option value={6}>文件</Select.Option>
+                        <Select.Option value={7}>时间</Select.Option>
+                      </Select>
+                    )
+                  }
+                </Form.Item>
               ),
-              itemOptionList: record => (
-                <ItemMultiInput
-                  vModel={record.itemOptionList}
-                  onChange={this.onChange}
-                  disabled={record.disabled || (record.modType !== 1 && record.modType !== 2)}
-                />
+              itemOptionList: (text, record, index) => (
+                <Form.Item>
+                  {
+                    this.form.getFieldDecorator(
+                      `itemOptionList-${index}`,
+                      { initialValue: record.itemOptionList || [] }
+                    )(
+                      <ItemMultiInput
+                        onChange={value => this.onChange(`itemOptionList-${index}`, value)}
+                        disabled={record.disabled ||
+                          (
+                            this.form.getFieldValue(`modType-${index}`) !== 1 &&
+                            this.form.getFieldValue(`modType-${index}`) !== 2
+                          )
+                        }
+                      />
+                    )
+                  }
+                </Form.Item>
               ),
               description: record => (
                 <Input.TextArea
                   vModel={record.description}
                   placeholder={'描述内容'}
                   autoSize={{ minRows: 6 }}
-                  onBlur={this.onChange}
+                  onBlur={() => this.onChange()}
                   disabled={record.disabled}
                 />
               ),
               isRequired: record => (
-                <Switch vModel={record.isRequired} onChange={this.onChange} disabled={record.disabled} />
+                <Switch
+                  vModel={record.isRequired}
+                  onChange={() => this.onChange()}
+                  // disabled={record.disabled}
+                />
               ),
               status: record => (
-                <Switch vModel={record.status} onChange={this.onChange} disabled={record.disabled} />
+                <Switch
+                  vModel={record.status}
+                  onChange={() => this.onChange()}
+                  // disabled={record.disabled}
+                />
               ),
               operation: (text, record, index) => (
                 <Space>
@@ -382,7 +493,7 @@ export default {
             }
           }}
         />
-      </div>
+      </Form>
     )
   }
-}
+})

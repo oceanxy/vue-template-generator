@@ -22,6 +22,7 @@ export default {
         {/*</Button>*/}
         <Button
           onClick={() => this.onExport('楼栋数据')}
+          disabled={this.exportButtonDisabled}
           icon="export"
         >
           导出

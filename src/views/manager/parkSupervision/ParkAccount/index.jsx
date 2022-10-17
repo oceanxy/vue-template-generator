@@ -11,7 +11,7 @@ import ModalOfUpdatePassword from './components/ModalOfUpdatePassword'
 export default {
   name: 'ParkAccounts',
   mixins: [dynamicState()],
-  render () {
+  render() {
     return (
       <BNContainerWithParkSider contentClass={'bnm-park-accounts-container'}>
         <TGContainer>

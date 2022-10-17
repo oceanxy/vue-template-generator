@@ -16,14 +16,20 @@ export default Form.create({})({
         <Form.Item>
           {
             this.form.getFieldDecorator('title')(
-              <Input placeholder="目标客户" allowClear />
+              <Input
+                placeholder="目标客户"
+                allowClear
+              />
             )
           }
         </Form.Item>
         <Form.Item>
           {
             this.form.getFieldDecorator('allotStatus')(
-              <Select placeholder="请选择状态" allowClear>
+              <Select
+                placeholder="请选择状态"
+                allowClear
+              >
                 <Select.Option value={1}>待分配</Select.Option>
                 <Select.Option value={2}>跟进中</Select.Option>
                 <Select.Option value={3}>签约中</Select.Option>
@@ -35,7 +41,12 @@ export default Form.create({})({
         </Form.Item>
         <Form.Item>
           <Space>
-            <Button loading={this.loading} htmlType="submit" type="primary" icon="search">
+            <Button
+              loading={this.loading}
+              htmlType="submit"
+              type="primary"
+              icon="search"
+            >
               查询
             </Button>
             {/*<Button onClick={this.onClear} icon="reload">重置</Button>*/}

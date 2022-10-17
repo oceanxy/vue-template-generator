@@ -46,7 +46,7 @@ export default {
           },
           {
             title: '地下楼层数',
-            width: 60,
+            width: 120,
             align: 'center',
             dataIndex: 'undergroundNum'
           },

@@ -17,6 +17,7 @@ export default {
         <Button
           onClick={() => this.onExport('招商团队数据')}
           icon="export"
+          disabled={this.exportButtonDisabled}
         >
           导出
         </Button>

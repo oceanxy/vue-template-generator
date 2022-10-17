@@ -1,10 +1,10 @@
 import '../assets/styles/index.scss'
-import { Button, Space, Table } from 'ant-design-vue'
+import { Table } from 'ant-design-vue'
 import forTable from '@/mixins/forTable'
 
 export default {
   mixins: [forTable()],
-  data () {
+  data() {
     return {
       tableProps: {
         columns: [
@@ -18,7 +18,6 @@ export default {
           {
             title: '月份',
             width: 150,
-            fixed: true,
             dataIndex: 'billMonth'
           },
           {
@@ -47,7 +46,7 @@ export default {
       }
     }
   },
-  render () {
+  render() {
     const attributes = {
       props: {
         ...this.tableProps,
@@ -63,10 +62,12 @@ export default {
           scopedSlots: {
             serialNumber: (text, record, index) => index + 1,
             address: (text, record) => (
-              <ul style={{
-                paddingLeft: '20px',
-                marginBottom: 0
-              }}>
+              <ul
+                style={{
+                  paddingLeft: '20px',
+                  marginBottom: 0
+                }}
+              >
                 {
                   record.address?.split(',').map(item => (
                     <li>{item}</li>

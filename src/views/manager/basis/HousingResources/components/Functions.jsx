@@ -5,18 +5,13 @@ import { mapGetters } from 'vuex'
 
 export default {
   mixins: [forFunction()],
-  computed: {
-    ...mapGetters({ getState: 'getState' }),
-    treeId() {
-      return this.getState('currentParkTreeKeySelected', 'common')
-    }
-  },
+  computed: { ...mapGetters({ getState: 'getState' }) },
   render() {
     return (
       <Space class="tg-function">
         <Button
           type="primary"
-          onClick={() => this.onAddClick({ floorId: this.treeId })}
+          onClick={() => this.onAddClick()}
           icon="plus"
         >
           新增
@@ -30,6 +25,7 @@ export default {
         <Button
           onClick={() => this.onExport('房源数据')}
           icon="export"
+          disabled={this.exportButtonDisabled}
         >
           导出
         </Button>

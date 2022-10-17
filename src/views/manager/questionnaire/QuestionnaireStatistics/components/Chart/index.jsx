@@ -22,10 +22,10 @@ export default {
             opacity: 0.7
           },
           textAlign: 'center',
-          x: '59%',
+          x: '50%',
           y: '55%'
         },
-        tooltip: {trigger: 'item'},
+        tooltip: { trigger: 'item' },
         legend: {
           top: 10,
           left: 'center',
@@ -37,8 +37,8 @@ export default {
         series: [
           {
             type: 'pie',
-            radius: ['30%', '60%'],
-            center: ['60%', '60%'],
+            radius: ['30%', '50%'],
+            center: ['50%', '60%'],
             roseType: 'radius',
             label: {
               show: true,
@@ -46,7 +46,7 @@ export default {
               color: '#1f1f1f',
               fontSize: 14,
               lineHeight: 16,
-              formatter: '{b}\n{d}%'
+              formatter: '{b} - {d}%'
             },
             data: []
           }

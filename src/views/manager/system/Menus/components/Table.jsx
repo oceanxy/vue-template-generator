@@ -18,13 +18,11 @@ export default {
           // {
           //   title: '所属父级',
           //   width: 100,
-          //   fixed: true,
           //   dataIndex: 'parentName'
           // },
           {
             title: '菜单标题',
             width: 150,
-            fixed: true,
             dataIndex: 'menuName'
           },
           {
@@ -157,10 +155,18 @@ export default {
             },
             operation: (text, record) => (
               <Space>
-                <Button type="link" size="small" onClick={() => this.onEditClick(record)}>
+                <Button
+                  type="link"
+                  size="small"
+                  onClick={() => this.onEditClick(record)}
+                >
                   编辑
                 </Button>
-                <Button type="link" size="small" onClick={() => this.onDeleteClick(record)}>
+                <Button
+                  type="link"
+                  size="small"
+                  onClick={() => this.onDeleteClick(record)}
+                >
                   删除
                 </Button>
               </Space>

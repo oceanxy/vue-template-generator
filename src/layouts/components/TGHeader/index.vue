@@ -1,8 +1,25 @@
 <template>
-  <a-layout-header class="tg-layout-header" :style="showBreadcrumb ? 'height: 118px;' : ''">
-    <div class="tg-header" :class="{ manager: manager }">
-      <div class="tg-logo" @click="goBackHome()" />
-      <div class="tg-login-info" v-if="isLogin">
+  <a-layout-header
+    class="tg-layout-header"
+    :style="showBreadcrumb ? 'height: 118px;' : ''"
+  >
+    <div
+      class="tg-header"
+      :class="{ manager: manager }"
+    >
+      <!--<div-->
+      <!--  class="tg-logo"-->
+      <!--  @click="goBackHome()"-->
+      <!--/>-->
+      <a-icon
+        :component="logo"
+        class="tg-logo"
+        @click="goBackHome()"
+      />
+      <div
+        class="tg-login-info"
+        v-if="isLogin"
+      >
         <a-dropdown class="tg-switch-ent">
           <div>
             <span style="margin-right: 10px">{{ currentName }}</span>
@@ -36,16 +53,33 @@
             </a-menu>
           </template>
         </a-dropdown>
-        <a-badge class="tg-badge" dot>
-          <a-avatar icon="user" shape="circle" class="tg-avatar" />
+        <a-badge
+          class="tg-badge"
+          dot
+        >
+          <a-avatar
+            icon="user"
+            shape="circle"
+            class="tg-avatar"
+          />
         </a-badge>
         <a-dropdown class="tg-user-info">
           <a @click="e => e.preventDefault()">
             <div>
               <span class="tg-user-name">{{ userInfo.nickName || userInfo.fullName }}</span>
               <div class="tg-user-tags">
-                <a-tag v-if="userInfo.isContract === 1" color="cyan">已签约</a-tag>
-                <a-tag v-if="userInfo.isOwe === 1" color="red">已欠费</a-tag>
+                <a-tag
+                  v-if="userInfo.isContract === 1"
+                  color="cyan"
+                >
+                  已签约
+                </a-tag>
+                <a-tag
+                  v-if="userInfo.isOwe === 1"
+                  color="red"
+                >
+                  已欠费
+                </a-tag>
               </div>
             </div>
             <a-icon type="caret-down" />
@@ -58,15 +92,25 @@
                 </a-avatar>
                 <div class="corporate-services">{{ userInfo.nickName || userInfo.fullName }}</div>
                 <div>
-                  <a-tag v-if="userInfo.isContract === 1" color="cyan">已签约</a-tag>
-                  <a-tag v-if="userInfo.isOwe === 1" color="red">已欠费</a-tag>
+                  <a-tag
+                    v-if="userInfo.isContract === 1"
+                    color="cyan"
+                  >
+                    已签约
+                  </a-tag>
+                  <a-tag
+                    v-if="userInfo.isOwe === 1"
+                    color="red"
+                  >
+                    已欠费
+                  </a-tag>
                 </div>
               </a-menu-item>
-              <a-menu-item class="my-news">
-                我的消息
-                <a-tag class="news-number">{{ userInfo.messageNum || 0 }}</a-tag>
-                <a-icon type="right" />
-              </a-menu-item>
+              <!--<a-menu-item class="my-news">-->
+              <!--  我的消息-->
+              <!--  <a-tag class="news-number">{{ userInfo.messageNum || 0 }}</a-tag>-->
+              <!--  <a-icon type="right" />-->
+              <!--</a-menu-item>-->
               <a-menu-item @click="handleLogOutClick">退出登录</a-menu-item>
             </a-menu>
           </template>
@@ -77,10 +121,11 @@
   </a-layout-header>
 </template>
 <script>
-import { Avatar, Badge, Dropdown, Layout, Menu, Tag } from 'ant-design-vue'
+import { Avatar, Badge, Dropdown, Icon, Layout, Menu, Tag } from 'ant-design-vue'
 import { mapActions, mapGetters } from 'vuex'
 import TGBreadcrumb from '@/layouts/components/TGBreadcrumb'
 import utilityFunction from '@/utils/utilityFunction'
+import Logo from './images/logo.svg'
 
 export default {
   name: 'TGHeader',
@@ -100,6 +145,7 @@ export default {
     [Layout.Header.name]: Layout.Header,
     [Badge.name]: Badge,
     [Avatar.name]: Avatar,
+    [Icon.name]: Icon,
     [Menu.name]: Menu,
     [Menu.Item.name]: Menu.Item,
     [Menu.SubMenu.name]: Menu.SubMenu,
@@ -107,7 +153,7 @@ export default {
     [Tag.name]: Tag
   },
   data() {
-    return {}
+    return { logo: Logo }
   },
   computed: {
     ...mapGetters({ getState: 'getState' }),
@@ -180,9 +226,14 @@ export default {
     .tg-logo {
       width: 256px;
       height: 40px;
-      background: url(./images/logo.png) no-repeat center / 100% 100%;
+      //background: url(./images/logo.svg) no-repeat center / 100% 100%;
       cursor: pointer;
       transition: all 0.3s;
+
+      svg {
+        width: 100%;
+        height: 100%;
+      }
 
       &:hover {
         transform: rotate3d(-4, 5, -1, -10deg) scale(1.04);

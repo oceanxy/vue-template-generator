@@ -89,9 +89,7 @@ export default Form.create({ name: 'TGLoginForm' })({
           {
             this.form.getFieldDecorator('password', {
               rules: [
-                {
-                  required: true, message: '请输入密码!'
-                }
+                { required: true, message: '请输入密码!' }
               ]
             })(
               <Input
@@ -112,9 +110,7 @@ export default Form.create({ name: 'TGLoginForm' })({
           {
             this.form.getFieldDecorator('picCode', {
               rules: [
-                {
-                  required: true, message: '请输入验证码!'
-                }
+                { required: true, message: '请输入验证码!' }
               ]
             })(
               <Input placeholder="请输入验证码">
@@ -141,7 +137,11 @@ export default Form.create({ name: 'TGLoginForm' })({
             type="primary"
             disabled={this.hint}
           >
-            {this.hint ? '正在进入系统，请稍候...' : '立即登录'}
+            {
+              this.hint
+                ? '正在进入系统，请稍候...'
+                : this.loading ? '正在登录' : '立即登录'
+            }
           </Button>
         </Form.Item>
       </Form>

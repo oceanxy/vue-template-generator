@@ -17,7 +17,6 @@ export default {
           },
           {
             title: '报表',
-            fixed: true,
             width: 150,
             dataIndex: 'reportName'
           },

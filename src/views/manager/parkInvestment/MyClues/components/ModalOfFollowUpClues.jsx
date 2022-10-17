@@ -8,7 +8,7 @@ export default Form.create({})({
   mixins: [forFormModal()],
   data() {
     return {
-      modalProps: {width: 810},
+      modalProps: { width: 810 },
       visibleField: 'visibleOfFollowUpClues'
     }
   },
@@ -25,7 +25,7 @@ export default Form.create({})({
           moduleName: this.moduleName,
           stateName: 'followUpDetailsList',
           customApiName: 'getFollowUpDetailsList',
-          payload: {id: this.currentItem.id}
+          payload: { id: this.currentItem.id }
         })
       }
     }
@@ -35,19 +35,20 @@ export default Form.create({})({
       attrs: this.modalProps,
       on: {
         cancel: () => this.onCancel('visibleOfFollowUpClues'),
-        ok: () => this.onSubmit({customApiName: 'followUpLead'})
+        ok: () => this.onSubmit({ customApiName: 'followUpLead' })
       }
     }
 
     return (
       <DragModal {...attributes} class={'bnm-my-clues-follow-up-modal'}>
         <Form
-          class="bnm-team-edit-form bnm-form-grid"
-          labelCol={{ span: 3 }}
-          wrapperCol={{ span: 21 }}
+          class="bnm-my-clues-follow-up-form bnm-form-grid"
           colon={false}
         >
-          <Form.Item label="历史进展" style={{ marginBottom: 0 }}>
+          <Form.Item
+            label="历史进展"
+            style={{ marginBottom: 0 }}
+          >
             <Spin spinning={this.followUpDetailsList.loading}>
               <Timeline>
                 {
@@ -55,10 +56,11 @@ export default Form.create({})({
                     <Timeline.Item>
                       <Space>
                         <span class={'datetime'}>{item.progressTime}</span>
-                        <span class={'name'}>{item.memberName || '跟进人未知'}</span>
                         <span class={'type'}>{item.progressType}</span>
-                        <span class={'desc'}>{item.memberInfo}</span>
                       </Space>
+                      <p class={'desc'}>跟进人：{item.memberName || '跟进人未知'}</p>
+                      <p class={'desc'}>经办人：{item.memberInfo}</p>
+                      <p class={'desc'}>详情：{item.description}</p>
                     </Timeline.Item>
                   ))
                 }
@@ -69,9 +71,11 @@ export default Form.create({})({
             {
               this.form.getFieldDecorator('allotStatus', {
                 initialValue: 2,
-                rules: [{
-                  required: true, type: 'number', message: '请选择进展类型！', trigger: 'change'
-                }]
+                rules: [
+                  {
+                    required: true, type: 'number', message: '请选择进展类型！', trigger: 'change'
+                  }
+                ]
               })(
                 <Radio.Group>
                   <Radio value={2}>新的进展</Radio>
@@ -83,11 +87,16 @@ export default Form.create({})({
           <Form.Item label="进展描述">
             {
               this.form.getFieldDecorator('description', {
-                rules: [{
-                  required: true, message: '请输入进展描述！', trigger: 'blur'
-                }]
+                rules: [
+                  {
+                    required: true, message: '请输入进展描述！', trigger: 'blur'
+                  }
+                ]
               })(
-                <Input.TextArea placeholder={'请输入名称'} autoSize={{ minRows: 6 }} />
+                <Input.TextArea
+                  placeholder={'请输入名称'}
+                  autoSize={{ minRows: 6 }}
+                />
               )
             }
           </Form.Item>

@@ -14,14 +14,23 @@ export default Form.create({})({
         class="tg-inquiry"
       >
         <Form.Item>
-          {this.form.getFieldDecorator('contractNo')(<Input placeholder="合同编号" allowClear />)}
+          {this.form.getFieldDecorator('contractNo')(<Input
+            placeholder="合同编号"
+            allowClear
+          />)}
         </Form.Item>
         <Form.Item>
-          {this.form.getFieldDecorator('companyName')(<Input placeholder="企业名称" allowClear />)}
+          {this.form.getFieldDecorator('companyName')(<Input
+            placeholder="企业名称"
+            allowClear
+          />)}
         </Form.Item>
         <Form.Item>
           {this.form.getFieldDecorator('signingStatus')(
-            <Select placeholder="请选择状态" allowClear>
+            <Select
+              placeholder="请选择状态"
+              allowClear
+            >
               <Select.Option value={3}>已签约</Select.Option>
               <Select.Option value={5}>解约申请中</Select.Option>
               <Select.Option value={6}>已解约</Select.Option>
@@ -32,7 +41,12 @@ export default Form.create({})({
         </Form.Item>
         <Form.Item>
           <Space>
-            <Button loading={this.loading} htmlType="submit" type="primary" icon="search">
+            <Button
+              loading={this.loading}
+              htmlType="submit"
+              type="primary"
+              icon="search"
+            >
               查询
             </Button>
             {/*<Button onClick={this.onClear} icon="reload">重置</Button>*/}

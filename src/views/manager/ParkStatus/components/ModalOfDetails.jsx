@@ -45,7 +45,7 @@ export default {
     }
 
     return (
-      <DragModal {...attributes}>
+      <DragModal {...attributes} class={'bnm-table-modal'}>
         <Spin spinning={this.details.loading}>
           <Descriptions
             bordered
@@ -53,11 +53,17 @@ export default {
             size={'small'}
             class={'bnm-park-status-details'}
           >
-            <Descriptions.Item label={'图片'} span={2}>
+            <Descriptions.Item
+              label={'图片'}
+              span={2}
+            >
               <div class={'imgs'}>
                 {
                   this.details.data?.imgList?.map(item => (
-                    <img src={item.path} alt={item.fileName || ''} />
+                    <img
+                      src={item.path}
+                      alt={item.fileName || ''}
+                    />
                   ))
                 }
               </div>

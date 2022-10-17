@@ -7,7 +7,7 @@ import DragModal from '@/components/DragModal'
 export default Form.create({})({
   mixins: [forFormModal()],
   data() {
-    return {modalProps: {width: 600}}
+    return { modalProps: { width: 600 } }
   },
   computed: {
     ...mapGetters({ getState: 'getState' }),
@@ -20,7 +20,14 @@ export default Form.create({})({
       attrs: this.modalProps,
       on: {
         cancel: () => this.onCancel(),
-        ok: () => this.onSubmit({ customApiName: 'auditReport' })
+        ok: () => this.onSubmit({
+          customApiName: 'auditReport',
+          customDataHandler: values => {
+            values.id = values.ids
+
+            return values
+          }
+        })
       }
     }
 
@@ -33,9 +40,14 @@ export default Form.create({})({
           <Form.Item label="审核结果">
             {
               this.form.getFieldDecorator('auditStatus', {
-                rules: [{
-                  required: true, type: 'number', message: '请选择审核结果!', trigger: 'change'
-                }]
+                rules: [
+                  {
+                    required: true,
+                    type: 'number',
+                    message: '请选择审核结果!',
+                    trigger: 'change'
+                  }
+                ]
               })(
                 <Radio.Group>
                   <Radio value={1}>通过</Radio>
@@ -48,9 +60,14 @@ export default Form.create({})({
             {
               this.form.getFieldDecorator('rentPay', {
                 initialValue: 0,
-                rules: [{
-                  required: true, type: 'number', message: '请输入补缴租金金额!', trigger: 'blur'
-                }]
+                rules: [
+                  {
+                    required: true,
+                    type: 'number',
+                    message: '请输入补缴租金金额!',
+                    trigger: 'blur'
+                  }
+                ]
               })(
                 <InputNumber
                   placeholder="请输入补缴租金金额"
@@ -64,11 +81,18 @@ export default Form.create({})({
           <Form.Item label="审核意见">
             {
               this.form.getFieldDecorator('auditOpinion', {
-                rules: [{
-                  required: true, message: '请输入审核意见!', trigger: 'blur'
-                }]
+                rules: [
+                  {
+                    required: true,
+                    message: '请输入审核意见!',
+                    trigger: 'blur'
+                  }
+                ]
               })(
-                <Input.TextArea placeholder="请输入审核意见" autoSize={{ minRows: 6 }} />
+                <Input.TextArea
+                  placeholder="请输入审核意见"
+                  autoSize={{ minRows: 6 }}
+                />
               )
             }
           </Form.Item>

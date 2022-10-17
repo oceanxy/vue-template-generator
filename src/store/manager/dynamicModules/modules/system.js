@@ -10,19 +10,31 @@ export default commitRootInModule => createStoreModule(
       }
     },
     actions: {
-      setCurrentMenuId({ state, commit, dispatch }, { moduleName, value }) {
+      setCurrentMenuId({
+        state,
+        commit,
+        dispatch
+      }, {
+        moduleName,
+        payload: { value, isFetchList }
+      }) {
         if (state.currentMenuId !== value) {
-          dispatch('setSearch', {
-            payload: { parentId: value },
-            moduleName
-          }, { root: true })
-
           commit('setDetails', {
             value,
             moduleName: 'system',
             stateName: 'currentMenuId'
           }, { root: true })
         }
+
+        dispatch(
+          'setSearch',
+          {
+            payload: { parentId: value },
+            isFetchList,
+            moduleName
+          },
+          { root: true }
+        )
       }
     }
   }

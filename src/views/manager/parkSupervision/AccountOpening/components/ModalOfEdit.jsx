@@ -58,7 +58,10 @@ export default Form.create({})({
                   }
                 ]
               })(
-                <Input.TextArea placeholder="请输入审核意见" autoSize={{ minRows: 6 }} />
+                <Input.TextArea
+                  placeholder="请输入审核意见"
+                  autoSize={{ minRows: 6 }}
+                />
               )
             }
           </Form.Item>

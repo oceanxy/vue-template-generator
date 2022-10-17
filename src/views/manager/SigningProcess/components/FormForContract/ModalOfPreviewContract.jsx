@@ -94,6 +94,11 @@ export default {
 
       this.submitLoading = false
     },
+    onClose() {
+      clearInterval(this.timing)
+      this.submitButtonDelay = 0
+      this.onCancel(this.visibleField, this.submoduleName)
+    },
     onCheckboxChange(e) {
       this.userConfirmation = e.target.checked
     },
@@ -103,6 +108,7 @@ export default {
 
         if (this.submitButtonDelay <= 0) {
           clearInterval(this.timing)
+          this.submitButtonDelay = 0
         }
       }, 1000)
     }
@@ -110,6 +116,7 @@ export default {
   beforeDestroy() {
     if (!this.currentItem.id) {
       clearInterval(this.timing)
+      this.submitButtonDelay = 0
     }
   },
   render() {
@@ -127,7 +134,7 @@ export default {
             </Checkbox>
             <Button
               class={'btn'}
-              onClick={() => this.onCancel(this.visibleField, this.submoduleName)}
+              onClick={() => this.onClose()}
             >
               取消
             </Button>

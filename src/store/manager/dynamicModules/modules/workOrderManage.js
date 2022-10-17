@@ -20,9 +20,7 @@ export default commitRootInModule =>
     mutations: {},
     actions: {
       async assignWorkOrder({ state }, { payload }) {
-        const form = {
-          ...payload
-        }
+        const form = { ...payload }
         const res = await apis.assignWorkOrder(form)
 
         if (res.status) {
@@ -32,9 +30,7 @@ export default commitRootInModule =>
         return res
       },
       async revokeWorkOrder({ state }, { payload }) {
-        const form = {
-          ...payload
-        }
+        const form = { ...payload }
         const res = await apis.revokeWorkOrder(form)
 
         return res

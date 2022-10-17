@@ -15,14 +15,10 @@ export default {
       this.$store.commit('setDetails', {
         moduleName: this.moduleName,
         merge: true,
-        value: {signingStage: 0}
+        value: { signingStage: 0 }
       })
 
-      await this.$router.push({
-        name: 'reSign', query: {
-          id: this.details.id, ac: '1' 
-        } 
-      })
+      await this.$router.push({ name: 'reSign', query: { id: this.details.id, ac: '1' } })
     }
   },
   render() {
@@ -41,7 +37,10 @@ export default {
                   <div>
                     {this.details.contractAuditResult.contractName || '未获取到合同名称'}
                   </div>
-                  <Button type={'primary'} disabled={!this.details.contractAuditResult.contractUrl}>
+                  <Button
+                    type={'primary'}
+                    disabled={!this.details.contractAuditResult.contractUrl}
+                  >
                     <a href={this.details.contractAuditResult.contractUrl}>下载合同</a>
                   </Button>
                 </div>

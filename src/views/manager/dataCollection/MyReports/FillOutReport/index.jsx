@@ -28,6 +28,30 @@ export default Form.create({})({
     }
   },
   methods: {
+    validator(rule, value, callback, item) {
+      // 查找该项是否存在必填的佐证材料
+      const requireItems = item.itemProveList.filter(file => file.isMust === 1)
+      const requireIds = requireItems.map(file => file.id)
+
+      if (requireIds.length) {
+        const uploadedIds = value?.attachmentList?.map(file => file.proveId) ?? []
+        const messages = []
+
+        uploadedIds.forEach((uploadedId, index) => {
+          if (!requireIds.includes(uploadedId)) {
+            messages.push(`请上传佐助材料：${requireItems[index].fullName}！`)
+          }
+        })
+
+        if (messages.length) {
+          callback(new Error(messages.join('， ')))
+        } else {
+          callback()
+        }
+      } else {
+        callback()
+      }
+    },
     onSubmit(e) {
       e?.preventDefault()
 
@@ -59,7 +83,10 @@ export default Form.create({})({
   },
   render() {
     return (
-      <Spin spinning={this.loading} class={'bnm-fill-out-report-container'}>
+      <Spin
+        spinning={this.loading}
+        class={'bnm-fill-out-report-container'}
+      >
         <BNContainer
           width={'100%'}
           modalTitle={'立即填报'}
@@ -77,25 +104,26 @@ export default Form.create({})({
             onSubmit={this.onSubmit}
           >
             {
-              this.data.itemCatalogList?.map(item => ([
+              this.data.itemCatalogList?.map(classification => ([
                 <div class={'bnm-fill-out-classified-info'}>
-                  <span>{item.fullName}</span>
+                  <span>{classification.fullName}</span>
                 </div>,
                 [
                   ...[
-                    item.itemList.map(i => (
-                      <Form.Item label={i.serialNum + ' ' + i.fullName}>
+                    classification.itemList.map(item => (
+                      <Form.Item label={item.serialNum + ' ' + item.fullName}>
                         {
-                          this.form.getFieldDecorator(i.id, {
+                          this.form.getFieldDecorator(item.id, {
                             initialValue: undefined,
                             rules: [
                               {
-                                required: !!i.isRequired,
-                                message: '请填写' + i.fullName + '！'
-                              }
+                                required: !!item.isRequired,
+                                message: '请填写' + item.fullName + '！'
+                              },
+                              { validator: (rule, value, callback) => this.validator(rule, value, callback, item) }
                             ]
                           })(
-                            <DynamicComponent dataSource={i} />
+                            <DynamicComponent dataSource={item} />
                           )
                         }
                       </Form.Item>
@@ -107,7 +135,10 @@ export default Form.create({})({
             {
               this.data.itemCatalogList?.length && this.$route.query.fillObj
                 ? (
-                  <Form.Item label={' '} colon={false}>
+                  <Form.Item
+                    label={' '}
+                    colon={false}
+                  >
                     <Button
                       type="primary"
                       htmlType="submit"

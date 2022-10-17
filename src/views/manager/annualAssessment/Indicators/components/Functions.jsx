@@ -1,7 +1,6 @@
 import '../assets/styles/index.scss'
 import { Button, Space } from 'ant-design-vue'
 import forFunction from '@/mixins/forFunction'
-import { mapGetters } from 'vuex'
 
 export default {
   mixins: [forFunction()],

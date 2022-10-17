@@ -19,7 +19,6 @@ export default {
           {
             title: '线索标题',
             width: 160,
-            fixed: true,
             dataIndex: 'title'
           },
           {
@@ -107,9 +106,7 @@ export default {
                     <Button
                       type="link"
                       size="small"
-                      onClick={() => this.$router.push({
-                        name: 'signingProcess', query: { cluesId: record.id }
-                      })}
+                      onClick={() => this.$router.push({ name: 'signingProcess', query: { cluesId: record.id } })}
                     >
                       签约
                     </Button>

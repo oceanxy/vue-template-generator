@@ -10,6 +10,7 @@ export default {
         <Button
           onClick={() => this.onExport('接单统计数据')}
           icon="export"
+          disabled={this.exportButtonDisabled}
         >
           导出
         </Button>

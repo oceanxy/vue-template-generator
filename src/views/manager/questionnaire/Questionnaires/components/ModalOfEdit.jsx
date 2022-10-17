@@ -2,10 +2,10 @@ import '../assets/styles/index.scss'
 import { Button, Col, DatePicker, Form, Input, Row, Select, Spin } from 'ant-design-vue'
 import forFormModal from '@/mixins/forModal/forFormModal'
 import DragModal from '@/components/DragModal'
-import MultiInput from './MultiInput'
 import { mapGetters } from 'vuex'
 import moment from 'moment'
 import { debounce } from 'lodash'
+// import MultiInput from './MultiInput'
 
 export default Form.create({})({
   mixins: [forFormModal()],
@@ -75,7 +75,10 @@ export default Form.create({})({
                   }
                 ]
               })(
-                <Input placeholder="请输入问卷标题" allowClear />
+                <Input
+                  placeholder="请输入问卷标题"
+                  allowClear
+                />
               )
             }
           </Form.Item>
@@ -129,21 +132,27 @@ export default Form.create({})({
                   }
                 ]
               })(
-                <DatePicker.RangePicker showTime style={{ width: '100%' }} />
+                <DatePicker.RangePicker
+                  showTime
+                  style={{ width: '100%' }}
+                />
               )
             }
           </Form.Item>
-          <Form.Item label="资讯链接">
-            {
-              this.form.getFieldDecorator('linkInfoList', { initialValue: this.currentItem.linkInfoList || [] })(
-                <MultiInput placeholder="请输入资讯链接" />
-              )
-            }
-          </Form.Item>
+          {/*<Form.Item label="资讯链接">*/}
+          {/*  {*/}
+          {/*    this.form.getFieldDecorator('linkInfoList', { initialValue: this.currentItem.linkInfoList || [] })(*/}
+          {/*      <MultiInput placeholder="请输入资讯链接" />*/}
+          {/*    )*/}
+          {/*  }*/}
+          {/*</Form.Item>*/}
           <Form.Item label="问卷说明">
             {
               this.form.getFieldDecorator('description', { initialValue: this.currentItem.description })(
-                <Input.TextArea placeholder="问卷说明" autoSize={{ minRows: 6 }} />
+                <Input.TextArea
+                  placeholder="问卷说明"
+                  autoSize={{ minRows: 6 }}
+                />
               )
             }
           </Form.Item>

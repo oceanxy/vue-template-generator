@@ -16,7 +16,10 @@ export default Form.create({ name: 'inquiryForm' })({
         <Form.Item>
           {
             this.form.getFieldDecorator('buildName')(
-              <Input placeholder="楼栋名称" allowClear />
+              <Input
+                placeholder="楼栋名称"
+                allowClear
+              />
             )
           }
         </Form.Item>

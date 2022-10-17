@@ -40,9 +40,11 @@ export default Form.create({})({
           <Form.Item label="续约模式">
             {
               this.form.getFieldDecorator('renewalType', {
-                rules: [{
-                  required: true, type: 'number', message: '请选择续约模式!', trigger: 'change' 
-                }]
+                rules: [
+                  {
+                    required: true, type: 'number', message: '请选择续约模式!', trigger: 'change'
+                  }
+                ]
               })(
                 <Radio.Group>
                   <Radio value={1}>旧合同延期</Radio>
@@ -54,9 +56,11 @@ export default Form.create({})({
           <Form.Item label="费用核算">
             {
               this.form.getFieldDecorator('accountingType', {
-                rules: [{
-                  required: true, type: 'number', message: '请选择费用核算方式!', trigger: 'change' 
-                }]
+                rules: [
+                  {
+                    required: true, type: 'number', message: '请选择费用核算方式!', trigger: 'change'
+                  }
+                ]
               })(
                 <Radio.Group>
                   <Radio value={1}>沿用旧合同</Radio>

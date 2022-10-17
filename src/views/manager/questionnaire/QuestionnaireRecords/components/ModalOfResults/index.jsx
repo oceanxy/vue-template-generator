@@ -10,7 +10,7 @@ export default {
   name: 'QuestionnaireRecords-Results',
   mixins: [forModal(), forModuleName(true)],
   provide() {
-    return {submoduleName: this.submoduleName}
+    return { submoduleName: this.submoduleName }
   },
   data() {
     return {
@@ -30,7 +30,7 @@ export default {
   render() {
     const attributes = {
       attrs: this.modalProps,
-      on: {cancel: () => this.onCancel(this.visibleField)}
+      on: { cancel: () => this.onCancel(this.visibleField) }
     }
 
     return (

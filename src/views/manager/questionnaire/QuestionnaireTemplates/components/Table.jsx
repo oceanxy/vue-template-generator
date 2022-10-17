@@ -17,7 +17,6 @@ export default {
           },
           {
             title: '名称',
-            fixed: true,
             width: 140,
             dataIndex: 'fullName'
           },
@@ -89,7 +88,10 @@ export default {
               </div>
             ),
             itemNum: (text, record, index) => (
-              <Button type="link" onClick={() => this.onItemClick(record)}>
+              <Button
+                type="link"
+                onClick={() => this.onItemClick(record)}
+              >
                 {record.itemNum}
               </Button>
             ),
@@ -108,10 +110,18 @@ export default {
                 {/*>*/}
                 {/*  预览*/}
                 {/*</Button>*/}
-                <Button type="link" size="small" onClick={() => this.onEditClick(record)}>
+                <Button
+                  type="link"
+                  size="small"
+                  onClick={() => this.onEditClick(record)}
+                >
                   编辑
                 </Button>
-                <Button type="link" size="small" onClick={() => this.onDeleteClick(record)}>
+                <Button
+                  type="link"
+                  size="small"
+                  onClick={() => this.onDeleteClick(record)}
+                >
                   删除
                 </Button>
               </Space>

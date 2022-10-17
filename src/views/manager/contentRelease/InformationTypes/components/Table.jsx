@@ -73,7 +73,9 @@ export default {
               return (
                 <Switch
                   checked={record.status === 1}
-                  onChange={checked => this.onStatusChange({ checked, record, nameKey: 'catName' })}
+                  onChange={checked => this.onStatusChange({
+                    checked, record, nameKey: 'catName'
+                  })}
                 />
               )
             },

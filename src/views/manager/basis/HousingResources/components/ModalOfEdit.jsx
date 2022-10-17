@@ -5,6 +5,7 @@ import { mapGetters } from 'vuex'
 import DragModal from '@/components/DragModal'
 import BNUploadPictures from '@/components/BNUploadPictures'
 import { dispatch } from '@/utils/store'
+import { cloneDeep, omit, range } from 'lodash'
 
 export default Form.create({})({
   mixins: [forFormModal()],
@@ -18,6 +19,18 @@ export default Form.create({})({
     },
     supportingFacilities() {
       return this.$store.state[this.moduleName].supportingFacilities
+    },
+    fileList() {
+      return this.currentItem.imgList?.map((item, index) => ({
+        uid: index,
+        key: item.key,
+        url: item.path,
+        status: 'done',
+        name: item.path.substring(item.path.lastIndexOf('/'))
+      })) ?? []
+    },
+    optional() {
+      return range(0.5, 12.5, 0.5)
     }
   },
   watch: {
@@ -36,17 +49,23 @@ export default Form.create({})({
       attrs: this.modalProps,
       on: {
         cancel: () => this.onCancel(),
-        ok: () => this.onSubmit()
+        ok: () => this.onSubmit({
+          customDataHandler: values => {
+            let temp = cloneDeep(values)
+
+            temp.imgs = temp.imgList?.map(item => item.response?.data[0].key ?? item.key).join()
+            temp.facilityList = temp.facilityList.map(id => ({
+              id,
+              fullName: (this.supportingFacilities?.find(item => item.id === id)).fullName
+            }))
+
+            temp = omit(temp, 'imgList')
+
+            return temp
+          }
+        })
       }
     }
-
-    const fileList = this.currentItem.imgList?.map((item, index) => ({
-      uid: index,
-      url: item.path,
-      key: item.key,
-      status: 'done',
-      name: item.path.substring(item.path.lastIndexOf('/'))
-    })) ?? []
 
     return (
       <DragModal {...attributes}>
@@ -57,7 +76,7 @@ export default Form.create({})({
           <Form.Item label="图片">
             {
               this.form.getFieldDecorator('imgList', {
-                initialValue: fileList,
+                initialValue: this.fileList,
                 rules: [
                   {
                     required: true,
@@ -71,7 +90,10 @@ export default Form.create({})({
               )
             }
           </Form.Item>
-          <Form.Item label="房号" class={'half'}>
+          <Form.Item
+            label="房号"
+            class={'half'}
+          >
             {
               this.form.getFieldDecorator('roomNo', {
                 initialValue: this.currentItem.roomNo,
@@ -83,14 +105,20 @@ export default Form.create({})({
                   }
                 ]
               })(
-                <Input placeholder="请输入房号" allowClear />
+                <Input
+                  placeholder="请输入房号"
+                  allowClear
+                />
               )
             }
           </Form.Item>
-          <Form.Item label="房源位置" class={'half'}>
+          <Form.Item
+            label="房源位置"
+            class={'half'}
+          >
             {
               this.form.getFieldDecorator('floorId', {
-                initialValue: this.currentItem.floorId,
+                initialValue: this.currentItem.floorId || undefined,
                 rules: [
                   {
                     required: true,
@@ -102,7 +130,9 @@ export default Form.create({})({
                 <TreeSelect
                   showSearch
                   allowClear
-                  treeDefaultExpandedKeys={[this.floorTree?.[0]?.id, this.currentItem.floorId]}
+                  treeDefaultExpandedKeys={[
+                    this.floorTree?.[0]?.children?.[0]?.children?.[0]?.id ?? ''
+                  ]}
                   dropdownClassName={'bnm-select-dropdown'}
                   treeData={this.floorTree}
                   replaceFields={{
@@ -115,7 +145,10 @@ export default Form.create({})({
               )
             }
           </Form.Item>
-          <Form.Item label="面积（㎡）" class={'half'}>
+          <Form.Item
+            label="面积（㎡）"
+            class={'half'}
+          >
             {
               this.form.getFieldDecorator('roomArea', {
                 initialValue: +this.currentItem.roomArea || undefined,
@@ -137,7 +170,11 @@ export default Form.create({})({
               )
             }
           </Form.Item>
-          <Form.Item label="单价（㎡）" class={'half combo'} required>
+          <Form.Item
+            label="单价（㎡）"
+            class={'half combo'}
+            required
+          >
             <Row gutter={10}>
               <Col span={13}>
                 <Form.Item>
@@ -188,7 +225,10 @@ export default Form.create({})({
               </Col>
             </Row>
           </Form.Item>
-          <Form.Item label="房源类型" class={'half'}>
+          <Form.Item
+            label="房源类型"
+            class={'half'}
+          >
             {
               this.form.getFieldDecorator('roomType', {
                 initialValue: this.currentItem.roomType || undefined,
@@ -201,30 +241,79 @@ export default Form.create({})({
                   }
                 ]
               })(
-                <Select placeholder="请选择房源类型" allowClear>
+                <Select
+                  placeholder="请选择房源类型"
+                  allowClear
+                >
                   <Select.Option value={1}>普通房源</Select.Option>
                   <Select.Option value={2}>会议室</Select.Option>
                 </Select>
               )
             }
           </Form.Item>
-          <Form.Item label="工位数" class={'half'}>
-            {
-              this.form.getFieldDecorator('workstationNum', { initialValue: this.currentItem.workstationNum })(
-                <InputNumber
-                  style={{ width: '100%' }}
-                  placeholder="请输入工位数"
-                  min={0}
-                />
+          {
+            this.form.getFieldValue('roomType') === 1
+              ? (
+                <Form.Item
+                  label="工位数"
+                  class={'half'}
+                >
+                  {
+                    this.form.getFieldDecorator('workstationNum', { initialValue: this.currentItem.workstationNum })(
+                      <InputNumber
+                        style={{ width: '100%' }}
+                        placeholder="请输入工位数"
+                        min={0}
+                      />
+                    )
+                  }
+                </Form.Item>
               )
-            }
-          </Form.Item>
-          <Form.Item label="装修情况" class={'half'}>
+              : null
+          }
+          {
+            this.form.getFieldValue('roomType') === 2
+              ? (
+                <Form.Item
+                  label="预约时长（h）"
+                  class={'half'}
+                >
+                  {
+                    this.form.getFieldDecorator(
+                      'durationVal',
+                      { initialValue: this.currentItem.duration || undefined }
+                    )(
+                      <Select
+                        placeholder={'请选择单次最大预约时长'}
+                        allowClear
+                      >
+                        {
+                          this.optional.map(number => (
+                            <Select.Option value={number}>
+                              {number} <span style={{ color: '#bebebe', fontSize: '12px' }}>小时</span>
+                            </Select.Option>
+                          ))
+                        }
+                      </Select>
+                    )
+                  }
+                </Form.Item>
+              )
+              : null
+          }
+          <Form.Item
+            label="装修情况"
+            class={'half'}
+          >
             {
-              this.form.getFieldDecorator('renovationStatus', {
-                initialValue: this.currentItem.renovationStatus || undefined
-              })(
-                <Select placeholder="请选择装修情况" allowClear>
+              this.form.getFieldDecorator(
+                'renovationStatus',
+                { initialValue: this.currentItem.renovationStatus || undefined }
+              )(
+                <Select
+                  placeholder="请选择装修情况"
+                  allowClear
+                >
                   <Select.Option value={1}>简装</Select.Option>
                   <Select.Option value={2}>精装</Select.Option>
                   <Select.Option value={3}>豪装</Select.Option>
@@ -233,10 +322,16 @@ export default Form.create({})({
               )
             }
           </Form.Item>
-          <Form.Item label="房源结构" class={'half'}>
+          <Form.Item
+            label="房源结构"
+            class={'half'}
+          >
             {
               this.form.getFieldDecorator('structure', { initialValue: this.currentItem.structure || undefined })(
-                <Select placeholder="请选择房源结构" allowClear>
+                <Select
+                  placeholder="请选择房源结构"
+                  allowClear
+                >
                   <Select.Option value={1}>单体空间</Select.Option>
                   <Select.Option value={2}>复式结构</Select.Option>
                 </Select>
@@ -256,7 +351,10 @@ export default Form.create({})({
               )
             }
           </Form.Item>
-          <Form.Item label="排序" class={'half'}>
+          <Form.Item
+            label="排序"
+            class={'half'}
+          >
             {
               this.form.getFieldDecorator('sortIndex', {
                 initialValue: this.currentItem.sortIndex || 0,
@@ -269,11 +367,17 @@ export default Form.create({})({
                   }
                 ]
               })(
-                <InputNumber style={{ width: '100%' }} placeholder="请输入排序值" />
+                <InputNumber
+                  style={{ width: '100%' }}
+                  placeholder="请输入排序值"
+                />
               )
             }
           </Form.Item>
-          <Form.Item label="状态" class={'half'}>
+          <Form.Item
+            label="状态"
+            class={'half'}
+          >
             {
               this.form.getFieldDecorator('status', {
                 valuePropName: 'checked',
@@ -283,7 +387,7 @@ export default Form.create({})({
                     required: true,
                     type: 'boolean',
                     message: '请选择状态!',
-                    trigger: 'blur'
+                    trigger: 'change'
                   }
                 ]
               })(

@@ -72,7 +72,7 @@ export default {
       moduleName: this.moduleName,
       submoduleName: this.submoduleName,
       stateName: 'data',
-      additionalQueryParameters: {id: this.details.id}
+      additionalQueryParameters: { id: this.details.id }
     })
   },
   methods: {},

@@ -1,9 +1,9 @@
 import '../assets/styles/index.scss'
-import { Col, Form, Input, Row, Table, Button } from 'ant-design-vue'
+import { Button, Col, Form, Input, Row, Table } from 'ant-design-vue'
 import forFormModal from '@/mixins/forModal/forFormModal'
 import DragModal from '@/components/DragModal'
 import CascaderMenu from '@/components/BNContainerWithSystemSider/components/CascaderMenu'
-import { mapState, mapAction } from '@/utils/store'
+import { mapAction, mapState } from '@/utils/store'
 
 export default Form.create({})({
   mixins: [forFormModal()],
@@ -41,7 +41,7 @@ export default Form.create({})({
       }
     }
   },
-  computed: {...mapState(['details'])},
+  computed: { ...mapState(['details']) },
   watch: {
     details() {
       this.tableProps.dataSource = this.details
@@ -51,7 +51,8 @@ export default Form.create({})({
       async handler(value) {
         if (value) {
           this.getDetail({
-            id: this.currentItem.id, moduleName: this.moduleName
+            id: this.currentItem.id,
+            moduleName: this.moduleName
           })
         } else {
           this.tableProps.dataSource = []
@@ -61,7 +62,7 @@ export default Form.create({})({
   },
   methods: {
     customDataHandler(values) {
-      const data = {...values}
+      const data = { ...values }
 
       if (data.menuId.length > 0) {
         data.menuId = data.menuId[data.menuId.length - 1]
@@ -114,60 +115,118 @@ export default Form.create({})({
 
     return (
       <DragModal {...attributes}>
-        <Form class="" colon={false}>
+        <Form
+          class=""
+          colon={false}
+        >
           <Row gutter={10}>
             <Col span={24}>
               <Form.Item label="所属菜单">
-                {this.form.getFieldDecorator('menuId', {
-                  initialValue: this.currentItem.menuIds || [],
-                  rules: [{
-                    required: true, type: 'array', message: '请输入菜单!', trigger: 'change'
-                  }]
-                })(<CascaderMenu />)}
+                {
+                  this.form.getFieldDecorator('menuId', {
+                    initialValue: this.currentItem.menuIds || [],
+                    rules: [
+                      {
+                        required: true, type: 'array', message: '请输入菜单!', trigger: 'change'
+                      }
+                    ]
+                  })(
+                    <CascaderMenu />
+                  )
+                }
               </Form.Item>
             </Col>
             <Col span={12}>
               <Form.Item label="名称">
-                {this.form.getFieldDecorator('fnName', {
-                  initialValue: this.currentItem.fnName,
-                  rules: [{
-                    required: true, message: '请输入名称!', trigger: 'blur'
-                  }]
-                })(<Input placeholder="请输入名称" allowClear />)}
+                {
+                  this.form.getFieldDecorator('fnName', {
+                    initialValue: this.currentItem.fnName,
+                    rules: [
+                      {
+                        required: true, message: '请输入名称!', trigger: 'blur'
+                      }
+                    ]
+                  })(
+                    <Input
+                      placeholder="请输入名称"
+                      allowClear
+                    />
+                  )
+                }
               </Form.Item>
             </Col>
             <Col span={12}>
               <Form.Item label="排序">
-                {this.form.getFieldDecorator('sortIndex', {
-                  initialValue: `${this.currentItem.sortIndex || ''}` || undefined,
-                  rules: [{
-                    required: true, message: '请输入排序!', trigger: 'blur'
-                  }]
-                })(<Input placeholder="越大排在越前" allowClear />)}
+                {
+                  this.form.getFieldDecorator('sortIndex', {
+                    initialValue: `${this.currentItem.sortIndex || ''}` || undefined,
+                    rules: [
+                      {
+                        required: true,
+                        message: '请输入排序!',
+                        trigger: 'blur'
+                      }
+                    ]
+                  })(
+                    <Input
+                      placeholder="越大排在越前"
+                      allowClear
+                    />
+                  )
+                }
               </Form.Item>
             </Col>
 
             <Col span={24}>
-              <p class="" style={{ 'text-align': 'right' }}>
+              <p
+                class=""
+                style={{ 'text-align': 'right' }}
+              >
                 <Button onclick={this.onAddRow}>+添加</Button>
               </p>
               <Table
                 {...{ props: this.tableProps }}
                 scopedSlots={{
                   fnUrl: (text, record, index) => (
-                    <Form.Item label="" style={{ 'margin-bottom': '0' }}>
-                      {this.form.getFieldDecorator(`fnUrl${index}`, {initialValue: record.fnUrl})(<Input placeholder="请输入" allowClear />)}
+                    <Form.Item
+                      label=""
+                      style={{ 'margin-bottom': '0' }}
+                    >
+                      {
+                        this.form.getFieldDecorator(`fnUrl${index}`, { initialValue: record.fnUrl })(
+                          <Input
+                            placeholder="请输入"
+                            allowClear
+                          />
+                        )
+                      }
                     </Form.Item>
                   ),
                   fnInfoDescribe: (text, record, index) => (
-                    <Form.Item label="" style={{ 'margin-bottom': '0' }}>
-                      {this.form.getFieldDecorator(`fnInfoDescribe${index}`, {initialValue: record.fnInfoDescribe})(<Input placeholder="请输入" allowClear />)}
+                    <Form.Item
+                      label=""
+                      style={{ 'margin-bottom': '0' }}
+                    >
+                      {
+                        this.form.getFieldDecorator(`fnInfoDescribe${index}`, { initialValue: record.fnInfoDescribe })(
+                          <Input
+                            placeholder="请输入"
+                            allowClear
+                          />
+                        )
+                      }
                     </Form.Item>
                   ),
                   operation: (text, record, index) => (
-                    <Button size="small" type="danger" icon="delete" onclick={() => this.onDeleteRow(index)}></Button>
+                    <Button
+                      size="small"
+                      type="danger"
+                      icon="delete"
+                      onclick={() => this.onDeleteRow(index)}
+                    />
                   )
-                }}></Table>
+                }}
+              />
             </Col>
           </Row>
         </Form>

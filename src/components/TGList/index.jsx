@@ -16,11 +16,11 @@ export default {
     loading: Boolean
   },
   methods: {
-    onClick (item) {
+    onClick(item) {
       this.$emit('clickItem', item)
     }
   },
-  render () {
+  render() {
     return (
       <List
         loading={this.loading}
@@ -29,7 +29,10 @@ export default {
         {...{
           scopedSlots: {
             renderItem: (item, index) => (
-              <List.Item class="list-container" onclick={() => this.onClick(item)}>
+              <List.Item
+                class="list-container"
+                onclick={() => this.onClick(item)}
+              >
                 {this.layout === 'dateBefore' ? (
                   <div class="list-date-before">
                     <div class="which-day">{moment(item.time).date()}</div>
@@ -38,7 +41,10 @@ export default {
                 ) : (
                   <div class="list-serial-number">{index + 1}</div>
                 )}
-                <div class="list-text" title={item.title}>
+                <div
+                  class="list-text"
+                  title={item.title}
+                >
                   {item.title}
                 </div>
                 {this.layout !== 'dateBefore' ? <div class="list-datetime">{item.time}</div> : null}

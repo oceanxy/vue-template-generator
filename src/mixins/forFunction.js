@@ -8,6 +8,7 @@
 import forIndex from '@/mixins/forIndex'
 import Message from '@/utils/message'
 import { mapGetters } from 'vuex'
+import { message } from 'ant-design-vue'
 
 /**
  * 为表格功能按钮生成 mixin
@@ -29,6 +30,7 @@ export default cb => ({
       editButtonDisabled: true,
       deleteButtonDisabled: true,
       auditButtonDisabled: true,
+      exportButtonDisabled: false,
       editedRow: {},
       ids: ''
     }
@@ -115,17 +117,28 @@ export default cb => ({
     /**
      * 导出功能
      * @param fileName
+     * @param [payload]
      * @returns {Promise<void>}
      */
-    async onExport(fileName) {
+    async onExport(fileName, payload) {
+      message.loading({
+        content: '正在导出，请稍候...',
+        duration: 0
+      })
+      this.exportButtonDisabled = true
+
       await this.$store.dispatch('downExcel', {
         moduleName: this.moduleName,
         queryParameters: {
           ...this.$route.query,
-          ...this.search
+          ...this.search,
+          ...payload
         },
         fileName
       })
+
+      this.exportButtonDisabled = false
+      message.destroy()
     }
   }
 })

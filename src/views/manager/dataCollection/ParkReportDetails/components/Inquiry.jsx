@@ -1,6 +1,7 @@
 import '../assets/styles/index.scss'
 import { Button, Form, Input, Space } from 'ant-design-vue'
 import forInquiry from '@/mixins/forInquiry'
+import Functions from './Functions'
 
 export default Form.create({})({
   mixins: [forInquiry()],
@@ -15,14 +16,20 @@ export default Form.create({})({
         <Form.Item>
           {
             this.form.getFieldDecorator('reportName')(
-              <Input placeholder="报表名称" allowClear />
+              <Input
+                placeholder="报表名称"
+                allowClear
+              />
             )
           }
         </Form.Item>
         <Form.Item>
           {
             this.form.getFieldDecorator('objName')(
-              <Input placeholder="中心名称" allowClear />
+              <Input
+                placeholder="中心名称"
+                allowClear
+              />
             )
           }
         </Form.Item>
@@ -39,6 +46,7 @@ export default Form.create({})({
             {/*<Button onClick={this.onClear} icon="reload">重置</Button>*/}
           </Space>
         </Form.Item>
+        <Functions />
       </Form>
     )
   }

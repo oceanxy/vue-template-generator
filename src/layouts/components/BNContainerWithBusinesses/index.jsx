@@ -12,16 +12,14 @@ export default {
     }
   },
   data() {
-    return {generalInformation: []}
+    return { generalInformation: [] }
   },
   async created() {
     const { cid, bid } = this.$route.query
-    const response = await apis.getGeneralInformation({
-      cid, bid 
-    })
+    const response = await apis.getGeneralInformation({ cid, bid })
 
     if (response.status) {
-      this.generalInformation = response.data
+      this.generalInformation = response.data?.companyDetailList ?? []
     }
   },
   methods: {
@@ -39,7 +37,10 @@ export default {
         contentClass="bnm-businesses-details-content-container"
         siderOnLeft={true}
       >
-        <div slot="sider" class="bnm-businesses-details-sider">
+        <div
+          slot="sider"
+          class="bnm-businesses-details-sider"
+        >
           {
             this.generalInformation.map(item => (
               <BNContainer
@@ -47,7 +48,10 @@ export default {
                 showBoxShadow={false}
                 modalTitle={item.name}
               >
-                <Descriptions column={1} colon={false}>
+                <Descriptions
+                  column={1}
+                  colon={false}
+                >
                   {
                     item.propertiesList.map(item2 => (
                       <Descriptions.Item label={item2.name}>
@@ -58,7 +62,11 @@ export default {
                           {
                             item2.dataType === 1
                               ? <span>{item2.value}</span>
-                              : <img class="img" src={item2.value} alt="" />
+                              : <img
+                                class="img"
+                                src={item2.value}
+                                alt=""
+                              />
                           }
                         </a>
                       </Descriptions.Item>

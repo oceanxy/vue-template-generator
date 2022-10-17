@@ -1,10 +1,12 @@
 import '../assets/styles/index.scss'
-import { Form, Input, InputNumber, Radio, Select, Switch } from 'ant-design-vue'
+import { Form, Input, InputNumber, Radio, Select } from 'ant-design-vue'
 import forFormModal from '@/mixins/forModal/forFormModal'
 import DragModal from '@/components/DragModal'
 import BNUploadPictures from '@/components/BNUploadPictures'
 import dynamicState from '@/mixins/dynamicState'
 import { mapGetters } from 'vuex'
+import { verifyEmail, verifyIDNumber, verifyMobileNumber } from '@/utils/validators'
+import { cloneDeep } from 'lodash'
 
 export default Form.create({})({
   mixins: [
@@ -18,6 +20,19 @@ export default Form.create({})({
     ...mapGetters({ getList: 'getList' }),
     teams() {
       return this.getList('teams')
+    },
+    fileList() {
+      return this.currentItem.headPortrait
+        ? [
+          {
+            uid: 'headPortrait',
+            url: this.currentItem.headPortraitStr,
+            key: this.currentItem.headPortrait,
+            status: 'done',
+            name: this.currentItem.headPortrait?.substring(this.currentItem.headPortrait?.lastIndexOf('/'))
+          }
+        ]
+        : []
     }
   },
   render() {
@@ -25,21 +40,20 @@ export default Form.create({})({
       attrs: this.modalProps,
       on: {
         cancel: () => this.onCancel(),
-        ok: () => this.onSubmit()
+        ok: () => this.onSubmit({
+          customDataHandler: values => {
+            const temp = cloneDeep(values)
+
+            if (temp.headPortrait.length) {
+              temp.headPortrait = temp.headPortrait[0].response?.data[0].key ?? temp.headPortrait[0].key
+            } else {
+              temp.headPortrait = ''
+            }
+
+            return temp
+          }
+        })
       }
-    }
-
-    // 回显图片
-    const fileList = []
-
-    if (this.currentItem.headPortrait) {
-      fileList.push({
-        uid: 'headPortrait',
-        url: this.currentItem.headPortraitStr,
-        key: this.currentItem.headPortrait,
-        status: 'done',
-        name: this.currentItem.headPortrait?.substring(this.currentItem.headPortrait?.lastIndexOf('/'))
-      })
     }
 
     return (
@@ -50,12 +64,15 @@ export default Form.create({})({
         >
           <Form.Item label="头像">
             {
-              this.form.getFieldDecorator('headPortrait', { initialValue: fileList })(
+              this.form.getFieldDecorator('headPortrait', { initialValue: this.fileList })(
                 <BNUploadPictures limit={1} />
               )
             }
           </Form.Item>
-          <Form.Item label="姓名" class={'half'}>
+          <Form.Item
+            label="姓名"
+            class={'half'}
+          >
             {
               this.form.getFieldDecorator('fullName', {
                 initialValue: this.currentItem.fullName,
@@ -67,11 +84,17 @@ export default Form.create({})({
                   }
                 ]
               })(
-                <Input placeholder="请输入姓名" allowClear />
+                <Input
+                  placeholder="请输入姓名"
+                  allowClear
+                />
               )
             }
           </Form.Item>
-          <Form.Item label="手机号码" class={'half'}>
+          <Form.Item
+            label="手机号码"
+            class={'half'}
+          >
             {
               this.form.getFieldDecorator('mobile', {
                 initialValue: this.currentItem.mobile,
@@ -80,30 +103,39 @@ export default Form.create({})({
                     required: true,
                     message: '请输入手机号码!',
                     trigger: 'blur'
-                  }
+                  },
+                  { validator: verifyMobileNumber }
                 ]
               })(
-                <Input placeholder="请输入手机号码" allowClear />
+                <Input
+                  placeholder="请输入手机号码"
+                  allowClear
+                />
               )
             }
           </Form.Item>
-          <Form.Item label="身份证号" class={'half'}>
+          <Form.Item
+            label="身份证号"
+            class={'half'}
+          >
             {
               this.form.getFieldDecorator('idCard', {
                 initialValue: this.currentItem.idCard,
                 rules: [
-                  {
-                    required: true,
-                    message: '请输入身份证号码!',
-                    trigger: 'blur'
-                  }
+                  { validator: verifyIDNumber }
                 ]
               })(
-                <Input placeholder="请输入身份证号码" allowClear />
+                <Input
+                  placeholder="请输入身份证号码"
+                  allowClear
+                />
               )
             }
           </Form.Item>
-          <Form.Item label="所在团队" class={'half'}>
+          <Form.Item
+            label="所在团队"
+            class={'half'}
+          >
             {
               this.form.getFieldDecorator('teamId', {
                 initialValue: this.currentItem.teamId,
@@ -127,7 +159,10 @@ export default Form.create({})({
               )
             }
           </Form.Item>
-          <Form.Item label="性别" class={'half'}>
+          <Form.Item
+            label="性别"
+            class={'half'}
+          >
             {
               this.form.getFieldDecorator('gender', { initialValue: this.currentItem.gender || 1 })(
                 <Radio.Group>
@@ -137,21 +172,37 @@ export default Form.create({})({
               )
             }
           </Form.Item>
-          <Form.Item label="电子邮箱" class={'half'}>
+          <Form.Item
+            label="电子邮箱"
+            class={'half'}
+          >
             {
-              this.form.getFieldDecorator('email', { initialValue: this.currentItem.email })(
-                <Input placeholder="请输入电子邮箱" allowClear />
+              this.form.getFieldDecorator('email', {
+                initialValue: this.currentItem.email,
+                rules: [{ validator: verifyEmail }]
+              })(
+                <Input
+                  placeholder="请输入电子邮箱"
+                  allowClear
+                />
               )
             }
           </Form.Item>
           <Form.Item label="简介">
             {
               this.form.getFieldDecorator('description', { initialValue: this.currentItem.description })(
-                <Input.TextArea placeholder="请输入简介" autoSize={{ minRows: 6 }} allowClear />
+                <Input.TextArea
+                  placeholder="请输入简介"
+                  autoSize={{ minRows: 6 }}
+                  allowClear
+                />
               )
             }
           </Form.Item>
-          <Form.Item label="排序" class={'half'}>
+          <Form.Item
+            label="排序"
+            class={'half'}
+          >
             {
               this.form.getFieldDecorator('sortIndex', {
                 initialValue: this.currentItem.sortIndex || 0,
@@ -164,28 +215,34 @@ export default Form.create({})({
                   }
                 ]
               })(
-                <InputNumber style={{ width: '100%' }} placeholder="请输入排序值" />
+                <InputNumber
+                  style={{ width: '100%' }}
+                  placeholder="请输入排序值"
+                />
               )
             }
           </Form.Item>
-          <Form.Item label="状态" class={'half'}>
-            {
-              this.form.getFieldDecorator('status', {
-                valuePropName: 'checked',
-                initialValue: this.currentItem.id ? this.currentItem.status === 1 : true,
-                rules: [
-                  {
-                    required: true,
-                    type: 'boolean',
-                    message: '请选择状态!',
-                    trigger: 'blur'
-                  }
-                ]
-              })(
-                <Switch />
-              )
-            }
-          </Form.Item>
+          {/*<Form.Item*/}
+          {/*  label="状态"*/}
+          {/*  class={'half'}*/}
+          {/*>*/}
+          {/*  {*/}
+          {/*    this.form.getFieldDecorator('status', {*/}
+          {/*      valuePropName: 'checked',*/}
+          {/*      initialValue: this.currentItem.id ? this.currentItem.status === 1 : true,*/}
+          {/*      rules: [*/}
+          {/*        {*/}
+          {/*          required: true,*/}
+          {/*          type: 'boolean',*/}
+          {/*          message: '请选择状态!',*/}
+          {/*          trigger: 'change'*/}
+          {/*        }*/}
+          {/*      ]*/}
+          {/*    })(*/}
+          {/*      <Switch />*/}
+          {/*    )*/}
+          {/*  }*/}
+          {/*</Form.Item>*/}
         </Form>
       </DragModal>
     )

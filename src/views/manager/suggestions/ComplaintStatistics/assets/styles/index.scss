@@ -25,7 +25,7 @@
 
       &:nth-child(2) {
         flex: none;
-        height: 220px;
+        height: 255px;
       }
 
       &:last-child {
@@ -38,7 +38,7 @@
   .bnm-complaint-statistics-tables {
     flex: none;
     width: 33.33%;
-    min-width: 550px;
+    //min-width: 550px;
     background: #ffffff;
     padding: 20px;
     @include container-border-radius;
@@ -68,7 +68,7 @@
       .ant-tabs-tabpane {
         height: 100%;
         display: flex;
-        overflow: hidden;
+        overflow: auto;
 
         .ant-table-wrapper {
           flex: auto;

@@ -14,19 +14,23 @@ export default {
             title: '序号',
             width: 60,
             align: 'center',
+            fixed: true,
             scopedSlots: { customRender: 'serialNumber' }
           },
           {
             title: '企业',
+            width: 200,
             dataIndex: 'companyName'
           },
           {
             title: '填写结果',
+            width: 200,
             dataIndex: 'resultContent'
           },
           {
             title: '填写时间',
             width: 180,
+            fixed: 'right',
             dataIndex: 'createTimeStr'
           }
         ],
@@ -47,6 +51,9 @@ export default {
     itemId() {
       return this.getState('itemId', this.moduleName)
     },
+    questionnaireId() {
+      return this.getState('questionnaireId', this.moduleName)
+    },
     list() {
       return this.getState('list', this.moduleName, this.submoduleName)
     }
@@ -55,7 +62,12 @@ export default {
     async itemId() {
       await this._dispatch(
         'getList',
-        {additionalQueryParameters: { itemId: this.itemId }},
+        {
+          additionalQueryParameters: {
+            itemId: this.itemId,
+            reportId: this.questionnaireId
+          }
+        },
         {
           root: true,
           submoduleName: this.submoduleName
@@ -77,7 +89,7 @@ export default {
         class={'results-table'}
         ref={`${this.moduleName}Table`}
         {...attributes}
-        {...{scopedSlots: {serialNumber: (text, record, index) => index + 1}}}
+        {...{ scopedSlots: { serialNumber: (text, record, index) => index + 1 } }}
       />
     )
   }

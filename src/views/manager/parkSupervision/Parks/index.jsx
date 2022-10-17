@@ -9,13 +9,16 @@ import Table from './components/Table'
 export default {
   name: 'Parks',
   mixins: [dynamicState()],
-  render () {
+  render() {
     return (
       <TGContainer class="bnm-parks-container">
         <Inquiry slot={'inquiry'} />
         <Table slot={'table'} />
         <TGPagination slot={'pagination'} />
-        <ModalOfEdit slot={'modals'} modalTitle={'{action}中心'} />
+        <ModalOfEdit
+          slot={'modals'}
+          modalTitle={'{action}中心'}
+        />
       </TGContainer>
     )
   }

@@ -44,11 +44,21 @@ export default {
       immediate: true,
       handler(value) {
         if (value.length) {
-          this.dataSource = value.map(item => {
-            item.id = Math.random()
+          value.forEach(item => {
+            if (!item.id) {
+              item.id = Math.random()
+            }
 
-            return item
+            if (!('hasError' in item)) {
+              item.hasError = false
+            } else {
+              if (item.optionValue === '' || item.optionValue === undefined) {
+                item.hasError = true
+              }
+            }
           })
+
+          this.dataSource = value
         } else {
           this.dataSource = []
           this.onCreateRow()
@@ -61,24 +71,32 @@ export default {
       const index = this.dataSource.findIndex(item => item.id === id)
 
       this.dataSource.splice(index, 1)
-      this.$emit('change', this.dataSource)
+      this.onChange()
     },
     onCreateRow() {
       const row = {
         id: Math.random(),
         optionValue: '',
-        score: ''
+        score: '',
+        hasError: false
       }
 
       this.dataSource.push(row)
     },
     onChange() {
+      this.dataSource = this.dataSource.map(item => {
+        item.hasError = (this.dataSource.length === 1 && item.optionValue === '') ||
+          (item.optionValue === '' && item.score !== '')
+
+        return item
+      })
+
       this.$emit('change', this.dataSource)
     }
   },
   render() {
     return (
-      <div class="tg-multi-input data-collection-item-table-container">
+      <div class="tg-multi-input bnm-data-collection-item-table-container">
         <Button
           icon={'plus'}
           ghost
@@ -91,7 +109,7 @@ export default {
           添加选项
         </Button>
         <Table
-          class="multi-input-table item-table"
+          class={'multi-input-table item-table'}
           tableLayout={'fixed'}
           columns={this.columns}
           dataSource={this.dataSource}
@@ -101,12 +119,14 @@ export default {
           {...{
             scopedSlots: {
               optionValue: (text, record) => (
-                <Input
-                  vModel={record.optionValue}
-                  placeholder="选项"
-                  onBlur={() => this.onChange()}
-                  disabled={this.disabled}
-                />
+                <div class={record.hasError && !this.disabled ? 'has-error' : ''}>
+                  <Input
+                    vModel={record.optionValue}
+                    placeholder="选项"
+                    onBlur={() => this.onChange()}
+                    disabled={this.disabled}
+                  />
+                </div>
               ),
               score: record => (
                 <InputNumber

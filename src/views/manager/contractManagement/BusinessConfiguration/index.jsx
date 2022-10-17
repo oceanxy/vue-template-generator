@@ -17,7 +17,7 @@ export default {
     }
   },
   async created() {
-    await this.$store.dispatch('getDetails', {moduleName: this.moduleName})
+    await this.$store.dispatch('getDetails', { moduleName: this.moduleName })
   },
   render() {
     return (

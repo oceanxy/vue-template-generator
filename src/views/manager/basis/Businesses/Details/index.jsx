@@ -44,16 +44,29 @@ export default {
   },
   render() {
     return (
-      <Tabs slot="default" class="bnm-businesses-details-content">
-        <TGTabPane name="账号信息" tabKey={1} icon={''}>
+      <Tabs
+        slot="default"
+        class="bnm-businesses-details-content"
+      >
+        <TGTabPane
+          name="账号信息"
+          tabKey={1}
+          icon={''}
+        >
           {
             this.list.length || this.loading
               ? (
                 <div class={'bnm-businesses-details-cards'}>
                   {
                     this.list.map(item => (
-                      <Card loading={this.loading} title={'昵称：' + item.nickName}>
-                        <Descriptions column={1} colon={false}>
+                      <Card
+                        loading={this.loading}
+                        title={'昵称：' + item.nickName}
+                      >
+                        <Descriptions
+                          column={1}
+                          colon={false}
+                        >
                           <Descriptions.Item label={'登录账号'}>{item.loginAccount}</Descriptions.Item>
                           <Descriptions.Item label={'注册时间'}>{item.createTimeStr}</Descriptions.Item>
                           <Descriptions.Item label={'注册IP'}>{item.registerIp}</Descriptions.Item>
@@ -68,13 +81,25 @@ export default {
               : <Empty class={'empty'} />
           }
         </TGTabPane>
-        <TGTabPane name="账单信息" tabKey={2} icon={''}>
+        <TGTabPane
+          name="账单信息"
+          tabKey={2}
+          icon={''}
+        >
           <BillTable />
         </TGTabPane>
-        <TGTabPane name="缴费记录" tabKey={3} icon={''}>
+        <TGTabPane
+          name="缴费记录"
+          tabKey={3}
+          icon={''}
+        >
           <PaymentRecordsTable />
         </TGTabPane>
-        <TGTabPane name="投诉建议" tabKey={4} icon={''}>
+        <TGTabPane
+          name="投诉建议"
+          tabKey={4}
+          icon={''}
+        >
           <SuggestionsTable />
         </TGTabPane>
       </Tabs>

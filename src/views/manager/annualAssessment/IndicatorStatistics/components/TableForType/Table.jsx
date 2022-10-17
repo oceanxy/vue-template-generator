@@ -16,10 +16,12 @@ export default {
           },
           {
             title: '企业',
+            width: 100,
             dataIndex: 'companyName'
           },
           {
             title: '考核结果',
+            width: 100,
             scopedSlots: { customRender: 'result' }
           },
           {
@@ -35,10 +37,8 @@ export default {
           }
         ],
         rowKey: 'id',
-        tableLayout: 'fixed',
         dataSource: [],
         pagination: false,
-        scroll: {},
         size: 'middle'
       }
     }
@@ -93,7 +93,10 @@ export default {
                   {
                     record.resultFile?.map(item => (
                       <li>
-                        <a target="_blank" href={item.path}>
+                        <a
+                          target="_blank"
+                          href={item.path}
+                        >
                           {item.fileName}
                         </a>
                       </li>

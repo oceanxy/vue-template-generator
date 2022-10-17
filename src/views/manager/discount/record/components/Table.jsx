@@ -18,7 +18,6 @@ export default {
           {
             title: '企业',
             width: 200,
-            fixed: true,
             dataIndex: 'companyName',
             scopedSlots: { customRender: 'companyName' }
           },
@@ -108,10 +107,18 @@ export default {
             operation: (text, record) => {
               return record.auditStatus !== 3 ? (
                 <Space>
-                  <Button type="link" size="small" onClick={() => this.onEditClick(record)}>
+                  <Button
+                    type="link"
+                    size="small"
+                    onClick={() => this.onEditClick(record)}
+                  >
                     编辑
                   </Button>
-                  <Button type="link" size="small" onClick={() => this.onDeleteClick(record)}>
+                  <Button
+                    type="link"
+                    size="small"
+                    onClick={() => this.onDeleteClick(record)}
+                  >
                     删除
                   </Button>
                 </Space>

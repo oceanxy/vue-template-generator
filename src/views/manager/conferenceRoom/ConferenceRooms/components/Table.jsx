@@ -1,5 +1,5 @@
 import '../assets/styles/index.scss'
-import { Button, Space, Table, Modal, Switch } from 'ant-design-vue'
+import { Button, Modal, Space, Switch, Table } from 'ant-design-vue'
 import forTable from '@/mixins/forTable'
 import ImagePreview from '@/components/ImagePreview'
 import { mapAction } from '@/utils/store'
@@ -13,8 +13,15 @@ export default {
           {
             title: '序号',
             width: 60,
+            fixed: true,
             align: 'center',
             scopedSlots: { customRender: 'serialNumber' }
+          },
+          {
+            title: '房号',
+            fixed: true,
+            width: 120,
+            dataIndex: 'roomNo'
           },
           {
             title: '图片',
@@ -23,21 +30,19 @@ export default {
             scopedSlots: { customRender: 'imgList' }
           },
           {
-            title: '房号',
-            width: 80,
-            dataIndex: 'roomNo'
-          },
-          {
             title: '地址',
+            width: 180,
             dataIndex: 'address'
           },
           {
             title: '配套设施',
+            width: 200,
             dataIndex: 'supportFacilityStr'
           },
           {
             title: '状态',
-            // align: 'center',
+            align: 'center',
+            fixed: 'right',
             width: 80,
             scopedSlots: { customRender: 'status' }
           },
@@ -46,7 +51,7 @@ export default {
             key: 'operation',
             fixed: 'right',
             align: 'center',
-            width: 150,
+            width: 120,
             scopedSlots: { customRender: 'operation' }
           }
         ]
@@ -57,9 +62,7 @@ export default {
     async onDetailsClick(record) {
       await this.$router.push({
         name: 'contractReviewDetails',
-        query: {
-          cid: record.id // contractID
-        }
+        query: { cid: record.id } // contractID
       })
     },
     onDel(record) {
@@ -121,15 +124,24 @@ export default {
               return (
                 <Switch
                   checked={record.status === 1}
-                  onclick={() => this.onStatusChange(record.status === 1 ? 2 : 1, record)}></Switch>
+                  onclick={() => this.onStatusChange(record.status === 1 ? 2 : 1, record)}
+                ></Switch>
               )
             },
             operation: (text, record) => (
               <Space>
-                <Button type="link" size="small" onClick={() => this.onEditClick(record)}>
+                <Button
+                  type="link"
+                  size="small"
+                  onClick={() => this.onEditClick(record)}
+                >
                   编辑
                 </Button>
-                <Button type="link" size="small" onClick={() => this.onDel(record)}>
+                <Button
+                  type="link"
+                  size="small"
+                  onClick={() => this.onDel(record)}
+                >
                   删除
                 </Button>
               </Space>

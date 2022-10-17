@@ -9,7 +9,7 @@ export default {
    */
   getRents(request, data) {
     return request({
-      url: '/business/billRecord/getRecordPageList',
+      url: '/business/billAmount/getRoomAmountList',
       method: 'post',
       data: qs.stringify(data)
     })

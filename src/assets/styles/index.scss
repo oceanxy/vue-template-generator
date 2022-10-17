@@ -11,6 +11,7 @@ body {
 
 #app {
   position: relative;
+  font-family: Avenir, Helvetica, Arial, sans-serif;
   color: #2c3e50;
 
   // 可视化项目缩放页面专用
@@ -104,7 +105,7 @@ body {
 
   .tg-not-found-content {
     height: 100%;
-    display: flex;
+  display: flex;
     justify-content: center;
     align-items: center;
 
@@ -112,7 +113,7 @@ body {
       display: flex;
       justify-content: center;
       align-items: center;
-      flex: auto;
+    flex: auto;
       width: 100%;
       height: 60%;
       max-height: 600px;
@@ -168,7 +169,7 @@ body {
           .ant-input-number {
             border-top-right-radius: 0;
             border-bottom-right-radius: 0;
-          }
+    }
         }
 
         &:last-child {
@@ -224,7 +225,7 @@ body {
   }
 }
 
-.ant-table {
+  .ant-table {
   .ant-table-thead > tr > th {
     border: none;
     background: none;
@@ -266,7 +267,7 @@ body {
       span:last-child {
         margin-left: auto;
       }
-    }
+  }
 
     .actually-received {
       padding: 16px;
@@ -349,6 +350,17 @@ body {
   &.label-size-small.label-size-small {
     .ant-form-item-label {
       width: 90px;
+      word-break: break-all;
+    }
+  }
+
+  .ant-form-item-label {
+    padding-right: 10px;
+    line-height: 20px;
+    padding-top: 12px;
+
+    label {
+      white-space: normal;
     }
   }
 
@@ -506,4 +518,8 @@ body {
 .ant-empty.ant-empty-normal {
   margin: 0;
   padding: 24px 0;
+}
+
+.ant-calendar-time-picker-select-option-disabled {
+  display: none;
 }

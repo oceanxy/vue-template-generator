@@ -89,8 +89,8 @@ export default {
             acceptImg: (text, record) => (
               <ImagePreview
                 imageUrls={record.acceptImgList?.map(item => item.path) ?? []}
-                width={80}
-                height={80}
+                width={32}
+                height={32}
               />
             ),
             acceptStatus: (text, record) => (
@@ -108,7 +108,7 @@ export default {
             operation: (text, record) => (
               <Space>
                 {
-                  record.acceptStatus === 2
+                  record.acceptStatus === 2 || record.acceptStatus === 4
                     ? [
                       <Button
                         type="link"

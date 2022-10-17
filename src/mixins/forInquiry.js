@@ -34,16 +34,15 @@ export default () => {
           temp = omit(temp, 'datetimeRange')
         }
 
-        if ('appointmentDateStartMonth' in temp) {
-          temp.appointmentDateStartMonth = temp.appointmentDateStartMonth
-            ? temp.appointmentDateStartMonth.format('YYYYMM')
+        if ('monthRange' in temp) {
+          temp.appointmentDateStartMonth = temp.monthRange[0]
+            ? moment(temp.monthRange[0]).format('YYYYMM')
             : ''
-        }
+          temp.appointmentDateEndMonth = temp.monthRange[1]
+            ? moment(temp.monthRange[1]).format('YYYYMM')
+            : ''
 
-        if ('appointmentDateEndMonth' in temp) {
-          temp.appointmentDateEndMonth = temp.appointmentDateEndMonth
-            ? temp.appointmentDateEndMonth.format('YYYYMM')
-            : ''
+          temp = omit(temp, 'monthRange')
         }
 
         return temp

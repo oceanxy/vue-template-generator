@@ -34,6 +34,11 @@ export default {
             dataIndex: 'floorNameStr'
           },
           {
+            title: '签约企业',
+            width: 140,
+            dataIndex: 'companyName'
+          },
+          {
             title: '面积（㎡）',
             width: 100,
             align: 'center',
@@ -53,8 +58,15 @@ export default {
           },
           {
             title: '配套设施',
-            width: 140,
+            width: 200,
             dataIndex: 'supportFacilityStr'
+          },
+          {
+            title: '使用状态',
+            align: 'center',
+            width: 80,
+            fixed: 'right',
+            dataIndex: 'roomStatusStr'
           },
           {
             title: '状态',

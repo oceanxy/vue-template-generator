@@ -7,7 +7,7 @@ import { mapGetters } from 'vuex'
 export default Form.create({})({
   mixins: [forFormModal()],
   data() {
-    return {modalProps: {width: 700}}
+    return { modalProps: { width: 700 } }
   },
   computed: {
     ...mapGetters({ getState: 'getState' }),
@@ -33,7 +33,7 @@ export default Form.create({})({
               moduleName: this.moduleName,
               stateName: 'pendingOrders',
               customApiName: 'getPendingOrders',
-              payload: {id: this.currentItem.id}
+              payload: { id: this.currentItem.id }
             }),
             this.$store.dispatch('getListForSelect', {
               moduleName: this.moduleName,
@@ -55,9 +55,7 @@ export default Form.create({})({
         0
       )
 
-      this.form.setFieldsValue({
-        realAmount: amount, amount
-      })
+      this.form.setFieldsValue({ realAmount: amount, amount })
     }
   },
   render() {
@@ -65,7 +63,23 @@ export default Form.create({})({
       attrs: this.modalProps,
       on: {
         cancel: () => this.onCancel(),
-        ok: () => this.onSubmit({ customApiName: 'enterprisePayment' })
+        ok: () => this.onSubmit({
+          customApiName: 'enterprisePayment',
+          customDataHandler: values => {
+            const temp = {...values}
+
+            // 筛选已勾选账单
+            const ordersChecked = this.pendingOrders.list.filter(item => temp.billIds.includes(item.id))
+
+            // 筛选已勾选账单内所有的子级ID
+            temp.billIds = ordersChecked.reduce(
+              (prev, current) => prev.concat(current.billList.reduce((p, c) => p.concat([c.id]), [])),
+              []
+            )
+
+            return temp
+          }
+        })
       }
     }
 
@@ -76,18 +90,27 @@ export default Form.create({})({
           colon={false}
         >
           <Form.Item label="企业名称">
-            <Input vModel={this.currentItem.companyName} placeholder="请输入企业名称" disabled />
+            <Input
+              vModel={this.currentItem.companyName}
+              placeholder="请输入企业名称"
+              disabled
+            />
           </Form.Item>
           <Form.Item label="选择账单">
             <Spin spinning={this.pendingOrders.loading}>
               {
                 this.form.getFieldDecorator('billIds', {
                   initialValue: [],
-                  rules: [{
-                    required: true, type: 'array', message: '请选择缴费账单!', trigger: 'change'
-                  }]
+                  rules: [
+                    {
+                      required: true, type: 'array', message: '请选择缴费账单!', trigger: 'change'
+                    }
+                  ]
                 })(
-                  <Checkbox.Group class={'bnm-form-checkbox'} onChange={this.onPendingOrdersChange}>
+                  <Checkbox.Group
+                    class={'bnm-form-checkbox'}
+                    onChange={this.onPendingOrdersChange}
+                  >
                     {
                       this.pendingOrders.list.length
                         ? this.pendingOrders.list.map(item => (
@@ -100,23 +123,27 @@ export default Form.create({})({
               }
             </Spin>
           </Form.Item>
-          <Form.Item label="缴费金额" class={'combo'} required>
+          <Form.Item
+            label="缴费金额"
+            class={'combo'}
+            required
+          >
             <Row gutter={10}>
               <Col span={12}>
                 <Form.Item>
                   {
                     this.form.getFieldDecorator('amount', {
-                      rules: [{
-                        required: true, type: 'number', message: '请输入缴费金额!', trigger: 'blur'
-                      }]
+                      rules: [
+                        {
+                          required: true, type: 'number', message: '请输入缴费金额!', trigger: 'blur'
+                        }
+                      ]
                     })(
                       <InputNumber
                         placeholder="选择账单后自动计算"
                         disabled
                         precision={2}
-                        style={{
-                          color: '#0f7d4f', width: '100%'
-                        }}
+                        style={{ color: '#0f7d4f', width: '100%' }}
                       />
                     )
                   }
@@ -126,9 +153,11 @@ export default Form.create({})({
                 <Form.Item>
                   {
                     this.form.getFieldDecorator('realAmount', {
-                      rules: [{
-                        required: true, type: 'number', message: '请输入实缴金额!', trigger: 'blur'
-                      }]
+                      rules: [
+                        {
+                          required: true, type: 'number', message: '请输入实缴金额!', trigger: 'blur'
+                        }
+                      ]
                     })(
                       <InputNumber
                         precision={2}
@@ -145,11 +174,16 @@ export default Form.create({})({
             <Spin spinning={this.paymentMethods.loading}>
               {
                 this.form.getFieldDecorator('payType', {
-                  rules: [{
-                    required: true, message: '请选择支付方式!', trigger: 'change'
-                  }]
+                  rules: [
+                    {
+                      required: true, message: '请选择支付方式!', trigger: 'change'
+                    }
+                  ]
                 })(
-                  <Radio.Group placeholder="请选择支付方式" allowClear>
+                  <Radio.Group
+                    placeholder="请选择支付方式"
+                    allowClear
+                  >
                     {
                       this.paymentMethods.list.map(item => (
                         <Radio value={item.id}>{item.fullName}</Radio>
@@ -164,22 +198,33 @@ export default Form.create({})({
           <Form.Item label="交易流水">
             {
               this.form.getFieldDecorator('paySerialNumber', {
-                rules: [{
-                  required: true, message: '请输入交易流水号!', trigger: 'blur'
-                }]
+                rules: [
+                  {
+                    required: true, message: '请输入交易流水号!', trigger: 'blur'
+                  }
+                ]
               })(
-                <Input placeholder="请输入交易流水号" allowClear />
+                <Input
+                  placeholder="请输入交易流水号"
+                  allowClear
+                />
               )
             }
           </Form.Item>
           <Form.Item label="备注">
             {
               this.form.getFieldDecorator('remark', {
-                rules: [{
-                  required: this.remarkRequired, message: '请输入备注', trigger: 'blur'
-                }]
+                rules: [
+                  {
+                    required: this.remarkRequired, message: '请输入备注', trigger: 'blur'
+                  }
+                ]
               })(
-                <Input.TextArea placeholder="请输入备注" autoSize={{ minRows: 6 }} allowClear />
+                <Input.TextArea
+                  placeholder="请输入备注"
+                  autoSize={{ minRows: 6 }}
+                  allowClear
+                />
               )
             }
           </Form.Item>

@@ -61,7 +61,10 @@ export default {
         // style={{ '--height': this.$_chartHeight }}
         class="tg-chart-container"
       >
-        <div ref="chart" class="chart-container" />
+        <div
+          ref="chart"
+          class="chart-container"
+        />
       </div>
     )
   }

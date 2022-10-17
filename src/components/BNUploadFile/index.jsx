@@ -26,6 +26,10 @@ export default {
     placeholder: {
       type: String,
       default: '选择文件'
+    },
+    disabled: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -42,7 +46,19 @@ export default {
       immediate: true,
       handler(value) {
         if (value && value.length) {
-          this.fileList = value
+          this.fileList = value.map((item, index) => {
+            if ('uid' in item) {
+              return item
+            } else {
+              return {
+                uid: item.key + index,
+                key: item.key,
+                url: item.path,
+                status: 'done',
+                name: item.fileName
+              }
+            }
+          })
         } else {
           this.fileList = []
         }
@@ -65,22 +81,22 @@ export default {
       // this.previewVisible = true
     },
     handleChange({ file, fileList }) {
-      // if (file.response) {
-      //   this.fileList = fileList
-      // }
       this.fileList = fileList
 
       if (this.fileList.length >= this.limit) {
         this.fileList = this.fileList.slice(0, this.limit)
       }
 
-      this.$emit('change', this.fileList)
+      if (file.status === 'done') {
+        this.$emit('change', this.fileList)
+      }
     }
   },
   render() {
     return (
       <div
         style={{
+          margin: '4px 0',
           lineHeight: 0,
           flex: 'auto'
         }}
@@ -96,10 +112,11 @@ export default {
           onChange={this.handleChange}
           headers={this.headers}
           multiple={true}
+          disabled={this.disabled}
         >
           {
             this.limit > this.fileList.length ? (
-              <Button>
+              <Button disabled={this.disabled}>
                 <Icon type="upload" />
                 {this.placeholder}
               </Button>

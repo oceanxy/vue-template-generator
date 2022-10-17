@@ -9,7 +9,7 @@ import TGPagination from '@/components/TGPagination'
 export default {
   name: 'ParkInfo',
   mixins: [dynamicState()],
-  render () {
+  render() {
     return (
       <BNContainerWithParkSider contentClass={'bnm-park-info-container'}>
         <TGContainer>

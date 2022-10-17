@@ -5,6 +5,8 @@ import { mapGetters } from 'vuex'
 import forFormModal from '@/mixins/forModal/forFormModal'
 import DragModal from '@/components/DragModal'
 import BNUploadPictures from '@/components/BNUploadPictures'
+import { verifyIDNumber, verifyMobileNumber, verifyPhoneNumber } from '@/utils/validators'
+import { cloneDeep, omit } from 'lodash'
 
 export default Form.create({})({
   mixins: [forFormModal()],
@@ -24,6 +26,15 @@ export default Form.create({})({
     },
     loadingOfUnitsForSelect() {
       return this.getState('loadingOfUnitsForSelect', 'common')
+    },
+    fileList() {
+      return this.currentItem.imgList?.map((item, index) => ({
+        uid: index,
+        url: item.path,
+        key: item.key,
+        status: 'done',
+        name: item.path.substring(item.path.lastIndexOf('/'))
+      })) ?? []
     }
   },
   watch: {
@@ -45,6 +56,14 @@ export default Form.create({})({
       on: {
         cancel: () => this.onCancel(),
         ok: () => this.onSubmit({
+          customDataHandler: values => {
+            let temp = cloneDeep(values)
+
+            temp.imgs = temp.imgList?.map(item => item.response?.data[0].key ?? item.key).join()
+            temp = omit(temp, 'imgList')
+
+            return temp
+          },
           done: async () => {
             // 编辑时，更新 Header 内的相关信息
             if (this.currentItem.id) {
@@ -68,15 +87,6 @@ export default Form.create({})({
       }
     }
 
-    // 回显图片
-    const fileList = this.currentItem.imgList?.map((item, index) => ({
-      uid: index,
-      url: item.path,
-      key: item.key,
-      status: 'done',
-      name: item.path.substring(item.path.lastIndexOf('/'))
-    })) ?? []
-
     return (
       <DragModal {...attributes}>
         <Form
@@ -86,7 +96,7 @@ export default Form.create({})({
           <Form.Item label="图片">
             {
               this.form.getFieldDecorator('imgList', {
-                initialValue: fileList,
+                initialValue: this.fileList,
                 rules: [
                   {
                     required: true, type: 'array', message: '请上传图片!', trigger: 'blur'
@@ -97,7 +107,10 @@ export default Form.create({})({
               )
             }
           </Form.Item>
-          <Form.Item label="名称" class={'half'}>
+          <Form.Item
+            label="名称"
+            class={'half'}
+          >
             {
               this.form.getFieldDecorator('fullName', {
                 initialValue: this.currentItem.fullName,
@@ -107,11 +120,17 @@ export default Form.create({})({
                   }
                 ]
               })(
-                <Input placeholder="请输入中心名称" allowClear />
+                <Input
+                  placeholder="请输入中心名称"
+                  allowClear
+                />
               )
             }
           </Form.Item>
-          <Form.Item label="编号" class={'half'}>
+          <Form.Item
+            label="编号"
+            class={'half'}
+          >
             {
               this.form.getFieldDecorator('parkNo', {
                 initialValue: this.currentItem.parkNo,
@@ -121,21 +140,33 @@ export default Form.create({})({
                   }
                 ]
               })(
-                <Input placeholder="请输入编号" allowClear />
+                <Input
+                  placeholder="请输入编号"
+                  allowClear
+                />
               )
             }
           </Form.Item>
-          <Form.Item label="管理员账号" class={'half'}>
+          <Form.Item
+            label="管理员账号"
+            class={'half'}
+          >
             {
               this.form.getFieldDecorator('loginAccount', {
                 initialValue: this.currentItem.loginAccount,
                 rules: [
                   {
-                    required: true, message: '请输入管理员登录账号!', trigger: 'blur'
-                  }
+                    required: true,
+                    message: '请输入管理员登录账号!',
+                    trigger: 'blur'
+                  },
+                  { validator: verifyMobileNumber }
                 ]
               })(
-                <Input placeholder="请输入登录账号" disabled={!!this.currentItem.id} />
+                <Input
+                  placeholder="请输入登录账号"
+                  disabled={!!this.currentItem.id}
+                />
               )
             }
           </Form.Item>
@@ -153,7 +184,10 @@ export default Form.create({})({
             //   </Form.Item>
             // )
           }
-          <Form.Item label="类型" class={'half'}>
+          <Form.Item
+            label="类型"
+            class={'half'}
+          >
             {
               this.form.getFieldDecorator('parkType', {
                 initialValue: this.currentItem.parkType || 1,
@@ -171,7 +205,11 @@ export default Form.create({})({
               )
             }
           </Form.Item>
-          <Form.Item label="地址" class={'custom'} required>
+          <Form.Item
+            label="地址"
+            class={'custom'}
+            required
+          >
             <Row gutter={16}>
               <Col span={10}>
                 <Form.Item>
@@ -214,7 +252,10 @@ export default Form.create({})({
                         }
                       ]
                     })(
-                      <Input placeholder="请输入详细地址" allowClear />
+                      <Input
+                        placeholder="请输入详细地址"
+                        allowClear
+                      />
                     )
                   }
                 </Form.Item>
@@ -284,63 +325,102 @@ export default Form.create({})({
               )
             }
           </Form.Item>
-          <Form.Item label="负责人" class={'half'}>
+          <Form.Item
+            label="负责人"
+            class={'half'}
+          >
             {
               this.form.getFieldDecorator('dutyPerson', { initialValue: this.currentItem.dutyPerson })(
                 <Input placeholder="请输入负责人姓名" />
               )
             }
           </Form.Item>
-          <Form.Item label="负责人身份证" class={'half'}>
+          <Form.Item
+            label="负责人身份证"
+            class={'half'}
+          >
             {
-              this.form.getFieldDecorator('dutyPersonIdCard', { initialValue: this.currentItem.dutyPersonIdCard })(
+              this.form.getFieldDecorator('dutyPersonIdCard', {
+                initialValue: this.currentItem.dutyPersonIdCard,
+                rules: [{ validator: verifyIDNumber }]
+              })(
                 <Input placeholder="请输入负责人身份证号码" />
               )
             }
           </Form.Item>
-          <Form.Item label="负责人手机号" class={'half'}>
+          <Form.Item
+            label="负责人手机号"
+            class={'half'}
+          >
             {
-              this.form.getFieldDecorator('dutyPersonMobile', { initialValue: this.currentItem.dutyPersonMobile })(
+              this.form.getFieldDecorator('dutyPersonMobile', {
+                initialValue: this.currentItem.dutyPersonMobile,
+                rules: [{ validator: verifyMobileNumber }]
+              })(
                 <Input placeholder="请输入负责人手机号码" />
               )
             }
           </Form.Item>
-          <Form.Item label="中心联系电话" class={'half'}>
+          <Form.Item
+            label="中心联系电话"
+            class={'half'}
+          >
             {
-              this.form.getFieldDecorator('phone', { initialValue: this.currentItem.phone })(
-                <Input placeholder="请输入联系电话" allowClear />
+              this.form.getFieldDecorator('phone', {
+                initialValue: this.currentItem.phone,
+                rules: [{ validator: verifyPhoneNumber }]
+              })(
+                <Input
+                  placeholder="请输入联系电话"
+                  allowClear
+                />
               )
             }
           </Form.Item>
           <Form.Item label="楼栋信息">
             {
               this.form.getFieldDecorator('buildInfo', { initialValue: this.currentItem.buildInfo })(
-                <Input.TextArea placeholder="请输入楼栋信息" autoSize={{ minRows: 6 }} />
+                <Input.TextArea
+                  placeholder="请输入楼栋信息"
+                  autoSize={{ minRows: 6 }}
+                />
               )
             }
           </Form.Item>
           <Form.Item label="中心配套">
             {
               this.form.getFieldDecorator('parkSupport', { initialValue: this.currentItem.parkSupport })(
-                <Input.TextArea placeholder="请输入中心配套" autoSize={{ minRows: 6 }} />
+                <Input.TextArea
+                  placeholder="请输入中心配套"
+                  autoSize={{ minRows: 6 }}
+                />
               )
             }
           </Form.Item>
           <Form.Item label="简介">
             {
               this.form.getFieldDecorator('description', { initialValue: this.currentItem.description })(
-                <Input.TextArea placeholder="请输入简介" autoSize={{ minRows: 6 }} />
+                <Input.TextArea
+                  placeholder="请输入简介"
+                  autoSize={{ minRows: 6 }}
+                />
               )
             }
           </Form.Item>
           <Form.Item label="运营情况">
             {
               this.form.getFieldDecorator('operation', { initialValue: this.currentItem.operation })(
-                <Input.TextArea placeholder="请输入运营情况" autoSize={{ minRows: 6 }} />
+                <Input.TextArea
+                  placeholder="请输入运营情况"
+                  autoSize={{ minRows: 6 }}
+                />
               )
             }
           </Form.Item>
-          <Form.Item label="排序" class={'half'}>
+          <Form.Item
+            label="排序"
+            class={'half'}
+          >
             {
               this.form.getFieldDecorator('sortIndex', {
                 initialValue: this.currentItem.sortIndex || 0,
@@ -350,18 +430,27 @@ export default Form.create({})({
                   }
                 ]
               })(
-                <InputNumber style={{ width: '100%' }} placeholder="请输入排序值" />
+                <InputNumber
+                  style={{ width: '100%' }}
+                  placeholder="请输入排序值"
+                />
               )
             }
           </Form.Item>
-          <Form.Item label="状态" class={'half'}>
+          <Form.Item
+            label="状态"
+            class={'half'}
+          >
             {
               this.form.getFieldDecorator('status', {
                 valuePropName: 'checked',
                 initialValue: this.currentItem.id ? this.currentItem.status === 1 : true,
                 rules: [
                   {
-                    required: true, type: 'boolean', message: '请选择状态!', trigger: 'blur'
+                    required: true,
+                    type: 'boolean',
+                    message: '请选择状态!',
+                    trigger: 'change'
                   }
                 ]
               })(

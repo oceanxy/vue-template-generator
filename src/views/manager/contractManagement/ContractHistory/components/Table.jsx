@@ -4,7 +4,7 @@ import forTable from '@/mixins/forTable'
 
 export default {
   mixins: [forTable()],
-  data () {
+  data() {
     return {
       tableProps: {
         columns: [
@@ -39,7 +39,7 @@ export default {
           },
           {
             title: '费用/优惠',
-            width: 160,
+            width: 200,
             scopedSlots: { customRender: 'saleAmount' }
           },
           {
@@ -76,14 +76,14 @@ export default {
     }
   },
   methods: {
-    async onDetailsClick (record) {
+    async onDetailsClick(record) {
       await this.$router.push({
-        name: 'contractReviewDetails',
+        name: 'contractHistoryDetails',
         query: { cid: record.id }
       })
     }
   },
-  render () {
+  render() {
     const attributes = {
       props: {
         ...this.tableProps,
@@ -114,23 +114,24 @@ export default {
                 }
               </ul>
             ),
-            saleAmount: (text, record) => {
-              return record.signingStatus === 2 || record.signingStatus === 3
-                ? (
-                  <div>
-                    <div style={{ color: 'rgb(216, 38, 34' }}>{record.amount}</div>
-                    <div>{record.saleAmount}</div>
-                  </div>
-                )
-                : <div style={{ color: '#8c8c8c' }}>未核算费用</div>
-            },
-            status: (text, record) => (
+            saleAmount: (text, record) => (
               <div>
-                <span>{text.signingStatusStr}</span>
+                <ul style={{ paddingLeft: '20px', marginBottom: 0 }}>
+                  {
+                    record.amount?.split('，').map(item => (
+                      <li>{item}</li>
+                    ))
+                  }
+                  <li style={{ color: '#1890ff' }}>{record.saleAmount}</li>
+                </ul>
               </div>
             ),
+            status: (text, record) => record.signingStatusStr,
             contractUrl: text => text.signingStatus !== 1 && text.contractUrl ? (
-              <a href={text.contractUrl} target="_brank">
+              <a
+                href={text.contractUrl}
+                target="_brank"
+              >
                 预览合同
               </a>
             ) : '-',
@@ -139,7 +140,11 @@ export default {
                 {
                   record.signingStatus !== 1
                     ? (
-                      <Button type="link" size="small" onClick={() => this.onDetailsClick(record)}>
+                      <Button
+                        type="link"
+                        size="small"
+                        onClick={() => this.onDetailsClick(record)}
+                      >
                         签约详情
                       </Button>
                     ) : null

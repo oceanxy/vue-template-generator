@@ -29,9 +29,9 @@ export function createStoreModule(target = {}) {
       selectedRows: [],
       ...target.state
     },
-    mutations: {...target.mutations},
-    getters: {...target.getters},
-    actions: {...target.actions},
-    modules: {...target.modules}
+    mutations: { ...target.mutations },
+    getters: { ...target.getters },
+    actions: { ...target.actions },
+    modules: { ...target.modules }
   }
 }

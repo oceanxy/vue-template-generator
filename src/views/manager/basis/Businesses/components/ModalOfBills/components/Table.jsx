@@ -65,13 +65,13 @@ export default {
         ...this.tableProps,
         loading: this.loading
       },
-      attrs: {class: 'bnm-table-in-modal'}
+      attrs: { class: 'bnm-table-in-modal' }
     }
 
     return (
       <Table
         {...attruibutes}
-        {...{scopedSlots: {serialNumber: (text, record, index) => index + 1}}}
+        {...{ scopedSlots: { serialNumber: (text, record, index) => index + 1 } }}
       />
     )
   }

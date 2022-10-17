@@ -25,13 +25,15 @@ export default Form.create({})({
   watch: {
     buildingsForSelect: {
       immediate: true,
+      deep: true,
       async handler(value) {
+        // 默认选中数据中的第一个园区的第一栋楼
         const temp = value[0]?.children?.[0]?.id
 
         this.initialBuildingId = temp
 
         if (temp) {
-          await this.setSearch()
+          await this.setSearch(temp)
         }
       }
     }
@@ -39,13 +41,13 @@ export default Form.create({})({
   methods: {
     async switchState(state) {
       this.useState = state
-      await this.setSearch()
+      await this.setSearch(this.initialBuildingId)
     },
     async setSearch(value) {
       await this.$store.dispatch('setSearch', {
         moduleName: this.moduleName,
         payload: {
-          buildId: value || this.initialBuildingId,
+          buildId: value,
           floorId: '', // 初次请求时，默认楼层为全部
           currentTime: moment().format('YYYYMMDD'), // 初次请求时，默认时间为当日
           useStatus: this.useState // 初次请求时，默认状态为全部
@@ -56,7 +58,7 @@ export default Form.create({})({
   render() {
     return (
       <div class={'park-status-search'}>
-        <span>中心实时状态</span>
+        <span class={'box-title-label'}>中心实时状态</span>
         <Form
           layout="inline"
           onSubmit={this.onSubmit}

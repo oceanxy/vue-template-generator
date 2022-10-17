@@ -31,7 +31,7 @@ export default {
           },
           {
             title: '选项',
-            dataIndex: 'itemOptionStr'
+            scopedSlots: { customRender: 'itemOptionList' }
           }
         ],
         rowKey: 'id',
@@ -66,7 +66,7 @@ export default {
           })
         }
       }
-    },
+    }
   },
   render() {
     const attributes = {
@@ -85,7 +85,29 @@ export default {
 
     return (
       <DragModal {...attributes} class={'bnm-table-modal'}>
-        <Table {...tableAttributes} />
+        <Table
+          {...tableAttributes}
+          {...{
+            scopedSlots: {
+              itemOptionList: (text, record) => record.modType < 3
+                ? (
+                  <ul
+                    style={{
+                      paddingLeft: '20px',
+                      marginBottom: 0
+                    }}
+                  >
+                    {
+                      record.itemOptionList.map(item => (
+                        <li>{item.optionValue}（{item.score}分）</li>
+                      ))
+                    }
+                  </ul>
+                )
+                : '-'
+            }
+          }}
+        />
       </DragModal>
     )
   }

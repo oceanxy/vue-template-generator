@@ -20,9 +20,7 @@ export default commitRootInModule =>
       }) {
         commitRootInModule('setLoading', true)
 
-        const res = await apis.updateHousingResourcesStatus({
-          id, status
-        })
+        const res = await apis.updateHousingResourcesStatus({ id, status })
 
         commitRootInModule('setLoading', false)
 

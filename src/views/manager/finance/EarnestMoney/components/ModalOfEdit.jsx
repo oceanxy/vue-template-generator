@@ -7,7 +7,7 @@ import { mapGetters } from 'vuex'
 export default Form.create({})({
   mixins: [forFormModal()],
   data() {
-    return {modalProps: {width: 600}}
+    return { modalProps: { width: 600 } }
   },
   computed: {
     ...mapGetters({ getState: 'getState' }),
@@ -57,23 +57,35 @@ export default Form.create({})({
           class="bnm-form-grid label-size-small"
           colon={false}
         >
-          <Form.Item label="状态" style={{ display: 'none' }}>
+          <Form.Item
+            label="状态"
+            style={{ display: 'none' }}
+          >
             {
-              this.form.getFieldDecorator('earnestStatus', {initialValue: this.currentItem.earnestStatus === 1 ? 2 : 3})(
+              this.form.getFieldDecorator(
+                'earnestStatus',
+                { initialValue: this.currentItem.earnestStatus === 1 ? 2 : 3 }
+              )(
                 <Input disabled={true} />
               )
             }
           </Form.Item>
           <Form.Item label="企业名称">
-            <Input vModel={this.currentItem.companyName} placeholder="请输入企业名称" disabled />
+            <Input
+              vModel={this.currentItem.companyName}
+              placeholder="请输入企业名称"
+              disabled
+            />
           </Form.Item>
           <Form.Item label="缴费金额">
             {
               this.form.getFieldDecorator('amount', {
                 initialValue: this.currentItem.amount,
-                rules: [{
-                  required: true, type: 'number', message: '请输入金额!', trigger: 'blur'
-                }]
+                rules: [
+                  {
+                    required: true, type: 'number', message: '请输入金额!', trigger: 'blur'
+                  }
+                ]
               })(
                 <InputNumber
                   precision={2}
@@ -87,11 +99,16 @@ export default Form.create({})({
             <Spin spinning={this.paymentMethods.loading}>
               {
                 this.form.getFieldDecorator('payType', {
-                  rules: [{
-                    required: true, message: '请选择支付方式!', trigger: 'change'
-                  }]
+                  rules: [
+                    {
+                      required: true, message: '请选择支付方式!', trigger: 'change'
+                    }
+                  ]
                 })(
-                  <Radio.Group placeholder="请选择支付方式" allowClear>
+                  <Radio.Group
+                    placeholder="请选择支付方式"
+                    allowClear
+                  >
                     {
                       this.paymentMethods.list.map(item => (
                         <Radio value={item.id}>{item.fullName}</Radio>
@@ -105,22 +122,33 @@ export default Form.create({})({
           <Form.Item label="交易流水">
             {
               this.form.getFieldDecorator('serialNumber', {
-                rules: [{
-                  required: true, message: '请输入交易流水号!', trigger: 'blur'
-                }]
+                rules: [
+                  {
+                    required: true, message: '请输入交易流水号!', trigger: 'blur'
+                  }
+                ]
               })(
-                <Input placeholder="请输入交易流水号" allowClear />
+                <Input
+                  placeholder="请输入交易流水号"
+                  allowClear
+                />
               )
             }
           </Form.Item>
           <Form.Item label="备注">
             {
               this.form.getFieldDecorator('remark', {
-                rules: [{
-                  required: this.remarkRequired, message: '请输入备注', trigger: 'blur'
-                }]
+                rules: [
+                  {
+                    required: this.remarkRequired, message: '请输入备注', trigger: 'blur'
+                  }
+                ]
               })(
-                <Input.TextArea placeholder="请输入备注" autoSize={{ minRows: 6 }} allowClear />
+                <Input.TextArea
+                  placeholder="请输入备注"
+                  autoSize={{ minRows: 6 }}
+                  allowClear
+                />
               )
             }
           </Form.Item>

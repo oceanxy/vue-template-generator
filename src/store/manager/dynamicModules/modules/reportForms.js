@@ -5,6 +5,11 @@ export default commitRootInModule => createStoreModule({
     visibleOfReportItems: false,
     visibleOfReportSwitch: false,
     visibleOfTemplateItems: false,
+    visibleOfPreview: false,
+    preview: {
+      data: {},
+      loading: false
+    },
     templates: {
       list: [],
       loading: false

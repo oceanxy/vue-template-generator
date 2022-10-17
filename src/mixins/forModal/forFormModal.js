@@ -57,20 +57,10 @@ export default () => {
       }
     },
     methods: {
-      // 此函数逻辑后期需要改为在每个组件内各自判断，不再在混合里统一处理
+      // 此处仅处理共用字段。如 status, dateRange, datetimeRange，areaCode 等。
+      // 组件内独有字段请在 forFormModal 的 customDataHandler 回调函数内处理
       transformValue(values) {
         let temp = cloneDeep(values)
-
-        if ('billIds' in temp) {
-          // 筛选已勾选账单
-          const ordersChecked = this.pendingOrders.list.filter(item => temp.billIds.includes(item.id))
-
-          // 筛选已勾选账单内所有的子级ID
-          temp.billIds = ordersChecked.reduce(
-            (prev, current) => prev.concat(current.billList.reduce((p, c) => p.concat([c.id]), [])),
-            []
-          )
-        }
 
         if ('status' in temp) {
           temp.status = temp.status ? 1 : 2
@@ -97,87 +87,28 @@ export default () => {
           temp = omit(temp, 'areaCode')
         }
 
-        if ('logo' in temp) {
-          if (temp.logo.length) {
-            temp.logo = temp.logo[0].response?.data[0].key ?? temp.logo[0].key
-          } else {
-            temp.logo = ''
-          }
-        }
-
-        // 招商人员管理、投诉建议人员管理等页面的头像字段处理（该字段为通用字段，可保留在此）
-        if ('headPortrait' in temp) {
-          if (temp.headPortrait.length) {
-            temp.headPortrait = temp.headPortrait[0].response?.data[0].key ?? temp.headPortrait[0].key
-          } else {
-            temp.headPortrait = ''
-          }
-        }
-
-        if ('imgList' in temp && temp.imgList.length) {
-          temp.imgs = temp.imgList.map(item => item.response?.data[0].key ?? item.key).join()
-          temp = omit(temp, 'imgList')
-        }
-
-        if ('roleIds' in temp) {
-          temp.roleIds = temp.roleIds.join()
-        }
-
-        if ('facilityList' in temp) {
-          temp.facilityList = temp.facilityList.map(id => ({
-            id,
-            fullName: (this.supportingFacilities?.find(item => item.id === id)).fullName
-          }))
-        }
-
-        if ('isUnderground' in temp) {
-          temp.isUnderground = temp.isUnderground ? 1 : 0
-        }
-
-        // 此itemList为问卷列表的字段，如有重复请更改为其他字段名
-        if ('itemList' in temp) {
-          temp.itemList.forEach(item => {
-            item.isRequired = item.isRequired ? 1 : 0
-            item.status = item.status ? 1 : 0
-          })
-        }
-
-        if ('isShow' in temp) {
-          temp.isShow = temp.isShow ? 1 : 0
-        }
-
-        if ('isDefault' in temp) {
-          temp.isDefault = temp.isDefault ? 1 : 0
-        }
-
         return temp
       },
       /**
        * 提交表单
-       * @param options {{
-       *   [isFetchList]: boolean,
-       *   [customApiName]: string,
-       *   [customValidation]: () => boolean,
-       *   [customDataHandler]: (values) => values,
-       *   [done]: () => void
-       * }}
-       * options.isFetchList 是否在提交表单后立即刷新对应的列表，默认 true；
-       * options.customApiName 自定义请求API；
-       * options.customValidation 自定义验证函数；
-       * options.customDataHandler 自定义参数处理；
-       * options.done 成功回调函数
+       * @param [isFetchList=true] {boolean} 是否在提交表单后立即刷新对应的列表，默认 true
+       * @param [customApiName] {string} 自定义请求API
+       * @param [customValidation] {() => boolean} 自定义验证函数
+       * @param [customDataHandler] {(values) => Object} 自定义参数处理
+       * @param [done] {() => void} 提交成功后的回调函数
        */
-      onSubmit(options) {
-        options = {
-          isFetchList: true,
-          ...options
-        }
-
+      onSubmit({
+        isFetchList = true,
+        customApiName,
+        customValidation,
+        customDataHandler,
+        done
+      } = {}) {
         this.form.validateFieldsAndScroll(async (err, values) => {
           let validation = true
 
-          if (typeof options.customValidation === 'function') {
-            validation = options.customValidation()
+          if (typeof customValidation === 'function') {
+            validation = customValidation()
           }
 
           if (!err && validation) {
@@ -187,8 +118,8 @@ export default () => {
             let payload = this.transformValue(values)
 
             // 根据 this.currentItem.id 判断当前表单的提交模式，
-            // 如果存在 options.customApiName，则可自定义请求模式
-            if (!options.customApiName) {
+            // 如果存在 customApiName，则可自定义请求模式
+            if (!customApiName) {
               if (this.currentItem?.id) {
                 // 存在 ID 为编辑模式
                 action = 'update'
@@ -209,15 +140,15 @@ export default () => {
             }
 
             // 自定义处理请求参数
-            if (typeof options.customDataHandler === 'function') {
-              payload = options.customDataHandler(payload)
+            if (typeof customDataHandler === 'function') {
+              payload = customDataHandler(payload)
             }
 
             const status = await this.$store.dispatch(action, {
               moduleName: this.moduleName,
               visibleField: this.visibleField,
-              isFetchList: options.isFetchList,
-              customApiName: options.customApiName,
+              isFetchList: isFetchList,
+              customApiName: customApiName,
               additionalQueryParameters: {
                 ...this.$route.query,
                 // 获取子模块数据需要的额外参数，在引用该混合的子模块内覆盖设置。
@@ -232,8 +163,8 @@ export default () => {
               Message.message(status)
 
               // 成功回调
-              if (typeof options.done === 'function') {
-                options.done()
+              if (typeof done === 'function') {
+                done()
               }
             }
 

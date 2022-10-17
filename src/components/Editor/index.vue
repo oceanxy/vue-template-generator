@@ -1,5 +1,8 @@
 <template>
-  <VueEditor v-model="htmlForEditor" @text-change="textChange" />
+  <VueEditor
+    v-model="htmlForEditor"
+    @text-change="textChange"
+  />
 </template>
 
 <script>

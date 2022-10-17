@@ -16,7 +16,11 @@ export default {
         modalTitle={
           <div class={'table-content-title'}>
             <span>按类型统计</span>
-            <Button class={'custom-button'} ghost type={'primary'}>导出结果</Button>
+            <Button
+              class={'custom-button'}
+              ghost
+              type={'primary'}
+            >导出结果</Button>
           </div>
         }
         width={'100%'}
