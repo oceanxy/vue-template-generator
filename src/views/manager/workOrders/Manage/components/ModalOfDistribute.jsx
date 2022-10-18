@@ -12,7 +12,7 @@ export default Form.create({})({
       visibleField: 'visibleOfDistribute',
       modalProps: {
         width: 500,
-        wrapClassName: 'bnm-modal-workorder-manage-distribute-form',
+        wrapclass: 'bnm-modal-workorder-manage-distribute-form',
         confirmLoading: false
       }
     }

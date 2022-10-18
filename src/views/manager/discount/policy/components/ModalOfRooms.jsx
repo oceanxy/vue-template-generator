@@ -12,7 +12,7 @@ export default {
       modalProps: {
         title: '选择房源',
         width: 500,
-        wrapClassName: 'bnm-modal-discount-policy-roomtree'
+        wrapclass: 'bnm-modal-discount-policy-roomtree'
       },
       defaultCheckedKeys: []
     }

@@ -8,6 +8,7 @@ import apis from '@/apis'
 export default {
   namespaced: true,
   state: {
+    collapsed: false,
     // 配套设施集合
     roomEquipment: [],
     // 行政区划

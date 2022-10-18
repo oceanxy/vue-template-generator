@@ -32,13 +32,6 @@ export default {
     setParkList(state, payload) {
       state.parkList = payload || []
     },
-    setParkInfo(state, payload) {
-      state.userInfo = {
-        ...state.userInfo,
-        parkId: payload.id,
-        parkName: payload.fullName
-      }
-    },
     setAuthentication(state, payload) {
       if (payload) {
         sessionStorage.setItem('token', payload)
@@ -114,12 +107,6 @@ export default {
       commit('setSiteCache', null)
 
       return Promise.resolve(true)
-    },
-    async switchEnt({
-      dispatch, commit, state
-    }, payload) {
-      commit('setParkInfo', payload)
-      window.location.reload()
     }
   }
 }

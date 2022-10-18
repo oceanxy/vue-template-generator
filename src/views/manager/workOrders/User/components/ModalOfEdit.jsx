@@ -14,7 +14,7 @@ export default Form.create({})({
       visibleField: 'visibleOfEdit',
       modalProps: {
         width: 810,
-        wrapClassName: 'bnm-modal-workorder-user-form'
+        wrapclass: 'bnm-modal-workorder-user-form'
       }
     }
   },

@@ -106,7 +106,7 @@ export default Form.create({ name: 'TGLoginForm' })({
             )
           }
         </Form.Item>
-        <Form.Item class="code">
+        <Form.Item class="code" style={{ display: 'none' }}>
           {
             this.form.getFieldDecorator('picCode', {
               rules: [

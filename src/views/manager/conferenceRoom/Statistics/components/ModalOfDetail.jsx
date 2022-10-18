@@ -12,7 +12,7 @@ export default {
       visibleField: 'visibleOfDetail',
       modalProps: {
         width: 800,
-        wrapClassName: 'bnm-modal-conferenceroom-statistics-detail',
+        wrapclass: 'bnm-modal-conferenceroom-statistics-detail',
         footer: null
       },
       tableProps: {

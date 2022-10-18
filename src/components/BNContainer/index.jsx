@@ -37,7 +37,7 @@ export default {
      */
     showBoxShadow: {
       type: Boolean,
-      default: true
+      default: false
     },
     /**
      * 标题区的自定义class
@@ -48,7 +48,7 @@ export default {
     },
     showTitleShape: {
       type: Boolean,
-      default: true
+      default: false
     }
   },
   methods: {
@@ -72,7 +72,7 @@ export default {
                     : ''
                 }${
                   this.showTitleShape
-                    ? 'divider '
+                    ? 'divider padding-left '
                     : ''
                 }box-title`}
               >

@@ -4,24 +4,32 @@ import TGHeader from '@/layouts/components/TGHeader'
 import TGMenu from '@/layouts/components/TGMenu'
 import TGRouterView from '@/layouts/components/TGRouterView'
 import TGBreadcrumb from '@/layouts/components/TGBreadcrumb'
+import Logo from '@/layouts/components/Logo'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'TGBackendSystemLayout',
-  data: () => ({ collapsed: false }),
+  computed: {
+    ...mapGetters({ getState: 'getState' }),
+    collapsed() {
+      return this.getState('collapsed', 'common')
+    }
+  },
   render() {
     return (
       <Layout id="tg-responsive-layout">
-        <TGHeader layout="manager" />
+        <Layout.Sider
+          theme={'light'}
+          v-model={this.collapsed}
+          trigger={null}
+          class={`tg-sider${this.collapsed ? ' collapsed' : ''}`}
+          collapsible
+        >
+          <Logo />
+          <TGMenu />
+        </Layout.Sider>
         <Layout>
-          <Layout.Sider
-            theme={'light'}
-            v-model={this.collapsed}
-            trigger={''}
-            class={`tg-sider${this.collapsed ? ' collapsed' : ''}`}
-            collapsible
-          >
-            <TGMenu />
-          </Layout.Sider>
+          <TGHeader layout="manager" showBreadcrumb={false} />
           <Layout.Content class="tg-content">
             {this.$route.meta.hideBreadCrumb ? null : <TGBreadcrumb />}
             <TGRouterView />

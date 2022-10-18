@@ -11,7 +11,7 @@ export default {
       visibleField: 'visibleOfFile',
       modalProps: {
         width: 600,
-        wrapClassName: 'bnm-modal-discount-business-file',
+        wrapclass: 'bnm-modal-discount-business-file',
         footer: null
       }
     }

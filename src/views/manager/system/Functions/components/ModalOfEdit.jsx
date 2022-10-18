@@ -11,7 +11,7 @@ export default Form.create({})({
     return {
       modalProps: {
         width: 700,
-        wrapClassName: 'bnm-modal-edit-function-form'
+        wrapclass: 'bnm-modal-edit-function-form'
       },
       tableProps: {
         columns: [

@@ -12,7 +12,7 @@ export default Form.create({})({
       visibleField: 'visibleOfAudit',
       modalProps: {
         width: 500,
-        wrapClassName: 'bnm-modal-discount-verify-form-audit'
+        wrapclass: 'bnm-modal-discount-verify-form-audit'
       }
     }
   },

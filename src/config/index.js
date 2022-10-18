@@ -6,8 +6,8 @@ export default {
   // mock请求延迟时间
   mockDelay: 400,
   // 系统名称
-  systemName: '项目模版',
-  systemNameEn: 'example',
+  systemName: '中小学校学生健康体检系统',
+  systemNameEn: '',
   // 全局消息最大显示个数
   maxMessageCount: 1,
   // 账号密码加密key（后台）
