@@ -1,20 +1,14 @@
 import './index.scss'
-import Scroll from '@/components/Property/Scroll'
+import Scroll from './Scroll'
 
 export default {
   data() {
     return {
-      inner_icon: '',
       inner_text: '',
-      inner_value: '',
-      inner_color: ''
+      inner_value: ''
     }
   },
   props: {
-    icon: {
-      type: String,
-      default: ''
-    },
     text: {
       type: String,
       default: ''
@@ -22,19 +16,9 @@ export default {
     value: {
       type: Number,
       default: 0
-    },
-    color: {
-      type: String,
-      default: '#c9e7fe'
     }
   },
   watch: {
-    icon: {
-      immediate: true,
-      handler(value) {
-        this.inner_icon = value
-      }
-    },
     text: {
       immediate: true,
       handler(value) {
@@ -46,22 +30,15 @@ export default {
       handler(value) {
         this.inner_value = value.toLocaleString().split('')
       }
-    },
-    color: {
-      immediate: true,
-      handler(value) {
-        this.inner_color = value
-      }
     }
   },
   render() {
     return (
-      <div class="tg-property">
-        <div class={`icon${this.inner_icon ? ` ${this.inner_icon}` : ''}`} />
-        <div
-          class="value"
-          style={{ '--color': this.inner_color }}
-        >
+      <div class="pe-scrolling-number-container">
+        <div class="text">
+          {this.inner_text}
+        </div>
+        <div class="value">
           {
             this.inner_value.map(numStr => {
               return !isNaN(+numStr)
@@ -69,9 +46,6 @@ export default {
                 : <div>{numStr}</div>
             })
           }
-        </div>
-        <div class="text">
-          {this.inner_text}
         </div>
       </div>
     )

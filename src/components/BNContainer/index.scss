@@ -2,8 +2,7 @@
   overflow: hidden;
   width: var(--box-width);
   height: auto;
-  background: #ffffff;
-  border-radius: 8px;
+  border-radius: 6px;
   display: flex;
   flex-direction: column;
   z-index: 10;
@@ -14,15 +13,14 @@
 
   .box-title {
     position: relative;
-    padding: 0 20px 0 0;
+    padding: 10px 20px 10px 0;
     min-height: 40px;
-    // line-height: 64px;
     box-sizing: border-box;
     display: flex;
     align-items: center;
-    font-size: 1.1em;
-    font-weight: 700;
-    color: #262626;
+    font-size: 16px;
+    font-weight: bolder;
+    color: #344054;
     gap: 1vh;
     flex: none;
     white-space: nowrap;
@@ -67,12 +65,17 @@
   }
 
   .box-content {
+    background: #ffffff;
     flex: auto;
     padding: 20px;
     overflow: auto;
     height: 100%;
-    border-top: 1px solid #d9d9d9;
     position: relative;
+    border-radius: 6px;
+
+    &.line {
+      border-top: 1px solid #d9d9d9;
+    }
 
     &.flex {
       display: flex;

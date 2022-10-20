@@ -81,7 +81,7 @@ function createConstRoutes() {
       children: [
         // 需要展示在menu菜单中的路由在这里面添加
         {
-          path: 'park-status',
+          path: 'pe-console',
           name: 'parkStatus',
           component: () => import('@/views/manager/ParkStatus'),
           meta: {

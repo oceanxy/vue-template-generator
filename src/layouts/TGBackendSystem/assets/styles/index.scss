@@ -3,6 +3,7 @@
   overflow: hidden;
   height: 100%;
   z-index: 2;
+  display: flex;
 
   .logo {
     height: 32px;
@@ -33,6 +34,7 @@
 
   .ant-layout {
     overflow: hidden;
+    flex: auto;
   }
 
   @media screen and (max-width: 1366px) {
@@ -103,8 +105,8 @@
   }
 
   .tg-sider {
+    flex: none !important;
     width: 230px !important;
-    flex: 0 0 230px !important;
     max-width: 230px !important;
     min-width: 230px !important;
 

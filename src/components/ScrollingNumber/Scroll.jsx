@@ -9,7 +9,7 @@ export default {
     }
   },
   data: () => ({
-    start: 0,
+    startDistance: 0,
     targetDistance: 0,
     itemHeight: 0
   }),
@@ -30,19 +30,6 @@ export default {
     } else {
       this.startDistance = 9 * this.itemHeight
       this.targetDistance = 0
-    }
-  },
-  methods: {
-    executeAnimation(height, value) {
-      this.start = this.targetDistance
-
-      if (this.targetDistance) {
-        this.targetDistance = 0
-      }
-
-      this.$nextTick(() => {
-        this.targetDistance = this.$refs.container.clientHeight * (value || this.targetNumber)
-      })
     }
   },
   render() {

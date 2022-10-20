@@ -4,21 +4,9 @@ import { omit } from 'lodash'
 export default commitRootInModule => omit(createStoreModule(
   {
     state: {
-      floors: {
-        list: [],
-        loading: false
-      },
-      visibleOfTerminate: false,
-      visibleOfRenew: false,
-      visibleOfBills: false,
-      visibleOfDetails: false,
-      pendingOrderList: {
+      statisticalData: {
         loading: false,
         list: []
-      },
-      details: {
-        loading: false,
-        data: {}
       }
     }
   }

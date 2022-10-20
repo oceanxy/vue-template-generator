@@ -26,6 +26,13 @@ export default {
       default: false
     },
     /**
+     * 是否显示标题与内容的分割线
+     */
+    showTitleLine: {
+      type: Boolean,
+      default: false
+    },
+    /**
      * 内容区的自定义class
      */
     contentClass: {
@@ -46,6 +53,9 @@ export default {
       type: String,
       default: ''
     },
+    /**
+     * 是否显示标题前的图案
+     */
     showTitleShape: {
       type: Boolean,
       default: false
@@ -93,7 +103,17 @@ export default {
         {
           this.$slots.default
             ? (
-              <div class={`${this.contentClass ? `${this.contentClass} ` : ''}box-content`}>
+              <div
+                class={`${
+                  this.contentClass
+                    ? `${this.contentClass} `
+                    : ''
+                }${
+                  this.showTitleLine
+                    ? 'line '
+                    : ''
+                }box-content`}
+              >
                 {this.$slots.default}
               </div>
             )
