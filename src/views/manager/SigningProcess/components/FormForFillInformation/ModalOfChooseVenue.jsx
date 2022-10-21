@@ -93,7 +93,7 @@ export default Form.create({})({
                   showSearch
                   allowClear
                   multiple
-                  dropdownclass={'bnm-select-dropdown'}
+                  dropdownClassName={'bnm-select-dropdown'}
                   treeData={this.hatcheryTree}
                   replaceFields={{
                     children: 'children', title: 'name', key: 'id', value: 'id'

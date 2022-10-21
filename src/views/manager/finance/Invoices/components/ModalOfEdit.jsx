@@ -18,7 +18,7 @@ export default Form.create({})({
           customApiName: 'invoice',
           customDataHandler: values => {
             if (values.invoiceUrl.length) {
-              values.invoiceUrl = values.invoiceUrl[0].response.data[0].key
+              values.invoiceUrl = JSON.stringify(values.invoiceUrl[0].response.data[0])
             }
 
             return values

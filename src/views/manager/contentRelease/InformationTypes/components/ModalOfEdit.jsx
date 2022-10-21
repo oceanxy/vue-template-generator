@@ -13,7 +13,7 @@ export default Form.create({})({
       visibleField: 'visibleOfEdit',
       modalProps: {
         width: 600,
-        wrapclass: 'bnm-modal-contentrelease-informationtype-form'
+        wrapClassName: 'bnm-modal-contentrelease-informationtype-form'
       }
     }
   },

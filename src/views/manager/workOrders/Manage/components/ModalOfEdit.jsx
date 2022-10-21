@@ -13,7 +13,7 @@ export default Form.create({})({
       visibleField: 'visibleOfEdit',
       modalProps: {
         width: 700,
-        wrapclass: 'bnm-modal-workorder-manage-form'
+        wrapClassName: 'bnm-modal-workorder-manage-form'
       }
     }
   },

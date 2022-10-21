@@ -12,17 +12,21 @@ export default {
    * @param moduleName {string}
    * @param submoduleName {string}
    * @param [isFetchList=true] {boolean} 是否触发页面列表数据更新的请求，默认true
+   * @param [isResetSelectedRows] {Boolean} 是否在成功执行后重置对应 store 内 selectedRows，默认false。一般在批量操作时使用
    * @param payload {Object} 数据列表的常驻查询对象，一般定义在Inquiry组件中
    * @param additionalQueryParameters {Object} 需要传递给查询(获取列表数据)的附加参数
    *    （不在查询表单内，额外的附加查询参数，单独传是防止被下次setSearch时覆盖， 例如其他页面跳转过来时携带的参数：id）
    */
   async setSearch({
-    state, commit, dispatch
+    state,
+    commit,
+    dispatch
   }, {
     moduleName,
     submoduleName,
     isFetchList = true,
     payload,
+    isResetSelectedRows,
     additionalQueryParameters
   }) {
     commit('setSearch', {
@@ -37,6 +41,22 @@ export default {
       additionalQueryParameters = {
         ...additionalQueryParameters,
         ...(hasPagination ? { pageIndex: 0 } : {})
+      }
+
+      if (isResetSelectedRows) {
+        commit('setDetails', {
+          moduleName,
+          submoduleName,
+          value: [],
+          stateName: 'selectedRows'
+        })
+
+        commit('setDetails', {
+          moduleName,
+          submoduleName,
+          value: [],
+          stateName: 'selectedRowKeys'
+        })
       }
 
       await dispatch(
@@ -210,9 +230,9 @@ export default {
    * 新增数据
    * @param state
    * @param dispatch
-   * @param moduleName {string}
-   * @param payload {Object}
-   * @param visibleField {string}
+   * @param moduleName {string} 模块名
+   * @param payload {Object} 参数
+   * @param visibleField {string} 控制弹窗显示的字段名
    * @param parametersOfGetListAction {...{
    *  moduleName: string;
    *  submoduleName: string;
@@ -253,9 +273,9 @@ export default {
    * 更新数据
    * @param state
    * @param dispatch
-   * @param moduleName {string}
-   * @param payload {Object}
-   * @param visibleField {string}
+   * @param moduleName {string} 模块名
+   * @param payload {Object} 参数
+   * @param visibleField {string} 控制弹窗显示的字段名
    * @param customApiName {string} 自定义请求API
    * @param isFetchList {boolean} 默认 false。当为 true 时，请特别注意参数问题（parametersOfGetListAction）
    * @param parametersOfGetListAction {...{
@@ -303,12 +323,13 @@ export default {
    * @param commit
    * @param payload {Object} 参数
    * @param customApiName {string} 自定义请求API
+   * @param [isResetSelectedRows] {Boolean} 是否在成功执行后重置对应 store 内 selectedRows，默认false。一般在批量操作时使用
    * @param [stateName] {string} 用于接收接口返回值的 state 字段名称，在相应模块的 store.state 内定义
    * @param [closeModalAfterFetched=true] {boolean} 成功执行操作后是否关闭弹窗，默认true。不在弹窗内调用时，请始终传递 false
-   * @param [isFetchList] {boolean} 是否提交后立即刷新本模块列表，默认false
    * @param [moduleName] {string} 模块名。依赖 closeModalAfterFetched 或 isFetchList
    * @param [submoduleName] {string} 子级模块名。依赖 closeModalAfterFetched 或 isFetchList
    * @param [visibleField] {string} 控制弹窗的字段，依赖 closeModalAfterFetched
+   * @param [isFetchList] {boolean} 是否在成功提交后刷新本模块列表，默认false
    * @param parametersOfGetListAction {...{
    *  additionalQueryParameters: {};
    *  stateName: string;
@@ -323,12 +344,13 @@ export default {
   }, {
     payload,
     customApiName,
+    isResetSelectedRows,
     stateName,
     closeModalAfterFetched = true,
-    isFetchList,
     moduleName,
     submoduleName,
     visibleField,
+    isFetchList,
     ...parametersOfGetListAction
   }) {
     const response = await apis[customApiName](payload)
@@ -357,6 +379,22 @@ export default {
           moduleName,
           submoduleName,
           stateName
+        })
+      }
+
+      if (isResetSelectedRows) {
+        commit('setDetails', {
+          moduleName,
+          submoduleName,
+          value: [],
+          stateName: 'selectedRows'
+        })
+
+        commit('setDetails', {
+          moduleName,
+          submoduleName,
+          value: [],
+          stateName: 'selectedRowKeys'
         })
       }
     }
@@ -447,7 +485,6 @@ export default {
     commit('setLoading', { value: true, moduleName })
 
     const api = `update${UF.firstLetterToUppercase(moduleName)}${UF.firstLetterToUppercase(customFieldName)}`
-
     const { status } = await apis[api](payload)
 
     commit('setLoading', { value: false, moduleName })
@@ -466,22 +503,58 @@ export default {
    * @returns {Promise<*>}
    */
   async delete({
-    state, dispatch, commit
+    state,
+    dispatch,
+    commit
   }, {
     moduleName,
     submoduleName,
     ids,
     additionalQueryParameters
   }) {
+    let isBatchDeletion = false
+    const selectedRows = state[moduleName][submoduleName]?.selectedRows ?? state[moduleName].selectedRows
+    const selectedRowKeys = state[moduleName][submoduleName]?.selectedRowKeys ?? state[moduleName].selectedRowKeys
+    const newSelectedRows = []
+    const newSelectedRowKeys = []
+
     commit('setLoading', { value: true, moduleName })
 
+    // 通过 forFunction 混合调用时，一般为批量操作，即勾选了行选择框的操作，
+    // 需要更新对应 store 模块内的 selectedRowKeys 和 selectedRows。
     if (!ids?.length) {
-      ids = state[moduleName].selectedRowKeys
+      ids = selectedRowKeys
+      isBatchDeletion = true
     }
 
     const response = await apis[`delete${UF.firstLetterToUppercase(moduleName)}`]({ ids: ids.join() })
 
     if (response.status) {
+      // 非批量操作时，只从选中行数组中移除被删除的行的key，
+      // 批量操作时，直接清空选中行数组
+      if (selectedRows?.length && !isBatchDeletion) {
+        const index = newSelectedRowKeys.findIndex(key => key === ids[0])
+
+        if (index > 0) {
+          newSelectedRowKeys.splice(index, 1)
+          selectedRows.splice(index, 1)
+        }
+      }
+
+      commit('setDetails', {
+        moduleName,
+        submoduleName,
+        value: newSelectedRows,
+        stateName: 'selectedRows'
+      })
+
+      commit('setDetails', {
+        moduleName,
+        submoduleName,
+        value: newSelectedRowKeys,
+        stateName: 'selectedRowKeys'
+      })
+
       // 删除数据后，刷新分页数据，避免请求不存在的页码
       if (state[moduleName].list.length - ids.length <= 0 && state[moduleName].pagination.pageIndex > 0) {
         commit('setPagination', {
@@ -489,22 +562,6 @@ export default {
           moduleName
         })
       }
-
-      // 清空删除前已选中的行数据的ID集合
-      commit('setDetails', {
-        value: [],
-        moduleName,
-        submoduleName,
-        stateName: 'selectedRowKeys'
-      })
-
-      // 清空删除前已选中的行数据
-      commit('setDetails', {
-        value: [],
-        moduleName,
-        submoduleName,
-        stateName: 'selectedRows'
-      })
 
       // 重新请求数据
       dispatch('getList', {
@@ -614,7 +671,9 @@ export default {
    * @param [submoduleName] {string}
    */
   setRowSelected({ commit, state }, {
-    moduleName, submoduleName, payload
+    moduleName,
+    submoduleName,
+    payload
   }) {
     commit('setRowSelected', {
       moduleName, submoduleName, payload

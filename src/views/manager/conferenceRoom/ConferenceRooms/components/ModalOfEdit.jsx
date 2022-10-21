@@ -14,7 +14,7 @@ export default Form.create({})({
       visibleField: 'visibleOfEdit',
       modalProps: {
         width: 700,
-        wrapclass: 'bnm-modal-edit-conference-room-manage'
+        wrapClassName: 'bnm-modal-edit-conference-room-manage'
       }
     }
   },

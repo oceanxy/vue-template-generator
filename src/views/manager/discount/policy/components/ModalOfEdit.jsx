@@ -12,7 +12,7 @@ export default Form.create({})({
     return {
       modalProps: {
         width: 700,
-        wrapclass: 'bnm-modal-edit-discount-policy-form'
+        wrapClassName: 'bnm-modal-edit-discount-policy-form'
       },
       isAllCheckbox: false,
       addressList: [],

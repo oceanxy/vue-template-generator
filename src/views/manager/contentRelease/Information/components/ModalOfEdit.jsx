@@ -19,7 +19,7 @@ export default Form.create({})({
       modalProps: {
         width: 1200,
         destroyOnClose: true,
-        wrapclass: 'bnm-modal-contentrelease-information-form'
+        wrapClassName: 'bnm-modal-contentrelease-information-form'
       }
     }
   },

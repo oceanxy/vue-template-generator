@@ -43,9 +43,18 @@ export default (isInject = true, isFetchList = true) => {
     },
     computed: {
       ...mapGetters({
+        getState: 'getState',
         getLoading: 'getLoading',
         getCurrentItem: 'getCurrentItem'
-      })
+      }),
+      selectedRowKeys() {
+        return this.getState('selectedRowKeys', this.moduleName, this.submoduleName)
+      }
+    },
+    watch: {
+      selectedRowKeys(value) {
+        this.tableProps.rowSelection.selectedRowKeys = value
+      }
     },
     async created() {
       // 为 list 创建动态侦听器
@@ -225,9 +234,6 @@ export default (isInject = true, isFetchList = true) => {
        * @returns {Promise<void>}
        */
       async onRowSelectionChange(selectedRowKeys, selectedRows) {
-        selectedRowKeys = selectedRows.map(row => row.id)
-        this.tableProps.rowSelection.selectedRowKeys = selectedRowKeys
-
         await this.$store.dispatch('setRowSelected', {
           moduleName: this.moduleName,
           submoduleName: this.submoduleName,

@@ -12,7 +12,7 @@ export default Form.create({})({
       modalProps: {
         width: 500,
         destroyOnClose: true,
-        wrapclass: 'bnm-modal-config-role-form'
+        wrapClassName: 'bnm-modal-config-role-form'
       },
       checkedNodes: [],
       checkedKeys: [],

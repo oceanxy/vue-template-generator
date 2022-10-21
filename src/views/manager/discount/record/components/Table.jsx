@@ -24,7 +24,7 @@ export default {
           {
             title: '位置',
             width: 200,
-            dataIndex: 'itemName'
+            dataIndex: 'address'
           },
           {
             title: '优惠政策',
@@ -56,7 +56,7 @@ export default {
             title: '状态',
             width: 80,
             fixed: 'right',
-            dataIndex: 'status',
+            align: 'center',
             scopedSlots: { customRender: 'status' }
           },
           {
@@ -82,11 +82,11 @@ export default {
     }
     const getStatus = record => {
       if (record.auditStatus === 3) {
-        return <Tag color="green">已生效</Tag>
+        return <Tag color="green">{record.auditStatusStr}</Tag>
       } else if (record.auditStatus === 4) {
-        return <Tag color="red">已驳回</Tag>
+        return <Tag color="red">{record.auditStatusStr}</Tag>
       } else if (record.auditStatus === 2) {
-        return <Tag color="orange">待审核</Tag>
+        return <Tag color="orange">{record.auditStatusStr}</Tag>
       }
     }
 

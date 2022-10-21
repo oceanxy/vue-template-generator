@@ -115,7 +115,7 @@ export default Form.create({})({
           {/*      <TreeSelect*/}
           {/*        showSearch*/}
           {/*        allowClear*/}
-          {/*        dropdownclass={'bnm-select-dropdown'}*/}
+          {/*        dropdownClassName={'bnm-select-dropdown'}*/}
           {/*        treeData={this.organizationTree?.list ?? []}*/}
           {/*        replaceFields={{*/}
           {/*          children: 'children',*/}

@@ -1,0 +1,46 @@
+@import '@/assets/styles/theme.scss';
+
+.bnm-park-status {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  gap: 16px;
+  height: 100%;
+
+  .park-status-title-container.park-status-title-container {
+    @include container-border-radius;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.02);
+  }
+
+  .park-status-content {
+    gap: 16px;
+
+    .park-status-sider {
+      width: 390px;
+    }
+
+    .park-status-main {
+      background: #ffffff;
+      height: 100%;
+      @include container-border-radius;
+
+      .park-status-floor-container {
+        width: 82px;
+        padding: 32px 10px;
+      }
+    }
+  }
+}
+
+.bnm-park-status-details {
+  .imgs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+
+    img {
+      width: 64px;
+      height: 64px;
+    }
+  }
+}

@@ -13,7 +13,7 @@ export default Form.create({})({
       visibleField: 'visibleOfEdit',
       modalProps: {
         width: 700,
-        wrapclass: 'bnm-modal-conferenceroom-subscribe'
+        wrapClassName: 'bnm-modal-conferenceroom-subscribe'
       }
     }
   },

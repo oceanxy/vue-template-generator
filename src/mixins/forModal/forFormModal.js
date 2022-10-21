@@ -91,7 +91,10 @@ export default () => {
       },
       /**
        * 提交表单
-       * @param [isFetchList=true] {boolean} 是否在提交表单后立即刷新对应的列表，默认 true
+       * 注意 isResetSelectedRows 参数很重要，该清空 selectedRowKeys 一定要清空，不然会造成下次请求时的参数重叠。
+       * 主要应用在“删除”等会减少列表数据量的操作中
+       * @param [isFetchList=true] {boolean} 是否在成功提交表单后刷新对应的列表，默认 true
+       * @param [isResetSelectedRows] {boolean} 是否在成功提交表单后重置列表的选中行数据，默认 false
        * @param [customApiName] {string} 自定义请求API
        * @param [customValidation] {() => boolean} 自定义验证函数
        * @param [customDataHandler] {(values) => Object} 自定义参数处理
@@ -99,6 +102,7 @@ export default () => {
        */
       onSubmit({
         isFetchList = true,
+        isResetSelectedRows,
         customApiName,
         customValidation,
         customDataHandler,
@@ -147,6 +151,7 @@ export default () => {
             const status = await this.$store.dispatch(action, {
               moduleName: this.moduleName,
               visibleField: this.visibleField,
+              isResetSelectedRows: isResetSelectedRows,
               isFetchList: isFetchList,
               customApiName: customApiName,
               additionalQueryParameters: {

@@ -133,7 +133,7 @@ export default Form.create({})({
                   treeDefaultExpandedKeys={[
                     this.floorTree?.[0]?.children?.[0]?.children?.[0]?.id ?? ''
                   ]}
-                  dropdownclass={'bnm-select-dropdown'}
+                  dropdownClassName={'bnm-select-dropdown'}
                   treeData={this.floorTree}
                   replaceFields={{
                     children: 'children', title: 'name', key: 'id', value: 'id'

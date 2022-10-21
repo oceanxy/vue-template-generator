@@ -24,7 +24,7 @@ export default {
           {
             title: '位置',
             width: 200,
-            dataIndex: 'itemName'
+            dataIndex: 'address'
           },
           {
             title: '优惠政策',
@@ -54,17 +54,17 @@ export default {
           },
           {
             title: '状态',
-            width: 80,
+            width: 100,
             fixed: 'right',
-            dataIndex: 'status',
+            align: 'center',
             scopedSlots: { customRender: 'status' }
           },
           {
             title: '企业文件',
             width: 100,
             fixed: 'right',
-            dataIndex: 'file',
-            scopedSlots: { customRender: 'file' }
+            align: 'center',
+            scopedSlots: { customRender: 'attachment' }
           },
           {
             title: '操作',
@@ -89,11 +89,11 @@ export default {
     }
     const getStatus = record => {
       if (record.auditStatus === 3) {
-        return <Tag color="green">已生效</Tag>
+        return <Tag color="green">{record.auditStatusStr}</Tag>
       } else if (record.auditStatus === 4) {
-        return <Tag color="red">已驳回</Tag>
+        return <Tag color="red">{record.auditStatusStr}</Tag>
       } else if (record.auditStatus === 2) {
-        return <Tag color="orange">待审核</Tag>
+        return <Tag color="orange">{record.auditStatusStr}</Tag>
       }
     }
 
@@ -111,14 +111,16 @@ export default {
             status: (text, record) => {
               return getStatus(record)
             },
-            file: (text, record) => (
-              <Button
-                type="link"
-                onClick={() => this._setVisibleOfModal(record, 'visibleOfFile')}
-              >
-                查看
-              </Button>
-            ),
+            attachment: (text, record) => record.attachment
+              ? (
+                <Button
+                  type="link"
+                  onClick={() => this._setVisibleOfModal(record, 'visibleOfFile')}
+                >
+                  查看
+                </Button>
+              )
+              : '-',
             operation: (text, record) => {
               return (
                 <Space>

@@ -45,6 +45,12 @@ export default () => {
           temp = omit(temp, 'monthRange')
         }
 
+        if ('billMonth' in temp) {
+          temp.billMonth = temp.billMonth
+            ? moment(temp.billMonth).format('YYYYMM')
+            : ''
+        }
+
         return temp
       },
       async onClear() {
@@ -55,6 +61,7 @@ export default () => {
         await this.$store.dispatch('setSearch', {
           moduleName: this.moduleName,
           submoduleName: this.submoduleName,
+          isResetSelectedRows: true,
           additionalQueryParameters: {
             ...this.$route.query,
             // 获取子模块数据需要的额外参数，在引用该混合的子模块内覆盖设置。
