@@ -95,7 +95,7 @@ export default {
       <DragModal {...attributes} class={'bnm-table-modal'}>
         <Table
           {...tableAttributes}
-          {...{ scopedSlots: { sNumber: (text, record, index) => index + 1 } }}
+          {...{ scopedSlots: { sNumber: (text, record, index) => index + 1 + this.serialNumber } }}
         />
       </DragModal>
     )

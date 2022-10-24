@@ -14,6 +14,7 @@ export function createStoreModule(target = {}) {
   return {
     namespaced: true,
     state: {
+      rowKey: 'id', // antd vue Table 组件的 rowKey 属性
       loading: false,
       search: {},
       pagination: {

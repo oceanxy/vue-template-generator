@@ -81,7 +81,7 @@ export default {
         {...attributes}
         {...{
           scopedSlots: {
-            serialNumber: (text, record, index) => index + 1,
+            serialNumber: (text, record, index) => index + 1 + this.serialNumber,
             validityPeriod: (text, record) => `${record.startTimeStr} ~ ${record.endTimeStr}`,
             status: (text, record) => (
               record.status

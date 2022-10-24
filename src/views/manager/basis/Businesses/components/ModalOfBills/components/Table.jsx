@@ -71,7 +71,7 @@ export default {
     return (
       <Table
         {...attruibutes}
-        {...{ scopedSlots: { serialNumber: (text, record, index) => index + 1 } }}
+        {...{ scopedSlots: { serialNumber: (text, record, index) => index + 1 + this.serialNumber } }}
       />
     )
   }

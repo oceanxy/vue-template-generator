@@ -98,7 +98,7 @@ export default {
               </Badge>,
               <Modal
                 visible={this.visible}
-                wrapclass="bn-image-preview-modal"
+                wrapClassName="bn-image-preview-modal"
                 width="90%"
                 footer={null}
                 oncancel={this.onCancel}

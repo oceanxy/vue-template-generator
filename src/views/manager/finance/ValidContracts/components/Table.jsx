@@ -88,7 +88,7 @@ export default {
         {...attributes}
         {...{
           scopedSlots: {
-            serialNumber: (text, record, index) => index + 1,
+            serialNumber: (text, record, index) => index + 1 + this.serialNumber,
             oweAmount: (text, record) => <div style={{ color: '#f5222d' }}>{record.oweAmount}</div>,
             address: (text, record) => (
               <ul

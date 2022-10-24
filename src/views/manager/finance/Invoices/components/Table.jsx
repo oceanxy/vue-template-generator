@@ -73,7 +73,7 @@ export default {
         {...attributes}
         {...{
           scopedSlots: {
-            serialNumber: (text, record, index) => index + 1,
+            serialNumber: (text, record, index) => index + 1 + this.serialNumber,
             status: (text, record) => (
               <span style={{ color: ['#52c41a', '#fa541c'][record.invoiceStatus - 1] }}>
                 {record.invoiceStatusStr}

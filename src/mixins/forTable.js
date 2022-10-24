@@ -30,7 +30,6 @@ export default (isInject = true, isFetchList = true) => {
             onChange: this.onRowSelectionChange,
             selectedRowKeys: []
           },
-          rowKey: 'id',
           // tableLayout: 'fixed',
           dataSource: [],
           loading: false,
@@ -43,9 +42,26 @@ export default (isInject = true, isFetchList = true) => {
     },
     computed: {
       ...mapGetters({
+        getState: 'getState',
         getLoading: 'getLoading',
         getCurrentItem: 'getCurrentItem'
-      })
+      }),
+      rowKey() {
+        return this.getState('rowKey', this.moduleName, this.submoduleName)
+      },
+      serialNumber() {
+        const pagination = this.getState('pagination', this.moduleName, this.submoduleName)
+
+        return (pagination?.pageIndex ?? 0) * (pagination?.pageSize ?? 10)
+      },
+      selectedRowKeys() {
+        return this.getState('selectedRowKeys', this.moduleName, this.submoduleName)
+      }
+    },
+    watch: {
+      selectedRowKeys(value) {
+        this.tableProps.rowSelection.selectedRowKeys = value
+      }
     },
     async created() {
       // 为 list 创建动态侦听器
@@ -87,6 +103,9 @@ export default (isInject = true, isFetchList = true) => {
           { immediate: true }
         )
       }
+    },
+    beforeMount() {
+      this.tableProps.rowKey = this.rowKey
     },
     mounted() {
       window.addEventListener('resize', this.resize)
@@ -220,14 +239,11 @@ export default (isInject = true, isFetchList = true) => {
       },
       /**
        * 表格行change事件回调
-       * @param selectedRowKeys {string[]} 当前选中行的ID
-       * @param selectedRows {Object[]} 当前选中的数据对象
+       * @param selectedRowKeys {string[]} 当前所有页码中选中行的ID，翻页不影响选中数据
+       * @param selectedRows {Object[]} 当前页选中的数据对象
        * @returns {Promise<void>}
        */
       async onRowSelectionChange(selectedRowKeys, selectedRows) {
-        selectedRowKeys = selectedRows.map(row => row.id)
-        this.tableProps.rowSelection.selectedRowKeys = selectedRowKeys
-
         await this.$store.dispatch('setRowSelected', {
           moduleName: this.moduleName,
           submoduleName: this.submoduleName,

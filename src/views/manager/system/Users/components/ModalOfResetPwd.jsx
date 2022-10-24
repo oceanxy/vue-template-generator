@@ -12,7 +12,7 @@ export default Form.create({})({
       modalProps: {
         confirmLoading: false,
         width: 400,
-        wrapclass: 'bnm-modal-config-resetpwd'
+        wrapClassName: 'bnm-modal-config-resetpwd'
       },
       defaultCheckedKeysData: []
     }

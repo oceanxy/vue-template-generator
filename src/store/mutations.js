@@ -79,10 +79,16 @@ export default {
   }) {
     if (!submoduleName) {
       state[moduleName].selectedRowKeys = selectedRowKeys || []
-      state[moduleName].selectedRows = selectedRows || []
+      state[moduleName].selectedRows = selectedRowKeys.map(
+        key => [...state[moduleName].selectedRows, ...selectedRows]
+          .find(row => row[state[moduleName].rowKey] === key)
+      )
     } else {
       state[moduleName][submoduleName].selectedRowKeys = selectedRowKeys || []
-      state[moduleName][submoduleName].selectedRows = selectedRows || []
+      state[moduleName][submoduleName].selectedRows = selectedRowKeys.map(
+        key => [...state[moduleName][submoduleName].selectedRows, ...selectedRows]
+          .find(row => row[state[moduleName][submoduleName]] === key)
+      )
     }
   },
   /**

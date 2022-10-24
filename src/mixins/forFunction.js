@@ -94,9 +94,25 @@ export default cb => ({
      * @returns {Promise<void>}
      */
     async onDeleteClick() {
-      await Message.verificationDialog(async () => {
-        return await this.$store.dispatch('delete', { moduleName: this.moduleName })
-      }, '确定要批量删除已选中的数据吗？')
+      await Message.verificationDialog(
+        async () => {
+          return await this.$store.dispatch('delete', { moduleName: this.moduleName })
+        },
+        (
+          <div>
+            <div>确定要批量删除已选中的数据吗？</div>
+            <div style={{ color: '#b9b9b9' }}>
+              当前已勾选的序号为：
+              {
+                this.selectedRows
+                  .map(item => item._sn)
+                  .sort((a, b) => a - b)
+                  .join('，')
+              }
+            </div>
+          </div>
+        )
+      )
     },
     /**
      * 批量操作之前的询问，并验证是否勾选了表格数据

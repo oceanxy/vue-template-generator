@@ -72,7 +72,7 @@ export default {
         {...attruibutes}
         {...{
           scopedSlots: {
-            serialNumber: (text, record, index) => index + 1
+            serialNumber: (text, record, index) => index + 1 + this.serialNumber
             // status: (text, record) => (
             //   <span style={{ color: ['#52c41a', '#faad14'][record.acceptStatus - 1] }}>
             //     {['已处理', '待处理'][record.acceptStatus - 1]}

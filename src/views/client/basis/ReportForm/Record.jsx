@@ -103,7 +103,7 @@ export default {
             data-source={this.list}
             {...{ props: this.tableProps }}
             scopedSlots={{
-              serialNumber: (text, record, index) => index + 1,
+              serialNumber: (text, record, index) => index + 1 + this.serialNumber,
               content: (text, record) => getContent(record),
               attachment: record => {
                 return getAttachment(record)

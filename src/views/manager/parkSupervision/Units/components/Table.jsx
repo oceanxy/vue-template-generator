@@ -99,7 +99,7 @@ export default {
         {...attributes}
         {...{
           scopedSlots: {
-            serialNumber: (text, record, index) => index + 1,
+            serialNumber: (text, record, index) => index + 1 + this.serialNumber,
             address: (text, record) => `${
               record.provinceName || ''
             }${

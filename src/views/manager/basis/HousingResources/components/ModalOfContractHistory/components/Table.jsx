@@ -65,7 +65,7 @@ export default {
         {...attruibutes}
         {...{
           scopedSlots: {
-            serialNumber: (text, record, index) => index + 1,
+            serialNumber: (text, record, index) => index + 1 + this.serialNumber,
             signingStatus: (text, record) => (
               <span style={{ color: ['#52c41a', '#faad14'][record.signingStatus - 1] }}>
                 {['签约中', '已解约'][record.signingStatus - 1]}

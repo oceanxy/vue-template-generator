@@ -119,7 +119,7 @@ export default {
         {...attributes}
         {...{
           scopedSlots: {
-            serialNumber: (text, record, index) => index + 1,
+            serialNumber: (text, record, index) => index + 1 + this.serialNumber,
             companyName: (text, record) => (
               <span class={'bnm-table-field-highlight'}>
                 {record.companyName}

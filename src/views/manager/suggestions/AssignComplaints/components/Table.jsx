@@ -91,7 +91,7 @@ export default {
         {...attributes}
         {...{
           scopedSlots: {
-            serialNumber: (text, record, index) => index + 1,
+            serialNumber: (text, record, index) => index + 1 + this.serialNumber,
             acceptImg: (text, record) => (
               <ImagePreview
                 imageUrls={record.acceptImgList?.map(item => item.path) ?? []}

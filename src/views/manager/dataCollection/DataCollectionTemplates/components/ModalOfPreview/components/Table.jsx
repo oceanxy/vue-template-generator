@@ -61,7 +61,7 @@ export default {
         {...attruibutes}
         {...{
           scopedSlots: {
-            serialNumber: (text, record, index) => index + 1,
+            serialNumber: (text, record, index) => index + 1 + this.serialNumber,
             itemOptionList: (text, record) => (
               <ol style={{ paddingLeft: '20px', marginBottom: 0 }}>
                 {

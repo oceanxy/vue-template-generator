@@ -92,7 +92,7 @@ export default {
         <Table
           ref={`${this.moduleName}Table`}
           {...attributes}
-          {...{ scopedSlots: { serialNumber: (text, record, index) => index + 1 } }}
+          {...{ scopedSlots: { serialNumber: (text, record, index) => index + 1 + this.serialNumber } }}
         />
         <Chart dataSource={this.details.data} />
       </BNContainer>

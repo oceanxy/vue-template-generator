@@ -91,7 +91,7 @@ export default {
           {...tableAttributes}
           {...{
             scopedSlots: {
-              serialNumber: (text, record, index) => index + 1,
+              serialNumber: (text, record, index) => index + 1 + this.serialNumber,
               payStatus: (text, record) => (
                 <span style={{ fontWeight: 'bolder' }}>{record.payStatusStr}</span>
               )

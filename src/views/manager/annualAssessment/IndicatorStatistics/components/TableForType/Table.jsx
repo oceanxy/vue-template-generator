@@ -80,7 +80,7 @@ export default {
         ref={`${this.moduleName}Table`}
         {...attributes}
         {...{
-          scopedSlots: { serialNumber: (text, record, index) => index + 1 },
+          scopedSlots: { serialNumber: (text, record, index) => index + 1 + this.serialNumber },
           result: (text, record) => {
             if (record.modType === 5 || record.modType === 6) {
               return (

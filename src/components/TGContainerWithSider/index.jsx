@@ -39,7 +39,7 @@ export default {
     triggerIcon: 'left'
   }),
   computed: {
-    siderclass() {
+    siderClassName() {
       return this.siderClass ? ` ${this.siderClass}` : ''
     }
   },
@@ -67,7 +67,7 @@ export default {
         <div
           ref={'containerSider'}
           style={{ order: this.siderOnLeft ? -1 : 1 }}
-          class={`tg-container-with-sider--sider${this.siderclass}${this.siderWidthClass}`}
+          class={`tg-container-with-sider--sider${this.siderClassName}${this.siderWidthClass}`}
         >
           {this.$slots.sider}
           {

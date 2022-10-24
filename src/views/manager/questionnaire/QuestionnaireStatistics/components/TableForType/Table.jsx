@@ -89,7 +89,7 @@ export default {
         class={'results-table'}
         ref={`${this.moduleName}Table`}
         {...attributes}
-        {...{ scopedSlots: { serialNumber: (text, record, index) => index + 1 } }}
+        {...{ scopedSlots: { serialNumber: (text, record, index) => index + 1 + this.serialNumber } }}
       />
     )
   }

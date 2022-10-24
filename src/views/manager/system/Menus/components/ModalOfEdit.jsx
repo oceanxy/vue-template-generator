@@ -81,7 +81,7 @@ export default Form.create({})({
               })(
                 <TreeSelect
                   allowClear
-                  dropdownclass={'bnm-tree-select-dropdown'}
+                  dropdownClassName={'bnm-tree-select-dropdown'}
                   treeData={this.menuTree.list}
                   replaceFields={{
                     children: 'children', title: 'name', key: 'id', value: 'id'

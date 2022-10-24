@@ -63,7 +63,7 @@ export default {
         {...attributes}
         {...{
           scopedSlots: {
-            serialNumber: (text, record, index) => index + 1,
+            serialNumber: (text, record, index) => index + 1 + this.serialNumber,
             amount: (text, record) => {
               return <span style={{ color: 'red' }}>￥{record.amount}</span>
             }
