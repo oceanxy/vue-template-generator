@@ -2,22 +2,35 @@
   overflow-x: hidden;
   overflow-y: auto;
   height: 100%;
+}
 
+.ant-menu.menu-popup {
+  max-height: 100vh;
+  overflow-y: auto;
+}
+
+.ant-menu.t-g-menu-container,
+.ant-menu-submenu.t-g-menu-popup {
   .ant-menu-item {
-    color: #344054;
+    color: rgba(52, 64, 84, 0.62);
     font-size: 14px;
 
     &.ant-menu-item-selected {
+      color: rgba(52, 64, 84, 1);
       background: #fef6ee;
       font-weight: bolder;
     }
+  }
+
+  .ant-menu-submenu-selected {
+    background: #fef6ee;
   }
 
   .ant-menu-submenu-title {
     & > div {
       display: flex;
       align-items: center;
-      color: #344054;
+      color: rgba(52, 64, 84, 0.62);
       font-size: 14px;
     }
   }

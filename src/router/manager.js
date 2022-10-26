@@ -517,17 +517,6 @@ function createConstRoutes() {
               }
             },
             {
-              path: 'derived-index-statistics',
-              name: 'derivedIndexStatistics',
-              component: () => import('@/views/manager/basis/Businesses'),
-              meta: {
-                title: '派生指数统计',
-                keepAlive: false,
-                requiresAuth: true,
-                icon: () => import('@/layouts/components/TGMenu/assets/images/derived-index-statistics.svg')
-              }
-            },
-            {
               path: 'vision-data-comparison',
               name: 'visionDataComparison',
               component: () => import('@/views/manager/basis/Businesses'),

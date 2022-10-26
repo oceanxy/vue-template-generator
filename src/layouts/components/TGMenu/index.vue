@@ -48,6 +48,7 @@ const TGSubMenu = {
       v-bind="$props"
       v-on="$listeners"
       @titleClick="titleClick"
+      popupClassName="t-g-menu-popup"
     >
     <div slot="title">
       <a-icon
