@@ -1,5 +1,6 @@
+import '../assets/styles/index.scss'
 import { createNamespacedHelpers } from 'vuex'
-import { Button, Form, Icon, Input } from 'ant-design-vue'
+import { Button, Form, Input } from 'ant-design-vue'
 import utilityFunction from '@/utils/utilityFunction'
 import { createRouter } from '@/router/manager'
 
@@ -70,18 +71,13 @@ export default Form.create({ name: 'TGLoginForm' })({
             this.form.getFieldDecorator('username', {
               rules: [
                 {
-                  required: true, message: '请输入用户名!', trigger: ''
+                  required: true,
+                  message: '请输入用户名！',
+                  trigger: ''
                 }
               ]
             })(
-              <Input placeholder="请输入账号">
-                <template slot="prefix">
-                  <a-icon
-                    style={{ color: '#1890ff' }}
-                    type="user"
-                  />
-                </template>
-              </Input>
+              <Input placeholder="请输入账号" />
             )
           }
         </Form.Item>
@@ -89,20 +85,10 @@ export default Form.create({ name: 'TGLoginForm' })({
           {
             this.form.getFieldDecorator('password', {
               rules: [
-                { required: true, message: '请输入密码!' }
+                { required: true, message: '请输入密码！' }
               ]
             })(
-              <Input
-                placeholder="请输入密码"
-                type="password"
-              >
-                <template slot="prefix">
-                  <Icon
-                    style={{ color: '#1890ff' }}
-                    type="lock"
-                  />
-                </template>
-              </Input>
+              <Input placeholder="请输入密码" type="password" />
             )
           }
         </Form.Item>
@@ -113,14 +99,7 @@ export default Form.create({ name: 'TGLoginForm' })({
                 { required: true, message: '请输入验证码!' }
               ]
             })(
-              <Input placeholder="请输入验证码">
-                <template slot="prefix">
-                  <Icon
-                    style={{ color: '#1890ff' }}
-                    type="code"
-                  />
-                </template>
-              </Input>
+              <Input placeholder="请输入验证码" />
             )
           }
           <img
