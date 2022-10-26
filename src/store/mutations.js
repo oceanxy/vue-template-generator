@@ -75,19 +75,22 @@ export default {
    * @param [submoduleName] {string}
    */
   setRowSelected(state, {
-    payload: { selectedRowKeys, selectedRows }, moduleName, submoduleName
+    payload: { selectedRowKeys, selectedRows },
+    moduleName,
+    submoduleName
   }) {
     if (!submoduleName) {
       state[moduleName].selectedRowKeys = selectedRowKeys || []
       state[moduleName].selectedRows = selectedRowKeys.map(
         key => [...state[moduleName].selectedRows, ...selectedRows]
-          .find(row => row[state[moduleName].rowKey] === key)
+          // 默认值 'id'。防止出现在 vuex 模块的 state 中未定义 rowKey 字段造成取不到选中行对象中的唯一键的问题。通常出现在子模块的 state 中。
+          .find(row => row[state[moduleName].rowKey || 'id'] === key)
       )
     } else {
       state[moduleName][submoduleName].selectedRowKeys = selectedRowKeys || []
       state[moduleName][submoduleName].selectedRows = selectedRowKeys.map(
         key => [...state[moduleName][submoduleName].selectedRows, ...selectedRows]
-          .find(row => row[state[moduleName][submoduleName]] === key)
+          .find(row => row[state[moduleName][submoduleName].rowKey || 'id'] === key)
       )
     }
   },

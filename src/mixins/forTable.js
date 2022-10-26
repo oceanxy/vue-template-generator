@@ -47,7 +47,7 @@ export default (isInject = true, isFetchList = true) => {
         getCurrentItem: 'getCurrentItem'
       }),
       rowKey() {
-        return this.getState('rowKey', this.moduleName, this.submoduleName)
+        return this.getState('rowKey', this.moduleName, this.submoduleName) || 'id'
       },
       serialNumber() {
         const pagination = this.getState('pagination', this.moduleName, this.submoduleName)
@@ -113,8 +113,26 @@ export default (isInject = true, isFetchList = true) => {
       this.$on('hook:beforeDestroy', () => {
         window.removeEventListener('resize', this.resize)
       })
+
+
+      // 为 /src/components/BNContainerWithSider 组件注入获取 table ref 的逻辑
+      if (this.getRefOfChild instanceof Function) {
+        this.getRefOfChild(this.$refs[`${this.moduleName}Table`])
+      }
     },
     methods: {
+      /**
+       * 生成连续的序号
+       * @param text
+       * @param record
+       * @param index
+       * @returns {*}
+       */
+      getConsecutiveSerialNumber(text, record, index) {
+        record._sn = index + 1 + this.serialNumber
+
+        return record._sn
+      },
       /**
        * 获取列表数据
        * @param [merge] {boolean} 是否合并数据，默认false，主要用于“加载更多”功能
@@ -323,6 +341,12 @@ export default (isInject = true, isFetchList = true) => {
 
   if (isInject) {
     forTable.inject = ['moduleName']
+    forTable.inject = {
+      // 模块名（页面组件使用 dynamicState 混合后会自动 provide 该属性）
+      moduleName: { default: undefined },
+      // 获取本组件的ref，依赖 moduleName（从 /src/components/BNContainerWithSider 注入的函数）
+      getRefOfChild: { default: () => undefined }
+    }
   }
 
   return forTable

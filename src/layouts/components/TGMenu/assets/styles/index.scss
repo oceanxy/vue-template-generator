@@ -1,7 +1,26 @@
-.t-g-menu-container {
+.ant-menu.t-g-menu-container {
   overflow-x: hidden;
   overflow-y: auto;
   height: 100%;
+
+  .ant-menu-item {
+    color: #344054;
+    font-size: 14px;
+
+    &.ant-menu-item-selected {
+      background: #fef6ee;
+      font-weight: bolder;
+    }
+  }
+
+  .ant-menu-submenu-title {
+    & > div {
+      display: flex;
+      align-items: center;
+      color: #344054;
+      font-size: 14px;
+    }
+  }
 
   .ant-menu-item,
   .ant-menu-submenu-title {
@@ -10,14 +29,14 @@
     align-items: center;
 
     &:hover {
-      background: rgba(0, 0, 0, 0.04);
+      background: #fef6ee;
     }
   }
 
   .ant-menu-item .anticon,
   .ant-menu-submenu-title .anticon {
     margin-right: 8px;
-    font-size: 20px;
+    font-size: 24px;
   }
 
   .ant-menu-selected::after,

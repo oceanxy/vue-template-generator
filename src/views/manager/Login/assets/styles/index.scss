@@ -14,7 +14,8 @@
     color: #ffffff;
     z-index: 100;
     text-align: center;
-    margin-left: -10%;
+    margin-left: -7%;
+    margin-top: -3%;
     align-self: flex-start;
   }
 
@@ -25,7 +26,7 @@
     height: 100%;
     left: 0;
     top: 0;
-    background: #c9e5e5 url(../images/login-bg.png) no-repeat center / 1000px auto;
+    background: #c9e5e5 url(../images/login-bg.png) no-repeat left 40% top 60% / 800px auto;
   }
 
   &:after {
@@ -40,6 +41,7 @@
   }
 
   .bnm-login-box {
+    margin-top: 5%;
     margin-right: 20%;
     z-index: 101;
 

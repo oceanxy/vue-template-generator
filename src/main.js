@@ -12,7 +12,7 @@ if (process.env.NODE_ENV === 'development' && config.mock) {
 }
 
 function creatVue(r, s, terminal) {
-  if (sessionStorage.getItem('token') && terminal !== 'client') {
+  if (sessionStorage.getItem('token') && terminal !== 'client' && config.dynamicRouting) {
     const tempMenu = JSON.parse(sessionStorage.getItem('menu'))[0]
     const menu = utilityFunction.generateRoute(tempMenu)
 

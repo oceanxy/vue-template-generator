@@ -11,6 +11,9 @@ export default {
       default: ''
     }
   },
+  data() {
+    return { tableRef: undefined }
+  },
   computed: {
     ...mapGetters({ getState: 'getState' }),
     indicatorCategoryIdSelected() {
@@ -18,6 +21,13 @@ export default {
     },
     indicatorCategoryTree() {
       return this.getState('indicatorCategoryTree', 'common')
+    }
+  },
+  provide() {
+    return {
+      getRefOfChild: ref => {
+        this.tableRef = ref
+      }
     }
   },
   async created() {
@@ -55,6 +65,9 @@ export default {
           payload: { value, isFetchList }
         })
       }
+    },
+    onSidebarSwitch() {
+      this.tableRef?.$parent?.resize()
     }
   },
   render() {
@@ -65,6 +78,7 @@ export default {
         contentClass={`bn-park-content-container${this.contentClass ? ` ${this.contentClass}` : ''}`}
         siderOnLeft
         showSiderTrigger
+        onSidebarSwitch={this.onSidebarSwitch}
       >
         <template slot="default">{this.$slots.default}</template>
         <Spin

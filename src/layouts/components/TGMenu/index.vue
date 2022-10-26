@@ -34,9 +34,11 @@
 </template>
 
 <script>
-import { Menu } from 'ant-design-vue'
 import './assets/styles/index.scss'
+import { Menu } from 'ant-design-vue'
 import utilityFunction from '@/utils/utilityFunction'
+import config from '@/config'
+import { constRoutes } from '@/router/manager'
 
 // 函数组件 自定义子菜单
 const TGSubMenu = {
@@ -153,7 +155,11 @@ export default {
       this.openKeys = JSON.parse(openKeys)
     }
 
-    this.getMenuRoutes()
+    if (config.dynamicRouting) {
+      this.getMenuRoutes()
+    } else {
+      this.menuRoutes = constRoutes[1].children
+    }
   },
   methods: {
     getMenuRoutes() {

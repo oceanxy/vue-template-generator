@@ -669,7 +669,9 @@ export default {
     payload
   }) {
     commit('setRowSelected', {
-      moduleName, submoduleName, payload
+      moduleName,
+      submoduleName,
+      payload
     })
   }
 }

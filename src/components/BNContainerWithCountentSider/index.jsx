@@ -9,6 +9,21 @@ export default {
       default: ''
     }
   },
+  data() {
+    return { tableRef: undefined }
+  },
+  provide() {
+    return {
+      getRefOfChild: ref => {
+        this.tableRef = ref
+      }
+    }
+  },
+  methods: {
+    onSidebarSwitch() {
+      this.tableRef?.$parent?.resize()
+    }
+  },
   render() {
     return (
       <TGContainerWithSider
@@ -17,6 +32,7 @@ export default {
         contentClass={`bn-content-content-container${this.contentClass ? ` ${this.contentClass}` : ''}`}
         siderOnLeft
         showSiderTrigger
+        onSidebarSwitch={this.onSidebarSwitch}
       >
         <template slot="default">{this.$slots.default}</template>
         <template slot="sider">{this.$slots.tree}</template>

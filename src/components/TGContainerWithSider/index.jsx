@@ -54,6 +54,12 @@ export default {
         this.siderWidthClass = ' hide'
         this.triggerIcon = 'right'
       }
+
+      // 设置 200ms 的延迟是因为 css 动画的持续时间设置为如下：
+      // transition: width 0.2s ease;
+      setTimeout(() => {
+        this.$emit('sidebarSwitch', isTriggerHide)
+      }, 200)
     }
   },
   render() {
