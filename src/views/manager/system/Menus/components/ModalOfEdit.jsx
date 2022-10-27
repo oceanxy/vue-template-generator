@@ -61,7 +61,7 @@ export default Form.create({})({
 
         />
         <Form
-          class="bnm-form-grid"
+          class="tg-form-grid"
           colon={false}
         >
           <Form.Item
@@ -81,7 +81,7 @@ export default Form.create({})({
               })(
                 <TreeSelect
                   allowClear
-                  dropdownClassName={'bnm-tree-select-dropdown'}
+                  dropdownClassName={'tg-tree-select-dropdown'}
                   treeData={this.menuTree.list}
                   replaceFields={{
                     children: 'children', title: 'name', key: 'id', value: 'id'

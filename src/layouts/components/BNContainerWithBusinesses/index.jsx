@@ -1,7 +1,7 @@
 import './index.scss'
 import { Descriptions } from 'ant-design-vue'
 import TGContainerWithSider from '@/components/TGContainerWithSider'
-import BNContainer from '@/components/BNContainer'
+import BNContainer from '@/components/TGContainer'
 import apis from '@/apis'
 
 export default {
@@ -32,14 +32,14 @@ export default {
   render() {
     return (
       <TGContainerWithSider
-        class="bnm-businesses-details-container"
-        siderClass="bnm-businesses-details-sider-container"
-        contentClass="bnm-businesses-details-content-container"
+        class="tg-businesses-details-container"
+        siderClass="tg-businesses-details-sider-container"
+        contentClass="tg-businesses-details-content-container"
         siderOnLeft={true}
       >
         <div
           slot="sider"
-          class="bnm-businesses-details-sider"
+          class="tg-businesses-details-sider"
         >
           {
             this.generalInformation.map(item => (

@@ -2,8 +2,6 @@ import '../assets/styles/index.scss'
 import { Cascader, Col, Form, Input, InputNumber, Radio, Row, Switch } from 'ant-design-vue'
 import forFormModal from '@/mixins/forModal/forFormModal'
 import DragModal from '@/components/DragModal'
-import CascaderRole from '@/components/BNContainerWithSystemSider/components/CascaderRole'
-import CascaderOrgan from '@/components/BNContainerWithSystemSider/components/CascaderOrgan'
 import { mapAction } from '@/utils/store'
 import { mapGetters } from 'vuex'
 import { verifyIDNumber, verifyMobileNumber, verifyPhoneNumber } from '@/utils/validators'
@@ -113,22 +111,6 @@ export default Form.create({})({
           colon={false}
         >
           <Row gutter={10}>
-            <Col span={24}>
-              <Form.Item label="所属组织">
-                {
-                  this.form.getFieldDecorator('organId', {
-                    initialValue: this.details.organParentIds || [],
-                    rules: [
-                      {
-                        required: true, type: 'array', message: '请选择组织!', trigger: 'change'
-                      }
-                    ]
-                  })(
-                    <CascaderOrgan />
-                  )
-                }
-              </Form.Item>
-            </Col>
             <Col span={12}>
               <Form.Item label="登录账号">
                 {
@@ -172,22 +154,6 @@ export default Form.create({})({
                   </Col>
                 )
             }
-            <Col span={12}>
-              <Form.Item label="角色">
-                {
-                  this.form.getFieldDecorator('roleIds', {
-                    initialValue: this.details.roleParentIds || [],
-                    rules: [
-                      {
-                        required: true, type: 'array', message: '请选择角色!', trigger: 'change'
-                      }
-                    ]
-                  })(
-                    <CascaderRole onchange={this.onChangeRole} />
-                  )
-                }
-              </Form.Item>
-            </Col>
             <Col span={12}>
               <Form.Item label="姓名">
                 {

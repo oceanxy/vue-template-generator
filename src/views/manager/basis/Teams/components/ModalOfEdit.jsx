@@ -95,9 +95,9 @@ export default Form.create({})({
     }
 
     return (
-      <DragModal {...attributes} class={'bnm-team-edit-modal'}>
+      <DragModal {...attributes} class={'tg-team-edit-modal'}>
         <Form
-          class="bnm-form-grid"
+          class="tg-form-grid"
           colon={false}
         >
           <Form.Item label="LOGO">

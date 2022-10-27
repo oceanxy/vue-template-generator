@@ -12,7 +12,7 @@ export default Form.create({})({
       modalProps: {
         width: 500,
         destroyOnClose: true,
-        wrapClassName: 'bnm-modal-config-role-form'
+        wrapClassName: 'tg-modal-config-role-form'
       },
       checkedNodes: [],
       checkedKeys: [],
@@ -145,7 +145,7 @@ export default Form.create({})({
     return (
       <DragModal {...attributes}>
         <Form
-          class="bnm-form-grid"
+          class="tg-form-grid"
           colon={false}
         >
           <Form.Item>

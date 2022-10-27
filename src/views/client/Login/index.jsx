@@ -3,8 +3,7 @@
  */
 
 import './assets/styles/index.scss'
-import BNContainer from '@/components/BNContainer'
-import TGList from '@/components/TGList'
+import BNContainer from '@/components/TGContainer'
 import apis from '@/apis'
 
 export default {
@@ -78,10 +77,6 @@ export default {
           showMore
           showTitleShape={false}
         >
-          <TGList
-            data={this.rightArticle}
-            onclickItem={this.onClickItem}
-          />
         </BNContainer>
         <RouterView />
       </div>

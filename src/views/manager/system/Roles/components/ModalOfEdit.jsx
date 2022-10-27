@@ -2,8 +2,6 @@ import '../assets/styles/index.scss'
 import { Col, Form, Input, Row, Switch } from 'ant-design-vue'
 import forFormModal from '@/mixins/forModal/forFormModal'
 import DragModal from '@/components/DragModal'
-import CascaderMenu from '@/components/BNContainerWithSystemSider/components/CascaderMenu'
-import CascaderRole from '@/components/BNContainerWithSystemSider/components/CascaderRole'
 
 export default Form.create({})({
   mixins: [forFormModal()],
@@ -11,7 +9,7 @@ export default Form.create({})({
     return {
       modalProps: {
         width: 700,
-        wrapClassName: 'bnm-modal-edit-role-form'
+        wrapClassName: 'tg-modal-edit-role-form'
       }
     }
   },
@@ -62,25 +60,6 @@ export default Form.create({})({
         >
           <Row gutter={10}>
             <Col span={12}>
-              <Form.Item label="所属角色">
-                {
-                  this.form.getFieldDecorator('parentId', {
-                    initialValue: this.currentItem.parentIds || [],
-                    rules: [
-                      {
-                        required: true,
-                        type: 'array',
-                        message: '请选择角色!',
-                        trigger: 'change'
-                      }
-                    ]
-                  })(
-                    <CascaderRole />
-                  )
-                }
-              </Form.Item>
-            </Col>
-            <Col span={12}>
               <Form.Item label="名称">
                 {
                   this.form.getFieldDecorator('fullName', {
@@ -97,15 +76,6 @@ export default Form.create({})({
                       placeholder="请输入名称"
                       allowClear
                     />
-                  )
-                }
-              </Form.Item>
-            </Col>
-            <Col span={12}>
-              <Form.Item label="默认菜单">
-                {
-                  this.form.getFieldDecorator('indexMenuId', { initialValue: this.currentItem.indexMenuIds || [] })(
-                    <CascaderMenu />
                   )
                 }
               </Form.Item>

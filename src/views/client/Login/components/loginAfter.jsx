@@ -3,8 +3,7 @@
  */
 
 import '../assets/styles/index.scss'
-import BNContainer from '@/components/BNContainer'
-import TGShortcutMenu from '@/components/TGShortcutMenu'
+import BNContainer from '@/components/TGContainer'
 import { Button, Tag } from 'ant-design-vue'
 import { createNamespacedHelpers } from 'vuex'
 
@@ -48,7 +47,6 @@ export default {
           {this.userInfo.isContract === 1 ? <Tag color="cyan">已签约</Tag> : null}
           {this.userInfo.isOwe === 1 ? <Tag color="red">已欠费</Tag> : null}
         </div>
-        <TGShortcutMenu showLogout />
       </BNContainer>
     )
   }

@@ -1,10 +1,7 @@
 import './assets/styles/index.scss'
 import { Icon, Tag } from 'ant-design-vue'
-import BNContainer from '@/components/BNContainer'
-import TGShortcutMenu from '@/components/TGShortcutMenu'
-import TGList from '@/components/TGList'
+import BNContainer from '@/components/TGContainer'
 import TGContainerWithSider from '@/components/TGContainerWithSider'
-import TGListWithSubTitle from '@/components/TGListWithSubTitle'
 import dynamicState from '@/mixins/dynamicState'
 import { mapAction, mapState } from '@/utils/store'
 import { createNamespacedHelpers } from 'vuex'
@@ -119,12 +116,6 @@ export default {
               </div>
             }
           >
-            <TGListWithSubTitle
-              type={'point'}
-              loading={this.backLogLoading}
-              dataSource={this.backLogList}
-              onhandle={this.onHandle}
-            />
           </BNContainer>
         </template>
         <template slot="sider">
@@ -136,7 +127,6 @@ export default {
             titleClass="not-login-title"
             contentClass="shortcut-container"
           >
-            <TGShortcutMenu column={3} />
           </BNContainer>
           <BNContainer
             class="my-news-container"
@@ -147,12 +137,6 @@ export default {
             titleClass="not-login-title"
             onmore={this.onMore}
           >
-            <TGList
-              loading={this.messageLoading}
-              data={this.messageListEffect}
-              layout="dateBefore"
-              onClickItem={this.toDetails}
-            />
           </BNContainer>
         </template>
       </TGContainerWithSider>

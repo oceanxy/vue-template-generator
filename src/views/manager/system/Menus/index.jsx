@@ -1,5 +1,5 @@
 import './assets/styles/index.scss'
-import BNContainerWithSystemSider from '@/components/BNContainerWithSystemSider'
+import TGContainerWithTreeSider from '@/components/TGContainerWithTreeSider'
 import dynamicState from '@/mixins/dynamicState'
 import TGContainer from '@/layouts/components/TGContainer'
 import Inquiry from './components/Inquiry'
@@ -12,7 +12,7 @@ export default {
   mixins: [dynamicState()],
   render() {
     return (
-      <BNContainerWithSystemSider contentClass={'bnm-system-menu-container'}>
+      <BNContainerWithSystemSider contentClass={'tg-system-menu-container'}>
         <TGContainer>
           <Inquiry slot={'inquiry'} />
           <Table slot={'table'} />

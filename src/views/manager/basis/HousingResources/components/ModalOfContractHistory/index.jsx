@@ -23,7 +23,7 @@ export default {
     }
 
     return (
-      <DragModal {...attributes} class={'bnm-table-modal'}>
+      <DragModal {...attributes} class={'tg-table-modal'}>
         <Inquiry />
         <Table />
       </DragModal>

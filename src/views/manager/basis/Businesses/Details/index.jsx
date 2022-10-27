@@ -46,7 +46,7 @@ export default {
     return (
       <Tabs
         slot="default"
-        class="bnm-businesses-details-content"
+        class="tg-businesses-details-content"
       >
         <TGTabPane
           name="账号信息"
@@ -56,7 +56,7 @@ export default {
           {
             this.list.length || this.loading
               ? (
-                <div class={'bnm-businesses-details-cards'}>
+                <div class={'tg-businesses-details-cards'}>
                   {
                     this.list.map(item => (
                       <Card

@@ -70,7 +70,7 @@ export default Form.create({})({
     return (
       <DragModal {...attributes}>
         <Form
-          class="bnm-form-grid"
+          class="tg-form-grid"
           colon={false}
         >
           <Form.Item label="图片">
@@ -133,7 +133,7 @@ export default Form.create({})({
                   treeDefaultExpandedKeys={[
                     this.floorTree?.[0]?.children?.[0]?.children?.[0]?.id ?? ''
                   ]}
-                  dropdownClassName={'bnm-select-dropdown'}
+                  dropdownClassName={'tg-select-dropdown'}
                   treeData={this.floorTree}
                   replaceFields={{
                     children: 'children', title: 'name', key: 'id', value: 'id'
@@ -341,7 +341,7 @@ export default Form.create({})({
           <Form.Item label="配套设施">
             {
               this.form.getFieldDecorator('facilityList', { initialValue: this.currentItem.facilityList || [] })(
-                <Checkbox.Group class={'bnm-form-checkbox'}>
+                <Checkbox.Group class={'tg-form-checkbox'}>
                   {
                     this.supportingFacilities.map(item => (
                       <Checkbox value={item.id}>{item.fullName}</Checkbox>

@@ -1,6 +1,6 @@
 @import '@/assets/styles/theme.scss';
 
-.bnm-teams-container {
+.tg-teams-container {
   margin: 0 16px 16px;
   padding: 20px;
   background: #ffffff;
@@ -11,7 +11,7 @@
   @include container-border-radius;
 }
 
-.bnm-team-edit-modal {
+.tg-team-edit-modal {
   .ant-modal-body {
     padding: 40px 50px 10px;
   }

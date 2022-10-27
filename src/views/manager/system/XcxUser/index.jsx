@@ -11,7 +11,7 @@ export default {
   mixins: [dynamicState()],
   render() {
     return (
-      <TGContainer class="bnm-system-xcxuser-container">
+      <TGContainer class="tg-system-xcxuser-container">
         <Inquiry slot={'inquiry'} />
         <Table slot={'table'} />
         <TGPagination slot={'pagination'} />

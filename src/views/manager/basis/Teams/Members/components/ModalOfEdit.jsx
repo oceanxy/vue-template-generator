@@ -52,7 +52,7 @@ export default Form.create({})({
     return (
       <DragModal {...attributes}>
         <Form
-          class="bnm-form-grid"
+          class="tg-form-grid"
           colon={false}
         >
           <Form.Item label="头像">

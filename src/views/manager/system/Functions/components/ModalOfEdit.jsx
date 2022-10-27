@@ -2,7 +2,6 @@ import '../assets/styles/index.scss'
 import { Button, Col, Form, Input, Row, Table } from 'ant-design-vue'
 import forFormModal from '@/mixins/forModal/forFormModal'
 import DragModal from '@/components/DragModal'
-import CascaderMenu from '@/components/BNContainerWithSystemSider/components/CascaderMenu'
 import { mapAction, mapState } from '@/utils/store'
 
 export default Form.create({})({
@@ -11,7 +10,7 @@ export default Form.create({})({
     return {
       modalProps: {
         width: 700,
-        wrapClassName: 'bnm-modal-edit-function-form'
+        wrapClassName: 'tg-modal-edit-function-form'
       },
       tableProps: {
         columns: [
@@ -120,22 +119,6 @@ export default Form.create({})({
           colon={false}
         >
           <Row gutter={10}>
-            <Col span={24}>
-              <Form.Item label="所属菜单">
-                {
-                  this.form.getFieldDecorator('menuId', {
-                    initialValue: this.currentItem.menuIds || [],
-                    rules: [
-                      {
-                        required: true, type: 'array', message: '请输入菜单!', trigger: 'change'
-                      }
-                    ]
-                  })(
-                    <CascaderMenu />
-                  )
-                }
-              </Form.Item>
-            </Col>
             <Col span={12}>
               <Form.Item label="名称">
                 {

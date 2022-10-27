@@ -11,7 +11,7 @@ export default {
   mixins: [dynamicState()],
   render() {
     return (
-      <TGContainer class="bnm-merchants-container">
+      <TGContainer class="tg-merchants-container">
         <Inquiry slot={'inquiry'} />
         <Table slot={'table'} />
         <TGPagination slot={'pagination'} />

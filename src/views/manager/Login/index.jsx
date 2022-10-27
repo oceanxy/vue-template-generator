@@ -4,7 +4,7 @@
 
 import './assets/styles/index.scss'
 import ULLoginForm from '@/views/manager/Login/components/TGLoginForm'
-import BNContainer from '@/components/BNContainer'
+import BNContainer from '@/components/TGContainer'
 import config from '@/config'
 
 export default {
@@ -23,11 +23,11 @@ export default {
   },
   render() {
     return (
-      <div class={'bnm-login'}>
+      <div class={'tg-login'}>
         <div class={'title'}>{config.systemName}</div>
         <BNContainer
           width={400}
-          class={'bnm-login-box'}
+          class={'tg-login-box'}
           contentClass={'login-box-content'}
           showTitleShape={false}
         >

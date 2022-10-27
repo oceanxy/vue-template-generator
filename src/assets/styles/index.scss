@@ -203,13 +203,13 @@ body {
 .ant-table-wrapper {
   overflow: hidden;
 
-  .bnm-table-field-highlight {
+  .tg-table-field-highlight {
     color: #13c2c2;
     font-size: 15px;
     font-weight: bolder;
   }
 
-  .bnm-table-multiple-field {
+  .tg-table-multiple-field {
     p {
       margin: 0;
 
@@ -324,7 +324,7 @@ body {
   }
 }
 
-.bnm-table-modal .ant-modal-wrap {
+.tg-table-modal .ant-modal-wrap {
   .ant-modal-body {
     padding: 24px;
     display: flex;
@@ -332,7 +332,7 @@ body {
     gap: 16px;
   }
 
-  .bnm-table-in-modal {
+  .tg-table-in-modal {
     height: auto;
     overflow-y: auto;
     max-height: 580px;
@@ -342,7 +342,7 @@ body {
 /************************************************************************************/
 
 /********************************* 表单自定义栅格化 *************************************/
-.bnm-form-grid {
+.tg-form-grid {
   display: flex;
   column-gap: 24px;
   flex-wrap: wrap;
@@ -418,7 +418,7 @@ body {
     }
   }
 
-  .bnm-form-checkbox {
+  .tg-form-checkbox {
     padding: 9px 0 2px;
     display: flex;
     flex-wrap: wrap;

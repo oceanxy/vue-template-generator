@@ -26,7 +26,7 @@ export default Form.create({})({
     return (
       <DragModal {...attributes} class={'businesses-short-message-modal'}>
         <Form
-          class="bnm-form-grid"
+          class="tg-form-grid"
           colon={false}
         >
           <Form.Item label="发送对象">

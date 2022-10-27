@@ -1,14 +1,14 @@
 @import '@/assets/styles/theme.scss';
 
-.bnm-businesses-details-container.bnm-businesses-details-container {
+.tg-businesses-details-container.tg-businesses-details-container {
   padding: 0 20px 20px;
   gap: 16px;
 
-  .bnm-businesses-details-sider-container.bnm-businesses-details-sider-container {
+  .tg-businesses-details-sider-container.tg-businesses-details-sider-container {
     width: 300px;
     overflow: auto;
 
-    .bnm-businesses-details-sider {
+    .tg-businesses-details-sider {
       display: flex;
       gap: 16px;
       flex-direction: column;
@@ -32,7 +32,7 @@
     }
   }
 
-  .bnm-businesses-details-content-container {
+  .tg-businesses-details-content-container {
     background: #ffffff;
     padding: 20px;
   }

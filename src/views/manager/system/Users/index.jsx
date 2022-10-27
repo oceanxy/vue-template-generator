@@ -1,5 +1,5 @@
 import './assets/styles/index.scss'
-import BNContainerWithSider from '@/components/BNContainerWithSider'
+import TGContainerWithTreeSider from '@/components/TGContainerWithTreeSider'
 import dynamicState from '@/mixins/dynamicState'
 import TGContainer from '@/layouts/components/TGContainer'
 import Inquiry from './components/Inquiry'
@@ -14,7 +14,7 @@ export default {
   render() {
     return (
       <BNContainerWithSider
-        contentClass={'bnm-sider-container'}
+        contentClass={'tg-sider-container'}
         apiOptions={{
           apiName: 'getOrganizationTree',
           stateName: 'organizationTree',

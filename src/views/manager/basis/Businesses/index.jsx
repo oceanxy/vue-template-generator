@@ -1,5 +1,5 @@
 import './assets/styles/index.scss'
-import BNContainerWithParkSider from '@/components/BNContainerWithParkSider'
+import BNContainerWithParkSider from '@/components/TGContainerWithTreeSider'
 import Functions from '@/views/manager/basis/Businesses/components/Functions'
 import Table from '@/views/manager/basis/Businesses/components/Table'
 import Inquiry from '@/views/manager/basis/Businesses/components/Inquiry'
@@ -16,7 +16,7 @@ export default {
   mixins: [dynamicState()],
   render() {
     return (
-      <BNContainerWithParkSider contentClass="bnm-businesses-container">
+      <BNContainerWithParkSider contentClass="tg-businesses-container">
         <TGContainer>
           <Inquiry slot="inquiry" />
           <Functions slot="functions" />

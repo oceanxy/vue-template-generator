@@ -43,7 +43,7 @@ export default {
   },
   render() {
     return (
-      <div class={'bnm-businesses-details-bill'}>
+      <div class={'tg-businesses-details-bill'}>
         <Table
           ref={`${this.moduleName}Table`}
           loading={this.getLoading(this.moduleName)}

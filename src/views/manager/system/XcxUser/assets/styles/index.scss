@@ -1,6 +1,6 @@
 @import '@/assets/styles/theme.scss';
 
-.bnm-system-xcxuser-container {
+.tg-system-xcxuser-container {
   margin: 0 16px 16px;
   padding: 20px;
   background: #ffffff;
@@ -11,8 +11,8 @@
   @include container-border-radius;
 }
 
-.bnm-modal-edit-user-form,
-.bnm-modal-config-resetpwd {
+.tg-modal-edit-user-form,
+.tg-modal-config-resetpwd {
   .ant-modal-body {
     .ant-form-item {
       display: flex;

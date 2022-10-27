@@ -13,7 +13,7 @@ export default Form.create({})({
     return {
       modalProps: {
         width: 700,
-        wrapClassName: 'bnm-modal-edit-user-form'
+        wrapClassName: 'tg-modal-edit-user-form'
       }
     }
   },

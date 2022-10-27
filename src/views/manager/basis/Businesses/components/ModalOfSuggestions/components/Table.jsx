@@ -76,7 +76,7 @@ export default {
         ...this.tableProps,
         loading: this.getLoading(this.moduleName, this.submoduleName)
       },
-      attrs: { class: 'bnm-table-in-modal' }
+      attrs: { class: 'tg-table-in-modal' }
     }
 
     return (
