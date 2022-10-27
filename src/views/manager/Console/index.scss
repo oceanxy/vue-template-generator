@@ -1,30 +1,30 @@
 @import '@/assets/styles/theme.scss';
 
-.bnm-park-status {
+.fe-console {
   display: flex;
   flex-direction: column;
   padding: 16px;
   gap: 16px;
   height: 100%;
 
-  .park-status-title-container.park-status-title-container {
+  .fe-console-title-container.fe-console-title-container {
     @include container-border-radius;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.02);
   }
 
-  .park-status-content {
+  .fe-console-content {
     gap: 16px;
 
-    .park-status-sider {
+    .fe-console-sider {
       width: 390px;
     }
 
-    .park-status-main {
+    .fe-console-main {
       background: #ffffff;
       height: 100%;
       @include container-border-radius;
 
-      .park-status-floor-container {
+      .fe-console-floor-container {
         width: 82px;
         padding: 32px 10px;
       }
@@ -32,7 +32,7 @@
   }
 }
 
-.bnm-park-status-details {
+.fe-console-details {
   .imgs {
     display: flex;
     flex-wrap: wrap;

@@ -47,7 +47,7 @@ export default {
     return (
       <Spin
         spinning={this.floors.loading}
-        class="park-status-main--floor"
+        class="fe-console-main--floor"
       >
         <ul onClick={this.onClick}>
           <li

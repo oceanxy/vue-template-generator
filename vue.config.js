@@ -11,16 +11,23 @@ module.exports = {
     port: '8190',
     open: false,
     proxy: {
+      '/api': {
+        target: 'http://10.100.1.101:35930',
+        changeOrigin: true,
+        secure: false
+      },
+      // 巴南管理端（暂用，后期删除）
       '/mgapi': {
         target: 'http://10.100.1.94:47910',
         changeOrigin: true,
         secure: false
-      },
-      '/api': {
-        target: 'http://10.100.1.94:47930',
-        changeOrigin: true,
-        secure: false
       }
+      // 巴南企业端（暂用，后期删除）
+      // '/api': {
+      //   target: 'http://10.100.1.94:47930',
+      //   changeOrigin: true,
+      //   secure: false
+      // }
     }
   },
   css: {

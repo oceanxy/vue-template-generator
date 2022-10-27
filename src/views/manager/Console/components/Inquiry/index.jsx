@@ -57,7 +57,7 @@ export default Form.create({})({
   },
   render() {
     return (
-      <div class={'park-status-search'}>
+      <div class={'fe-console-search'}>
         <span class={'box-title-label'}>中心实时状态</span>
         <Form
           layout="inline"

@@ -51,7 +51,7 @@ export default {
             bordered
             column={2}
             size={'small'}
-            class={'bnm-park-status-details'}
+            class={'fe-console-details'}
           >
             <Descriptions.Item
               label={'图片'}

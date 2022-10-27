@@ -7,7 +7,7 @@ import Overview from './components/Overview'
 import Subtotals from './components/Subtotals'
 
 export default {
-  name: 'ParkStatus',
+  name: 'Console',
   mixins: [dynamicState()],
   render() {
     return (

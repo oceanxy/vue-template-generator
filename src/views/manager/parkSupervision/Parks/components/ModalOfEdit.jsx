@@ -73,12 +73,6 @@ export default Form.create({})({
                   customApiName: 'getUserInfo',
                   closeModalAfterFetched: false,
                   stateName: 'userInfo'
-                }),
-                this.$store.dispatch('custom', {
-                  moduleName: 'login',
-                  stateName: 'parkList',
-                  customApiName: 'getParksOfCurrentUser',
-                  closeModalAfterFetched: false
                 })
               ])
             }

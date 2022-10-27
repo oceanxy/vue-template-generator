@@ -71,7 +71,7 @@ function createConstRoutes() {
       name: 'home',
       // 选择布局组件
       component: () => import('@/layouts/TGBackendSystem'),
-      redirect: { name: 'parkStatus' },
+      redirect: { name: 'console' },
       meta: {
         title: '后台',
         keepAlive: false,
@@ -82,8 +82,8 @@ function createConstRoutes() {
         // 需要展示在menu菜单中的路由在这里面添加
         {
           path: 'pe-console',
-          name: 'parkStatus',
-          component: () => import('@/views/manager/ParkStatus'),
+          name: 'console',
+          component: () => import('@/views/manager/Console'),
           meta: {
             title: '控制台',
             keepAlive: false,

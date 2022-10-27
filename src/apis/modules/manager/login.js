@@ -46,16 +46,5 @@ export default {
       url: '/auth/passport/getUserMenuList',
       method: 'post'
     })
-  },
-  /**
-   * 获取当前登录用户的中心列表
-   * @param request
-   * @returns {*}
-   */
-  getParksOfCurrentUser(request) {
-    return request({
-      url: '/auth/passport/getUserParkList',
-      method: 'post'
-    })
   }
 }

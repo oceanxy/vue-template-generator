@@ -44,7 +44,7 @@ export default {
     return (
       <Spin
         spinning={this.loading}
-        class={`park-status-main--main${!this.dataSource.length ? ' tile' : ''}`}
+        class={`fe-console-main--main${!this.dataSource.length ? ' tile' : ''}`}
       >
         {
           this.dataSource.length
@@ -148,7 +148,7 @@ export default {
               </div>
             ))
             : (
-              <div class={'park-status-empty'}>
+              <div class={'fe-console-empty'}>
                 <Empty />
               </div>
             )

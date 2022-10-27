@@ -17,7 +17,7 @@ export default {
     return (
       <BNContainer
         width="100%"
-        class="park-status-datetime-picker"
+        class="fe-console-datetime-picker"
         modalTitle="选择日期"
       >
         <Calendar
