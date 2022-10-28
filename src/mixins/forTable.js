@@ -35,7 +35,8 @@ export default (isInject = true, isFetchList = true) => {
           loading: false,
           pagination: false,
           scroll: {}, // 注意：此属性不要手动设置，在this.resize方法内已经自动分配
-          size: 'middle'
+          size: 'middle',
+          bordered: true
         },
         exportButtonDisabled: false
       }

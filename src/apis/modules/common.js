@@ -4,9 +4,9 @@ export default {
    * @param request
    * @returns {*}
    */
-  getAdministrativeDivision(request) {
+  getSchoolTree(request) {
     return request({
-      url: '/system/district/getThreeTree',
+      url: '/personnel/school/getSchoolTree',
       method: 'post'
     })
   }

@@ -31,7 +31,6 @@ export default {
         <Layout>
           <TGHeader layout="manager" showBreadcrumb={false} />
           <Layout.Content class="tg-content">
-            {this.$route.meta.hideBreadCrumb ? null : <TGBreadcrumb />}
             <TGRouterView />
           </Layout.Content>
         </Layout>

@@ -106,7 +106,7 @@ function createConstRoutes() {
             {
               path: 'pe-basic-data',
               name: 'peBasicData',
-              component: () => import('@/views/manager/basis/Businesses'),
+              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
               meta: {
                 title: '体检基础数据',
                 keepAlive: false,
@@ -117,7 +117,7 @@ function createConstRoutes() {
             {
               path: 'height-and-weight-data',
               name: 'heightAndWeightData',
-              component: () => import('@/views/manager/basis/Businesses'),
+              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
               meta: {
                 title: '身高体重数据',
                 keepAlive: false,
@@ -128,7 +128,7 @@ function createConstRoutes() {
             {
               path: 'blood-pressure-data',
               name: 'bloodPressureData',
-              component: () => import('@/views/manager/basis/Businesses'),
+              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
               meta: {
                 title: '血压数据',
                 keepAlive: false,
@@ -139,7 +139,7 @@ function createConstRoutes() {
             {
               path: 'lung-function-data',
               name: 'lungFunctionData',
-              component: () => import('@/views/manager/basis/Businesses'),
+              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
               meta: {
                 title: '肺功能数据',
                 keepAlive: false,
@@ -150,7 +150,7 @@ function createConstRoutes() {
             {
               path: 'visual-data',
               name: 'visualData',
-              component: () => import('@/views/manager/basis/Businesses'),
+              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
               meta: {
                 title: '视力数据',
                 keepAlive: false,
@@ -161,7 +161,7 @@ function createConstRoutes() {
             {
               path: 'optometry-data',
               name: 'optometryData',
-              component: () => import('@/views/manager/basis/Businesses'),
+              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
               meta: {
                 title: '验光数据',
                 keepAlive: false,
@@ -172,7 +172,7 @@ function createConstRoutes() {
             {
               path: 'dental-caries-data',
               name: 'dentalCariesData',
-              component: () => import('@/views/manager/basis/Businesses'),
+              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
               meta: {
                 title: '龋齿眼疾数据',
                 keepAlive: false,
@@ -183,7 +183,7 @@ function createConstRoutes() {
             {
               path: 'internal-medicine-data',
               name: 'internalMedicineData',
-              component: () => import('@/views/manager/basis/Businesses'),
+              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
               meta: {
                 title: '内科数据',
                 keepAlive: false,
@@ -194,7 +194,7 @@ function createConstRoutes() {
             {
               path: 'surgical-data',
               name: 'surgicalData',
-              component: () => import('@/views/manager/basis/Businesses'),
+              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
               meta: {
                 title: '外科数据',
                 keepAlive: false,
@@ -205,7 +205,7 @@ function createConstRoutes() {
             {
               path: 'summary-of-pe',
               name: 'summaryOfPE',
-              component: () => import('@/views/manager/basis/Businesses'),
+              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
               meta: {
                 title: '体检数据',
                 keepAlive: false,
@@ -229,7 +229,7 @@ function createConstRoutes() {
             {
               path: 'school-management',
               name: 'schoolManagement',
-              component: () => import('@/views/manager/basis/Businesses'),
+              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
               meta: {
                 title: '学校管理',
                 keepAlive: false,
@@ -240,7 +240,7 @@ function createConstRoutes() {
             {
               path: 'grade-management',
               name: 'gradeManagement',
-              component: () => import('@/views/manager/basis/Businesses'),
+              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
               meta: {
                 title: '年级管理',
                 keepAlive: false,
@@ -251,7 +251,7 @@ function createConstRoutes() {
             {
               path: 'student-management',
               name: 'studentManagement',
-              component: () => import('@/views/manager/basis/Businesses'),
+              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
               meta: {
                 title: '学生管理',
                 keepAlive: false,
@@ -262,7 +262,7 @@ function createConstRoutes() {
             {
               path: 'generate-q-r-code',
               name: 'generateQRCode',
-              component: () => import('@/views/manager/basis/Businesses'),
+              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
               meta: {
                 title: '生成二维码',
                 keepAlive: false,
@@ -273,7 +273,7 @@ function createConstRoutes() {
             {
               path: 'setting-archive-data',
               name: 'settingArchiveData',
-              component: () => import('@/views/manager/basis/Businesses'),
+              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
               meta: {
                 title: '设置存档数据',
                 keepAlive: false,
@@ -297,7 +297,7 @@ function createConstRoutes() {
             {
               path: 'project-classification',
               name: 'projectClassification',
-              component: () => import('@/views/manager/basis/Businesses'),
+              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
               meta: {
                 title: '体检项目分类',
                 keepAlive: false,
@@ -308,7 +308,7 @@ function createConstRoutes() {
             {
               path: 'project-management',
               name: 'projectManagement',
-              component: () => import('@/views/manager/basis/Businesses'),
+              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
               meta: {
                 title: '体检项目管理',
                 keepAlive: false,
@@ -319,7 +319,7 @@ function createConstRoutes() {
             {
               path: 'activity-management',
               name: 'activityManagement',
-              component: () => import('@/views/manager/basis/Businesses'),
+              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
               meta: {
                 title: '体检活动管理',
                 keepAlive: false,
@@ -330,7 +330,7 @@ function createConstRoutes() {
             {
               path: 'conclusion-level',
               name: 'conclusionLevel',
-              component: () => import('@/views/manager/basis/Businesses'),
+              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
               meta: {
                 title: '体检项目结论等级',
                 keepAlive: false,
@@ -341,7 +341,7 @@ function createConstRoutes() {
             {
               path: 'device-management',
               name: 'deviceManagement',
-              component: () => import('@/views/manager/basis/Businesses'),
+              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
               meta: {
                 title: '体检设备管理',
                 keepAlive: false,
@@ -352,7 +352,7 @@ function createConstRoutes() {
             {
               path: 'alarm-rule-management',
               name: 'alarmRuleManagement',
-              component: () => import('@/views/manager/basis/Businesses'),
+              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
               meta: {
                 title: '报警规则管理',
                 keepAlive: false,
@@ -376,7 +376,7 @@ function createConstRoutes() {
             {
               path: 'height-of-statistical',
               name: 'heightOfStatistical',
-              component: () => import('@/views/manager/basis/Businesses'),
+              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
               meta: {
                 title: '身高统计',
                 keepAlive: false,
@@ -387,7 +387,7 @@ function createConstRoutes() {
             {
               path: 'blood-pressure-statistics',
               name: 'bloodPressureStatistics',
-              component: () => import('@/views/manager/basis/Businesses'),
+              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
               meta: {
                 title: '血压统计',
                 keepAlive: false,
@@ -398,7 +398,7 @@ function createConstRoutes() {
             {
               path: 'vision-statistics',
               name: 'visionStatistics',
-              component: () => import('@/views/manager/basis/Businesses'),
+              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
               meta: {
                 title: '视力统计',
                 keepAlive: false,
@@ -409,7 +409,7 @@ function createConstRoutes() {
             {
               path: 'vital-capacity-statistics',
               name: 'vitalCapacityStatistics',
-              component: () => import('@/views/manager/basis/Businesses'),
+              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
               meta: {
                 title: '肺活量统计',
                 keepAlive: false,
@@ -420,7 +420,7 @@ function createConstRoutes() {
             {
               path: 'dental-caries-statistics',
               name: 'dentalCariesStatistics',
-              component: () => import('@/views/manager/basis/Businesses'),
+              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
               meta: {
                 title: '龋齿统计',
                 keepAlive: false,
@@ -431,7 +431,7 @@ function createConstRoutes() {
             {
               path: 'disease-statistics',
               name: 'diseaseStatistics',
-              component: () => import('@/views/manager/basis/Businesses'),
+              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
               meta: {
                 title: '疾病统计',
                 keepAlive: false,
@@ -442,7 +442,7 @@ function createConstRoutes() {
             {
               path: 'derived-index-statistics',
               name: 'derivedIndexStatistics',
-              component: () => import('@/views/manager/basis/Businesses'),
+              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
               meta: {
                 title: '派生指数统计',
                 keepAlive: false,
@@ -453,7 +453,7 @@ function createConstRoutes() {
             {
               path: 'nutritional-status-statistics',
               name: 'nutritionalStatusStatistics',
-              component: () => import('@/views/manager/basis/Businesses'),
+              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
               meta: {
                 title: '营养状况统计',
                 keepAlive: false,
@@ -464,7 +464,7 @@ function createConstRoutes() {
             {
               path: 'activity-height-grade',
               name: 'activityHeightGrade',
-              component: () => import('@/views/manager/basis/Businesses'),
+              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
               meta: {
                 title: '活动身高等级统计',
                 keepAlive: false,
@@ -475,7 +475,7 @@ function createConstRoutes() {
             {
               path: 'activity-bmi-level',
               name: 'activityBMILevel',
-              component: () => import('@/views/manager/basis/Businesses'),
+              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
               meta: {
                 title: '活动BMI等级统计',
                 keepAlive: false,
@@ -486,7 +486,7 @@ function createConstRoutes() {
             {
               path: 'activity-blood-pressure-level',
               name: 'activityBloodPressureLevel',
-              component: () => import('@/views/manager/basis/Businesses'),
+              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
               meta: {
                 title: '活动血压等级统计',
                 keepAlive: false,
@@ -497,7 +497,7 @@ function createConstRoutes() {
             {
               path: 'active-vision-level',
               name: 'activeVisionLevel',
-              component: () => import('@/views/manager/basis/Businesses'),
+              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
               meta: {
                 title: '活动视力等级统计',
                 keepAlive: false,
@@ -508,7 +508,7 @@ function createConstRoutes() {
             {
               path: 'active-vital-capacity-grade',
               name: 'activeVitalCapacityGrade',
-              component: () => import('@/views/manager/basis/Businesses'),
+              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
               meta: {
                 title: '活动肺活量等级统计',
                 keepAlive: false,
@@ -519,7 +519,7 @@ function createConstRoutes() {
             {
               path: 'vision-data-comparison',
               name: 'visionDataComparison',
-              component: () => import('@/views/manager/basis/Businesses'),
+              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
               meta: {
                 title: '视力数据对比',
                 keepAlive: false,
@@ -530,7 +530,7 @@ function createConstRoutes() {
             {
               path: 'height-and-weight-data-comparison',
               name: 'heightAndWeightDataComparison',
-              component: () => import('@/views/manager/basis/Businesses'),
+              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
               meta: {
                 title: '身高体重数据对比',
                 keepAlive: false,
@@ -541,7 +541,7 @@ function createConstRoutes() {
             {
               path: 'height-and-weight-grade-comparison',
               name: 'heightAndWeightGradeComparison',
-              component: () => import('@/views/manager/basis/Businesses'),
+              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
               meta: {
                 title: '身高体重年级对比',
                 keepAlive: false,
@@ -552,7 +552,7 @@ function createConstRoutes() {
             {
               path: 'vision-statistics-by-class',
               name: 'visionStatisticsByClass',
-              component: () => import('@/views/manager/basis/Businesses'),
+              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
               meta: {
                 title: '视力分班统计',
                 keepAlive: false,
@@ -563,7 +563,7 @@ function createConstRoutes() {
             {
               path: 'height-and-weight-comparison-by-class',
               name: 'heightAndWeightComparisonByClass',
-              component: () => import('@/views/manager/basis/Businesses'),
+              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
               meta: {
                 title: '身高体重班级对比',
                 keepAlive: false,
@@ -574,7 +574,7 @@ function createConstRoutes() {
             {
               path: 'vision-statistics-by-grade',
               name: 'visionStatisticsByGrade',
-              component: () => import('@/views/manager/basis/Businesses'),
+              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
               meta: {
                 title: '视力年级统计',
                 keepAlive: false,
@@ -598,7 +598,7 @@ function createConstRoutes() {
             {
               path: 'percentile-of-height',
               name: 'percentileOfHeight',
-              component: () => import('@/views/manager/basis/Businesses'),
+              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
               meta: {
                 title: '身高百分位',
                 keepAlive: false,
@@ -609,7 +609,7 @@ function createConstRoutes() {
             {
               path: 'percentile-of-weight',
               name: 'percentileOfWeight',
-              component: () => import('@/views/manager/basis/Businesses'),
+              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
               meta: {
                 title: '体重百分位',
                 keepAlive: false,
@@ -620,7 +620,7 @@ function createConstRoutes() {
             {
               path: 'systolic-blood-pressure-percentile',
               name: 'systolicBloodPressurePercentile',
-              component: () => import('@/views/manager/basis/Businesses'),
+              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
               meta: {
                 title: '收缩压百分位',
                 keepAlive: false,
@@ -631,7 +631,7 @@ function createConstRoutes() {
             {
               path: 'diastolic-blood-pressure-percentile',
               name: 'diastolicBloodPressurePercentile',
-              component: () => import('@/views/manager/basis/Businesses'),
+              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
               meta: {
                 title: '舒张压百分位',
                 keepAlive: false,
@@ -642,7 +642,7 @@ function createConstRoutes() {
             {
               path: 'vital-capacity-percentile',
               name: 'vitalCapacityPercentile',
-              component: () => import('@/views/manager/basis/Businesses'),
+              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
               meta: {
                 title: '肺活量百分位',
                 keepAlive: false,
@@ -653,7 +653,7 @@ function createConstRoutes() {
             {
               path: 'rohrer-index',
               name: 'rohrerIndex',
-              component: () => import('@/views/manager/basis/Businesses'),
+              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
               meta: {
                 title: '劳雷尔指数百分位',
                 keepAlive: false,
@@ -664,7 +664,7 @@ function createConstRoutes() {
             {
               path: 'bmi-percentile',
               name: 'BMIPercentile',
-              component: () => import('@/views/manager/basis/Businesses'),
+              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
               meta: {
                 title: 'BMI指数百分位',
                 keepAlive: false,

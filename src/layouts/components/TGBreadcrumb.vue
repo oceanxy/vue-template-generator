@@ -58,6 +58,8 @@ export default {
 
 <style lang="scss">
 .tg-breadcrumb {
+  flex: none;
   padding: 16px 20px;
+  border-bottom: 1px solid #e8e8e8;
 }
 </style>

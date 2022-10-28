@@ -70,11 +70,11 @@ export default {
    * @param state
    * @param commit
    * @param moduleName {string} 模块名
-   * @param submoduleName {string} 子模块名
-   * @param additionalQueryParameters {Object} 附加查询参数。例如分页相关参数，中心ID等。
-   * @param stateName {string} 需要设置的字段，默认 state.list
-   * @param customApiName {string} 自定义请求api的名字
-   * @param merge {boolean} 是否合并数据，默认false，主要用于“加载更多”功能
+   * @param [submoduleName] {string} 子模块名
+   * @param [additionalQueryParameters] {Object} 附加查询参数。例如分页相关参数，中心ID等。
+   * @param [stateName] {string} 需要设置的字段，默认 state.list
+   * @param [customApiName] {string} 自定义请求api的名字
+   * @param [merge] {boolean} 是否合并数据，默认false，主要用于“加载更多”功能
    * @returns {Promise<void>}
    */
   async getList({ state, commit }, {
@@ -85,11 +85,14 @@ export default {
     customApiName,
     merge
   }) {
+    const targetModuleName = state[moduleName][submoduleName] ?? state[moduleName]
+
     commit('setLoading', {
-      value: true, moduleName, submoduleName
+      value: true,
+      moduleName,
+      submoduleName
     })
 
-    let response
     let api = 'getList'
 
     if (!config.mock) {
@@ -104,64 +107,52 @@ export default {
       }
     }
 
-    if (!submoduleName) {
-      response = await apis[api](
-        omit(
-          {
-            ...state[moduleName].pagination,
-            ...state[moduleName].search,
-            ...additionalQueryParameters
-          },
-          'total'
-        )
+    const response = await apis[api](
+      omit(
+        {
+          ...targetModuleName.pagination,
+          ...targetModuleName.search,
+          ...additionalQueryParameters
+        },
+        'total'
       )
-    } else {
-      response = await apis[api](
-        omit(
-          {
-            ...state[moduleName][submoduleName].pagination,
-            ...state[moduleName][submoduleName].search,
-            ...additionalQueryParameters
-          },
-          'total'
-        )
-      )
-    }
+    )
 
     if (response.status) {
-      let hasPagination
+      const data = response.data.paginationObj || response.data
+      const sortFieldList = response.data.sortFieldList || []
+      let rows = data.rows || data
 
-      if (submoduleName) {
-        hasPagination = 'pagination' in state[moduleName][submoduleName]
-      } else {
-        hasPagination = 'pagination' in state[moduleName]
-      }
-
-      if (hasPagination) {
+      if ('pagination' in targetModuleName) {
         commit('setPagination', {
           moduleName,
           submoduleName,
           value: {
-            pageIndex: response.data.pageIndex,
-            pageSize: response.data.pageSize,
-            total: response.data.totalNum
+            pageIndex: data.pageIndex,
+            pageSize: data.pageSize,
+            total: data.totalNum
           }
         })
       }
 
-      let value = 'rows' in response.data ? response.data.rows : response.data
-
       if (merge) {
-        value = [
-          ...submoduleName
-            ? state[moduleName][submoduleName][stateName || 'list']
-            : state[moduleName][stateName || 'list'],
-          ...value
+        rows = [
+          ...targetModuleName[stateName || 'list'],
+          ...rows
         ]
       }
 
+      if (sortFieldList?.length) {
+        commit('setState', {
+          value: sortFieldList,
+          moduleName,
+          submoduleName,
+          stateName: 'sortFieldList'
+        })
+      }
+
       commit('setList', {
-        value,
+        value: rows,
         moduleName,
         submoduleName,
         stateName
@@ -169,7 +160,9 @@ export default {
     }
 
     commit('setLoading', {
-      value: false, moduleName, submoduleName
+      value: false,
+      moduleName,
+      submoduleName
     })
 
     return response.status

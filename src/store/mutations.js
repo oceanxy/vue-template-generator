@@ -8,7 +8,10 @@ export default {
    * @param customizeLoading {string} 自定义loading字段名
    */
   setLoading(state, {
-    value, moduleName, submoduleName, customizeLoading
+    value,
+    moduleName,
+    submoduleName,
+    customizeLoading
   }) {
     if (submoduleName) {
       if (Object.prototype.toString.call(state[moduleName][submoduleName][customizeLoading]) === '[object Object]') {
@@ -166,15 +169,15 @@ export default {
     }
   },
   /**
-   * 设置详情数据（后期可能正式更名为setState）
+   * 设置数据
    * @param state {Object}
-   * @param value {Object[]}
-   * @param moduleName {string}
-   * @param submoduleName {string}
+   * @param value {Object[]} 设置的值
+   * @param moduleName {string} 模块名
+   * @param [submoduleName] {string} 子模块名
    * @param stateName {string} 需要设置的字段，默认 state.details
    * @param merge {boolean} 是否需要将新值与旧值合并，默认false
    */
-  setDetails(state, {
+  setState(state, {
     value,
     moduleName,
     submoduleName,
@@ -182,16 +185,16 @@ export default {
     merge
   }) {
     if (!submoduleName) {
-      state[moduleName][stateName || 'details'] = merge
+      state[moduleName][stateName] = merge
         ? {
-          ...state[moduleName][stateName || 'details'],
+          ...state[moduleName][stateName],
           ...value
         }
         : value
     } else {
-      state[moduleName][submoduleName][stateName || 'details'] = merge
+      state[moduleName][submoduleName][stateName] = merge
         ? {
-          ...state[moduleName][submoduleName][stateName || 'details'],
+          ...state[moduleName][submoduleName][stateName],
           ...value
         }
         : value
