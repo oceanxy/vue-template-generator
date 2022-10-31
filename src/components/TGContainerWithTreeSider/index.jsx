@@ -53,7 +53,8 @@ export default {
     return {
       tableRef: undefined,
       searchValue: '',
-      treeDataSource: []
+      treeDataSource: [],
+      manualExpandedKeys: []
     }
   },
   computed: {
@@ -63,6 +64,29 @@ export default {
     },
     treeId() {
       return [this.getState('search', this.moduleName)[this.treeIdField]]
+    },
+    expandedKeys() {
+      if (this.searchValue) {
+        if (!this.manualExpandedKeys.length) {
+          const firstLevelExpandedKeys = this.treeDataSource?.map(item => item.id) ?? []
+          const secondLevelExpandedKeys = this.treeDataSource?.[0]?.children?.map(item => item.id) ?? []
+
+          return [...firstLevelExpandedKeys, ...secondLevelExpandedKeys]
+        } else {
+          return this.manualExpandedKeys
+        }
+      }
+
+      if (this.manualExpandedKeys.length) {
+        return this.manualExpandedKeys
+      }
+
+      return [
+        this.treeDataSource?.[0]?.id,
+        this.treeDataSource?.[0]?.children?.[0]?.id,
+        ...this.defaultExpandedKeys,
+        ...this.manualExpandedKeys
+      ]
     }
   },
   provide() {
@@ -97,8 +121,6 @@ export default {
       const newTreeDataSource = cloneDeep(this.dataSource.list)
 
       this.treeDataSource = this.filter(newTreeDataSource, value)
-
-      console.log(this.treeDataSource)
     }
   },
   methods: {
@@ -114,17 +136,6 @@ export default {
           }
         } else {
           if (dataSource[i].name.includes(searchValue)) {
-            // dataSource[i].dom = (
-            //   <span
-            //     domPropsInnerHTML={
-            //       dataSource[i].name.replace(
-            //         this.searchValue,
-            //         `<span style="color: #16b364">${this.searchValue}</span>`
-            //       )
-            //     }
-            //   />
-            // )
-
             temp.push(dataSource[i])
           }
         }
@@ -157,7 +168,11 @@ export default {
       this.tableRef?.$parent?.resize()
     },
     onTreeSearch(e) {
+      this.manualExpandedKeys = []
       this.searchValue = e.target.value
+    },
+    onExpand(expandedKeys) {
+      this.manualExpandedKeys = expandedKeys
     }
   },
   render() {
@@ -188,11 +203,8 @@ export default {
                   showIcon
                   selectedKeys={this.treeId}
                   onSelect={this.onSelect}
-                  defaultExpandedKeys={[
-                    this.treeDataSource?.[0]?.id,
-                    this.treeDataSource?.[0]?.children?.[0]?.id,
-                    ...this.defaultExpandedKeys
-                  ]}
+                  expandedKeys={this.expandedKeys}
+                  onExpand={this.onExpand}
                 >
                   {
                     this.treeDataSource.map(item => (
@@ -212,9 +224,24 @@ export default {
                               <div slot={'title'}>{subItem.name}</div>
                               {
                                 subItem.children?.map(leafItem => (
-                                  <Tree.TreeNode key={leafItem.id} title={leafItem.name}>
+                                  <Tree.TreeNode key={leafItem.id}>
                                     <Icon slot={'icon'} class={'icon'} component={ICON_TREE_SCHOOL} />
-                                    <div slot={'title'}>{leafItem.name}</div>
+                                    {
+                                      this.searchValue
+                                        ? (
+                                          <span
+                                            slot={'title'}
+                                            title={leafItem.name}
+                                            domPropsInnerHTML={
+                                              leafItem.name.replace(
+                                                this.searchValue,
+                                                `<span style="color: #16b364">${this.searchValue}</span>`
+                                              )
+                                            }
+                                          />
+                                        )
+                                        : <span slot={'title'} title={leafItem.name}>{leafItem.name}</span>
+                                    }
                                   </Tree.TreeNode>
                                 )) ?? []
                               }
