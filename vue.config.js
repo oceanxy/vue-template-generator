@@ -37,7 +37,16 @@ module.exports = {
       // 引入sass全局变量文件
       sass: { sassOptions: { prependData: '@import "@/assets/styles/theme.scss"' } },
       // 启用内联JavaScript。ant-design-vue使用less编写，且使用了内联写法，所以需要开启
-      less: { lessOptions: { javascriptEnabled: true } }
+      less: {
+        lessOptions: {
+          modifyVars: {
+            'primary-color': '#16b364',
+            'link-color': '#16b364'
+            // 'border-radius-base': '2px'
+          },
+          javascriptEnabled: true
+        }
+      }
     }
   },
   // 生产环境是否生成 sourceMap 文件。设置为 false 以加速生产环境构建。

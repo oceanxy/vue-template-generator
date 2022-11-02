@@ -96,9 +96,11 @@ export default {
 </script>
 
 <style lang="scss">
+@import '@/assets/styles/theme.scss';
+
 .tg-layout-header {
   padding: 0;
-  background: #16b364;
+  background: $primary-color;
   line-height: unset;
 
   .tg-header {

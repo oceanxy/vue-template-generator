@@ -1,18 +1,12 @@
 import '../assets/styles/index.scss'
-import { Button, Space } from 'ant-design-vue'
+import { Button } from 'ant-design-vue'
 import forFunction from '@/mixins/forFunction'
 
 export default {
   mixins: [forFunction()],
   render() {
     return (
-      <Space class="tg-function">
-        {/*<Button*/}
-        {/*  // onClick={() => this.onAddClick()}*/}
-        {/*  icon="import"*/}
-        {/*>*/}
-        {/*  导入*/}
-        {/*</Button>*/}
+      <Button.Group class="tg-function">
         <Button
           onClick={() => this.onExport('企业数据')}
           icon="export"
@@ -21,13 +15,13 @@ export default {
           导出
         </Button>
         <Button
-          onClick={() => this.onDeleteClick()}
+          onClick={() => this.onExport('企业数据')}
           icon="delete"
-          disabled={this.deleteButtonDisabled}
+          disabled={this.exportButtonDisabled}
         >
-          删除
+          按时间导出
         </Button>
-      </Space>
+      </Button.Group>
     )
   }
 }
