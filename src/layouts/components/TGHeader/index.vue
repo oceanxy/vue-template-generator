@@ -7,7 +7,7 @@
         :title="!collapsed ? '折叠菜单' : '展开菜单'"
         @click="onMenuFold()"
       />
-      <span class="tg-router-name">{{ $route.meta.title }}</span>
+      <span class="tg-router-name">{{ parentRouteName }}</span>
       <div class="tg-login-info" v-if="isLogin">
         <a-badge class="tg-badge">
           <a-avatar
@@ -70,12 +70,17 @@ export default {
     },
     isLogin() {
       return !!window.sessionStorage.getItem('token')
+    },
+    parentRouteName() {
+      if (this.$route.matched.length <= 2) {
+        return this.$route.matched.at(-1).meta.title
+      }
+
+      return this.$route.matched.at(-2).meta.title
     }
   },
   methods: {
-    ...mapActions('login', {
-      logout: 'logout'
-    }),
+    ...mapActions('login', { logout: 'logout' }),
     async onLogOut() {
       await this.logout()
     },

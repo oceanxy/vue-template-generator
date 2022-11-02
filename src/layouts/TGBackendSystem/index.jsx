@@ -3,7 +3,6 @@ import { Layout } from 'ant-design-vue'
 import TGHeader from '@/layouts/components/TGHeader'
 import TGMenu from '@/layouts/components/TGMenu'
 import TGRouterView from '@/layouts/components/TGRouterView'
-import TGBreadcrumb from '@/layouts/components/TGBreadcrumb'
 import Logo from '@/layouts/components/Logo'
 import { mapGetters } from 'vuex'
 

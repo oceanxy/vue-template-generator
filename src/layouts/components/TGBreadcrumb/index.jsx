@@ -1,28 +1,16 @@
-<template>
-  <a-breadcrumb
-    :routes="matchedRoute"
-    class="tg-breadcrumb"
-    separator=">"
-  >
-    <template #itemRender="{route, routes}">
-      <span v-if="routes.indexOf(route) === routes.length - 1">
-        {{ handleBreadcrumbName(route) }}
-      </span>
-      <router-link
-        v-else
-        :to="route.path || '/'"
-      >
-        {{ handleBreadcrumbName(route) }}
-      </router-link>
-    </template>
-  </a-breadcrumb>
-</template>
-
-<script>
+import './index.scss'
 import { Breadcrumb } from 'ant-design-vue'
+import { RouterLink } from 'vue-router'
 
 export default {
   name: 'TGBreadcrumb',
+  props: {
+    mode: {
+      type: String,
+      // 'normal'：正常模式 'onlyLast'：只显示最后一级
+      default: 'mormal'
+    }
+  },
   components: {
     [Breadcrumb.name]: Breadcrumb,
     [Breadcrumb.Item.name]: Breadcrumb.Item
@@ -51,15 +39,35 @@ export default {
   methods: {
     handleBreadcrumbName(route) {
       return route?.meta?.title ?? route.name
+    },
+    itemRender({ route, routes }) {
+      if (routes.indexOf(route) === routes.length - 1) {
+        return (
+          <span class={'tg-breadcrumb-last-title'}>
+            {this.handleBreadcrumbName(route)}
+          </span>
+        )
+      } else {
+        if (this.mode === 'normal') {
+          return (
+            <RouterLink to={route.path || '/'}>
+              {this.handleBreadcrumbName(route)}
+            </RouterLink>
+          )
+        }
+
+        return null
+      }
     }
+  },
+  render() {
+    return (
+      <Breadcrumb
+        routes={this.matchedRoute}
+        class={'tg-breadcrumb'}
+        separator={'>'}
+        itemRender={this.itemRender}
+      />
+    )
   }
 }
-</script>
-
-<style lang="scss">
-.tg-breadcrumb {
-  flex: none;
-  padding: 16px 20px;
-  border-bottom: 1px solid #e8e8e8;
-}
-</style>

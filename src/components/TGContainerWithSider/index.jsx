@@ -65,9 +65,7 @@ export default {
   render() {
     return (
       <div class="tg-container-with-sider">
-        <div
-          class={`tg-container-with-sider--main${this.contentClass ? ` ${this.contentClass}` : ''}`}
-        >
+        <div class={`tg-container-with-sider--main${this.contentClass ? ` ${this.contentClass}` : ''}`}>
           {this.$slots.default}
         </div>
         <div

@@ -5,7 +5,7 @@ import config from '@/config'
 
 export default {
   /**
-   * 设置搜索参数
+   * 设置搜索参数（合并设置）
    * @param state
    * @param commit
    * @param dispatch

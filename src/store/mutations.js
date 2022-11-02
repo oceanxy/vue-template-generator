@@ -28,14 +28,16 @@ export default {
     }
   },
   /**
-   * 设置列表搜索参数对象
+   * 设置列表搜索参数（合并设置）
    * @param state {Object}
    * @param payload {Object}
    * @param moduleName {string}
    * @param submoduleName {string}
    */
   setSearch(state, {
-    payload, moduleName, submoduleName
+    payload,
+    moduleName,
+    submoduleName
   }) {
     if (!submoduleName) {
       if ('pagination' in state[moduleName]) {

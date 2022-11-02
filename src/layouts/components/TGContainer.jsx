@@ -6,8 +6,10 @@ export default {
       <div class="tg-container">
         <div class="tg-container-content">
           {this.$slots.inquiry || this.$slots.others}
-          {this.$slots.table}
-          {this.$slots.pagination}
+          <div class={'tg-container-table-container'}>
+            {this.$slots.table}
+            {this.$slots.pagination}
+          </div>
         </div>
         <div class="tg-container-modals">{this.$slots.modals}</div>
       </div>

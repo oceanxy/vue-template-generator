@@ -39,7 +39,7 @@ body {
         width: 6px;
         height: 100%;
         border-radius: 3px;
-        background: #16B364;
+        background: #16b364;
         -webkit-animation: load 1s ease infinite;
 
         &:nth-child(2) {
@@ -67,7 +67,7 @@ body {
           50% {
             height: 40px;
             margin: -10px 0;
-            background: #16B364;
+            background: #16b364;
           }
         }
       }
@@ -105,7 +105,7 @@ body {
 
   .tg-not-found-content {
     height: 100%;
-  display: flex;
+    display: flex;
     justify-content: center;
     align-items: center;
 
@@ -113,7 +113,7 @@ body {
       display: flex;
       justify-content: center;
       align-items: center;
-    flex: auto;
+      flex: auto;
       width: 100%;
       height: 60%;
       max-height: 600px;
@@ -125,83 +125,112 @@ body {
   }
 }
 
-.tg-inquiry {
-  width: 100%;
+.tg-inquiry.tg-inquiry {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   justify-content: flex-start;
   row-gap: 8px;
   column-gap: 16px;
+  padding: 16px 24px;
 
-  & > .ant-form-item {
-    flex: none;
-    width: 150px;
-    margin-right: 0 !important;
-
-    .ant-form-item-control-wrapper,
-    .ant-form-item-children > * {
-      width: 100%;
-    }
-
-    &.tg-inquiry-date-range {
-      width: 220px;
-    }
-  }
-
-  .number-range.number-range {
+  .row-up {
     display: flex;
     align-items: center;
+    gap: 6px;
 
-    .ant-form-item-children {
-      display: flex;
-      align-items: center;
-      flex-wrap: nowrap;
-
-      .ant-form-item {
-        margin-right: 0;
-
-        &:first-child,
-        &:last-child {
-          flex: auto;
-        }
-
-        &:first-child {
-          .ant-input-number {
-            border-top-right-radius: 0;
-            border-bottom-right-radius: 0;
+    .icon {
+      font-size: 24px;
     }
-        }
 
-        &:last-child {
-          .ant-input-number {
-            border-top-left-radius: 0;
-            border-bottom-left-radius: 0;
+    .activity {
+      min-width: 230px;
+
+      .ant-form-item-control-wrapper {
+        width: 100%;
+
+        .ant-select-selection {
+          border: none;
+          outline: none;
+          box-shadow: unset;
+
+          .ant-select-selection__rendered {
+            margin-right: 30px;
+            margin-left: 0;
+
+            .ant-select-selection-selected-value {
+              font-size: 14px;
+              color: rgba(52, 64, 84, 0.80);
+            }
           }
         }
       }
+    }
 
-      .identifier {
-        width: 40px;
+    .btn-group {
+      margin-left: auto;
+    }
+  }
 
-        .ant-input {
-          text-align: center;
-          flex: none;
-          padding: 0 4px;
-          border-left: none;
-          border-right: none;
-          border-radius: 0;
+  .row-down {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+
+    .ant-form-item {
+      flex: none;
+      width: 230px;
+      box-sizing: border-box;
+      margin-right: 0 !important;
+      display: flex;
+
+      .ant-form-item-label {
+        z-index: 1;
+        flex: none;
+
+        label {
+          display: inline-block;
+          width: 70px;
+          font-size: 12px;
+          color: rgba(52, 64, 84, 0.62);
+          text-align: justify;
+          text-align-last: justify;
+          padding-left: 10px;
+          padding-right: 4px;
+        }
+      }
+
+      .ant-form-item-control-wrapper {
+        flex: auto;
+        width: 100%;
+        margin-left: -70px;
+        z-index: 0;
+
+        .ant-select {
+          width: 100%;
+        }
+
+        .ant-form-item-children {
+          & > .ant-select .ant-select-selection,
+          & > .ant-input-affix-wrapper .ant-input,
+          & > .ant-input-number,
+          & > .ant-input {
+            width: 100%;
+            padding-left: 70px;
+          }
         }
       }
     }
   }
+}
 
-  .tg-function {
-    margin-left: auto;
-  }
+.tg-function {
+  margin-left: auto;
+  flex: none;
+  padding: 14px 24px;
 }
 
 .ant-table-wrapper {
-  overflow: hidden;
+  flex: auto;
 
   .tg-table-field-highlight {
     color: #13c2c2;
@@ -225,7 +254,7 @@ body {
   }
 }
 
-  .ant-table {
+.ant-table {
   .ant-table-thead > tr > th {
     border: none;
     background: none;
@@ -240,45 +269,6 @@ body {
   .ant-table-body {
     //margin-bottom: 0 !important;
     //overflow: auto !important;
-  }
-}
-
-.records-details-table {
-  //.ant-spin-container {
-  //  width: 100%;
-  //}
-  //
-  //.ant-table-thead th {
-  //  background: #f5f5f5;
-  //}
-  //
-  //.ant-table {
-  //  height: auto !important;
-  //}
-
-  .ant-table-footer {
-    padding: 0;
-    background: #ffffff;
-
-    .receivable {
-      padding: 16px;
-      display: flex;
-
-      span:last-child {
-        margin-left: auto;
-      }
-  }
-
-    .actually-received {
-      padding: 16px;
-      background: #fff7e6;
-      display: flex;
-      color: #fa8c16;
-
-      span:last-child {
-        margin-left: auto;
-      }
-    }
   }
 }
 
@@ -436,21 +426,25 @@ body {
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
-  background-color: #f5f5f5;
+  background-color: unset;
 }
 
 // 定义滚动条轨道内阴影 圆角
 ::-webkit-scrollbar-track {
   box-shadow: inset 0 0 3px rgba(91, 91, 91, 0.3);
   border-radius: 3px;
-  background-color: #f5f5f5;
+  background-color: #eff1f5;
 }
 
 // 定义滑块内阴影 圆角
 ::-webkit-scrollbar-thumb {
   border-radius: 3px;
   box-shadow: inset 0 0 3px rgba(211, 211, 211, 0.3);
-  background-color: #d3d3d3;
+  background-color: rgba(185, 192, 212, 0.6);
+
+  &:hover {
+    background-color: rgba(185, 192, 212, 1);
+  }
 }
 
 @media screen and (max-width: 1366px) {

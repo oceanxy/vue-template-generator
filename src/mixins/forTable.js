@@ -50,18 +50,57 @@ export default (isInject = true, isFetchList = true) => {
       rowKey() {
         return this.getState('rowKey', this.moduleName, this.submoduleName) || 'id'
       },
-      serialNumber() {
+      /**
+       * 当前页起始序号（一般在存在分页的页面使用）
+       * @returns {number}
+       */
+      currentPageStartNumber() {
         const pagination = this.getState('pagination', this.moduleName, this.submoduleName)
 
         return (pagination?.pageIndex ?? 0) * (pagination?.pageSize ?? 10)
       },
       selectedRowKeys() {
         return this.getState('selectedRowKeys', this.moduleName, this.submoduleName)
+      },
+      sortFieldList() {
+        return this.getState('sortFieldList', this.moduleName, this.submoduleName)
+      },
+      attributes() {
+        const events = {}
+
+        if (this.sortFieldList?.length) {
+          events.change = this.onChange
+        }
+
+        return {
+          props: {
+            ...this.tableProps,
+            loading: this.getLoading(this.moduleName)
+          },
+          on: { ...events }
+        }
       }
     },
     watch: {
       selectedRowKeys(value) {
         this.tableProps.rowSelection.selectedRowKeys = value
+      },
+      /**
+       * 监听排序集合，根据后端返回的值初始化表头
+       * @param value
+       */
+      sortFieldList(value) {
+        value.map(sortObj => {
+          const index = this.tableProps.columns.findIndex(column => column.dataIndex === sortObj.fieldCode)
+
+          if (index !== -1) {
+            this.tableProps.columns.splice(index, 1, {
+              ...this.tableProps.columns[index],
+              sorter: true,
+              sortCode: sortObj.fieldSortCode
+            })
+          }
+        })
       }
     },
     async created() {
@@ -115,7 +154,6 @@ export default (isInject = true, isFetchList = true) => {
         window.removeEventListener('resize', this.resize)
       })
 
-
       // 为 /src/components/BNContainerWithSider 组件注入获取 table ref 的逻辑
       if (this.getRefOfChild instanceof Function) {
         this.getRefOfChild(this.$refs[`${this.moduleName}Table`])
@@ -130,7 +168,7 @@ export default (isInject = true, isFetchList = true) => {
        * @returns {*}
        */
       getConsecutiveSerialNumber(text, record, index) {
-        record._sn = index + 1 + this.serialNumber
+        record._sn = index + 1 + this.currentPageStartNumber
 
         return record._sn
       },
@@ -294,6 +332,27 @@ export default (isInject = true, isFetchList = true) => {
 
         this.exportButtonDisabled = false
         message.destroy()
+      },
+      /**
+       * antd vue Table 的 change 事件
+       * 分页、排序、筛选变化时触发
+       * @param pagination
+       * @param filters
+       * @param sorter
+       * @returns {Promise<void>}
+       */
+      async onChange(pagination, filters, sorter) {
+        await this.$store.dispatch('setSearch', {
+          moduleName: this.moduleName,
+          submoduleName: this.submoduleName,
+          payload: {
+            orderBy: sorter.column.sortCode.replace(
+              /\$\{orderby}/,
+              sorter.order.substring(0, sorter.order.length - 3)
+            )
+          },
+          isResetSelectedRows: true // 注意此参数要设置为 true。因为排序变了，序号也重新计算了，所以需要清空已选择的行数据
+        })
       },
       /**
        * 重新布局，根据页面大小判断是否显示Table组件的滚动条

@@ -1,5 +1,5 @@
 /**
- * 表格搜索混合
+ * 表格搜索 混合
  * @Author: Oceanxy
  * @Email: xyzsyx@163.com
  * @Date: 2022-03-14 周一 15:33:20
@@ -7,10 +7,26 @@
 
 import { omit } from 'lodash'
 import moment from 'moment'
+import activities from '@/apis/modules/manager/activities'
+import { mapGetters } from 'vuex'
 
-export default () => {
-  return {
+/**
+ * 混合：表格搜索
+ * @param plate {'activities' || ''} 板块名，本项目会根据版块名去请求指定的接口
+ * @returns {Object}
+ */
+export default ({ plate = '' } = {}) => {
+  const forInquiry = {
     inject: ['moduleName'],
+    async created() {
+      if (plate === 'activities') {
+        await this.$store.dispatch('getListForSelect', {
+          moduleName: this.moduleName,
+          stateName: 'activities',
+          customApiName: 'getActivitiesForSelect'
+        })
+      }
+    },
     methods: {
       /**
        * 此函数值保留一些高频共用类参数的处理
@@ -84,4 +100,15 @@ export default () => {
       }
     }
   }
+
+  if (plate === 'activities') {
+    forInquiry.computed = {
+      ...mapGetters({ getState: 'getState' }),
+      activities() {
+        return this.getState('activities', this.moduleName)
+      }
+    }
+  }
+
+  return forInquiry
 }

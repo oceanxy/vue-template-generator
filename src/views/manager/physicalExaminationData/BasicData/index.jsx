@@ -20,9 +20,9 @@ export default {
           moduleName: 'schools'
         }}
       >
+        <Functions slot="functions" />
         <TGContainer>
           <Inquiry slot="inquiry" />
-          <Functions slot="functions" />
           <Table slot="table" />
           <TGPagination slot="pagination" />
         </TGContainer>

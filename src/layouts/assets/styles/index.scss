@@ -3,9 +3,28 @@
   flex: auto;
 
   .tg-container-content {
-    display: grid;
-    grid-template: auto 1fr 32px / 1fr;
-    grid-row-gap: 10px;
+    display: flex;
+    flex-direction: column;
     height: 100%;
+
+    & > *:not(.tg-container-table-container) {
+      flex: none;
+    }
+
+    .tg-container-table-container {
+      border-top: 1px solid #e8e8e8;
+      flex: auto;
+      overflow: hidden;
+      padding: 24px;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      gap: 14px;
+
+      .ant-table-wrapper {
+        height: 0;
+      }
+    }
   }
 }

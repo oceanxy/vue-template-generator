@@ -96,6 +96,19 @@ export default {
       }
     }
   },
+  watch: {
+    dataSource: {
+      deep: true,
+      handler(value) {
+        this.treeDataSource = value.list
+      }
+    },
+    searchValue(value) {
+      const newTreeDataSource = cloneDeep(this.dataSource.list)
+
+      this.treeDataSource = this.filter(newTreeDataSource, value)
+    }
+  },
   async created() {
     const status = await this.$store.dispatch('getListForSelect', {
       moduleName: this.apiOptions.moduleName,
@@ -108,19 +121,6 @@ export default {
         payload: { [this.treeIdField]: this.dataSource.list?.[0]?.id },
         moduleName: this.moduleName
       })
-    }
-  },
-  watch: {
-    dataSource: {
-      deep: true,
-      handler(value) {
-        this.treeDataSource = value.list
-      }
-    },
-    searchValue(value) {
-      const newTreeDataSource = cloneDeep(this.dataSource.list)
-
-      this.treeDataSource = this.filter(newTreeDataSource, value)
     }
   },
   methods: {
@@ -186,7 +186,16 @@ export default {
         onSidebarSwitch={this.onSidebarSwitch}
       >
         <template slot="default">
-          {this.$route.meta.hideBreadCrumb ? null : <TGBreadcrumb />}
+          {
+            !this.$route.meta.hideBreadCrumb || this.$slots.functions
+              ? (
+                <div class={'tg-content-title'}>
+                  {this.$route.meta.hideBreadCrumb ? null : <TGBreadcrumb mode={'onlyLast'} />}
+                  {this.$slots.functions}
+                </div>
+              )
+              : null
+          }
           {this.$slots.default}
         </template>
         <div slot={'sider'} class="fe-tree-data">
