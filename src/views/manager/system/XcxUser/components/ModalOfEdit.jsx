@@ -28,7 +28,7 @@ export default Form.create({})({
         return this.getState('companyList', this.moduleName)
       },
       set(list) {
-        this.$store.commit('setDetails', {
+        this.$store.commit('setState', {
           value: list,
           moduleName: this.moduleName,
           stateName: 'companyList'

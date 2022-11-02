@@ -48,7 +48,7 @@ export default Form.create({})({
           }
         } else {
           this.addressList = []
-          this.$store.commit('setDetails', {
+          this.$store.commit('setState', {
             value: {},
             moduleName: this.moduleName
           })

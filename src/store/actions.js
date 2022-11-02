@@ -198,7 +198,7 @@ export default {
     const res = await apis[api](payload)
 
     if (res.status) {
-      commit('setDetails', {
+      commit('setState', {
         value: res.data,
         moduleName,
         submoduleName,
@@ -362,7 +362,7 @@ export default {
       }
 
       if (stateName) {
-        commit('setDetails', {
+        commit('setState', {
           value: response.data,
           moduleName,
           submoduleName,

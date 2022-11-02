@@ -85,7 +85,7 @@ export default {
       await this.logout()
     },
     onMenuFold() {
-      this.$store.commit('setDetails', {
+      this.$store.commit('setState', {
         value: !this.collapsed,
         moduleName: 'common',
         stateName: 'collapsed'
