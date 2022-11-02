@@ -216,7 +216,7 @@ function createConstRoutes() {
           ]
         },
         {
-          path: 'student-file',
+          path: 'student-profile',
           component: TGRouterView,
           redirect: { name: 'schoolManagement' },
           meta: {
@@ -284,7 +284,7 @@ function createConstRoutes() {
           ]
         },
         {
-          path: 'physical-conf',
+          path: 'pe-conf',
           component: TGRouterView,
           redirect: { name: 'classificationOfPEItems' },
           meta: {
@@ -363,7 +363,7 @@ function createConstRoutes() {
           ]
         },
         {
-          path: 'statistic-analysis',
+          path: 'statistical-analysis',
           component: TGRouterView,
           redirect: { name: 'percentileOfHeight' },
           meta: {
