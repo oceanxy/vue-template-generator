@@ -7,9 +7,9 @@ export default {
    * @param data
    * @returns {*}
    */
-  getSchoolManagement(request, data) {
+  getGradeManagement(request, data) {
     return request({
-      url: '/personnel/school/getSchoolList',
+      url: '/personnel/grade/getGradeList',
       method: 'post',
       data: qs.stringify(data)
     })
@@ -21,9 +21,9 @@ export default {
    * @param data
    * @returns {*}
    */
-  updateSchoolManagement(request, data) {
+  updateGradeManagement(request, data) {
     return request({
-      url: '/personnel/school/update',
+      url: '/personnel/grade/update',
       method: 'post',
       data: qs.stringify(data)
     })
@@ -35,9 +35,9 @@ export default {
    * @param data
    * @returns {*}
    */
-  addSchoolManagement(request, data) {
+  addGradeManagement(request, data) {
     return request({
-      url: '/personnel/school/add',
+      url: '/personnel/grade/add',
       method: 'post',
       data: qs.stringify(data)
     })
@@ -49,9 +49,23 @@ export default {
    * @param data
    * @returns {*}
    */
-  deleteSchoolManagement(request, data) {
+  deleteGradeManagement(request, data) {
     return request({
-      url: '/personnel/school/delete',
+      url: '/personnel/grade/delete',
+      method: 'post',
+      data: qs.stringify(data)
+    })
+  },
+
+  /**
+   * 获取学年和届数集合
+   * @param [request]
+   * @param data
+   * @returns {*}
+   */
+  getYearList(request, data) {
+    return request({
+      url: '/personnel/grade/getYearList',
       method: 'post',
       data: qs.stringify(data)
     })

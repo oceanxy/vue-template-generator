@@ -240,7 +240,7 @@ function createConstRoutes() {
             {
               path: 'grade-management',
               name: 'gradeManagement',
-              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
+              component: () => import('@/views/manager/studentProfile/GradeManagement'),
               meta: {
                 title: '年级管理',
                 keepAlive: false,

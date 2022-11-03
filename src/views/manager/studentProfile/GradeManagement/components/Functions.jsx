@@ -20,17 +20,23 @@ export default {
           修改
         </Button>
         <Button
-          onClick={() => this.onAddClick()}
-          icon="import"
-        >
-          导入
-        </Button>
-        <Button
           onClick={() => this.onDeleteClick()}
           icon="delete"
           disabled={this.deleteButtonDisabled}
         >
           删除
+        </Button>
+
+        <Button
+          icon="sync"
+        >
+          刷新年级人数
+        </Button>
+
+        <Button
+          icon="setting"
+        >
+          设置为毕业
         </Button>
       </Space>
     )

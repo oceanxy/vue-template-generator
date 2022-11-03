@@ -1,5 +1,5 @@
 import '../assets/styles/index.scss'
-import { Table } from 'ant-design-vue'
+import { Table, Tag, Switch } from 'ant-design-vue'
 import forTable from '@/mixins/forTable'
 
 export default {
@@ -16,127 +16,79 @@ export default {
             scopedSlots: { customRender: 'serialNumber' }
           },
           {
-            title: '体检时间',
-            width: 140,
-            align: 'center',
-            fixed: true,
-            dataIndex: 'createTimeStr'
-          },
-          {
-            title: '姓名',
-            width: 80,
-            align: 'center',
+            title: '学校名称',
+            width: 300,
             fixed: true,
             dataIndex: 'fullName'
           },
           {
-            title: '身份证号',
-            width: 170,
-            dataIndex: 'idNumber'
+            title: '学校简称',
+            width: 150,
+            dataIndex: 'shortName'
           },
           {
-            title: '学校名称',
-            width: 200,
-            dataIndex: 'peObjOrgName'
+            title: '街道',
+            width: 150,
+            dataIndex: 'streetName'
           },
           {
-            title: '年级',
+            title: '办学类型',
+            width: 120,
+            dataIndex: 'schoolTypeStr'
+          },
+          {
+            title: '办别',
             width: 70,
-            align: 'center',
-            dataIndex: 'grade'
+            scopedSlots: { customRender: 'category' }
           },
           {
-            title: '班级',
-            width: 70,
-            align: 'center',
-            dataIndex: 'classNumber'
-          },
-          {
-            title: '性别',
-            width: 70,
-            align: 'center',
-            dataIndex: 'genderStr'
-          },
-          {
-            title: '年龄',
-            align: 'center',
-            width: 70,
-            dataIndex: 'age'
-          },
-          {
-            title: '身高（cm）',
+            title: '城乡类型',
             width: 100,
             align: 'center',
-            dataIndex: 'heightStr'
+            scopedSlots: { customRender: 'urbanRuralType' }
           },
           {
-            title: '体重（kg）',
+            title: '是否寄宿制',
             align: 'center',
             width: 100,
-            dataIndex: 'weightStr'
+            scopedSlots: { customRender: 'isBoardingSchool' }
           },
           {
-            title: 'BMI',
+            title: '是否分校',
+            width: 80,
+            align: 'center',
+            scopedSlots: { customRender: 'isBranchSchool' }
+          },
+          {
+            title: '是否校幼一体',
+            align: 'center',
+            width: 120,
+            scopedSlots: { customRender: 'isContainKindergarten' }
+          },
+          {
+            title: '校长',
             align: 'center',
             width: 70,
-            dataIndex: 'bmi'
+            dataIndex: 'principal'
           },
           {
-            title: '收缩压（mmHg）',
-            align: 'center',
+            title: '经度',
             width: 110,
-            dataIndex: 'systolicPressure'
+            dataIndex: 'longitude	'
           },
           {
-            title: '舒张压（mmHg）',
-            align: 'center',
+            title: '纬度',
             width: 110,
-            dataIndex: 'diastolicPressure'
+            dataIndex: 'latitude'
           },
           {
-            title: '脉搏（bpm）',
+            title: '状态',
             align: 'center',
+            fixed: 'right',
             width: 100,
-            dataIndex: 'pulseNum'
-          },
-          {
-            title: '肺活量（ml）',
-            align: 'center',
-            width: 90,
-            dataIndex: 'vc'
-          },
-          {
-            title: '左眼视力',
-            align: 'center',
-            width: 100,
-            dataIndex: 'leftVision'
-          },
-          {
-            title: '右眼视力',
-            align: 'center',
-            width: 100,
-            dataIndex: 'rightVision'
-          },
-          {
-            title: '营养情况',
-            align: 'center',
-            width: 100,
-            dataIndex: 'conclusionLevelName'
-          },
-          {
-            title: '发育情况',
-            align: 'center',
-            width: 100,
-            dataIndex: 'development'
-          },
-          {
-            title: '体型',
-            align: 'center',
-            width: 70,
-            dataIndex: 'size'
+            scopedSlots: { customRender: 'status' }
           }
-        ],
-        rowSelection: null
+        ]
       }
     }
   },
@@ -145,6 +97,34 @@ export default {
       <Table
         ref={`${this.moduleName}Table`}
         {...this.attributes}
+        {...{
+          scopedSlots: {
+            serialNumber: this.getConsecutiveSerialNumber,
+            category: (text, record) => {
+              return record.category === 1 ? <span>公办</span> : <span>民办</span>
+            },
+            urbanRuralType: (text, record) => {
+              return record.urbanRuralType === 1 ? <Tag color="green">是</Tag> : <Tag color="red">否</Tag>
+            },
+            isBoardingSchool: (text, record) => {
+              return record.isBoardingSchool === 1 ? <Tag color="green">是</Tag> : <Tag color="red">否</Tag>
+            },
+            isBranchSchool: (text, record) => {
+              return record.isBranchSchool === 1 ? <Tag color="green">是</Tag> : <Tag color="red">否</Tag>
+            },
+            isContainKindergarten: (text, record) => {
+              return record.isContainKindergarten === 1 ? <Tag color="green">是</Tag> : <Tag color="red">否</Tag>
+            },
+            status: (text, record) => {
+              return (
+                <Switch
+                  checked={record.status === 1}
+                  onChange={checked => this.onStatusChange({ checked, record })}
+                />
+              )
+            }
+          }
+        }}
       />
     )
   }
