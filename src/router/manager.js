@@ -229,7 +229,7 @@ function createConstRoutes() {
             {
               path: 'school-management',
               name: 'schoolManagement',
-              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
+              component: () => import('@/views/manager/studentProfile/SchoolManagement'),
               meta: {
                 title: '学校管理',
                 keepAlive: false,
@@ -568,7 +568,8 @@ function createConstRoutes() {
                 title: '身高体重班级对比',
                 keepAlive: false,
                 requiresAuth: true,
-                icon: () => import('@/layouts/components/TGMenu/assets/images/height-and-weight-comparison-by-class.svg')
+                icon: () =>
+                  import('@/layouts/components/TGMenu/assets/images/height-and-weight-comparison-by-class.svg')
               }
             },
             {
