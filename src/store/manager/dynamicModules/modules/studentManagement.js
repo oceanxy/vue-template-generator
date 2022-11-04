@@ -3,13 +3,6 @@ import { omit } from 'lodash'
 
 export default commitRootInModule =>
   omit(
-    createStoreModule({
-      state: {
-        yearList: {
-          loading: false,
-          list: []
-        }
-      }
-    }),
+    createStoreModule({state: {}}),
     ['state.details', 'state.visibleOfEdit', 'state.selectedRowKeys', 'state.selectedRows', 'state.currentItem']
   )

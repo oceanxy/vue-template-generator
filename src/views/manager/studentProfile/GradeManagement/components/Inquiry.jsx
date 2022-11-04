@@ -1,9 +1,24 @@
 import '../assets/styles/index.scss'
 import { Button, Form, Input, Select, Space } from 'ant-design-vue'
+import { mapGetters } from 'vuex'
 import forInquiry from '@/mixins/forInquiry'
 
 export default Form.create({})({
   mixins: [forInquiry()],
+  computed: {
+    ...mapGetters({ getState: 'getState' }),
+    yearList() {
+      return this.getState('yearList', this.moduleName)
+    }
+  },
+  async created() {
+    await this.$store.dispatch('getListForSelect', {
+      moduleName: this.moduleName,
+      stateName: 'yearList',
+      customApiName: 'getYearList'
+    })
+    console.log(this.yearList)
+  },
   render() {
     return (
       <Form
@@ -26,22 +41,28 @@ export default Form.create({})({
           </Form.Item>
           <Form.Item label="入学年份">
             {
-              this.form.getFieldDecorator('status', { initialValue: '' })(
+              this.form.getFieldDecorator('gradeYear', { initialValue: '' })(
                 <Select>
                   <Select.Option value={''}>全部</Select.Option>
-                  <Select.Option value={1}>启用</Select.Option>
-                  <Select.Option value={2}>停用</Select.Option>
+                  {
+                    this.yearList.years?.map(item => (
+                      <Select.Option value={item} >{item}</Select.Option>
+                    ))
+                  }
                 </Select>
               )
             }
           </Form.Item>
           <Form.Item label="届数">
             {
-              this.form.getFieldDecorator('status', { initialValue: '' })(
+              this.form.getFieldDecorator('gradeTh', { initialValue: '' })(
                 <Select>
                   <Select.Option value={''}>全部</Select.Option>
-                  <Select.Option value={1}>启用</Select.Option>
-                  <Select.Option value={2}>停用</Select.Option>
+                  {
+                    this.yearList.yearsTh?.map(item => (
+                      <Select.Option value={item} >{item}</Select.Option>
+                    ))
+                  }
                 </Select>
               )
             }

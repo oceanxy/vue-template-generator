@@ -251,7 +251,7 @@ function createConstRoutes() {
             {
               path: 'student-management',
               name: 'studentManagement',
-              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
+              component: () => import('@/views/manager/studentProfile/StudentManagement'),
               meta: {
                 title: '学生管理',
                 keepAlive: false,

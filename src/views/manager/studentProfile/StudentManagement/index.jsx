@@ -8,7 +8,7 @@ import dynamicState from '@/mixins/dynamicState'
 import TGContainer from '@/layouts/components/TGContainer'
 
 export default {
-  name: 'GradeManagement',
+  name: 'StudentManagement',
   mixins: [dynamicState()],
   render() {
     return (
