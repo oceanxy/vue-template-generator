@@ -13,15 +13,14 @@ export default {
   render() {
     return (
       <TGContainerWithTreeSider
-        contentClass="fe-basic-data-container"
         apiOptions={{
           apiName: 'getSchoolTree',
           stateName: 'schoolTree',
           moduleName: 'schools'
         }}
       >
-        <Functions slot="functions" />
         <TGContainer>
+          <Functions slot="functions" />
           <Inquiry slot="inquiry" />
           <Table slot="table" />
           <TGPagination slot="pagination" />

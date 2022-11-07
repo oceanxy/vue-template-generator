@@ -1,5 +1,5 @@
 import '../assets/styles/index.scss'
-import { Table, Switch } from 'ant-design-vue'
+import { Table, Tag, Button } from 'ant-design-vue'
 import forTable from '@/mixins/forTable'
 
 export default {
@@ -8,50 +8,90 @@ export default {
     return {
       tableProps: {
         columns: [
+          // {
+          //   title: '序号',
+          //   width: 60,
+          //   align: 'center',
+          //   fixed: true,
+          //   scopedSlots: { customRender: 'serialNumber' }
+          // },
           {
-            title: '序号',
+            title: '学生姓名',
+            width: 80,
+            fixed: true,
+            dataIndex: 'fullName'
+          },
+          {
+            title: '性别',
             width: 60,
             align: 'center',
-            fixed: true,
-            scopedSlots: { customRender: 'serialNumber' }
+            dataIndex: 'genderStr'
           },
           {
-            title: '年级名称',
-            width: 150,
-            fixed: true,
-            dataIndex: 'gradeName'
+            title: '身份证号',
+            width: 180,
+            dataIndex: 'idNumber'
           },
           {
-            title: '学校名称',
-            // width: 200,
+            title: '学籍号',
+            width: 180,
+            dataIndex: 'studentNumber'
+          },
+          {
+            title: '出生日期',
+            width: 100,
+            dataIndex: 'birthDateStr'
+          },
+          {
+            title: '就读学校名称',
+            width: 240,
             dataIndex: 'schoolName'
           },
           {
-            title: '入学年份',
-            dataIndex: 'gradeYear'
+            title: '班级',
+            width: 60,
+            align: 'center',
+            dataIndex: 'classNumber'
           },
           {
-            title: '届数',
-            dataIndex: 'gradeTh'
+            title: '学籍所属学校',
+            width: 240,
+            dataIndex: 'originalSchoolName'
           },
           {
-            title: '年级类型',
-            dataIndex: 'gradeTypeStr'
+            title: '戴镜',
+            width: 80,
+            align: 'center',
+            scopedSlots: { customRender: 'isWearGlasses' }
           },
           {
-            title: '班级数量',
-            dataIndex: 'classNum'
+            title: '眼镜类型',
+            width: 100,
+            dataIndex: 'glassesTypeStr'
           },
           {
-            title: '年级人数',
-            dataIndex: 'studentNum'
+            title: '左眼度数',
+            width: 80,
+            align: 'center',
+            dataIndex: 'leftGlassesValue'
           },
           {
-            title: '状态',
+            title: '右眼度数',
+            width: 80,
+            align: 'center',
+            dataIndex: 'rightGlassesValue'
+          },
+          {
+            title: '创建时间',
+            width: 160,
+            dataIndex: 'createTimeStr'
+          },
+          {
+            title: '操作',
             align: 'center',
             fixed: 'right',
             width: 100,
-            scopedSlots: { customRender: 'status' }
+            scopedSlots: { customRender: 'createQr' }
           }
         ]
       }
@@ -64,13 +104,13 @@ export default {
         {...this.attributes}
         {...{
           scopedSlots: {
-            serialNumber: this.getConsecutiveSerialNumber,
-            status: (text, record) => {
+            // serialNumber: this.getConsecutiveSerialNumber,
+            isWearGlasses: (text, record) => {
+              return record.isWearGlasses === 1 ? <Tag color="green">是</Tag> : <Tag color="red">否</Tag>
+            },
+            createQr: (text, record) => {
               return (
-                <Switch
-                  checked={record.status === 1}
-                  onChange={checked => this.onStatusChange({ checked, record })}
-                />
+                <Button type='link'>生成二维码</Button>
               )
             }
           }

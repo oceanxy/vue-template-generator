@@ -273,7 +273,7 @@ function createConstRoutes() {
             {
               path: 'setting-archive-data',
               name: 'settingArchiveData',
-              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
+              component: () => import('@/views/manager/studentProfile/SettingArchiveData'),
               meta: {
                 title: '设置存档数据',
                 keepAlive: false,
@@ -297,7 +297,7 @@ function createConstRoutes() {
             {
               path: 'project-classification',
               name: 'projectClassification',
-              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
+              component: () => import('@/views/manager/physicalExaminationConf/ProjectClassification'),
               meta: {
                 title: '体检项目分类',
                 keepAlive: false,
@@ -308,7 +308,7 @@ function createConstRoutes() {
             {
               path: 'project-management',
               name: 'projectManagement',
-              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
+              component: () => import('@/views/manager/physicalExaminationConf/ProjectManagement'),
               meta: {
                 title: '体检项目管理',
                 keepAlive: false,
@@ -319,7 +319,7 @@ function createConstRoutes() {
             {
               path: 'activity-management',
               name: 'activityManagement',
-              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
+              component: () => import('@/views/manager/physicalExaminationConf/ActivityManagement'),
               meta: {
                 title: '体检活动管理',
                 keepAlive: false,
@@ -330,7 +330,7 @@ function createConstRoutes() {
             {
               path: 'conclusion-level',
               name: 'conclusionLevel',
-              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
+              component: () => import('@/views/manager/physicalExaminationConf/ConclusionLevel'),
               meta: {
                 title: '体检项目结论等级',
                 keepAlive: false,

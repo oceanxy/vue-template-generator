@@ -9,7 +9,7 @@ export default Form.create({})({
 
   },
   created() {
-
+    // console.log(this.)
   },
   render() {
     return (

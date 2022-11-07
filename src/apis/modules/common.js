@@ -20,5 +20,16 @@ export default {
       url: '/personnel/school/getStreetTree',
       method: 'post'
     })
+  },
+  /**
+   * 获取学校街道树
+   * @param request
+   * @returns {*}
+   */
+  getExamineCatalogTree(request) {
+    return request({
+      url: '/examine/examineCatalog/getExamineCatalogTree',
+      method: 'post'
+    })
   }
 }

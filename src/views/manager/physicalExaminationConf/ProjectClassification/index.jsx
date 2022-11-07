@@ -8,19 +8,19 @@ import dynamicState from '@/mixins/dynamicState'
 import TGContainer from '@/layouts/components/TGContainer'
 
 export default {
-  name: 'SchoolManagement',
+  name: 'ProjectClassification',
   mixins: [dynamicState()],
   render() {
     return (
       <TGContainerWithTreeSider
         apiOptions={{
-          apiName: 'getStreetTree',
-          stateName: 'streetTree',
-          moduleName: 'street'
+          apiName: 'getExamineCatalogTree',
+          stateName: 'examineCatalogTree',
+          moduleName: 'physical'
         }}
       >
+        <Functions slot="functions" />
         <TGContainer>
-          <Functions slot="functions" />
           <Inquiry slot="inquiry" />
           <Table slot="table" />
           <TGPagination slot="pagination" />

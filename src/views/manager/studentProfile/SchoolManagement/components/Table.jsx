@@ -23,12 +23,12 @@ export default {
           },
           {
             title: '学校简称',
-            width: 150,
+            width: 280,
             dataIndex: 'shortName'
           },
           {
             title: '街道',
-            width: 150,
+            width: 250,
             dataIndex: 'streetName'
           },
           {
@@ -38,7 +38,8 @@ export default {
           },
           {
             title: '办别',
-            width: 70,
+            align: 'center',
+            width: 100,
             scopedSlots: { customRender: 'category' }
           },
           {
@@ -55,7 +56,7 @@ export default {
           },
           {
             title: '是否分校',
-            width: 80,
+            width: 120,
             align: 'center',
             scopedSlots: { customRender: 'isBranchSchool' }
           },
@@ -68,7 +69,7 @@ export default {
           {
             title: '校长',
             align: 'center',
-            width: 70,
+            width: 100,
             dataIndex: 'principal'
           },
           {
