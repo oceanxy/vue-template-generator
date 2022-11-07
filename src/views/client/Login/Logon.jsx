@@ -2,7 +2,7 @@
  * 企业注册
  */
 
-import BNContainer from '@/components/TGContainer'
+import BNContainer from '@/components/TGModule'
 import LogonForm from './components/LogonForm'
 import './assets/styles/index.scss'
 

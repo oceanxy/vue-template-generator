@@ -14,8 +14,8 @@ export default {
    * @param [isFetchList=true] {boolean} 是否触发页面列表数据更新的请求，默认true
    * @param [isResetSelectedRows] {Boolean} 是否在成功执行后重置对应 store 内 selectedRows，默认false。一般在批量操作时使用
    * @param payload {Object} 数据列表的常驻查询对象，一般定义在Inquiry组件中
-   * @param additionalQueryParameters {Object} 需要传递给查询(获取列表数据)的附加参数
-   *    （不在查询表单内，额外的附加查询参数，单独传是防止被下次setSearch时覆盖， 例如其他页面跳转过来时携带的参数：id）
+   * @param additionalQueryParameters {Object} 需要传递给查询(获取列表数据)的附加参数。
+   *  （额外附加查询参数，例如其他页面跳转过来时携带的参数 id 等非本页固有的查询参数）
    */
   async setSearch({
     state,
@@ -71,7 +71,7 @@ export default {
    * @param commit
    * @param moduleName {string} 模块名
    * @param [submoduleName] {string} 子模块名
-   * @param [additionalQueryParameters] {Object} 附加查询参数。例如分页相关参数，中心ID等。
+   * @param [additionalQueryParameters] {Object} 附加查询参数。例如分页相关参数，ID等。
    * @param [stateName] {string} 需要设置的字段，默认 state.list
    * @param [customApiName] {string} 自定义请求api的名字
    * @param [merge] {boolean} 是否合并数据，默认false，主要用于“加载更多”功能
@@ -450,7 +450,7 @@ export default {
       customizeLoading: stateName
     })
 
-    return response.status
+    return true
   },
   /**
    * 更新状态
@@ -562,7 +562,7 @@ export default {
     return response.status
   },
   /**
-   * 导出xlsx
+   * 导出
    * @param state
    * @param moduleName {string}
    * @param submoduleName {string}
@@ -570,16 +570,17 @@ export default {
    * @param fileName {string} 不包含后缀名
    * @returns {Promise<*>}
    */
-  async downExcel({ state }, {
+  async export({ state }, {
     moduleName,
     submoduleName,
     queryParameters,
     fileName
   }) {
-    let api = 'getExcel'
+    let api = 'export'
+    const targetModuleName = state[moduleName][submoduleName] ?? state[moduleName]
 
     if (!config.mock) {
-      api = `getExcelOf${submoduleName ? `${
+      api = `export${submoduleName ? `${
         UF.firstLetterToUppercase(submoduleName)}Of` : ''
       }${
         UF.firstLetterToUppercase(moduleName)
@@ -588,11 +589,11 @@ export default {
 
     const params = cloneDeep(queryParameters)
 
-    if (state.common.currentParkTreeKeySelected) {
-      params.treeId = state.common.currentParkTreeKeySelected
-    }
+    const buffer = await apis[api]({
+      ...targetModuleName.search,
+      ...params
+    })
 
-    const buffer = await apis[api](params)
     const blob = new Blob([buffer])
 
     UF.downFile(blob, `${fileName}.xlsx`)

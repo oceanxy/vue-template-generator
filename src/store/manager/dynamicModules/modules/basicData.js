@@ -3,7 +3,12 @@ import { omit } from 'lodash'
 
 export default commitRootInModule => omit(createStoreModule({
   state: {
+    visibleOfExportWithTree: false,
     activities: {
+      list: [],
+      loading: false
+    },
+    organizations: {
       list: [],
       loading: false
     }

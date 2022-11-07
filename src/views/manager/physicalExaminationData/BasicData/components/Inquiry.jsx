@@ -1,5 +1,5 @@
 import '../assets/styles/index.scss'
-import { Button, Form, Icon, Input, InputNumber, Select, Space } from 'ant-design-vue'
+import { Button, Empty, Form, Icon, Input, InputNumber, Select, Space, Spin } from 'ant-design-vue'
 import forInquiry from '@/mixins/forInquiry'
 import ICON from '../assets/images/icon-mark.svg'
 
@@ -16,17 +16,23 @@ export default Form.create({})({
         <div class={'row-up'}>
           <Icon class={'icon'} component={ICON} />
           <Form.Item class={'activity'}>
-            {
-              this.form.getFieldDecorator('activityId', { initialValue: this.activities.list[0]?.id ?? undefined })(
-                <Select suffixIcon={<Icon type="caret-down" />}>
-                  {
-                    this.activities.list.map(item => (
-                      <Select.Option value={item.id}>{item.activityName}</Select.Option>
-                    ))
-                  }
-                </Select>
-              )
-            }
+            <Spin spinning={this.activities.loading}>
+              {
+                this.form.getFieldDecorator('activityId', { initialValue: this.activities.list[0]?.id ?? undefined })(
+                  <Select
+                    suffixIcon={<Icon type="caret-down" />}
+                    notFoundContent={<Empty />}
+                    onChange={this.onActivityChange}
+                  >
+                    {
+                      this.activities.list.map(item => (
+                        <Select.Option value={item.id}>{item.activityName}</Select.Option>
+                      ))
+                    }
+                  </Select>
+                )
+              }
+            </Spin>
           </Form.Item>
           <Space class={'btn-group'}>
             <Button
@@ -44,8 +50,17 @@ export default Form.create({})({
           <Form.Item label="组织">
             {
               this.form.getFieldDecorator('activityOrgId', { initialValue: '' })(
-                <Select>
-                  <Select.Option value={''}>全部</Select.Option>
+                <Select notFoundContent={this.organizations.loading ? <Spin /> : undefined}>
+                  {
+                    [
+                      <Select.Option value={''}>全部</Select.Option>,
+                      ...this.organizations.list.map(item => (
+                        <Select.Option value={item.id} title={item.activityName}>
+                          {item.activityName}
+                        </Select.Option>
+                      ))
+                    ]
+                  }
                 </Select>
               )
             }
@@ -70,7 +85,8 @@ export default Form.create({})({
                 </Select>
               )
             }
-          </Form.Item> <Form.Item label={'班级'}>
+          </Form.Item>
+          <Form.Item label={'班级'}>
             {
               this.form.getFieldDecorator('classNumber', { initialValue: '' })(
                 <InputNumber

@@ -1,9 +1,20 @@
 import '../assets/styles/index.scss'
+import TGBreadcrumb from '@/layouts/components/TGBreadcrumb'
 
 export default {
   render() {
     return (
       <div class="tg-container">
+        {
+          !this.$route.meta.hideBreadCrumb || this.$slots.functions
+            ? (
+              <div class={'tg-content-title'}>
+                {this.$route.meta.hideBreadCrumb ? null : <TGBreadcrumb mode={'onlyLast'} />}
+                {this.$slots.functions}
+              </div>
+            )
+            : null
+        }
         <div class="tg-container-content">
           {this.$slots.inquiry || this.$slots.others}
           <div class={'tg-container-table-container'}>

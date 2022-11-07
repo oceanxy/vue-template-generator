@@ -1,6 +1,6 @@
 import './assets/styles/index.scss'
 import { Icon, Tag } from 'ant-design-vue'
-import BNContainer from '@/components/TGContainer'
+import BNContainer from '@/components/TGModule'
 import TGContainerWithSider from '@/components/TGContainerWithSider'
 import dynamicState from '@/mixins/dynamicState'
 import { mapAction, mapState } from '@/utils/store'

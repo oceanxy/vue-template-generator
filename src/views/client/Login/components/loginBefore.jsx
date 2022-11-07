@@ -4,7 +4,7 @@
 
 import '../assets/styles/index.scss'
 import { Button } from 'ant-design-vue'
-import BNContainer from '@/components/TGContainer'
+import BNContainer from '@/components/TGModule'
 
 export default {
   name: 'Login',

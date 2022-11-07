@@ -6,19 +6,27 @@
  */
 
 import { mapGetters } from 'vuex'
-import { message, Modal } from 'ant-design-vue'
+import { message, Modal, Table } from 'ant-design-vue'
 import forIndex from '@/mixins/forIndex'
 import { omit } from 'lodash'
 
 /**
  * 用于 table 的混合
- * @param [isInject] {boolean} 是否从 inject 导入 moduleName
- * @param [isFetchList] {boolean} 是否初始获取列表
+ * @param [isInject=true] {boolean} 是否从 inject 导入 moduleName，默认 true
+ * @param [isFetchList=true] {boolean} 是否在组件初始化完成后立即获取列表数据，默认 true
  * @returns {Object}
  */
-export default (isInject = true, isFetchList = true) => {
+export default ({
+  isInject = true,
+  isFetchList = true
+} = {}) => {
   const forTable = {
     mixins: [forIndex],
+    inject: {
+      // 通知组件在初始化阶段是否自动请求数据。
+      // 来自于 @/components/TGContainerWithTreeSider 组件。
+      notInitList: { default: false }
+    },
     data() {
       return {
         tableProps: {
@@ -36,8 +44,12 @@ export default (isInject = true, isFetchList = true) => {
           pagination: false,
           scroll: {}, // 注意：此属性不要手动设置，在this.resize方法内已经自动分配
           size: 'middle',
-          bordered: true
+          bordered: true,
+          rowClassName(record, index) {
+            return index % 2 === 1 ? 'table-row-background' : ''
+          }
         },
+        scopedSlots: { serialNumber: this.getConsecutiveSerialNumber },
         exportButtonDisabled: false
       }
     },
@@ -114,10 +126,11 @@ export default (isInject = true, isFetchList = true) => {
           }
         )
 
-        if (isFetchList) {
+        if (isFetchList && !this.notInitList) {
           await this.fetchList()
         }
       } else {
+        // 判断是否是弹窗内的子模块列表
         if (this.visibleField) {
           this.$watch(
             () => this.$store.state[this.moduleName][this.visibleField],
@@ -323,7 +336,7 @@ export default (isInject = true, isFetchList = true) => {
         })
         this.exportButtonDisabled = true
 
-        await this.$store.dispatch('downExcel', {
+        await this.$store.dispatch('export', {
           moduleName: this.moduleName,
           submoduleName: this.submoduleName,
           queryParameters: payload,
@@ -389,19 +402,29 @@ export default (isInject = true, isFetchList = true) => {
 
             // 这里配合了css的flex布局实现
             if (HTML_TABLE_HEIGHT > TABLE_CONTAINER_HEIGHT) {
-              scroll.y = TABLE_CONTAINER_HEIGHT - HEADER_HEIGHT - FOOTER_HEIGHT
+              // 多减去1像素是为了消除 '.ant-table-header.ant-table-hide-scrollbar' 元素上设置的 'margin: -6px;' 对布局的影响
+              scroll.y = TABLE_CONTAINER_HEIGHT - HEADER_HEIGHT - FOOTER_HEIGHT - 1
             }
 
             this.tableProps.scroll = scroll
           })
         }
       }
+    },
+    render() {
+      return (
+        <Table
+          ref={`${this.moduleName}Table`}
+          {...this.attributes}
+          {...{ scopedSlots: this.scopedSlots }}
+        />
+      )
     }
   }
 
   if (isInject) {
-    forTable.inject = ['moduleName']
     forTable.inject = {
+      ...forTable.inject,
       // 模块名（页面组件使用 dynamicState 混合后会自动 provide 该属性）
       moduleName: { default: undefined },
       // 获取本组件的ref，依赖 moduleName（从 /src/components/BNContainerWithSider 注入的函数）

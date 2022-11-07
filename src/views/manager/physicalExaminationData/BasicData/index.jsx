@@ -13,15 +13,27 @@ export default {
   render() {
     return (
       <TGContainerWithTreeSider
+        notNoneMode
         contentClass="fe-basic-data-container"
+        getTreeIdField={treeHierarchy => {
+          switch (treeHierarchy) {
+            case 3:
+              return 'peObjOrgId'
+            case 2:
+              return 'schoolStreetId'
+            case 1:
+            default:
+              return 'schoolCountyId'
+          }
+        }}
         apiOptions={{
           apiName: 'getSchoolTree',
           stateName: 'schoolTree',
           moduleName: 'schools'
         }}
       >
-        <Functions slot="functions" />
         <TGContainer>
+          <Functions slot="functions" />
           <Inquiry slot="inquiry" />
           <Table slot="table" />
           <TGPagination slot="pagination" />

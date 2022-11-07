@@ -295,6 +295,7 @@ body {
 
 .ant-table-wrapper {
   flex: auto;
+  overflow: hidden;
 
   .tg-table-field-highlight {
     color: #13c2c2;
@@ -319,14 +320,27 @@ body {
 }
 
 .ant-table {
+  .table-row-background {
+    background-color: #f9f9fb;
+  }
+
+  .ant-table-thead > tr.ant-table-row-hover:not(.ant-table-expanded-row):not(.ant-table-row-selected) > td,
+  .ant-table-tbody > tr.ant-table-row-hover:not(.ant-table-expanded-row):not(.ant-table-row-selected) > td,
+  .ant-table-thead > tr:hover:not(.ant-table-expanded-row):not(.ant-table-row-selected) > td,
+  .ant-table-tbody > tr:hover:not(.ant-table-expanded-row):not(.ant-table-row-selected) > td {
+    background-color: #edfcf2;
+  }
+
   .ant-table-thead > tr > th {
     border: none;
     background: none;
+    color: #5d6b98;
+    font-weight: bolder;
   }
 
   .ant-table-header,
   .ant-table-thead {
-    background: #f2f7fc !important;
+    background: #f9f9fb !important;
   }
 
   .ant-table-header,

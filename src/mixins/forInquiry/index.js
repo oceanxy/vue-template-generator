@@ -7,26 +7,16 @@
 
 import { omit } from 'lodash'
 import moment from 'moment'
-import activities from '@/apis/modules/manager/activities'
-import { mapGetters } from 'vuex'
+import forInquiryAboutActivity from '@/mixins/forInquiry/forInquiryAboutActivity'
 
 /**
  * 混合：表格搜索
- * @param plate {'activities' || ''} 板块名，本项目会根据版块名去请求指定的接口
+ * @param plate {'activities' || ''} 板块名，本混合会根据特定的版块名去混入特定的逻辑
  * @returns {Object}
  */
 export default ({ plate = '' } = {}) => {
   const forInquiry = {
     inject: ['moduleName'],
-    async created() {
-      if (plate === 'activities') {
-        await this.$store.dispatch('getListForSelect', {
-          moduleName: this.moduleName,
-          stateName: 'activities',
-          customApiName: 'getActivitiesForSelect'
-        })
-      }
-    },
     methods: {
       /**
        * 此函数值保留一些高频共用类参数的处理
@@ -102,12 +92,10 @@ export default ({ plate = '' } = {}) => {
   }
 
   if (plate === 'activities') {
-    forInquiry.computed = {
-      ...mapGetters({ getState: 'getState' }),
-      activities() {
-        return this.getState('activities', this.moduleName)
-      }
-    }
+    forInquiry.mixins = [
+      ...(forInquiry?.mixins ?? []),
+      forInquiryAboutActivity()
+    ]
   }
 
   return forInquiry

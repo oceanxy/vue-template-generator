@@ -1,5 +1,5 @@
 import { Button, Col, Form, Input, message, Row } from 'ant-design-vue'
-import BNContainer from '@/components/TGContainer'
+import BNContainer from '@/components/TGModule'
 import Upload from '@/components/BNUploadPictures'
 import apis from '@/apis'
 

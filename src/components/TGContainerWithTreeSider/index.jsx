@@ -2,7 +2,6 @@ import './assets/styles/index.scss'
 import { mapGetters } from 'vuex'
 import { Empty, Icon, Input, Spin, Tree } from 'ant-design-vue'
 import TGContainerWithSider from '@/components/TGContainerWithSider'
-import TGBreadcrumb from '@/layouts/components/TGBreadcrumb'
 import ICON_TREE_DISTRICT from './assets/images/tree-district.svg'
 import ICON_TREE_STREET from './assets/images/tree-street.svg'
 import ICON_TREE_SCHOOL from './assets/images/tree-school.svg'
@@ -26,13 +25,6 @@ export default {
       required: true
     },
     /**
-     * 传给侧边栏树所在页面的列表的查询参数，默认：“treeId”
-     */
-    treeIdField: {
-      type: String,
-      default: 'treeId'
-    },
-    /**
      * 默认展开的树节点ID
      * 初始值为：children[0].id 和 children[0].children[0].id
      */
@@ -47,6 +39,13 @@ export default {
     notNoneMode: {
       type: Boolean,
       default: false
+    },
+    /**
+     * 选中树后用于搜索的字段名，默认 'treeId'
+     */
+    getTreeIdField: {
+      type: Function,
+      default: () => 'treeId'
     }
   },
   data() {
@@ -54,13 +53,19 @@ export default {
       tableRef: undefined,
       searchValue: '',
       treeDataSource: [],
-      manualExpandedKeys: []
+      manualExpandedKeys: [],
+      // 上一次设置的用于保存树选中值的字段名
+      // （通常用于 this.treeIdField 会发生变化的时候。如点击树的不同层级，传递的字段名不一样的情况）
+      oldTreeIdField: ''
     }
   },
   computed: {
     ...mapGetters({ getState: 'getState' }),
     dataSource() {
       return this.getState(this.apiOptions.stateName, this.apiOptions.moduleName)
+    },
+    treeIdField() {
+      return this.getState('treeIdField', this.moduleName)
     },
     treeId() {
       return [this.getState('search', this.moduleName)[this.treeIdField]]
@@ -93,7 +98,13 @@ export default {
     return {
       getRefOfChild: ref => {
         this.tableRef = ref
-      }
+      },
+      /**
+       * 通知下层组件在初始化阶段是否自动请求数据。
+       *  默认 false：本组件不控制下层组件创建阶段的数据请求
+       *  true：下层组件在初始化阶段不请求数据
+       */
+      notInitList: this.notNoneMode
     }
   },
   watch: {
@@ -117,7 +128,17 @@ export default {
     })
 
     if (status && this.notNoneMode) {
-      this.$store.commit('setSearch', {
+      const treeIdField = this.getTreeIdField(1)
+
+      this.$store.commit('setState', {
+        value: treeIdField,
+        moduleName: this.moduleName,
+        stateName: 'treeIdField'
+      })
+
+      this.oldTreeIdField = treeIdField
+
+      await this.$store.dispatch('setSearch', {
         payload: { [this.treeIdField]: this.dataSource.list?.[0]?.id },
         moduleName: this.moduleName
       })
@@ -146,12 +167,30 @@ export default {
     /**
      * antd vue Tree 组件的 select 事件回调
      * @param selectedKeys {array} 当前选中的 keys
-     * @param selected {boolean} 当前是否有被选中的结点
+     * @param e {Object} 当前是否有被选中的结点
      */
-    async onSelect(selectedKeys, { selected }) {
+    async onSelect(selectedKeys, e) {
       const payload = {}
+      const treeIdField = this.getTreeIdField(e.node.pos.split('-').length - 1)
 
-      if (selected) {
+      if (this.oldTreeIdField !== treeIdField) {
+        // 清空search内上一次树操作的键与值
+        this.$store.commit('setSearch', {
+          payload: { [this.oldTreeIdField]: undefined },
+          moduleName: this.moduleName
+        })
+
+        // 更新对应 store 模块内 treeIdField 字段的值
+        this.$store.commit('setState', {
+          value: treeIdField,
+          moduleName: this.moduleName,
+          stateName: 'treeIdField'
+        })
+
+        this.oldTreeIdField = treeIdField
+      }
+
+      if (e.selected) {
         payload[this.treeIdField] = selectedKeys[0]
       } else {
         payload[this.treeIdField] = this.notNoneMode ? this.dataSource.list?.[0]?.id : ''
@@ -185,19 +224,7 @@ export default {
         showSiderTrigger
         onSidebarSwitch={this.onSidebarSwitch}
       >
-        <template slot="default">
-          {
-            !this.$route.meta.hideBreadCrumb || this.$slots.functions
-              ? (
-                <div class={'tg-content-title'}>
-                  {this.$route.meta.hideBreadCrumb ? null : <TGBreadcrumb mode={'onlyLast'} />}
-                  {this.$slots.functions}
-                </div>
-              )
-              : null
-          }
-          {this.$slots.default}
-        </template>
+        {this.$slots.default}
         <div slot={'sider'} class="fe-tree-data">
           <Input
             prefix={<Icon type={'search'} style={{ fontSize: '16px' }} />}

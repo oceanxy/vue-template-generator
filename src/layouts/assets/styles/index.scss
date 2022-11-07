@@ -1,11 +1,21 @@
 .tg-container {
+  display: flex;
+  flex-direction: column;
   height: 0;
   flex: auto;
 
-  .tg-container-content {
+  & > .tg-content-title {
+    flex: none;
+    display: flex;
+    border-bottom: 1px solid #e8e8e8;
+    box-sizing: border-box;
+  }
+
+  & > .tg-container-content {
+    flex: auto;
+    height: 0;
     display: flex;
     flex-direction: column;
-    height: 100%;
 
     & > *:not(.tg-container-table-container) {
       flex: none;

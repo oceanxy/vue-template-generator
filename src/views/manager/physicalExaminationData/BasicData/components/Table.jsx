@@ -1,16 +1,15 @@
 import '../assets/styles/index.scss'
-import { Table } from 'ant-design-vue'
 import forTable from '@/mixins/forTable'
 
 export default {
-  mixins: [forTable()],
+  mixins: [forTable({ isFetchList: false })],
   data() {
     return {
       tableProps: {
         columns: [
           {
             title: '序号',
-            width: 60,
+            width: 70,
             align: 'center',
             fixed: true,
             scopedSlots: { customRender: 'serialNumber' }
@@ -139,13 +138,5 @@ export default {
         rowSelection: null
       }
     }
-  },
-  render() {
-    return (
-      <Table
-        ref={`${this.moduleName}Table`}
-        {...this.attributes}
-      />
-    )
   }
 }

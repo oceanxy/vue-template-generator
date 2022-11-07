@@ -3,7 +3,7 @@
  */
 
 import './assets/styles/index.scss'
-import BNContainer from '@/components/TGContainer'
+import BNContainer from '@/components/TGModule'
 import apis from '@/apis'
 
 export default {

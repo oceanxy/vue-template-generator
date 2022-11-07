@@ -1,5 +1,5 @@
 import '../../assets/styles/index.scss'
-import BNContainer from '@/components/TGContainer'
+import BNContainer from '@/components/TGModule'
 import { Progress } from 'ant-design-vue'
 
 export default {

@@ -1,6 +1,6 @@
 import './index.scss'
 import { Calendar } from 'ant-design-vue'
-import BNContainer from '@/components/TGContainer'
+import BNContainer from '@/components/TGModule'
 import moment from 'moment'
 
 export default {

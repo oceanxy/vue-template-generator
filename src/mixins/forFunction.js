@@ -12,19 +12,14 @@ import { message } from 'ant-design-vue'
 
 /**
  * 为表格功能按钮生成 mixin
- * @param [cb] {function} 用于控制按钮禁用权限的回调函数，接收一个参数：当前选中行数组。返回一个对象，对象的键为控制禁用权限的字段名，对象的值为布尔值。
- * 默认不传，相当于至少勾选了一行列表即解除禁用
+ * @param [cb] {function} 用于控制按钮禁用权限的回调函数，接收一个参数。
+ *  当前选中行数组。返回一个对象，对象的键为控制禁用权限的字段名，对象的值为布尔值。
+ *  默认不传，相当于至少勾选了一行列表即解除禁用。
  * @returns {Object}
  */
 export default cb => ({
   inject: ['moduleName'],
   mixins: [forIndex],
-  props: {
-    search: {
-      type: Object,
-      default: () => ({})
-    }
-  },
   data() {
     return {
       editButtonDisabled: true,
@@ -141,13 +136,13 @@ export default cb => ({
         content: '正在导出，请稍候...',
         duration: 0
       })
+
       this.exportButtonDisabled = true
 
-      await this.$store.dispatch('downExcel', {
+      await this.$store.dispatch('export', {
         moduleName: this.moduleName,
         queryParameters: {
           ...this.$route.query,
-          ...this.search,
           ...payload
         },
         fileName

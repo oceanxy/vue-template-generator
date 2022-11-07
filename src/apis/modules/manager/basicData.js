@@ -13,5 +13,19 @@ export default {
       method: 'post',
       data: qs.stringify(data)
     })
+  },
+  /**
+   * 导出体检基础数据
+   * @param request
+   * @param params
+   * @returns {*}
+   */
+  exportBasicData(request, params) {
+    return request({
+      url: '/examine/examineInfo/exportDataExcel',
+      method: 'get',
+      params,
+      responseType: 'blob'
+    })
   }
 }
