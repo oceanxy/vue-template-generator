@@ -246,20 +246,20 @@ export default {
                     this.treeDataSource.map(item => (
                       <Tree.TreeNode
                         key={item.id}
-                        title={`${item.name}（${item.children.length})`}
+                        title={`${item.name}（${item?.children?.length})`}
                       >
                         <Icon slot={'icon'} class={'icon'} component={ICON_TREE_DISTRICT} />
                         <div slot={'title'}>{item.name}</div>
                         {
-                          item.children?.map(subItem => (
+                          item?.children?.map(subItem => (
                             <Tree.TreeNode
                               key={subItem.id}
-                              title={`${subItem.name}（${subItem.children.length})`}
+                              title={`${subItem.name}${subItem.children ? `(${subItem.children.length})` : ''}`}
                             >
                               <Icon slot={'icon'} class={'icon'} component={ICON_TREE_STREET} />
                               <div slot={'title'}>{subItem.name}</div>
                               {
-                                subItem.children?.map(leafItem => (
+                                subItem?.children?.map(leafItem => (
                                   <Tree.TreeNode key={leafItem.id}>
                                     <Icon slot={'icon'} class={'icon'} component={ICON_TREE_SCHOOL} />
                                     {
