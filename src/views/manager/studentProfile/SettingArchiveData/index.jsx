@@ -11,7 +11,7 @@ export default {
   mixins: [dynamicState()],
   render() {
     return (
-      <TGContainer class={'fe-setting-archiveData-container'}>
+      <TGContainer class={'tg-container-bg-white'}>
         <Functions slot="functions" />
         <Inquiry slot="inquiry" />
         <Table slot="table" />

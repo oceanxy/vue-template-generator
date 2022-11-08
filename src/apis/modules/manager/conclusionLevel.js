@@ -2,7 +2,7 @@ import qs from 'qs'
 
 export default {
   /**
-   * 体检配置-体检活动管理-获取分类分页集合
+   * 体检配置-结论等级管理-获取分类分页集合
    * @param [request]
    * @param data
    * @returns {*}
@@ -16,7 +16,7 @@ export default {
   },
 
   /**
-   * 修改体检项
+   * 修改结论等级
    * @param request
    * @param data
    * @returns {*}
@@ -30,7 +30,7 @@ export default {
   },
 
   /**
-   * 新增体检项
+   * 新增结论等级
    * @param request
    * @param data
    * @returns {*}
@@ -44,7 +44,7 @@ export default {
   },
 
   /**
-   * 删除体检项
+   * 删除结论等级
    * @param request
    * @param data
    * @returns {*}

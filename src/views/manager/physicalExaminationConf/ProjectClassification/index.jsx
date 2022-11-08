@@ -19,8 +19,8 @@ export default {
           moduleName: 'physical'
         }}
       >
-        <Functions slot="functions" />
         <TGContainer>
+          <Functions slot="functions" />
           <Inquiry slot="inquiry" />
           <Table slot="table" />
           <TGPagination slot="pagination" />
