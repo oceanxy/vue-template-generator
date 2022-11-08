@@ -69,6 +69,7 @@ export default {
       totalPage: 10, // 总页数	integer(int64)
       'rows|10': [
         {
+          name: '@ctitle(4,10)', // 名称	string
           fullName: '@ctitle(4,10)', // 名称	string
           collectType: '@integer(1,2)', // 采集类型（1、全量采集，默认；2、可视化埋点）	string
           collectTypeStr: '', // 采集类型文本	string

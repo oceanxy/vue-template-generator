@@ -6,6 +6,7 @@ import Inquiry from './components/Inquiry'
 import TGPagination from '@/components/TGPagination'
 import dynamicState from '@/mixins/dynamicState'
 import TGContainer from '@/layouts/components/TGContainer'
+import ModalOfExportByTime from '@/views/manager/physicalExaminationData/BasicData/components/ModalOfExportByTime'
 
 export default {
   name: 'BasicData',
@@ -37,6 +38,9 @@ export default {
           <Inquiry slot="inquiry" />
           <Table slot="table" />
           <TGPagination slot="pagination" />
+          <template slot={'modals'}>
+            <ModalOfExportByTime modalTitle={'按时间导出'} />
+          </template>
         </TGContainer>
       </TGContainerWithTreeSider>
     )

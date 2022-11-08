@@ -339,7 +339,7 @@ export default ({
         await this.$store.dispatch('export', {
           moduleName: this.moduleName,
           submoduleName: this.submoduleName,
-          queryParameters: payload,
+          additionalQueryParameters: payload,
           fileName: fileName
         })
 

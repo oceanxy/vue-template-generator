@@ -313,10 +313,9 @@ export default {
    * @param customApiName {string} 自定义请求API
    * @param [isResetSelectedRows] {Boolean} 是否在成功执行后重置对应 store 内 selectedRows，默认false。一般在批量操作时使用
    * @param [stateName] {string} 用于接收接口返回值的 state 字段名称，在相应模块的 store.state 内定义
-   * @param [closeModalAfterFetched=true] {boolean} 成功执行操作后是否关闭弹窗，默认true。不在弹窗内调用时，请始终传递 false
-   * @param [moduleName] {string} 模块名。依赖 closeModalAfterFetched 或 isFetchList
-   * @param [submoduleName] {string} 子级模块名。依赖 closeModalAfterFetched 或 isFetchList
-   * @param [visibleField] {string} 控制弹窗的字段，依赖 closeModalAfterFetched
+   * @param [moduleName] {string} 模块名
+   * @param [submoduleName] {string} 子级模块名
+   * @param [visibleField] {string} 成功执行操作后要关闭的弹窗的控制字段（定义在对应模块的 store.state 内）
    * @param [isFetchList] {boolean} 是否在成功提交后刷新本模块列表，默认false
    * @param parametersOfGetListAction {...{
    *  additionalQueryParameters: {};
@@ -334,7 +333,6 @@ export default {
     customApiName,
     isResetSelectedRows,
     stateName,
-    closeModalAfterFetched = true,
     moduleName,
     submoduleName,
     visibleField,
@@ -344,7 +342,7 @@ export default {
     const response = await apis[customApiName](payload)
 
     if (response.status) {
-      if (closeModalAfterFetched) {
+      if (visibleField) {
         dispatch('setModalVisible', {
           statusField: visibleField,
           statusValue: false,
@@ -564,39 +562,54 @@ export default {
   /**
    * 导出
    * @param state
+   * @param dispatch
    * @param moduleName {string}
    * @param submoduleName {string}
-   * @param queryParameters {Object} 参数。不从store.state直接获取，因为state.search对象在未点击搜索按钮之前是没有值的
+   * @param payload {Object} 参数。不从 store.state.search 直接获取，因为 store.state.search 对象在未点击搜索按钮之前是没有值的
+   * @param additionalQueryParameters {Object} 附加参数。例如其他页面跳转带过来的参数
    * @param fileName {string} 不包含后缀名
+   * @param [customApiName] {string} 自定义请求api的名字
+   * @param [visibleField] {string} 成功导出后要关闭的弹窗的控制字段（定义在对应模块的 store.state 内）
    * @returns {Promise<*>}
    */
-  async export({ state }, {
+  async export({ state, dispatch }, {
     moduleName,
     submoduleName,
-    queryParameters,
-    fileName
+    payload,
+    additionalQueryParameters,
+    fileName,
+    customApiName,
+    visibleField
   }) {
     let api = 'export'
     const targetModuleName = state[moduleName][submoduleName] ?? state[moduleName]
 
     if (!config.mock) {
-      api = `export${submoduleName ? `${
-        UF.firstLetterToUppercase(submoduleName)}Of` : ''
-      }${
-        UF.firstLetterToUppercase(moduleName)
-      }`
+      if (customApiName) {
+        api = customApiName
+      } else {
+        api = `export${submoduleName ? `${
+          UF.firstLetterToUppercase(submoduleName)}Of` : ''
+        }${
+          UF.firstLetterToUppercase(moduleName)
+        }`
+      }
     }
 
-    const params = cloneDeep(queryParameters)
-
-    const buffer = await apis[api]({
-      ...targetModuleName.search,
-      ...params
-    })
-
+    const params = cloneDeep({ ...additionalQueryParameters, ...payload })
+    const buffer = await apis[api]({ ...targetModuleName.search, ...params })
     const blob = new Blob([buffer])
 
     UF.downFile(blob, `${fileName}.xlsx`)
+
+    if (visibleField) {
+      dispatch('setModalVisible', {
+        statusField: visibleField,
+        statusValue: false,
+        moduleName,
+        submoduleName
+      })
+    }
 
     return buffer
   },

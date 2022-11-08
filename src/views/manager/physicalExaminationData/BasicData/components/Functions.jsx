@@ -31,7 +31,7 @@ export default {
           导出
         </Button>
         <Button
-          onClick={() => this.onExport('体检基础数据（按时间导出）')}
+          onClick={() => this._setVisibleOfModal({}, 'visibleOfExportByTime')}
           icon="delete"
           disabled={this.exportButtonDisabled}
         >

@@ -67,8 +67,8 @@ export default () => {
         }
 
         if ('dateRange' in temp) {
-          temp.startTime = moment(temp.dateRange[0]).format('YYYYMMDDHHmm')
-          temp.endTime = moment(temp.dateRange[1]).format('YYYYMMDDHHmm')
+          temp.startTime = moment(temp.dateRange[0]).format('YYYYMMDD')
+          temp.endTime = moment(temp.dateRange[1]).format('YYYYMMDD')
 
           temp = omit(temp, 'dateRange')
         }
@@ -96,6 +96,8 @@ export default () => {
        * @param [isFetchList=true] {boolean} 是否在成功提交表单后刷新对应的列表，默认 true
        * @param [isResetSelectedRows] {boolean} 是否在成功提交表单后重置列表的选中行数据，默认 false
        * @param [customApiName] {string} 自定义请求API
+       * @param [customAction='custom'] {string} 自定义请求 action。默认 'custom'，依赖 customApiName。
+       *  (action 列表请在 /src/store/actions.js 内查看)
        * @param [customValidation] {() => boolean} 自定义验证函数
        * @param [customDataHandler] {(values) => Object} 自定义参数处理
        * @param [done] {() => void} 提交成功后的回调函数
@@ -104,6 +106,7 @@ export default () => {
         isFetchList = true,
         isResetSelectedRows,
         customApiName,
+        customAction = 'custom',
         customValidation,
         customDataHandler,
         done
@@ -134,13 +137,7 @@ export default () => {
               }
             } else {
               // 自定义表单提交模式
-              action = 'custom'
-
-              if (this.currentItem?.ids) {
-                payload.ids = this.currentItem.ids
-              } else {
-                payload.id = this.currentItem.id
-              }
+              action = customAction || 'custom'
             }
 
             // 自定义处理请求参数
@@ -154,13 +151,17 @@ export default () => {
               isResetSelectedRows: isResetSelectedRows,
               isFetchList: isFetchList,
               customApiName: customApiName,
+              // 请求参数
+              payload,
+              // 请根据参数的取值和性质自行决定在混入组件的 data 内或 computed 内定义。
+              fileName: this.fileName,
+              // 附加请求参数
               additionalQueryParameters: {
                 ...this.$route.query,
                 // 获取子模块数据需要的额外参数，在引用该混合的子模块内覆盖设置。
-                // 请根据参数的取值和性质自行决定在 data 内或 computed 内定义。
+                // 请根据参数的取值和性质自行决定在混入组件的 data 内或 computed 内定义。
                 ...(this.additionalQueryParameters || {})
-              },
-              payload
+              }
             })
 
             if (status) {

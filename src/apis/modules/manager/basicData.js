@@ -27,5 +27,19 @@ export default {
       params,
       responseType: 'blob'
     })
+  },
+  /**
+   * 导出体检基础数据（按时间）
+   * @param request
+   * @param params
+   * @returns {*}
+   */
+  exportBasicDataByTime(request, params) {
+    return request({
+      url: '/examine/examineInfo/exportDataExcelByDate',
+      method: 'get',
+      params,
+      responseType: 'blob'
+    })
   }
 }

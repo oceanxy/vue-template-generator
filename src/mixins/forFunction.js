@@ -141,10 +141,8 @@ export default cb => ({
 
       await this.$store.dispatch('export', {
         moduleName: this.moduleName,
-        queryParameters: {
-          ...this.$route.query,
-          ...payload
-        },
+        additionalQueryParameters: this.$route.query,
+        payload,
         fileName
       })
 
