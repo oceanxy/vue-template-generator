@@ -1,5 +1,5 @@
 import '../assets/styles/index.scss'
-import { Table, Tag, Switch } from 'ant-design-vue'
+import { Table, Switch } from 'ant-design-vue'
 import forTable from '@/mixins/forTable'
 
 export default {
@@ -11,6 +11,7 @@ export default {
           {
             title: '序号',
             align: 'center',
+            width: 80,
             scopedSlots: { customRender: 'serialNumber' }
           },
           {

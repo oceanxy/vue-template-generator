@@ -2,69 +2,70 @@ import qs from 'qs'
 
 export default {
   /**
-   * 体检配置-结论等级管理-获取分类分页集合
+   * 体检配置-告警规则管理-获取分类分页集合
    * @param [request]
    * @param data
    * @returns {*}
    */
-  getConclusionLevel(request, data) {
+  getAlarmRuleManagement(request, data) {
     return request({
-      url: '/examine/itemConclusionLevel/getItemConclusionLevelList',
+      url: '/examine/examineAlert/getExamineAlertList',
       method: 'post',
       data: qs.stringify(data)
     })
   },
 
   /**
-   * 修改结论等级
+   * 修改告警规则
    * @param request
    * @param data
    * @returns {*}
    */
-  updateConclusionLevel(request, data) {
+  updateAlarmRuleManagement(request, data) {
     return request({
-      url: '/examine/itemConclusionLevel/update',
+      url: '/examine/examineAlert/update',
       method: 'post',
       data: qs.stringify(data)
     })
   },
 
   /**
-   * 新增结论等级
+   * 新增告警规则
    * @param request
    * @param data
    * @returns {*}
    */
-  addConclusionLevel(request, data) {
+  addAlarmRuleManagement(request, data) {
     return request({
-      url: '/examine/itemConclusionLevel/add',
+      url: '/examine/examineAlert/add',
       method: 'post',
       data: qs.stringify(data)
     })
   },
 
   /**
-   * 删除结论等级
+   * 删除告警规则
    * @param request
    * @param data
    * @returns {*}
    */
-  deleteConclusionLevel(request, data) {
+  deleteAlarmRuleManagement(request, data) {
     return request({
-      url: '/examine/itemConclusionLevel/delete',
+      url: '/examine/examineAlert/delete',
       method: 'post',
       data: qs.stringify(data)
     })
   },
+
   /**
-   * 获取项目集合
+   * 获取指标和参数集合
    * @param [request]
    * @param data
    * @returns {*}
    */
-  getLevelList(request, data) {
+  getKpiAndParam(request, data) {
     return request({
-      url: '/examine/examineItem/getLevelList',
+      url: '/examine/examineItemKpi/getKpiAndParam',
       method: 'post',
       data: qs.stringify(data)
     })

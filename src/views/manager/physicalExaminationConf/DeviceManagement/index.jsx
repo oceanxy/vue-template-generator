@@ -7,7 +7,7 @@ import dynamicState from '@/mixins/dynamicState'
 import TGContainer from '@/layouts/components/TGContainer'
 
 export default {
-  name: 'ConclusionLevel',
+  name: 'DeviceManagement',
   mixins: [dynamicState()],
   render() {
     return (

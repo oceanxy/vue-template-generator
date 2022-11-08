@@ -11,6 +11,7 @@ export default {
           {
             title: '序号',
             align: 'center',
+            width: 80,
             scopedSlots: { customRender: 'serialNumber' }
           },
           {
@@ -35,6 +36,7 @@ export default {
           },
           {
             title: '排序',
+            width: 80,
             dataIndex: 'sortIndex'
           },
           {

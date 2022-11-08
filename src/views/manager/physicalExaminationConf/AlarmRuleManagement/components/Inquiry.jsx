@@ -1,9 +1,40 @@
 import '../assets/styles/index.scss'
 import { Button, Form, Input, Select, Space } from 'ant-design-vue'
 import forInquiry from '@/mixins/forInquiry'
+import { mapGetters } from 'vuex'
 
 export default Form.create({})({
   mixins: [forInquiry()],
+  data() {
+    return {
+      param: []
+    }
+  },
+  computed: {
+    ...mapGetters({ getState: 'getState' }),
+    KpiAndParam() {
+      return this.getState('KpiAndParam', this.moduleName)
+    }
+  },
+  async created() {
+    await this.$store.dispatch('getListForSelect', {
+      moduleName: this.moduleName,
+      stateName: 'KpiAndParam',
+      customApiName: 'getKpiAndParam'
+    })
+  },
+  methods: {
+    onChangeKpi(e) {
+      const arr = []
+
+      this.KpiAndParam.param.map(item => {
+        if (item.kpiId === e) {
+          arr.push(item)
+        }
+      })
+      this.param = arr ?? []
+    }
+  },
   render() {
     return (
       <Form
@@ -24,13 +55,32 @@ export default Form.create({})({
               )
             }
           </Form.Item>
-          <Form.Item label="项目">
+          <Form.Item label="监测项目">
             {
-              this.form.getFieldDecorator('status', { initialValue: '' })(
+              this.form.getFieldDecorator('monitorItemId', { initialValue: '' })(
+                <Select onchange={this.onChangeKpi}>
+                  <Select.Option value={''}>全部</Select.Option>
+                  {
+                    this.KpiAndParam.kpi?.map(item => (
+                      <Select.Option value={item.id} >{item.kpiName}</Select.Option>
+                    ))
+                  }
+
+                </Select>
+              )
+            }
+          </Form.Item>
+          <Form.Item label="监测参数">
+            {
+              this.form.getFieldDecorator('monitorItemKpiId', { initialValue: '' })(
                 <Select>
                   <Select.Option value={''}>全部</Select.Option>
-                  <Select.Option value={1}>启用</Select.Option>
-                  <Select.Option value={2}>停用</Select.Option>
+                  {
+                    this.param?.map(item => (
+                      <Select.Option value={item.kpiId}>{item.paramName}</Select.Option>
+                    ))
+                  }
+
                 </Select>
               )
             }

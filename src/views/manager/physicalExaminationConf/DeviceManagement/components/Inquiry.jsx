@@ -1,25 +1,9 @@
 import '../assets/styles/index.scss'
 import { Button, Form, Input, Select, Space } from 'ant-design-vue'
 import forInquiry from '@/mixins/forInquiry'
-import { mapGetters } from 'vuex'
 
 export default Form.create({})({
   mixins: [forInquiry()],
-
-  computed: {
-    ...mapGetters({ getState: 'getState' }),
-    levelList() {
-      return this.getState('levelList', this.moduleName)
-    }
-  },
-  async created() {
-    await this.$store.dispatch('getListForSelect', {
-      moduleName: this.moduleName,
-      stateName: 'levelList',
-      customApiName: 'getLevelList'
-    })
-    console.log(this.levelList)
-  },
   render() {
     return (
       <Form
@@ -40,24 +24,10 @@ export default Form.create({})({
               )
             }
           </Form.Item>
-          <Form.Item label="项目">
-            {
-              this.form.getFieldDecorator('itemId', { initialValue: '' })(
-                <Select>
-                  <Select.Option value={''}>全部</Select.Option>
-                  {
-                    this.levelList.list?.map(item => (
-                      <Select.Option value={item.id}>{item.itemName}</Select.Option>
-                    ))
-                  }
-                </Select>
-              )
-            }
-          </Form.Item>
           <Form.Item label={'名称'}>
             {
-              this.form.getFieldDecorator('itemName')(
-                <Input placeholder={'项目名称'} />
+              this.form.getFieldDecorator('eqName')(
+                <Input placeholder={'设备名称'} />
               )
             }
           </Form.Item>
