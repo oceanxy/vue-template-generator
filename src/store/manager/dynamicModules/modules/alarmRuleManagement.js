@@ -5,7 +5,7 @@ export default commitRootInModule =>
   omit(
     createStoreModule({
       state: {
-        levelList: {
+        KpiAndParam: {
           list: [],
           loading: false
         }

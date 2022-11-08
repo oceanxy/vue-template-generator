@@ -341,7 +341,7 @@ function createConstRoutes() {
             {
               path: 'device-management',
               name: 'deviceManagement',
-              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
+              component: () => import('@/views/manager/physicalExaminationConf/DeviceManagement'),
               meta: {
                 title: '体检设备管理',
                 keepAlive: false,
@@ -352,7 +352,7 @@ function createConstRoutes() {
             {
               path: 'alarm-rule-management',
               name: 'alarmRuleManagement',
-              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
+              component: () => import('@/views/manager/physicalExaminationConf/AlarmRuleManagement'),
               meta: {
                 title: '报警规则管理',
                 keepAlive: false,

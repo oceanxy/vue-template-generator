@@ -26,13 +26,6 @@ export default {
         >
           删除
         </Button>
-        <Button
-          // onClick={() => this.onDeleteClick()}
-          icon="reload"
-          disabled={this.deleteButtonDisabled}
-        >
-          更新等级数据
-        </Button>
       </Space>
     )
   }

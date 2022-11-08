@@ -1,5 +1,5 @@
 import '../assets/styles/index.scss'
-import { Table, Space, Button, Switch } from 'ant-design-vue'
+import { Table, Switch } from 'ant-design-vue'
 import forTable from '@/mixins/forTable'
 
 export default {
@@ -11,28 +11,28 @@ export default {
           {
             title: '序号',
             align: 'center',
+            width: 80,
             scopedSlots: { customRender: 'serialNumber' }
           },
           {
-            title: '项目名称',
-            dataIndex: 'itemName'
+            title: '设备编号',
+            dataIndex: 'eqId'
           },
           {
-            title: '指标名称',
-            dataIndex: 'itemKpiName'
+            title: '设备名称',
+            dataIndex: 'eqName'
           },
           {
-            title: '结论等级名称',
-            dataIndex: 'conclusionLevelName'
+            title: '厂家',
+            dataIndex: 'manufactor'
           },
           {
-            title: '等级',
-            align: 'center',
-            dataIndex: 'level'
+            title: '联系电话',
+            dataIndex: 'contactTel'
           },
           {
-            title: '防治建议',
-            dataIndex: 'proposal'
+            title: '用户名',
+            dataIndex: 'userName'
           },
           {
             title: '备注',
@@ -41,17 +41,17 @@ export default {
           {
             title: '排序',
             align: 'center',
+            width: 80,
             dataIndex: 'sortIndex'
+          },
+          {
+            title: '创建时间',
+            dataIndex: 'createTimeStr'
           },
           {
             title: '状态',
             align: 'center',
             scopedSlots: { customRender: 'status' }
-          },
-          {
-            title: '判断条件',
-            align: 'center',
-            scopedSlots: { customRender: 'operation' }
           }
         ]
       }
@@ -72,18 +72,7 @@ export default {
                   onChange={checked => this.onStatusChange({ checked, record })}
                 />
               )
-            },
-            operation: (text, record) => (
-              <Space>
-                <Button
-                  type="link"
-                  size="small"
-                // onClick={() => this.onEditClick(record)}
-                >
-                  点击查看
-                </Button>
-              </Space>
-            )
+            }
           }
         }}
       />
