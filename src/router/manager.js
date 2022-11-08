@@ -117,7 +117,7 @@ function createConstRoutes() {
             {
               path: 'height-and-weight-data',
               name: 'heightAndWeightData',
-              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
+              component: () => import('@/views/manager/physicalExaminationData/HeightAndWeightData'),
               meta: {
                 title: '身高体重数据',
                 keepAlive: false,

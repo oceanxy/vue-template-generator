@@ -43,7 +43,7 @@ export default {
     /**
      * 选中树后用于搜索的字段名，默认 'treeId'
      */
-    getTreeIdField: {
+    getFieldNameForTreeId: {
       type: Function,
       default: () => 'treeId'
     }
@@ -128,7 +128,7 @@ export default {
     })
 
     if (status && this.notNoneMode) {
-      const treeIdField = this.getTreeIdField(1)
+      const treeIdField = this.getFieldNameForTreeId(1)
 
       this.$store.commit('setState', {
         value: treeIdField,
@@ -171,7 +171,7 @@ export default {
      */
     async onSelect(selectedKeys, e) {
       const payload = {}
-      const treeIdField = this.getTreeIdField(e.node.pos.split('-').length - 1)
+      const treeIdField = this.getFieldNameForTreeId(e.node.pos.split('-').length - 1)
 
       if (this.oldTreeIdField !== treeIdField) {
         // 清空search内上一次树操作的键与值

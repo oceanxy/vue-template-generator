@@ -5,19 +5,18 @@ import TGContainer from '@/layouts/components/TGContainer'
 import Functions from './components/Functions'
 import Inquiry from './components/Inquiry'
 import Table from './components/Table'
-import ModalOfExportByTime from './components/ModalOfExportByTime'
 import TGPagination from '@/components/TGPagination'
 import { getFieldNameForSchoolTreeId } from '@/utils/auxiliaryFunction'
 
 export default {
-  name: 'BasicData',
+  name: 'HeightAndWeightData',
   mixins: [dynamicState()],
   render() {
     return (
       <TGContainerWithTreeSider
         notNoneMode
-        contentClass="fe-basic-data-container"
-        getFieldNameForTreeId={getFieldNameForSchoolTreeId}
+        contentClass="fe-height-and-weight-data-container"
+        getTreeIdField={getFieldNameForSchoolTreeId}
         apiOptions={{
           apiName: 'getSchoolTree',
           stateName: 'schoolTree',
@@ -29,9 +28,6 @@ export default {
           <Inquiry slot="inquiry" />
           <Table slot="table" />
           <TGPagination slot="pagination" />
-          <template slot={'modals'}>
-            <ModalOfExportByTime modalTitle={'按时间导出'} />
-          </template>
         </TGContainer>
       </TGContainerWithTreeSider>
     )

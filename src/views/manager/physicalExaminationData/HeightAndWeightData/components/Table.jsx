@@ -27,6 +27,16 @@ export default {
             dataIndex: 'idNumber'
           },
           {
+            title: '活动名称',
+            width: 200,
+            dataIndex: 'activityName'
+          },
+          {
+            title: '组织机构',
+            width: 200,
+            dataIndex: 'activityOrgName'
+          },
+          {
             title: '学校名称',
             width: 200,
             dataIndex: 'peObjOrgName'
@@ -73,59 +83,18 @@ export default {
             width: 70,
             dataIndex: 'bmi'
           },
+
           {
-            title: '收缩压（mmHg）',
-            align: 'center',
-            width: 110,
-            dataIndex: 'systolicPressure'
-          },
-          {
-            title: '舒张压（mmHg）',
-            align: 'center',
-            width: 110,
-            dataIndex: 'diastolicPressure'
-          },
-          {
-            title: '脉搏（bpm）',
-            align: 'center',
-            width: 100,
-            dataIndex: 'pulseNum'
-          },
-          {
-            title: '肺活量（ml）',
-            align: 'center',
-            width: 90,
-            dataIndex: 'vc'
-          },
-          {
-            title: '左眼视力',
-            align: 'center',
-            width: 100,
-            dataIndex: 'leftVision'
-          },
-          {
-            title: '右眼视力',
-            align: 'center',
-            width: 100,
-            dataIndex: 'rightVision'
-          },
-          {
-            title: '营养情况',
+            title: '结论等级',
             align: 'center',
             width: 100,
             dataIndex: 'conclusionLevelName'
           },
           {
-            title: '发育情况',
+            title: '设备名称',
             align: 'center',
             width: 100,
-            dataIndex: 'development'
-          },
-          {
-            title: '体型',
-            align: 'center',
-            width: 70,
-            dataIndex: 'size'
+            dataIndex: 'devName'
           },
           {
             title: '体检时间',

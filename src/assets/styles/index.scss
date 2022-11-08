@@ -248,6 +248,10 @@ body {
       margin-right: 0 !important;
       display: flex;
 
+      &.span-2 {
+        width: 472px;
+      }
+
       .ant-form-item-label {
         z-index: 1;
         flex: none;
@@ -278,9 +282,14 @@ body {
           & > .ant-select .ant-select-selection,
           & > .ant-input-affix-wrapper .ant-input,
           & > .ant-input-number,
-          & > .ant-input {
+          & > .ant-input,
+          & > .ant-calendar-picker .ant-calendar-picker-input {
             width: 100%;
             padding-left: 70px;
+          }
+
+          & > .ant-calendar-picker {
+            width: 100%;
           }
         }
       }
