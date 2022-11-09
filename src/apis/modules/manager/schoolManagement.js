@@ -55,5 +55,18 @@ export default {
       method: 'post',
       data: qs.stringify(data)
     })
+  },
+  /**
+   * 修改学校状态
+   * @param request
+   * @param data
+   * @returns {*}
+   */
+  updateSchoolManagementStatus(request, data) {
+    return request({
+      url: '/personnel/school/updateStatus',
+      method: 'post',
+      data: qs.stringify(data)
+    })
   }
 }

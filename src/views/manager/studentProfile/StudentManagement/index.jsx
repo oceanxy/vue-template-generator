@@ -6,6 +6,7 @@ import Inquiry from './components/Inquiry'
 import TGPagination from '@/components/TGPagination'
 import dynamicState from '@/mixins/dynamicState'
 import TGContainer from '@/layouts/components/TGContainer'
+import { getFieldNameForSchoolTreeId } from '@/utils/auxiliaryFunction'
 
 export default {
   name: 'StudentManagement',
@@ -13,6 +14,7 @@ export default {
   render() {
     return (
       <TGContainerWithTreeSider
+        getFieldNameForTreeId={getFieldNameForSchoolTreeId}
         contentClass="fe-basic-data-container"
         apiOptions={{
           apiName: 'getSchoolTree',

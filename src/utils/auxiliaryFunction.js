@@ -21,3 +21,18 @@ export function getFieldNameForSchoolTreeId(treeHierarchy) {
       return 'schoolCountyId'
   }
 }
+
+/**
+ * 获取用于保存/传递学校树ID的字段名
+ * @param treeHierarchy {number} 树的层级
+ * @returns {string} 根据树的层级返回不同的字段名
+ */
+export function getFieldNameForSchoolGroupType(treeHierarchy) {
+  switch (treeHierarchy) {
+    case 2:
+      return 'streetId'
+    case 1:
+    default:
+      return 'countyId'
+  }
+}
