@@ -31,5 +31,16 @@ export default {
       url: '/examine/examineCatalog/getExamineCatalogTree',
       method: 'post'
     })
+  },
+  /**
+   * 获取省市区
+   * @param request
+   * @returns {*}
+   */
+  getAdministrativeDivision(request) {
+    return request({
+      url: '/system/district/getAreas',
+      method: 'post'
+    })
   }
 }

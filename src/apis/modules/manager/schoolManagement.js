@@ -25,7 +25,7 @@ export default {
     return request({
       url: '/personnel/school/update',
       method: 'post',
-      data: qs.stringify(data)
+      data
     })
   },
 
@@ -65,6 +65,19 @@ export default {
   updateSchoolManagementStatus(request, data) {
     return request({
       url: '/personnel/school/updateStatus',
+      method: 'post',
+      data: qs.stringify(data)
+    })
+  },
+  /**
+   * 获取学校详情
+   * @param [request]
+   * @param data
+   * @returns {*}
+   */
+  getDetailsOfSchoolManagement(request, data) {
+    return request({
+      url: '/personnel/school/getSchool',
       method: 'post',
       data: qs.stringify(data)
     })

@@ -2,7 +2,7 @@ import qs from 'qs'
 
 export default {
   /**
-   * 获取学校分页集合
+   * 获取年级分页集合
    * @param [request]
    * @param data
    * @returns {*}
@@ -16,7 +16,7 @@ export default {
   },
 
   /**
-   * 修改学校
+   * 修改年级
    * @param request
    * @param data
    * @returns {*}
@@ -30,7 +30,7 @@ export default {
   },
 
   /**
-   * 新增学校
+   * 新增年级
    * @param request
    * @param data
    * @returns {*}
@@ -44,7 +44,7 @@ export default {
   },
 
   /**
-   * 删除学校
+   * 删除年级
    * @param request
    * @param data
    * @returns {*}
@@ -52,6 +52,20 @@ export default {
   deleteGradeManagement(request, data) {
     return request({
       url: '/personnel/grade/delete',
+      method: 'post',
+      data: qs.stringify(data)
+    })
+  },
+
+  /**
+   * 修改年级状态
+   * @param request
+   * @param data
+   * @returns {*}
+   */
+  updateGradeManagementStatus(request, data) {
+    return request({
+      url: '/personnel/grade/updateStatus',
       method: 'post',
       data: qs.stringify(data)
     })

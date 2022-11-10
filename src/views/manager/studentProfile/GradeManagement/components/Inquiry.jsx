@@ -17,7 +17,6 @@ export default Form.create({})({
       stateName: 'yearList',
       customApiName: 'getYearList'
     })
-    console.log(this.yearList)
   },
   render() {
     return (
