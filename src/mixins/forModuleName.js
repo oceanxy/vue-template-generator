@@ -33,7 +33,9 @@ export default (injectSubmoduleName = false) => {
           return null
         }
 
-        return name.replace(/^\S/g, s => s.toLowerCase())
+        // 如果 name 的第一个字母是大写且第二个字母是小写（大驼峰命名）的情况，则转为小驼峰命名，
+        // 如果 name 的第一和第二个字母都是大写的情况，则不作转换。
+        return name.replace(/^[A-Z](?=[a-z])/g, s => s.toLowerCase())
       }
     },
     provide() {

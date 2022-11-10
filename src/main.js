@@ -2,7 +2,7 @@ import Vue from 'vue'
 import App from './App'
 import config from './config'
 import '@/utils/antvComponents'
-import utilityFunction from '@/utils/utilityFunction'
+import { generateRoute } from '@/utils/utilityFunction'
 
 Vue.config.productionTip = false
 
@@ -14,7 +14,7 @@ if (process.env.NODE_ENV === 'development' && config.mock) {
 function creatVue(r, s, terminal) {
   if (sessionStorage.getItem('token') && terminal !== 'client' && config.dynamicRouting) {
     const tempMenu = JSON.parse(sessionStorage.getItem('menu'))[0]
-    const menu = utilityFunction.generateRoute(tempMenu)
+    const menu = generateRoute(tempMenu)
 
     r.default.matcher = r.createRouter(menu).matcher
     r.default.options.routes.splice(1, 1, menu)

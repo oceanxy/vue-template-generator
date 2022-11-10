@@ -1,18 +1,10 @@
 export default {
   getState: state => (stateName, moduleName, submoduleName = '') => {
-    if (!submoduleName) {
-      return state[moduleName][stateName]
-    } else {
-      return state[moduleName][submoduleName][stateName]
-    }
+    return (state[moduleName][submoduleName] ?? state[moduleName])[stateName]
   },
   // ==============以下函数式getter可能会被取消，不建议使用=============
   getLoading: state => (moduleName, submoduleName = '') => {
-    if (!submoduleName) {
-      return state[moduleName].loading
-    } else {
-      return state[moduleName][submoduleName].loading
-    }
+    return (state[moduleName][submoduleName] ?? state[moduleName]).loading
   },
   getVisible: state => (moduleName, stateName) => state[moduleName][stateName],
   getCurrentItem: state => moduleName => state[moduleName].currentItem,

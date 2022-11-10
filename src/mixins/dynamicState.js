@@ -6,7 +6,7 @@
  */
 
 import { commitRootInModule } from '@/utils/store'
-import utilityFunction from '@/utils/utilityFunction'
+import { firstLetterToUppercase } from '@/utils/utilityFunction'
 import forModuleName from './forModuleName'
 
 /**
@@ -45,7 +45,7 @@ export default (
             if (isRequestData) {
               // 动态注册store模块后，立即请求该模块的数据
               await this.$store.dispatch('getList', {
-                api: `get${utilityFunction.firstLetterToUppercase(customModuleName)}`,
+                api: `get${firstLetterToUppercase(customModuleName)}`,
                 moduleName: customModuleName
               })
             }
@@ -63,7 +63,7 @@ export default (
         async onSelectSearch(keyword) {
           // 动态注册store模块后，立即请求该模块的数据
           await this.$store.dispatch('getList', {
-            api: `get${utilityFunction.firstLetterToUppercase(customModuleName)}`,
+            api: `get${firstLetterToUppercase(customModuleName)}`,
             moduleName: customModuleName,
             additionalQueryParameters: {
               pageIndex: 0,

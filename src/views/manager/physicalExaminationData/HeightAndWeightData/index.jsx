@@ -6,7 +6,7 @@ import Functions from './components/Functions'
 import Inquiry from './components/Inquiry'
 import Table from './components/Table'
 import TGPagination from '@/components/TGPagination'
-import { getFieldNameForSchoolTreeId } from '@/utils/auxiliaryFunction'
+import { getFieldNameForSchoolTreeId } from '@/utils/projectHelpers'
 
 export default {
   name: 'HeightAndWeightData',

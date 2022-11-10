@@ -75,7 +75,7 @@ export default {
     },
     async handlePreview(file) {
       // if (!file.url && !file.preview) {
-      //   file.preview = await utilityFunction.getBase64(file.originFileObj)
+      //   file.preview = await getBase64(file.originFileObj)
       // }
       // this.previewImage = file.url || file.preview
       // this.previewVisible = true

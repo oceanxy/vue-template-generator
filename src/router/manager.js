@@ -32,7 +32,7 @@ function createConstRoutes() {
         title: '后台',
         keepAlive: false,
         requiresAuth: true,
-        icon: () => import('@/layouts/components/TGMenu/assets/images/console')
+        icon: () => import('@/layouts/components/TGMenu/assets/images/console.svg')
       },
       children: [
         {
@@ -128,7 +128,7 @@ function createConstRoutes() {
             {
               path: 'blood-pressure-data',
               name: 'bloodPressureData',
-              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
+              component: () => import('@/views/manager/physicalExaminationData/BloodPressureData'),
               meta: {
                 title: '血压数据',
                 keepAlive: false,
@@ -139,7 +139,7 @@ function createConstRoutes() {
             {
               path: 'lung-function-data',
               name: 'lungFunctionData',
-              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
+              component: () => import('@/views/manager/physicalExaminationData/LungFunctionData'),
               meta: {
                 title: '肺功能数据',
                 keepAlive: false,
@@ -150,7 +150,7 @@ function createConstRoutes() {
             {
               path: 'visual-data',
               name: 'visualData',
-              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
+              component: () => import('@/views/manager/physicalExaminationData/VisualData'),
               meta: {
                 title: '视力数据',
                 keepAlive: false,
@@ -161,7 +161,7 @@ function createConstRoutes() {
             {
               path: 'optometry-data',
               name: 'optometryData',
-              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
+              component: () => import('@/views/manager/physicalExaminationData/OptometryData'),
               meta: {
                 title: '验光数据',
                 keepAlive: false,
@@ -172,7 +172,7 @@ function createConstRoutes() {
             {
               path: 'dental-caries-data',
               name: 'dentalCariesData',
-              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
+              component: () => import('@/views/manager/physicalExaminationData/DentalCariesData'),
               meta: {
                 title: '龋齿眼疾数据',
                 keepAlive: false,
@@ -183,7 +183,7 @@ function createConstRoutes() {
             {
               path: 'internal-medicine-data',
               name: 'internalMedicineData',
-              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
+              component: () => import('@/views/manager/physicalExaminationData/InternalMedicineData'),
               meta: {
                 title: '内科数据',
                 keepAlive: false,
@@ -194,7 +194,7 @@ function createConstRoutes() {
             {
               path: 'surgical-data',
               name: 'surgicalData',
-              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
+              component: () => import('@/views/manager/physicalExaminationData/SurgicalData'),
               meta: {
                 title: '外科数据',
                 keepAlive: false,
@@ -203,14 +203,14 @@ function createConstRoutes() {
               }
             },
             {
-              path: 'summary-of-pe',
-              name: 'summaryOfPE',
-              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
+              path: 'p-e-progress',
+              name: 'PEProgress',
+              component: () => import('@/views/manager/physicalExaminationData/PEProgress'),
               meta: {
-                title: '体检数据',
+                title: '体检进度',
                 keepAlive: false,
                 requiresAuth: true,
-                icon: () => import('@/layouts/components/TGMenu/assets/images/summary-of-pe.svg')
+                icon: () => import('@/layouts/components/TGMenu/assets/images/p-e-progress.svg')
               }
             }
           ]

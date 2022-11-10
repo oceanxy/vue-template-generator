@@ -85,7 +85,7 @@ export const routes = [
       title: '企业服务中心',
       keepAlive: false,
       requiresAuth: true,
-      icon: () => import('@/layouts/components/TGMenu/assets/images/enterpriseServiceCenter')
+      icon: () => ''
     },
     children: [
       // 需要展示在menu菜单中的路由在这里面添加

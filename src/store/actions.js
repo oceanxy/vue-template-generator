@@ -1,6 +1,6 @@
 import apis from '@/apis'
 import { cloneDeep, omit } from 'lodash'
-import UF from '@/utils/utilityFunction'
+import { downFile, firstLetterToUppercase } from '@/utils/utilityFunction'
 import config from '@/config'
 
 export default {
@@ -100,9 +100,9 @@ export default {
         api = customApiName
       } else {
         api = `get${submoduleName ? `${
-          UF.firstLetterToUppercase(submoduleName)
+          firstLetterToUppercase(submoduleName)
         }Of` : ''}${
-          UF.firstLetterToUppercase(moduleName)
+          firstLetterToUppercase(moduleName)
         }`
       }
     }
@@ -190,8 +190,8 @@ export default {
     let api = 'getDetails'
 
     if (!config.mock) {
-      api = `getDetailsOf${UF.firstLetterToUppercase(moduleName)}${
-        submoduleName ? UF.firstLetterToUppercase(submoduleName) : ''
+      api = `getDetailsOf${firstLetterToUppercase(moduleName)}${
+        submoduleName ? firstLetterToUppercase(submoduleName) : ''
       }`
     }
 
@@ -236,7 +236,7 @@ export default {
     visibleField,
     ...parametersOfGetListAction
   }) {
-    const response = await apis[`add${UF.firstLetterToUppercase(moduleName)}`](payload)
+    const response = await apis[`add${firstLetterToUppercase(moduleName)}`](payload)
 
     if (response.status) {
       dispatch('setModalVisible', {
@@ -283,7 +283,7 @@ export default {
     isFetchList,
     ...parametersOfGetListAction
   }) {
-    const response = await apis[customApiName || `update${UF.firstLetterToUppercase(moduleName)}`](payload)
+    const response = await apis[customApiName || `update${firstLetterToUppercase(moduleName)}`](payload)
 
     if (response.status) {
       dispatch('setModalVisible', {
@@ -465,7 +465,11 @@ export default {
   }) {
     commit('setLoading', { value: true, moduleName })
 
-    const api = `update${UF.firstLetterToUppercase(moduleName)}${UF.firstLetterToUppercase(customFieldName)}`
+    const api = `update${
+      firstLetterToUppercase(moduleName)
+    }${
+      firstLetterToUppercase(customFieldName)
+    }`
     const { status } = await apis[api](payload)
 
     commit('setLoading', { value: false, moduleName })
@@ -508,7 +512,7 @@ export default {
       isBatchDeletion = true
     }
 
-    const response = await apis[`delete${UF.firstLetterToUppercase(moduleName)}`]({ ids: ids.join() })
+    const response = await apis[`delete${firstLetterToUppercase(moduleName)}`]({ ids: ids.join() })
 
     if (response.status) {
       // 非批量操作时，只从选中行数组中移除被删除的行的key，
@@ -589,9 +593,9 @@ export default {
         api = customApiName
       } else {
         api = `export${submoduleName ? `${
-          UF.firstLetterToUppercase(submoduleName)}Of` : ''
+          firstLetterToUppercase(submoduleName)}Of` : ''
         }${
-          UF.firstLetterToUppercase(moduleName)
+          firstLetterToUppercase(moduleName)
         }`
       }
     }
@@ -600,7 +604,7 @@ export default {
     const buffer = await apis[api]({ ...targetModuleName.search, ...params })
     const blob = new Blob([buffer])
 
-    UF.downFile(blob, `${fileName}.xlsx`)
+    downFile(blob, `${fileName}.xlsx`)
 
     if (visibleField) {
       dispatch('setModalVisible', {

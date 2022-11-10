@@ -8,7 +8,7 @@
 import forModal from '@/mixins/forModal'
 import { cloneDeep, omit } from 'lodash'
 import moment from 'moment'
-import Message from '@/utils/message'
+import { message } from '@/utils/message'
 
 export default () => {
   return {
@@ -166,7 +166,7 @@ export default () => {
 
             if (status) {
               // 操作提示消息
-              Message.message(status)
+              message(status)
 
               // 成功回调
               if (typeof done === 'function') {

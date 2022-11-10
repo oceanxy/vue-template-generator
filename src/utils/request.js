@@ -1,6 +1,6 @@
 import axios from 'axios'
 import config from '@/config'
-import message from '@/utils/message'
+import { showMessage } from '@/utils/message'
 
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API,
@@ -34,7 +34,7 @@ service.interceptors.request.use(
     return config
   },
   error => {
-    message.showMessage({
+    showMessage({
       message: error.message,
       type: 'error'
     })
@@ -55,7 +55,7 @@ service.interceptors.response.use(
       return Promise.resolve(res)
     }
 
-    message.showMessage({
+    showMessage({
       message: res.message,
       type: 'error'
     })
@@ -83,7 +83,7 @@ service.interceptors.response.use(
     })
   },
   error => {
-    message.showMessage({
+    showMessage({
       message: error.message,
       type: 'error'
     })

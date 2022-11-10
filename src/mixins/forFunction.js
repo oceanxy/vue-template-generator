@@ -6,7 +6,7 @@
  */
 
 import forIndex from '@/mixins/forIndex'
-import Message from '@/utils/message'
+import { verifySelected, verificationDialog } from '@/utils/message'
 import { mapGetters } from 'vuex'
 import { message } from 'ant-design-vue'
 
@@ -89,7 +89,7 @@ export default cb => ({
      * @returns {Promise<void>}
      */
     async onDeleteClick() {
-      await Message.verificationDialog(
+      await verificationDialog(
         async () => {
           return await this.$store.dispatch('delete', { moduleName: this.moduleName })
         },
@@ -115,7 +115,7 @@ export default cb => ({
      * @param [params] {Object}
      */
     async onBulkOperations(visibleField, params) {
-      await Message.verifySelected(this.selectedRowKeys, () => {
+      await verifySelected(this.selectedRowKeys, () => {
         this._setVisibleOfModal(
           {
             ids: this.selectedRowKeys,

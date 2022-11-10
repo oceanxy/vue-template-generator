@@ -15,7 +15,6 @@ export default () => {
       return {
         modalProps: {
           width: 800,
-          title: this.modalTitle,
           footer: <Button onClick={() => this.onCancel(this.visibleField)}>关闭</Button>
         }
       }
@@ -25,6 +24,18 @@ export default () => {
         console.error('请在表格弹窗的data中定义该弹窗对应的显示控制字段“visibleField”的值。')
       }
     },
-    methods: {}
+    watch: {
+      visible: {
+        immediate: true,
+        handler(value) {
+          if (value) {
+            this.modalProps.title = this.modalTitle.replace(
+              '{action}',
+              this.currentItem?.name ?? this.currentItem?.fullName ?? ''
+            )
+          }
+        }
+      }
+    }
   }
 }

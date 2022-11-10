@@ -1,7 +1,7 @@
 import '../assets/styles/index.scss'
 import { createNamespacedHelpers } from 'vuex'
 import { Button, Form, Input } from 'ant-design-vue'
-import utilityFunction from '@/utils/utilityFunction'
+import { generateRoute } from '@/utils/utilityFunction'
 import { createRouter } from '@/router/manager'
 
 const {
@@ -43,7 +43,7 @@ export default Form.create({ name: 'TGLoginForm' })({
             this.hint = true
 
             const tempMenu = JSON.parse(sessionStorage.getItem('menu'))[0]
-            const menu = utilityFunction.generateRoute(tempMenu)
+            const menu = generateRoute(tempMenu)
 
             // 生成动态路由
             this.$router.matcher = createRouter(menu).matcher

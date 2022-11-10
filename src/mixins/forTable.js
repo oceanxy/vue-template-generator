@@ -225,25 +225,33 @@ export default ({
           customFieldName,
           payload: {
             [idKey]: record[this.tableProps.rowKey || 'id'],
-            [customFieldName]: checked ? 1 : 2
+            [customFieldName]: checked ? 1 : 0
           }
         })
 
-        const index = this.tableProps.dataSource.findIndex(item => item.id === record.id)
+        const index = this.tableProps.dataSource.findIndex(item => item[idKey] === record[idKey])
+        let dataSource
 
         if (status) {
           message.success([
-            <span style={{ color: 'blue' }}>
+            <span style={{ color: '#16b364' }}>
               {record[nameKey]}
             </span>, ' 的状态已更新！'
           ])
 
           // 更新当前行受控Switch组件的值
-          this.$set(this.tableProps.dataSource[index], customFieldName, checked ? 1 : 2)
+          dataSource = this.tableProps.dataSource[index][customFieldName] = checked ? 1 : 0
         } else {
           // 调用接口失败时，还原值
-          this.$set(this.tableProps.dataSource[index], customFieldName, checked ? 2 : 1)
+          dataSource = this.tableProps.dataSource[index][customFieldName] = checked ? 0 : 1
         }
+
+        this.$store.commit('setState', {
+          value: dataSource,
+          moduleName: this.moduleName,
+          submoduleName: this.submoduleName,
+          stateName: 'list'
+        })
       },
       /**
        * 行内新增
@@ -415,8 +423,8 @@ export default ({
       return (
         <Table
           ref={`${this.moduleName}Table`}
+          scopedSlots={this.scopedSlots}
           {...this.attributes}
-          {...{ scopedSlots: this.scopedSlots }}
         />
       )
     }
