@@ -28,7 +28,7 @@ export default {
           <Table slot="table" />
           <TGPagination slot="pagination" />
           <template slot={'modals'}>
-            <ModalOfEdit modalTitle={'{action}学校'} />
+            <ModalOfEdit modalTitle={'{action}年级'} />
           </template>
         </TGContainer>
       </TGContainerWithTreeSider>

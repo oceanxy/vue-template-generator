@@ -25,7 +25,7 @@ export default {
     return request({
       url: '/personnel/grade/update',
       method: 'post',
-      data: qs.stringify(data)
+      data
     })
   },
 
@@ -39,7 +39,7 @@ export default {
     return request({
       url: '/personnel/grade/add',
       method: 'post',
-      data: qs.stringify(data)
+      data
     })
   },
 
@@ -80,6 +80,34 @@ export default {
   getYearList(request, data) {
     return request({
       url: '/personnel/grade/getYearList',
+      method: 'post',
+      data: qs.stringify(data)
+    })
+  },
+
+  /**
+   * 设置年级为毕业
+   * @param [request]
+   * @param data
+   * @returns {*}
+   */
+  updateGraduation(request, data) {
+    return request({
+      url: '/personnel/grade/updateGraduation',
+      method: 'post',
+      data: qs.stringify(data)
+    })
+  },
+
+  /**
+   * 根据街道ID获取学校集合
+   * @param [request]
+   * @param data
+   * @returns {*}
+   */
+  getListByStreetId(request, data) {
+    return request({
+      url: '/personnel/school/getListByStreetId',
       method: 'post',
       data: qs.stringify(data)
     })

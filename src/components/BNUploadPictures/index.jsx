@@ -18,7 +18,7 @@ export default {
     },
     action: {
       type: String,
-      default: '/mgapi/system/upload/image'
+      default: '/api/system/upload/image'
     },
     disabled: {
       type: Boolean,

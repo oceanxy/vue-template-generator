@@ -39,7 +39,7 @@ export default {
     return request({
       url: '/personnel/school/add',
       method: 'post',
-      data: qs.stringify(data)
+      data
     })
   },
 

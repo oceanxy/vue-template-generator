@@ -8,6 +8,10 @@ export default commitRootInModule =>
         yearList: {
           loading: false,
           list: []
+        },
+        streetList: {
+          loading: false,
+          list: []
         }
       }
     }),
