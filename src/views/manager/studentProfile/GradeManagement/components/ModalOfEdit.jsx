@@ -1,0 +1,226 @@
+import '../assets/styles/index.scss'
+import { Form, Input, InputNumber, Select, Switch } from 'ant-design-vue'
+import forFormModal from '@/mixins/forModal/forFormModal'
+import DragModal from '@/components/DragModal'
+import { mapGetters } from 'vuex'
+
+export default Form.create({})({
+  mixins: [forFormModal()],
+  data() {
+    return {
+      modalProps: {
+        width: 700,
+        wrapClassName: 'bnm-modal-edit-user-form'
+      },
+
+    }
+  },
+  computed: {
+    ...mapGetters({ getState: 'getState' }),
+    yearList() {
+      return this.getState('yearList', this.moduleName)
+    },
+    streetList() {
+      return this.getState('streetList', this.moduleName)
+    },
+    search() {
+      return this.getState('search', this.moduleName)
+    }
+
+  },
+  methods: {
+    async getStreetList() {
+      await this.$store.dispatch('getListForSelect', {
+        moduleName: this.moduleName,
+        stateName: 'streetList',
+        customApiName: 'getListByStreetId',
+        payload: {
+          streetId: this.search.schoolStreetId
+        }
+      })
+    },
+    customDataHandler(values) {
+      const data = { ...values }
+
+      data.schoolId = this.currentItem?.schoolId ?? ''
+
+      return data
+    }
+  },
+  watch: {
+    'modalProps.visible'(value) {
+      if (value) {
+        this.getStreetList()
+      }
+    }
+  },
+  render() {
+    const attributes = {
+      attrs: this.modalProps,
+      on: {
+        cancel: () => this.onCancel(),
+        ok: () => this.onSubmit({ customDataHandler: this.customDataHandler })
+      }
+    }
+
+    return (
+      <DragModal {...attributes}>
+        <Form
+          labelCol={{ span: 4 }}
+          wrapperCol={{ span: 17 }}
+          colon={false}
+        >
+          <Form.Item label="学校名称">
+            {
+              this.form.getFieldDecorator('schoolName', {
+                initialValue: this.currentItem.schoolName,
+                rules: [
+                  {
+                    required: true,
+                    message: '请输入学校名称!',
+                    trigger: 'blur'
+                  }
+                ]
+              })(
+                <Input
+                  placeholder="请输入"
+                  allowClear
+                />
+              )
+            }
+          </Form.Item>
+          <Form.Item label="年级名称">
+            {
+              this.form.getFieldDecorator('gradeName', {
+                initialValue: this.currentItem.gradeName,
+                rules: [
+                  {
+                    required: true,
+                    message: '请输入年级名称!',
+                    trigger: 'blur'
+                  }
+                ]
+              })(
+                <Input
+                  placeholder="请输入"
+                  allowClear
+                />
+              )
+            }
+          </Form.Item>
+          <Form.Item label="入学年份">
+            {
+              this.form.getFieldDecorator(
+                'gradeYear',
+                {
+                  initialValue: this.currentItem.gradeYear,
+                  rules: [
+                    {
+                      required: true,
+                      type: 'number',
+                      message: '请选择入学年份!',
+                      trigger: 'change'
+                    }
+                  ]
+                }
+              )(
+                <Select placeholder="请选择年份">
+                  {
+                    this.yearList.years?.map(item => (
+                      <Select.Option value={item}>{item}</Select.Option>
+                    ))
+                  }
+
+                </Select>
+              )
+            }
+          </Form.Item>
+          <Form.Item label="届数">
+            {
+              this.form.getFieldDecorator(
+                'gradeTh',
+                {
+                  initialValue: this.currentItem.gradeTh,
+                  rules: [
+                    {
+                      required: true,
+                      type: 'number',
+                      message: '请选择届数!',
+                      trigger: 'change'
+                    }
+                  ]
+                }
+              )(
+                <Select placeholder="请选择届数">
+                  {
+                    this.yearList.yearsTh?.map(item => (
+                      <Select.Option value={item}>{item}</Select.Option>
+                    ))
+                  }
+
+                </Select>
+              )
+            }
+          </Form.Item>
+          <Form.Item label="年级类型">
+            {
+              this.form.getFieldDecorator(
+                'gradeType',
+                {
+                  initialValue: this.currentItem.gradeType,
+                  rules: [
+                    {
+                      required: true,
+                      type: 'number',
+                      message: '请选择年级类型!',
+                      trigger: 'change'
+                    }
+                  ]
+                }
+              )(
+                <Select placeholder="请选择年级类型">
+                  <Select.Option value={0}>幼儿园</Select.Option>
+                  <Select.Option value={3}>小学</Select.Option>
+                  <Select.Option value={9}>初中</Select.Option>
+                  <Select.Option value={12}>高中</Select.Option>
+                  <Select.Option value={15}>大学</Select.Option>
+                </Select>
+              )
+            }
+          </Form.Item>
+          <Form.Item label="班级数量">
+            {
+              this.form.getFieldDecorator('classNum', {
+                initialValue: this.currentItem.classNum,
+                rules: [
+                  {
+                    required: true,
+                    type: 'number',
+                    message: '请输入班级数量!',
+                    trigger: 'blur'
+                  }
+                ]
+              })(
+                <InputNumber
+                  min={0}
+                  placeholder="请输入"
+                  style={{ width: '100%' }}
+                />
+              )
+            }
+          </Form.Item>
+          <Form.Item label="状态">
+            {
+              this.form.getFieldDecorator('status', {
+                initialValue: this.currentItem.status === undefined ? true : this.currentItem.status === 1,
+                valuePropName: 'checked'
+              })(
+                <Switch />
+              )
+            }
+          </Form.Item>
+        </Form>
+      </DragModal>
+    )
+  }
+})

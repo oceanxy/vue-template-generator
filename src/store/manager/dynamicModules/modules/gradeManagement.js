@@ -8,8 +8,12 @@ export default commitRootInModule =>
         yearList: {
           loading: false,
           list: []
+        },
+        streetList: {
+          loading: false,
+          list: []
         }
       }
     }),
-    ['state.details', 'state.visibleOfEdit', 'state.selectedRowKeys', 'state.selectedRows', 'state.currentItem']
+    []
   )

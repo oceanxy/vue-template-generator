@@ -2,7 +2,7 @@ import qs from 'qs'
 
 export default {
   /**
-   * 获取学校分页集合
+   * 获取年级分页集合
    * @param [request]
    * @param data
    * @returns {*}
@@ -16,7 +16,7 @@ export default {
   },
 
   /**
-   * 修改学校
+   * 修改年级
    * @param request
    * @param data
    * @returns {*}
@@ -25,12 +25,12 @@ export default {
     return request({
       url: '/personnel/grade/update',
       method: 'post',
-      data: qs.stringify(data)
+      data
     })
   },
 
   /**
-   * 新增学校
+   * 新增年级
    * @param request
    * @param data
    * @returns {*}
@@ -39,12 +39,12 @@ export default {
     return request({
       url: '/personnel/grade/add',
       method: 'post',
-      data: qs.stringify(data)
+      data
     })
   },
 
   /**
-   * 删除学校
+   * 删除年级
    * @param request
    * @param data
    * @returns {*}
@@ -52,6 +52,20 @@ export default {
   deleteGradeManagement(request, data) {
     return request({
       url: '/personnel/grade/delete',
+      method: 'post',
+      data: qs.stringify(data)
+    })
+  },
+
+  /**
+   * 修改年级状态
+   * @param request
+   * @param data
+   * @returns {*}
+   */
+  updateGradeManagementStatus(request, data) {
+    return request({
+      url: '/personnel/grade/updateStatus',
       method: 'post',
       data: qs.stringify(data)
     })
@@ -66,6 +80,34 @@ export default {
   getYearList(request, data) {
     return request({
       url: '/personnel/grade/getYearList',
+      method: 'post',
+      data: qs.stringify(data)
+    })
+  },
+
+  /**
+   * 设置年级为毕业
+   * @param [request]
+   * @param data
+   * @returns {*}
+   */
+  updateGraduation(request, data) {
+    return request({
+      url: '/personnel/grade/updateGraduation',
+      method: 'post',
+      data: qs.stringify(data)
+    })
+  },
+
+  /**
+   * 根据街道ID获取学校集合
+   * @param [request]
+   * @param data
+   * @returns {*}
+   */
+  getListByStreetId(request, data) {
+    return request({
+      url: '/personnel/school/getListByStreetId',
       method: 'post',
       data: qs.stringify(data)
     })

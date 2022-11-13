@@ -16,6 +16,7 @@ export default {
         <Button
           onClick={() => this.onEditClick()}
           icon="edit"
+          disabled={this.deleteButtonDisabled}
         >
           修改
         </Button>
@@ -35,6 +36,7 @@ export default {
 
         <Button
           icon="setting"
+          disabled={this.deleteButtonDisabled}
         >
           设置为毕业
         </Button>

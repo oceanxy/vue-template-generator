@@ -16,11 +16,12 @@ export default {
         <Button
           onClick={() => this.onEditClick()}
           icon="edit"
+          disabled={this.deleteButtonDisabled}
         >
           修改
         </Button>
         <Button
-          onClick={() => this.onAddClick()}
+          // onClick={() => this.onAddClick()}
           icon="import"
         >
           导入

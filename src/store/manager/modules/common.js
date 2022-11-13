@@ -16,7 +16,7 @@ export default {
   },
   mutations: {
     setAdministrativeDivision(state, payload) {
-      state.administrativeDivision = payload.treeList || []
+      state.administrativeDivision = payload || []
       state.defaultAdministrativeDivision = payload.defaultIds || []
     }
   },
