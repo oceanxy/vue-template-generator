@@ -383,9 +383,15 @@ export default {
     return response.status
   },
   /**
-   * 获取下拉列表数据或包含下拉列表数据的对象。
+   * 获取带有加载状态的列表、表格、树、下拉菜单或相似结构的资源。
    * 专用于 store 内定义为类似如下数据结构的 state 请求数据：
-   *    [stateName]: { list?: Array, data?: Object, loading: Boolean }
+   *   {
+   *     [stateName]: {
+   *       list?: Array,
+   *       data?: Object,
+   *       loading: Boolean
+   *     }
+   *   }
    * @param state
    * @param dispatch
    * @param commit
@@ -396,7 +402,7 @@ export default {
    * @param customApiName {string} 自定义请求数据 api 的名称
    * @returns {Promise<*>}
    */
-  async getListForSelect(
+  async getListWithLoadingStatus(
     {
       state,
       dispatch,
@@ -448,31 +454,48 @@ export default {
       customizeLoading: stateName
     })
 
-    return true
+    return response.status
   },
   /**
    * 更新状态
    * @param commit
    * @param moduleName {string}
    * @param payload {Object}
-   * @param customFieldName {string} 自定义字段名 默认 status
+   * @param [customFieldName='status'] {string} 自定义字段名，默认 status
+   * @param [customApiName] {string} 自定义接口名
+   * @param [stateName] {string} 需要设置状态的数据源。
+   * （默认store.state.list保存列表数据；默认store.state.loading保存列表加载状态；
+   * 除这二者之外的需要传递字段名，以告之具体需要修改的对象）
    * @returns {Promise<*>}
    */
   async updateStatus({ commit }, {
     moduleName,
     payload,
-    customFieldName
+    customFieldName,
+    customApiName,
+    stateName
   }) {
-    commit('setLoading', { value: true, moduleName })
+    // stateName并不是子模块名，但是可以看做子模块来传递参数，可以达到相同目的，例如：
+    // 在 vuex 暴露出来的 store.state 的数据结构中，
+    // store.state[moduleName][submoduleName] 与 store.state[moduleName][stateName] 的数据结构是完全一致的
+    commit('setLoading', {
+      value: true,
+      moduleName,
+      submoduleName: stateName
+    })
 
-    const api = `update${
+    const api = customApiName || `update${
       firstLetterToUppercase(moduleName)
     }${
       firstLetterToUppercase(customFieldName)
     }`
     const { status } = await apis[api](payload)
 
-    commit('setLoading', { value: false, moduleName })
+    commit('setLoading', {
+      value: false,
+      moduleName,
+      submoduleName: stateName
+    })
 
     return status
   },

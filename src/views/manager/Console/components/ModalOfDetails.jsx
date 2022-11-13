@@ -28,7 +28,7 @@ export default {
       immediate: true,
       async handler(value) {
         if (value) {
-          await this.$store.dispatch('getListForSelect', {
+          await this.$store.dispatch('getListWithLoadingStatus', {
             moduleName: this.moduleName,
             stateName: 'details',
             payload: { id: this.currentItem.id },

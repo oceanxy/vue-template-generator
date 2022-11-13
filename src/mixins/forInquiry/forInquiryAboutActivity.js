@@ -22,29 +22,23 @@ export default () => ({
       return this.getState('organizations', this.moduleName)
     }
   },
-  watch: {
-    activities: {
-      deep: true,
-      async handler(value) {
-        if (value.list?.length) {
-          await Promise.all([
-            this.setSearch(value.list[0].id, !this.notInitList),
-            this.getOrganizations(value.list[0].id)
-          ])
-        }
-      }
-    }
-  },
   async created() {
-    await this.$store.dispatch('getListForSelect', {
+    const status = await this.$store.dispatch('getListWithLoadingStatus', {
       moduleName: this.moduleName,
       stateName: 'activities',
       customApiName: 'getActivitiesForSelect'
     })
+
+    if (status) {
+      await Promise.all([
+        this.setSearch(this.activities.list[0].id, !this.notInitList),
+        this.getOrganizations(this.activities.list[0].id)
+      ])
+    }
   },
   methods: {
     async getOrganizations(activityId) {
-      await this.$store.dispatch('getListForSelect', {
+      await this.$store.dispatch('getListWithLoadingStatus', {
         moduleName: this.moduleName,
         stateName: 'organizations',
         customApiName: 'getOrganizationsForSelect',

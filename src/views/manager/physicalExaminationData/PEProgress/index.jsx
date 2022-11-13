@@ -30,7 +30,7 @@ export default {
           <Table slot="table" />
           <TGPagination slot="pagination" />
           <template slot={'modals'}>
-            <ModalOfDetails modalTitle={'{action}详细数据'} />
+            <ModalOfDetails modalTitle={'详细数据'} />
           </template>
         </TGContainer>
       </TGContainerWithTreeSider>

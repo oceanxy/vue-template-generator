@@ -9,6 +9,11 @@ body,
 
 body {
   margin: 0;
+
+  p {
+    margin: 0;
+    padding: 0;
+  }
 }
 
 #app {
@@ -445,31 +450,42 @@ body {
 .ant-modal-wrap {
   .ant-modal-content {
     transform: var(--transform);
-  }
 
-  .ant-modal-body {
-    overflow: auto;
-    max-height: calc(90vh - 200px);
-    padding: 24px 70px 24px 50px;
+    .ant-modal-header {
+      background: linear-gradient(to bottom, #edfcf2, #ffffff);
+    }
 
-    .ant-table {
-      height: auto;
+    .ant-modal-body {
+      overflow: auto;
+      max-height: calc(90vh - 200px);
+      padding: 24px 40px;
+
+      .ant-table {
+        height: auto;
+      }
+    }
+
+    .ant-modal-footer {
+      background: #f6fef9;
+      border: none;
+      text-align: center;
     }
   }
 }
 
-.tg-table-modal .ant-modal-wrap {
-  .ant-modal-body {
-    padding: 24px;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
+.tg-table-modal {
+  .ant-modal-wrap{
+    .ant-modal-body {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
 
-  .tg-table-in-modal {
-    height: auto;
-    overflow-y: auto;
-    max-height: 580px;
+    .tg-table-in-modal {
+      height: auto;
+      overflow-y: auto;
+      max-height: 580px;
+    }
   }
 }
 

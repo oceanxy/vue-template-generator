@@ -121,7 +121,7 @@ export default {
     }
   },
   async created() {
-    const status = await this.$store.dispatch('getListForSelect', {
+    const status = await this.$store.dispatch('getListWithLoadingStatus', {
       moduleName: this.apiOptions.moduleName,
       stateName: this.apiOptions.stateName,
       customApiName: this.apiOptions.apiName

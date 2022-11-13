@@ -35,14 +35,14 @@ export default Form.create({})({
         if (value) {
           await Promise.all([
             // 获取菜单树
-            this.$store.dispatch('getListForSelect', {
+            this.$store.dispatch('getListWithLoadingStatus', {
               moduleName: this.moduleName,
               stateName: 'menuTree',
               customApiName: 'getPrivilegeTree',
               payload: { roleId: this.currentItem.id }
             }),
             // 获取权限菜单（已分配给角色的菜单）
-            this.$store.dispatch('getListForSelect', {
+            this.$store.dispatch('getListWithLoadingStatus', {
               moduleName: this.moduleName,
               stateName: 'permissionMenus',
               customApiName: 'getPermissionMenus',

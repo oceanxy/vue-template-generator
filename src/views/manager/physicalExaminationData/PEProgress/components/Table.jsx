@@ -109,7 +109,11 @@ export default {
           <Switch
             checked={text === 1}
             onChange={checked => this.onStatusChange(
-              { checked, record }
+              {
+                checked,
+                record,
+                actualFieldName: 'isSignOut'
+              }
             )}
           />
         )

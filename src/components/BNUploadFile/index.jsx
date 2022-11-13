@@ -17,7 +17,7 @@ export default {
     },
     action: {
       type: String,
-      default: '/mgapi/system/upload/file'
+      default: '/api/system/upload/file'
     },
     accept: {
       type: String,

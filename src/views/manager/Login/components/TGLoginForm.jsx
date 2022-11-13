@@ -56,7 +56,7 @@ export default Form.create({ name: 'TGLoginForm' })({
       })
     },
     genCode() {
-      this.picCodePath = '/mgapi/auth/verifyCode/loginImg?t=' + Math.random()
+      this.picCodePath = '/api/auth/verifyCode/loginImg?t=' + Math.random()
     }
   },
   render() {

@@ -13,7 +13,7 @@ export default Form.create({})({
     }
   },
   async created() {
-    await this.$store.dispatch('getListForSelect', {
+    await this.$store.dispatch('getListWithLoadingStatus', {
       moduleName: this.moduleName,
       stateName: 'levelList',
       customApiName: 'getLevelList'

@@ -8,22 +8,26 @@
 import { mapGetters } from 'vuex'
 import { message, Modal, Table } from 'ant-design-vue'
 import forIndex from '@/mixins/forIndex'
-import { omit } from 'lodash'
+import { cloneDeep, omit } from 'lodash'
 
 /**
  * 用于 table 的混合
  * @param [isInject=true] {boolean} 是否从 inject 导入 moduleName，默认 true
  * @param [isFetchList=true] {boolean} 是否在组件初始化完成后立即获取列表数据，默认 true
+ * @param [stateName='list'] {string} 表格数据在 store.state 里对应的名称
  * @returns {Object}
  */
 export default ({
   isInject = true,
-  isFetchList = true
+  isFetchList = true,
+  stateName = 'list'
 } = {}) => {
+  const _stateName = stateName
   const forTable = {
     mixins: [forIndex],
     inject: {
       // 通知组件在初始化阶段是否自动请求数据。
+      // 该变量与 isFetchList 是相同的作用，区别在于 provide 和 inject 可以不限层级的传递数据。
       // 来自于 @/components/TGContainerWithTreeSider 组件。
       notInitList: { default: false }
     },
@@ -54,11 +58,13 @@ export default ({
       }
     },
     computed: {
-      ...mapGetters({
-        getState: 'getState',
-        getLoading: 'getLoading',
-        getCurrentItem: 'getCurrentItem'
-      }),
+      ...mapGetters({ getState: 'getState' }),
+      loading() {
+        return this.getState('loading', this.moduleName, this.submoduleName)
+      },
+      currentItem() {
+        return this.getState('currentItem', this.moduleName, this.submoduleName)
+      },
       rowKey() {
         return this.getState('rowKey', this.moduleName, this.submoduleName) || 'id'
       },
@@ -87,7 +93,7 @@ export default ({
         return {
           props: {
             ...this.tableProps,
-            loading: this.getLoading(this.moduleName)
+            loading: this.loading
           },
           on: { ...events }
         }
@@ -115,7 +121,10 @@ export default ({
         })
       }
     },
-    async created() {
+    beforeMount() {
+      this.tableProps.rowKey = this.rowKey
+    },
+    async mounted() {
       // 为 list 创建动态侦听器
       if (!this.submoduleName) {
         this.$watch(
@@ -156,11 +165,7 @@ export default ({
           { immediate: true }
         )
       }
-    },
-    beforeMount() {
-      this.tableProps.rowKey = this.rowKey
-    },
-    mounted() {
+
       window.addEventListener('resize', this.resize)
 
       this.$on('hook:beforeDestroy', () => {
@@ -190,12 +195,20 @@ export default ({
        * @param [merge] {boolean} 是否合并数据，默认false，主要用于“加载更多”功能
        * @returns {Promise<void>}
        */
-      async fetchList(merge) {
-        await this.$store.dispatch('getList', {
+      async fetchList({ merge } = {}) {
+        return await this.$store.dispatch('getList', {
           merge,
           moduleName: this.moduleName,
           submoduleName: this.submoduleName,
-          stateName: this.stateName, // 在组件内设置用于接收数据的字段名，默认“list”
+          /**
+           * this.stateName 与 _stateName 解释：
+           *  this.stateName 是在混入组件内设置的，可以在 混入组件的 computed 或 data 内定义；
+           *
+           *  _stateName 为本“混合”的参数，详情见顶部注释。通过“混合”的参数的传入，只能传递固定值，
+           *  从 Vue.mixins 的特性可知，“混合”并不是在运行时中运行的。
+           *  所以此处的 _stateName 只适合事先确定好的，不会改变的混入组件使用。
+           */
+          stateName: this.stateName || _stateName,
           additionalQueryParameters: {
             ...this.$route.query,
             // 获取子模块数据需要的额外参数，在引用该混合的子模块内覆盖设置。
@@ -208,50 +221,84 @@ export default ({
        * 行内改变状态
        * @param checked {boolean} 当前状态
        * @param record {Object} 列表数据对象
-       * @param [customFieldName] {string} 自定义字段名， 默认 'status'
-       * @param [idKey] {string} 自定义ID字段的键， 默认 'id'
-       * @param [nameKey] {string} 自定义名称字段的键， 默认 'fullName'
+       * @param [customFieldName='status'] {string} 自定义参数名，用于传递状态变更值。默认 'status'
+       * @param [actualFieldName='status'] {string} 列表中实际用于保存该状态的字段名，主要用于被修改状态的字段名不为 'status' 的情况下更新本地数据。
+       *  当修改的状态的字段名不为 status 时必传。默认 'status'
+       * @param [idKey='id'] {string} 自定义参数ID的名称， 默认 'id'
+       * @param [nameKey='fullName'] {string} 自定义名称字段的键，主要用于页面提示。 默认 'fullName'
+       * @param [customApiName] {string} 自定义请求接口名，一般在要修改状态字段的表格位于弹窗内时使用。
+       * @param [stateName] {string} store.state 中存储该表格数据的字段名，默认 'list'
+       * @param [optimisticUpdate=true] {string} 乐观更新，是否在成功调用更新接口后向服务器请求新的列表数据。
+       * 默认true，使用乐观更新，即不向服务器请求新的列表数据，前端执行乐观更新操作。
        * @returns {Promise<void>}
        */
       async onStatusChange({
         checked,
         record,
         customFieldName = 'status',
+        actualFieldName = 'status',
         idKey = 'id',
-        nameKey = 'fullName'
-      }) {
+        nameKey = 'fullName',
+        customApiName,
+        stateName,
+        optimisticUpdate = true
+      } = {}) {
+        stateName = stateName || _stateName
+
         const status = await this.$store.dispatch('updateStatus', {
           moduleName: this.moduleName,
           customFieldName,
+          customApiName,
+          stateName: stateName !== 'list' ? stateName : '',
           payload: {
             [idKey]: record[this.tableProps.rowKey || 'id'],
             [customFieldName]: checked ? 1 : 0
           }
         })
 
-        const index = this.tableProps.dataSource.findIndex(item => item[idKey] === record[idKey])
-        let dataSource
+        const state = this.$store.state[this.moduleName]
+        const _dataSource = cloneDeep((state[this.submoduleName] ?? state)[stateName])
+        // _dataSource.list 取值是为了适配 store.state 中定义为 “{ loading: false, list: [] }” 结构的数据类型。
+        // 如果遇到新的数据结构，可能需要另外的逻辑来适配，这里为了避免报错，赋值为空数组。
+        const dataSource = Array.isArray(_dataSource) ? _dataSource : (_dataSource.list || [])
+        const index = dataSource.findIndex(item => item[idKey] === record[idKey])
 
         if (status) {
+          let name
+
+          if (nameKey.includes('.')) {
+            name = nameKey.split('.').reduce((prev, curr) => prev[curr], record)
+          } else {
+            name = record[nameKey]
+          }
+
+          console.log(nameKey)
+
           message.success([
             <span style={{ color: '#16b364' }}>
-              {record[nameKey]}
+              {name}
             </span>, ' 的状态已更新！'
           ])
-
-          // 更新当前行受控Switch组件的值
-          dataSource = this.tableProps.dataSource[index][customFieldName] = checked ? 1 : 0
-        } else {
-          // 调用接口失败时，还原值
-          dataSource = this.tableProps.dataSource[index][customFieldName] = checked ? 0 : 1
         }
 
-        this.$store.commit('setState', {
-          value: dataSource,
-          moduleName: this.moduleName,
-          submoduleName: this.submoduleName,
-          stateName: 'list'
-        })
+        if (optimisticUpdate) {
+          if (status) {
+            // 更新当前行受控Switch组件的值
+            dataSource[index][actualFieldName] = checked ? 1 : 0
+          } else {
+            // 调用接口失败时，还原值
+            dataSource[index][actualFieldName] = checked ? 0 : 1
+          }
+
+          this.$store.commit('setState', {
+            stateName,
+            value: stateName !== 'list' ? { loading: false, list: dataSource } : dataSource,
+            moduleName: this.moduleName,
+            submoduleName: this.submoduleName
+          })
+        } else {
+          await this.fetchList()
+        }
       },
       /**
        * 行内新增
@@ -381,31 +428,25 @@ export default ({
        * 调用方式：建议在监听渲染表格的数据变化时调用
        */
       resize() {
-        const tableRef = this.$refs[`${this.submoduleName ? `${this.submoduleName}Of` : ''}${this.moduleName}Table`]
+        const tableRef = this.tableName
+          ? this.$refs[this.tableName]
+          : this.$refs[`${this.submoduleName ? `${this.submoduleName}Of` : ''}${this.moduleName}Table`]
 
         if (tableRef) {
           this.$nextTick(() => {
-            let notSetWidth = 0 // 未设置宽度的列的宽度和（每一列统一设置为100）
             // 表格元素
             const table = tableRef.$el
-            // // 定宽列之和(不包含未设置宽度的列)
-            const fixedWidthSum = this.tableProps.columns.reduce((total, item) => {
-              if (!item.width) {
-                notSetWidth += 100
-              }
-
-              return total + (item.width || 0)
-            }, 0)
-            const TABLE_CONTAINER_WIDTH = table.clientWidth
             const TABLE_CONTAINER_HEIGHT = table.clientHeight
             const HEADER_HEIGHT = table.querySelector('.ant-table-thead')?.clientHeight ?? 0
+            const TABLE_BODY_WIDTH = table.querySelector('.ant-table-body')?.clientWidth ?? 0
+            const HTML_TABLE_WIDTH = table.querySelector('.ant-table-body > table')?.clientWidth ?? 0
             const HTML_TABLE_HEIGHT = table.querySelector('.ant-table-body > table')?.clientHeight ?? 0
             const FOOTER_HEIGHT = table.querySelector('.ant-table-footer')?.clientHeight ?? 0
             const scroll = { scrollToFirstRowOnChange: true }
 
             // 固定列时，需要设置 scroll.x
-            if (fixedWidthSum + notSetWidth > TABLE_CONTAINER_WIDTH) {
-              scroll.x = fixedWidthSum + notSetWidth
+            if (HTML_TABLE_WIDTH > TABLE_BODY_WIDTH) {
+              scroll.x = TABLE_BODY_WIDTH
             }
 
             // 这里配合了css的flex布局实现
@@ -422,7 +463,7 @@ export default ({
     render() {
       return (
         <Table
-          ref={`${this.moduleName}Table`}
+          ref={this.tableName || `${this.submoduleName ? `${this.submoduleName}Of` : ''}${this.moduleName}Table`}
           scopedSlots={this.scopedSlots}
           {...this.attributes}
         />

@@ -77,7 +77,7 @@ export default Form.create({})({
       // console.log(value, e)
     },
     async onCompanySearch(keyword) {
-      await this.$store.dispatch('getListForSelect', {
+      await this.$store.dispatch('getListWithLoadingStatus', {
         moduleName: this.moduleName,
         stateName: 'companyList',
         customApiName: 'getWaitCompanyContractList',

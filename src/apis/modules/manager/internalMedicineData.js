@@ -15,6 +15,19 @@ export default {
     })
   },
   /**
+   * 通过学生ID获取内科数据列表
+   * @param [request]
+   * @param data
+   * @returns {*}
+   */
+  getInternalMedicineDataByStudentId(request, data) {
+    return request({
+      url: '/examine/examineProgress/getInternalList',
+      method: 'post',
+      data: qs.stringify(data)
+    })
+  },
+  /**
    * 导出内科数据
    * @param request
    * @param params

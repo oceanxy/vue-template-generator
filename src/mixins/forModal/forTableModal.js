@@ -15,7 +15,15 @@ export default () => {
       return {
         modalProps: {
           width: 800,
-          footer: <Button onClick={() => this.onCancel(this.visibleField)}>关闭</Button>
+          footer: (
+            <Button
+              type={'primary'}
+              icon={'close'}
+              onClick={() => this.onCancel(this.visibleField)}
+            >
+              关闭
+            </Button>
+          )
         }
       }
     },

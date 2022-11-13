@@ -1,0 +1,73 @@
+@import '@/assets/styles/theme.scss';
+
+.fe-pe-progress-details-modal {
+  .ant-modal-body {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .fe-pe-progress-details-modal-basic-info {
+    display: flex;
+    gap: 16px;
+
+    .avatar {
+      flex: none;
+      width: 72px;
+      height: 72px;
+      background: no-repeat center / 100% auto;
+      overflow: hidden;
+      border-radius: 36px;
+
+      &.bg {
+        background-image: var(--bg);
+      }
+
+      .anticon {
+        font-size: 72px;
+      }
+    }
+
+    .content {
+      flex: auto;
+
+      & > p {
+        line-height: 24px;
+        color: rgba(52, 64, 84, 0.62);
+        font-size: 14px;
+      }
+
+      .name {
+        color: #344054;
+        font-weight: bolder;
+      }
+
+      .location {
+        display: flex;
+        align-items: center;
+
+        .anticon {
+          font-size: 24px;
+          padding-right: 8px;
+        }
+      }
+    }
+  }
+
+  .fe-pe-progress-details-modal-content {
+    .ant-tabs-bar {
+      margin-bottom: 0;
+
+      .ant-tabs-tab {
+        background: $primary-shadow-normal;
+        color: #ffffff;
+        border-radius: 8px 8px 0 0;
+
+        &:hover,
+        &.ant-tabs-tab-active {
+          background-color: $primary-color;
+        }
+      }
+    }
+  }
+}

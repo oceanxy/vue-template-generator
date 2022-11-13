@@ -15,6 +15,10 @@ export default commitRootInModule => omit(createStoreModule({
     conclusionGrades: {
       list: [],
       loading: false
+    },
+    heightAndWeightData: {
+      loading: false,
+      list: []
     }
   }
 }), [

@@ -40,7 +40,7 @@ export default Form.create({})({
           customDataHandler: this.customDataHandler,
           done: async () => {
             // 更新左侧菜单树
-            await this.$store.dispatch('getListForSelect', {
+            await this.$store.dispatch('getListWithLoadingStatus', {
               moduleName: 'system',
               stateName: 'menuTree',
               customApiName: 'getSystemMenuTree'
