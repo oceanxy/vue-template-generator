@@ -7,7 +7,7 @@ import ModalOfEdit from './components/ModalOfEdit'
 import TGPagination from '@/components/TGPagination'
 import dynamicState from '@/mixins/dynamicState'
 import TGContainer from '@/layouts/components/TGContainer'
-import { getFieldNameForSchoolGroupType } from '@/utils/auxiliaryFunction'
+import { getFieldNameForSchoolGroupType } from '@/utils/projectHelpers'
 
 export default {
   name: 'SchoolManagement',
