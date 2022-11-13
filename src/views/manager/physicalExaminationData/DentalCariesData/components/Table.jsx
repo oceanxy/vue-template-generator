@@ -1,5 +1,6 @@
 import '../assets/styles/index.scss'
 import forTable from '@/mixins/forTable'
+import { Tag } from 'ant-design-vue'
 
 export default {
   mixins: [forTable({ isFetchList: false })],
@@ -66,29 +67,86 @@ export default {
             dataIndex: 'age'
           },
           {
-            title: '身高（cm）',
-            width: 100,
-            align: 'center',
-            dataIndex: 'heightStr'
-          },
-          {
-            title: '体重（kg）',
+            title: '病史状态',
             align: 'center',
             width: 100,
-            dataIndex: 'weightStr'
+            dataIndex: 'medicalHistoryStatus',
+            scopedSlots: { customRender: 'medicalHistoryStatus' }
           },
           {
-            title: 'BMI',
-            align: 'center',
-            width: 70,
-            dataIndex: 'bmi'
-          },
-
-          {
-            title: '结论等级',
+            title: '病史异常项',
             align: 'center',
             width: 100,
-            dataIndex: 'conclusionLevelName'
+            dataIndex: 'medicalHistoryException'
+          },
+          {
+            title: '龋齿左上部',
+            align: 'center',
+            width: 110,
+            dataIndex: 'cariesUpperLeft'
+          },
+          {
+            title: '龋齿右上部',
+            align: 'center',
+            width: 110,
+            dataIndex: 'cariesUpperRight'
+          },
+          {
+            title: '龋齿左下部',
+            align: 'center',
+            width: 110,
+            dataIndex: 'cariesLowerLeft'
+          },
+          {
+            title: '龋齿右下部',
+            align: 'center',
+            width: 110,
+            dataIndex: 'cariesLowerRight'
+          },
+          {
+            title: '牙周疾病状态',
+            align: 'center',
+            width: 120,
+            dataIndex: 'periodontalStatus',
+            scopedSlots: { customRender: 'periodontalStatus' }
+          },
+          {
+            title: '牙周疾病异常项',
+            align: 'center',
+            width: 130,
+            dataIndex: 'periodontalException'
+          },
+          {
+            title: '沙眼状态',
+            align: 'center',
+            width: 100,
+            dataIndex: 'trachomaStatus',
+            scopedSlots: { customRender: 'trachomaStatus' }
+          },
+          {
+            title: '沙眼异常项',
+            align: 'center',
+            width: 100,
+            dataIndex: 'trachomaException'
+          },
+          {
+            title: '结膜炎状态',
+            align: 'center',
+            width: 100,
+            dataIndex: 'conjunctivitisStatus',
+            scopedSlots: { customRender: 'conjunctivitisStatus' }
+          },
+          {
+            title: '结膜炎异常项',
+            align: 'center',
+            width: 100,
+            dataIndex: 'conjunctivitisException'
+          },
+          {
+            title: '结论',
+            align: 'center',
+            width: 100,
+            dataIndex: 'conclusion'
           },
           {
             title: '设备名称',
@@ -104,7 +162,22 @@ export default {
           }
         ],
         rowSelection: null
+      },
+      scopedSlots: {
+        medicalHistoryStatus: text => this.getTag(text, ['无', '有']),
+        periodontalStatus: text => this.getTag(text, ['无', '有']),
+        trachomaStatus: text => this.getTag(text, ['无', '有']),
+        conjunctivitisStatus: text => this.getTag(text, ['无', '有'])
       }
+    }
+  },
+  methods: {
+    getTag(value, labelArr = ['正常', '异常']) {
+      return (
+        <Tag color={['rgba(22, 179, 100, 0.6)', 'rgba(179, 22, 22, 0.6)'][value]}>
+          {labelArr[value]}
+        </Tag>
+      )
     }
   }
 }

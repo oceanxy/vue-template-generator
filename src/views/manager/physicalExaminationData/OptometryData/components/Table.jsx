@@ -66,29 +66,94 @@ export default {
             dataIndex: 'age'
           },
           {
-            title: '身高（cm）',
-            width: 100,
-            align: 'center',
-            dataIndex: 'heightStr'
+            title: '左眼',
+            children: [
+              {
+                title: 'SE',
+                align: 'center',
+                width: 70,
+                dataIndex: 'leftSe'
+              },
+              {
+                title: 'DS',
+                align: 'center',
+                width: 70,
+                dataIndex: 'leftDs'
+              },
+              {
+                title: 'DC',
+                align: 'center',
+                width: 70,
+                dataIndex: 'leftDc'
+              },
+              {
+                title: 'AX',
+                align: 'center',
+                width: 70,
+                dataIndex: 'leftAxis'
+              },
+              {
+                title: 'PS',
+                align: 'center',
+                width: 70,
+                dataIndex: 'leftPupilRadius'
+              },
+              {
+                title: 'XY',
+                align: 'center',
+                width: 100,
+                dataIndex: 'leftXy',
+                scopedSlots: { customRender: 'leftXy' }
+              }
+            ]
           },
           {
-            title: '体重（kg）',
-            align: 'center',
-            width: 100,
-            dataIndex: 'weightStr'
+            title: '右眼',
+            children: [
+              {
+                title: 'SE',
+                align: 'center',
+                width: 70,
+                dataIndex: 'rightSe'
+              },
+              {
+                title: 'DS',
+                align: 'center',
+                width: 70,
+                dataIndex: 'rightDs'
+              },
+              {
+                title: 'DC',
+                align: 'center',
+                width: 70,
+                dataIndex: 'rightDc'
+              },
+              {
+                title: 'AX',
+                align: 'center',
+                width: 70,
+                dataIndex: 'rightAxis'
+              },
+              {
+                title: 'PS',
+                align: 'center',
+                width: 70,
+                dataIndex: 'rightPupilRadius'
+              },
+              {
+                title: 'XY',
+                align: 'center',
+                width: 100,
+                dataIndex: 'rightXy',
+                scopedSlots: { customRender: 'rightXy' }
+              }
+            ]
           },
           {
-            title: 'BMI',
+            title: '瞳距',
             align: 'center',
             width: 70,
-            dataIndex: 'bmi'
-          },
-
-          {
-            title: '结论等级',
-            align: 'center',
-            width: 100,
-            dataIndex: 'conclusionLevelName'
+            dataIndex: 'pupilDistance'
           },
           {
             title: '设备名称',
@@ -104,6 +169,10 @@ export default {
           }
         ],
         rowSelection: null
+      },
+      scopedSlots: {
+        leftXy: (text, record) => `${record.leftOffsetX}, ${record.leftOffsetY}`,
+        rightXy: (text, record) => `${record.rightOffsetX}, ${record.rightOffsetY}`
       }
     }
   }

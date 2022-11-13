@@ -130,6 +130,17 @@ export default Form.create({})({
               )
             }
           </Form.Item>
+          <Form.Item label={'是否边缘'}>
+            {
+              this.form.getFieldDecorator('isEdge', { initialValue: '' })(
+                <Select>
+                  <Select.Option value={''}>全部</Select.Option>
+                  <Select.Option value={1}>是</Select.Option>
+                  <Select.Option value={2}>否</Select.Option>
+                </Select>
+              )
+            }
+          </Form.Item>
           <Form.Item label={'是否有效'}>
             {
               this.form.getFieldDecorator('grade', { initialValue: '' })(

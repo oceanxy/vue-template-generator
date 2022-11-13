@@ -66,24 +66,29 @@ export default {
             dataIndex: 'age'
           },
           {
-            title: '身高（cm）',
+            title: '左眼视力',
             width: 100,
             align: 'center',
-            dataIndex: 'heightStr'
+            dataIndex: 'leftVisionStr'
           },
           {
-            title: '体重（kg）',
+            title: '左眼结论',
             align: 'center',
             width: 100,
-            dataIndex: 'weightStr'
+            dataIndex: 'leftConclusionLevelName'
           },
           {
-            title: 'BMI',
+            title: '右眼视力',
             align: 'center',
-            width: 70,
-            dataIndex: 'bmi'
+            width: 100,
+            dataIndex: 'rightVisionStr'
           },
-
+          {
+            title: '右眼结论',
+            align: 'center',
+            width: 100,
+            dataIndex: 'rightConclusionLevelName'
+          },
           {
             title: '结论等级',
             align: 'center',

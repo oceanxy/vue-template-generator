@@ -77,7 +77,7 @@ export default {
                 activeKey={this.activeKey}
                 type={'card'}
                 size={'small'}
-                animated={true}
+                // animated={true}
                 onChange={this.onChange}
               >
                 {

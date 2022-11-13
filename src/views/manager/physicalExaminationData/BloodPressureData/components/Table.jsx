@@ -66,22 +66,22 @@ export default {
             dataIndex: 'age'
           },
           {
-            title: '身高（cm）',
+            title: '收缩压（mmHg）',
             width: 100,
             align: 'center',
-            dataIndex: 'heightStr'
+            dataIndex: 'systolicPressure'
           },
           {
-            title: '体重（kg）',
+            title: '舒张压（mmHg）',
             align: 'center',
             width: 100,
-            dataIndex: 'weightStr'
+            dataIndex: 'diastolicPressure'
           },
           {
-            title: 'BMI',
+            title: '脉搏（bpm）',
             align: 'center',
-            width: 70,
-            dataIndex: 'bmi'
+            width: 100,
+            dataIndex: 'pulseNum'
           },
 
           {

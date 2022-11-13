@@ -1,5 +1,6 @@
 import '../assets/styles/index.scss'
 import forTable from '@/mixins/forTable'
+import { Tag } from 'ant-design-vue'
 
 export default {
   mixins: [forTable({ isFetchList: false })],
@@ -66,29 +67,62 @@ export default {
             dataIndex: 'age'
           },
           {
-            title: '身高（cm）',
-            width: 100,
-            align: 'center',
-            dataIndex: 'heightStr'
-          },
-          {
-            title: '体重（kg）',
+            title: '心状态',
             align: 'center',
             width: 100,
-            dataIndex: 'weightStr'
+            dataIndex: 'heartStatus',
+            scopedSlots: { customRender: 'heartStatus' }
           },
           {
-            title: 'BMI',
-            align: 'center',
-            width: 70,
-            dataIndex: 'bmi'
-          },
-
-          {
-            title: '结论等级',
+            title: '心异常项',
             align: 'center',
             width: 100,
-            dataIndex: 'conclusionLevelName'
+            dataIndex: 'heartException'
+          },
+          {
+            title: '肺状态',
+            align: 'center',
+            width: 100,
+            dataIndex: 'lungStatus',
+            scopedSlots: { customRender: 'lungStatus' }
+          },
+          {
+            title: '肺异常项',
+            align: 'center',
+            width: 100,
+            dataIndex: 'lungException'
+          },
+          {
+            title: '肝状态',
+            align: 'center',
+            width: 100,
+            dataIndex: 'liverStatus',
+            scopedSlots: { customRender: 'liverStatus' }
+          },
+          {
+            title: '肝异常项',
+            align: 'center',
+            width: 100,
+            dataIndex: 'liverException'
+          },
+          {
+            title: '脾状态',
+            align: 'center',
+            width: 100,
+            dataIndex: 'spleenStatus',
+            scopedSlots: { customRender: 'spleenStatus' }
+          },
+          {
+            title: '脾异常项',
+            align: 'center',
+            width: 100,
+            dataIndex: 'spleenException'
+          },
+          {
+            title: '结论',
+            align: 'center',
+            width: 100,
+            dataIndex: 'conclusion'
           },
           {
             title: '设备名称',
@@ -104,7 +138,22 @@ export default {
           }
         ],
         rowSelection: null
+      },
+      scopedSlots: {
+        heartStatus: text => this.getTag(text, ['无', '有']),
+        lungStatus: text => this.getTag(text, ['无', '有']),
+        liverStatus: text => this.getTag(text, ['无', '有']),
+        spleenStatus: text => this.getTag(text, ['无', '有'])
       }
+    }
+  },
+  methods: {
+    getTag(value, labelArr = ['正常', '异常']) {
+      return (
+        <Tag color={['rgba(22, 179, 100, 0.6)', 'rgba(179, 22, 22, 0.6)'][value]}>
+          {labelArr[value]}
+        </Tag>
+      )
     }
   }
 }

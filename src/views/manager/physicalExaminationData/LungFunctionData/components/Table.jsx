@@ -66,24 +66,11 @@ export default {
             dataIndex: 'age'
           },
           {
-            title: '身高（cm）',
+            title: '肺活量（ml）',
             width: 100,
             align: 'center',
-            dataIndex: 'heightStr'
+            dataIndex: 'vc'
           },
-          {
-            title: '体重（kg）',
-            align: 'center',
-            width: 100,
-            dataIndex: 'weightStr'
-          },
-          {
-            title: 'BMI',
-            align: 'center',
-            width: 70,
-            dataIndex: 'bmi'
-          },
-
           {
             title: '结论等级',
             align: 'center',

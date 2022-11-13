@@ -1,5 +1,6 @@
 import '../assets/styles/index.scss'
 import forTable from '@/mixins/forTable'
+import { Tag } from 'ant-design-vue'
 
 export default {
   mixins: [forTable({ isFetchList: false })],
@@ -66,29 +67,107 @@ export default {
             dataIndex: 'age'
           },
           {
-            title: '身高（cm）',
-            width: 100,
-            align: 'center',
-            dataIndex: 'heightStr'
-          },
-          {
-            title: '体重（kg）',
+            title: '头部状态',
             align: 'center',
             width: 100,
-            dataIndex: 'weightStr'
+            dataIndex: 'headStatus',
+            scopedSlots: { customRender: 'headStatus' }
           },
           {
-            title: 'BMI',
-            align: 'center',
-            width: 70,
-            dataIndex: 'bmi'
-          },
-
-          {
-            title: '结论等级',
+            title: '头部异常项',
             align: 'center',
             width: 100,
-            dataIndex: 'conclusionLevelName'
+            dataIndex: 'headException'
+          },
+          {
+            title: '颈部状态',
+            align: 'center',
+            width: 100,
+            dataIndex: 'neckStatus',
+            scopedSlots: { customRender: 'neckStatus' }
+          },
+          {
+            title: '颈部异常项',
+            align: 'center',
+            width: 100,
+            dataIndex: 'neckException'
+          },
+          {
+            title: '胸部状态',
+            align: 'center',
+            width: 100,
+            dataIndex: 'chestStatus',
+            scopedSlots: { customRender: 'chestStatus' }
+          },
+          {
+            title: '胸部异常项',
+            align: 'center',
+            width: 100,
+            dataIndex: 'chestException'
+          },
+          {
+            title: '脊柱状态',
+            align: 'center',
+            width: 100,
+            dataIndex: 'spineStatus',
+            scopedSlots: { customRender: 'spineStatus' }
+          },
+          {
+            title: '脊柱异常项',
+            align: 'center',
+            width: 100,
+            dataIndex: 'spineException'
+          },
+          {
+            title: '四肢状态',
+            align: 'center',
+            width: 100,
+            dataIndex: 'limbStatus',
+            scopedSlots: { customRender: 'limbStatus' }
+          },
+          {
+            title: '四肢异常项',
+            align: 'center',
+            width: 100,
+            dataIndex: 'limbException'
+          },
+          {
+            title: '皮肤状态',
+            align: 'center',
+            width: 100,
+            dataIndex: 'skinStatus',
+            scopedSlots: { customRender: 'skinStatus' }
+          },
+          {
+            title: '皮肤异常项',
+            align: 'center',
+            width: 100,
+            dataIndex: 'skinException'
+          },
+          {
+            title: '淋巴结状态',
+            align: 'center',
+            width: 110,
+            dataIndex: 'lymphGlandStatus',
+            scopedSlots: { customRender: 'lymphGlandStatus' }
+          },
+          {
+            title: '淋巴结异常项',
+            align: 'center',
+            width: 110,
+            dataIndex: 'lymphGlandException'
+          },
+          {
+            title: '建议',
+            align: 'center',
+            width: 200,
+            dataIndex: 'proposal'
+          },
+          {
+            title: '结论',
+            align: 'center',
+            width: 100,
+            dataIndex: 'conclusion'
           },
           {
             title: '设备名称',
@@ -104,7 +183,25 @@ export default {
           }
         ],
         rowSelection: null
+      },
+      scopedSlots: {
+        headStatus: text => this.getTag(text),
+        neckStatus: text => this.getTag(text),
+        chestStatus: text => this.getTag(text),
+        spineStatus: text => this.getTag(text),
+        limbStatus: text => this.getTag(text),
+        skinStatus: text => this.getTag(text),
+        lymphGlandStatus: text => this.getTag(text)
       }
+    }
+  },
+  methods: {
+    getTag(value, labelArr = ['正常', '异常']) {
+      return (
+        <Tag color={['rgba(22, 179, 100, 0.6)', 'rgba(179, 22, 22, 0.6)'][value]}>
+          {labelArr[value]}
+        </Tag>
+      )
     }
   }
 }

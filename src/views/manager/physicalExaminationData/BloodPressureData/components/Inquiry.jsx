@@ -157,9 +157,9 @@ export default Form.create({})({
               this.form.getFieldDecorator('paramName', { initialValue: '' })(
                 <Select>
                   <Select.Option value={''}>无</Select.Option>
-                  <Select.Option value={1}>身高</Select.Option>
-                  <Select.Option value={2}>体重</Select.Option>
-                  <Select.Option value={3}>BMI</Select.Option>
+                  <Select.Option value={1}>舒张压</Select.Option>
+                  <Select.Option value={2}>收缩压</Select.Option>
+                  <Select.Option value={3}>脉搏</Select.Option>
                 </Select>
               )
             }
@@ -182,6 +182,17 @@ export default Form.create({})({
             {
               this.form.getFieldDecorator('numerical')(
                 <Input placeholder={'请输入参数值'} />
+              )
+            }
+          </Form.Item>
+          <Form.Item label={'正常范围内'}>
+            {
+              this.form.getFieldDecorator('isStandard', { initialValue: '' })(
+                <Select>
+                  <Select.Option value={''}>全部</Select.Option>
+                  <Select.Option value={1}>是</Select.Option>
+                  <Select.Option value={2}>否</Select.Option>
+                </Select>
               )
             }
           </Form.Item>

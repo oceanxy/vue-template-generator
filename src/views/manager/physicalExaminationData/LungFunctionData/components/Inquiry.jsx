@@ -157,9 +157,7 @@ export default Form.create({})({
               this.form.getFieldDecorator('paramName', { initialValue: '' })(
                 <Select>
                   <Select.Option value={''}>无</Select.Option>
-                  <Select.Option value={1}>身高</Select.Option>
-                  <Select.Option value={2}>体重</Select.Option>
-                  <Select.Option value={3}>BMI</Select.Option>
+                  <Select.Option value={1}>肺活量</Select.Option>
                 </Select>
               )
             }
@@ -182,6 +180,17 @@ export default Form.create({})({
             {
               this.form.getFieldDecorator('numerical')(
                 <Input placeholder={'请输入参数值'} />
+              )
+            }
+          </Form.Item>
+          <Form.Item label={'是否及格'}>
+            {
+              this.form.getFieldDecorator('isPass', { initialValue: '' })(
+                <Select>
+                  <Select.Option value={''}>全部</Select.Option>
+                  <Select.Option value={1}>及格</Select.Option>
+                  <Select.Option value={2}>不及格</Select.Option>
+                </Select>
               )
             }
           </Form.Item>
