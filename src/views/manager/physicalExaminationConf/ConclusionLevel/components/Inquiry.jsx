@@ -18,7 +18,6 @@ export default Form.create({})({
       stateName: 'levelList',
       customApiName: 'getLevelList'
     })
-    console.log(this.levelList)
   },
   render() {
     return (
