@@ -87,11 +87,11 @@ export default {
 
   /**
    * 设置年级为毕业
-   * @param [request]
+   * @param request
    * @param data
    * @returns {*}
    */
-  updateGraduation(request, data) {
+  setGraduation(request, data) {
     return request({
       url: '/personnel/grade/updateGraduation',
       method: 'post',
@@ -108,6 +108,20 @@ export default {
   getListByStreetId(request, data) {
     return request({
       url: '/personnel/school/getListByStreetId',
+      method: 'post',
+      data: qs.stringify(data)
+    })
+  },
+
+  /**
+   * 根据街道ID获取学校集合
+   * @param request
+   * @param data
+   * @returns {*}
+   */
+  getRefreshfreshStudentNum(request, data) {
+    return request({
+      url: '/personnel/grade/freshStudentNum',
       method: 'post',
       data: qs.stringify(data)
     })

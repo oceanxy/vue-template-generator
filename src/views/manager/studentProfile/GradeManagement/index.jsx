@@ -8,6 +8,7 @@ import TGPagination from '@/components/TGPagination'
 import dynamicState from '@/mixins/dynamicState'
 import TGContainer from '@/layouts/components/TGContainer'
 import { getFieldNameForSchoolTreeId } from '@/utils/projectHelpers'
+// import DragModal from '@/components/DragModal'
 
 export default {
   name: 'GradeManagement',
@@ -28,6 +29,7 @@ export default {
           <Table slot="table" />
           <TGPagination slot="pagination" />
           <template slot={'modals'}>
+            {/* <DragModal></DragModal> */}
             <ModalOfEdit modalTitle={'{action}年级'} />
           </template>
         </TGContainer>

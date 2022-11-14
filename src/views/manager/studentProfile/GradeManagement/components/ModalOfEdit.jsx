@@ -12,7 +12,7 @@ export default Form.create({})({
         width: 700,
         wrapClassName: 'bnm-modal-edit-user-form'
       },
-
+      schoolId: ''
     }
   },
   computed: {
@@ -25,12 +25,18 @@ export default Form.create({})({
     },
     search() {
       return this.getState('search', this.moduleName)
+    },
+    schoolName() {
+      if (this.currentItem.schoolName) {
+        return true
+      } else {
+        return false
+      }
     }
-
   },
   methods: {
     async getStreetList() {
-      await this.$store.dispatch('getListForSelect', {
+      await this.$store.dispatch('getListWithLoadingStatus', {
         moduleName: this.moduleName,
         stateName: 'streetList',
         customApiName: 'getListByStreetId',
@@ -39,15 +45,19 @@ export default Form.create({})({
         }
       })
     },
+    onChange(value) {
+      this.schoolId = value
+    },
     customDataHandler(values) {
       const data = { ...values }
 
-      data.schoolId = this.currentItem?.schoolId ?? ''
+      data.schoolId = this.currentItem?.schoolId ?? this.schoolId
 
       return data
     }
   },
   watch: {
+
     'modalProps.visible'(value) {
       if (value) {
         this.getStreetList()
@@ -74,18 +84,26 @@ export default Form.create({})({
             {
               this.form.getFieldDecorator('schoolName', {
                 initialValue: this.currentItem.schoolName,
-                rules: [
-                  {
-                    required: true,
-                    message: '请输入学校名称!',
-                    trigger: 'blur'
-                  }
-                ]
               })(
-                <Input
-                  placeholder="请输入"
-                  allowClear
-                />
+                <Select
+                  showSearch
+                  placeholder={'输入学校名称'}
+                  filterOption={false}
+                  disabled={this.schoolName}
+                  mode={'default'}
+                  onChange={this.onChange}
+                >
+                  {
+                    this.streetList.list.map(item => (
+                      <Select.Option
+                        value={item.id}
+                        title={item.fullName}
+                      >
+                        {item.fullName}
+                      </Select.Option>
+                    ))
+                  }
+                </Select>
               )
             }
           </Form.Item>
