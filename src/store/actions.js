@@ -432,7 +432,7 @@ export default {
       if (Array.isArray(data)) {
         result = data
       } else {
-        if ('rows' in data) {
+        if (data && 'rows' in data) {
           result = data.rows || []
         } else {
           result = data

@@ -376,7 +376,7 @@ function createConstRoutes() {
             {
               path: 'height-of-statistical',
               name: 'heightOfStatistical',
-              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
+              component: () => import('@/views/manager/statisticalAnalysis/HeightOfStatistical'),
               meta: {
                 title: '身高统计',
                 keepAlive: false,

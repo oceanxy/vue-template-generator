@@ -1,21 +1,15 @@
 /**
  * 表格搜索 混合
- * @Author: Oceanxy
+ * @Author: Omsber
  * @Email: xyzsyx@163.com
  * @Date: 2022-03-14 周一 15:33:20
  */
 
 import { omit } from 'lodash'
 import moment from 'moment'
-import forInquiryAboutActivity from '@/mixins/forInquiry/forInquiryAboutActivity'
 
-/**
- * 混合：表格搜索
- * @param plate {'activities' || ''} 板块名，本混合会根据特定的版块名去混入特定的逻辑
- * @returns {Object}
- */
-export default ({ plate = '' } = {}) => {
-  const forInquiry = {
+export default () => {
+  return {
     inject: ['moduleName'],
     methods: {
       /**
@@ -90,13 +84,4 @@ export default ({ plate = '' } = {}) => {
       }
     }
   }
-
-  if (plate === 'activities') {
-    forInquiry.mixins = [
-      ...(forInquiry?.mixins ?? []),
-      forInquiryAboutActivity()
-    ]
-  }
-
-  return forInquiry
 }

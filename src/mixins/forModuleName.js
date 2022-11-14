@@ -1,6 +1,6 @@
 /**
  * 根据页面 name 自动生成 moduleName 的混合
- * @Author: Oceanxy
+ * @Author: Omsber
  * @Email: xyzsyx@163.com
  * @Date: 2022-06-27 周一 10:09:06
  */

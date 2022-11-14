@@ -1,6 +1,6 @@
 /**
  * vuex store模版
- * @Author: Oceanxy
+ * @Author: Omsber
  * @Email: xyzsyx@163.com
  * @Date: 2022-06-22 周三 15:18:57
  */

@@ -1,11 +1,11 @@
-import { mapGetters } from 'vuex'
-
 /**
  * 搜索栏关于活动的查询混合逻辑
- * @Author: Oceanxy
+ * @Author: Omsber
  * @Email: xyzsyx@163.com
  * @Date: 2022-11-03 周四 17:44:28
  */
+
+import { mapGetters } from 'vuex'
 
 export default () => ({
   inject: {
