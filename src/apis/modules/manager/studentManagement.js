@@ -25,7 +25,7 @@ export default {
     return request({
       url: '/personnel/student/update',
       method: 'post',
-      data: qs.stringify(data)
+      data
     })
   },
 
@@ -39,7 +39,7 @@ export default {
     return request({
       url: '/personnel/student/add',
       method: 'post',
-      data: qs.stringify(data)
+      data
     })
   },
 
@@ -66,6 +66,19 @@ export default {
   getGradeListBySchoolId(request, data) {
     return request({
       url: '/personnel/grade/getGradeListBySchoolId',
+      method: 'post',
+      data: qs.stringify(data)
+    })
+  },
+  /**
+   * 转出学生
+   * @param [request]
+   * @param data
+   * @returns {*}
+   */
+  studentRollOut(request, data) {
+    return request({
+      url: '/personnel/student/rollOut',
       method: 'post',
       data: qs.stringify(data)
     })

@@ -4,9 +4,10 @@ import Functions from './components/Functions'
 import Table from './components/Table'
 import Inquiry from './components/Inquiry'
 import TGPagination from '@/components/TGPagination'
+import ModalOfEdit from './components/ModalOfEdit'
 import dynamicState from '@/mixins/dynamicState'
 import TGContainer from '@/layouts/components/TGContainer'
-import { getFieldNameForSchoolTreeId } from '@/utils/projectHelpers'
+import { getFileAdminForSchoolTreeId } from '@/utils/projectHelpers'
 
 export default {
   name: 'StudentManagement',
@@ -14,8 +15,7 @@ export default {
   render() {
     return (
       <TGContainerWithTreeSider
-        getFieldNameForTreeId={getFieldNameForSchoolTreeId}
-        contentClass="fe-basic-data-container"
+        getFieldNameForTreeId={getFileAdminForSchoolTreeId}
         apiOptions={{
           apiName: 'getSchoolTree',
           stateName: 'schoolTree',
@@ -27,6 +27,9 @@ export default {
           <Inquiry slot="inquiry" />
           <Table slot="table" />
           <TGPagination slot="pagination" />
+          <template slot={'modals'}>
+            <ModalOfEdit modalTitle={'{action}学生'} />
+          </template>
         </TGContainer>
       </TGContainerWithTreeSider>
     )

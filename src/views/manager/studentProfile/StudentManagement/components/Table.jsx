@@ -1,5 +1,5 @@
 import '../assets/styles/index.scss'
-import { Table, Tag, Button } from 'ant-design-vue'
+import { Table, Tag, Button, Space } from 'ant-design-vue'
 import forTable from '@/mixins/forTable'
 
 export default {
@@ -90,7 +90,7 @@ export default {
             title: '操作',
             align: 'center',
             fixed: 'right',
-            width: 100,
+            width: 160,
             scopedSlots: { customRender: 'createQr' }
           }
         ]
@@ -110,7 +110,16 @@ export default {
             },
             createQr: (text, record) => {
               return (
-                <Button type='link'>生成二维码</Button>
+                <Space>
+                  <Button type='link'>生成二维码</Button>
+                  <Button
+                    type="link"
+                    size="small"
+                    onClick={() => this.onEditClick(record)}
+                  >
+                    修改
+                  </Button>
+                </Space>
               )
             }
           }

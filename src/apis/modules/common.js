@@ -1,3 +1,5 @@
+import qs from 'qs'
+
 export default {
   /**
    * 获取学校树
@@ -41,6 +43,18 @@ export default {
     return request({
       url: '/system/district/getAreas',
       method: 'post'
+    })
+  },
+  /**
+   * 根据区ID获取街道
+   * @param request
+   * @returns {*}
+   */
+  getStreetTreeId(request, data) {
+    return request({
+      url: '/system/district/getStreetTree',
+      method: 'post',
+      data: qs.stringify(data)
     })
   }
 }
