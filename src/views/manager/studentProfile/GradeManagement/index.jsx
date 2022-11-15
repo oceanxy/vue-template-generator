@@ -7,7 +7,7 @@ import ModalOfEdit from './components/ModalOfEdit'
 import TGPagination from '@/components/TGPagination'
 import dynamicState from '@/mixins/dynamicState'
 import TGContainer from '@/layouts/components/TGContainer'
-import { getFieldNameForSchoolTreeId } from '@/utils/projectHelpers'
+import { getFileAdminForSchoolTreeId } from '@/utils/projectHelpers'
 // import DragModal from '@/components/DragModal'
 
 export default {
@@ -16,7 +16,7 @@ export default {
   render() {
     return (
       <TGContainerWithTreeSider
-        getFieldNameForTreeId={getFieldNameForSchoolTreeId}
+        getFieldNameForTreeId={getFileAdminForSchoolTreeId}
         apiOptions={{
           apiName: 'getSchoolTree',
           stateName: 'schoolTree',

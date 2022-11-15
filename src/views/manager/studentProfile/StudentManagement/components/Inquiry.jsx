@@ -5,11 +5,77 @@ import forInquiry from '@/mixins/forInquiry'
 
 export default Form.create({})({
   mixins: [forInquiry()],
-  computed: {
-
+  data() {
+    return {
+      classNumber: '',
+      classList: [],
+    }
   },
-  created() {
-    // console.log(this.)
+  computed: {
+    ...mapGetters({ getState: 'getState' }),
+    gradeList() {
+      return this.getState('gradeList', this.moduleName)
+    },
+    schoolId() {
+      return this.getState('search', this.moduleName)?.schoolId ?? null
+    },
+    schoolList() {
+      return this.getState('schoolList', this.moduleName)?.list ?? []
+    }
+  },
+
+  async created() {
+    await this.$store.dispatch('getList', {
+      moduleName: this.moduleName,
+      stateName: 'schoolList',
+      customApiName: 'getSchoolManagement',
+      // additionalQueryParameters: {
+      //   pageSize:
+      // }
+    })
+    console.log(this.schoolList)
+  },
+  methods: {
+    async getGradeList() {
+      await this.$store.dispatch('getListWithLoadingStatus', {
+        moduleName: this.moduleName,
+        stateName: 'gradeList',
+        customApiName: 'getGradeListBySchoolId',
+        payload: {
+          schoolId: this.schoolId
+        }
+      })
+    },
+    onChange(value) {
+      this.classList = []
+      this.form.setFieldsValue({ classNumber: '' })
+      const data = this.gradeList.list.filter(item => {
+        if (item.id === value) {
+          return item
+        }
+      })
+
+      this.classNumber = data[0].classNum
+      for (let i = 0; i < this.classNumber; i++) {
+        this.classList.push(i)
+      }
+    },
+    onChangeGlassesType(value) {
+      if (value === 1) {
+        this.glassesTypeSelect = false
+      } else {
+
+        this.form.setFieldsValue({ glassesType: '' })
+        this.glassesTypeSelect = true
+      }
+    },
+  },
+  watch: {
+    schoolId(value) {
+      if (value) {
+        this.getGradeList()
+      }
+    }
   },
   render() {
     return (
@@ -46,13 +112,15 @@ export default Form.create({})({
           <Form.Item label="年级">
             {
               this.form.getFieldDecorator('gradeName', { initialValue: '' })(
-                <Select>
+                <Select onChange={this.onChange}>
                   <Select.Option value={''}>全部</Select.Option>
-                  {/* {
-                    this.yearList.years?.map(item => (
-                      <Select.Option value={item} >{item}</Select.Option>
+                  {
+                    this.gradeList.list?.map(item => (
+                      <Select.Option
+                        value={item.id}
+                      >{item.gradeName}</Select.Option>
                     ))
-                  } */}
+                  }
                 </Select>
               )
             }
@@ -62,11 +130,11 @@ export default Form.create({})({
               this.form.getFieldDecorator('classNumber', { initialValue: '' })(
                 <Select>
                   <Select.Option value={''}>全部</Select.Option>
-                  {/* {
-                    this.yearList.yearsTh?.map(item => (
-                      <Select.Option value={item} >{item}</Select.Option>
+                  {
+                    this.classList?.map(item => (
+                      <Select.Option value={(item + 1)} >{(item + 1)}</Select.Option>
                     ))
-                  } */}
+                  }
                 </Select>
               )
             }
@@ -89,7 +157,7 @@ export default Form.create({})({
                   <Select.Option value={''}>全部</Select.Option>
                   <Select.Option value={1}>框架眼镜</Select.Option>
                   <Select.Option value={2}>夜戴角膜塑形镜</Select.Option>
-                  <Select.Option value={2}>其他角膜接触镜</Select.Option>
+                  <Select.Option value={3}>其他角膜接触镜</Select.Option>
                 </Select>
               )
             }
@@ -98,13 +166,22 @@ export default Form.create({})({
           <Form.Item label="学籍所属学校">
             {
               this.form.getFieldDecorator('originalSchoolName', { initialValue: '' })(
-                <Select>
-                  <Select.Option value={''}>全部</Select.Option>
-                  {/* {
-                    this.yearList.yearsTh?.map(item => (
-                      <Select.Option value={item} >{item}</Select.Option>
+                <Select
+                  showSearch
+                  placeholder={'输入学校名称'}
+                  filterOption={false}
+                  mode={'default'}
+                >
+                  {
+                    this.schoolList?.map(item => (
+                      <Select.Option
+                        value={item.id}
+                        title={item.fullName}
+                      >
+                        {item.fullName}
+                      </Select.Option>
                     ))
-                  } */}
+                  }
                 </Select>
               )
             }

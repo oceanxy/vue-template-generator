@@ -259,17 +259,17 @@ function createConstRoutes() {
                 icon: () => import('@/layouts/components/TGMenu/assets/images/student-management.svg')
               }
             },
-            {
-              path: 'generate-q-r-code',
-              name: 'generateQRCode',
-              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
-              meta: {
-                title: '生成二维码',
-                keepAlive: false,
-                requiresAuth: true,
-                icon: () => import('@/layouts/components/TGMenu/assets/images/generate-q-r-code.svg')
-              }
-            },
+            // {
+            //   path: 'generate-q-r-code',
+            //   name: 'generateQRCode',
+            //   component: () => import('@/views/manager/physicalExaminationData/BasicData'),
+            //   meta: {
+            //     title: '生成二维码',
+            //     keepAlive: false,
+            //     requiresAuth: true,
+            //     icon: () => import('@/layouts/components/TGMenu/assets/images/generate-q-r-code.svg')
+            //   }
+            // },
             {
               path: 'setting-archive-data',
               name: 'settingArchiveData',

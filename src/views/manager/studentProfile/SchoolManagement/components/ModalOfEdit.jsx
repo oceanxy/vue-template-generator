@@ -14,15 +14,17 @@ export default Form.create({})({
         width: 1200,
         wrapClassName: 'bnm-modal-edit-user-form'
       },
-      city: []
+      city: [],
+      isStreet: ''
     }
   },
   computed: {
     ...mapGetters({ getState: 'getState' }),
     administrativeDivision() {
-      console.log(this.currentItem)
-
       return this.getState('administrativeDivision', 'common') || []
+    },
+    streetList() {
+      return this.getState('streetList', this.moduleName)
     },
     fileList() {
       console.log('this.currentItem.schoolBadgeStr', this.currentItem.schoolBadgeStr)
@@ -38,6 +40,7 @@ export default Form.create({})({
           }
         ] : []
     },
+
   },
   async created() {
     await Promise.all([
@@ -48,20 +51,50 @@ export default Form.create({})({
     customDataHandler(values) {
       const data = { ...values }
 
-      data.schoolBadge = data.schoolBadge[0].response?.data[0].key ?? data.schoolBadge[0].key
+      data.schoolBadge = data.schoolBadge?.[0]?.response.data[0]?.key ?? this.currentItem?.schoolBadgeStr ?? ''
+      // data.schoolBadge = this.currentItem?.schoolBadgeStr ?? data.schoolBadge?.[0]?.key ?? ''
       data.cityName = this.currentItem?.cityName ?? this.city?.[1]?.name ?? ''
       data.provinceName = this.currentItem?.provinceName ?? this.city?.[0]?.name ?? ''
-      data.streetName = this.currentItem?.streetName ?? this.city?.[3]?.name ?? ''
-      data.streetId = this.currentItem?.streetId ?? this.city?.[3]?.id ?? ''
+      data.streetName = this.currentItem?.streetName ?? this.isStreet[0]?.fullName ?? ''
+      data.streetId = this.currentItem?.streetId ?? data?.streetId ?? this.isStreet?.id ?? ''
       data.countyName = this.currentItem?.countyName ?? this.city?.[2]?.name ?? ''
 
       return data
     },
-    onChange(value, selectedOptions) {
-      this.city = selectedOptions
+    async getStreetList(countyId) {
+      await this.$store.dispatch('getListWithLoadingStatus', {
+        moduleName: this.moduleName,
+        stateName: 'streetList',
+        customApiName: 'getStreetTreeId',
+        payload: {
+          countyId
+        }
+      })
     },
-    onChangeImg(e) {
-      console.log(e, this.form.getFieldsValue())
+    onChange(value, selectedOptions) {
+
+      this.form.setFieldsValue({ streetId: '' })
+      this.city = selectedOptions
+      const countyId = selectedOptions[2].id
+
+      this.getStreetList(countyId)
+
+    },
+    onChangeStreetId(value) {
+      const isStreet = this.streetList.list.filter(item => {
+        if (item.id === value) {
+          return item
+        }
+      })
+
+      this.isStreet = isStreet
+    }
+  },
+  watch: {
+    'currentItem.countyId'(value) {
+      if (value) {
+        this.getStreetList(value)
+      }
     }
   },
   render() {
@@ -393,7 +426,38 @@ export default Form.create({})({
                 }
               </Form.Item>
             </Col>
-            <Col span={12}>
+
+            <Col span={6}>
+              <Form.Item label="选择街道">
+                {
+                  this.form.getFieldDecorator(
+                    'streetId',
+                    {
+                      initialValue: this.currentItem.streetName,
+                      rules: [
+                        {
+                          required: true,
+                          type: 'number',
+                          message: '请选择街道!',
+                          trigger: 'change'
+                        }
+                      ]
+                    }
+                  )(
+                    <Select
+                      onChange={this.onChangeStreetId}
+                      placeholder="请选择">
+                      {
+                        this.streetList.list?.map(item => (
+                          <Select.Option value={item.id} >{item.fullName}</Select.Option>
+                        ))
+                      }
+                    </Select>
+                  )
+                }
+              </Form.Item>
+            </Col>
+            <Col span={6}>
               <Form.Item label="详细地址">
                 {
                   this.form.getFieldDecorator('address', {
