@@ -3,6 +3,7 @@
   flex-direction: column;
   height: 0;
   flex: auto;
+  background: #ffffff;
 
   & > .tg-content-title {
     flex: none;
@@ -37,7 +38,4 @@
       }
     }
   }
-}
-.tg-container-bg-white {
-  background-color: white;
 }

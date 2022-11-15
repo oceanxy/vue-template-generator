@@ -1,6 +1,6 @@
 /**
  * 通用混合，主要封装一些辅助函数
- * @Author: Oceanxy
+ * @Author: Omsber
  * @Email: xyzsyx@163.com
  * @Date: 2022-05-31 周二 17:25:55
  */

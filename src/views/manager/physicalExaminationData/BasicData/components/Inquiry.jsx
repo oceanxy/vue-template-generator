@@ -1,10 +1,11 @@
 import '../assets/styles/index.scss'
 import { Button, Empty, Form, Icon, Input, InputNumber, Select, Space, Spin } from 'ant-design-vue'
 import forInquiry from '@/mixins/forInquiry'
+import forInquiryAboutActivity from '@/mixins/forInquiry/forInquiryAboutActivity'
 import ICON from '../assets/images/icon-mark.svg'
 
 export default Form.create({})({
-  mixins: [forInquiry({ plate: 'activities' })],
+  mixins: [forInquiry(), forInquiryAboutActivity()],
   render() {
     return (
       <Form

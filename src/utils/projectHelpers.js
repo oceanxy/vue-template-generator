@@ -1,6 +1,6 @@
 /**
  * 项目辅助函数集合（仅适用于当前项目的辅助函数）
- * @Author: Oceanxy
+ * @Author: Omsber
  * @Email: xyzsyx@163.com
  * @Date: 2022-11-08 周二 17:24:00
  */

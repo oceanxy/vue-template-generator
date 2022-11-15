@@ -3,9 +3,10 @@ import { Button, DatePicker, Empty, Form, Icon, Input, InputNumber, Select, Spac
 import forInquiry from '@/mixins/forInquiry'
 import ICON from '../assets/images/icon-mark.svg'
 import { firstLetterToUppercase } from '@/utils/utilityFunction'
+import forInquiryAboutActivity from '@/mixins/forInquiry/forInquiryAboutActivity'
 
 export default Form.create({})({
-  mixins: [forInquiry({ plate: 'activities' })],
+  mixins: [forInquiry(), forInquiryAboutActivity()],
   computed: {
     conclusionGrades() {
       return this.getState('conclusionGrades', this.moduleName)

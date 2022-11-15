@@ -1,6 +1,6 @@
 /**
  * 创建动态vuex模块.依赖 forModuleName 混合
- * @Author: Oceanxy
+ * @Author: Omsber
  * @Email: xyzsyx@163.com
  * @Date: 2022-03-10 周四 16:31:00
  */
