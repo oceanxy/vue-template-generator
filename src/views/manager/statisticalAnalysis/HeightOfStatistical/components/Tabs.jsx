@@ -1,24 +1,39 @@
 import '../assets/styles/index.scss'
 import { Tabs } from 'ant-design-vue'
 import Table from './Table'
-import Inquiry from './Inquiry'
 
 export default {
+  model: {
+    prop: 'value',
+    event: 'change'
+  },
+  props: {
+    value: {
+      type: Number,
+      required: true
+    }
+  },
+  data: () => ({ activeKey: 1 }),
+  methods: {
+    onChange(activeKey) {
+      this.activeKey = activeKey
+      this.$emit('change', activeKey)
+    }
+  },
   render() {
     return (
       <Tabs
         class={'fe-height-of-statistical-tabs'}
-        defaultActiveKey={1}
+        activeKey={this.activeKey}
+        onChange={this.onChange}
         tabBarGutter={8}
         type={'card'}
       >
         <Tabs.TabPane key={1} tab={'按年龄统计'}>
-          <Inquiry />
-          {/*<Table />*/}
+          <Table by={1} />
         </Tabs.TabPane>
         <Tabs.TabPane key={2} tab={'按年级统计'}>
-          {/*<Table />*/}
-          2
+          <Table by={2} />
         </Tabs.TabPane>
       </Tabs>
     )

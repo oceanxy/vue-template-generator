@@ -71,14 +71,19 @@ export default () => {
           payload
         })
       },
-      onSubmit(e) {
+      /**
+       * 查询
+       * @param [e] {Event}
+       * @param [parameters] {Object} 其他自定义参数
+       */
+      onSubmit(e, parameters) {
         e?.preventDefault()
 
         this.form.validateFieldsAndScroll(async (err, values) => {
           if (!err) {
             const payload = this.transformValue(values)
 
-            await this.onSearch(payload)
+            await this.onSearch({ ...payload, ...parameters })
           }
         })
       }

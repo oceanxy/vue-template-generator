@@ -1,151 +1,119 @@
 import '../assets/styles/index.scss'
 import forTable from '@/mixins/forTable'
+import { Icon, Tooltip } from 'ant-design-vue'
 
 export default {
   mixins: [forTable({ isFetchList: false })],
+  props: {
+    by: {
+      type: Number,
+      required: true
+    }
+  },
   computed: {
-    activities() {
-      return this.getState('activities', this.moduleName)
+    list() {
+      return this.getState('list', this.moduleName)
     }
   },
   data() {
+    const columns = [
+      {
+        title: '序号',
+        width: 70,
+        align: 'center',
+        fixed: true,
+        scopedSlots: { customRender: 'serialNumber' }
+      },
+      {
+        title: this.getTitle('总人数', '参与体检的学生总数'),
+        width: 100,
+        align: 'center',
+        dataIndex: 'stuNum'
+      },
+      {
+        title: this.getTitle('平均值', '对应所有学生身高/学生总数'),
+        align: 'center',
+        width: 100,
+        dataIndex: 'avgValueStr'
+      },
+      {
+        title: this.getTitle('标准差', '方差的算术平方根'),
+        align: 'center',
+        width: 100,
+        dataIndex: 'std'
+      },
+      {
+        title: this.getTitle('上等', '身高>+2SD为上等（SD为标准差）'),
+        align: 'center',
+        customRender: (text, record) => this.getLevelData(text, record, 0)
+      },
+      {
+        title: this.getTitle('中上等', '身高>+1SD且≤+2SD为上等（SD为标准差）'),
+        align: 'center',
+        customRender: (text, record) => this.getLevelData(text, record, 1)
+      },
+      {
+        title: this.getTitle('中等', '身高>+1SD且≤+2SD为上等（SD为标准差）'),
+        align: 'center',
+        customRender: (text, record) => this.getLevelData(text, record, 2)
+      },
+      {
+        title: this.getTitle('中下等', '身高>+1SD且≤+2SD为上等（SD为标准差）'),
+        align: 'center',
+        customRender: (text, record) => this.getLevelData(text, record, 3)
+      },
+      {
+        title: this.getTitle('下等', '身高>+1SD且≤+2SD为上等（SD为标准差）'),
+        align: 'center',
+        customRender: (text, record) => this.getLevelData(text, record, 4)
+      }
+    ]
+
+    if (this.by === 1) {
+      columns.splice(1, 0, {
+        title: '年龄',
+        width: 100,
+        align: 'center',
+        dataIndex: 'age'
+      })
+    } else {
+      columns.splice(1, 0, {
+        title: '年级',
+        width: 100,
+        align: 'center',
+        dataIndex: 'grade'
+      })
+    }
+
     return {
       tableProps: {
-        columns: [
-          {
-            title: '序号',
-            width: 70,
-            align: 'center',
-            fixed: true,
-            scopedSlots: { customRender: 'serialNumber' }
-          },
-          {
-            title: '姓名',
-            width: 80,
-            align: 'center',
-            fixed: true,
-            dataIndex: 'fullName'
-          },
-          {
-            title: '身份证号',
-            width: 170,
-            dataIndex: 'idNumber'
-          },
-          {
-            title: '学校名称',
-            width: 200,
-            dataIndex: 'peObjOrgName'
-          },
-          {
-            title: '年级',
-            width: 70,
-            align: 'center',
-            dataIndex: 'grade'
-          },
-          {
-            title: '班级',
-            width: 70,
-            align: 'center',
-            dataIndex: 'classNumber'
-          },
-          {
-            title: '性别',
-            width: 70,
-            align: 'center',
-            dataIndex: 'genderStr'
-          },
-          {
-            title: '年龄',
-            align: 'center',
-            width: 70,
-            dataIndex: 'age'
-          },
-          {
-            title: '身高（cm）',
-            width: 100,
-            align: 'center',
-            dataIndex: 'heightStr'
-          },
-          {
-            title: '体重（kg）',
-            align: 'center',
-            width: 100,
-            dataIndex: 'weightStr'
-          },
-          {
-            title: 'BMI',
-            align: 'center',
-            width: 70,
-            dataIndex: 'bmi'
-          },
-          {
-            title: '收缩压（mmHg）',
-            align: 'center',
-            width: 110,
-            dataIndex: 'systolicPressure'
-          },
-          {
-            title: '舒张压（mmHg）',
-            align: 'center',
-            width: 110,
-            dataIndex: 'diastolicPressure'
-          },
-          {
-            title: '脉搏（bpm）',
-            align: 'center',
-            width: 100,
-            dataIndex: 'pulseNum'
-          },
-          {
-            title: '肺活量（ml）',
-            align: 'center',
-            width: 90,
-            dataIndex: 'vc'
-          },
-          {
-            title: '左眼视力',
-            align: 'center',
-            width: 100,
-            dataIndex: 'leftVision'
-          },
-          {
-            title: '右眼视力',
-            align: 'center',
-            width: 100,
-            dataIndex: 'rightVision'
-          },
-          {
-            title: '营养情况',
-            align: 'center',
-            width: 100,
-            dataIndex: 'conclusionLevelName'
-          },
-          {
-            title: '发育情况',
-            align: 'center',
-            width: 100,
-            dataIndex: 'development'
-          },
-          {
-            title: '体型',
-            align: 'center',
-            width: 70,
-            dataIndex: 'size'
-          },
-          {
-            title: '体检时间',
-            width: 140,
-            align: 'center',
-            dataIndex: 'createTimeStr'
-          }
-        ],
+        columns,
         rowSelection: null
       }
     }
   },
   watch: {
-    activities(value) {
-      debugger
+    list: {
+      deep: true,
+      handler(value) {
+
+        this.tableProps.dataSource = value
+      }
+    }
+  },
+  methods: {
+    getLevelData(text, record, index) {
+      return `${record.levelList[index].studentsNum}人 / ${record.levelList[index].proportion}%`
+    },
+    getTitle(title, description) {
+      return (
+        <div>
+          {title}&nbsp;
+          <Tooltip title={description}>
+            <Icon type="question-circle" />
+          </Tooltip>
+        </div>
+      )
     }
   }
 }

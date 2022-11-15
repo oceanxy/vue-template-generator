@@ -20,13 +20,9 @@ export default Form.create({})({
   computed: {
     ...mapGetters({ getState: 'getState' }),
     administrativeDivision() {
-      console.log(this.currentItem)
-
       return this.getState('administrativeDivision', 'common') || []
     },
     fileList() {
-      console.log('this.currentItem.schoolBadgeStr', this.currentItem.schoolBadgeStr)
-
       return this.currentItem.schoolBadgeStr && this.currentItem.schoolBadge
         ? [
           {
@@ -61,7 +57,7 @@ export default Form.create({})({
       this.city = selectedOptions
     },
     onChangeImg(e) {
-      console.log(e, this.form.getFieldsValue())
+      // console.log(e, this.form.getFieldsValue())
     }
   },
   render() {

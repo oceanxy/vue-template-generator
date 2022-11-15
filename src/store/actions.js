@@ -11,20 +11,24 @@ export default {
    * @param dispatch
    * @param moduleName {string}
    * @param submoduleName {string}
-   * @param [isFetchList=true] {boolean} 是否触发页面列表数据更新的请求，默认true
-   * @param [isResetSelectedRows] {Boolean} 是否在成功执行后重置对应 store 内 selectedRows，默认false。一般在批量操作时使用
    * @param payload {Object} 数据列表的常驻查询对象，一般定义在Inquiry组件中
-   * @param additionalQueryParameters {Object} 需要传递给查询(获取列表数据)的附加参数。
-   *  （额外附加查询参数，例如其他页面跳转过来时携带的参数 id 等非本页固有的查询参数）
+   * @param [isFetchList=true] {boolean} 是否触发页面列表数据更新的请求，默认true
+   * @param [isResetSelectedRows] {boolean} 是否在成功执行后重置对应 store 内 selectedRows，默认false。一般在批量操作时使用。依赖 isFetchList
+   * @param [fetchListParams] {...fetchListParams} 传递给获取列表数据(actions.getList)的参数，详情见 actions.getList 参数。依赖 isFetchList
+   *
    */
-  async setSearch(
-    {
-      state, commit, dispatch
-    },
-    {
-      moduleName, submoduleName, isFetchList = true, payload, isResetSelectedRows, additionalQueryParameters
-    }
-  ) {
+  async setSearch({
+    state,
+    commit,
+    dispatch
+  }, {
+    moduleName,
+    submoduleName,
+    payload,
+    isFetchList = true,
+    isResetSelectedRows,
+    ...fetchListParams
+  }) {
     commit('setSearch', {
       payload,
       moduleName,
@@ -33,10 +37,12 @@ export default {
 
     if (isFetchList) {
       const hasPagination = 'pagination' in (submoduleName ? state[moduleName][submoduleName] : state[moduleName])
-
-      additionalQueryParameters = {
-        ...additionalQueryParameters,
-        ...(hasPagination ? { pageIndex: 0 } : {})
+      const getListParams = {
+        ...fetchListParams,
+        additionalQueryParameters: {
+          ...fetchListParams.additionalQueryParameters,
+          ...(hasPagination ? { pageIndex: 0 } : {})
+        }
       }
 
       if (isResetSelectedRows) {
@@ -55,9 +61,8 @@ export default {
         {
           moduleName,
           submoduleName,
-          additionalQueryParameters
-        },
-        { root: true }
+          ...getListParams
+        }
       )
     }
   },
@@ -67,18 +72,20 @@ export default {
    * @param commit
    * @param moduleName {string} 模块名
    * @param [submoduleName] {string} 子模块名
-   * @param [additionalQueryParameters] {Object} 附加查询参数。例如分页相关参数，ID等。
+   * @param [additionalQueryParameters] {Object} 附加查询参数。例如分页相关参数、其他页面跳转过来时携带的参数 ID 等非 state.search 固有的查询参数。
    * @param [stateName] {string} 需要设置的字段，默认 state.list
    * @param [customApiName] {string} 自定义请求api的名字
    * @param [merge] {boolean} 是否合并数据，默认false，主要用于“加载更多”功能
    * @returns {Promise<void>}
    */
-  async getList(
-    { state, commit },
-    {
-      moduleName, submoduleName, additionalQueryParameters = {}, stateName, customApiName, merge
-    }
-  ) {
+  async getList({ state, commit }, {
+    moduleName,
+    submoduleName,
+    additionalQueryParameters = {},
+    stateName,
+    customApiName,
+    merge
+  }) {
     const targetModuleName = state[moduleName][submoduleName] ?? state[moduleName]
 
     commit('setLoading', {
@@ -93,9 +100,11 @@ export default {
       if (customApiName) {
         api = customApiName
       } else {
-        api = `get${submoduleName ? `${firstLetterToUppercase(submoduleName)}Of` : ''}${firstLetterToUppercase(
-          moduleName
-        )}`
+        api = `get${submoduleName ? `${
+          firstLetterToUppercase(submoduleName)
+        }Of` : ''}${
+          firstLetterToUppercase(moduleName)
+        }`
       }
     }
 
@@ -128,7 +137,10 @@ export default {
       }
 
       if (merge) {
-        rows = [...targetModuleName[stateName || 'list'], ...rows]
+        rows = [
+          ...targetModuleName[stateName || 'list'],
+          ...rows
+        ]
       }
 
       if (sortFieldList?.length) {
@@ -167,12 +179,13 @@ export default {
    * @returns {Promise<void>}
    */
   async getDetails({ state, commit }, {
-    moduleName, submoduleName, payload = {}, stateName
+    moduleName,
+    submoduleName,
+    payload = {},
+    stateName
   }) {
     commit('setLoading', {
-      value: true,
-      moduleName,
-      submoduleName
+      value: true, moduleName, submoduleName
     })
 
     let api = 'getDetails'
@@ -219,7 +232,10 @@ export default {
    * @returns {Promise<*>}
    */
   async add({ state, dispatch }, {
-    moduleName, payload, visibleField, ...parametersOfGetListAction
+    moduleName,
+    payload,
+    visibleField,
+    ...parametersOfGetListAction
   }) {
     const response = await apis[`add${firstLetterToUppercase(moduleName)}`](payload)
 
@@ -260,12 +276,14 @@ export default {
    * }} 用于操作后刷新列表的参数，依赖 isFetchList
    * @returns {Promise<*>}
    */
-  async update(
-    { state, dispatch },
-    {
-      moduleName, payload, visibleField, customApiName, isFetchList, ...parametersOfGetListAction
-    }
-  ) {
+  async update({ state, dispatch }, {
+    moduleName,
+    payload,
+    visibleField,
+    customApiName,
+    isFetchList,
+    ...parametersOfGetListAction
+  }) {
     const response = await apis[customApiName || `update${firstLetterToUppercase(moduleName)}`](payload)
 
     if (response.status) {
@@ -307,22 +325,21 @@ export default {
    * }} 用于操作后刷新列表的参数，依赖 isFetchList
    * @returns {Promise<*>}
    */
-  async custom(
-    {
-      state, dispatch, commit
-    },
-    {
-      payload,
-      customApiName,
-      isResetSelectedRows,
-      stateName,
-      moduleName,
-      submoduleName,
-      visibleField,
-      isFetchList,
-      ...parametersOfGetListAction
-    }
-  ) {
+  async custom({
+    state,
+    dispatch,
+    commit
+  }, {
+    payload,
+    customApiName,
+    isResetSelectedRows,
+    stateName,
+    moduleName,
+    submoduleName,
+    visibleField,
+    isFetchList,
+    ...parametersOfGetListAction
+  }) {
     const response = await apis[customApiName](payload)
 
     if (response.status) {
@@ -388,10 +405,16 @@ export default {
    */
   async getListWithLoadingStatus(
     {
-      state, dispatch, commit
+      state,
+      dispatch,
+      commit
     },
     {
-      moduleName, submoduleName, stateName, payload, customApiName
+      moduleName,
+      submoduleName,
+      stateName,
+      payload,
+      customApiName
     }
   ) {
     commit('setLoading', {
@@ -447,7 +470,11 @@ export default {
    * @returns {Promise<*>}
    */
   async updateStatus({ commit }, {
-    moduleName, payload, customFieldName, customApiName, stateName
+    moduleName,
+    payload,
+    customFieldName,
+    customApiName,
+    stateName
   }) {
     // stateName并不是子模块名，但是可以看做子模块来传递参数，可以达到相同目的，例如：
     // 在 vuex 暴露出来的 store.state 的数据结构中，
@@ -458,7 +485,11 @@ export default {
       submoduleName: stateName
     })
 
-    const api = customApiName || `update${firstLetterToUppercase(moduleName)}${firstLetterToUppercase(customFieldName)}`
+    const api = customApiName || `update${
+      firstLetterToUppercase(moduleName)
+    }${
+      firstLetterToUppercase(customFieldName)
+    }`
     const { status } = await apis[api](payload)
 
     commit('setLoading', {
@@ -481,9 +512,14 @@ export default {
    * @returns {Promise<*>}
    */
   async delete({
-    state, dispatch, commit
+    state,
+    dispatch,
+    commit
   }, {
-    moduleName, submoduleName, ids, additionalQueryParameters
+    moduleName,
+    submoduleName,
+    ids,
+    additionalQueryParameters
   }) {
     let isBatchDeletion = false
     const selectedRows = state[moduleName][submoduleName]?.selectedRows ?? state[moduleName].selectedRows
@@ -529,11 +565,11 @@ export default {
 
         commit('setPagination', {
           value: {
-            pageIndex:
-              pageIndex -
-              (ids.length % pageSize > state[moduleName].list.length
+            pageIndex: pageIndex - (
+              ids.length % pageSize > state[moduleName].list.length
                 ? Math.ceil(ids.length / pageSize)
-                : Math.floor(ids.length / pageSize))
+                : Math.floor(ids.length / pageSize)
+            )
           },
           moduleName
         })
@@ -564,12 +600,15 @@ export default {
    * @param [visibleField] {string} 成功导出后要关闭的弹窗的控制字段（定义在对应模块的 store.state 内）
    * @returns {Promise<*>}
    */
-  async export(
-    { state, dispatch },
-    {
-      moduleName, submoduleName, payload, additionalQueryParameters, fileName, customApiName, visibleField
-    }
-  ) {
+  async export({ state, dispatch }, {
+    moduleName,
+    submoduleName,
+    payload,
+    additionalQueryParameters,
+    fileName,
+    customApiName,
+    visibleField
+  }) {
     let api = 'export'
     const targetModuleName = state[moduleName][submoduleName] ?? state[moduleName]
 
@@ -577,9 +616,11 @@ export default {
       if (customApiName) {
         api = customApiName
       } else {
-        api = `export${submoduleName ? `${firstLetterToUppercase(submoduleName)}Of` : ''}${firstLetterToUppercase(
-          moduleName
-        )}`
+        api = `export${submoduleName ? `${
+          firstLetterToUppercase(submoduleName)}Of` : ''
+        }${
+          firstLetterToUppercase(moduleName)
+        }`
       }
     }
 
@@ -609,7 +650,10 @@ export default {
    * @param submoduleName {string} 要设置的状态所在的store子模块的名称，依赖 moduleName
    */
   setModalVisible({ commit }, {
-    statusField, statusValue, moduleName, submoduleName
+    statusField,
+    statusValue,
+    moduleName,
+    submoduleName
   }) {
     commit('setModalVisible', {
       field: statusField || 'visibleOfEdit',
@@ -627,7 +671,9 @@ export default {
    * @param merge {boolean} 是否是合并操作
    */
   setCurrentItem({ state, commit }, {
-    moduleName, value, merge = false
+    moduleName,
+    value,
+    merge = false
   }) {
     if (!merge) {
       commit('setCurrentItem', {
@@ -637,11 +683,10 @@ export default {
     } else {
       commit('setCurrentItem', {
         moduleName,
-        value:
-          {
-            ...state[moduleName].currentItem,
-            ...cloneDeep(value)
-          } || {}
+        value: {
+          ...state[moduleName].currentItem,
+          ...cloneDeep(value)
+        } || {}
       })
     }
   },
@@ -654,7 +699,9 @@ export default {
    * @param [submoduleName] {string}
    */
   setRowSelected({ commit, state }, {
-    moduleName, submoduleName, payload
+    moduleName,
+    submoduleName,
+    payload
   }) {
     commit('setRowSelected', {
       moduleName,

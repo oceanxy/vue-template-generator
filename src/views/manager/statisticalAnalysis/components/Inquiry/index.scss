@@ -1,0 +1,96 @@
+@import '@/assets/styles/theme.scss';
+
+.tg-inquiry.fe-statistical-analysis-inquiry {
+  .row-title {
+    .title {
+      font-size: 16px;
+      font-weight: bolder;
+      color: #344054;
+    }
+
+    .info {
+      font-size: 14px;
+      color: rgba(52, 64, 84, 0.62);
+      margin-top: 12px;
+    }
+
+    .highlight {
+      color: #f79009;
+    }
+  }
+
+  .row-inquiry {
+    background: #f9f9fb;
+    padding: 18px 12px;
+    flex: none;
+
+    .ant-form-item {
+      margin-bottom: 0;
+      display: flex;
+
+      .ant-form-item-label {
+        flex: none;
+        width: 80px;
+      }
+
+      &.activity {
+        .ant-select-selection {
+          background: none;
+          border: 0;
+          outline: none;
+          box-shadow: unset;
+          color: rgba(52, 64, 84, 0.80);
+          font-size: 14px;
+        }
+      }
+
+      .ant-checkbox-group,
+      .ant-radio-group,
+      .ant-checkbox-group .ant-spin-container {
+        display: flex;
+        gap: 8px;
+        padding: 8px;
+        flex-wrap: wrap;
+
+        .ant-radius-wrapper + .ant-radio-wrapper,
+        .ant-checkbox-wrapper + .ant-checkbox-wrapper {
+          margin-left: 0;
+        }
+
+        .ant-checkbox-wrapper,
+        .ant-radio-wrapper {
+          background: #eff1f5;
+          border-radius: 38px;
+          font-size: 14px;
+          color: #7d89b0;
+          border: 1px solid #eff1f5;
+          transition: all .3s;
+          user-select: none;
+
+          .ant-checkbox,
+          .ant-radio {
+            display: none;
+          }
+
+          &:hover {
+            border-color: $primary-shadow-normal;
+          }
+
+          &.ant-checkbox-wrapper-checked,
+          &.ant-radio-wrapper-checked {
+            background: $primary-shadow-color;
+            border-radius: 38px;
+            font-size: 14px;
+            color: $primary-color;
+            border-color: $primary-color;
+          }
+        }
+      }
+
+      .ant-checkbox-group .ant-spin-container,
+      .ant-radio-group .ant-spin-container {
+        padding: 0;
+      }
+    }
+  }
+}

@@ -272,8 +272,6 @@ export default ({
             name = record[nameKey]
           }
 
-          console.log(nameKey)
-
           message.success([
             <span style={{ color: '#16b364' }}>
               {name}

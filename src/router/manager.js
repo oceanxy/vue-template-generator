@@ -515,74 +515,74 @@ function createConstRoutes() {
                 requiresAuth: true,
                 icon: () => import('@/layouts/components/TGMenu/assets/images/vital-capacity-statistics.svg')
               }
-            },
-            {
-              path: 'vision-data-comparison',
-              name: 'visionDataComparison',
-              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
-              meta: {
-                title: '视力数据对比',
-                keepAlive: false,
-                requiresAuth: true,
-                icon: () => import('@/layouts/components/TGMenu/assets/images/vision-statistics.svg')
-              }
-            },
-            {
-              path: 'height-and-weight-data-comparison',
-              name: 'heightAndWeightDataComparison',
-              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
-              meta: {
-                title: '身高体重数据对比',
-                keepAlive: false,
-                requiresAuth: true,
-                icon: () => import('@/layouts/components/TGMenu/assets/images/height-and-weight-data-comparison.svg')
-              }
-            },
-            {
-              path: 'height-and-weight-grade-comparison',
-              name: 'heightAndWeightGradeComparison',
-              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
-              meta: {
-                title: '身高体重年级对比',
-                keepAlive: false,
-                requiresAuth: true,
-                icon: () => import('@/layouts/components/TGMenu/assets/images/height-of-statistical.svg')
-              }
-            },
-            {
-              path: 'vision-statistics-by-class',
-              name: 'visionStatisticsByClass',
-              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
-              meta: {
-                title: '视力分班统计',
-                keepAlive: false,
-                requiresAuth: true,
-                icon: () => import('@/layouts/components/TGMenu/assets/images/vision-statistics-by-class.svg')
-              }
-            },
-            {
-              path: 'height-and-weight-comparison-by-class',
-              name: 'heightAndWeightComparisonByClass',
-              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
-              meta: {
-                title: '身高体重班级对比',
-                keepAlive: false,
-                requiresAuth: true,
-                icon: () =>
-                  import('@/layouts/components/TGMenu/assets/images/height-and-weight-comparison-by-class.svg')
-              }
-            },
-            {
-              path: 'vision-statistics-by-grade',
-              name: 'visionStatisticsByGrade',
-              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
-              meta: {
-                title: '视力年级统计',
-                keepAlive: false,
-                requiresAuth: true,
-                icon: () => import('@/layouts/components/TGMenu/assets/images/vision-statistics-by-grade.svg')
-              }
             }
+            // {
+            //   path: 'vision-data-comparison',
+            //   name: 'visionDataComparison',
+            //   component: () => import('@/views/manager/physicalExaminationData/BasicData'),
+            //   meta: {
+            //     title: '视力数据对比',
+            //     keepAlive: false,
+            //     requiresAuth: true,
+            //     icon: () => import('@/layouts/components/TGMenu/assets/images/vision-statistics.svg')
+            //   }
+            // },
+            // {
+            //   path: 'height-and-weight-data-comparison',
+            //   name: 'heightAndWeightDataComparison',
+            //   component: () => import('@/views/manager/physicalExaminationData/BasicData'),
+            //   meta: {
+            //     title: '身高体重数据对比',
+            //     keepAlive: false,
+            //     requiresAuth: true,
+            //     icon: () => import('@/layouts/components/TGMenu/assets/images/height-and-weight-data-comparison.svg')
+            //   }
+            // },
+            // {
+            //   path: 'height-and-weight-grade-comparison',
+            //   name: 'heightAndWeightGradeComparison',
+            //   component: () => import('@/views/manager/physicalExaminationData/BasicData'),
+            //   meta: {
+            //     title: '身高体重年级对比',
+            //     keepAlive: false,
+            //     requiresAuth: true,
+            //     icon: () => import('@/layouts/components/TGMenu/assets/images/height-of-statistical.svg')
+            //   }
+            // },
+            // {
+            //   path: 'vision-statistics-by-class',
+            //   name: 'visionStatisticsByClass',
+            //   component: () => import('@/views/manager/physicalExaminationData/BasicData'),
+            //   meta: {
+            //     title: '视力分班统计',
+            //     keepAlive: false,
+            //     requiresAuth: true,
+            //     icon: () => import('@/layouts/components/TGMenu/assets/images/vision-statistics-by-class.svg')
+            //   }
+            // },
+            // {
+            //   path: 'height-and-weight-comparison-by-class',
+            //   name: 'heightAndWeightComparisonByClass',
+            //   component: () => import('@/views/manager/physicalExaminationData/BasicData'),
+            //   meta: {
+            //     title: '身高体重班级对比',
+            //     keepAlive: false,
+            //     requiresAuth: true,
+            //     icon: () =>
+            //       import('@/layouts/components/TGMenu/assets/images/height-and-weight-comparison-by-class.svg')
+            //   }
+            // },
+            // {
+            //   path: 'vision-statistics-by-grade',
+            //   name: 'visionStatisticsByGrade',
+            //   component: () => import('@/views/manager/physicalExaminationData/BasicData'),
+            //   meta: {
+            //     title: '视力年级统计',
+            //     keepAlive: false,
+            //     requiresAuth: true,
+            //     icon: () => import('@/layouts/components/TGMenu/assets/images/vision-statistics-by-grade.svg')
+            //   }
+            // }
           ]
         },
         {
