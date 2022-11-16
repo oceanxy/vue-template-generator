@@ -6,7 +6,7 @@ Message.config({ maxCount: config.maxMessageCount })
 
 export function showMessage(option) {
   if (!option.message) {
-    option.content = '发生未知错误，清稍后再试！'
+    option.content = '发生未知错误，请稍后再试！'
   } else if (option.message.includes('Network Error') || option.message.includes('500')) {
     option.content = '请检查网络或服务是否异常，或稍后再试！'
   } else if (option.message.includes('403')) {

@@ -27,10 +27,18 @@
     .ant-form-item {
       margin-bottom: 0;
       display: flex;
+      width: 100%;
 
       .ant-form-item-label {
         flex: none;
         width: 80px;
+
+        label {
+          color: #344054;
+          font-size: 14px;
+          width: unset;
+          line-height: 40px;
+        }
       }
 
       &.activity {
@@ -42,6 +50,10 @@
           color: rgba(52, 64, 84, 0.80);
           font-size: 14px;
         }
+      }
+
+      .ant-form-item-control-wrapper {
+        margin-left: unset;
       }
 
       .ant-checkbox-group,

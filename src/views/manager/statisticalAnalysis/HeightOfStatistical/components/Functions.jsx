@@ -1,30 +1,23 @@
 import '../assets/styles/index.scss'
-import { Button, message } from 'ant-design-vue'
+import { Button } from 'ant-design-vue'
 import forFunction from '@/mixins/forFunction'
-import { mapGetters } from 'vuex'
 
 export default {
   mixins: [forFunction()],
-  computed: {
-    ...mapGetters({ getState: 'getState' }),
-    peObjOrgId() {
-      return this.getState('search', this.moduleName)?.peObjOrgId ?? null
-    }
-  },
-  methods: {
-    onExportBySchoolId() {
-      if (!this.peObjOrgId) {
-        message.warn('请选择需要导出的学校！')
-      } else {
-        this.onExport('体检基础数据')
-      }
+  props: {
+    /**
+     * 用于导出的其他额外参数（纯为了配合后端）
+     */
+    exportParams: {
+      type: Object,
+      required: true
     }
   },
   render() {
     return (
       <Button.Group class="tg-function">
         <Button
-          onClick={this.onExportBySchoolId}
+          onClick={() => this.onExport('体检基础数据', this.exportParams)}
           icon="export"
           disabled={this.exportButtonDisabled}
         >

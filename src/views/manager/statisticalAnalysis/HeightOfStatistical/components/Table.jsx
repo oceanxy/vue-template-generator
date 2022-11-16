@@ -5,7 +5,7 @@ import { Icon, Tooltip } from 'ant-design-vue'
 export default {
   mixins: [forTable({ isFetchList: false })],
   props: {
-    by: {
+    type: {
       type: Number,
       required: true
     }
@@ -48,28 +48,28 @@ export default {
         customRender: (text, record) => this.getLevelData(text, record, 0)
       },
       {
-        title: this.getTitle('中上等', '身高>+1SD且≤+2SD为上等（SD为标准差）'),
+        title: this.getTitle('中上等', '身高>+1SD且≤+2SD为中上等（SD为标准差）'),
         align: 'center',
         customRender: (text, record) => this.getLevelData(text, record, 1)
       },
       {
-        title: this.getTitle('中等', '身高>+1SD且≤+2SD为上等（SD为标准差）'),
+        title: this.getTitle('中等', '身高>-1SD且≤+1SD为中等（SD为标准差）'),
         align: 'center',
         customRender: (text, record) => this.getLevelData(text, record, 2)
       },
       {
-        title: this.getTitle('中下等', '身高>+1SD且≤+2SD为上等（SD为标准差）'),
+        title: this.getTitle('中下等', '身高>-2SD且≤-1SD为中下等（SD为标准差）'),
         align: 'center',
         customRender: (text, record) => this.getLevelData(text, record, 3)
       },
       {
-        title: this.getTitle('下等', '身高>+1SD且≤+2SD为上等（SD为标准差）'),
+        title: this.getTitle('下等', '身高≤-2SD为下等（SD为标准差）'),
         align: 'center',
         customRender: (text, record) => this.getLevelData(text, record, 4)
       }
     ]
 
-    if (this.by === 1) {
+    if (this.type === 1) {
       columns.splice(1, 0, {
         title: '年龄',
         width: 100,
@@ -96,14 +96,17 @@ export default {
     list: {
       deep: true,
       handler(value) {
-
         this.tableProps.dataSource = value
       }
     }
   },
   methods: {
     getLevelData(text, record, index) {
-      return `${record.levelList[index].studentsNum}人 / ${record.levelList[index].proportion}%`
+      return `${
+        record.levelList?.[index]?.studentsNum || '-'
+      }人 / ${
+        record.levelList?.[index]?.proportion || '-'
+      }%`
     },
     getTitle(title, description) {
       return (
