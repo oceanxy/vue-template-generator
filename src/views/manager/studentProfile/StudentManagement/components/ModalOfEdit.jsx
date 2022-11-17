@@ -26,8 +26,8 @@ export default Form.create({})({
     gradeList() {
       return this.getState('gradeList', this.moduleName)
     },
-    schoolList() {
-      return this.getState('schoolList', this.moduleName)?.list ?? []
+    schoolAllList() {
+      return this.getState('schoolAllList', this.moduleName)?.list ?? []
     },
     streetList() {
       return this.getState('streetList', this.moduleName)?.list ?? []
@@ -46,6 +46,13 @@ export default Form.create({})({
             name: this.currentItem.photoStr?.substring(this.currentItem.photoStr.lastIndexOf('/') ?? '')
           }
         ] : []
+    },
+    streetIdNumber() {
+      if (this.currentItem.streetId) {
+        return Number(this.currentItem.streetId)
+      } else {
+        return undefined
+      }
     }
   },
   methods: {
@@ -117,7 +124,7 @@ export default Form.create({})({
 
       this.form.setFieldsValue({ streetId: '' })
       this.city = selectedOptions
-      const countyId = selectedOptions[2].id
+      const countyId = selectedOptions[2]?.id ?? this.currentItem.countyId
 
       this.getStreetList(countyId)
     },
@@ -311,12 +318,12 @@ export default Form.create({})({
               <Form.Item label="学籍所属学校">
                 {
                   this.form.getFieldDecorator('originalSchoolId', {
-                    initialValue: this.currentItem.originalSchoolName,
+                    initialValue: this.currentItem.originalSchoolId,
                     rules: [
                       {
                         required: true,
                         message: '请选择办别!',
-                        trigger: 'change'
+                        trigger: ['change', 'blur']
                       }
                     ]
                   })(
@@ -327,7 +334,7 @@ export default Form.create({})({
                       mode={'default'}
                     >
                       {
-                        this.schoolList?.map(item => (
+                        this.schoolAllList?.map(item => (
                           <Select.Option
                             value={item.id}
                             title={item.fullName}
@@ -345,7 +352,7 @@ export default Form.create({})({
               <Form.Item label="就读学校名称">
                 {
                   this.form.getFieldDecorator('schoolId', {
-                    initialValue: this.currentItem.schoolName,
+                    initialValue: this.currentItem.schoolId,
                     rules: [
                       {
                         required: true,
@@ -362,7 +369,7 @@ export default Form.create({})({
                       onChange={this.onChangeSchoolId}
                     >
                       {
-                        this.schoolList?.map(item => (
+                        this.schoolAllList?.map(item => (
                           <Select.Option
                             value={item.id}
                             title={item.fullName}
@@ -382,7 +389,7 @@ export default Form.create({})({
                   this.form.getFieldDecorator(
                     'gradeId',
                     {
-                      initialValue: this.currentItem.gradeName,
+                      initialValue: this.currentItem.gradeId,
                       rules: [
                         {
                           required: true,
@@ -601,7 +608,7 @@ export default Form.create({})({
                   this.form.getFieldDecorator(
                     'streetId',
                     {
-                      initialValue: this.currentItem.streetName,
+                      initialValue: this.streetIdNumber,
                       rules: [
                         {
                           required: true,

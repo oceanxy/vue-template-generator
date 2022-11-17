@@ -1,0 +1,16 @@
+.imgCode {
+  margin: 0 auto;
+  height: 224px;
+  display: block;
+}
+.Tips {
+  padding: 20px 0;
+  text-align: center;
+  p {
+    margin-top: 15px;
+  }
+}
+@page {
+  size: auto; /* auto is the initial value */
+  margin: 0mm; /* this affects the margin in the printer settings */
+}

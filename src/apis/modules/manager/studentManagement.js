@@ -82,5 +82,33 @@ export default {
       method: 'post',
       data: qs.stringify(data)
     })
+  },
+  /**
+   * 根据学生ID生成二维码
+   * @param [request]
+   * @param params
+   * @returns {*}
+   */
+  getCodeSelf(request, params) {
+    return request({
+      url: '/personnel/qrCode/getCodeSelf',
+      method: 'get',
+      params,
+      responseType: 'blob'
+    })
+  },
+  /**
+   * 批量生成二维码
+   * @param [request]
+   * @param data
+   * @returns {*}
+   */
+  getCodeBatch(request, data) {
+    return request({
+      url: '/personnel/qrCode/getCode',
+      method: 'post',
+      data: qs.stringify(data),
+      responseType: 'blob'
+    })
   }
 }

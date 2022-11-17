@@ -55,5 +55,18 @@ export default {
       method: 'post',
       data: qs.stringify(data)
     })
+  },
+  /**
+   * 获取学年集合
+   * @param [request]
+   * @param data
+   * @returns {*}
+   */
+  getActivityYearList(request, data) {
+    return request({
+      url: '/examine/examineActivity/getYearList',
+      method: 'post',
+      data
+    })
   }
 }

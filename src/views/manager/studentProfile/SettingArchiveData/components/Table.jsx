@@ -42,7 +42,6 @@ export default {
           {
             title: '操作',
             align: 'center',
-            // fixed: 'right',
             scopedSlots: { customRender: 'operation' }
           }
         ]
