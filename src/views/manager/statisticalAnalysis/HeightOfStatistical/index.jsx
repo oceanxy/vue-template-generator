@@ -5,7 +5,7 @@ import Functions from './components/Functions'
 import Tabs from './components/Tabs'
 import Inquiry from '../components/Inquiry'
 import ModalOfSchools from '@/views/manager/statisticalAnalysis/components/ModalOfSchools'
-import ModalOfModuleData from '@/views/manager/statisticalAnalysis/components/ModalOfModuleData'
+import ModalOfStudents from '@/views/manager/statisticalAnalysis/components/ModalOfStudents'
 
 export default {
   name: 'HeightOfStatistical',
@@ -32,7 +32,7 @@ export default {
         <Tabs slot={'table'} vModel={this.type} />
         <template slot={'modals'}>
           <ModalOfSchools modalTitle={'学校列表'} />
-          <ModalOfModuleData modalTitle={'数据列表'} />
+          <ModalOfStudents modalTitle={'学生列表'} />
         </template>
       </TGContainer>
     )

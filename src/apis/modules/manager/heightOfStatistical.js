@@ -31,5 +31,17 @@ export default {
       responseType: 'blob'
     })
   },
-
+  /**
+   * 获取身高统计学生数据集
+   * @param request
+   * @param data
+   * @returns {*}
+   */
+  getStudentsOfHeightOfStatistical(request, data) {
+    return request({
+      url: '/examine/examineStatistics/getHeightStatisticsDataList',
+      method: 'post',
+      data: qs.stringify(data, { arrayFormat: 'comma' })
+    })
+  }
 }

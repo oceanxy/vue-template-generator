@@ -121,7 +121,7 @@ export default Form.create({})({
             所学校，
             <Button
               type={'link'}
-              onClick={() => this._setVisibleOfModal(this.currentActivity, 'visibleOfModuleData')}
+              onClick={() => this._setVisibleOfModal(this.currentActivity, 'visibleOfStudents')}
             >
               {this.currentActivity.dataNum || '-'}
             </Button>

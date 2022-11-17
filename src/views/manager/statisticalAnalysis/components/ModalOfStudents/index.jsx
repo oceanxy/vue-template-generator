@@ -7,7 +7,7 @@ import TGPagination from '@/components/TGPagination'
 import forModuleName from '@/mixins/forModuleName'
 
 export default {
-  name: 'Schools',
+  name: 'Students',
   mixins: [forModuleName(true), forModal()],
   data() {
     return {
@@ -18,7 +18,7 @@ export default {
           <Button onClick={() => this.onCancel(this.visibleField)}>关闭</Button>
         ]
       },
-      visibleField: 'visibleOfSchools'
+      visibleField: 'visibleOfStudents'
     }
   },
   render() {
@@ -27,7 +27,7 @@ export default {
         <Inquiry />
         <Table />
         <TGPagination
-          customApiName={'getSchoolsForStatisticalAnalysis'}
+          customApiName={'getStudentsOfHeightOfStatistical'}
           injectParentSearch={true}
         />
       </DragModal>
