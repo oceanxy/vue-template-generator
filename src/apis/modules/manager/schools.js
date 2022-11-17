@@ -2,29 +2,16 @@ import qs from 'qs'
 
 export default {
   /**
-   * 获取园区实时状态列表
+   * 获取学校数据（统计分析模块专用）
    * @param [request]
    * @param data
    * @returns {*}
    */
-  getParkStatus(request, data) {
+  getSchoolsForStatisticalAnalysis(request, data) {
     return request({
-      url: '/basic/parkRealStatus/getRoomPageList',
+      url: '/examine/examineStatistics/getStatisticsSchoolList',
       method: 'post',
-      data: qs.stringify(data)
-    })
-  },
-  /**
-   * 根据楼栋ID获取楼层集合
-   * @param request
-   * @param data
-   * @returns {*}
-   */
-  getFloorsByBuilding(request, data) {
-    return request({
-      url: '/basic/build/getFloorList',
-      method: 'post',
-      data: qs.stringify(data)
+      data: qs.stringify(data, { arrayFormat: 'comma' })
     })
   }
 }

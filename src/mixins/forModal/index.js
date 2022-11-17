@@ -10,7 +10,10 @@ import forIndex from '@/mixins/forIndex'
 
 export default customModuleName => {
   const mixinForModal = {
-    inject: ['moduleName'],
+    inject: {
+      moduleName: { default: '' },
+      submoduleName: { default: '' }
+    },
     mixins: [forIndex],
     props: {
       /**
@@ -47,6 +50,12 @@ export default customModuleName => {
       visible() {
         return this.getState(this.visibleField, this.moduleName) ??
           this.getState(this.visibleField, this.moduleName, this.submoduleName)
+      },
+      attributes() {
+        return {
+          attrs: this.modalProps,
+          on: { cancel: () => this.onCancel(this.visibleField) }
+        }
       }
     },
     watch: {

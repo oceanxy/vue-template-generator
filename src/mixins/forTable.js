@@ -12,17 +12,20 @@ import { cloneDeep, omit } from 'lodash'
 
 /**
  * 用于 table 的混合
- * @param [isInject=true] {boolean} 是否从 inject 导入 moduleName，默认 true
+ * @param [isInject=true] {boolean} 是否从 inject 导入 moduleName 和 submoduleName，默认 true
  * @param [isFetchList=true] {boolean} 是否在组件初始化完成后立即获取列表数据，默认 true
  * @param [stateName='list'] {string} 表格数据在 store.state 里对应的名称
+ * @param [customApiName] {string} 自定义请求接口名
  * @returns {Object}
  */
 export default ({
   isInject = true,
   isFetchList = true,
-  stateName = 'list'
+  stateName = 'list',
+  customApiName
 } = {}) => {
   const _stateName = stateName
+  const _customApiName = customApiName
   const forTable = {
     mixins: [forIndex],
     inject: {
@@ -139,7 +142,16 @@ export default ({
           await this.fetchList()
         }
       } else {
-        // 判断是否是弹窗内的子模块列表
+        this.$watch(
+          () => this.$store.state[this.moduleName][this.submoduleName].list,
+          async list => {
+            this.tableProps.dataSource = list
+            this.resize()
+          },
+          { immediate: true }
+        )
+
+        // 判断是否是弹窗内的子模块列表（适用于在弹窗组件直接 inject forTable 的组件）
         if (this.visibleField) {
           this.$watch(
             () => this.$store.state[this.moduleName][this.visibleField],
@@ -155,15 +167,6 @@ export default ({
             await this.fetchList()
           }
         }
-
-        this.$watch(
-          () => this.$store.state[this.moduleName][this.submoduleName].list,
-          async list => {
-            this.tableProps.dataSource = list
-            this.resize()
-          },
-          { immediate: true }
-        )
       }
 
       window.addEventListener('resize', this.resize)
@@ -198,15 +201,16 @@ export default ({
       async fetchList({ merge } = {}) {
         return await this.$store.dispatch('getList', {
           merge,
+          customApiName: _customApiName,
           moduleName: this.moduleName,
           submoduleName: this.submoduleName,
           /**
-           * this.stateName 与 _stateName 解释：
+           * 关于 this.stateName 与 _stateName 的解释：
            *  this.stateName 是在混入组件内设置的，可以在 混入组件的 computed 或 data 内定义；
            *
-           *  _stateName 为本“混合”的参数，详情见顶部注释。通过“混合”的参数的传入，只能传递固定值，
+           *  _stateName 为本“混合”的参数，详情见顶部注释。通过“混合”的参数传入，只能传递固定值，
            *  从 Vue.mixins 的特性可知，“混合”并不是在运行时中运行的。
-           *  所以此处的 _stateName 只适合事先确定好的，不会改变的混入组件使用。
+           *  所以此处的 _stateName 只适合在事先确定好的，不会改变的混入组件内使用。
            */
           stateName: this.stateName || _stateName,
           additionalQueryParameters: {
@@ -474,6 +478,7 @@ export default ({
       ...forTable.inject,
       // 模块名（页面组件使用 dynamicState 混合后会自动 provide 该属性）
       moduleName: { default: undefined },
+      submoduleName: { default: undefined },
       // 获取本组件的ref，依赖 moduleName（从 /src/components/BNContainerWithSider 注入的函数）
       getRefOfChild: { default: () => undefined }
     }

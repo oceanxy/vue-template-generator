@@ -67,7 +67,7 @@ export default {
     }
   },
   /**
-   * 获取列表数据
+   * 获取列表/表格数据
    * @param state
    * @param commit
    * @param moduleName {string} 模块名

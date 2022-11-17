@@ -10,7 +10,10 @@ import moment from 'moment'
 
 export default () => {
   return {
-    inject: ['moduleName'],
+    inject: {
+      moduleName: { default: '' },
+      submoduleName: { default: '' }
+    },
     methods: {
       /**
        * 此函数值保留一些高频共用类参数的处理
@@ -57,7 +60,7 @@ export default () => {
         this.form.resetFields()
         await this.onSearch({})
       },
-      async onSearch(payload) {
+      async onSearch(payload, options) {
         await this.$store.dispatch('setSearch', {
           moduleName: this.moduleName,
           submoduleName: this.submoduleName,
@@ -68,22 +71,24 @@ export default () => {
             // 请根据参数的取值和性质自行决定在 data 内或 computed 内定义。
             ...(this.additionalQueryParameters || {})
           },
+          ...options,
           payload
         })
       },
       /**
        * 查询
        * @param [e] {Event}
-       * @param [parameters] {Object} 其他自定义参数
+       * @param [params] {Object} 其他自定义参数
+       * @param [options] {Object} 配置
        */
-      onSubmit(e, parameters) {
+      onSubmit(e, params, options) {
         e?.preventDefault()
 
         this.form.validateFieldsAndScroll(async (err, values) => {
           if (!err) {
             const payload = this.transformValue(values)
 
-            await this.onSearch({ ...payload, ...parameters })
+            await this.onSearch({ ...payload, ...params }, options)
           }
         })
       }

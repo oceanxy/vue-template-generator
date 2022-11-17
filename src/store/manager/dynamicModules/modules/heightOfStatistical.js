@@ -11,6 +11,36 @@ export default commitRootInModule =>
       townOrSubDistricts: {
         loading: false,
         list: []
+      },
+      visibleOfSchools: false,
+      visibleOfModuleData: false
+    },
+    modules: {
+      schools: {
+        state: {
+          rowKey: 'id',
+          search: {},
+          loading: false,
+          list: [],
+          pagination: {
+            pageIndex: 0,
+            pageSize: 10,
+            total: 0
+          }
+        }
+      },
+      moduleData: {
+        state: {
+          rowKey: 'id',
+          search: {},
+          loading: false,
+          list: [],
+          pagination: {
+            pageIndex: 0,
+            pageSize: 10,
+            total: 0
+          }
+        }
       }
     }
   }), [

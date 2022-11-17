@@ -10,7 +10,7 @@ export default {
    */
   getHeightOfStatistical(request, data) {
     return request({
-      url: data.by === 1
+      url: data.type === 1
         ? '/examine/examineStatistics/getExamineHeightStatistics'
         : '/examine/examineStatistics/getExamineHeightStatisticsByGrade',
       method: 'post',
@@ -18,17 +18,18 @@ export default {
     })
   },
   /**
-   * 导出体检基础数据
+   * 导出身高统计数据
    * @param request
-   * @param params
+   * @param data
    * @returns {*}
    */
-  exportBasicData(request, params) {
+  exportHeightOfStatistical(request, data) {
     return request({
-      url: '/examine/examineStatistics/exportDataExcel',
-      method: 'get',
-      params,
+      url: '/examine/examineStatistics/exportStatisticsByHeight',
+      method: 'post',
+      data: qs.stringify(data, { arrayFormat: 'comma' }),
       responseType: 'blob'
     })
-  }
+  },
+
 }

@@ -12,6 +12,23 @@ export default {
     moduleName: { default: undefined },
     submoduleName: { default: undefined }
   },
+  props: {
+    /**
+     * 请求数据的自定义接口
+     */
+    customApiName: {
+      type: String,
+      default: ''
+    },
+    /**
+     * 是否注入父级模块的 state.search 搜索参数。依赖 submoduleName，默认 false
+     * 一般用于子模块请求数据的接口需要附带父模块参数的情况
+     */
+    injectParentSearch: {
+      type: Boolean,
+      default: false
+    }
+  },
   data() {
     return {
       paginationProps: {
@@ -48,9 +65,13 @@ export default {
       await this.$store.dispatch('getList', {
         moduleName: this.moduleName,
         submoduleName: this.submoduleName,
+        customApiName: this.customApiName,
         additionalQueryParameters: {
           pageIndex: page - 1,
-          pageSize
+          pageSize,
+          ...this.submoduleName
+            ? this.$store.state[this.moduleName].search
+            : {}
         }
       })
     },

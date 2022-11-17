@@ -30,10 +30,10 @@ export default {
         type={'card'}
       >
         <Tabs.TabPane key={1} tab={'按年龄统计'}>
-          <Table by={1} />
+          <Table type={1} />
         </Tabs.TabPane>
         <Tabs.TabPane key={2} tab={'按年级统计'}>
-          <Table by={2} />
+          <Table type={2} />
         </Tabs.TabPane>
       </Tabs>
     )

@@ -8,15 +8,16 @@
 import './index.scss'
 import { mapGetters } from 'vuex'
 import forInquiry from '@/mixins/forInquiry'
+import forIndex from '@/mixins/forIndex'
 import { Button, Checkbox, Empty, Form, Icon, Radio, Select, Spin } from 'ant-design-vue'
 
 export default Form.create({})({
-  mixins: [forInquiry()],
+  mixins: [forInquiry(), forIndex],
   props: {
     /**
      * 用于区分当前 Tabs.TabPane 的标识。
      */
-    by: {
+    type: {
       type: Number,
       required: true
     },
@@ -24,7 +25,7 @@ export default Form.create({})({
      * 要获取的统计数据的类型
      * 1:身高体重/派生指数 2：血压 3：视力 4：肺活量 5龋齿 6疾病 7营养状况
      */
-    type: {
+    statisticType: {
       type: Number,
       required: true
     }
@@ -40,7 +41,7 @@ export default Form.create({})({
     }
   },
   watch: {
-    async by() {
+    async type() {
       await this.setSearch()
     }
   },
@@ -49,11 +50,13 @@ export default Form.create({})({
       moduleName: this.moduleName,
       stateName: 'activities',
       customApiName: 'getActivitiesForStatisticsAnalysis',
-      payload: { itemType: this.type }
+      payload: { itemType: this.statisticType }
     })
 
     if (status) {
       this.currentActivity = this.activities.list[0]
+      this.emit()
+
       await this.getTownOrSubDistrictsForSelectByActivityId(this.activities.list[0].id)
     }
   },
@@ -71,14 +74,25 @@ export default Form.create({})({
       }
     },
     async setSearch() {
-      this.onSubmit(null, { by: this.by })
+      this.onSubmit(null, { type: this.type })
     },
     async onActivityChange(activityId) {
       this.currentActivity = this.activities.list.find(activity => activityId === activity.id)
+      this.emit()
+
       await this.getTownOrSubDistrictsForSelectByActivityId(activityId)
     },
     async onChange() {
       await this.setSearch()
+    },
+    emit() {
+      this.$emit('exportParamsChange', {
+        activityName: this.currentActivity.activityName,
+        dataNumber: this.currentActivity.dataNum,
+        schoolNumber: this.currentActivity.schoolNum,
+        streetNumber: this.currentActivity.streetNum,
+        year: this.currentActivity.activityYear
+      })
     }
   },
   render() {
@@ -86,15 +100,33 @@ export default Form.create({})({
       <div class="tg-inquiry fe-statistical-analysis-inquiry">
         <div class={'row-title'}>
           <p class={'title'}>
-            {`重庆市${this.currentActivity.countyName}${this.currentActivity.activityYearStr}学年度身高统计`}
-            <span class={'highlight'}>{['', '（男生）', '（女生）'][this.form.getFieldValue('gender')]}</span>
+            {`重庆市${
+              this.currentActivity.countyName || '-'
+            }${
+              this.currentActivity.activityYearStr || '-'
+            }学年度身高统计`}
+            <span class={'highlight'}>{
+              ['', '（男生）', '（女生）'][this.form.getFieldValue('gender')]
+            }</span>
           </p>
           <p class={'info'}>
             统计范围：
-            <span>{this.currentActivity.streetNum}</span>个镇街，
-            <Button type={'link'}>{this.currentActivity.schoolNum}</Button>所学校，
-            <Button type={'link'}>{this.currentActivity.dataNum}</Button>条数据。
-            数据来源：<span>{this.currentActivity.activityName}</span>
+            <span>{this.currentActivity.streetNum || '-'}</span>个镇街，
+            <Button
+              type={'link'}
+              onClick={() => this._setVisibleOfModal(this.currentActivity, 'visibleOfSchools')}
+            >
+              {this.currentActivity.schoolNum || '-'}
+            </Button>
+            所学校，
+            <Button
+              type={'link'}
+              onClick={() => this._setVisibleOfModal(this.currentActivity, 'visibleOfModuleData')}
+            >
+              {this.currentActivity.dataNum || '-'}
+            </Button>
+            条数据。
+            数据来源：<span>{this.currentActivity.activityName || '-'}</span>
           </p>
         </div>
         <Form
@@ -104,24 +136,29 @@ export default Form.create({})({
           <Form.Item class={'activity'} label={'数据来源'}>
             <Spin spinning={this.activities.loading}>
               {
-                this.form.getFieldDecorator('activityId', { initialValue: this.activities.list[0]?.id ?? undefined })(
-                  <Select
-                    suffixIcon={<Icon type="caret-down" />}
-                    notFoundContent={<Empty />}
-                    onChange={this.onActivityChange}
-                  >
-                    {
-                      this.activities.list.map(item => (
-                        <Select.Option
-                          value={item.id}
-                          title={item.activityName}
-                        >
-                          {item.activityName}
-                        </Select.Option>
-                      ))
-                    }
-                  </Select>
-                )
+                this.activities.list?.length
+                  ? this.form.getFieldDecorator(
+                    'activityId',
+                    { initialValue: this.activities.list[0]?.id ?? undefined }
+                  )(
+                    <Select
+                      suffixIcon={<Icon type="caret-down" />}
+                      notFoundContent={<Empty />}
+                      onChange={this.onActivityChange}
+                    >
+                      {
+                        this.activities.list.map(item => (
+                          <Select.Option
+                            value={item.id}
+                            title={item.activityName}
+                          >
+                            {item.activityName}
+                          </Select.Option>
+                        ))
+                      }
+                    </Select>
+                  )
+                  : <span style={'padding: 8px'}>暂无数据</span>
               }
             </Spin>
           </Form.Item>
@@ -134,9 +171,11 @@ export default Form.create({})({
                 <Checkbox.Group onChange={this.onChange}>
                   <Spin spinning={this.townOrSubDistricts.loading}>
                     {
-                      this.townOrSubDistricts.list.map(item => (
-                        <Checkbox value={item.streetId}>{item.streetName}</Checkbox>
-                      ))
+                      this.townOrSubDistricts.list?.length
+                        ? this.townOrSubDistricts.list.map(item => (
+                          <Checkbox value={item.streetId}>{item.streetName}</Checkbox>
+                        ))
+                        : '暂无数据'
                     }
                   </Spin>
                 </Checkbox.Group>
