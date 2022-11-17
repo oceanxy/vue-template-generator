@@ -7,8 +7,8 @@ export default Form.create({})({
   mixins: [forInquiry()],
   data() {
     return {
-      classNumber: '',
-      classList: [],
+      classNumber: [],
+      classList: []
     }
   },
   computed: {
@@ -19,23 +19,46 @@ export default Form.create({})({
     schoolId() {
       return this.getState('search', this.moduleName)?.schoolId ?? null
     },
-    schoolList() {
-      return this.getState('schoolList', this.moduleName)?.list ?? []
+    schoolAllList() {
+      return this.getState('schoolAllList', this.moduleName)?.list ?? []
+    },
+    curGrade: {
+      get() {
+        return this.getState('grade', this.moduleName)
+      },
+      set(grade) {
+        this.$store.commit('setState', {
+          value: grade,
+          moduleName: this.moduleName,
+          stateName: 'grade'
+        })
+      }
+    },
+    curClassNumber: {
+      get() {
+        return this.getState('classNumber', this.moduleName)
+      },
+      set(nunber) {
+        this.$store.commit('setState', {
+          value: nunber,
+          moduleName: this.moduleName,
+          stateName: 'classNumber'
+        })
+      }
     }
   },
 
-  async created() {
-    await this.$store.dispatch('getList', {
-      moduleName: this.moduleName,
-      stateName: 'schoolList',
-      customApiName: 'getSchoolManagement',
-      // additionalQueryParameters: {
-      //   pageSize:
-      // }
-    })
-    console.log(this.schoolList)
+  created() {
+    this.getSchoolList()
   },
   methods: {
+    async getSchoolList() {
+      await this.$store.dispatch('getList', {
+        moduleName: this.moduleName,
+        stateName: 'schoolAllList',
+        customApiName: 'getAllSchoolList'
+      })
+    },
     async getGradeList() {
       await this.$store.dispatch('getListWithLoadingStatus', {
         moduleName: this.moduleName,
@@ -47,33 +70,31 @@ export default Form.create({})({
       })
     },
     onChange(value) {
-      this.classList = []
-      this.form.setFieldsValue({ classNumber: '' })
-      const data = this.gradeList.list.filter(item => {
-        if (item.id === value) {
-          return item
+      if (value) {
+        this.classList = []
+        this.form.setFieldsValue({ classNumber: '' })
+        this.curGrade = this.gradeList.list.filter(item => {
+          if (item.id === value) {
+            return item
+          }
+        })
+
+        this.classNumber = this.curGrade[0].classNum
+        for (let i = 0; i < this.classNumber; i++) {
+          this.classList.push(i)
         }
-      })
-
-      this.classNumber = data[0].classNum
-      for (let i = 0; i < this.classNumber; i++) {
-        this.classList.push(i)
       }
     },
-    onChangeGlassesType(value) {
-      if (value === 1) {
-        this.glassesTypeSelect = false
-      } else {
-
-        this.form.setFieldsValue({ glassesType: '' })
-        this.glassesTypeSelect = true
-      }
-    },
+    onChangeClass(value) {
+      this.curClassNumber = value
+    }
   },
   watch: {
     schoolId(value) {
       if (value) {
         this.getGradeList()
+        this.form.setFieldsValue({ gradeName: '' })
+        this.form.setFieldsValue({ classNumber: '' })
       }
     }
   },
@@ -128,7 +149,7 @@ export default Form.create({})({
           <Form.Item label="班级">
             {
               this.form.getFieldDecorator('classNumber', { initialValue: '' })(
-                <Select>
+                <Select onChange={this.onChangeClass}>
                   <Select.Option value={''}>全部</Select.Option>
                   {
                     this.classList?.map(item => (
@@ -166,6 +187,7 @@ export default Form.create({})({
           <Form.Item label="学籍所属学校">
             {
               this.form.getFieldDecorator('originalSchoolName', { initialValue: '' })(
+
                 <Select
                   showSearch
                   placeholder={'输入学校名称'}
@@ -173,7 +195,7 @@ export default Form.create({})({
                   mode={'default'}
                 >
                   {
-                    this.schoolList?.map(item => (
+                    this.schoolAllList?.map(item => (
                       <Select.Option
                         value={item.id}
                         title={item.fullName}

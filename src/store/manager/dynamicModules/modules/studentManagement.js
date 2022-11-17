@@ -5,18 +5,23 @@ export default commitRootInModule =>
   omit(
     createStoreModule({
       state: {
+        // 二维码弹窗
+        visibleOfCode: false,
+
         gradeList: {
           loading: false,
           list: []
         },
-        schoolList: {
+        schoolAllList: {
           loading: false,
           list: []
         },
         streetList: {
           loading: false,
           list: []
-        }
+        },
+        grade: [],
+        classNumber: ''
       }
     })
   )

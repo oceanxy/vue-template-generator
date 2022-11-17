@@ -5,6 +5,7 @@ import Table from './components/Table'
 import Inquiry from './components/Inquiry'
 import TGPagination from '@/components/TGPagination'
 import ModalOfEdit from './components/ModalOfEdit'
+import ModalCode from './components/ModalCode'
 import dynamicState from '@/mixins/dynamicState'
 import TGContainer from '@/layouts/components/TGContainer'
 import { getFileAdminForSchoolTreeId } from '@/utils/projectHelpers'
@@ -29,6 +30,7 @@ export default {
           <TGPagination slot="pagination" />
           <template slot={'modals'}>
             <ModalOfEdit modalTitle={'{action}学生'} />
+            <ModalCode modalTitle={'体检二维码'} />
           </template>
         </TGContainer>
       </TGContainerWithTreeSider>

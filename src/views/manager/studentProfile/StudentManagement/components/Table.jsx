@@ -97,6 +97,7 @@ export default {
       }
     }
   },
+
   render() {
     return (
       <Table
@@ -111,7 +112,11 @@ export default {
             createQr: (text, record) => {
               return (
                 <Space>
-                  <Button type='link'>生成二维码</Button>
+
+                  <Button
+                    onClick={() => this._setVisibleOfModal(record, 'visibleOfCode')}
+                    type='link'
+                  >生成二维码</Button>
                   <Button
                     type="link"
                     size="small"

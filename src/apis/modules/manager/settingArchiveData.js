@@ -16,12 +16,24 @@ export default {
   },
 
   /**
-   * 新增-修改存档数据
+   * 新增存档数据
    * @param request
    * @param data
    * @returns {*}
    */
   addSettingArchiveData(request, data) {
+    return request({
+      url: '/examine/examineSaveLog/add',
+      method: 'post',
+      data: qs.stringify(data)
+    })
+  }, /**
+   * 修改存档数据
+   * @param request
+   * @param data
+   * @returns {*}
+   */
+  updateSettingArchiveData(request, data) {
     return request({
       url: '/examine/examineSaveLog/add',
       method: 'post',

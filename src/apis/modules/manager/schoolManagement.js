@@ -81,5 +81,19 @@ export default {
       method: 'post',
       data: qs.stringify(data)
     })
+  },
+
+  /**
+   * 获取所有学校集合
+   * @param [request]
+   * @param data
+   * @returns {*}
+   */
+  getAllSchoolList(request, data) {
+    return request({
+      url: '/personnel/school/getAllSchoolList',
+      method: 'post',
+      data: qs.stringify(data)
+    })
   }
 }
