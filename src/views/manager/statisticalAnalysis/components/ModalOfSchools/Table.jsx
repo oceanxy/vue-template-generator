@@ -2,7 +2,7 @@ import './index.scss'
 import forTable from '@/mixins/forTable'
 
 export default {
-  mixins: [forTable()],
+  mixins: [forTable({ customApiName: 'getSchoolsForStatisticalAnalysis' })],
   data() {
     return {
       tableProps: {
@@ -15,126 +15,54 @@ export default {
             scopedSlots: { customRender: 'serialNumber' }
           },
           {
-            title: '姓名',
-            width: 80,
-            align: 'center',
-            fixed: true,
+            title: '学校名称',
             dataIndex: 'fullName'
           },
           {
-            title: '身份证号',
-            width: 170,
-            dataIndex: 'idNumber'
+            title: '所属镇街',
+            dataIndex: 'streetName'
           },
           {
-            title: '学校名称',
-            width: 200,
-            dataIndex: 'peObjOrgName'
-          },
-          {
-            title: '年级',
-            width: 70,
-            align: 'center',
-            dataIndex: 'grade'
-          },
-          {
-            title: '班级',
-            width: 70,
-            align: 'center',
-            dataIndex: 'classNumber'
-          },
-          {
-            title: '性别',
-            width: 70,
-            align: 'center',
-            dataIndex: 'genderStr'
-          },
-          {
-            title: '年龄',
-            align: 'center',
-            width: 70,
-            dataIndex: 'age'
-          },
-          {
-            title: '身高（cm）',
-            width: 100,
-            align: 'center',
-            dataIndex: 'heightStr'
-          },
-          {
-            title: '体重（kg）',
-            align: 'center',
-            width: 100,
-            dataIndex: 'weightStr'
-          },
-          {
-            title: 'BMI',
-            align: 'center',
-            width: 70,
-            dataIndex: 'bmi'
-          },
-          {
-            title: '收缩压（mmHg）',
-            align: 'center',
-            width: 110,
-            dataIndex: 'systolicPressure'
-          },
-          {
-            title: '舒张压（mmHg）',
-            align: 'center',
-            width: 110,
-            dataIndex: 'diastolicPressure'
-          },
-          {
-            title: '脉搏（bpm）',
-            align: 'center',
-            width: 100,
-            dataIndex: 'pulseNum'
-          },
-          {
-            title: '肺活量（ml）',
-            align: 'center',
-            width: 90,
-            dataIndex: 'vc'
-          },
-          {
-            title: '左眼视力',
-            align: 'center',
-            width: 100,
-            dataIndex: 'leftVision'
-          },
-          {
-            title: '右眼视力',
-            align: 'center',
-            width: 100,
-            dataIndex: 'rightVision'
-          },
-          {
-            title: '营养情况',
-            align: 'center',
-            width: 100,
-            dataIndex: 'conclusionLevelName'
-          },
-          {
-            title: '发育情况',
-            align: 'center',
-            width: 100,
-            dataIndex: 'development'
-          },
-          {
-            title: '体型',
-            align: 'center',
-            width: 70,
-            dataIndex: 'size'
-          },
-          {
-            title: '体检时间',
-            width: 140,
-            align: 'center',
-            dataIndex: 'createTimeStr'
+            title: '类型',
+            dataIndex: 'schoolType',
+            scopedSlots: { customRender: 'schoolType' }
           }
         ],
         rowSelection: null
+      },
+      scopedSlots: {
+        schoolType: text => {
+          switch (text) {
+            case 111:
+              return '幼儿园'
+            case 211:
+              return '小学'
+            case 241:
+              return '完全小学'
+            case 311:
+              return '初级中学'
+            case 341:
+              return '完全中学'
+            case 365:
+              return '职业高中'
+            case 411:
+              return '大学'
+            default:
+              return ''
+          }
+        }
+      }
+    }
+  },
+  computed: {
+    search() {
+      return this.$store.state[this.moduleName].search
+    },
+    additionalQueryParameters() {
+      return {
+        activityId: this.search.activityId,
+        schoolTypes: this.search.schoolTypes,
+        range: this.search.range
       }
     }
   }

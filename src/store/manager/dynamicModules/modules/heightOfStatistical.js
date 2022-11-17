@@ -24,7 +24,7 @@ export default commitRootInModule =>
           list: [],
           pagination: {
             pageIndex: 0,
-            pageSize: 15,
+            pageSize: 10,
             total: 0
           }
         }
@@ -37,7 +37,7 @@ export default commitRootInModule =>
           list: [],
           pagination: {
             pageIndex: 0,
-            pageSize: 15,
+            pageSize: 10,
             total: 0
           }
         }

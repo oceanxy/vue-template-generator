@@ -11,7 +11,7 @@ export default {
     return request({
       url: '/examine/examineStatistics/getStatisticsSchoolList',
       method: 'post',
-      data: qs.stringify(data)
+      data: qs.stringify(data, { arrayFormat: 'comma' })
     })
   }
 }

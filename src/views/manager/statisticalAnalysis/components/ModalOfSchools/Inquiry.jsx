@@ -7,16 +7,32 @@ export default Form.create({})({
   computed: {
     townOrSubDistricts() {
       return this.$store.state[this.moduleName].townOrSubDistricts
+    },
+    search() {
+      return this.$store.state[this.moduleName].search
+    }
+  },
+  methods: {
+    handleSubmit(e) {
+      this.onSubmit(
+        e,
+        {
+          activityId: this.search.activityId,
+          schoolTypes: this.search.schoolTypes,
+          range: this.search.range
+        },
+        {
+          isResetSelectedRows: false,
+          customApiName: 'getSchoolsForStatisticalAnalysis'
+        }
+      )
     }
   },
   render() {
     return (
       <Form
         layout="inline"
-        onSubmit={e => this.onSubmit(e, {}, {
-          isResetSelectedRows: false,
-          customApiName: 'getSchoolsForStatisticalAnalysis'
-        })}
+        onSubmit={e => this.handleSubmit(e)}
         colon={false}
         class="tg-inquiry"
       >
@@ -29,7 +45,7 @@ export default Form.create({})({
         </Form.Item>
         <Form.Item label={'镇街范围'}>
           {
-            this.form.getFieldDecorator('range', { initialValue: '' })(
+            this.form.getFieldDecorator('streetId', { initialValue: '' })(
               <Select notFoundContent={this.townOrSubDistricts.loading ? <Spin /> : undefined}>
                 <Select.Option value={''}>全部</Select.Option>
                 {
@@ -43,7 +59,7 @@ export default Form.create({})({
         </Form.Item>
         <Form.Item label={'类型范围'}>
           {
-            this.form.getFieldDecorator('schoolTypes', { initialValue: '' })(
+            this.form.getFieldDecorator('schoolType', { initialValue: '' })(
               <Select>
                 <Select.Option value={''}>全部</Select.Option>
                 <Select.Option value={111}>幼儿园</Select.Option>

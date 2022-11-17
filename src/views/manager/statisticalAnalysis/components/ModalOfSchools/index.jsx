@@ -27,7 +27,10 @@ export default Form.create({})({
       <DragModal {...this.attributes} class={'tg-submodule-container'}>
         <Inquiry />
         <Table />
-        <TGPagination />
+        <TGPagination
+          customApiName={'getSchoolsForStatisticalAnalysis'}
+          injectParentSearch={true}
+        />
       </DragModal>
     )
   }

@@ -136,24 +136,29 @@ export default Form.create({})({
           <Form.Item class={'activity'} label={'数据来源'}>
             <Spin spinning={this.activities.loading}>
               {
-                this.form.getFieldDecorator('activityId', { initialValue: this.activities.list[0]?.id ?? undefined })(
-                  <Select
-                    suffixIcon={<Icon type="caret-down" />}
-                    notFoundContent={<Empty />}
-                    onChange={this.onActivityChange}
-                  >
-                    {
-                      this.activities.list.map(item => (
-                        <Select.Option
-                          value={item.id}
-                          title={item.activityName}
-                        >
-                          {item.activityName}
-                        </Select.Option>
-                      ))
-                    }
-                  </Select>
-                )
+                this.activities.list?.length
+                  ? this.form.getFieldDecorator(
+                    'activityId',
+                    { initialValue: this.activities.list[0]?.id ?? undefined }
+                  )(
+                    <Select
+                      suffixIcon={<Icon type="caret-down" />}
+                      notFoundContent={<Empty />}
+                      onChange={this.onActivityChange}
+                    >
+                      {
+                        this.activities.list.map(item => (
+                          <Select.Option
+                            value={item.id}
+                            title={item.activityName}
+                          >
+                            {item.activityName}
+                          </Select.Option>
+                        ))
+                      }
+                    </Select>
+                  )
+                  : <span style={'padding: 8px'}>暂无数据</span>
               }
             </Spin>
           </Form.Item>
@@ -166,9 +171,11 @@ export default Form.create({})({
                 <Checkbox.Group onChange={this.onChange}>
                   <Spin spinning={this.townOrSubDistricts.loading}>
                     {
-                      this.townOrSubDistricts.list.map(item => (
-                        <Checkbox value={item.streetId}>{item.streetName}</Checkbox>
-                      ))
+                      this.townOrSubDistricts.list?.length
+                        ? this.townOrSubDistricts.list.map(item => (
+                          <Checkbox value={item.streetId}>{item.streetName}</Checkbox>
+                        ))
+                        : '暂无数据'
                     }
                   </Spin>
                 </Checkbox.Group>
