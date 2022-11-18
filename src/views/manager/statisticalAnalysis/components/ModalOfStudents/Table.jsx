@@ -1,7 +1,9 @@
 import forTable from '@/mixins/forTable'
 
 export default {
-  mixins: [forTable({ customApiName: 'getStudentsOfHeightOfStatistical' })],
+  mixins: [forTable()],
+  // 来自于 statisticalAnalysis 下的页面的入口文件(index.jsx)
+  inject: ['customApiNameForStudents'],
   data() {
     return {
       tableProps: {
@@ -74,7 +76,9 @@ export default {
           }
         ],
         rowSelection: null
-      }
+      },
+      // 为 forTable 提供
+      customApiName: this.customApiNameForStudents
     }
   },
   computed: {

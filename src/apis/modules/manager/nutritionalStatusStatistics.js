@@ -2,44 +2,44 @@ import qs from 'qs'
 
 export default {
   /**
-   * 获取身高统计数据列表（按年龄）
-   * 根绝 data.by 区别 url。（1：按年龄 2：按年级）
+   * 获取营养状况统计数据列表（按年龄）
+   * 根绝 data.type 区别 url。（1：按年龄 2：按年级）
    * @param [request]
    * @param data
    * @returns {*}
    */
-  getHeightOfStatistical(request, data) {
+  getNutritionalStatusStatistics(request, data) {
     return request({
       url: data.type === 1
-        ? '/examine/examineStatistics/getExamineHeightStatistics'
-        : '/examine/examineStatistics/getExamineHeightStatisticsByGrade',
+        ? '/examine/examineStatistics/getExamineBMIStatistics'
+        : '/examine/examineStatistics/getExamineBMIStatisticsByGrade',
       method: 'post',
       data: qs.stringify(data, { arrayFormat: 'comma' })
     })
   },
   /**
-   * 导出身高统计数据
+   * 导出营养状况统计数据
    * @param request
    * @param data
    * @returns {*}
    */
-  exportHeightOfStatistical(request, data) {
+  exportNutritionalStatusStatistics(request, data) {
     return request({
-      url: '/examine/examineStatistics/exportStatisticsByHeight',
+      url: '/examine/examineStatistics/exportStatisticsByBMI',
       method: 'post',
       data: qs.stringify(data, { arrayFormat: 'comma' }),
       responseType: 'blob'
     })
   },
   /**
-   * 获取身高统计学生数据集
+   * 获取营养状况统计学生数据集
    * @param request
    * @param data
    * @returns {*}
    */
-  getStudentsOfHeightOfStatistical(request, data) {
+  getStudentsOfNutritionalStatusStatistics(request, data) {
     return request({
-      url: '/examine/examineStatistics/getHeightStatisticsDataList',
+      url: '/examine/examineStatistics/getBMIStatisticsDataList',
       method: 'post',
       data: qs.stringify(data, { arrayFormat: 'comma' })
     })

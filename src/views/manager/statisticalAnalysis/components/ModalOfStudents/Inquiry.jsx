@@ -3,6 +3,8 @@ import forInquiry from '@/mixins/forInquiry'
 
 export default Form.create({})({
   mixins: [forInquiry()],
+  // 来自于 statisticalAnalysis 下的页面的入口文件(index.jsx)
+  inject: ['customApiNameForStudents'],
   computed: {
     search() {
       return this.$store.state[this.moduleName].search
@@ -19,7 +21,7 @@ export default Form.create({})({
         },
         {
           isResetSelectedRows: false,
-          customApiName: 'getStudentsOfHeightOfStatistical'
+          customApiName: this.customApiNameForStudents
         }
       )
     }

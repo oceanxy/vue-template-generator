@@ -1,6 +1,5 @@
-import '../assets/styles/index.scss'
+import './index.scss'
 import { Tabs } from 'ant-design-vue'
-import Table from './Table'
 
 export default {
   model: {
@@ -23,17 +22,17 @@ export default {
   render() {
     return (
       <Tabs
-        class={'fe-height-of-statistical-tabs'}
+        class={'fe-statistical-analysis-tabs'}
         activeKey={this.activeKey}
         onChange={this.onChange}
         tabBarGutter={8}
         type={'card'}
       >
         <Tabs.TabPane key={1} tab={'按年龄统计'}>
-          <Table type={1} />
+          {this.$slots.ageTable}
         </Tabs.TabPane>
         <Tabs.TabPane key={2} tab={'按年级统计'}>
-          <Table type={2} />
+          {this.$slots.gradeTable}
         </Tabs.TabPane>
       </Tabs>
     )

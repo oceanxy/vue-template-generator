@@ -8,6 +8,8 @@ import forModuleName from '@/mixins/forModuleName'
 
 export default {
   name: 'Students',
+  // 来自于 statisticalAnalysis 下的页面的入口文件(index.jsx)
+  inject: ['customApiNameForStudents'],
   mixins: [forModuleName(true), forModal()],
   data() {
     return {
@@ -27,7 +29,7 @@ export default {
         <Inquiry />
         <Table />
         <TGPagination
-          customApiName={'getStudentsOfHeightOfStatistical'}
+          customApiName={this.customApiNameForStudents}
           injectParentSearch={true}
         />
       </DragModal>

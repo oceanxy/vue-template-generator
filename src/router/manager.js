@@ -365,7 +365,7 @@ function createConstRoutes() {
         {
           path: 'statistical-analysis',
           component: TGRouterView,
-          redirect: { name: 'percentileOfHeight' },
+          redirect: { name: 'heightStatistics' },
           meta: {
             title: '统计分析',
             keepAlive: false,
@@ -374,20 +374,20 @@ function createConstRoutes() {
           },
           children: [
             {
-              path: 'height-of-statistical',
-              name: 'heightOfStatistical',
-              component: () => import('@/views/manager/statisticalAnalysis/HeightOfStatistical'),
+              path: 'height-statistics',
+              name: 'heightStatistics',
+              component: () => import('@/views/manager/statisticalAnalysis/HeightStatistics'),
               meta: {
                 title: '身高统计',
                 keepAlive: false,
                 requiresAuth: true,
-                icon: () => import('@/layouts/components/TGMenu/assets/images/height-of-statistical.svg')
+                icon: () => import('@/layouts/components/TGMenu/assets/images/height-statistics.svg')
               }
             },
             {
               path: 'blood-pressure-statistics',
               name: 'bloodPressureStatistics',
-              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
+              component: () => import('@/views/manager/statisticalAnalysis/BloodPressureStatistics'),
               meta: {
                 title: '血压统计',
                 keepAlive: false,
@@ -398,7 +398,7 @@ function createConstRoutes() {
             {
               path: 'vision-statistics',
               name: 'visionStatistics',
-              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
+              component: () => import('@/views/manager/statisticalAnalysis/VisionStatistics'),
               meta: {
                 title: '视力统计',
                 keepAlive: false,
@@ -409,7 +409,7 @@ function createConstRoutes() {
             {
               path: 'vital-capacity-statistics',
               name: 'vitalCapacityStatistics',
-              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
+              component: () => import('@/views/manager/statisticalAnalysis/VitalCapacityStatistics'),
               meta: {
                 title: '肺活量统计',
                 keepAlive: false,
@@ -420,7 +420,7 @@ function createConstRoutes() {
             {
               path: 'dental-caries-statistics',
               name: 'dentalCariesStatistics',
-              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
+              component: () => import('@/views/manager/statisticalAnalysis/DentalCariesStatistics'),
               meta: {
                 title: '龋齿统计',
                 keepAlive: false,
@@ -431,7 +431,7 @@ function createConstRoutes() {
             {
               path: 'disease-statistics',
               name: 'diseaseStatistics',
-              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
+              component: () => import('@/views/manager/statisticalAnalysis/DiseaseStatistics'),
               meta: {
                 title: '疾病统计',
                 keepAlive: false,
@@ -442,7 +442,7 @@ function createConstRoutes() {
             {
               path: 'derived-index-statistics',
               name: 'derivedIndexStatistics',
-              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
+              component: () => import('@/views/manager/statisticalAnalysis/DerivedIndexStatistics'),
               meta: {
                 title: '派生指数统计',
                 keepAlive: false,
@@ -453,7 +453,7 @@ function createConstRoutes() {
             {
               path: 'nutritional-status-statistics',
               name: 'nutritionalStatusStatistics',
-              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
+              component: () => import('@/views/manager/statisticalAnalysis/NutritionalStatusStatistics'),
               meta: {
                 title: '营养状况统计',
                 keepAlive: false,
@@ -469,7 +469,7 @@ function createConstRoutes() {
                 title: '活动身高等级统计',
                 keepAlive: false,
                 requiresAuth: true,
-                icon: () => import('@/layouts/components/TGMenu/assets/images/height-of-statistical.svg')
+                icon: () => import('@/layouts/components/TGMenu/assets/images/height-statistics.svg')
               }
             },
             {
@@ -546,7 +546,7 @@ function createConstRoutes() {
             //     title: '身高体重年级对比',
             //     keepAlive: false,
             //     requiresAuth: true,
-            //     icon: () => import('@/layouts/components/TGMenu/assets/images/height-of-statistical.svg')
+            //     icon: () => import('@/layouts/components/TGMenu/assets/images/height-statistics.svg')
             //   }
             // },
             // {
