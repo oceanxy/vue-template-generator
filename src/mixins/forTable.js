@@ -201,7 +201,7 @@ export default ({
       async fetchList({ merge } = {}) {
         return await this.$store.dispatch('getList', {
           merge,
-          customApiName: _customApiName,
+          customApiName: this.customApiName || _customApiName,
           moduleName: this.moduleName,
           submoduleName: this.submoduleName,
           /**

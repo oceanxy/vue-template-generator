@@ -1,0 +1,13 @@
+@import '@/assets/styles/theme.scss';
+
+.tg-container.fe-statistical-analysis-container.fe-statistical-analysis-container {
+  .tg-container-content {
+    overflow-y: auto;
+
+    .tg-container-table-container {
+      padding: 0;
+      height: 100%;
+      min-height: 400px;
+    }
+  }
+}

@@ -1,4 +1,3 @@
-import '../assets/styles/index.scss'
 import forTable from '@/mixins/forTable'
 import { Icon, Tooltip } from 'ant-design-vue'
 
@@ -31,41 +30,56 @@ export default {
         dataIndex: 'stuNum'
       },
       {
-        title: this.getTitle('平均值', '对应所有学生身高/学生总数'),
-        align: 'center',
-        width: 100,
-        dataIndex: 'avgValueStr'
+        title: '收缩压',
+        children: [
+          {
+            title: '平均值',
+            align: 'center',
+            width: 100,
+            dataIndex: 'avgSystolicStr'
+          },
+          {
+            title: '标准差',
+            align: 'center',
+            width: 100,
+            dataIndex: 'systolicStdStr'
+          }
+        ]
       },
       {
-        title: this.getTitle('标准差', '方差的算术平方根'),
-        align: 'center',
-        width: 100,
-        dataIndex: 'std'
+        title: '舒张压',
+        children: [
+          {
+            title: '平均值',
+            align: 'center',
+            width: 100,
+            dataIndex: 'avgDiastolicStr'
+          },
+          {
+            title: '标准差',
+            align: 'center',
+            width: 100,
+            dataIndex: 'diastolicStdStr'
+          }
+        ]
       },
       {
-        title: this.getTitle('上等', '身高>+2SD为上等（SD为标准差）'),
+        title: this.getTitle('正常血压', '收缩压和舒张压<同性别、同年龄、同身高百分位血压 P90'),
         align: 'center',
         customRender: (text, record) => this.getLevelData(text, record, 0)
       },
       {
-        title: this.getTitle('中上等', '身高>+1SD且≤+2SD为中上等（SD为标准差）'),
+        title: this.getTitle(
+          '正常高值血压',
+          '收缩压和舒张压≥同性别、同年龄、同身高百分位血压 P90 且 收缩压和舒张压<同性别、同年龄、同身高百分位血压 P95'
+        ),
         align: 'center',
         customRender: (text, record) => this.getLevelData(text, record, 1)
       },
       {
-        title: this.getTitle('中等', '身高>-1SD且≤+1SD为中等（SD为标准差）'),
+        title: this.getTitle('血压偏高', '收缩压和舒张压≥同性别、同年龄、同身高百分位血压 P95'),
         align: 'center',
         customRender: (text, record) => this.getLevelData(text, record, 2)
-      },
-      {
-        title: this.getTitle('中下等', '身高>-2SD且≤-1SD为中下等（SD为标准差）'),
-        align: 'center',
-        customRender: (text, record) => this.getLevelData(text, record, 3)
-      },
-      {
-        title: this.getTitle('下等', '身高≤-2SD为下等（SD为标准差）'),
-        align: 'center',
-        customRender: (text, record) => this.getLevelData(text, record, 4)
       }
     ]
 
@@ -103,9 +117,9 @@ export default {
   methods: {
     getLevelData(text, record, index) {
       return `${
-        record.levelList?.[index]?.studentsNum || '-'
+        record.levelList?.[index]?.studentsNum ?? '-'
       }人 / ${
-        record.levelList?.[index]?.proportion || '-'
+        record.levelList?.[index]?.proportion ?? '-'
       }%`
     },
     getTitle(title, description) {

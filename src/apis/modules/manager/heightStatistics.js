@@ -3,12 +3,12 @@ import qs from 'qs'
 export default {
   /**
    * 获取身高统计数据列表（按年龄）
-   * 根绝 data.by 区别 url。（1：按年龄 2：按年级）
+   * 根绝 data.type 区别 url。（1：按年龄 2：按年级）
    * @param [request]
    * @param data
    * @returns {*}
    */
-  getHeightOfStatistical(request, data) {
+  getHeightStatistics(request, data) {
     return request({
       url: data.type === 1
         ? '/examine/examineStatistics/getExamineHeightStatistics'
@@ -23,7 +23,7 @@ export default {
    * @param data
    * @returns {*}
    */
-  exportHeightOfStatistical(request, data) {
+  exportHeightStatistics(request, data) {
     return request({
       url: '/examine/examineStatistics/exportStatisticsByHeight',
       method: 'post',
@@ -31,5 +31,17 @@ export default {
       responseType: 'blob'
     })
   },
-
+  /**
+   * 获取身高统计学生数据集
+   * @param request
+   * @param data
+   * @returns {*}
+   */
+  getStudentsOfHeightStatistics(request, data) {
+    return request({
+      url: '/examine/examineStatistics/getHeightStatisticsDataList',
+      method: 'post',
+      data: qs.stringify(data, { arrayFormat: 'comma' })
+    })
+  }
 }

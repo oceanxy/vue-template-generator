@@ -333,6 +333,14 @@ body {
       font-weight: bolder;
     }
 
+    &.ant-table-bordered .ant-table-thead {
+      & > tr > th {
+        box-sizing: border-box;
+        border-right: 1px solid #e8e8e8;
+        border-bottom: 1px solid #e8e8e8;
+      }
+    }
+
     .ant-table-header,
     .ant-table-thead {
       background: #f9f9fb !important;

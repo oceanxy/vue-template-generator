@@ -13,7 +13,7 @@ export default commitRootInModule =>
         list: []
       },
       visibleOfSchools: false,
-      visibleOfModuleData: false
+      visibleOfStudents: false
     },
     modules: {
       schools: {
@@ -29,7 +29,7 @@ export default commitRootInModule =>
           }
         }
       },
-      moduleData: {
+      students: {
         state: {
           rowKey: 'id',
           search: {},

@@ -1,4 +1,3 @@
-import './index.scss'
 import forTable from '@/mixins/forTable'
 
 export default {

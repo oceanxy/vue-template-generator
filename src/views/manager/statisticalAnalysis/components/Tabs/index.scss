@@ -1,0 +1,36 @@
+.fe-statistical-analysis-tabs {
+  padding-top: 18px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  .ant-tabs-bar {
+    margin-bottom: 0;
+    flex: none;
+
+    .ant-tabs-nav {
+      margin-left: 24px;
+    }
+  }
+
+  .ant-tabs-content {
+    flex: auto;
+    overflow-y: auto;
+    padding: 24px;
+
+    .ant-tabs-tabpane {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      gap: 12px;
+
+      &.ant-tabs-tabpane-inactive {
+        display: none;
+      }
+
+      .ant-table-wrapper {
+        flex: auto;
+      }
+    }
+  }
+}

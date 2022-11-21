@@ -7,7 +7,9 @@ import TGPagination from '@/components/TGPagination'
 import forModuleName from '@/mixins/forModuleName'
 
 export default {
-  name: 'Schools',
+  name: 'Students',
+  // 来自于 statisticalAnalysis 下的页面的入口文件(index.jsx)
+  inject: ['customApiNameForStudents'],
   mixins: [forModuleName(true), forModal()],
   data() {
     return {
@@ -18,7 +20,7 @@ export default {
           <Button onClick={() => this.onCancel(this.visibleField)}>关闭</Button>
         ]
       },
-      visibleField: 'visibleOfSchools'
+      visibleField: 'visibleOfStudents'
     }
   },
   render() {
@@ -27,7 +29,7 @@ export default {
         <Inquiry />
         <Table />
         <TGPagination
-          customApiName={'getSchoolsForStatisticalAnalysis'}
+          customApiName={this.customApiNameForStudents}
           injectParentSearch={true}
         />
       </DragModal>

@@ -1,10 +1,16 @@
-import '../assets/styles/index.scss'
 import { Button } from 'ant-design-vue'
 import forFunction from '@/mixins/forFunction'
 
 export default {
   mixins: [forFunction()],
   props: {
+    /**
+     * 导出文件名
+     */
+    fileName: {
+      type: String,
+      required: true
+    },
     /**
      * 用于导出的其他额外参数（纯为了配合后端）
      */
@@ -17,7 +23,7 @@ export default {
     return (
       <Button.Group class="tg-function">
         <Button
-          onClick={() => this.onExport('体检基础数据', this.exportParams)}
+          onClick={() => this.onExport(this.fileName, this.exportParams)}
           icon="export"
           disabled={this.exportButtonDisabled}
         >
