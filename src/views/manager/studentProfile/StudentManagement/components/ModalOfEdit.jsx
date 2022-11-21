@@ -63,7 +63,7 @@ export default Form.create({})({
       this.curSchool(value)
     },
     curSchool(value) {
-      this.isSchool = this.schoolList.filter(item => {
+      this.isSchool = this.schoolList?.filter(item => {
         if (item.id === value) {
           return item
         }
@@ -130,7 +130,7 @@ export default Form.create({})({
     },
 
     onChangeStreetId(value) {
-      const isStreet = this.streetList.filter(item => {
+      const isStreet = this.streetList?.filter(item => {
         if (item.id === value) {
           return item
         }

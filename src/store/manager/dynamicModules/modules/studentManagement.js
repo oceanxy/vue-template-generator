@@ -20,6 +20,10 @@ export default commitRootInModule =>
           loading: false,
           list: []
         },
+        codeBatchUrl: {
+          loading: false,
+          list: null
+        },
         grade: [],
         classNumber: ''
       }

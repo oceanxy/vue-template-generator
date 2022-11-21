@@ -14,6 +14,7 @@ export default Form.create({})({
       imgCodeUrl: '',
       modalProps: {
         width: 380,
+        centered: true,
         footer: (
           <div>
             <Button
@@ -49,8 +50,6 @@ export default Form.create({})({
     codeDownload() {
       const imgsrc = this.imgCodeUrl
       const name = this.currentItem.fullName
-
-      console.log(imgsrc, name)
       //下载图片地址和图片名
       const image = new Image()
 

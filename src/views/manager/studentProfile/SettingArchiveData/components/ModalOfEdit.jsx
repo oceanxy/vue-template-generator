@@ -1,5 +1,5 @@
 import '../assets/styles/index.scss'
-import { Form, Input, Select, Switch } from 'ant-design-vue'
+import { Form, Input, Select, Button, Row, Col } from 'ant-design-vue'
 import forFormModal from '@/mixins/forModal/forFormModal'
 import DragModal from '@/components/DragModal'
 import { mapGetters } from 'vuex'
@@ -9,7 +9,7 @@ export default Form.create({})({
   data() {
     return {
       modalProps: {
-        width: 700,
+        width: 600,
         wrapClassName: 'bnm-modal-edit-user-form'
       }
     }
@@ -17,10 +17,13 @@ export default Form.create({})({
   computed: {
     ...mapGetters({ getState: 'getState' }),
     activities() {
-      return this.getState('activities', this.moduleName)?.list ?? null
+      return this.getState('activities', 'basicData')?.list ?? null
     },
     yearList() {
       return this.getState('yearList', this.moduleName)?.list ?? null
+    },
+    schoolList() {
+      return this.getState('schoolListByActivity', this.moduleName)?.list ?? null
     }
   },
   methods: {
@@ -31,12 +34,9 @@ export default Form.create({})({
         customApiName: 'getActivityYearList'
       })
     },
-    async getActivitiesForSelect() {
-      await this.$store.dispatch('getListWithLoadingStatus', {
-        moduleName: this.moduleName,
-        stateName: 'activities',
-        customApiName: 'getActivitiesForSelect'
-      })
+    // 选择活动
+    onChangeActivitie(value) {
+      this.curActivitieId = value
     },
     customDataHandler(values) {
       const data = { ...values }
@@ -48,10 +48,7 @@ export default Form.create({})({
   watch: {
     'modalProps.visible'(value) {
       if (value) {
-        this.getActivitiesForSelect()
         this.getActivityYearList()
-        console.log(this.activitiesYearList)
-        console.log(this.activities)
       }
     }
   },
@@ -113,7 +110,10 @@ export default Form.create({})({
                   ]
                 }
               )(
-                <Select placeholder="请选择活动">
+                <Select
+                  placeholder="请选择活动"
+                  onChange={this.onChangeActivitie}
+                >
                   {
                     this.activities?.map(item => (
                       <Select.Option value={item.id}>{item.activityName}</Select.Option>
@@ -142,11 +142,16 @@ export default Form.create({})({
                   ]
                 }
               )(
-                <Select placeholder="请选择活动">
-                  <Select.Option value={1}>男</Select.Option>
-                  <Select.Option value={2}>女</Select.Option>
-                  <Select.Option value={0}>未知</Select.Option>
-                </Select>
+                <Row gutter={10}>
+                  <Col span={20}><Input allowClear /></Col>
+                  <Col span={4}>
+                    <Button
+                      type="primary"
+                      onClick={() => this._setVisibleOfModal({ curActivitieId: this.curActivitieId }, 'visibleOfSchoolTre')}>选择</Button>
+                  </Col>
+                </Row>
+
+
               )
             }
           </Form.Item>
@@ -159,16 +164,6 @@ export default Form.create({})({
                   placeholder="请输入"
                   allowClear
                 />
-              )
-            }
-          </Form.Item>
-          <Form.Item label="状态">
-            {
-              this.form.getFieldDecorator('status', {
-                initialValue: this.currentItem.status === 1,
-                valuePropName: 'checked'
-              })(
-                <Switch />
               )
             }
           </Form.Item>

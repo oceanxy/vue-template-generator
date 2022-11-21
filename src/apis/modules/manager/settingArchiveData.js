@@ -81,5 +81,17 @@ export default {
       method: 'post',
       data: qs.stringify(data)
     })
+  },
+  /**
+   * 根据活动ID获取学校集合
+   * @param request
+   * @returns {*}
+   */
+  getSchoolTreeByActivityId(request, data) {
+    return request({
+      url: '/personnel/school/getSchoolTreeByActivityId',
+      method: 'post',
+      data: qs.stringify(data)
+    })
   }
 }
