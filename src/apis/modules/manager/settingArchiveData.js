@@ -3,7 +3,7 @@ import qs from 'qs'
 export default {
   /**
    * 获取存档数据分页集合
-   * @param [request]
+   * @param request
    * @param data
    * @returns {*}
    */
@@ -25,7 +25,7 @@ export default {
     return request({
       url: '/examine/examineSaveLog/add',
       method: 'post',
-      data: qs.stringify(data)
+      data
     })
   }, /**
    * 修改存档数据
@@ -37,7 +37,7 @@ export default {
     return request({
       url: '/examine/examineSaveLog/add',
       method: 'post',
-      data: qs.stringify(data)
+      data
     })
   },
 
@@ -56,7 +56,7 @@ export default {
   },
 
   /**
-   * 生成档案报告
+   * 生成报告
    * @param request
    * @param data
    * @returns {*}

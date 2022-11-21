@@ -6,7 +6,9 @@ export default commitRootInModule =>
     createStoreModule({
       state: {
         // 学校树弹窗
-        visibleOfSchoolTre: false,
+        // visibleOfSchoolTre: false,
+        // 报告弹窗
+        visibleOfReport: false,
         activities: {
           loading: false,
           list: []

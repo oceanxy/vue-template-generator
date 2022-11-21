@@ -1,5 +1,5 @@
 import '../assets/styles/index.scss'
-import { Form, Input, Select, Button, Row, Col } from 'ant-design-vue'
+import { Form, Input, Select, Button, Row, Col, TreeSelect, message } from 'ant-design-vue'
 import forFormModal from '@/mixins/forModal/forFormModal'
 import DragModal from '@/components/DragModal'
 import { mapGetters } from 'vuex'
@@ -11,20 +11,28 @@ export default Form.create({})({
       modalProps: {
         width: 600,
         wrapClassName: 'bnm-modal-edit-user-form'
-      }
+      },
+      schoolLists: []
     }
   },
   computed: {
     ...mapGetters({ getState: 'getState' }),
     activities() {
-      return this.getState('activities', 'basicData')?.list ?? null
+      return this.getState('activities', this.moduleName)?.list ?? null
     },
     yearList() {
       return this.getState('yearList', this.moduleName)?.list ?? null
     },
     schoolList() {
-      return this.getState('schoolListByActivity', this.moduleName)?.list ?? null
+      return this.getState('schoolListByActivity', this.moduleName)
     }
+  },
+  async created() {
+    await this.$store.dispatch('getListWithLoadingStatus', {
+      moduleName: this.moduleName,
+      stateName: 'activities',
+      customApiName: 'getActivitiesForSelect'
+    })
   },
   methods: {
     async getActivityYearList() {
@@ -34,12 +42,39 @@ export default Form.create({})({
         customApiName: 'getActivityYearList'
       })
     },
+    async getSchoolTreeByActivityId(curActivitieId) {
+      await this.$store.dispatch('getListWithLoadingStatus', {
+        moduleName: this.moduleName,
+        stateName: 'schoolListByActivity',
+        customApiName: 'getSchoolTreeByActivityId',
+        payload: {
+          activityId: curActivitieId
+        }
+      })
+    },
+    // 选择学校
+    onChangeSelect(value, label) {
+      this.schoolNames = label.join()
+    },
+    focus() {
+      if (!this.curActivitieId && !this.currentItem.objFromId) {
+        return message.error(' 请选择活动！')
+      }
+    },
     // 选择活动
     onChangeActivitie(value) {
       this.curActivitieId = value
+      this.getSchoolTreeByActivityId(value)
     },
     customDataHandler(values) {
       const data = { ...values }
+      const editSchoolName = this.currentItem?.schoolList.map(item => {
+        return item.schoolName
+      })
+
+      data.schoolIds = data.schoolIds?.join() ?? ''
+      data.schoolNames = this.schoolNames ?? editSchoolName.join() ?? ''
+      console.log('data', data)
 
       return data
     }
@@ -49,6 +84,10 @@ export default Form.create({})({
     'modalProps.visible'(value) {
       if (value) {
         this.getActivityYearList()
+
+        if (this.currentItem.objFromId) {
+          this.getSchoolTreeByActivityId(this.currentItem.objFromId)
+        }
       }
     }
   },
@@ -100,7 +139,7 @@ export default Form.create({})({
               this.form.getFieldDecorator(
                 'objFromId',
                 {
-                  initialValue: this.currentItem.objFromName,
+                  initialValue: this.currentItem.objFromId,
                   rules: [
                     {
                       required: true,
@@ -129,29 +168,44 @@ export default Form.create({})({
               this.form.getFieldDecorator(
                 'schoolIds',
                 {
-                  initialValue: this.currentItem.schoolList?.map(item => {
-                    item.schoolName
-                  }),
-                  rules: [
-                    {
-                      required: true,
-                      type: 'number',
-                      message: '请选择活动!',
-                      trigger: 'change'
-                    }
-                  ]
+                  initialValue: this.currentItem.schoolList?.map(item => item.schoolId)
+                  // rules: [
+                  //   {
+                  //     required: true,
+                  //     message: '请选择活动!',
+                  //     trigger: 'change'
+                  //   }
+                  // ]
                 }
               )(
-                <Row gutter={10}>
-                  <Col span={20}><Input allowClear /></Col>
-                  <Col span={4}>
-                    <Button
-                      type="primary"
-                      onClick={() => this._setVisibleOfModal({ curActivitieId: this.curActivitieId }, 'visibleOfSchoolTre')}>选择</Button>
-                  </Col>
-                </Row>
-
-
+                // <Row gutter={10}>
+                // <Col span={20}>
+                <TreeSelect
+                  style="width: 100%"
+                  treeData={this.schoolList.list}
+                  multiple
+                  treeCheckable
+                  suffixIcon={<Icon type="caret-down" />}
+                  treeNodeFilterProp={'title'}
+                  dropdownStyle={{ maxHeight: '400px', overflow: 'auto' }}
+                  replaceFields={{
+                    children: 'children',
+                    title: 'name',
+                    key: 'id',
+                    value: 'id'
+                  }}
+                  onFocus={this.focus}
+                  onChange={this.onChangeSelect}
+                ></TreeSelect>
+                // </Col>
+                /* <Col span={4}>
+                  <Button
+                    type="primary"
+                    onClick={() => this.selectSchoolTree()}
+                    onClick={() => this._setVisibleOfModal({ curActivitieId: this.curActivitieId }, 'visibleOfSchoolTre')}
+                  >选择</Button>
+                </Col> */
+                /* </Row> */
               )
             }
           </Form.Item>

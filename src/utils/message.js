@@ -61,7 +61,7 @@ export function verificationDialog(callback, content, successfulPrompt) {
       if (typeof callback === 'function') {
         const status = await callback()
 
-        this.message(status, successfulPrompt)
+        message(status, successfulPrompt)
       }
 
       close()

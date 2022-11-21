@@ -46,37 +46,11 @@ export default Form.create({})({
     },
     async onSelect(selectedKeys, e) {
       const payload = {}
-      const treeIdField = this.getFieldNameForTreeId(e.node.pos.split('-').length - 1)
+      // const treeIdField = this.getFieldNameForTreeId(e.node.pos.split('-').length - 1)
 
-      if (this.oldTreeIdField !== treeIdField) {
-        // 清空search内上一次树操作的键与值
-        this.$store.commit('setSearch', {
-          payload: { [this.oldTreeIdField]: undefined },
-          moduleName: this.moduleName
-        })
+      console.log(selectedKeys, e)
 
-        // 更新对应 store 模块内 treeIdField 字段的值
-        this.$store.commit('setState', {
-          value: treeIdField,
-          moduleName: this.moduleName,
-          stateName: 'treeIdField'
-        })
 
-        this.oldTreeIdField = treeIdField
-      }
-
-      if (e.selected) {
-        payload[this.treeIdField] = selectedKeys[0]
-      } else {
-        payload[this.treeIdField] = this.notNoneMode ? this.dataSource.list?.[0]?.id : ''
-      }
-
-      if (payload[this.treeIdField] !== this.treeId[0]) {
-        await this.$store.dispatch('setSearch', {
-          moduleName: this.moduleName,
-          payload
-        })
-      }
     }
   },
   watch: {
