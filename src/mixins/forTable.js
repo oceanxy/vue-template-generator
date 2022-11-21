@@ -196,12 +196,13 @@ export default ({
       /**
        * 获取列表数据
        * @param [merge] {boolean} 是否合并数据，默认false，主要用于“加载更多”功能
+       * @param [customApiName] {string} 自定义接口名
        * @returns {Promise<void>}
        */
-      async fetchList({ merge } = {}) {
+      async fetchList({ merge, customApiName } = {}) {
         return await this.$store.dispatch('getList', {
           merge,
-          customApiName: this.customApiName || _customApiName,
+          customApiName: customApiName || this.customApiName || _customApiName,
           moduleName: this.moduleName,
           submoduleName: this.submoduleName,
           /**

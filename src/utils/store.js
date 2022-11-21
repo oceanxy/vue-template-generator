@@ -13,7 +13,7 @@
  * @param payload {*} 触发mutation的值
  */
 export function commitRootInModule(moduleName, commit, mutation, payload) {
-  commit(mutation, { value: payload, moduleName }, { root: true })
+  commit(mutation, payload, { root: true })
 }
 
 /**

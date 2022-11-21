@@ -2,33 +2,32 @@ import './assets/styles/index.scss'
 import dynamicState from '@/mixins/dynamicState'
 import TGContainerWithTreeSider from '@/components/TGContainerWithTreeSider'
 import TGContainer from '@/layouts/components/TGContainer'
-import Functions from './components/Functions'
-import Inquiry from './components/Inquiry'
+import Inquiry from '../components/InquiryByGrade'
 import Table from './components/Table'
-import TGPagination from '@/components/TGPagination'
-import { getFieldNameForSchoolTreeId } from '@/utils/projectHelpers'
+import { getFieldNameForSchoolGroupType } from '@/utils/projectHelpers'
 
 export default {
-  name: 'VisualData',
+  name: 'ActivityHeightStatisticsByGrade',
   mixins: [dynamicState()],
   render() {
     return (
       <TGContainerWithTreeSider
         notNoneMode
-        placeholder={'请输入学校名称'}
-        contentClass="fe-visual-data-container"
-        getTreeIdField={getFieldNameForSchoolTreeId}
+        placeholder={'请输入街道名称'}
+        getFieldNameForTreeId={getFieldNameForSchoolGroupType}
+        optionsOfGetList={{
+          customApiName: 'getActivityHeightBySchool',
+          isFetchList: false
+        }}
         apiOptions={{
-          apiName: 'getSchoolTree',
-          stateName: 'schoolTree',
-          moduleName: 'schools'
+          apiName: 'getStreetTree',
+          stateName: 'streetTree',
+          moduleName: 'streets'
         }}
       >
         <TGContainer>
-          <Functions slot="functions" />
           <Inquiry slot="inquiry" />
           <Table slot="table" />
-          <TGPagination slot="pagination" />
         </TGContainer>
       </TGContainerWithTreeSider>
     )

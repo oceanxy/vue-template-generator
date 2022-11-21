@@ -8,11 +8,23 @@
 import { omit } from 'lodash'
 import moment from 'moment'
 
-export default () => {
+/**
+ * @param isFetchList {boolean} 是否通过本组件的搜索按钮来请求数据，默认true。如果其他组件有请求数据的逻辑，此处请设置为 false
+ * @returns {Object}
+ */
+export default ({ isFetchList = true } = {}) => {
   return {
     inject: {
       moduleName: { default: '' },
       submoduleName: { default: '' }
+    },
+    data() {
+      return {
+        // 为了缓存 onSubmit 的参数
+        params: {},
+        // 为了缓存 onSubmit 的参数
+        options: {}
+      }
     },
     methods: {
       /**
@@ -58,7 +70,7 @@ export default () => {
       },
       async onClear() {
         this.form.resetFields()
-        await this.onSearch({})
+        await this.onSubmit(this.params, this.options)
       },
       async onSearch(payload, options) {
         await this.$store.dispatch('setSearch', {
@@ -71,6 +83,7 @@ export default () => {
             // 请根据参数的取值和性质自行决定在 data 内或 computed 内定义。
             ...(this.additionalQueryParameters || {})
           },
+          isFetchList,
           ...options,
           payload
         })
@@ -83,6 +96,9 @@ export default () => {
        */
       onSubmit(e, params, options) {
         e?.preventDefault()
+
+        this.params = params
+        this.options = options
 
         this.form.validateFieldsAndScroll(async (err, values) => {
           if (!err) {

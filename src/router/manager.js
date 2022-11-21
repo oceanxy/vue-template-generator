@@ -462,11 +462,11 @@ function createConstRoutes() {
               }
             },
             {
-              path: 'activity-height-grade',
-              name: 'activityHeightGrade',
-              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
+              path: 'activity-height-statistics-by-grade',
+              name: 'activityHeightStatisticsByGrade',
+              component: () => import('@/views/manager/statisticalAnalysis/ActivityHeightStatisticsByGrade'),
               meta: {
-                title: '活动身高等级统计',
+                title: '活动身高按等级统计',
                 keepAlive: false,
                 requiresAuth: true,
                 icon: () => import('@/layouts/components/TGMenu/assets/images/height-statistics.svg')

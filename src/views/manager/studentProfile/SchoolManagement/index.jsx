@@ -19,7 +19,7 @@ export default {
         apiOptions={{
           apiName: 'getStreetTree',
           stateName: 'streetTree',
-          moduleName: 'street'
+          moduleName: 'streets'
         }}
       >
         <TGContainer>

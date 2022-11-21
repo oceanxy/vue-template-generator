@@ -199,6 +199,10 @@ body {
     display: flex;
     align-items: center;
 
+    &.ant-form-item-with-help {
+      margin-bottom: 0;
+    }
+
     &.span-2 {
       width: 472px;
     }
@@ -231,50 +235,56 @@ body {
 
       .ant-form-item-control {
         height: 100%;
-      }
 
-      .ant-form-item-children {
-        display: flex;
-        height: 100%;
-
-        & > .ant-select .ant-select-selection,
-        & > .ant-input-affix-wrapper .ant-input,
-        & > .ant-input-number,
-        & > .ant-input,
-        & > .ant-calendar-picker .ant-calendar-picker-input,
-        & > .ant-input-group {
-          width: 100%;
-          padding-left: 80px;
+        // inquiry 组件内的行内表单防止样式错位，隐藏文字提示信息
+        &.has-error .ant-form-explain,
+        .ant-form-item-children + * {
+          display: none;
         }
 
-        & > .ant-calendar-picker {
-          width: 100%;
-        }
-
-        & > .ant-input-group {
+        .ant-form-item-children {
           display: flex;
-          align-items: center;
-          gap: 5px;
-          border: 1px solid #d9d9d9;
-          border-radius: 4px;
-          transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+          height: 100%;
 
-          &:hover {
-            border-color: $primary-color;
+          & > .ant-select .ant-select-selection,
+          & > .ant-input-affix-wrapper .ant-input,
+          & > .ant-input-number,
+          & > .ant-input,
+          & > .ant-calendar-picker .ant-calendar-picker-input,
+          & > .ant-input-group {
+            width: 100%;
+            padding-left: 80px;
           }
 
-          .ant-input-number {
-            border-color: transparent !important;
-            outline: none !important;
-            box-shadow: none !important;
+          & > .ant-calendar-picker {
+            width: 100%;
           }
 
-          .ant-input-number:first-child {
-            &:hover,
-            &:focus,
-            &:active {
+          & > .ant-input-group {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            border: 1px solid #d9d9d9;
+            border-radius: 4px;
+            transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+
+            &:hover {
+              border-color: $primary-color;
+            }
+
+            .ant-input-number {
               border-color: transparent !important;
-              border-right: 1px solid #d9d9d9 !important;
+              outline: none !important;
+              box-shadow: none !important;
+            }
+
+            .ant-input-number:first-child {
+              &:hover,
+              &:focus,
+              &:active {
+                border-color: transparent !important;
+                border-right: 1px solid #d9d9d9 !important;
+              }
             }
           }
         }

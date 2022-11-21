@@ -24,7 +24,7 @@ export default {
     })
   },
   /**
-   * 获取学校街道树
+   * 获取体检项目分类树
    * @param request
    * @returns {*}
    */

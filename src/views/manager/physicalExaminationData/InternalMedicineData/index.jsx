@@ -15,6 +15,7 @@ export default {
     return (
       <TGContainerWithTreeSider
         notNoneMode
+        placeholder={'请输入学校名称'}
         contentClass="fe-internal-medicine-data-container"
         getTreeIdField={getFieldNameForSchoolTreeId}
         apiOptions={{
