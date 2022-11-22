@@ -19,11 +19,11 @@ export default {
   methods: {
     onCustomExport() {
       if (this.hierarchy === 'class') {
-        this.onExport('活动身高按学校统计', { gradeId: this.gradeId }, 'exportActivityHeightByClass')
+        this.onExport('活动肺活量按学校统计', { gradeId: this.gradeId }, 'exportActivityVitalCapacityByClass')
       } else if (this.hierarchy === 'grade') {
-        this.onExport('活动身高按年级统计', { schoolId: this.schoolId }, 'exportActivityHeightByGrade')
+        this.onExport('活动肺活量按年级统计', { schoolId: this.schoolId }, 'exportActivityVitalCapacityByGrade')
       } else {
-        this.onExport('活动身高按班级统计', {}, 'exportActivityHeightBySchool')
+        this.onExport('活动肺活量按班级统计', {}, 'exportActivityVitalCapacityBySchool')
       }
     }
   },

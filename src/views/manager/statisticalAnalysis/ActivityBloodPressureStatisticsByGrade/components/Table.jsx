@@ -20,29 +20,22 @@ export default {
             dataIndex: 'stuNum'
           },
           {
-            title: this.getTitle('上等', '身高>+2SD为上等（SD为标准差）'),
+            title: this.getTitle('正常血压', '收缩压和舒张压<同性别、同年龄、同身高百分位血压 P90'),
             align: 'center',
-            customRender: (text, record) => this.getLevelData(text, record, '上等')
+            customRender: (text, record) => this.getLevelData(text, record, '正常血压')
           },
           {
-            title: this.getTitle('中上等', '身高>+1SD且≤+2SD为中上等（SD为标准差）'),
+            title: this.getTitle(
+              '正常高值血压',
+              '收缩压和舒张压≥同性别、同年龄、同身高百分位血压 P90 且 收缩压和舒张压<同性别、同年龄、同身高百分位血压 P95'
+            ),
             align: 'center',
-            customRender: (text, record) => this.getLevelData(text, record, '中上等')
+            customRender: (text, record) => this.getLevelData(text, record, '正常高值血压')
           },
           {
-            title: this.getTitle('中等', '身高>-1SD且≤+1SD为中等（SD为标准差）'),
+            title: this.getTitle('血压偏高', '收缩压和舒张压≥同性别、同年龄、同身高百分位血压 P95'),
             align: 'center',
-            customRender: (text, record) => this.getLevelData(text, record, '中等')
-          },
-          {
-            title: this.getTitle('中下等', '身高>-2SD且≤-1SD为中下等（SD为标准差）'),
-            align: 'center',
-            customRender: (text, record) => this.getLevelData(text, record, '中下等')
-          },
-          {
-            title: this.getTitle('下等', '身高≤-2SD为下等（SD为标准差）'),
-            align: 'center',
-            customRender: (text, record) => this.getLevelData(text, record, '下等')
+            customRender: (text, record) => this.getLevelData(text, record, '血压偏高')
           },
           {
             title: this.getTitle('未收录', '数据没有对比标准'),
@@ -157,7 +150,7 @@ export default {
       deep: true,
       async handler(obj = {}) {
         if (obj.activityId && (obj.countyId || obj.streetId)) {
-          await this.fetchList({ customApiName: 'getActivityHeightBySchool' })
+          await this.fetchList({ customApiName: 'getActivityBloodPressureBySchool' })
           this.hierarchy = 'school'
         }
       }
@@ -187,10 +180,10 @@ export default {
         moduleName: this.moduleName
       })
 
-      await this.$store.dispatch('activityHeightStatisticsByGrade/getList', {
+      await this.$store.dispatch('activityBloodPressureStatisticsByGrade/getList', {
         moduleName: this.moduleName,
         stateName: 'listBySchoolId',
-        customApiName: 'getActivityHeightByGrade',
+        customApiName: 'getActivityBloodPressureByGrade',
         payload: { schoolId }
       })
     },
@@ -202,10 +195,10 @@ export default {
         moduleName: this.moduleName
       })
 
-      await this.$store.dispatch('activityHeightStatisticsByGrade/getList', {
+      await this.$store.dispatch('activityBloodPressureStatisticsByGrade/getList', {
         moduleName: this.moduleName,
         stateName: 'listByGradeId',
-        customApiName: 'getActivityHeightByClass',
+        customApiName: 'getActivityBloodPressureByClass',
         payload: { gradeId }
       })
     }

@@ -44,27 +44,27 @@ export default {
       {
         title: this.getTitle('上等', '身高>+2SD为上等（SD为标准差）'),
         align: 'center',
-        customRender: (text, record) => this.getLevelData(text, record, 0)
+        customRender: (text, record) => this.getLevelData(text, record, '上等')
       },
       {
         title: this.getTitle('中上等', '身高>+1SD且≤+2SD为中上等（SD为标准差）'),
         align: 'center',
-        customRender: (text, record) => this.getLevelData(text, record, 1)
+        customRender: (text, record) => this.getLevelData(text, record, '中上等')
       },
       {
         title: this.getTitle('中等', '身高>-1SD且≤+1SD为中等（SD为标准差）'),
         align: 'center',
-        customRender: (text, record) => this.getLevelData(text, record, 2)
+        customRender: (text, record) => this.getLevelData(text, record, '中等')
       },
       {
         title: this.getTitle('中下等', '身高>-2SD且≤-1SD为中下等（SD为标准差）'),
         align: 'center',
-        customRender: (text, record) => this.getLevelData(text, record, 3)
+        customRender: (text, record) => this.getLevelData(text, record, '中下等')
       },
       {
         title: this.getTitle('下等', '身高≤-2SD为下等（SD为标准差）'),
         align: 'center',
-        customRender: (text, record) => this.getLevelData(text, record, 4)
+        customRender: (text, record) => this.getLevelData(text, record, '下等')
       }
     ]
 
@@ -100,12 +100,10 @@ export default {
     }
   },
   methods: {
-    getLevelData(text, record, index) {
-      return `${
-        record.levelList?.[index]?.studentsNum ?? '-'
-      }人 / ${
-        record.levelList?.[index]?.proportion ?? '-'
-      }%`
+    getLevelData(text, record, columnName) {
+      const data = record.levelList?.find(item => item.levelName === columnName) ?? {}
+
+      return `${data.studentsNum ?? '-'}人 / ${data.proportion ?? '-'}%`
     },
     getTitle(title, description) {
       return (

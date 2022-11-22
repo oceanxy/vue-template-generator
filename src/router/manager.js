@@ -473,44 +473,44 @@ function createConstRoutes() {
               }
             },
             {
-              path: 'activity-bmi-level',
-              name: 'activityBMILevel',
-              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
+              path: 'activity-bmi-statistics-by-grade',
+              name: 'activityBmiStatisticsByGrade',
+              component: () => import('@/views/manager/statisticalAnalysis/ActivityBmiStatisticsByGrade'),
               meta: {
-                title: '活动BMI等级统计',
+                title: '活动BMI按等级统计',
                 keepAlive: false,
                 requiresAuth: true,
                 icon: () => import('@/layouts/components/TGMenu/assets/images/activity-bmi-level.svg')
               }
             },
             {
-              path: 'activity-blood-pressure-level',
-              name: 'activityBloodPressureLevel',
-              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
+              path: 'activity-blood-pressure-statistics-by-grade',
+              name: 'activityBloodPressureStatisticsByGrade',
+              component: () => import('@/views/manager/statisticalAnalysis/ActivityBloodPressureStatisticsByGrade'),
               meta: {
-                title: '活动血压等级统计',
+                title: '活动血压按等级统计',
                 keepAlive: false,
                 requiresAuth: true,
                 icon: () => import('@/layouts/components/TGMenu/assets/images/blood-pressure-statistics.svg')
               }
             },
             {
-              path: 'active-vision-level',
-              name: 'activeVisionLevel',
-              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
+              path: 'activity-vision-statistics-by-grade',
+              name: 'activityVisionStatisticsByGrade',
+              component: () => import('@/views/manager/statisticalAnalysis/ActivityVisionStatisticsByGrade'),
               meta: {
-                title: '活动视力等级统计',
+                title: '活动视力按等级统计',
                 keepAlive: false,
                 requiresAuth: true,
                 icon: () => import('@/layouts/components/TGMenu/assets/images/vision-statistics.svg')
               }
             },
             {
-              path: 'active-vital-capacity-grade',
-              name: 'activeVitalCapacityGrade',
-              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
+              path: 'activity-vital-capacity-statistics-by-grade',
+              name: 'activityVitalCapacityStatisticsByGrade',
+              component: () => import('@/views/manager/statisticalAnalysis/ActivityVitalCapacityStatisticsByGrade'),
               meta: {
-                title: '活动肺活量等级统计',
+                title: '活动肺活量按等级统计',
                 keepAlive: false,
                 requiresAuth: true,
                 icon: () => import('@/layouts/components/TGMenu/assets/images/vital-capacity-statistics.svg')

@@ -20,29 +20,29 @@ export default {
             dataIndex: 'stuNum'
           },
           {
-            title: this.getTitle('上等', '身高>+2SD为上等（SD为标准差）'),
+            title: '正常',
             align: 'center',
-            customRender: (text, record) => this.getLevelData(text, record, '上等')
+            customRender: (text, record) => this.getLevelData(text, record, '正常')
           },
           {
-            title: this.getTitle('中上等', '身高>+1SD且≤+2SD为中上等（SD为标准差）'),
+            title: '近视',
             align: 'center',
-            customRender: (text, record) => this.getLevelData(text, record, '中上等')
+            customRender: (text, record) => this.getLevelData(text, record, '近视')
           },
           {
-            title: this.getTitle('中等', '身高>-1SD且≤+1SD为中等（SD为标准差）'),
+            title: this.getTitle('轻度低下', '视力≥4.9 且 视力<5.0'),
             align: 'center',
-            customRender: (text, record) => this.getLevelData(text, record, '中等')
+            customRender: (text, record) => this.getLevelData(text, record, '轻度低下')
           },
           {
-            title: this.getTitle('中下等', '身高>-2SD且≤-1SD为中下等（SD为标准差）'),
+            title: this.getTitle('中度低下', '视力≥4.6 且 视力≤4.8'),
             align: 'center',
-            customRender: (text, record) => this.getLevelData(text, record, '中下等')
+            customRender: (text, record) => this.getLevelData(text, record, '中度低下')
           },
           {
-            title: this.getTitle('下等', '身高≤-2SD为下等（SD为标准差）'),
+            title: this.getTitle('高度低下', '视力≤4.5'),
             align: 'center',
-            customRender: (text, record) => this.getLevelData(text, record, '下等')
+            customRender: (text, record) => this.getLevelData(text, record, '高度低下')
           },
           {
             title: this.getTitle('未收录', '数据没有对比标准'),
@@ -157,7 +157,7 @@ export default {
       deep: true,
       async handler(obj = {}) {
         if (obj.activityId && (obj.countyId || obj.streetId)) {
-          await this.fetchList({ customApiName: 'getActivityHeightBySchool' })
+          await this.fetchList({ customApiName: 'getActivityVisionBySchool' })
           this.hierarchy = 'school'
         }
       }
@@ -187,10 +187,10 @@ export default {
         moduleName: this.moduleName
       })
 
-      await this.$store.dispatch('activityHeightStatisticsByGrade/getList', {
+      await this.$store.dispatch('activityVisionStatisticsByGrade/getList', {
         moduleName: this.moduleName,
         stateName: 'listBySchoolId',
-        customApiName: 'getActivityHeightByGrade',
+        customApiName: 'getActivityVisionByGrade',
         payload: { schoolId }
       })
     },
@@ -202,10 +202,10 @@ export default {
         moduleName: this.moduleName
       })
 
-      await this.$store.dispatch('activityHeightStatisticsByGrade/getList', {
+      await this.$store.dispatch('activityVisionStatisticsByGrade/getList', {
         moduleName: this.moduleName,
         stateName: 'listByGradeId',
-        customApiName: 'getActivityHeightByClass',
+        customApiName: 'getActivityVisionByClass',
         payload: { gradeId }
       })
     }

@@ -20,29 +20,24 @@ export default {
             dataIndex: 'stuNum'
           },
           {
-            title: this.getTitle('上等', '身高>+2SD为上等（SD为标准差）'),
+            title: '优秀',
             align: 'center',
-            customRender: (text, record) => this.getLevelData(text, record, '上等')
+            customRender: (text, record) => this.getLevelData(text, record, '优秀')
           },
           {
-            title: this.getTitle('中上等', '身高>+1SD且≤+2SD为中上等（SD为标准差）'),
+            title: '良好',
             align: 'center',
-            customRender: (text, record) => this.getLevelData(text, record, '中上等')
+            customRender: (text, record) => this.getLevelData(text, record, '良好')
           },
           {
-            title: this.getTitle('中等', '身高>-1SD且≤+1SD为中等（SD为标准差）'),
+            title: '及格',
             align: 'center',
-            customRender: (text, record) => this.getLevelData(text, record, '中等')
+            customRender: (text, record) => this.getLevelData(text, record, '及格')
           },
           {
-            title: this.getTitle('中下等', '身高>-2SD且≤-1SD为中下等（SD为标准差）'),
+            title: '不及格',
             align: 'center',
-            customRender: (text, record) => this.getLevelData(text, record, '中下等')
-          },
-          {
-            title: this.getTitle('下等', '身高≤-2SD为下等（SD为标准差）'),
-            align: 'center',
-            customRender: (text, record) => this.getLevelData(text, record, '下等')
+            customRender: (text, record) => this.getLevelData(text, record, '不及格')
           },
           {
             title: this.getTitle('未收录', '数据没有对比标准'),
@@ -157,7 +152,7 @@ export default {
       deep: true,
       async handler(obj = {}) {
         if (obj.activityId && (obj.countyId || obj.streetId)) {
-          await this.fetchList({ customApiName: 'getActivityHeightBySchool' })
+          await this.fetchList({ customApiName: 'getActivityVitalCapacityBySchool' })
           this.hierarchy = 'school'
         }
       }
@@ -187,10 +182,10 @@ export default {
         moduleName: this.moduleName
       })
 
-      await this.$store.dispatch('activityHeightStatisticsByGrade/getList', {
+      await this.$store.dispatch('activityVitalCapacityStatisticsByGrade/getList', {
         moduleName: this.moduleName,
         stateName: 'listBySchoolId',
-        customApiName: 'getActivityHeightByGrade',
+        customApiName: 'getActivityVitalCapacityByGrade',
         payload: { schoolId }
       })
     },
@@ -202,10 +197,10 @@ export default {
         moduleName: this.moduleName
       })
 
-      await this.$store.dispatch('activityHeightStatisticsByGrade/getList', {
+      await this.$store.dispatch('activityVitalCapacityStatisticsByGrade/getList', {
         moduleName: this.moduleName,
         stateName: 'listByGradeId',
-        customApiName: 'getActivityHeightByClass',
+        customApiName: 'getActivityVitalCapacityByClass',
         payload: { gradeId }
       })
     }
