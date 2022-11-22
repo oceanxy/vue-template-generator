@@ -15,11 +15,24 @@ export default {
     schoolId() {
       return this.getState('search', this.moduleName)?.schoolId ?? null
     },
-    curGradeId() {
-      return this.getState('grade', this.moduleName)?.[0]?.id ?? undefined
+    curGrade() {
+      return this.getState('grade', this.moduleName) ?? null
     },
     curClassNumber() {
       return this.getState('classNumber', this.moduleName) ?? null
+    },
+    schoolAllList() {
+      return this.getState('schoolAllList', this.moduleName)?.list ?? []
+    },
+    codeBatchUrl() {
+      return this.getState('codeBatchUrl', this.moduleName)?.list ?? null
+    },
+    curSchool() {
+      return this.schoolAllList.filter(item => {
+        if (item.id === this.schoolId) {
+          return item
+        }
+      })
     }
   },
   methods: {
@@ -37,24 +50,71 @@ export default {
     async onCancel() {
       this.codeBatchVisible = !this.codeBatchVisible
     },
+    // downloadFile(url, fileName) {
+    //   if (!url) return
+
+    //   const link = document.createElement('a')
+
+    //   link.style.display = 'none'
+    //   link.href = url
+    //   link.setAttribute('download', fileName)
+    //   document.body.appendChild(link)
+    //   link.click()
+    //   document.body.removeChild(link)
+
+    // },
     async determine() {
+      const curGradeId = this.curGrade?.[0]?.id ?? undefined
+
       if (!this.schoolId) {
         this.codeBatchVisible = false
         message.error(' 请选择学校！')
-      } else if (!this.curGradeId) {
+      } else if (!curGradeId) {
         this.codeBatchVisible = false
         message.error(' 请选择班级！')
       } else {
         this.codeBatchVisible = false
-        await this.$store.dispatch('getListWithLoadingStatus', {
+        const res = await this.$store.dispatch('getList', {
           moduleName: 'studentManagement',
+          stateName: 'codeBatchUrl',
           customApiName: 'getCodeBatch',
-          payload: {
+          additionalQueryParameters: {
             schoolId: this.schoolId,
-            gradeId: this.curGradeId,
+            gradeId: curGradeId,
             classNumber: this.curClassNumber
           }
         })
+        // this.$nextTick(function () {
+
+
+        if (res) {
+          const url = this.codeBatchUrl
+          const fileName = this.curSchool[0].fullName + this.curGrade[0].gradeName
+
+          Modal.confirm({
+            title: 'PDF文件下载',
+            content: `${fileName}'已经生成,是否下载'`,
+            okText: '下载',
+            cancelText: '取消',
+            onOk() {
+              const link = document.createElement('a') // 创建a标签
+
+              link.download = fileName // a标签添加属性
+              link.style.display = 'none'
+              link.target = '_blank'
+              link.href = url
+              document.body.appendChild(link)
+              link.click() // 执行下载
+              document.body.removeChild(link) // 释放标签
+            },
+            onCancel() { },
+          })
+        } else {
+          message.error('暂无数据！')
+        }
+        // })
+
+
       }
 
     }

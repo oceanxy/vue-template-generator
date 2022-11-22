@@ -1,5 +1,5 @@
 import '../assets/styles/index.scss'
-import { Form, Input, Select, Switch } from 'ant-design-vue'
+import { Form, Input, Select, Button, Row, Col, TreeSelect, message } from 'ant-design-vue'
 import forFormModal from '@/mixins/forModal/forFormModal'
 import DragModal from '@/components/DragModal'
 import { mapGetters } from 'vuex'
@@ -9,9 +9,10 @@ export default Form.create({})({
   data() {
     return {
       modalProps: {
-        width: 700,
+        width: 600,
         wrapClassName: 'bnm-modal-edit-user-form'
-      }
+      },
+      schoolLists: []
     }
   },
   computed: {
@@ -21,7 +22,17 @@ export default Form.create({})({
     },
     yearList() {
       return this.getState('yearList', this.moduleName)?.list ?? null
+    },
+    schoolList() {
+      return this.getState('schoolListByActivity', this.moduleName)
     }
+  },
+  async created() {
+    await this.$store.dispatch('getListWithLoadingStatus', {
+      moduleName: this.moduleName,
+      stateName: 'activities',
+      customApiName: 'getActivitiesForSelect'
+    })
   },
   methods: {
     async getActivityYearList() {
@@ -31,15 +42,39 @@ export default Form.create({})({
         customApiName: 'getActivityYearList'
       })
     },
-    async getActivitiesForSelect() {
+    async getSchoolTreeByActivityId(curActivitieId) {
       await this.$store.dispatch('getListWithLoadingStatus', {
         moduleName: this.moduleName,
-        stateName: 'activities',
-        customApiName: 'getActivitiesForSelect'
+        stateName: 'schoolListByActivity',
+        customApiName: 'getSchoolTreeByActivityId',
+        payload: {
+          activityId: curActivitieId
+        }
       })
+    },
+    // 选择学校
+    onChangeSelect(value, label) {
+      this.schoolNames = label.join()
+    },
+    focus() {
+      if (!this.curActivitieId && !this.currentItem.objFromId) {
+        return message.error(' 请选择活动！')
+      }
+    },
+    // 选择活动
+    onChangeActivitie(value) {
+      this.curActivitieId = value
+      this.getSchoolTreeByActivityId(value)
     },
     customDataHandler(values) {
       const data = { ...values }
+      const editSchoolName = this.currentItem?.schoolList.map(item => {
+        return item.schoolName
+      })
+
+      data.schoolIds = data.schoolIds?.join() ?? ''
+      data.schoolNames = this.schoolNames ?? editSchoolName.join() ?? ''
+      console.log('data', data)
 
       return data
     }
@@ -48,10 +83,11 @@ export default Form.create({})({
   watch: {
     'modalProps.visible'(value) {
       if (value) {
-        this.getActivitiesForSelect()
         this.getActivityYearList()
-        console.log(this.activitiesYearList)
-        console.log(this.activities)
+
+        if (this.currentItem.objFromId) {
+          this.getSchoolTreeByActivityId(this.currentItem.objFromId)
+        }
       }
     }
   },
@@ -103,7 +139,7 @@ export default Form.create({})({
               this.form.getFieldDecorator(
                 'objFromId',
                 {
-                  initialValue: this.currentItem.objFromName,
+                  initialValue: this.currentItem.objFromId,
                   rules: [
                     {
                       required: true,
@@ -113,7 +149,10 @@ export default Form.create({})({
                   ]
                 }
               )(
-                <Select placeholder="请选择活动">
+                <Select
+                  placeholder="请选择活动"
+                  onChange={this.onChangeActivitie}
+                >
                   {
                     this.activities?.map(item => (
                       <Select.Option value={item.id}>{item.activityName}</Select.Option>
@@ -129,24 +168,44 @@ export default Form.create({})({
               this.form.getFieldDecorator(
                 'schoolIds',
                 {
-                  initialValue: this.currentItem.schoolList?.map(item => {
-                    item.schoolName
-                  }),
-                  rules: [
-                    {
-                      required: true,
-                      type: 'number',
-                      message: '请选择活动!',
-                      trigger: 'change'
-                    }
-                  ]
+                  initialValue: this.currentItem.schoolList?.map(item => item.schoolId)
+                  // rules: [
+                  //   {
+                  //     required: true,
+                  //     message: '请选择活动!',
+                  //     trigger: 'change'
+                  //   }
+                  // ]
                 }
               )(
-                <Select placeholder="请选择活动">
-                  <Select.Option value={1}>男</Select.Option>
-                  <Select.Option value={2}>女</Select.Option>
-                  <Select.Option value={0}>未知</Select.Option>
-                </Select>
+                // <Row gutter={10}>
+                // <Col span={20}>
+                <TreeSelect
+                  style="width: 100%"
+                  treeData={this.schoolList.list}
+                  multiple
+                  treeCheckable
+                  suffixIcon={<Icon type="caret-down" />}
+                  treeNodeFilterProp={'title'}
+                  dropdownStyle={{ maxHeight: '400px', overflow: 'auto' }}
+                  replaceFields={{
+                    children: 'children',
+                    title: 'name',
+                    key: 'id',
+                    value: 'id'
+                  }}
+                  onFocus={this.focus}
+                  onChange={this.onChangeSelect}
+                ></TreeSelect>
+                // </Col>
+                /* <Col span={4}>
+                  <Button
+                    type="primary"
+                    onClick={() => this.selectSchoolTree()}
+                    onClick={() => this._setVisibleOfModal({ curActivitieId: this.curActivitieId }, 'visibleOfSchoolTre')}
+                  >选择</Button>
+                </Col> */
+                /* </Row> */
               )
             }
           </Form.Item>
@@ -159,16 +218,6 @@ export default Form.create({})({
                   placeholder="请输入"
                   allowClear
                 />
-              )
-            }
-          </Form.Item>
-          <Form.Item label="状态">
-            {
-              this.form.getFieldDecorator('status', {
-                initialValue: this.currentItem.status === 1,
-                valuePropName: 'checked'
-              })(
-                <Switch />
               )
             }
           </Form.Item>

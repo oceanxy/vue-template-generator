@@ -99,7 +99,7 @@ export default {
   },
   /**
    * 批量生成二维码
-   * @param [request]
+   * @param request
    * @param data
    * @returns {*}
    */
@@ -107,8 +107,7 @@ export default {
     return request({
       url: '/personnel/qrCode/getCode',
       method: 'post',
-      data: qs.stringify(data),
-      responseType: 'blob'
+      data: qs.stringify(data)
     })
   }
 }

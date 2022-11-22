@@ -9,15 +9,7 @@ export function generateRoute(menu) {
     icon,
     children,
     obj: {
-      name: routeName,
-      redirect,
-      extend2,
-      component,
-      keepAlive,
-      requiresAuth,
-      hideBreadCrumb,
-      hideChildren,
-      hide
+      name: routeName, redirect, extend2, component, keepAlive, requiresAuth, hideBreadCrumb, hideChildren, hide
     }
   } = menu
 
@@ -116,11 +108,13 @@ export function downFile(blob, fileName) {
     const tmpa = document.createElement('a')
 
     tmpa.download = fileName
+    console.log(blob)
     const urlObj = URL.createObjectURL(blob)
 
+    console.log(urlObj)
     tmpa.href = urlObj
     tmpa.click() // 模拟点击实现下载
-    setTimeout(function() {
+    setTimeout(function () {
       // 延时释放
       URL.revokeObjectURL(urlObj)
     }, 1000)
