@@ -1,5 +1,5 @@
 import '../assets/styles/index.scss'
-import { Table, Tag, Switch } from 'ant-design-vue'
+import { Table, Space, Switch, Button } from 'ant-design-vue'
 import forTable from '@/mixins/forTable'
 
 export default {
@@ -34,6 +34,13 @@ export default {
             title: '状态',
             align: 'center',
             scopedSlots: { customRender: 'status' }
+          },
+          {
+            title: '操作',
+            align: 'center',
+            fixed: 'right',
+            width: 100,
+            scopedSlots: { customRender: 'operation' }
           }
         ]
       }
@@ -54,7 +61,18 @@ export default {
                   onChange={checked => this.onStatusChange({ checked, record })}
                 />
               )
-            }
+            },
+            operation: (text, record) => (
+              <Space>
+                <Button
+                  type="link"
+                  size="small"
+                  onClick={() => this.onEditClick(record)}
+                >
+                  修改
+                </Button>
+              </Space>
+            )
           }
         }}
       />

@@ -25,6 +25,20 @@ export default {
     return request({
       url: '/examine/examineCatalog/update',
       method: 'post',
+      data
+    })
+  },
+
+  /**
+   * 修改项目分类状态
+   * @param request
+   * @param data
+   * @returns {*}
+   */
+  updateProjectClassificationStatus(request, data) {
+    return request({
+      url: '/examine/examineCatalog/updateStatus',
+      method: 'post',
       data: qs.stringify(data)
     })
   },
@@ -39,7 +53,7 @@ export default {
     return request({
       url: '/examine/examineCatalog/add',
       method: 'post',
-      data: qs.stringify(data)
+      data
     })
   },
 
