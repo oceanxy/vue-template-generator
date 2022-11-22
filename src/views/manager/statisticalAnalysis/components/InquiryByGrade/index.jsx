@@ -6,6 +6,18 @@ export default Form.create({})({
   computed: {
     activities() {
       return this.$store.state[this.moduleName].activities
+    },
+    hierarchy: {
+      get() {
+        return this.$store.state[this.moduleName].hierarchy
+      },
+      set(value) {
+        this.$store.commit('setState', {
+          value: value,
+          moduleName: this.moduleName,
+          stateName: 'hierarchy'
+        })
+      }
     }
   },
   async created() {
@@ -22,6 +34,15 @@ export default Form.create({})({
         payload: { activityId: this.activities.list[0]?.id ?? undefined },
         isFetchList: false
       })
+    }
+  },
+  methods: {
+    return() {
+      if (this.hierarchy === 'class') {
+        this.hierarchy = 'grade'
+      } else if (this.hierarchy === 'grade') {
+        this.hierarchy = 'school'
+      }
     }
   },
   render() {
@@ -68,6 +89,19 @@ export default Form.create({})({
             </Button>
             {/*<Button onClick={this.onClear} icon="reload">重置</Button>*/}
           </Space>
+          {
+            this.hierarchy !== 'school'
+              ? (
+                <Button
+                  icon={'arrow-left'}
+                  class={'return'}
+                  onClick={this.return}
+                >
+                  返回
+                </Button>
+              )
+              : null
+          }
         </div>
       </Form>
     )

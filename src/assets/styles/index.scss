@@ -182,12 +182,17 @@ body {
   .row-down {
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
     gap: 12px;
 
     .form-item-btn {
       .ant-form-item-control-wrapper {
         z-index: 11;
       }
+    }
+
+    .return {
+      margin-left: auto;
     }
   }
 

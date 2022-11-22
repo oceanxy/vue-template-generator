@@ -9,7 +9,8 @@ export default commitRootInModule => omit(createStoreModule({
       loading: false
     },
     listBySchoolId: [],
-    listByGradeId: []
+    listByGradeId: [],
+    hierarchy: 'school'
   },
   actions: {
     async getList({ state }, {

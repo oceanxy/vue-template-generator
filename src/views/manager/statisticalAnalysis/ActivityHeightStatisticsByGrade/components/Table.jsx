@@ -16,19 +16,6 @@ export default {
             scopedSlots: { customRender: 'serialNumber' }
           },
           {
-            title: '学校名称',
-            width: 200,
-            fixed: true,
-            customRender: (text, record) => (
-              <Button
-                type={'link'}
-                onClick={() => this.getListBySchoolId(record.schoolId)}
-              >
-                {record.schoolName}
-              </Button>
-            )
-          },
-          {
             title: '总人数',
             align: 'center',
             dataIndex: 'stuNum'
@@ -65,8 +52,7 @@ export default {
           }
         ],
         rowSelection: null
-      },
-      hierarchy: 'school'
+      }
     }
   },
   computed: {
@@ -81,6 +67,61 @@ export default {
     },
     list() {
       return this.$store.state[this.moduleName].list
+    },
+    dynamicTitle() {
+      if (this.hierarchy === 'class') {
+        return '班级'
+      } else if (this.hierarchy === 'grade') {
+        return '年级'
+      } else {
+        return '学校'
+      }
+    },
+    hierarchy: {
+      get() {
+        return this.$store.state[this.moduleName].hierarchy
+      },
+      set(value) {
+        this.$store.commit('setState', {
+          value: value,
+          moduleName: this.moduleName,
+          stateName: 'hierarchy'
+        })
+      }
+    },
+    columns() {
+      const part1 = this.tableProps.columns.slice(0, 1)
+      const part3 = this.tableProps.columns.slice(1)
+      const part2 = {
+        title: this.dynamicTitle,
+        width: 200,
+        fixed: true,
+        customRender: (text, record) => {
+          if (this.hierarchy === 'class') {
+            return record.classNumber
+          } else if (this.hierarchy === 'grade') {
+            return (
+              <Button
+                type={'link'}
+                onClick={() => this.getListByGradeId(record.gradeId)}
+              >
+                {record.gradeName}
+              </Button>
+            )
+          } else {
+            return (
+              <Button
+                type={'link'}
+                onClick={() => this.getListBySchoolId(record.schoolId)}
+              >
+                {record.schoolName}
+              </Button>
+            )
+          }
+        }
+      }
+
+      return [...part1, part2, ...part3]
     },
     attributes() {
       const events = {}
@@ -102,6 +143,7 @@ export default {
         props: {
           ...this.tableProps,
           dataSource,
+          columns: this.columns,
           loading: this.loading
         },
         on: { ...events }
@@ -112,9 +154,10 @@ export default {
   watch: {
     search: {
       deep: true,
-      handler(obj = {}) {
+      async handler(obj = {}) {
         if (obj.activityId && (obj.countyId || obj.streetId)) {
-          this.fetchList({ customApiName: 'getActivityHeightBySchool' })
+          await this.fetchList({ customApiName: 'getActivityHeightBySchool' })
+          this.hierarchy = 'school'
         }
       }
     }
