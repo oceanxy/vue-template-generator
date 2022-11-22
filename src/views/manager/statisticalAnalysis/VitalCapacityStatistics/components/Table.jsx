@@ -44,22 +44,22 @@ export default {
       {
         title: '优秀',
         align: 'center',
-        customRender: (text, record) => this.getLevelData(text, record, 0)
+        customRender: (text, record) => this.getLevelData(text, record, '优秀')
       },
       {
         title: '良好',
         align: 'center',
-        customRender: (text, record) => this.getLevelData(text, record, 1)
+        customRender: (text, record) => this.getLevelData(text, record, '良好')
       },
       {
         title: '及格',
         align: 'center',
-        customRender: (text, record) => this.getLevelData(text, record, 2)
+        customRender: (text, record) => this.getLevelData(text, record, '及格')
       },
       {
         title: '不及格',
         align: 'center',
-        customRender: (text, record) => this.getLevelData(text, record, 3)
+        customRender: (text, record) => this.getLevelData(text, record, '不及格')
       }
     ]
 
@@ -95,12 +95,10 @@ export default {
     }
   },
   methods: {
-    getLevelData(text, record, index) {
-      return `${
-        record.levelList?.[index]?.studentsNum ?? '-'
-      }人 / ${
-        record.levelList?.[index]?.proportion ?? '-'
-      }%`
+    getLevelData(text, record, columnName) {
+      const data = record.levelList?.find(item => item.levelName === columnName) ?? {}
+
+      return `${data.studentsNum ?? '-'}人 / ${data.proportion ?? '-'}%`
     },
     getTitle(title, description) {
       return (

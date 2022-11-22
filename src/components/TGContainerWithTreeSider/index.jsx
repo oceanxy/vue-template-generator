@@ -15,14 +15,25 @@ export default {
       default: ''
     },
     /**
-     * 侧边栏树所在页面的列表的请求数据相关的配置
-     *  apiOptions.apiName: 请求api的名称,
-     *  apiOptions.stateName: 存放用于渲染树的数据的字段名,
-     *  apiOptions.moduleName: 存放用于渲染树的数据的模块名
+     * 获取侧边栏树的数据的相关配置
+     *  apiOptions.apiName: API名称
+     *  apiOptions.moduleName: 存放树的数据的模块名
+     *  apiOptions.stateName: 存放树的数据的字段名
      */
     apiOptions: {
       type: Object,
       required: true
+    },
+    /**
+     * 获取侧边栏树所在页面的列表数据的相关配置（具体配置见 store.actions.getList）
+     *  optionsOfGetList.apiName: API名称
+     *  optionsOfGetList.moduleName: 存放树的数据的模块名
+     *  optionsOfGetList.stateName: 存放树的数据的字段名
+     *  optionsOfGetList.isFetchList: 树初始化后是否触发所在页面列表请求数据，依赖 notNoneMode
+     */
+    optionsOfGetList: {
+      type: Object,
+      default: () => ({})
     },
     /**
      * 默认展开的树节点ID
@@ -33,19 +44,27 @@ export default {
       default: () => []
     },
     /**
-     * 非空模式，默认关闭
-     * 开启后，当树没有选中值时（即selectedKeys为空数组时），自动选中树的最顶层菜单
+     * 非空模式，默认关闭，不选中任何一级
+     * 开启后，当树没有选中值时（即selectedKeys为空数组时），自动选中树的最顶层菜单，然后触发所在页面的列表获取数据。
+     *  如果树所在页面的列表请求数据接口需要其他必填参数，而树不能提供的，请在设置 optionsOfGetList.isFetchList 为 false
      */
     notNoneMode: {
       type: Boolean,
       default: false
     },
     /**
-     * 选中树后用于搜索的字段名，默认 'treeId'
+     * 选中树后用于搜索列表的字段名，默认 'treeId'
      */
     getFieldNameForTreeId: {
       type: Function,
       default: () => 'treeId'
+    },
+    /**
+     * 搜索框提示文本
+     */
+    placeholder: {
+      type: String,
+      default: '请输入关键字搜索'
     }
   },
   data() {
@@ -100,11 +119,11 @@ export default {
         this.tableRef = ref
       },
       /**
-       * 通知下层组件在初始化阶段是否自动请求数据。
-       *  默认 false：本组件不控制下层组件创建阶段的数据请求
-       *  true：下层组件在初始化阶段不请求数据
+       * 通知下层组件在初始化阶段是否自动请求数据。依赖 this.notNoneMode
+       *  false：本组件不控制下层组件在组件创建阶段（created 生命周期）的数据请求，默认
+       *  true：下层组件在创建阶段不请求数据
        */
-      notInitList: this.notNoneMode
+      notInitList: this.notNoneMode || !this.optionsOfGetList.isFetchList
     }
   },
   watch: {
@@ -130,6 +149,7 @@ export default {
     if (status && this.notNoneMode) {
       const treeIdField = this.getFieldNameForTreeId(1)
 
+      // 更新 store.state 里面用于树ID的键名（主要用于每一级树的所使用的键名不同时）
       this.$store.commit('setState', {
         value: treeIdField,
         moduleName: this.moduleName,
@@ -140,7 +160,9 @@ export default {
 
       await this.$store.dispatch('setSearch', {
         payload: { [this.treeIdField]: this.dataSource.list?.[0]?.id },
-        moduleName: this.moduleName
+        moduleName: this.moduleName,
+        ...this.optionsOfGetList,
+        isFetchList: (!('isFetchList' in this.optionsOfGetList) || this.optionsOfGetList.isFetchList)
       })
     }
   },
@@ -177,7 +199,8 @@ export default {
         // 清空search内上一次树操作的键与值
         this.$store.commit('setSearch', {
           payload: { [this.oldTreeIdField]: undefined },
-          moduleName: this.moduleName
+          moduleName: this.moduleName,
+          ...this.optionsOfGetList
         })
 
         // 更新对应 store 模块内 treeIdField 字段的值
@@ -198,8 +221,9 @@ export default {
 
       if (payload[this.treeIdField] !== this.treeId[0]) {
         await this.$store.dispatch('setSearch', {
+          payload,
           moduleName: this.moduleName,
-          payload
+          ...this.optionsOfGetList
         })
       }
     },
@@ -228,7 +252,7 @@ export default {
         <div slot={'sider'} class="fe-tree-data">
           <Input
             prefix={<Icon type={'search'} style={{ fontSize: '16px' }} />}
-            placeholder={'请输入学校名称'}
+            placeholder={this.placeholder}
             onChange={debounce(this.onTreeSearch, 300)}
           />
           <Spin spinning={this.dataSource.loading}>

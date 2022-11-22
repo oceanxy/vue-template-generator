@@ -16,6 +16,7 @@ export default {
     return (
       <TGContainerWithTreeSider
         notNoneMode
+        placeholder={'请输入学校名称'}
         contentClass="fe-basic-data-container"
         getFieldNameForTreeId={getFieldNameForSchoolTreeId}
         apiOptions={{

@@ -35,6 +35,11 @@ export default {
         customRender: (text, record) => this.getLevelData(text, record, '正常')
       },
       {
+        title: '近视',
+        align: 'center',
+        customRender: (text, record) => this.getLevelData(text, record, '近视')
+      },
+      {
         title: '视力不良',
         children: [
           {
@@ -48,7 +53,7 @@ export default {
             customRender: (text, record) => this.getLevelData(text, record, '中度低下')
           },
           {
-            title: this.getTitle('中度低下', '视力≤4.5'),
+            title: this.getTitle('高度低下', '视力≤4.5'),
             align: 'center',
             customRender: (text, record) => this.getLevelData(text, record, '高度低下')
           },
