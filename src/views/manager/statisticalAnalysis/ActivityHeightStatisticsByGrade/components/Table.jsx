@@ -103,6 +103,7 @@ export default {
             return (
               <Button
                 type={'link'}
+                style={{ whiteSpace: 'normal', textAlign: 'left' }}
                 onClick={() => this.getListByGradeId(record.gradeId)}
               >
                 {record.gradeName}
@@ -112,6 +113,7 @@ export default {
             return (
               <Button
                 type={'link'}
+                style={{ whiteSpace: 'normal', textAlign: 'left' }}
                 onClick={() => this.getListBySchoolId(record.schoolId)}
               >
                 {record.schoolName}
@@ -182,6 +184,11 @@ export default {
     },
     async getListBySchoolId(schoolId) {
       this.hierarchy = 'grade'
+      this.$store.commit('setState', {
+        value: schoolId,
+        stateName: 'currentSchoolId',
+        moduleName: this.moduleName
+      })
 
       await this.$store.dispatch('activityHeightStatisticsByGrade/getList', {
         moduleName: this.moduleName,
@@ -192,6 +199,11 @@ export default {
     },
     async getListByGradeId(gradeId) {
       this.hierarchy = 'class'
+      this.$store.commit('setState', {
+        value: gradeId,
+        stateName: 'currentGradeId',
+        moduleName: this.moduleName
+      })
 
       await this.$store.dispatch('activityHeightStatisticsByGrade/getList', {
         moduleName: this.moduleName,

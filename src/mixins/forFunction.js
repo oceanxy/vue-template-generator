@@ -6,7 +6,7 @@
  */
 
 import forIndex from '@/mixins/forIndex'
-import { verifySelected, verificationDialog } from '@/utils/message'
+import { verificationDialog, verifySelected } from '@/utils/message'
 import { mapGetters } from 'vuex'
 import { message } from 'ant-design-vue'
 
@@ -127,11 +127,12 @@ export default cb => ({
     },
     /**
      * 导出功能
-     * @param fileName
-     * @param [payload]
+     * @param fileName {string} 导出文件名
+     * @param [payload] {Object} 自定义导出参数，会联合该模块的 store.state.search 一起传递给接口
+     * @param [customApiName] {string} 自定义导出接口名
      * @returns {Promise<void>}
      */
-    async onExport(fileName, payload) {
+    async onExport(fileName, payload, customApiName) {
       message.loading({
         content: '正在导出，请稍候...',
         duration: 0
@@ -143,7 +144,8 @@ export default cb => ({
         moduleName: this.moduleName,
         additionalQueryParameters: this.$route.query,
         payload,
-        fileName
+        fileName,
+        customApiName
       })
 
       this.exportButtonDisabled = false

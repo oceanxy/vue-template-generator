@@ -4,6 +4,7 @@ import TGContainerWithTreeSider from '@/components/TGContainerWithTreeSider'
 import TGContainer from '@/layouts/components/TGContainer'
 import Inquiry from '../components/InquiryByGrade'
 import Table from './components/Table'
+import Functions from './components/Functions'
 import { getFieldNameForSchoolGroupType } from '@/utils/projectHelpers'
 
 export default {
@@ -26,6 +27,7 @@ export default {
         }}
       >
         <TGContainer>
+          <Functions slot={'functions'} />
           <Inquiry slot="inquiry" />
           <Table slot="table" />
         </TGContainer>
