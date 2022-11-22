@@ -26,7 +26,7 @@ export default Form.create({})({
           </Form.Item>
           <Form.Item label={'名称'}>
             {
-              this.form.getFieldDecorator('catalogName')(
+              this.form.getFieldDecorator('activityName')(
                 <Input placeholder={'活动名称'} />
               )
             }

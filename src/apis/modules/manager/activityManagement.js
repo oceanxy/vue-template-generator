@@ -16,7 +16,7 @@ export default {
   },
 
   /**
-   * 修改体检项
+   * 修改活动
    * @param request
    * @param data
    * @returns {*}
@@ -25,12 +25,12 @@ export default {
     return request({
       url: '/examine/examineActivity/update',
       method: 'post',
-      data: qs.stringify(data)
+      data
     })
   },
 
   /**
-   * 新增体检项
+   * 新增活动
    * @param request
    * @param data
    * @returns {*}
@@ -39,12 +39,12 @@ export default {
     return request({
       url: '/examine/examineActivity/add',
       method: 'post',
-      data: qs.stringify(data)
+      data
     })
   },
 
   /**
-   * 删除体检项
+   * 删除活动
    * @param request
    * @param data
    * @returns {*}
@@ -52,6 +52,20 @@ export default {
   deleteActivityManagement(request, data) {
     return request({
       url: '/examine/examineActivity/delete',
+      method: 'post',
+      data: qs.stringify(data)
+    })
+  },
+
+  /**
+   * 修改活动状态
+   * @param request
+   * @param data
+   * @returns {*}
+   */
+  updateActivityManagementStatus(request, data) {
+    return request({
+      url: '/examine/examineActivity/updateStatus',
       method: 'post',
       data: qs.stringify(data)
     })
@@ -67,6 +81,32 @@ export default {
       url: '/examine/examineActivity/getYearList',
       method: 'post',
       data
+    })
+  },
+  /**
+   * 获取体检组织集合
+   * @param [request]
+   * @param data
+   * @returns {*}
+   */
+  getActivityItemList(request, data) {
+    return request({
+      url: '/examine/examineActivity/getItemList',
+      method: 'post',
+      data
+    })
+  },
+
+  /**
+   * 获取已选中组织机构树
+   * @param request
+   * @returns {*}
+   */
+  getGetOrgansTree(request, data) {
+    return request({
+      url: '/system/organ/getOrgans',
+      method: 'post',
+      data: qs.stringify(data)
     })
   }
 }

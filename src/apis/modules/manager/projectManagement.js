@@ -25,7 +25,7 @@ export default {
     return request({
       url: '/examine/examineItem/update',
       method: 'post',
-      data: qs.stringify(data)
+      data
     })
   },
 
@@ -38,6 +38,20 @@ export default {
   addProjectManagement(request, data) {
     return request({
       url: '/examine/examineItem/add',
+      method: 'post',
+      data
+    })
+  },
+
+  /**
+   * 修改项目分类状态
+   * @param request
+   * @param data
+   * @returns {*}
+   */
+  updateProjectManagementStatus(request, data) {
+    return request({
+      url: '/examine/examineItem/updateStatus',
       method: 'post',
       data: qs.stringify(data)
     })

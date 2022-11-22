@@ -1,5 +1,5 @@
 import '../assets/styles/index.scss'
-import { Table, Space, Button } from 'ant-design-vue'
+import { Table, Space, Button, message } from 'ant-design-vue'
 import forTable from '@/mixins/forTable'
 import { verificationDialog } from '@/utils/message'
 
@@ -80,9 +80,11 @@ export default {
       })
     },
     // 下载报告
-    onDownloadEeport(record) {
-      // let url = record.savaDataUrl
-    }
+    // onClickDown(record) {
+    //   if (!record.urlStr) {
+    //     return message.error('请先生成报告，在下载！')
+    //   }
+    // }
   },
   render() {
     return (
@@ -101,13 +103,13 @@ export default {
                 >
                   生成报告
                 </Button>
-                <div>
-                  <a
-                    href={record.savaDataUrl}
-                  >
-                    下载报告
-                  </a>
-                </div>
+                <a
+                  href={record.urlStr}
+                  style={{ display: `${record.urlStr ? 'block' : 'none'}` }}
+                // onClick={() => this.onClickDown(record)}
+                >
+                  下载报告
+                </a>
               </Space>
             )
           }

@@ -23,6 +23,7 @@ export default Form.create({})({
       return this.getState('examineCatalogTree', 'physical')?.list ?? null
     },
     examineCatalog() {
+      const ecId = this.search.ecId
       const parentId = this.search.parentId
 
       if (this.currentItem && this.currentItem.parentName) {
@@ -36,12 +37,12 @@ export default Form.create({})({
           } else {
             if (item.children) {
               item.children.map(item2 => {
-                if (item2.id === parentId) {
+                if (item2.id === ecId) {
                   arr.push(item2)
                 } else {
                   if (item2.children) {
                     item2.children.map(item3 => {
-                      if (item3.id === parentId) {
+                      if (item3.id === ecId) {
                         arr.push(item3)
                       }
                     })
@@ -61,7 +62,7 @@ export default Form.create({})({
       console.log(this.examineCatalog)
       const data = { ...values }
 
-      data.parentId = this.currentItem?.parentId ?? this.search?.parentId ?? ''
+      data.ecId = this.currentItem?.ecId ?? this.search?.ecId ?? this.search?.parentId ?? ''
 
       return data
     },
@@ -82,7 +83,7 @@ export default Form.create({})({
           wrapperCol={{ span: 17 }}
           colon={false}
         >
-          <Form.Item label="所属分类">
+          <Form.Item label="项目分类名称">
             {
               this.form.getFieldDecorator('name', {
                 initialValue: this.examineCatalog?.[0]?.name ?? undefined
@@ -94,10 +95,10 @@ export default Form.create({})({
               )
             }
           </Form.Item>
-          <Form.Item label="分类名称">
+          <Form.Item label="项目名称">
             {
-              this.form.getFieldDecorator('catalogName', {
-                initialValue: this.currentItem.catalogName,
+              this.form.getFieldDecorator('itemName', {
+                initialValue: this.currentItem.itemName,
                 rules: [
                   {
                     required: true,
