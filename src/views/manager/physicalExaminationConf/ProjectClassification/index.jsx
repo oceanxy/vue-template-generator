@@ -7,6 +7,7 @@ import ModalOfEdit from './components/ModalOfEdit'
 import TGPagination from '@/components/TGPagination'
 import dynamicState from '@/mixins/dynamicState'
 import TGContainer from '@/layouts/components/TGContainer'
+import { getFieldNameForMedicallyType } from '@/utils/projectHelpers'
 
 export default {
   name: 'ProjectClassification',
@@ -14,6 +15,8 @@ export default {
   render() {
     return (
       <TGContainerWithTreeSider
+        notNoneMode
+        getFieldNameForTreeId={getFieldNameForMedicallyType}
         apiOptions={{
           apiName: 'getExamineCatalogTree',
           stateName: 'examineCatalogTree',

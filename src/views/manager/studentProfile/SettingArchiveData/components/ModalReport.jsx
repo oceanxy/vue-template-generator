@@ -26,6 +26,13 @@ export default Form.create({})({
     },
     schoolList() {
       return this.getState('schoolListByActivity', this.moduleName)
+    },
+    customApiName() {
+      if (this.currentItem.type === 1) {
+        return 'createEvaluateReport'
+      } else if (this.currentItem.type === 2) {
+        return 'createPrintReport'
+      }
     }
   },
   methods: {
@@ -49,48 +56,25 @@ export default Form.create({})({
       this.curActivitieId = value
       this.getSchoolTreeByActivityId(value)
     },
-    async customDataHandl(values) {
+    customDataHandler(values) {
       const data = { ...values }
 
-      data.schoolIds = data.schoolIds?.join() ?? ''
+      data.schoolIds = values.schoolIds?.join() ?? ''
+      data.activityId = this.curActivitieId ?? ''
 
-      if (this.currentItem.type === 1) {
-        await this.$store.dispatch('getListWithLoadingStatus', {
-          moduleName: this.moduleName,
-          customApiName: 'createPrintReport',
-          payload: {
-            activityId: data.activityId,
-            schoolIds: data.schoolIds
-          }
-        })
-
-      } else if (this.currentItem.type === 2) {
-        await this.$store.dispatch('getListWithLoadingStatus', {
-          moduleName: this.moduleName,
-          customApiName: 'createPrintReport',
-          payload: {
-            activityId: data.activityId,
-            schoolIds: data.schoolIds
-          }
-        })
-      }
-
+      return data
     }
 
   },
-  // watch: {
-  //   'modalProps.visible'(value) {
-  //     if (value) {
-  //       this.getactivitiesList()
-  //     }
-  //   }
-  // },
   render() {
     const attributes = {
       attrs: this.modalProps,
       on: {
         cancel: () => this.onCancel(this.visibleField),
-        ok: () => this.onSubmit({ customDataHandler: this.customDataHandl })
+        ok: () => this.onSubmit({
+          customDataHandler: this.customDataHandler,
+          customApiName: this.customApiName
+        })
       }
     }
 

@@ -53,3 +53,31 @@ export function getFieldNameForSchoolGroupType(treeHierarchy) {
       return 'countyId'
   }
 }
+
+/**
+ * 体检配置--项目分类 用于保存/传递街道树ID的字段名
+ * @param treeHierarchy {number} 树的层级
+ * @returns {string} 根据树的层级返回不同的字段名
+ */
+export function getFieldNameForMedicallyType(treeHierarchy) {
+  switch (treeHierarchy) {
+    case 1:
+    default:
+      return 'parentId'
+  }
+}
+
+/**
+ * 体检配置--项目管理 用于保存/传递街道树ID的字段名
+ * @param treeHierarchy {number} 树的层级
+ * @returns {string} 根据树的层级返回不同的字段名
+ */
+export function getFieldNameForMedicallyAdmin(treeHierarchy) {
+  switch (treeHierarchy) {
+    case 2:
+      return 'ecId'
+    case 1:
+    default:
+      return 'parentId'
+  }
+}

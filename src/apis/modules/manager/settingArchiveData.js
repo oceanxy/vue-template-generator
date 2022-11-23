@@ -82,6 +82,22 @@ export default {
       data: qs.stringify(data)
     })
   },
+
+  /**
+   * 生成评价报告
+   * @param request
+   * @param data
+   * @returns {*}
+   */
+
+  createEvaluateReport(request, data) {
+    return request({
+      url: '/examine/evaluationReport/createReport',
+      method: 'post',
+      data: qs.stringify(data)
+    })
+  },
+
   /**
    * 根据活动ID获取学校集合
    * @param request
