@@ -9,7 +9,7 @@ export default Form.create({})({
   data() {
     return {
       modalProps: {
-        width: 700,
+        width: 620,
         wrapClassName: 'bnm-modal-edit-user-form'
       },
       plainOptions: ['']
@@ -69,8 +69,8 @@ export default Form.create({})({
     return (
       <DragModal {...attributes}>
         <Form
-          labelCol={{ span: 4 }}
-          wrapperCol={{ span: 20 }}
+          labelCol={{ span: 5 }}
+          wrapperCol={{ span: 17 }}
           colon={false}
         >
           <Form.Item label="活动名称">
@@ -169,7 +169,7 @@ export default Form.create({})({
                   initialValue: this.currentItem.peItems
                 }
               )(
-                <Checkbox.Group>
+                <Checkbox.Group class="checkbox-wrapper-right">
                   {
                     this.itemList?.map(item => (
                       <Checkbox value={item.id}>{item.itemName}</Checkbox>
@@ -177,6 +177,34 @@ export default Form.create({})({
                   }
 
                 </Checkbox.Group>
+              )
+            }
+          </Form.Item>
+          <Form.Item label="学校范围">
+            {
+              this.form.getFieldDecorator('schoolIds',
+                {
+                  initialValue: this.currentItem.schoolIds,
+                  rules: [
+                    {
+                      required: true,
+                      message: '请选择活动!',
+                      trigger: 'change'
+                    }
+                  ]
+                }
+              )(
+                <Select
+                  placeholder="请选择活动"
+                  onChange={this.onChangeActivitie}
+                >
+                  {
+                    this.activities?.map(item => (
+                      <Select.Option value={item.id}>{item.activityName}</Select.Option>
+                    ))
+                  }
+
+                </Select>
               )
             }
           </Form.Item>

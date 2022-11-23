@@ -25,7 +25,7 @@ export default {
     return request({
       url: '/examine/examineAlert/update',
       method: 'post',
-      data: qs.stringify(data)
+      data
     })
   },
 
@@ -38,6 +38,20 @@ export default {
   addAlarmRuleManagement(request, data) {
     return request({
       url: '/examine/examineAlert/add',
+      method: 'post',
+      data
+    })
+  },
+
+  /**
+   * 修改警规则状态
+   * @param request
+   * @param data
+   * @returns {*}
+   */
+  updateAlarmRuleManagementStatus(request, data) {
+    return request({
+      url: '/examine/examineAlert/updateStatus',
       method: 'post',
       data: qs.stringify(data)
     })

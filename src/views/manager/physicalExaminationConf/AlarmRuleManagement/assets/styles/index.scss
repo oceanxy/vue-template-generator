@@ -1,0 +1,21 @@
+.level-display {
+  display: flex;
+  .ant-checkbox-wrapper {
+    flex-basis: 140px;
+    flex-shrink: 0;
+    height: 50px;
+  }
+  > div {
+    flex: 1;
+    .ant-form-item {
+      margin-bottom: 10px;
+    }
+  }
+}
+.tips {
+  font-size: 12px;
+  color: #f38744;
+  margin-bottom: 20px;
+  margin-top: 0px;
+  line-height: 1.5;
+}
