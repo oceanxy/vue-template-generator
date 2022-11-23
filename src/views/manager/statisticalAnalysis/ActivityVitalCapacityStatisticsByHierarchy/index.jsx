@@ -7,7 +7,7 @@ import Functions from './components/Functions'
 import { getFieldNameForSchoolGroupType } from '@/utils/projectHelpers'
 
 export default {
-  name: 'ActivityVitalCapacityStatisticsByGrade',
+  name: 'ActivityVitalCapacityStatisticsByHierarchy',
   mixins: [dynamicState()],
   render() {
     return (

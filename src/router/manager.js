@@ -462,9 +462,9 @@ function createConstRoutes() {
               }
             },
             {
-              path: 'activity-height-statistics-by-grade',
-              name: 'activityHeightStatisticsByGrade',
-              component: () => import('@/views/manager/statisticalAnalysis/ActivityHeightStatisticsByGrade'),
+              path: 'activity-height-statistics-by-hierarchy',
+              name: 'activityHeightStatisticsByHierarchy',
+              component: () => import('@/views/manager/statisticalAnalysis/ActivityHeightStatisticsByHierarchy'),
               meta: {
                 title: '活动身高按等级统计',
                 keepAlive: false,
@@ -473,9 +473,9 @@ function createConstRoutes() {
               }
             },
             {
-              path: 'activity-bmi-statistics-by-grade',
-              name: 'activityBmiStatisticsByGrade',
-              component: () => import('@/views/manager/statisticalAnalysis/ActivityBmiStatisticsByGrade'),
+              path: 'activity-bmi-statistics-by-hierarchy',
+              name: 'activityBmiStatisticsByHierarchy',
+              component: () => import('@/views/manager/statisticalAnalysis/ActivityBmiStatisticsByHierarchy'),
               meta: {
                 title: '活动BMI按等级统计',
                 keepAlive: false,
@@ -484,9 +484,9 @@ function createConstRoutes() {
               }
             },
             {
-              path: 'activity-blood-pressure-statistics-by-grade',
-              name: 'activityBloodPressureStatisticsByGrade',
-              component: () => import('@/views/manager/statisticalAnalysis/ActivityBloodPressureStatisticsByGrade'),
+              path: 'activity-blood-pressure-statistics-by-hierarchy',
+              name: 'activityBloodPressureStatisticsByHierarchy',
+              component: () => import('@/views/manager/statisticalAnalysis/ActivityBloodPressureStatisticsByHierarchy'),
               meta: {
                 title: '活动血压按等级统计',
                 keepAlive: false,
@@ -495,9 +495,9 @@ function createConstRoutes() {
               }
             },
             {
-              path: 'activity-vision-statistics-by-grade',
-              name: 'activityVisionStatisticsByGrade',
-              component: () => import('@/views/manager/statisticalAnalysis/ActivityVisionStatisticsByGrade'),
+              path: 'activity-vision-statistics-by-hierarchy',
+              name: 'activityVisionStatisticsByHierarchy',
+              component: () => import('@/views/manager/statisticalAnalysis/ActivityVisionStatisticsByHierarchy'),
               meta: {
                 title: '活动视力按等级统计',
                 keepAlive: false,
@@ -506,9 +506,9 @@ function createConstRoutes() {
               }
             },
             {
-              path: 'activity-vital-capacity-statistics-by-grade',
-              name: 'activityVitalCapacityStatisticsByGrade',
-              component: () => import('@/views/manager/statisticalAnalysis/ActivityVitalCapacityStatisticsByGrade'),
+              path: 'activity-vital-capacity-statistics-by-hierarchy',
+              name: 'activityVitalCapacityStatisticsByHierarchy',
+              component: () => import('@/views/manager/statisticalAnalysis/ActivityVitalCapacityStatisticsByHierarchy'),
               meta: {
                 title: '活动肺活量按等级统计',
                 keepAlive: false,

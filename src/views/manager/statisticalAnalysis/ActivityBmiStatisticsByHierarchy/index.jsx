@@ -7,7 +7,7 @@ import Functions from './components/Functions'
 import { getFieldNameForSchoolGroupType } from '@/utils/projectHelpers'
 
 export default {
-  name: 'ActivityVisionStatisticsByGrade',
+  name: 'ActivityBmiStatisticsByHierarchy',
   mixins: [dynamicState()],
   render() {
     return (
@@ -16,7 +16,7 @@ export default {
         placeholder={'请输入街道名称'}
         getFieldNameForTreeId={getFieldNameForSchoolGroupType}
         optionsOfGetList={{
-          customApiName: 'getActivityVisionBySchool',
+          customApiName: 'getActivityBmiBySchool',
           isFetchList: false
         }}
         apiOptions={{
