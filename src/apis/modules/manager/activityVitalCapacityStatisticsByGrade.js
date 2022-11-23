@@ -2,81 +2,27 @@ import qs from 'qs'
 
 export default {
   /**
-   * 按学校获取活动肺活量集合
-   * @param [request]
+   * 年级纬度的活动肺活量集合
+   * @param request
    * @param data
    * @returns {*}
    */
-  getActivityVitalCapacityBySchool(request, data) {
+  getActivityVitalCapacityStatisticsByGrade(request, data) {
     return request({
-      url: '/examine/examineStatistics/getActivityLungByLevel',
+      url: '/examine/examineStatistics/getActivityGradeLungLevel',
       method: 'post',
       data: qs.stringify(data)
     })
   },
   /**
-   * 按年级获取活动肺活量集合
-   * @param request
-   * @param data
-   * @returns {*}
-   */
-  getActivityVitalCapacityByGrade(request, data) {
-    return request({
-      url: '/examine/examineStatistics/getActivityLungWithGrade',
-      method: 'post',
-      data: qs.stringify(data)
-    })
-  },
-  /**
-   * 按班级获取活动肺活量集合
-   * @param request
-   * @param data
-   * @returns {*}
-   */
-  getActivityVitalCapacityByClass(request, data) {
-    return request({
-      url: '/examine/examineStatistics/getActivityLungWithClass',
-      method: 'post',
-      data: qs.stringify(data)
-    })
-  },
-  /**
-   * 导出活动肺活量（按学校）
+   * 导出年级纬度的活动肺活量数据
    * @param request
    * @param params
    * @returns {*}
    */
-  exportActivityVitalCapacityBySchool(request, params) {
+  exportActivityVitalCapacityStatisticsByGrade(request, params) {
     return request({
-      url: '/examine/examineStatistics/exportLungLevelBySchool',
-      method: 'get',
-      params,
-      responseType: 'blob'
-    })
-  },
-  /**
-   * 导出活动肺活量（按年级）
-   * @param request
-   * @param params
-   * @returns {*}
-   */
-  exportActivityVitalCapacityByGrade(request, params) {
-    return request({
-      url: '/examine/examineStatistics/exportLungLevelByGrade',
-      method: 'get',
-      params,
-      responseType: 'blob'
-    })
-  },
-  /**
-   * 导出活动肺活量（按班级）
-   * @param request
-   * @param params
-   * @returns {*}
-   */
-  exportActivityVitalCapacityByClass(request, params) {
-    return request({
-      url: '/examine/examineStatistics/exportLungLevelByClass',
+      url: '/examine/examineStatistics/exportActivityGradeLungLevel',
       method: 'get',
       params,
       responseType: 'blob'

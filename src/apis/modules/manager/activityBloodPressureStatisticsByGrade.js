@@ -2,81 +2,27 @@ import qs from 'qs'
 
 export default {
   /**
-   * 按学校获取活动血压集合
-   * @param [request]
+   * 年级纬度的活动血压集合
+   * @param request
    * @param data
    * @returns {*}
    */
-  getActivityBloodPressureBySchool(request, data) {
+  getActivityBloodPressureStatisticsByGrade(request, data) {
     return request({
-      url: '/examine/examineStatistics/getActivityBloodByLevel',
+      url: '/examine/examineStatistics/getActivityGradeBloodLevel',
       method: 'post',
       data: qs.stringify(data)
     })
   },
   /**
-   * 按年级获取活动血压集合
-   * @param request
-   * @param data
-   * @returns {*}
-   */
-  getActivityBloodPressureByGrade(request, data) {
-    return request({
-      url: '/examine/examineStatistics/getActivityBloodWithGrade',
-      method: 'post',
-      data: qs.stringify(data)
-    })
-  },
-  /**
-   * 按班级获取活动血压集合
-   * @param request
-   * @param data
-   * @returns {*}
-   */
-  getActivityBloodPressureByClass(request, data) {
-    return request({
-      url: '/examine/examineStatistics/getActivityBloodWithClass',
-      method: 'post',
-      data: qs.stringify(data)
-    })
-  },
-  /**
-   * 导出活动血压（按学校）
+   * 导出年级纬度的活动血压数据
    * @param request
    * @param params
    * @returns {*}
    */
-  exportActivityBloodPressureBySchool(request, params) {
+  exportActivityBloodPressureStatisticsByGrade(request, params) {
     return request({
-      url: '/examine/examineStatistics/exportBloodLevelBySchool',
-      method: 'get',
-      params,
-      responseType: 'blob'
-    })
-  },
-  /**
-   * 导出活动血压（按年级）
-   * @param request
-   * @param params
-   * @returns {*}
-   */
-  exportActivityBloodPressureByGrade(request, params) {
-    return request({
-      url: '/examine/examineStatistics/exportBloodLevelByGrade',
-      method: 'get',
-      params,
-      responseType: 'blob'
-    })
-  },
-  /**
-   * 导出活动血压（按班级）
-   * @param request
-   * @param params
-   * @returns {*}
-   */
-  exportActivityBloodPressureByClass(request, params) {
-    return request({
-      url: '/examine/examineStatistics/exportBloodLevelByClass',
+      url: '/examine/examineStatistics/exportActivityGradeBloodLevel',
       method: 'get',
       params,
       responseType: 'blob'

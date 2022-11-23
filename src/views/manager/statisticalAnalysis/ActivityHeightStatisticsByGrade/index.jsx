@@ -15,12 +15,9 @@ export default {
         notNoneMode
         placeholder={'请输入街道名称'}
         getFieldNameForTreeId={getFieldNameForSchoolGroupType}
-        optionsOfGetList={{
-          customApiName: 'getActivityHeightBySchool',
-          isFetchList: false
-        }}
+        optionsOfGetList={{ isFetchList: false }}
         apiOptions={{
-          apiName: 'getStreetTree',
+          apiName: 'getSchoolTree',
           stateName: 'streetTree',
           moduleName: 'streets'
         }}

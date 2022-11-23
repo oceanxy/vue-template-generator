@@ -46,6 +46,8 @@ export function getFileAdminForSchoolTreeId(treeHierarchy) {
  */
 export function getFieldNameForSchoolGroupType(treeHierarchy) {
   switch (treeHierarchy) {
+    case 3:
+      return 'schoolId'
     case 2:
       return 'streetId'
     case 1:

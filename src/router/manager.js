@@ -462,9 +462,9 @@ function createConstRoutes() {
               }
             },
             {
-              path: 'activity-height-statistics-by-grade',
-              name: 'activityHeightStatisticsByGrade',
-              component: () => import('@/views/manager/statisticalAnalysis/ActivityHeightStatisticsByGrade'),
+              path: 'activity-height-statistics-by-hierarchy',
+              name: 'activityHeightStatisticsByHierarchy',
+              component: () => import('@/views/manager/statisticalAnalysis/ActivityHeightStatisticsByHierarchy'),
               meta: {
                 title: '活动身高按等级统计',
                 keepAlive: false,
@@ -473,9 +473,20 @@ function createConstRoutes() {
               }
             },
             {
-              path: 'activity-bmi-statistics-by-grade',
-              name: 'activityBmiStatisticsByGrade',
-              component: () => import('@/views/manager/statisticalAnalysis/ActivityBmiStatisticsByGrade'),
+              path: 'activity-height-statistics-by-grade',
+              name: 'activityHeightStatisticsByGrade',
+              component: () => import('@/views/manager/statisticalAnalysis/ActivityHeightStatisticsByGrade'),
+              meta: {
+                title: '活动身高按年级统计',
+                keepAlive: false,
+                requiresAuth: true,
+                icon: () => import('@/layouts/components/TGMenu/assets/images/height-statistics.svg')
+              }
+            },
+            {
+              path: 'activity-bmi-statistics-by-hierarchy',
+              name: 'activityBmiStatisticsByHierarchy',
+              component: () => import('@/views/manager/statisticalAnalysis/ActivityBmiStatisticsByHierarchy'),
               meta: {
                 title: '活动BMI按等级统计',
                 keepAlive: false,
@@ -484,9 +495,20 @@ function createConstRoutes() {
               }
             },
             {
-              path: 'activity-blood-pressure-statistics-by-grade',
-              name: 'activityBloodPressureStatisticsByGrade',
-              component: () => import('@/views/manager/statisticalAnalysis/ActivityBloodPressureStatisticsByGrade'),
+              path: 'activity-bmi-statistics-by-grade',
+              name: 'activityBmiStatisticsByGrade',
+              component: () => import('@/views/manager/statisticalAnalysis/ActivityBmiStatisticsByGrade'),
+              meta: {
+                title: '活动BMI按年级统计',
+                keepAlive: false,
+                requiresAuth: true,
+                icon: () => import('@/layouts/components/TGMenu/assets/images/activity-bmi-level.svg')
+              }
+            },
+            {
+              path: 'activity-blood-pressure-statistics-by-hierarchy',
+              name: 'activityBloodPressureStatisticsByHierarchy',
+              component: () => import('@/views/manager/statisticalAnalysis/ActivityBloodPressureStatisticsByHierarchy'),
               meta: {
                 title: '活动血压按等级统计',
                 keepAlive: false,
@@ -495,9 +517,20 @@ function createConstRoutes() {
               }
             },
             {
-              path: 'activity-vision-statistics-by-grade',
-              name: 'activityVisionStatisticsByGrade',
-              component: () => import('@/views/manager/statisticalAnalysis/ActivityVisionStatisticsByGrade'),
+              path: 'activity-blood-pressure-statistics-by-grade',
+              name: 'activityBloodPressureStatisticsByGrade',
+              component: () => import('@/views/manager/statisticalAnalysis/ActivityBloodPressureStatisticsByGrade'),
+              meta: {
+                title: '活动血压按年级统计',
+                keepAlive: false,
+                requiresAuth: true,
+                icon: () => import('@/layouts/components/TGMenu/assets/images/blood-pressure-statistics.svg')
+              }
+            },
+            {
+              path: 'activity-vision-statistics-by-hierarchy',
+              name: 'activityVisionStatisticsByHierarchy',
+              component: () => import('@/views/manager/statisticalAnalysis/ActivityVisionStatisticsByHierarchy'),
               meta: {
                 title: '活动视力按等级统计',
                 keepAlive: false,
@@ -506,11 +539,33 @@ function createConstRoutes() {
               }
             },
             {
+              path: 'activity-vision-statistics-by-grade',
+              name: 'activityVisionStatisticsByGrade',
+              component: () => import('@/views/manager/statisticalAnalysis/ActivityVisionStatisticsByGrade'),
+              meta: {
+                title: '活动视力按年级统计',
+                keepAlive: false,
+                requiresAuth: true,
+                icon: () => import('@/layouts/components/TGMenu/assets/images/vision-statistics.svg')
+              }
+            },
+            {
+              path: 'activity-vital-capacity-statistics-by-hierarchy',
+              name: 'activityVitalCapacityStatisticsByHierarchy',
+              component: () => import('@/views/manager/statisticalAnalysis/ActivityVitalCapacityStatisticsByHierarchy'),
+              meta: {
+                title: '活动肺活量按等级统计',
+                keepAlive: false,
+                requiresAuth: true,
+                icon: () => import('@/layouts/components/TGMenu/assets/images/vital-capacity-statistics.svg')
+              }
+            },
+            {
               path: 'activity-vital-capacity-statistics-by-grade',
               name: 'activityVitalCapacityStatisticsByGrade',
               component: () => import('@/views/manager/statisticalAnalysis/ActivityVitalCapacityStatisticsByGrade'),
               meta: {
-                title: '活动肺活量按等级统计',
+                title: '活动肺活量按年级统计',
                 keepAlive: false,
                 requiresAuth: true,
                 icon: () => import('@/layouts/components/TGMenu/assets/images/vital-capacity-statistics.svg')
@@ -597,22 +652,22 @@ function createConstRoutes() {
           },
           children: [
             {
-              path: 'percentile-of-height',
-              name: 'percentileOfHeight',
-              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
+              path: 'height-percentile',
+              name: 'heightPercentile',
+              component: () => import('@/views/manager/percentileStatistics/HeightPercentile'),
               meta: {
-                title: '身高百分位',
+                title: '身高数据百分位统计',
                 keepAlive: false,
                 requiresAuth: true,
                 icon: () => import('@/layouts/components/TGMenu/assets/images/percentile-of-height.svg')
               }
             },
             {
-              path: 'percentile-of-weight',
-              name: 'percentileOfWeight',
-              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
+              path: 'weightPercentile',
+              name: 'weightPercentile',
+              component: () => import('@/views/manager/percentileStatistics/WeightPercentile'),
               meta: {
-                title: '体重百分位',
+                title: '体重数据百分位统计',
                 keepAlive: false,
                 requiresAuth: true,
                 icon: () => import('@/layouts/components/TGMenu/assets/images/percentile-of-weight.svg')
@@ -621,9 +676,9 @@ function createConstRoutes() {
             {
               path: 'systolic-blood-pressure-percentile',
               name: 'systolicBloodPressurePercentile',
-              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
+              component: () => import('@/views/manager/percentileStatistics/SystolicBloodPressurePercentile'),
               meta: {
-                title: '收缩压百分位',
+                title: '收缩压数据百分位统计',
                 keepAlive: false,
                 requiresAuth: true,
                 icon: () => import('@/layouts/components/TGMenu/assets/images/systolic-blood-pressure-percentile.svg')
@@ -632,9 +687,9 @@ function createConstRoutes() {
             {
               path: 'diastolic-blood-pressure-percentile',
               name: 'diastolicBloodPressurePercentile',
-              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
+              component: () => import('@/views/manager/percentileStatistics/DiastolicBloodPressurePercentile'),
               meta: {
-                title: '舒张压百分位',
+                title: '舒张压数据百分位统计',
                 keepAlive: false,
                 requiresAuth: true,
                 icon: () => import('@/layouts/components/TGMenu/assets/images/diastolic-blood-pressure-percentile.svg')
@@ -643,34 +698,56 @@ function createConstRoutes() {
             {
               path: 'vital-capacity-percentile',
               name: 'vitalCapacityPercentile',
-              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
+              component: () => import('@/views/manager/percentileStatistics/VitalCapacityPercentile'),
               meta: {
-                title: '肺活量百分位',
+                title: '肺活量数据百分位统计',
                 keepAlive: false,
                 requiresAuth: true,
                 icon: () => import('@/layouts/components/TGMenu/assets/images/vital-capacity-percentile.svg')
               }
             },
             {
-              path: 'rohrer-index',
-              name: 'rohrerIndex',
-              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
+              path: 'bmi-percentile',
+              name: 'bmiPercentile',
+              component: () => import('@/views/manager/percentileStatistics/BmiPercentile'),
               meta: {
-                title: '劳雷尔指数百分位',
+                title: 'BMI指数百分位统计',
+                keepAlive: false,
+                requiresAuth: true,
+                icon: () => import('@/layouts/components/TGMenu/assets/images/bmi-percentile.svg')
+              }
+            },
+            {
+              path: 'quetelet-index-percentile',
+              name: 'queteletIndexPercentile',
+              component: () => import('@/views/manager/percentileStatistics/QueteletIndexPercentile'),
+              meta: {
+                title: '克托莱指数百分位统计',
                 keepAlive: false,
                 requiresAuth: true,
                 icon: () => import('@/layouts/components/TGMenu/assets/images/rohrer-index.svg')
               }
             },
             {
-              path: 'bmi-percentile',
-              name: 'BMIPercentile',
-              component: () => import('@/views/manager/physicalExaminationData/BasicData'),
+              path: 'rohrer-index-percentile',
+              name: 'rohrerIndexPercentile',
+              component: () => import('@/views/manager/percentileStatistics/RohrerIndexPercentile'),
               meta: {
-                title: 'BMI指数百分位',
+                title: '劳雷尔指数百分位统计',
                 keepAlive: false,
                 requiresAuth: true,
-                icon: () => import('@/layouts/components/TGMenu/assets/images/bmi-percentile.svg')
+                icon: () => import('@/layouts/components/TGMenu/assets/images/rohrer-index.svg')
+              }
+            },
+            {
+              path: 'vital-capacity-index-percentile',
+              name: 'vitalCapacityIndexPercentile',
+              component: () => import('@/views/manager/percentileStatistics/VitalCapacityIndexPercentile'),
+              meta: {
+                title: '肺活量指数百分位统计',
+                keepAlive: false,
+                requiresAuth: true,
+                icon: () => import('@/layouts/components/TGMenu/assets/images/vital-capacity-percentile.svg')
               }
             }
           ]
