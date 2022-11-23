@@ -90,7 +90,7 @@ export default Form.create({})({
             {/*<Button onClick={this.onClear} icon="reload">重置</Button>*/}
           </Space>
           {
-            this.hierarchy !== 'school'
+            this.hierarchy && this.hierarchy !== 'school'
               ? (
                 <Button
                   icon={'arrow-left'}

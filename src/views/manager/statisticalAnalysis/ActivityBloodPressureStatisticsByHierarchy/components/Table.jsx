@@ -144,7 +144,7 @@ export default {
       }
     }
   },
-  // 本页面通过监听 store.state.search 的变化来请求数据，左侧树和 inquiry 内的请求数据逻辑已关闭
+  // 因为搜索存在必传参数，所以本页面通过监听 store.state.search 的变化来请求数据，左侧树和 inquiry 内的请求数据逻辑已关闭
   watch: {
     search: {
       deep: true,

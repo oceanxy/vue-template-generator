@@ -473,11 +473,33 @@ function createConstRoutes() {
               }
             },
             {
+              path: 'activity-height-statistics-by-grade',
+              name: 'activityHeightStatisticsByGrade',
+              component: () => import('@/views/manager/statisticalAnalysis/ActivityHeightStatisticsByGrade'),
+              meta: {
+                title: '活动身高按年级统计',
+                keepAlive: false,
+                requiresAuth: true,
+                icon: () => import('@/layouts/components/TGMenu/assets/images/height-statistics.svg')
+              }
+            },
+            {
               path: 'activity-bmi-statistics-by-hierarchy',
               name: 'activityBmiStatisticsByHierarchy',
               component: () => import('@/views/manager/statisticalAnalysis/ActivityBmiStatisticsByHierarchy'),
               meta: {
                 title: '活动BMI按等级统计',
+                keepAlive: false,
+                requiresAuth: true,
+                icon: () => import('@/layouts/components/TGMenu/assets/images/activity-bmi-level.svg')
+              }
+            },
+            {
+              path: 'activity-bmi-statistics-by-grade',
+              name: 'activityBmiStatisticsByGrade',
+              component: () => import('@/views/manager/statisticalAnalysis/ActivityBmiStatisticsByGrade'),
+              meta: {
+                title: '活动BMI按年级统计',
                 keepAlive: false,
                 requiresAuth: true,
                 icon: () => import('@/layouts/components/TGMenu/assets/images/activity-bmi-level.svg')
@@ -495,6 +517,17 @@ function createConstRoutes() {
               }
             },
             {
+              path: 'activity-blood-pressure-statistics-by-grade',
+              name: 'activityBloodPressureStatisticsByGrade',
+              component: () => import('@/views/manager/statisticalAnalysis/ActivityBloodPressureStatisticsByGrade'),
+              meta: {
+                title: '活动血压按年级统计',
+                keepAlive: false,
+                requiresAuth: true,
+                icon: () => import('@/layouts/components/TGMenu/assets/images/blood-pressure-statistics.svg')
+              }
+            },
+            {
               path: 'activity-vision-statistics-by-hierarchy',
               name: 'activityVisionStatisticsByHierarchy',
               component: () => import('@/views/manager/statisticalAnalysis/ActivityVisionStatisticsByHierarchy'),
@@ -506,11 +539,33 @@ function createConstRoutes() {
               }
             },
             {
+              path: 'activity-vision-statistics-by-grade',
+              name: 'activityVisionStatisticsByGrade',
+              component: () => import('@/views/manager/statisticalAnalysis/ActivityVisionStatisticsByGrade'),
+              meta: {
+                title: '活动视力按年级统计',
+                keepAlive: false,
+                requiresAuth: true,
+                icon: () => import('@/layouts/components/TGMenu/assets/images/vision-statistics.svg')
+              }
+            },
+            {
               path: 'activity-vital-capacity-statistics-by-hierarchy',
               name: 'activityVitalCapacityStatisticsByHierarchy',
               component: () => import('@/views/manager/statisticalAnalysis/ActivityVitalCapacityStatisticsByHierarchy'),
               meta: {
                 title: '活动肺活量按等级统计',
+                keepAlive: false,
+                requiresAuth: true,
+                icon: () => import('@/layouts/components/TGMenu/assets/images/vital-capacity-statistics.svg')
+              }
+            },
+            {
+              path: 'activity-vital-capacity-statistics-by-grade',
+              name: 'activityVitalCapacityStatisticsByGrade',
+              component: () => import('@/views/manager/statisticalAnalysis/ActivityVitalCapacityStatisticsByGrade'),
+              meta: {
+                title: '活动肺活量按年级统计',
                 keepAlive: false,
                 requiresAuth: true,
                 icon: () => import('@/layouts/components/TGMenu/assets/images/vital-capacity-statistics.svg')
