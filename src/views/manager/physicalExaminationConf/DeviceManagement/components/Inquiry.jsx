@@ -26,7 +26,7 @@ export default Form.create({})({
           </Form.Item>
           <Form.Item label={'名称'}>
             {
-              this.form.getFieldDecorator('eqName')(
+              this.form.getFieldDecorator('epName')(
                 <Input placeholder={'设备名称'} />
               )
             }

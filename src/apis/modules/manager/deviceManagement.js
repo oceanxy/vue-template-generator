@@ -25,7 +25,7 @@ export default {
     return request({
       url: '/examine/examineEquipment/update',
       method: 'post',
-      data: qs.stringify(data)
+      data
     })
   },
 
@@ -38,6 +38,20 @@ export default {
   addDeviceManagement(request, data) {
     return request({
       url: '/examine/examineEquipment/add',
+      method: 'post',
+      data
+    })
+  },
+
+  /**
+   * 修改设备状态
+   * @param request
+   * @param data
+   * @returns {*}
+   */
+  updateDeviceManagementStatus(request, data) {
+    return request({
+      url: '/examine/examineEquipment/updateStatus',
       method: 'post',
       data: qs.stringify(data)
     })

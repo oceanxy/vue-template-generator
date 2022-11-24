@@ -11,5 +11,5 @@ export default commitRootInModule =>
         }
       }
     }),
-    ['state.details', 'state.visibleOfEdit', 'state.selectedRowKeys', 'state.selectedRows', 'state.currentItem']
+    ['state.details']
   )

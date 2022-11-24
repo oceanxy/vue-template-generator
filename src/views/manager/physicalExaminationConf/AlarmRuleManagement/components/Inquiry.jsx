@@ -25,6 +25,7 @@ export default Form.create({})({
   },
   methods: {
     onChangeKpi(e) {
+      this.form.setFieldsValue({ monitorItemId: '' })
       const arr = []
 
       this.KpiAndParam.param.map(item => {
@@ -57,12 +58,12 @@ export default Form.create({})({
           </Form.Item>
           <Form.Item label="监测项目">
             {
-              this.form.getFieldDecorator('monitorItemId', { initialValue: '' })(
+              this.form.getFieldDecorator('monitorItemKpiId', { initialValue: '' })(
                 <Select onchange={this.onChangeKpi}>
                   <Select.Option value={''}>全部</Select.Option>
                   {
                     this.KpiAndParam.kpi?.map(item => (
-                      <Select.Option value={item.id} >{item.kpiName}</Select.Option>
+                      <Select.Option value={item.id}>{item.kpiName}</Select.Option>
                     ))
                   }
 
@@ -72,12 +73,12 @@ export default Form.create({})({
           </Form.Item>
           <Form.Item label="监测参数">
             {
-              this.form.getFieldDecorator('monitorItemKpiId', { initialValue: '' })(
+              this.form.getFieldDecorator('monitorItemId', { initialValue: '' })(
                 <Select>
                   <Select.Option value={''}>全部</Select.Option>
                   {
                     this.param?.map(item => (
-                      <Select.Option value={item.kpiId}>{item.paramName}</Select.Option>
+                      <Select.Option value={item.id}>{item.paramName}</Select.Option>
                     ))
                   }
 
@@ -87,8 +88,8 @@ export default Form.create({})({
           </Form.Item>
           <Form.Item label={'名称'}>
             {
-              this.form.getFieldDecorator('itemName')(
-                <Input placeholder={'项目名称'} />
+              this.form.getFieldDecorator('monitorName')(
+                <Input placeholder={'告警规则名称'} />
               )
             }
           </Form.Item>

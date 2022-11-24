@@ -1,5 +1,5 @@
 import '../assets/styles/index.scss'
-import { Table, Tag, Switch } from 'ant-design-vue'
+import { Table, Tag, Switch, Space, Button } from 'ant-design-vue'
 import forTable from '@/mixins/forTable'
 
 export default {
@@ -62,6 +62,13 @@ export default {
             title: '状态',
             align: 'center',
             scopedSlots: { customRender: 'status' }
+          },
+          {
+            title: '操作',
+            align: 'center',
+            fixed: 'right',
+            width: 100,
+            scopedSlots: { customRender: 'operation' }
           }
         ]
       }
@@ -84,11 +91,32 @@ export default {
               )
             },
             historyDifferenceType: (text, record) => {
-              return record.historyDifferenceType === 1 ? <Tag color="green">高于</Tag> : <Tag color="red">低于</Tag>
+              if (record.historyDifferenceType === 1) {
+                return <Tag color="green">高于</Tag>
+              } else if (record.historyDifferenceType === 2) {
+                return <Tag color="red">低于</Tag>
+              }
             },
             absoluteDifferenceType: (text, record) => {
-              return record.absoluteDifferenceType === 1 ? <Tag color="green">高于</Tag> : <Tag color="red">低于</Tag>
-            }
+
+              if (record.absoluteDifferenceType === 1) {
+                return <Tag color="green">高于</Tag>
+              } else if (record.absoluteDifferenceType === 2) {
+                return <Tag color="red">低于</Tag>
+              }
+            },
+
+            operation: (text, record) => (
+              <Space>
+                <Button
+                  type="link"
+                  size="small"
+                  onClick={() => this.onEditClick(record)}
+                >
+                  修改
+                </Button>
+              </Space>
+            )
 
           }
         }}
