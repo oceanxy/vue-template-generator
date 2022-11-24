@@ -17,7 +17,7 @@ export default {
     /**
      * 获取侧边栏树的数据的相关配置
      *  apiOptions.apiName: API名称
-     *  apiOptions.moduleName: 存放树的数据的模块名
+     *  apiOptions.moduleName: 存放树的数据的模块名，默认树所在页面对应的模块
      *  apiOptions.stateName: 存放树的数据的字段名
      */
     apiOptions: {
@@ -81,7 +81,7 @@ export default {
   computed: {
     ...mapGetters({ getState: 'getState' }),
     dataSource() {
-      return this.getState(this.apiOptions.stateName, this.apiOptions.moduleName)
+      return this.getState(this.apiOptions.stateName, this.apiOptions.moduleName || this.moduleName)
     },
     treeIdField() {
       return this.getState('treeIdField', this.moduleName)
@@ -141,7 +141,7 @@ export default {
   },
   async created() {
     const status = await this.$store.dispatch('getListWithLoadingStatus', {
-      moduleName: this.apiOptions.moduleName,
+      moduleName: this.apiOptions.moduleName || this.moduleName,
       stateName: this.apiOptions.stateName,
       customApiName: this.apiOptions.apiName
     })

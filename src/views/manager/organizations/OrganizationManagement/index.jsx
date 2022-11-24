@@ -1,38 +1,37 @@
-import './assets/styles/index.scss'
 import TGContainerWithTreeSider from '@/components/TGContainerWithTreeSider'
 import dynamicState from '@/mixins/dynamicState'
 import TGContainer from '@/layouts/components/TGContainer'
+import Functions from './components/Functions'
 import Inquiry from './components/Inquiry'
 import Table from './components/Table'
-import TGPagination from '@/components/TGPagination'
 import ModalOfEdit from './components/ModalOfEdit'
-import ModalOfResetPwd from './components/ModalOfResetPwd'
+import TGPagination from '@/components/TGPagination'
 
 export default {
-  name: 'SystemUser',
+  name: 'OrganizationManagement',
   mixins: [dynamicState()],
   render() {
     return (
-      <BNContainerWithSider
-        contentClass={'tg-sider-container'}
+      <TGContainerWithTreeSider
+        notNoneMode
+        placeholder={'请输入组织机构名称'}
+        // contentClass="fe-basic-data-container"
+        getFieldNameForTreeId={() => 'parentId'}
         apiOptions={{
           apiName: 'getOrganizationTree',
-          stateName: 'organizationTree',
-          moduleName: 'common'
+          stateName: 'organizationTree'
         }}
-        treeIdField={'organId'}
-        notNoneMode={true}
       >
         <TGContainer>
+          <Functions slot={'functions'} />
           <Inquiry slot={'inquiry'} />
           <Table slot={'table'} />
           <TGPagination slot={'pagination'} />
           <template slot={'modals'}>
-            <ModalOfEdit modalTitle={'{action}员工'} />
-            <ModalOfResetPwd modalTitle={'重置密码'} />
+            <ModalOfEdit modalTitle={'{action}组织'} />
           </template>
         </TGContainer>
-      </BNContainerWithSider>
+      </TGContainerWithTreeSider>
     )
   }
 }

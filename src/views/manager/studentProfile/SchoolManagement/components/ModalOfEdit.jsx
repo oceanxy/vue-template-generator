@@ -65,7 +65,7 @@ export default Form.create({})({
       await this.$store.dispatch('getListWithLoadingStatus', {
         moduleName: this.moduleName,
         stateName: 'streetList',
-        customApiName: 'getStreetTreeId',
+        customApiName: 'getStreetsByDistrictId',
         payload: {
           countyId
         }

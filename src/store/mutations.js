@@ -177,7 +177,7 @@ export default {
    * @param moduleName {string} 模块名
    * @param [submoduleName] {string} 子模块名
    * @param stateName {string} 需要设置的字段，默认 state.details
-   * @param merge {boolean} 是否需要将新值与旧值合并，默认false
+   * @param merge {boolean} 是否需要将新值与旧值合并（相同属性会被新值覆盖），默认false
    */
   setState(state, {
     value,

@@ -76,7 +76,7 @@ export default Form.create({})({
                   showSearch
                   allowClear
                   treeNodeFilterProp={'title'}
-                  dropdownClassName={'bnm-select-dropdown'}
+                  dropdownClassName={'tg-select-dropdown'}
                   treeData={this.buildingsForSelect}
                   replaceFields={{
                     children: 'children',

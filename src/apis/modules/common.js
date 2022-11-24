@@ -50,7 +50,7 @@ export default {
    * @param request
    * @returns {*}
    */
-  getStreetTreeId(request, data) {
+  getStreetsByDistrictId(request, data) {
     return request({
       url: '/system/district/getStreetTree',
       method: 'post',

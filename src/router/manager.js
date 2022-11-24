@@ -363,6 +363,41 @@ function createConstRoutes() {
           ]
         },
         {
+          path: 'organizations',
+          component: TGRouterView,
+          redirect: { name: 'organizationManagement' },
+          meta: {
+            title: '组织机构',
+            keepAlive: false,
+            requiresAuth: true,
+            icon: () => import('@/layouts/components/TGMenu/assets/images/organization.svg')
+          },
+          children: [
+            {
+              path: 'organization-management',
+              name: 'organizationManagement',
+              component: () => import('@/views/manager/organizations/OrganizationManagement'),
+              meta: {
+                title: '组织管理',
+                keepAlive: false,
+                requiresAuth: true,
+                icon: () => import('@/layouts/components/TGMenu/assets/images/organization-management.svg')
+              }
+            },
+            {
+              path: 'staff-management',
+              name: 'staffManagement',
+              component: () => import('@/views/manager/organizations/StaffManagement'),
+              meta: {
+                title: '职员管理',
+                keepAlive: false,
+                requiresAuth: true,
+                icon: () => import('@/layouts/components/TGMenu/assets/images/staff-management.svg')
+              }
+            }
+          ]
+        },
+        {
           path: 'statistical-analysis',
           component: TGRouterView,
           redirect: { name: 'heightStatistics' },
@@ -770,17 +805,8 @@ function createConstRoutes() {
               meta: {
                 title: '菜单管理',
                 keepAlive: false,
-                requiresAuth: true
-              }
-            },
-            {
-              path: 'xcxUser',
-              name: 'systemXcxUser',
-              component: () => import('@/views/manager/system/XcxUser'),
-              meta: {
-                title: '小程序用户管理',
-                keepAlive: false,
-                requiresAuth: true
+                requiresAuth: true,
+                icon: () => import('@/layouts/components/TGMenu/assets/images/system-menus.svg')
               }
             },
             {
@@ -790,7 +816,8 @@ function createConstRoutes() {
               meta: {
                 title: '功能管理',
                 keepAlive: false,
-                requiresAuth: true
+                requiresAuth: true,
+                icon: () => import('@/layouts/components/TGMenu/assets/images/system-functions.svg')
               }
             },
             {
@@ -800,17 +827,8 @@ function createConstRoutes() {
               meta: {
                 title: '角色管理',
                 keepAlive: false,
-                requiresAuth: true
-              }
-            },
-            {
-              path: 'users',
-              name: 'systemUsers',
-              component: () => import('@/views/manager/system/Users'),
-              meta: {
-                title: '员工管理',
-                keepAlive: false,
-                requiresAuth: true
+                requiresAuth: true,
+                icon: () => import('@/layouts/components/TGMenu/assets/images/system-roles.svg')
               }
             }
           ]

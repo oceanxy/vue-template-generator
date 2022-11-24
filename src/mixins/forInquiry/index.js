@@ -9,7 +9,8 @@ import { omit } from 'lodash'
 import moment from 'moment'
 
 /**
- * @param isFetchList {boolean} 是否通过本组件的搜索按钮来请求数据，默认true。如果其他组件有请求数据的逻辑，此处请设置为 false
+ * @param isFetchList {boolean} 是否通过本组件的搜索按钮来请求数据，默认true。
+ *  如果其他组件（如左侧树、页面列表等）有请求数据的逻辑，此处请设置为 false，搜索按钮仅仅用来控制 store.state.search 的值
  * @returns {Object}
  */
 export default ({ isFetchList = true } = {}) => {
@@ -24,6 +25,19 @@ export default ({ isFetchList = true } = {}) => {
         params: {},
         // 为了缓存 onSubmit 的参数
         options: {}
+      }
+    },
+    created() {
+      // 如果存在初始值，将初始值保存到 store.state.search 中，
+      // 根据初始值的来源，可自行选择在混入组件的 computed 或 data 中定义 initialValue 对象
+      if (Object.keys(this.initialValue).length) {
+        this.$store.commit('setState', {
+          value: this.initialValue,
+          moduleName: this.moduleName,
+          submoduleName: this.submoduleName,
+          stateName: 'search',
+          merge: true
+        })
       }
     },
     methods: {

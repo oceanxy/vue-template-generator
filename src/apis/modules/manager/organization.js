@@ -13,5 +13,18 @@ export default {
       method: 'post',
       data: qs.stringify(data)
     })
+  },
+  /**
+   * 获取组织机构树
+   * @param request
+   * @param data
+   * @returns {*}
+   */
+  getOrganizationTree(request, data) {
+    return request({
+      url: '/system/organ/getOrganTree',
+      method: 'post',
+      data: qs.stringify(data)
+    })
   }
 }
