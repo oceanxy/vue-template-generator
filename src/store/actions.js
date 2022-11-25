@@ -36,16 +36,16 @@ export default {
     })
 
     if (isFetchList) {
-      const hasPagination = 'pagination' in (submoduleName ? state[moduleName][submoduleName] : state[moduleName])
+      const targetModule = submoduleName ? state[moduleName][submoduleName] : state[moduleName]
       const getListParams = {
         ...fetchListParams,
         additionalQueryParameters: {
           ...fetchListParams.additionalQueryParameters,
-          ...(hasPagination ? { pageIndex: 0 } : {})
+          ...('pagination' in targetModule ? { pageIndex: 0 } : {})
         }
       }
 
-      if (isResetSelectedRows) {
+      if (isResetSelectedRows && ('selectedRowKeys' in targetModule) && ('selectedRows' in targetModule)) {
         commit('setRowSelected', {
           moduleName,
           submoduleName,

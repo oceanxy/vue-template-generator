@@ -6,6 +6,7 @@ import Inquiry from './components/Inquiry'
 import Table from './components/Table'
 import ModalOfEdit from './components/ModalOfEdit'
 import TGPagination from '@/components/TGPagination'
+import ModalOfEditPassword from './components/ModalOfEditPassword'
 
 export default {
   name: 'StaffManagement',
@@ -29,6 +30,7 @@ export default {
           <TGPagination slot={'pagination'} />
           <template slot={'modals'}>
             <ModalOfEdit modalTitle={'{action}职员'} />
+            <ModalOfEditPassword modalTitle={'修改密码'} />
           </template>
         </TGContainer>
       </TGContainerWithTreeSider>

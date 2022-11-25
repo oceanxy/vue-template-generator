@@ -14,6 +14,10 @@ export default commitRootInModule => omit(createStoreModule({
     streets: {
       list: [],
       loading: false
+    },
+    selectedSchoolsForEditModal: {
+      list: [],
+      loading: false
     }
   }
 }), [

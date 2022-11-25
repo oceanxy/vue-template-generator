@@ -1,6 +1,7 @@
 import { Form, Input, InputNumber, Select, Switch, TreeSelect } from 'ant-design-vue'
 import forFormModal from '@/mixins/forModal/forFormModal'
 import DragModal from '@/components/DragModal'
+import { cloneDeep } from 'lodash'
 
 export default Form.create({})({
   mixins: [forFormModal()],
@@ -22,7 +23,15 @@ export default Form.create({})({
         attrs: this.modalProps,
         on: {
           cancel: () => this.onCancel(),
-          ok: () => this.onSubmit({ customDataHandler: this.customDataHandler })
+          ok: () => this.onSubmit({
+            customDataHandler(value) {
+              const data = cloneDeep(value)
+
+              data.roleIds = data.roleIds.join()
+
+              return data
+            }
+          })
         }
       }
     }
@@ -44,10 +53,7 @@ export default Form.create({})({
   render() {
     return (
       <DragModal {...this.attributes}>
-        <Form
-          class="tg-form-grid"
-          colon={false}
-        >
+        <Form class="tg-form-grid" colon={false}>
           <Form.Item label="所属组织" class={'half'}>
             {
               this.form.getFieldDecorator('orgId', {
@@ -276,7 +282,7 @@ export default Form.create({})({
           <Form.Item label="排序" class={'half'}>
             {
               this.form.getFieldDecorator('sortIndex', {
-                initialValue: this.currentItem.sortIndex || undefined,
+                initialValue: this.currentItem.sortIndex || 0,
                 rules: [
                   {
                     required: true,
