@@ -1,217 +1,139 @@
-import '../assets/styles/index.scss'
-import { Button, Col, Form, Input, Row, Table } from 'ant-design-vue'
+import { Form, Input, InputNumber } from 'ant-design-vue'
 import forFormModal from '@/mixins/forModal/forFormModal'
 import DragModal from '@/components/DragModal'
-import { mapAction, mapState } from '@/utils/store'
+import MultiInput from './MultiInput'
+import { cloneDeep, omit } from 'lodash'
 
 export default Form.create({})({
   mixins: [forFormModal()],
   data() {
     return {
       modalProps: {
-        width: 700,
-        wrapClassName: 'tg-modal-edit-function-form'
-      },
-      tableProps: {
-        columns: [
-          {
-            title: '功能地址',
-            dataIndex: 'fnUrl',
-            scopedSlots: { customRender: 'fnUrl' }
-          },
-          {
-            title: '描述',
-            dataIndex: 'fnInfoDescribe',
-            scopedSlots: { customRender: 'fnInfoDescribe' }
-          },
-          {
-            title: '操作',
-            width: 80,
-            dataIndex: 'operation',
-            scopedSlots: { customRender: 'operation' }
-          }
-        ],
-        rowSelection: null,
-        tableLayout: 'fixed',
-        dataSource: [],
-        pagination: false,
-        bordered: true,
-        rowKey: 'id'
+        width: 810,
+        destroyOnClose: true
       }
     }
   },
-  computed: { ...mapState(['details']) },
-  watch: {
+  computed: {
     details() {
-      this.tableProps.dataSource = this.details
+      return this.$store.state[this.moduleName].details
+    },
+    attributes() {
+      return {
+        attrs: this.modalProps,
+        on: {
+          cancel: () => this.onCancel(),
+          ok: () => this.onSubmit({ customDataHandler: this.customDataHandler })
+        }
+      }
+    }
+  },
+  watch: {
+    details: {
+      deep: true,
+      handler(value) {
+        this.form.setFieldsValue({ functionInfoList: value || [] })
+      }
     },
     visible: {
       immediate: true,
       async handler(value) {
-        if (value) {
-          this.getDetail({
-            id: this.currentItem.id,
-            moduleName: this.moduleName
+        if (value && this.currentItem.id && !this.currentItem.functionInfoList?.length) {
+          await this.$store.dispatch('getDetails', {
+            moduleName: this.moduleName,
+            payload: { id: this.currentItem.id }
           })
-        } else {
-          this.tableProps.dataSource = []
         }
       }
     }
   },
   methods: {
     customDataHandler(values) {
-      const data = { ...values }
-
-      if (data.menuId.length > 0) {
-        data.menuId = data.menuId[data.menuId.length - 1]
-      } else {
-        data.menuId = ''
-      }
-
-      const functionInfoList = this.tableProps.dataSource.map((item, index) => {
-        const fnUrl = data[`fnUrl${index}`]
-        const fnInfoDescribe = data[`fnInfoDescribe${index}`]
-
-        return {
-          fnUrl,
-          fnInfoDescribe
-        }
-      })
+      const data = cloneDeep(values)
 
       return {
         function: {
           fnName: data.fnName,
-          sortIndex: data.sortIndex,
-          status: 1,
-          menuId: data.menuId,
-          id: this.currentItem?.id ?? ''
+          fnDescribe: data.fnDescribe,
+          id: data.id,
+          menuId: this.currentItem.menuId,
+          sortIndex: data.sortIndex
         },
-        functionInfoList: functionInfoList
-      }
-    },
-    onAddRow() {
-      this.tableProps.dataSource.push({
-        fnUrl: '',
-        fnInfoDescribe: '',
-        id: this.tableProps.dataSource.length
-      })
-    },
-    onDeleteRow(index) {
-      this.tableProps.dataSource.splice(index, 1)
-    },
+        functionInfoList: values.functionInfoList.map(item => {
+          if (!isNaN(item.id)) {
+            return omit(item, 'id')
+          }
 
-    ...mapAction(['getDetail'])
-  },
-  render() {
-    const attributes = {
-      attrs: this.modalProps,
-      on: {
-        cancel: () => this.onCancel(),
-        ok: () => this.onSubmit({ customDataHandler: this.customDataHandler })
+          return item
+        })
       }
     }
-
+  },
+  render() {
     return (
-      <DragModal {...attributes}>
-        <Form
-          class=""
-          colon={false}
-        >
-          <Row gutter={10}>
-            <Col span={12}>
-              <Form.Item label="名称">
-                {
-                  this.form.getFieldDecorator('fnName', {
-                    initialValue: this.currentItem.fnName,
-                    rules: [
-                      {
-                        required: true, message: '请输入名称!', trigger: 'blur'
-                      }
-                    ]
-                  })(
-                    <Input
-                      placeholder="请输入名称"
-                      allowClear
-                    />
-                  )
-                }
-              </Form.Item>
-            </Col>
-            <Col span={12}>
-              <Form.Item label="排序">
-                {
-                  this.form.getFieldDecorator('sortIndex', {
-                    initialValue: `${this.currentItem.sortIndex || ''}` || undefined,
-                    rules: [
-                      {
-                        required: true,
-                        message: '请输入排序!',
-                        trigger: 'blur'
-                      }
-                    ]
-                  })(
-                    <Input
-                      placeholder="越大排在越前"
-                      allowClear
-                    />
-                  )
-                }
-              </Form.Item>
-            </Col>
-
-            <Col span={24}>
-              <p
-                class=""
-                style={{ 'text-align': 'right' }}
-              >
-                <Button onclick={this.onAddRow}>+添加</Button>
-              </p>
-              <Table
-                {...{ props: this.tableProps }}
-                scopedSlots={{
-                  fnUrl: (text, record, index) => (
-                    <Form.Item
-                      label=""
-                      style={{ 'margin-bottom': '0' }}
-                    >
-                      {
-                        this.form.getFieldDecorator(`fnUrl${index}`, { initialValue: record.fnUrl })(
-                          <Input
-                            placeholder="请输入"
-                            allowClear
-                          />
-                        )
-                      }
-                    </Form.Item>
-                  ),
-                  fnInfoDescribe: (text, record, index) => (
-                    <Form.Item
-                      label=""
-                      style={{ 'margin-bottom': '0' }}
-                    >
-                      {
-                        this.form.getFieldDecorator(`fnInfoDescribe${index}`, { initialValue: record.fnInfoDescribe })(
-                          <Input
-                            placeholder="请输入"
-                            allowClear
-                          />
-                        )
-                      }
-                    </Form.Item>
-                  ),
-                  operation: (text, record, index) => (
-                    <Button
-                      size="small"
-                      type="danger"
-                      icon="delete"
-                      onclick={() => this.onDeleteRow(index)}
-                    />
-                  )
-                }}
-              />
-            </Col>
-          </Row>
+      <DragModal {...this.attributes}>
+        <Form class="tg-form-grid" colon={false}>
+          <Form.Item label="功能名称" class={'half'}>
+            {
+              this.form.getFieldDecorator('fnName', {
+                initialValue: this.currentItem.fnName,
+                rules: [
+                  {
+                    required: true,
+                    message: '请输入功能名称!',
+                    trigger: 'blur'
+                  }
+                ]
+              })(
+                <Input placeholder="请输入功能名称" allowClear />
+              )
+            }
+          </Form.Item>
+          <Form.Item label="排序" class={'half'}>
+            {
+              this.form.getFieldDecorator('sortIndex', {
+                initialValue: this.currentItem.sortIndex ?? 0,
+                rules: [
+                  {
+                    required: true,
+                    type: 'number',
+                    message: '请输入排序值!',
+                    trigger: 'blur'
+                  }
+                ]
+              })(
+                <InputNumber
+                  placeholder="数值越大排在越前"
+                  allowClear
+                  style={{ width: '100%' }}
+                />
+              )
+            }
+          </Form.Item>
+          <Form.Item label="功能描述">
+            {
+              this.form.getFieldDecorator('fnDescribe', { initialValue: this.currentItem.fnDescribe })(
+                <Input.TextArea placeholder="请输入描述内容" allowClear />
+              )
+            }
+          </Form.Item>
+          <Form.Item>
+            {
+              this.form.getFieldDecorator('functionInfoList', {
+                initialValue: this.currentItem.functionInfoList || [],
+                rules: [
+                  {
+                    required: true,
+                    type: 'array',
+                    message: '请补全功能信息!',
+                    trigger: 'change'
+                  }
+                ]
+              })(
+                <MultiInput />
+              )
+            }
+          </Form.Item>
         </Form>
       </DragModal>
     )

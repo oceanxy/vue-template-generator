@@ -1,4 +1,3 @@
-import '../assets/styles/index.scss'
 import { Button, Space } from 'ant-design-vue'
 import forFunction from '@/mixins/forFunction'
 import { mapGetters } from 'vuex'
@@ -8,10 +7,10 @@ export default {
   computed: {
     ...mapGetters({ getState: 'getState' }),
     menuTree() {
-      return this.getState('menuTree', 'system')
+      return this.getState('menuTree', this.moduleName)
     },
     currentMenuId() {
-      return this.getState('currentMenuId', 'system')
+      return this.getState('currentMenuId', this.moduleName)
     }
   },
   render() {

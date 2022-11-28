@@ -1,4 +1,3 @@
-import '../assets/styles/index.scss'
 import { Empty, Form, message, Spin, Tree } from 'ant-design-vue'
 import forFormModal from '@/mixins/forModal/forFormModal'
 import DragModal from '@/components/DragModal'
@@ -11,8 +10,7 @@ export default Form.create({})({
       visibleField: 'visibleOfMenu',
       modalProps: {
         width: 500,
-        destroyOnClose: true,
-        wrapClassName: 'tg-modal-config-role-form'
+        destroyOnClose: true
       },
       checkedNodes: [],
       checkedKeys: [],
@@ -26,6 +24,46 @@ export default Form.create({})({
     },
     permissionMenus() {
       return this.getState('permissionMenus', this.moduleName)
+    },
+    attributes() {
+      return {
+        attrs: this.modalProps,
+        on: {
+          cancel: () => this.onCancel(this.visibleField),
+          ok: () => this.onSubmit({
+            isFetchList: false,
+            customApiName: 'setPermissionMenus',
+            customDataHandler: values => {
+              // 从选中节点中查找并生成后台需要数据结构
+              const checkedNodes = this.checkedNodes.map(item => ({
+                objId: item.key,
+                plType: item.data.props.tag
+              }))
+
+              // 从半选节点key数组中查找并生成后台需要数据结构
+              const halfCheckedNodes = this.halfCheckedKeys.map(key => {
+                const halfCheckedNode = this.deepQuery(this.menuTree.list, key)
+
+                return {
+                  objId: halfCheckedNode.id,
+                  plType: halfCheckedNode.tag
+                }
+              })
+
+              // 合并数据
+              const privilegeInfoList = [].concat(checkedNodes, halfCheckedNodes)
+
+              return {
+                roleId: values.id,
+                privilegeInfoList
+              }
+            },
+            done() {
+              message.success('角色权限菜单配置成功！')
+            }
+          })
+        }
+      }
     }
   },
   watch: {
@@ -103,51 +141,9 @@ export default Form.create({})({
     }
   },
   render() {
-    const attributes = {
-      attrs: this.modalProps,
-      on: {
-        cancel: () => this.onCancel(this.visibleField),
-        ok: () => this.onSubmit({
-          isFetchList: false,
-          customApiName: 'setPermissionMenus',
-          customDataHandler: values => {
-            // 从选中节点中查找并生成后台需要数据结构
-            const checkedNodes = this.checkedNodes.map(item => ({
-              objId: item.key,
-              plType: item.data.props.tag
-            }))
-
-            // 从半选节点key数组中查找并生成后台需要数据结构
-            const halfCheckedNodes = this.halfCheckedKeys.map(key => {
-              const halfCheckedNode = this.deepQuery(this.menuTree.list, key)
-
-              return {
-                objId: halfCheckedNode.id,
-                plType: halfCheckedNode.tag
-              }
-            })
-
-            // 合并数据
-            const privilegeInfoList = [].concat(checkedNodes, halfCheckedNodes)
-
-            return {
-              roleId: values.id,
-              privilegeInfoList
-            }
-          },
-          done() {
-            message.success('角色权限菜单配置成功！')
-          }
-        })
-      }
-    }
-
     return (
-      <DragModal {...attributes}>
-        <Form
-          class="tg-form-grid"
-          colon={false}
-        >
+      <DragModal {...this.attributes}>
+        <Form class="tg-form-grid" colon={false}>
           <Form.Item>
             {
               this.menuTree.list.length && !this.menuTree.loading && !this.permissionMenus.loading
