@@ -50,6 +50,15 @@ export default Form.create({})({
     },
     schoolList() {
       return this.getState('schoolListByActivity', this.moduleName)
+    },
+    attributes() {
+      return {
+        attrs: this.modalProps,
+        on: {
+          cancel: () => this.onCancel(),
+          ok: () => this.onSubmit({ customDataHandler: this.customDataHandler })
+        }
+      }
     }
   },
 
@@ -76,16 +85,8 @@ export default Form.create({})({
     }
   },
   render() {
-    const attributes = {
-      attrs: this.modalProps,
-      on: {
-        cancel: () => this.onCancel(),
-        ok: () => this.onSubmit({ customDataHandler: this.customDataHandler })
-      }
-    }
-
     return (
-      <DragModal {...attributes}>
+      <DragModal {...this.attributes}>
         <Form
           labelCol={{ span: 4 }}
           wrapperCol={{ span: 19 }}

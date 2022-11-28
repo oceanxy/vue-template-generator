@@ -21,6 +21,15 @@ export default Form.create({})({
     ...mapGetters({ getState: 'getState' }),
     kpiAndParam() {
       return this.getState('KpiAndParam', this.moduleName)
+    },
+    attributes() {
+      return {
+        attrs: this.modalProps,
+        on: {
+          cancel: () => this.onCancel(),
+          ok: () => this.onSubmit({ customDataHandler: this.customDataHandler })
+        }
+      }
     }
   },
   methods: {
@@ -109,16 +118,8 @@ export default Form.create({})({
     }
   },
   render() {
-    const attributes = {
-      attrs: this.modalProps,
-      on: {
-        cancel: () => this.onCancel(),
-        ok: () => this.onSubmit({ customDataHandler: this.customDataHandler })
-      }
-    }
-
     return (
-      <DragModal {...attributes}>
+      <DragModal {...this.attributes}>
         <Form
           labelCol={{ span: 4 }}
           wrapperCol={{ span: 19 }}

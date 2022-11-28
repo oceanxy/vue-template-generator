@@ -49,11 +49,11 @@ export default Form.create({})({
   },
 
   created() {
-    this.getSchoolList()
+    this.getSchoolAllList()
   },
   methods: {
-    async getSchoolList() {
-      await this.$store.dispatch('getList', {
+    async getSchoolAllList() {
+      await this.$store.dispatch('getListWithLoadingStatus', {
         moduleName: this.moduleName,
         stateName: 'schoolAllList',
         customApiName: 'getAllSchoolList'

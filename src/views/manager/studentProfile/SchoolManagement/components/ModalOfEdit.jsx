@@ -20,6 +20,15 @@ export default Form.create({})({
   },
   computed: {
     ...mapGetters({ getState: 'getState' }),
+    attributes() {
+      return {
+        attrs: this.modalProps,
+        on: {
+          cancel: () => this.onCancel(),
+          ok: () => this.onSubmit({ customDataHandler: this.customDataHandler })
+        }
+      }
+    },
     administrativeDivision() {
       return this.getState('administrativeDivision', 'common') || []
     },
@@ -98,16 +107,8 @@ export default Form.create({})({
     }
   },
   render() {
-    const attributes = {
-      attrs: this.modalProps,
-      on: {
-        cancel: () => this.onCancel(),
-        ok: () => this.onSubmit({ customDataHandler: this.customDataHandler })
-      }
-    }
-
     return (
-      <DragModal {...attributes}>
+      <DragModal {...this.attributes}>
         <Form
           colon={false}
         >
