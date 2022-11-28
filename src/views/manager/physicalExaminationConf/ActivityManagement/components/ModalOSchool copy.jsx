@@ -19,15 +19,11 @@ export default Form.create({})({
         width: 900,
         wrapClassName: 'bnm-modal-edit-user-form'
       },
-      allKeys: [],
-      initSchoolNumber: 0 //默认学校数量
+      allKeys: []
     }
   },
   computed: {
     ...mapGetters({ getState: 'getState' }),
-    search() {
-      return this.getState('search', this.moduleName)
-    },
     activeSchoolList() {
       return this.getState('activeSchoolList', this.moduleName)
     },
@@ -51,19 +47,16 @@ export default Form.create({})({
     },
     // 是否全选
     checkAll() {
+      // const iSChenck = this.rightSchool.forEach(item => {
+      //   this.allKeys.map(item2 => {
+      //     if (item2.id === item.id) {
+      //       return true
+      //     }
+      //   })
+      // })
+
       if (this.allKeys.length > 0) {
-        const key = []
-
-        this.activeSchoolList.list.map(item => {
-          key.push(item.id)
-        })
-        const aaa = this.allKeys.includes(key.find(item => { return item }))
-
-        console.log(aaa)
-
-        if (this.allKeys.length === this.initSchoolNumber) {
-          return true
-        } else if (aaa === true) {
+        if (this.allKeys.length === this.activeSchoolList.list.length) {
           return true
         }
       } else {
@@ -76,49 +69,36 @@ export default Form.create({})({
       get() {
         return this.getState('rightSchool', this.moduleName)
       },
-      set(value) {
-        this.$store.commit('setState', {
-          value: value,
-          moduleName: this.moduleName,
-          stateName: 'rightSchool'
-        })
-      }
-    },
-    attributes() {
-      return {
-        attrs: this.modalProps,
-        on: {
-          cancel: () => this.onCancel(this.visibleField),
-          ok: () => this.onSubmit({ customDataHandler: this.customDataHandler })
-        }
-      }
+      // set(value) {
+      //   this.$store.commit('addSchoolList', value)
+      // }
     }
   },
   methods: {
+    async getListBySearch() {
+      await this.$store.dispatch('getListWithLoadingStatus', {
+        moduleName: this.moduleName,
+        stateName: 'activeSchoolList',
+        customApiName: 'getListBySearch'
+      })
+    },
     // 是否开启全选
     SwitchCheckAll(checked, e) {
       if (!this.activeSchoolList.list) {
         return message.error('暂无学校列表！')
       }
 
-      if (checked) {
-        const keys = []
+      const keys = []
 
-        this.activeSchoolList.list.forEach(item => {
-          keys.push(item.id)
-        })
-        this.allKeys = checked ? keys : []
-      } else {
-        this.rightSchool = []
-      }
-
-      console.log(checked, e)
-
-      // this.toRightData()
-
+      this.activeSchoolList.list.forEach(item => {
+        keys.push(item.id)
+      })
+      this.allKeys = checked ? keys : []
+      this.toRightData()
     },
     onChange(e) {
       this.allKeys = e
+      this.toRightData()
     },
     // 向右侧插入数据
     async toRightData() {
@@ -137,44 +117,15 @@ export default Form.create({})({
       }
 
     },
-    async delChange(e) {
-      const id = e.target.value
-      const isKey = this.allKeys.some(item => { return item === id })
-
-      if (isKey === true) {
-        await this.deleteSchool(id)
-      } else {
-        console.log('id', id)
-        const arr = []
-
-        this.activeSchoolList.list.filter(item2 => {
-          if (item2.id === id) {
-            arr.push(item2)
-          }
-        })
-
-        if (arr) {
-          await dispatch(this.moduleName, 'add_item', arr)
-        }
-      }
-    },
     // 删除学校
-    async deleteSchool(id) {
-      await dispatch(this.moduleName, 'del_item', id)
+    deleteSchool(id) {
+      dispatch(this.moduleName, 'del_item', id)
     }
   },
   watch: {
-    async 'modalProps.visible'(value) {
+    'modalProps.visible'(value) {
       if (value) {
-        const status = await this.$store.dispatch('getListWithLoadingStatus', {
-          moduleName: this.moduleName,
-          stateName: 'activeSchoolList',
-          customApiName: 'getListBySearch'
-        })
-
-        if (status) {
-          this.initSchoolNumber = this.activeSchoolList.list.length
-        }
+        this.getListBySearch()
       }
     },
     rightSchool: {
@@ -190,8 +141,16 @@ export default Form.create({})({
     }
   },
   render() {
+    const attributes = {
+      attrs: this.modalProps,
+      on: {
+        cancel: () => this.onCancel(this.visibleField),
+        ok: () => this.onSubmit({ customDataHandler: this.customDataHandler })
+      }
+    }
+
     return (
-      <DragModal {...this.attributes} class={'bnm-school-modal'}>
+      <DragModal {...attributes} class={'bnm-school-modal'}>
         <Form>
           <div class="school">
             <div class="item left">
@@ -230,7 +189,7 @@ export default Form.create({})({
                                 <div class="title">{item.fullName}</div>
                                 <p>{item.fullNamePinyin}</p>
                               </div>
-                              <Checkbox value={item.id} onChange={this.delChange}></Checkbox>
+                              <Checkbox value={item.id}></Checkbox>
                             </List.Item>
                           </label>
                         )

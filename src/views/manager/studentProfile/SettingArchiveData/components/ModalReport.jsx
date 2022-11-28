@@ -33,6 +33,18 @@ export default Form.create({})({
       } else if (this.currentItem.type === 2) {
         return 'createPrintReport'
       }
+    },
+    attributes() {
+      return {
+        attrs: this.modalProps,
+        on: {
+          cancel: () => this.onCancel(this.visibleField),
+          ok: () => this.onSubmit({
+            customDataHandler: this.customDataHandler,
+            customApiName: this.customApiName
+          })
+        }
+      }
     }
   },
   methods: {
@@ -67,19 +79,8 @@ export default Form.create({})({
 
   },
   render() {
-    const attributes = {
-      attrs: this.modalProps,
-      on: {
-        cancel: () => this.onCancel(this.visibleField),
-        ok: () => this.onSubmit({
-          customDataHandler: this.customDataHandler,
-          customApiName: this.customApiName
-        })
-      }
-    }
-
     return (
-      <DragModal {...attributes}>
+      <DragModal {...this.attributes}>
         <Form
           labelCol={{ span: 5 }}
           wrapperCol={{ span: 17 }}

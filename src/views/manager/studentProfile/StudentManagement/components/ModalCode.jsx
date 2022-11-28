@@ -43,6 +43,14 @@ export default Form.create({})({
     ...mapGetters({ getState: 'getState' }),
     currentItem() {
       return this.getState('currentItem', this.moduleName)
+    },
+    attributes() {
+      return {
+        attrs: this.modalProps,
+        on: {
+          cancel: () => this.onCancel(this.visibleField)
+        }
+      }
     }
   },
   methods: {
@@ -112,15 +120,8 @@ export default Form.create({})({
     }
   },
   render() {
-    const attributes = {
-      attrs: this.modalProps,
-      on: {
-        cancel: () => this.onCancel(this.visibleField)
-      }
-    }
-
     return (
-      <DragModal {...attributes}>
+      <DragModal {...this.attributes}>
         <div id='print'>
           <img class='imgCode' src={this.imgCodeUrl}></img>
         </div>

@@ -28,10 +28,14 @@ export default commitRootInModule =>
       },
       mutations: {
         AddSchoolList(state, item) {
-          state.rightSchool = item
+          item.map(itm => {
+            state.rightSchool.push(itm)
+          })
+          // state.rightSchool = item
         },
         DelSchoolList(state, id) {
-          state.rightSchool.findIndex((itm, index) => {
+          console.log('idid', id)
+          state.rightSchool?.findIndex((itm, index) => {
             if (itm.id === id) {
               state.rightSchool.splice(index, 1)
             }
