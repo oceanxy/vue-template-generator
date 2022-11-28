@@ -15,6 +15,7 @@ export default {
   render() {
     return (
       <TGContainerWithTreeSider
+        notNoneMode
         getFieldNameForTreeId={getFieldNameForSchoolGroupType}
         apiOptions={{
           apiName: 'getStreetTree',

@@ -1,19 +1,44 @@
 import '../assets/styles/index.scss'
-import { Form, Input, Select, Button, Checkbox } from 'ant-design-vue'
+import { Form, Input, Select, Button, Checkbox, List, Icon } from 'ant-design-vue'
 import forFormModal from '@/mixins/forModal/forFormModal'
 import DragModal from '@/components/DragModal'
 import { mapGetters } from 'vuex'
+import SCHOOL_RIGHT from '../assets/images/school_right.svg'
 
 export default Form.create({})({
   mixins: [forFormModal()],
   data() {
     return {
       modalProps: {
-        width: 620,
+        width: 800,
         wrapClassName: 'bnm-modal-edit-user-form'
       },
-      plainOptions: ['']
+      plainOptions: [''],
+      school: [
+        {
+          title: '学校',
+          ms: 'sdddddd',
+          img: '../assets/images/school_left.svg'
+        },
+        {
+          title: '学校',
+          ms: 'sdddddd',
+          img: '../assets/images/school_left.svg'
+        },
+        {
+          title: '学校',
+          ms: 'sdddddd',
+          img: '../assets/images/school_left.svg'
+        }
+      ]
     }
+  },
+  async created() {
+    await this.$store.dispatch('getListWithLoadingStatus', {
+      moduleName: this.moduleName,
+      stateName: 'itemList',
+      customApiName: 'getActivityItemList'
+    })
   },
   computed: {
     ...mapGetters({ getState: 'getState' }),
@@ -27,19 +52,13 @@ export default Form.create({})({
       return this.getState('schoolListByActivity', this.moduleName)
     }
   },
+
   methods: {
     async getActivityYearList() {
       await this.$store.dispatch('getListWithLoadingStatus', {
         moduleName: this.moduleName,
         stateName: 'yearList',
         customApiName: 'getActivityYearList'
-      })
-    },
-    async getActivityItemList() {
-      await this.$store.dispatch('getListWithLoadingStatus', {
-        moduleName: this.moduleName,
-        stateName: 'itemList',
-        customApiName: 'getActivityItemList'
       })
     },
     customDataHandler(values) {
@@ -53,7 +72,6 @@ export default Form.create({})({
     'modalProps.visible'(value) {
       if (value) {
         this.getActivityYearList()
-        this.getActivityItemList()
       }
     }
   },
@@ -69,8 +87,8 @@ export default Form.create({})({
     return (
       <DragModal {...attributes}>
         <Form
-          labelCol={{ span: 5 }}
-          wrapperCol={{ span: 17 }}
+          labelCol={{ span: 4 }}
+          wrapperCol={{ span: 19 }}
           colon={false}
         >
           <Form.Item label="活动名称">
@@ -194,17 +212,30 @@ export default Form.create({})({
                   ]
                 }
               )(
-                <Select
-                  placeholder="请选择活动"
-                  onChange={this.onChangeActivitie}
-                >
-                  {
-                    this.activities?.map(item => (
-                      <Select.Option value={item.id}>{item.activityName}</Select.Option>
-                    ))
-                  }
+                <div>
+                  <List grid={{ gutter: 10, column: 3 }} dataSource={this.school}
+                    {...{
+                      scopedSlots: {
+                        renderItem: item => (
+                          <List.Item class="activity-management-school-item hover">
+                            <Icon class="icon" component={SCHOOL_RIGHT} />
+                            {/* <img src={item.img} /> */}
+                            <div>
+                              <div class="title">{item.title}</div>
+                              <p>{item.ms}</p>
+                            </div>
+                            <Icon class="close" type="close-circle" />
+                          </List.Item>
+                        )
+                      }
+                    }}
+                  />
 
-                </Select>
+                  <Button
+                    type="primary"
+                    onClick={() => this._setVisibleOfModal({ curActivitieId: this.curActivitieId }, 'visibleOfSchoolList')}
+                  >点击选择</Button>
+                </div>
               )
             }
           </Form.Item>

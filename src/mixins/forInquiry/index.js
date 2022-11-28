@@ -30,7 +30,7 @@ export default ({ isFetchList = true } = {}) => {
     created() {
       // 如果存在初始值，将初始值保存到 store.state.search 中，
       // 根据初始值的来源，可自行选择在混入组件的 computed 或 data 中定义 initialValue 对象
-      if (Object.keys(this.initialValue).length) {
+      if (Object.keys(this.initialValue || {}).length) {
         this.$store.commit('setState', {
           value: this.initialValue,
           moduleName: this.moduleName,
@@ -64,20 +64,14 @@ export default ({ isFetchList = true } = {}) => {
         }
 
         if ('monthRange' in temp) {
-          temp.appointmentDateStartMonth = temp.monthRange[0]
-            ? moment(temp.monthRange[0]).format('YYYYMM')
-            : ''
-          temp.appointmentDateEndMonth = temp.monthRange[1]
-            ? moment(temp.monthRange[1]).format('YYYYMM')
-            : ''
+          temp.appointmentDateStartMonth = temp.monthRange[0] ? moment(temp.monthRange[0]).format('YYYYMM') : ''
+          temp.appointmentDateEndMonth = temp.monthRange[1] ? moment(temp.monthRange[1]).format('YYYYMM') : ''
 
           temp = omit(temp, 'monthRange')
         }
 
         if ('billMonth' in temp) {
-          temp.billMonth = temp.billMonth
-            ? moment(temp.billMonth).format('YYYYMM')
-            : ''
+          temp.billMonth = temp.billMonth ? moment(temp.billMonth).format('YYYYMM') : ''
         }
 
         return temp

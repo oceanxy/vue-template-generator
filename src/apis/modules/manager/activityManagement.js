@@ -108,5 +108,31 @@ export default {
       method: 'post',
       data: qs.stringify(data)
     })
+  },
+
+  /**
+   * 活动根据条件搜索学校集合
+   * @param request
+   * @returns {*}
+   */
+  getListBySearch(request, data) {
+    return request({
+      url: '/personnel/school/getListBySearch',
+      method: 'post',
+      data: qs.stringify(data)
+    })
+  },
+
+  /**
+   * 获取学校街道集合
+   * @param request
+   * @returns {*}
+   */
+  getSchoolStreetList(request, data) {
+    return request({
+      url: '/examine/examineActivity/getSchoolStreetList',
+      method: 'post',
+      data
+    })
   }
 }

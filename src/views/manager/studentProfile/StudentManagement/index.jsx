@@ -16,6 +16,7 @@ export default {
   render() {
     return (
       <TGContainerWithTreeSider
+        notNoneMode
         getFieldNameForTreeId={getFileAdminForSchoolTreeId}
         apiOptions={{
           apiName: 'getSchoolTree',

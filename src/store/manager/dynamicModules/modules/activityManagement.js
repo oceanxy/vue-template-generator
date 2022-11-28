@@ -5,6 +5,8 @@ export default commitRootInModule =>
   omit(
     createStoreModule({
       state: {
+        // 学校范围弹窗
+        visibleOfSchoolList: false,
         yearList: {
           list: [],
           loading: false
@@ -12,8 +14,39 @@ export default commitRootInModule =>
         itemList: {
           list: [],
           loading: false
+        },
+        activeSchoolList: {
+          list: [],
+          loading: false
+        },
+        schoolStree: {
+          list: [],
+          loading: false
+        },
+        // 选中的学校
+        rightSchool: []
+      },
+      mutations: {
+        AddSchoolList(state, item) {
+          state.rightSchool = item
+        },
+        DelSchoolList(state, id) {
+          state.rightSchool.findIndex((itm, index) => {
+            if (itm.id === id) {
+              state.rightSchool.splice(index, 1)
+            }
+          })
+        }
+      },
+      actions: {
+        add_item({ commit }, item) {
+          if (item) {
+            commit('AddSchoolList', item)
+          }
+        },
+        del_item({ commit }, id) {
+          commit('DelSchoolList', id)
         }
       }
-    }),
-    ['state.details']
+    })
   )
