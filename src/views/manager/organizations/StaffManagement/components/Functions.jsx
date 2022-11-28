@@ -16,7 +16,7 @@ export default {
         <Button
           type="primary"
           disabled={this.editButtonDisabled}
-          onClick={() => this.onAddClick()}
+          onClick={() => this.onEditClick()}
           icon="edit"
         >
           修改

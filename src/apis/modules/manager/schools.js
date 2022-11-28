@@ -13,5 +13,18 @@ export default {
       method: 'post',
       data: qs.stringify(data, { arrayFormat: 'comma' })
     })
+  },
+  /**
+   * 获取学校数据（按组织ID）
+   * @param [request]
+   * @param data
+   * @returns {*}
+   */
+  getSchoolsByOrganizationId(request, data) {
+    return request({
+      url: '/personnel/school/getListByOrganId',
+      method: 'post',
+      data: qs.stringify(data)
+    })
   }
 }

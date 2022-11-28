@@ -46,7 +46,7 @@ export default {
     /**
      * 非空模式，默认关闭，不选中任何一级
      * 开启后，当树没有选中值时（即selectedKeys为空数组时），自动选中树的最顶层菜单，然后触发所在页面的列表获取数据。
-     *  如果树所在页面的列表请求数据接口需要其他必填参数，而树不能提供的，请在设置 optionsOfGetList.isFetchList 为 false
+     *  如果树所在页面的列表请求数据接口需要其他必填参数，而树不能提供的，请设置 optionsOfGetList.isFetchList 为 false
      */
     notNoneMode: {
       type: Boolean,
@@ -161,6 +161,7 @@ export default {
       await this.$store.dispatch('setSearch', {
         payload: { [this.treeIdField]: this.dataSource.list?.[0]?.id },
         moduleName: this.moduleName,
+        isResetSelectedRows: true,
         ...this.optionsOfGetList,
         isFetchList: (!('isFetchList' in this.optionsOfGetList) || this.optionsOfGetList.isFetchList)
       })
@@ -223,6 +224,7 @@ export default {
         await this.$store.dispatch('setSearch', {
           payload,
           moduleName: this.moduleName,
+          isResetSelectedRows: true,
           ...this.optionsOfGetList
         })
       }

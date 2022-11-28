@@ -37,12 +37,12 @@ export default {
           },
           {
             title: '登录名',
-            width: 80,
+            width: 100,
             dataIndex: 'loginName'
           },
           {
             title: '电话号码',
-            width: 100,
+            width: 120,
             dataIndex: 'phone'
           },
           {
@@ -52,7 +52,7 @@ export default {
           },
           {
             title: '邮箱',
-            width: 100,
+            width: 120,
             dataIndex: 'email'
           },
           {
@@ -107,7 +107,7 @@ export default {
             <Button
               type="link"
               size="small"
-              onClick={() => this.onDeleteClick(record)}
+              onClick={() => this._setVisibleOfModal(record, 'visibleOfEditPassword')}
             >
               修改密码
             </Button>
