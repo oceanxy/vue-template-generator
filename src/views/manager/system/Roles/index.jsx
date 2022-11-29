@@ -29,7 +29,7 @@ export default {
           <TGPagination slot={'pagination'} />
           <template slot={'modals'}>
             <ModalOfEdit modalTitle={'{action}角色'} />
-            <ModalOfMenu modalTitle={'配置菜单'} />
+            <ModalOfMenu modalTitle={'设置权限'} />
           </template>
         </TGContainer>
       </TGContainerWithTreeSider>

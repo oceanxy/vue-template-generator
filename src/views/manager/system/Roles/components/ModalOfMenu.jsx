@@ -54,7 +54,7 @@ export default Form.create({})({
               const privilegeInfoList = [].concat(checkedNodes, halfCheckedNodes)
 
               return {
-                roleId: values.id,
+                roleId: values.id || this.currentItem.id,
                 privilegeInfoList
               }
             },

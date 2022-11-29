@@ -21,7 +21,6 @@ export default {
           },
           {
             title: '描述',
-            width: 250,
             dataIndex: 'roleDescribe'
           },
           {
@@ -74,7 +73,7 @@ export default {
               size="small"
               onClick={() => this._setVisibleOfModal(record, 'visibleOfMenu')}
             >
-              配置菜单
+              设置权限
             </Button>
             <Button
               type="link"

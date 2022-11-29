@@ -79,7 +79,7 @@ export default {
     })
   },
   /**
-   * 获取菜单树
+   * 获取角色权限配置菜单树
    * @param request
    * @returns {*}
    */
@@ -111,7 +111,7 @@ export default {
    */
   setPermissionMenus(request, data) {
     return request({
-      url: '/system/privilege/setPrivilege',
+      url: '/system/privilege/setprivilege',
       method: 'post',
       data: data
     })

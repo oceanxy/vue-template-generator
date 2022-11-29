@@ -16,14 +16,14 @@ export default Form.create({ name: 'TGLoginForm' })({
   computed: mapState({ loading: 'loading' }),
   mounted() {
     this.setLoading(false)
-    this.genCode()
+    // this.genCode()
 
     if (process.env.NODE_ENV === 'development') {
       // 开发模式默认账号密码
       this.form.setFieldsValue({
         username: 'adminOne',
-        password: '123456',
-        picCode: 'LANJOR'
+        password: '123456'
+        // picCode: 'LANJOR'
       })
     }
   },
@@ -38,7 +38,7 @@ export default Form.create({ name: 'TGLoginForm' })({
           const { status } = await this.login(values)
 
           if (!status) {
-            this.genCode()
+            // this.genCode()
           } else {
             this.hint = true
 
@@ -92,22 +92,22 @@ export default Form.create({ name: 'TGLoginForm' })({
             )
           }
         </Form.Item>
-        <Form.Item class="code" style={{ display: 'none' }}>
-          {
-            this.form.getFieldDecorator('picCode', {
-              rules: [
-                { required: true, message: '请输入验证码!' }
-              ]
-            })(
-              <Input placeholder="请输入验证码" />
-            )
-          }
-          <img
-            src={this.picCodePath}
-            alt=""
-            onClick={this.genCode}
-          />
-        </Form.Item>
+        {/*<Form.Item class="code" style={{ display: 'none' }}>*/}
+        {/*  {*/}
+        {/*    this.form.getFieldDecorator('picCode', {*/}
+        {/*      rules: [*/}
+        {/*        { required: true, message: '请输入验证码!' }*/}
+        {/*      ]*/}
+        {/*    })(*/}
+        {/*      <Input placeholder="请输入验证码" />*/}
+        {/*    )*/}
+        {/*  }*/}
+        {/*  <img*/}
+        {/*    src={this.picCodePath}*/}
+        {/*    alt=""*/}
+        {/*    onClick={this.genCode}*/}
+        {/*  />*/}
+        {/*</Form.Item>*/}
         <Form.Item>
           <Button
             class="login-submit"

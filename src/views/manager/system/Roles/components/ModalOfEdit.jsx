@@ -1,3 +1,4 @@
+import '../assets/styles/index.scss'
 import { Form, Input, Switch, TreeSelect } from 'ant-design-vue'
 import forFormModal from '@/mixins/forModal/forFormModal'
 import DragModal from '@/components/DragModal'
@@ -13,7 +14,7 @@ export default Form.create({})({
         attrs: this.modalProps,
         on: {
           cancel: () => this.onCancel(),
-          ok: () => this.onSubmit({ customDataHandler: this.customDataHandler })
+          ok: () => this.onSubmit()
         }
       }
     },
@@ -22,32 +23,28 @@ export default Form.create({})({
     },
     search() {
       return this.$store.state[this.moduleName].search
+    },
+    menuTree() {
+      return this.$store.state[this.moduleName].menuTree
     }
   },
-  methods: {
-    customDataHandler(values) {
-      const data = { ...values }
-
-      if (data.parentId.length > 0) {
-        data.parentId = data.parentId[data.parentId.length - 1]
-      } else {
-        data.parentId = ''
+  watch: {
+    visible: {
+      immediate: true,
+      async handler(value) {
+        if (value) {
+          await this.$store.dispatch('getListWithLoadingStatus', {
+            moduleName: this.moduleName,
+            stateName: 'menuTree',
+            customApiName: 'getMenuTree'
+          })
+        }
       }
-
-      if (data.indexMenuId.length > 0) {
-        data.indexMenuId = data.indexMenuId[data.indexMenuId.length - 1]
-      } else {
-        data.indexMenuId = ''
-      }
-
-      data.id = this.currentItem?.id ?? ''
-
-      return data
     }
   },
   render() {
     return (
-      <DragModal {...this.attributes}>
+      <DragModal {...this.attributes} class={'fe-modal-form'}>
         <Form colon={false} class={'tg-form-grid'}>
           <Form.Item label="父级" class={'half'}>
             {
@@ -65,7 +62,6 @@ export default Form.create({})({
                   showSearch
                   disabled
                   treeNodeFilterProp={'title'}
-                  dropdownClassName={'tg-select-dropdown'}
                   treeData={this.roleTree.list}
                   replaceFields={{
                     children: 'children',
@@ -99,6 +95,27 @@ export default Form.create({})({
               )
             }
           </Form.Item>
+          <Form.Item label="默认菜单">
+            {
+              this.form.getFieldDecorator('indexMenuId', { initialValue: this.currentItem.indexMenuId || undefined })(
+                <TreeSelect
+                  allowClear
+                  dropdownClassName={'tg-select-dropdown'}
+                  dropdownStyle={{ maxHeight: '300px' }}
+                  treeData={this.menuTree.list}
+                  replaceFields={{
+                    children: 'children',
+                    title: 'name',
+                    key: 'id',
+                    value: 'id'
+                  }}
+                  treeNodeFilterProp={'title'}
+                  placeholder={'请选择父级菜单'}
+                  treeDefaultExpandedKeys={[this.currentItem.indexMenuId || this.menuTree.list?.[0]?.id]}
+                />
+              )
+            }
+          </Form.Item>
           <Form.Item label="角色描述">
             {
               this.form.getFieldDecorator('roleDescribe', { initialValue: this.currentItem.roleDescribe })(
@@ -116,6 +133,7 @@ export default Form.create({})({
                 rules: [
                   {
                     required: true,
+                    type: 'number',
                     message: '请输入排序值！',
                     trigger: 'blur'
                   }

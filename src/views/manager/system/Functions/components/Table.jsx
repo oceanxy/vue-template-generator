@@ -32,7 +32,6 @@ export default {
           {
             title: '排序',
             // align: 'center',
-            width: 80,
             dataIndex: 'sortIndex'
           },
           {

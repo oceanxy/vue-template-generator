@@ -26,6 +26,9 @@ export default Form.create({})({
           ok: () => this.onSubmit({ customDataHandler: this.customDataHandler })
         }
       }
+    },
+    search() {
+      return this.$store.state[this.moduleName].search
     }
   },
   watch: {
@@ -56,7 +59,7 @@ export default Form.create({})({
           fnName: data.fnName,
           fnDescribe: data.fnDescribe,
           id: data.id,
-          menuId: this.currentItem.menuId,
+          menuId: this.currentItem.menuId || this.search.parentId,
           sortIndex: data.sortIndex
         },
         functionInfoList: values.functionInfoList.map(item => {
