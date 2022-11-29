@@ -1,119 +1,80 @@
-import '../assets/styles/index.scss'
-import { Button, Col, Form, Input, Row, Table, InputNumber } from 'ant-design-vue'
+import { Button, Col, Form, Input, Row, Table } from 'ant-design-vue'
 import forFormModal from '@/mixins/forModal/forFormModal'
 import DragModal from '@/components/DragModal'
-import { mapAction, mapState } from '@/utils/store'
+import MultiInput from './MultiInput'
+import { cloneDeep, omit } from 'lodash'
 
 export default Form.create({})({
   mixins: [forFormModal()],
   data() {
     return {
       modalProps: {
-        width: 700,
-        wrapClassName: 'tg-modal-edit-function-form'
-      },
-      tableProps: {
-        columns: [
-          {
-            title: '功能地址',
-            dataIndex: 'fnUrl',
-            scopedSlots: { customRender: 'fnUrl' }
-          },
-          {
-            title: '描述',
-            dataIndex: 'fnInfoDescribe',
-            scopedSlots: { customRender: 'fnInfoDescribe' }
-          },
-          {
-            title: '操作',
-            width: 80,
-            dataIndex: 'operation',
-            scopedSlots: { customRender: 'operation' }
-          }
-        ],
-        rowSelection: null,
-        tableLayout: 'fixed',
-        dataSource: [],
-        pagination: false,
-        bordered: true,
-        rowKey: 'id'
+        width: 810,
+        destroyOnClose: true
       }
     }
   },
-  computed: { ...mapState(['details']) },
-  watch: {
+  computed: {
     details() {
-      this.tableProps.dataSource = this.details
+      return this.$store.state[this.moduleName].details
+    },
+    attributes() {
+      return {
+        attrs: this.modalProps,
+        on: {
+          cancel: () => this.onCancel(),
+          ok: () => this.onSubmit({ customDataHandler: this.customDataHandler })
+        }
+      }
+    },
+    search() {
+      return this.$store.state[this.moduleName].search
+    }
+  },
+  watch: {
+    details: {
+      deep: true,
+      handler(value) {
+        this.form.setFieldsValue({ functionInfoList: value || [] })
+      }
     },
     visible: {
       immediate: true,
       async handler(value) {
-        if (value) {
-          this.getDetail({
-            id: this.currentItem.id,
-            moduleName: this.moduleName
+        if (value && this.currentItem.id && !this.currentItem.functionInfoList?.length) {
+          await this.$store.dispatch('getDetails', {
+            moduleName: this.moduleName,
+            payload: { id: this.currentItem.id }
           })
-        } else {
-          this.tableProps.dataSource = []
         }
       }
     }
   },
   methods: {
     customDataHandler(values) {
-      const data = { ...values }
-
-      if (data.menuId.length > 0) {
-        data.menuId = data.menuId[data.menuId.length - 1]
-      } else {
-        data.menuId = ''
-      }
-
-      const functionInfoList = this.tableProps.dataSource.map((item, index) => {
-        const fnUrl = data[`fnUrl${index}`]
-        const fnInfoDescribe = data[`fnInfoDescribe${index}`]
-
-        return {
-          fnUrl,
-          fnInfoDescribe
-        }
-      })
+      const data = cloneDeep(values)
 
       return {
         function: {
           fnName: data.fnName,
-          sortIndex: data.sortIndex,
-          status: 1,
-          menuId: data.menuId,
-          id: this.currentItem?.id ?? ''
+          fnDescribe: data.fnDescribe,
+          id: data.id,
+          menuId: this.currentItem.menuId || this.search.parentId,
+          sortIndex: data.sortIndex
         },
-        functionInfoList: functionInfoList
-      }
-    },
-    onAddRow() {
-      this.tableProps.dataSource.push({
-        fnUrl: '',
-        fnInfoDescribe: '',
-        id: this.tableProps.dataSource.length
-      })
-    },
-    onDeleteRow(index) {
-      this.tableProps.dataSource.splice(index, 1)
-    },
+        functionInfoList: values.functionInfoList.map(item => {
+          if (!isNaN(item.id)) {
+            return omit(item, 'id')
+          }
 
-    ...mapAction(['getDetail'])
-  },
-  render() {
-    const attributes = {
-      attrs: this.modalProps,
-      on: {
-        cancel: () => this.onCancel(),
-        ok: () => this.onSubmit({ customDataHandler: this.customDataHandler })
+          return item
+        })
       }
     }
-
+  },
+  render() {
     return (
-      <DragModal {...attributes}>
+      <DragModal {...this.attributes}>
         <Form
           class=""
           colon={false}
@@ -151,7 +112,7 @@ export default Form.create({})({
                       }
                     ]
                   })(
-                    <InputNumber
+                    <Input
                       placeholder="越大排在越前"
                       allowClear
                     />

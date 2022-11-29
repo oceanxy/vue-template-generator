@@ -8,15 +8,35 @@ import { cloneDeep } from 'lodash'
 export default Form.create({})({
   mixins: [forFormModal()],
   data() {
-    return { modalProps: { width: 850, destroyOnClose: true } }
+    return { modalProps: { width: 900, destroyOnClose: true } }
   },
   computed: {
     ...mapGetters({ getState: 'getState' }),
     menuTree() {
-      return this.getState('menuTree', 'system')
+      return this.getState('menuTree', this.moduleName)
+    },
+    attributes() {
+      return {
+        attrs: this.modalProps,
+        on: {
+          cancel: () => this.onCancel(),
+          ok: () => this.onSubmit({
+            customDataHandler: this.customDataHandler,
+            done: this.done
+          })
+        }
+      }
     }
   },
   methods: {
+    async done() {
+      // 更新左侧菜单树
+      await this.$store.dispatch('getListWithLoadingStatus', {
+        moduleName: this.moduleName,
+        stateName: 'menuTree',
+        customApiName: 'getMenuTree'
+      })
+    },
     customDataHandler(values) {
       const data = cloneDeep(values)
 
@@ -32,40 +52,18 @@ export default Form.create({})({
     }
   },
   render() {
-    const attributes = {
-      attrs: this.modalProps,
-      on: {
-        cancel: () => this.onCancel(),
-        ok: () => this.onSubmit({
-          customDataHandler: this.customDataHandler,
-          done: async () => {
-            // 更新左侧菜单树
-            await this.$store.dispatch('getListWithLoadingStatus', {
-              moduleName: 'system',
-              stateName: 'menuTree',
-              customApiName: 'getSystemMenuTree'
-            })
-          }
-        })
-      }
-    }
-
     return (
-      <DragModal {...attributes}>
+      <DragModal {...this.attributes} class={'fe-modal-form'}>
         <Alert
           message="新增或编辑菜单后仅在当前页面生效。如要应用到系统中，请等待管理员分配权限后，重新登录即可！"
           banner
           closable
           type={'info'}
           style={{ marginBottom: '20px', marginLeft: '130px' }}
-
         />
-        <Form
-          class="tg-form-grid"
-          colon={false}
-        >
+        <Form class="tg-form-grid" colon={false}>
           <Form.Item
-            label="父级菜单"
+            label="父级菜单(客户端)"
             style={+this.currentItem.parentId === 0 ? { display: 'none' } : null}
           >
             {
@@ -84,7 +82,10 @@ export default Form.create({})({
                   dropdownClassName={'tg-tree-select-dropdown'}
                   treeData={this.menuTree.list}
                   replaceFields={{
-                    children: 'children', title: 'name', key: 'id', value: 'id'
+                    children: 'children',
+                    title: 'name',
+                    key: 'id',
+                    value: 'id'
                   }}
                   treeNodeFilterProp={'title'}
                   placeholder={'请选择父级菜单'}
@@ -97,10 +98,7 @@ export default Form.create({})({
               )
             }
           </Form.Item>
-          <Form.Item
-            label="菜单标题"
-            class={'half'}
-          >
+          <Form.Item label="菜单标题(客户端)" class={'half'}>
             {
               this.form.getFieldDecorator('menuName', {
                 initialValue: this.currentItem.menuName,
@@ -119,21 +117,18 @@ export default Form.create({})({
               )
             }
           </Form.Item>
-          <Form.Item
-            label="路由名称"
-            class={'half'}
-          >
+          <Form.Item label="路由名称(客户端)" class={'half'}>
             {
               this.form.getFieldDecorator('name', { initialValue: this.currentItem.name })(
                 <Input
                   placeholder="请输入路由名称（小驼峰命名规则）"
                   allowClear
-                  title={'请输入路由名称（小驼峰命名规则）'}
+                  title={'请输入路由名称(小驼峰命名规则）'}
                 />
               )
             }
           </Form.Item>
-          <Form.Item label="path">
+          <Form.Item label="path(客户端)">
             {
               this.form.getFieldDecorator('menuUrl', { initialValue: this.currentItem.menuUrl })(
                 <Input
@@ -146,7 +141,7 @@ export default Form.create({})({
               对应 vue-router 的 path。留空时，跳转到父级时会自动导向到本页面，每个层级最多只能有一个留空的 path 子路由。
             </p>
           </Form.Item>
-          <Form.Item label="组件地址">
+          <Form.Item label="组件地址(客户端)">
             {
               this.form.getFieldDecorator('component', { initialValue: this.currentItem.component })(
                 <Input
@@ -159,7 +154,7 @@ export default Form.create({})({
               对应 vue-router 的 component。留空时，默认为 RouterView，此时需要设置本路由的子路由。注意，顶级菜单对应的前端组件内应包含 RouterView。
             </p>
           </Form.Item>
-          <Form.Item label="重定向">
+          <Form.Item label="重定向(客户端)">
             {
               this.form.getFieldDecorator('redirect', { initialValue: this.currentItem.redirect || undefined })(
                 <TreeSelect
@@ -183,10 +178,7 @@ export default Form.create({})({
               对应 vue-router 的 redirect。当本级的组件地址为 RouterView，且子路由内不存在 path 为空的项时需要设置。
             </p>
           </Form.Item>
-          <Form.Item
-            label="简称"
-            class={'half'}
-          >
+          <Form.Item label="简称(服务端)" class={'half'}>
             {
               this.form.getFieldDecorator('menuShortName', { initialValue: this.currentItem.menuShortName })(
                 <Input
@@ -196,10 +188,7 @@ export default Form.create({})({
               )
             }
           </Form.Item>
-          <Form.Item
-            label="图标"
-            class={'half'}
-          >
+          <Form.Item label="图标(客户端)" class={'half'}>
             {
               this.form.getFieldDecorator('menuIcon', { initialValue: this.currentItem.menuIcon })(
                 <Input
@@ -209,10 +198,7 @@ export default Form.create({})({
               )
             }
           </Form.Item>
-          <Form.Item
-            label="隐藏"
-            class={'half'}
-          >
+          <Form.Item label="隐藏(客户端)" class={'one-third'}>
             {
               this.form.getFieldDecorator('hide', {
                 initialValue: !isNaN(this.currentItem.hide) ? this.currentItem.hide === 1 : false,
@@ -222,10 +208,7 @@ export default Form.create({})({
               )
             }
           </Form.Item>
-          <Form.Item
-            label="隐藏子级"
-            class={'half'}
-          >
+          <Form.Item label="隐藏子级(客户端)" class={'one-third'}>
             {
               this.form.getFieldDecorator('hideChildren', {
                 initialValue: !isNaN(this.currentItem.hideChildren) ? this.currentItem.hideChildren === 1 : false,
@@ -235,10 +218,7 @@ export default Form.create({})({
               )
             }
           </Form.Item>
-          <Form.Item
-            label="隐藏面包屑"
-            class={'half'}
-          >
+          <Form.Item label="隐藏面包屑(客户端)" class={'one-third'}>
             {
               this.form.getFieldDecorator('hideBreadCrumb', {
                 initialValue: !isNaN(this.currentItem.hideBreadCrumb) ? this.currentItem.hideBreadCrumb === 1 : false,
@@ -248,10 +228,7 @@ export default Form.create({})({
               )
             }
           </Form.Item>
-          <Form.Item
-            label="缓存页面"
-            class={'half'}
-          >
+          <Form.Item label="缓存页面(客户端)" class={'one-third'}>
             {
               this.form.getFieldDecorator('keepAlive', {
                 initialValue: !isNaN(this.currentItem.keepAlive) ? this.currentItem.keepAlive === 1 : false,
@@ -261,10 +238,7 @@ export default Form.create({})({
               )
             }
           </Form.Item>
-          <Form.Item
-            label="需要登录"
-            class={'half'}
-          >
+          <Form.Item label="需要登录(客户端)" class={'one-third'}>
             {
               this.form.getFieldDecorator('requiresAuth', {
                 initialValue: !isNaN(this.currentItem.requiresAuth) ? this.currentItem.requiresAuth === 1 : true,
@@ -274,11 +248,7 @@ export default Form.create({})({
               )
             }
           </Form.Item>
-
-          <Form.Item
-            label="是否显示"
-            class={'half'}
-          >
+          <Form.Item label="是否显示(服务端)" class={'one-third'}>
             {
               this.form.getFieldDecorator('isShow', {
                 initialValue: !isNaN(this.currentItem.isShow) ? this.currentItem.isShow === 1 : true,
@@ -288,10 +258,7 @@ export default Form.create({})({
               )
             }
           </Form.Item>
-          <Form.Item
-            label="是否默认"
-            class={'half'}
-          >
+          <Form.Item label="是否默认(服务端)" class={'one-third'}>
             {
               this.form.getFieldDecorator('isDefault', {
                 initialValue: !isNaN(this.currentItem.isDefault) ? this.currentItem.isDefault === 1 : true,
@@ -301,21 +268,7 @@ export default Form.create({})({
               )
             }
           </Form.Item>
-          <Form.Item label="描述">
-            {
-              this.form.getFieldDecorator('menuDescribe', { initialValue: this.currentItem.menuDescribe })(
-                <Input.TextArea
-                  placeholder="请输入描述"
-                  autoSize={{ minRows: 6 }}
-                  allowClear
-                />
-              )
-            }
-          </Form.Item>
-          <Form.Item
-            label="状态"
-            class={'half'}
-          >
+          <Form.Item label="状态(服务端)" class={'one-third'}>
             {
               this.form.getFieldDecorator('status', {
                 initialValue: !isNaN(this.currentItem.status) ? this.currentItem.status === 1 : true,
@@ -325,10 +278,7 @@ export default Form.create({})({
               )
             }
           </Form.Item>
-          <Form.Item
-            label="排序"
-            class={'half'}
-          >
+          <Form.Item label="排序(服务端)" class={'one-third'}>
             {
               this.form.getFieldDecorator('sortIndex', {
                 initialValue: this.currentItem.sortIndex || undefined,
@@ -348,20 +298,17 @@ export default Form.create({})({
               )
             }
           </Form.Item>
-          {/*<Form.Item label="扩展1" class={'half'}>*/}
-          {/*  {*/}
-          {/*    this.form.getFieldDecorator('extend1', { initialValue: this.currentItem.extend1 })(*/}
-          {/*      <Input placeholder="请输入扩展1" allowClear />*/}
-          {/*    )*/}
-          {/*  }*/}
-          {/*</Form.Item>*/}
-          {/*<Form.Item label="扩展2" class={'half'}>*/}
-          {/*  {*/}
-          {/*    this.form.getFieldDecorator('extend2', { initialValue: this.currentItem.extend2 })(*/}
-          {/*      <Input placeholder="请输入扩展2" allowClear />*/}
-          {/*    )*/}
-          {/*  }*/}
-          {/*</Form.Item>*/}
+          <Form.Item label="描述">
+            {
+              this.form.getFieldDecorator('menuDescribe', { initialValue: this.currentItem.menuDescribe })(
+                <Input.TextArea
+                  placeholder="请输入描述"
+                  autoSize={{ minRows: 6 }}
+                  allowClear
+                />
+              )
+            }
+          </Form.Item>
         </Form>
       </DragModal>
     )

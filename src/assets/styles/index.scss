@@ -503,6 +503,7 @@ body {
 
     .ant-form-item-control-wrapper {
       flex: auto;
+      overflow: hidden;
 
       .ant-form-item-children {
         .hint {

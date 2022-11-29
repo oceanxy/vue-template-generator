@@ -173,19 +173,21 @@ export default {
    * @param state
    * @param commit
    * @param moduleName {string} 模块名
-   * @param submoduleName {string} 子模块名
-   * @param payload {Object} 查询参数
-   * @param stateName {string} 需要设置的字段，默认 state.details
+   * @param [submoduleName] {string} 子模块名
+   * @param [payload] {Object} 查询参数
+   * @param [stateName='details'] {string} 需要设置的字段，默认 store.state.details
    * @returns {Promise<void>}
    */
   async getDetails({ state, commit }, {
     moduleName,
     submoduleName,
     payload = {},
-    stateName
+    stateName = 'details'
   }) {
     commit('setLoading', {
-      value: true, moduleName, submoduleName
+      value: true,
+      moduleName,
+      submoduleName
     })
 
     let api = 'getDetails'
@@ -203,7 +205,7 @@ export default {
         value: res.data,
         moduleName,
         submoduleName,
-        stateName
+        stateName: stateName
       })
     }
 

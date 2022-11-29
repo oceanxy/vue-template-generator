@@ -8,6 +8,7 @@ import apis from '@/apis'
 export default {
   namespaced: true,
   state: {
+    // 菜单栏切换
     collapsed: false,
     // 行政区划
     administrativeDivision: [],

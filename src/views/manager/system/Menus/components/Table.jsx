@@ -1,5 +1,4 @@
-import '../assets/styles/index.scss'
-import { Button, Space, Switch, Table, Tag } from 'ant-design-vue'
+import { Button, Space, Switch, Tag } from 'ant-design-vue'
 import forTable from '@/mixins/forTable'
 
 export default {
@@ -104,76 +103,59 @@ export default {
             scopedSlots: { customRender: 'operation' }
           }
         ]
+      },
+      scopedSlots: {
+        serialNumber: (text, record, index) => {
+          return <span>{index + 1}</span>
+        },
+        isShow: (text, record) => {
+          return record.isShow === 1 ? <Tag color="green">是</Tag> : <Tag color="red">否</Tag>
+        },
+        keepAlive: (text, record) => {
+          return record.keepAlive === 1 ? <Tag color="green">是</Tag> : <Tag color="red">否</Tag>
+        },
+        requiresAuth: (text, record) => {
+          return record.requiresAuth === 1 ? <Tag color="green">是</Tag> : <Tag color="red">否</Tag>
+        },
+        hideBreadCrumb: (text, record) => {
+          return record.hideBreadCrumb === 1 ? <Tag color="green">是</Tag> : <Tag color="red">否</Tag>
+        },
+        hideChildren: (text, record) => {
+          return record.hideChildren === 1 ? <Tag color="green">是</Tag> : <Tag color="red">否</Tag>
+        },
+        hide: (text, record) => {
+          return record.hide === 1 ? <Tag color="green">是</Tag> : <Tag color="red">否</Tag>
+        },
+        isDefault: (text, record) => {
+          return record.isDefault === 1 ? <Tag color="green">是</Tag> : <Tag color="red">否</Tag>
+        },
+        status: (text, record) => {
+          return (
+            <Switch
+              checked={record.status === 1}
+              onChange={checked => this.onStatusChange({ checked, record })}
+            />
+          )
+        },
+        operation: (text, record) => (
+          <Space>
+            <Button
+              type="link"
+              size="small"
+              onClick={() => this.onEditClick(record)}
+            >
+              编辑
+            </Button>
+            <Button
+              type="link"
+              size="small"
+              onClick={() => this.onDeleteClick(record)}
+            >
+              删除
+            </Button>
+          </Space>
+        )
       }
     }
-  },
-  render() {
-    const attributes = {
-      props: {
-        ...this.tableProps,
-        loading: this.getLoading(this.moduleName)
-      }
-    }
-
-    return (
-      <Table
-        ref={`${this.moduleName}Table`}
-        {...attributes}
-        {...{
-          scopedSlots: {
-            serialNumber: (text, record, index) => {
-              return <span>{index + 1}</span>
-            },
-            isShow: (text, record) => {
-              return record.isShow === 1 ? <Tag color="green">是</Tag> : <Tag color="red">否</Tag>
-            },
-            keepAlive: (text, record) => {
-              return record.keepAlive === 1 ? <Tag color="green">是</Tag> : <Tag color="red">否</Tag>
-            },
-            requiresAuth: (text, record) => {
-              return record.requiresAuth === 1 ? <Tag color="green">是</Tag> : <Tag color="red">否</Tag>
-            },
-            hideBreadCrumb: (text, record) => {
-              return record.hideBreadCrumb === 1 ? <Tag color="green">是</Tag> : <Tag color="red">否</Tag>
-            },
-            hideChildren: (text, record) => {
-              return record.hideChildren === 1 ? <Tag color="green">是</Tag> : <Tag color="red">否</Tag>
-            },
-            hide: (text, record) => {
-              return record.hide === 1 ? <Tag color="green">是</Tag> : <Tag color="red">否</Tag>
-            },
-            isDefault: (text, record) => {
-              return record.isDefault === 1 ? <Tag color="green">是</Tag> : <Tag color="red">否</Tag>
-            },
-            status: (text, record) => {
-              return (
-                <Switch
-                  checked={record.status === 1}
-                  onChange={checked => this.onStatusChange({ checked, record })}
-                />
-              )
-            },
-            operation: (text, record) => (
-              <Space>
-                <Button
-                  type="link"
-                  size="small"
-                  onClick={() => this.onEditClick(record)}
-                >
-                  编辑
-                </Button>
-                <Button
-                  type="link"
-                  size="small"
-                  onClick={() => this.onDeleteClick(record)}
-                >
-                  删除
-                </Button>
-              </Space>
-            )
-          }
-        }}
-      />
-    )
   }
 }

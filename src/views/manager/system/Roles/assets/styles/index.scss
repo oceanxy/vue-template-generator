@@ -1,24 +1,7 @@
-.tg-system-role-container {
-}
-
-.tg-modal-edit-role-form,
-.tg-modal-config-role-form {
-  .ant-modal-body {
-    .ant-form-item {
-      display: flex;
-
-      .ant-form-item-label {
-        width: 100px;
-        flex-shrink: 0;
-      }
-
-      .ant-form-item-control-wrapper {
-        flex-grow: 1;
-      }
-    }
-
-    .ant-table-wrapper .ant-table {
-      height: auto;
+.fe-modal-form {
+  .tg-form-grid {
+    .ant-form-item-label {
+      width: 90px;
     }
   }
 }
