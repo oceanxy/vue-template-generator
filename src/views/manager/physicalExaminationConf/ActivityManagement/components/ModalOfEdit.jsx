@@ -1,8 +1,9 @@
 import '../assets/styles/index.scss'
-import { Form, Input, Select, Button, Checkbox, List, Icon } from 'ant-design-vue'
+import { Form, Input, Select, Button, Checkbox, List, Icon, TreeSelect, DatePicker, Switch, InputNumber } from 'ant-design-vue'
 import forFormModal from '@/mixins/forModal/forFormModal'
 import DragModal from '@/components/DragModal'
 import { mapGetters } from 'vuex'
+import { dispatch } from '@/utils/store'
 import SCHOOL_RIGHT from '../assets/images/school_right.svg'
 
 export default Form.create({})({
@@ -13,24 +14,7 @@ export default Form.create({})({
         width: 800,
         wrapClassName: 'bnm-modal-edit-user-form'
       },
-      plainOptions: [''],
-      school: [
-        {
-          title: '学校',
-          ms: 'sdddddd',
-          img: '../assets/images/school_left.svg'
-        },
-        {
-          title: '学校',
-          ms: 'sdddddd',
-          img: '../assets/images/school_left.svg'
-        },
-        {
-          title: '学校',
-          ms: 'sdddddd',
-          img: '../assets/images/school_left.svg'
-        }
-      ]
+      plainOptions: ['']
     }
   },
   async created() {
@@ -42,14 +26,29 @@ export default Form.create({})({
   },
   computed: {
     ...mapGetters({ getState: 'getState' }),
+    details() {
+      return this.getState('details', this.moduleName)
+    },
     yearList() {
       return this.getState('yearList', this.moduleName)?.list ?? null
+    },
+    activeSchoolList() {
+      return this.getState('activeSchoolList', this.moduleName)?.list ?? []
     },
     itemList() {
       return this.getState('itemList', this.moduleName)?.list ?? null
     },
     schoolList() {
       return this.getState('schoolListByActivity', this.moduleName)
+    },
+    organsTree() {
+      return this.getState('organsTree', this.moduleName)?.list ?? null
+    },
+    // 回显体检项
+    peItemId() {
+      const ids = this.details?.peItemIds?.split(',') ?? []
+
+      return ids.map(item => { return item })
     },
     attributes() {
       return {
@@ -59,7 +58,20 @@ export default Form.create({})({
           ok: () => this.onSubmit({ customDataHandler: this.customDataHandler })
         }
       }
-    }
+    },
+    // 学校列表
+    rightSchool: {
+      get() {
+        return this.getState('rightSchool', this.moduleName)
+      },
+      set(value) {
+        this.$store.commit('setState', {
+          value: value,
+          moduleName: this.moduleName,
+          stateName: 'rightSchool'
+        })
+      }
+    },
   },
 
   methods: {
@@ -70,8 +82,70 @@ export default Form.create({})({
         customApiName: 'getActivityYearList'
       })
     },
+    // 获取组织树
+    async getGetOrgansTree() {
+      await this.$store.dispatch('getListWithLoadingStatus', {
+        moduleName: this.moduleName,
+        stateName: 'organsTree',
+        customApiName: 'getGetOrgansTree'
+      })
+    },
+
+    // 选择学校
+    onChangeSelect(value, label) {
+      this.organNames = label.join()
+    },
+    async getDetails() {
+      if (!this.currentItem.id) return
+
+      await this.$store.dispatch('getDetails', {
+        moduleName: this.moduleName,
+        stateName: 'details',
+        customApiName: 'getDetailsOfActivityManagement',
+        payload: { id: this.currentItem.id }
+      })
+
+    },
+    // 点击获取体检项目
+    onChangePeItemName(e) {
+      const itemNames = []
+
+      e.forEach(item => {
+        this.itemList.map(item2 => {
+          if (item2.id === item) {
+            console.log(item2.itemName)
+            itemNames.push(item2.itemName)
+          }
+        })
+      })
+      this.itemNames = itemNames
+    },
+    // 删除学校
+    async deleteSchool(id) {
+      await dispatch(this.moduleName, 'del_item', id)
+
+      if (this.details) {
+        this.$watch(
+          () => {
+            this.modalProps.okButtonProps.props.disabled = false
+          }
+        )
+      }
+
+    },
     customDataHandler(values) {
       const data = { ...values }
+      const endTime = data.endTime.replace(/[^\d]/g, '')
+      const startTime = data.startTime.replace(/[^\d]/g, '')
+
+      data.peItemIds = data.peItemIds?.toString() ?? ''
+      data.peItems = this.itemNames.toString() ?? ''
+      data.endTime = Number(endTime)
+      data.startTime = Number(startTime)
+      data.organIds = data.organIds?.join() ?? ''
+      data.organNames = this.organNames ?? ''
+      data.schoolIds = this.rightSchool ?? ''
+      data.unitNum = this.itemNames.length ?? 0
 
       return data
     }
@@ -81,8 +155,41 @@ export default Form.create({})({
     'modalProps.visible'(value) {
       if (value) {
         this.getActivityYearList()
+        this.getGetOrgansTree()
+        this.getDetails()
       }
-    }
+    },
+    details: {
+      deep: true,
+      async handler(value) {
+        if (value) {
+          const arr = []
+          const schoolIds = this.details?.schoolIds?.split(',') || []
+          const status = await this.$store.dispatch('getListWithLoadingStatus', {
+            moduleName: this.moduleName,
+            stateName: 'activeSchoolList',
+            customApiName: 'getListBySearch'
+          })
+
+          if (status) {
+            schoolIds.forEach(item => {
+              this.activeSchoolList.filter(item2 => {
+                if (item2.id === item) {
+                  arr.push(item2)
+                }
+              })
+            })
+
+            this.rightSchool = arr
+          }
+        }
+      }
+    },
+    // rightSchool(value) {
+    //   if (value) {
+
+    //   }
+    // }
   },
   render() {
     return (
@@ -95,7 +202,7 @@ export default Form.create({})({
           <Form.Item label="活动名称">
             {
               this.form.getFieldDecorator('activityName', {
-                initialValue: this.currentItem.activityName,
+                initialValue: this.details.activityName,
                 rules: [
                   {
                     required: true,
@@ -116,7 +223,7 @@ export default Form.create({})({
               this.form.getFieldDecorator(
                 'activityType',
                 {
-                  initialValue: this.currentItem?.activityType ?? 1,
+                  initialValue: this.details?.activityType ?? 1,
                   rules: [
                     {
                       required: true,
@@ -139,7 +246,7 @@ export default Form.create({})({
               this.form.getFieldDecorator(
                 'activityYear',
                 {
-                  initialValue: this.currentItem.activityYear,
+                  initialValue: this.details?.activityYear ?? this.yearList?.[0]?.activityYear,
                   rules: [
                     {
                       required: true,
@@ -153,7 +260,10 @@ export default Form.create({})({
                 <Select placeholder="请选择存档时间">
                   {
                     this.yearList?.map(item => (
-                      <Select.Option value={item.activityYear}>{item.activityYearStr}</Select.Option>
+                      <Select.Option
+                        value={item.activityYear}
+                        defaultValue={this.yearList?.[0].activityYear}
+                      >{item.activityYearStr}</Select.Option>
                     ))
                   }
 
@@ -167,7 +277,7 @@ export default Form.create({})({
               this.form.getFieldDecorator(
                 'activityFrequency',
                 {
-                  initialValue: this.currentItem?.activityFrequency ?? 1
+                  initialValue: this.details?.activityFrequency ?? 1
                 }
               )(
                 <Select>
@@ -183,15 +293,15 @@ export default Form.create({})({
 
           <Form.Item label="体检项">
             {
-              this.form.getFieldDecorator('peItems',
+              this.form.getFieldDecorator('peItemIds',
                 {
-                  initialValue: this.currentItem.peItems
+                  initialValue: this.peItemId
                 }
               )(
-                <Checkbox.Group class="checkbox-wrapper-right">
+                <Checkbox.Group class="checkbox-wrapper-right" onChange={this.onChangePeItemName}>
                   {
                     this.itemList?.map(item => (
-                      <Checkbox value={item.id}>{item.itemName}</Checkbox>
+                      <Checkbox value={item.id} name={item.itemName}>{item.itemName}</Checkbox>
                     ))
                   }
 
@@ -203,18 +313,11 @@ export default Form.create({})({
             {
               this.form.getFieldDecorator('schoolIds',
                 {
-                  initialValue: this.currentItem.schoolIds,
-                  rules: [
-                    {
-                      required: true,
-                      message: '请选择活动!',
-                      trigger: 'change'
-                    }
-                  ]
+                  initialValue: this.rightSchool
                 }
               )(
-                <div>
-                  <List grid={{ gutter: 10, column: 3 }} dataSource={this.school}
+                <div class="activity-management-school">
+                  <List grid={{ gutter: 10, column: 3 }} dataSource={this.rightSchool}
                     {...{
                       scopedSlots: {
                         renderItem: item => (
@@ -222,10 +325,12 @@ export default Form.create({})({
                             <Icon class="icon" component={SCHOOL_RIGHT} />
                             {/* <img src={item.img} /> */}
                             <div>
-                              <div class="title">{item.title}</div>
-                              <p>{item.ms}</p>
+                              <div class="title">{item.fullName}</div>
+                              <p>{item.fullNamePinyin}</p>
                             </div>
-                            <Icon class="close" type="close-circle" />
+                            <span onClick={() => this.deleteSchool(item.id)} >
+                              <Icon class="close" type="close-circle" />
+                            </span>
                           </List.Item>
                         )
                       }
@@ -240,57 +345,88 @@ export default Form.create({})({
               )
             }
           </Form.Item>
-          <Form.Item label="数据来源活动">
+          <Form.Item label="选择组织">
             {
-              this.form.getFieldDecorator('objFromId',
+              this.form.getFieldDecorator(
+                'organIds',
                 {
-                  initialValue: this.currentItem.objFromId,
-                  rules: [
-                    {
-                      required: true,
-                      message: '请选择活动!',
-                      trigger: 'change'
-                    }
-                  ]
+                  initialValue: this.currentItem.organIds
                 }
               )(
-                <Select
-                  placeholder="请选择活动"
-                  onChange={this.onChangeActivitie}
-                >
-                  {
-                    this.activities?.map(item => (
-                      <Select.Option value={item.id}>{item.activityName}</Select.Option>
-                    ))
-                  }
-
-                </Select>
+                <TreeSelect
+                  style="width: 100%"
+                  treeData={this.organsTree}
+                  multiple
+                  treeCheckable
+                  suffixIcon={<Icon type="caret-down" />}
+                  treeNodeFilterProp={'title'}
+                  dropdownStyle={{ maxHeight: '400px', overflow: 'auto' }}
+                  replaceFields={{
+                    children: 'children',
+                    title: 'name',
+                    key: 'id',
+                    value: 'id'
+                  }}
+                  onChange={this.onChangeSelect}
+                ></TreeSelect>
               )
             }
           </Form.Item>
-          {/* <Form.Item label="学校">
-            {
-              this.form.getFieldDecorator('schoolIds',
-                {
-                  initialValue: this.currentItem.schoolList?.map(item => item.schoolId)
-                }
-              )(
-                <Row gutter={10}>
-                  <Col span={20}>
-                    <Input
-                      placeholder="请输入"
-                      allowClear
-                    />
-                  </Col>
-                  <Col span={4}>
-                    <Button
-                      type="primary"
-                    // onClick={() => this._setVisibleOfModal({ curActivitieId: this.curActivitieId }, 'visibleOfSchoolTre')}
-                    >选择</Button>
-                  </Col>
-                </Row>
-              )
-            }
+          <Form.Item label="选择时间" style="margin-bottom:0;">
+            <Form.Item style={{ display: 'inline-block', width: 'calc(50% - 6px)', marginRight: '12px' }}>
+              {
+                this.form.getFieldDecorator('startTime',
+                  {
+                    initialValue: this.currentItem.startTimeStr
+                  }
+                )(
+                  <DatePicker
+                    style={{ width: '100%' }}
+                    placeholder={'开始时间'}
+                    valueFormat={'YYYY-MM-DD HH:mm:ss'}
+                    showTime
+                    disabledTime={() => ({
+                      disabledMinutes: () => [
+                        1, 2, 3, 4, 5, 6, 7, 8, 9,
+                        11, 12, 13, 14, 15, 16, 17, 18, 19,
+                        21, 22, 23, 24, 25, 26, 27, 28, 29,
+                        31, 32, 33, 34, 35, 36, 37, 38, 39,
+                        41, 42, 43, 44, 45, 46, 47, 48, 49,
+                        51, 52, 53, 54, 55, 56, 57, 58, 59
+                      ]
+                    })}
+                    allowClear
+                  />
+                )
+              }
+            </Form.Item>
+            <Form.Item style={{ display: 'inline-block', width: 'calc(50% - 6px)' }}>
+              {
+                this.form.getFieldDecorator('endTime',
+                  {
+                    initialValue: this.currentItem.endTimeStr
+                  }
+                )(
+                  <DatePicker
+                    style={{ width: '100%' }}
+                    placeholder={'结束时间'}
+                    valueFormat={'YYYY-MM-DD HH:mm:ss'}
+                    showTime
+                    disabledTime={() => ({
+                      disabledMinutes: () => [
+                        1, 2, 3, 4, 5, 6, 7, 8, 9,
+                        11, 12, 13, 14, 15, 16, 17, 18, 19,
+                        21, 22, 23, 24, 25, 26, 27, 28, 29,
+                        31, 32, 33, 34, 35, 36, 37, 38, 39,
+                        41, 42, 43, 44, 45, 46, 47, 48, 49,
+                        51, 52, 53, 54, 55, 56, 57, 58, 59
+                      ]
+                    })}
+                    allowClear
+                  />
+                )
+              }
+            </Form.Item>
           </Form.Item>
           <Form.Item label="备注">
             {
@@ -303,7 +439,37 @@ export default Form.create({})({
                 />
               )
             }
-          </Form.Item> */}
+          </Form.Item>
+          <Form.Item label="排序">
+            {
+              this.form.getFieldDecorator('sortIndex', {
+                initialValue: this.currentItem.sortIndex || 0,
+                rules: [
+                  {
+                    required: true,
+                    type: 'number',
+                    message: '请输入排序!',
+                    trigger: 'blur'
+                  }
+                ]
+              })(
+                <InputNumber
+                  placeholder="请输入"
+                  allowClear
+                />
+              )
+            }
+          </Form.Item>
+          <Form.Item label="状态">
+            {
+              this.form.getFieldDecorator('status', {
+                initialValue: this.currentItem.status === 1,
+                valuePropName: 'checked'
+              })(
+                <Switch />
+              )
+            }
+          </Form.Item>
         </Form>
       </DragModal >
     )

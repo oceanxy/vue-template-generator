@@ -16,37 +16,48 @@ export default {
           },
           {
             title: '活动名称',
+            width: 200,
             dataIndex: 'activityName'
           },
           {
             title: '开始时间',
+            width: 140,
             dataIndex: 'startTimeStr'
           },
           {
             title: '结束时间',
+            width: 140,
             dataIndex: 'endTimeStr'
           },
           {
             title: '体检项',
+            width: 300,
             dataIndex: 'peItems'
           },
           {
             title: '体检单位数量',
+            width: 60,
+            align: 'center',
             dataIndex: 'unitNum'
           },
           {
             title: '排序',
-            width: 80,
+            width: 60,
+            align: 'center',
             dataIndex: 'sortIndex'
           },
           {
             title: '状态',
             align: 'center',
+            fixed: 'right',
+            width: 80,
             scopedSlots: { customRender: 'status' }
           },
           {
             title: '操作',
             align: 'center',
+            fixed: 'right',
+            width: 140,
             scopedSlots: { customRender: 'operation' }
           }
         ]
@@ -77,6 +88,13 @@ export default {
                 // onClick={() => this.onEditClick(record)}
                 >
                   查看进度
+                </Button>
+                <Button
+                  type="link"
+                  size="small"
+                  onClick={() => this.onEditClick(record)}
+                >
+                  修改
                 </Button>
               </Space>
             )

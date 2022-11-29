@@ -1,4 +1,5 @@
 import { createStoreModule } from '@/store/template'
+import apis from '@/apis'
 import { omit } from 'lodash'
 
 export default commitRootInModule =>
@@ -23,6 +24,10 @@ export default commitRootInModule =>
           list: [],
           loading: false
         },
+        organsTree: {
+          loading: false,
+          list: []
+        },
         // 选中的学校
         rightSchool: []
       },
@@ -31,15 +36,15 @@ export default commitRootInModule =>
           item.map(itm => {
             state.rightSchool.push(itm)
           })
-          // state.rightSchool = item
         },
         DelSchoolList(state, id) {
-          console.log('idid', id)
-          state.rightSchool?.findIndex((itm, index) => {
+          const index = state.rightSchool.findIndex(itm => {
             if (itm.id === id) {
-              state.rightSchool.splice(index, 1)
+              return true
             }
           })
+
+          state.rightSchool.splice(index, 1)
         }
       },
       actions: {
@@ -49,6 +54,7 @@ export default commitRootInModule =>
           }
         },
         del_item({ commit }, id) {
+          console.log(id)
           commit('DelSchoolList', id)
         }
       }

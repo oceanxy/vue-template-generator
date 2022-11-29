@@ -1,6 +1,6 @@
 import '../assets/styles/index.scss'
-import { Form, Icon, message, Checkbox, List, Space, Switch } from 'ant-design-vue'
-import forFormModal from '@/mixins/forModal/forFormModal'
+import { Form, Icon, message, Checkbox, List, Space, Switch, Button } from 'ant-design-vue'
+import forModal from '@/mixins/forModal'
 import DragModal from '@/components/DragModal'
 import { mapGetters } from 'vuex'
 import { dispatch } from '@/utils/store'
@@ -10,14 +10,18 @@ import ICON_SCHOOL_LEFT from '../assets/images/school_icon_left.svg'
 import SCHOOL_LEFT from '../assets/images/school_left.svg'
 import SCHOOL_RIGHT from '../assets/images/school_right.svg'
 
-export default Form.create({})({
-  mixins: [forFormModal()],
+export default ({
+  mixins: [forModal()],
   data() {
     return {
       visibleField: 'visibleOfSchoolList',
       modalProps: {
         width: 900,
-        wrapClassName: 'bnm-modal-edit-user-form'
+        wrapClassName: 'bnm-modal-edit-user-form',
+        footer: [
+          <Button onClick={() => this.onCancel(this.visibleField)}>取消</Button>,
+          <Button type="primary" onClick={() => this.onSubmit()}>确定</Button>
+        ]
       },
       allKeys: [],
       initSchoolNumber: 0 //默认学校数量
@@ -49,28 +53,6 @@ export default Form.create({})({
     rightVocationalHighSchool() {
       return this.rightSchool?.filter(item => item.schoolType === 365) ?? 0
     },
-    // 是否全选
-    checkAll() {
-      if (this.allKeys.length > 0) {
-        const key = []
-
-        this.activeSchoolList.list.map(item => {
-          key.push(item.id)
-        })
-        const aaa = this.allKeys.includes(key.find(item => { return item }))
-
-        console.log(aaa)
-
-        if (this.allKeys.length === this.initSchoolNumber) {
-          return true
-        } else if (aaa === true) {
-          return true
-        }
-      } else {
-        return false
-      }
-
-    },
     // 根据allKeys显示右侧的学校
     rightSchool: {
       get() {
@@ -84,15 +66,20 @@ export default Form.create({})({
         })
       }
     },
-    attributes() {
-      return {
-        attrs: this.modalProps,
-        on: {
-          cancel: () => this.onCancel(this.visibleField),
-          ok: () => this.onSubmit({ customDataHandler: this.customDataHandler })
+    // 是否全选
+    checkAll() {
+      let bln = null
+
+      if (this.allKeys.length > 0) {
+        if (this.allKeys.length === this.initSchoolNumber) {
+          bln = true
         }
+      } else {
+        bln = false
       }
-    }
+
+      return bln
+    },
   },
   methods: {
     // 是否开启全选
@@ -101,21 +88,31 @@ export default Form.create({})({
         return message.error('暂无学校列表！')
       }
 
-      if (checked) {
-        const keys = []
+      const keys = []
 
-        this.activeSchoolList.list.forEach(item => {
-          keys.push(item.id)
-        })
-        this.allKeys = checked ? keys : []
+      this.activeSchoolList.list.forEach(item => {
+        keys.push(item.id)
+      })
+      this.allKeys = checked ? keys : []
+
+      if (this.activeSchoolList.list.length === this.initSchoolNumber) {
+        if (checked) {
+          this.rightSchool = [...this.activeSchoolList.list]
+        } else {
+          this.rightSchool = []
+        }
       } else {
-        this.rightSchool = []
+        if (checked) {
+          console.log(this.allKeys)
+          this.toRightData()
+        } else {
+          this.activeSchoolList.list.map(item => {
+            this.deleteSchool(item.id)
+          })
+        }
+
+
       }
-
-      console.log(checked, e)
-
-      // this.toRightData()
-
     },
     onChange(e) {
       this.allKeys = e
@@ -142,9 +139,8 @@ export default Form.create({})({
       const isKey = this.allKeys.some(item => { return item === id })
 
       if (isKey === true) {
-        await this.deleteSchool(id)
+        this.deleteSchool(id)
       } else {
-        console.log('id', id)
         const arr = []
 
         this.activeSchoolList.list.filter(item2 => {
@@ -161,19 +157,33 @@ export default Form.create({})({
     // 删除学校
     async deleteSchool(id) {
       await dispatch(this.moduleName, 'del_item', id)
+    },
+    // 确认学校
+    async onSubmit() {
+      if (this.rightSchool && this.rightSchool.length > 0) {
+        await this.$store.dispatch('setModalVisible', {
+          statusField: 'visibleOfSchoolList',
+          statusValue: false,
+          moduleName: this.moduleName
+        })
+      } else {
+        return message.error('请选择学校')
+      }
     }
   },
   watch: {
     async 'modalProps.visible'(value) {
       if (value) {
-        const status = await this.$store.dispatch('getListWithLoadingStatus', {
-          moduleName: this.moduleName,
-          stateName: 'activeSchoolList',
-          customApiName: 'getListBySearch'
-        })
+        if (this.activeSchoolList.list.length === 0) {
+          const status = await this.$store.dispatch('getListWithLoadingStatus', {
+            moduleName: this.moduleName,
+            stateName: 'activeSchoolList',
+            customApiName: 'getListBySearch'
+          })
 
-        if (status) {
-          this.initSchoolNumber = this.activeSchoolList.list.length
+          if (status) {
+            this.initSchoolNumber = this.activeSchoolList.list.length
+          }
         }
       }
     },
@@ -193,7 +203,7 @@ export default Form.create({})({
     return (
       <DragModal {...this.attributes} class={'bnm-school-modal'}>
         <Form>
-          <div class="school">
+          <div class="school" >
             <div class="item left">
               <div class="school-header">
                 <h2><Icon class="icon" component={ICON_SCHOOL_LEFT} />学校列表</h2>

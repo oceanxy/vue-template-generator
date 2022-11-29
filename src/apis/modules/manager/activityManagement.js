@@ -70,6 +70,20 @@ export default {
       data: qs.stringify(data)
     })
   },
+
+  /**
+   * 获取活动详情
+   * @param request
+   * @param data
+   * @returns {*}
+   */
+  getDetailsOfActivityManagement(request, data) {
+    return request({
+      url: '/examine/examineActivity/getExamineActivity',
+      method: 'post',
+      data: qs.stringify(data)
+    })
+  },
   /**
    * 获取学年集合
    * @param [request]
@@ -98,13 +112,13 @@ export default {
   },
 
   /**
-   * 获取已选中组织机构树
+   * 获取组织机构树
    * @param request
    * @returns {*}
    */
   getGetOrgansTree(request, data) {
     return request({
-      url: '/system/organ/getOrgans',
+      url: '/system/organ/getOrganTree',
       method: 'post',
       data: qs.stringify(data)
     })

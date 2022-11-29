@@ -1,5 +1,5 @@
 import '../assets/styles/index.scss'
-import { Button, Col, Form, Input, Row, Table } from 'ant-design-vue'
+import { Button, Col, Form, Input, Row, Table, InputNumber } from 'ant-design-vue'
 import forFormModal from '@/mixins/forModal/forFormModal'
 import DragModal from '@/components/DragModal'
 import { mapAction, mapState } from '@/utils/store'
@@ -151,7 +151,7 @@ export default Form.create({})({
                       }
                     ]
                   })(
-                    <Input
+                    <InputNumber
                       placeholder="越大排在越前"
                       allowClear
                     />
