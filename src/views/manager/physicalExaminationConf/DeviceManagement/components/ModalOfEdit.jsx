@@ -122,7 +122,14 @@ export default Form.create({})({
           <Form.Item label="用户名">
             {
               this.form.getFieldDecorator('userName', {
-                initialValue: this.currentItem.userName
+                initialValue: this.currentItem.userName,
+                rules: [
+                  {
+                    required: true,
+                    message: '请输入用户名!',
+                    trigger: 'blur'
+                  }
+                ]
               })(
                 <Input
                   placeholder="请输入"
@@ -134,7 +141,14 @@ export default Form.create({})({
           <Form.Item label="密码">
             {
               this.form.getFieldDecorator('pwd', {
-                initialValue: this.currentItem.pwd
+                initialValue: this.currentItem.pwd,
+                rules: [
+                  {
+                    required: true,
+                    message: '请输入密码!',
+                    trigger: 'blur'
+                  }
+                ]
               })(
                 <Input
                   placeholder="请输入"

@@ -1,6 +1,7 @@
 
 import '../assets/styles/index.scss'
 import { Button, Input, Space, Alert, Modal, Icon, message } from 'ant-design-vue'
+import { mapGetters } from 'vuex'
 
 export default ({
   data() {
@@ -8,6 +9,12 @@ export default ({
       codeValue: '',
       codeBatchVisible: false
     }
+  },
+  computed: {
+    ...mapGetters({ getState: 'getState' }),
+    qrCode() {
+      return this.getState('codeBatchUrl', this.moduleName)?.list ?? null
+    },
   },
   methods: {
     showModal() {
@@ -18,7 +25,7 @@ export default ({
       }
     },
     async generateCode() {
-      await this.$store.dispatch('getList', {
+      const res = await this.$store.dispatch('getList', {
         moduleName: 'generateQRCode',
         stateName: 'qrCode',
         customApiName: 'getCodeByIdNumbers',
@@ -27,7 +34,34 @@ export default ({
         }
       })
 
+
       this.codeBatchVisible = !this.codeBatchVisible
+
+      if (res) {
+        const url = this.qrCode
+        const fileName = this.curSchool[0].fullName + this.curGrade[0].gradeName
+
+        Modal.confirm({
+          title: 'PDF文件下载',
+          content: `${fileName}'已经生成,是否下载'`,
+          okText: '下载',
+          cancelText: '取消',
+          onOk() {
+            const link = document.createElement('a') // 创建a标签
+
+            link.download = fileName // a标签添加属性
+            link.style.display = 'none'
+            link.target = '_blank'
+            link.href = url
+            document.body.appendChild(link)
+            link.click() // 执行下载
+            document.body.removeChild(link) // 释放标签
+          },
+          onCancel() { },
+        })
+      } else {
+        message.error('暂无数据！')
+      }
     }
   },
   render() {
