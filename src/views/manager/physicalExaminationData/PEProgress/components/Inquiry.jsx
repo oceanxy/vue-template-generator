@@ -6,6 +6,13 @@ import forInquiryAboutActivity from '@/mixins/forInquiry/forInquiryAboutActivity
 
 export default Form.create({})({
   mixins: [forInquiry(), forInquiryAboutActivity()],
+  async created() {
+    this.activityId = this.$route.query.activityId
+
+    if (this.activityId) {
+      setTimeout(this.onActivityChange(this.activityId), 600)
+    }
+  },
   render() {
     return (
       <Form
@@ -19,7 +26,7 @@ export default Form.create({})({
           <Form.Item class={'activity'}>
             <Spin spinning={this.activities.loading}>
               {
-                this.form.getFieldDecorator('activityId', { initialValue: this.activities.list[0]?.id ?? undefined })(
+                this.form.getFieldDecorator('activityId', { initialValue: this.activityId ?? this.activities.list[0]?.id ?? undefined })(
                   <Select
                     suffixIcon={<Icon type="caret-down" />}
                     notFoundContent={<Empty />}

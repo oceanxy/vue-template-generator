@@ -8,10 +8,7 @@ export default {
    * @param customizeLoading {string} 自定义loading字段名
    */
   setLoading(state, {
-    value,
-    moduleName,
-    submoduleName,
-    customizeLoading
+    value, moduleName, submoduleName, customizeLoading
   }) {
     if (submoduleName) {
       if (Object.prototype.toString.call(state[moduleName][submoduleName][customizeLoading]) === '[object Object]') {
@@ -35,9 +32,7 @@ export default {
    * @param submoduleName {string}
    */
   setSearch(state, {
-    payload,
-    moduleName,
-    submoduleName
+    payload, moduleName, submoduleName
   }) {
     if (!submoduleName) {
       if ('pagination' in state[moduleName]) {
@@ -80,22 +75,21 @@ export default {
    * @param [submoduleName] {string}
    */
   setRowSelected(state, {
-    payload: { selectedRowKeys, selectedRows },
-    moduleName,
-    submoduleName
+    payload: { selectedRowKeys, selectedRows }, moduleName, submoduleName
   }) {
     if (!submoduleName) {
       state[moduleName].selectedRowKeys = selectedRowKeys || []
-      state[moduleName].selectedRows = selectedRowKeys.map(
-        key => [...state[moduleName].selectedRows, ...selectedRows]
+      state[moduleName].selectedRows = selectedRowKeys.map(key =>
+        [...state[moduleName].selectedRows, ...selectedRows]
           // 默认值 'id'。防止出现在 vuex 模块的 state 中未定义 rowKey 字段造成取不到选中行对象中的唯一键的问题。通常出现在子模块的 state 中。
           .find(row => row[state[moduleName].rowKey || 'id'] === key)
       )
     } else {
       state[moduleName][submoduleName].selectedRowKeys = selectedRowKeys || []
-      state[moduleName][submoduleName].selectedRows = selectedRowKeys.map(
-        key => [...state[moduleName][submoduleName].selectedRows, ...selectedRows]
-          .find(row => row[state[moduleName][submoduleName].rowKey || 'id'] === key)
+      state[moduleName][submoduleName].selectedRows = selectedRowKeys.map(key =>
+        [...state[moduleName][submoduleName].selectedRows, ...selectedRows].find(
+          row => row[state[moduleName][submoduleName].rowKey || 'id'] === key
+        )
       )
     }
   },
@@ -107,9 +101,7 @@ export default {
    * @param submoduleName {string}
    */
   setPagination(state, {
-    value,
-    moduleName,
-    submoduleName
+    value, moduleName, submoduleName
   }) {
     if (!submoduleName) {
       state[moduleName].pagination = {
@@ -132,10 +124,7 @@ export default {
    * @param stateName {string} 需要设置的字段，默认 state.list
    */
   setList(state, {
-    value = [],
-    moduleName,
-    submoduleName,
-    stateName
+    value = [], moduleName, submoduleName, stateName
   }) {
     if (!submoduleName) {
       // 判断 store 内自定义状态的类型
@@ -180,11 +169,7 @@ export default {
    * @param merge {boolean} 是否需要将新值与旧值合并（相同属性会被新值覆盖），默认false
    */
   setState(state, {
-    value,
-    moduleName,
-    submoduleName,
-    stateName,
-    merge
+    value, moduleName, submoduleName, stateName, merge
   }) {
     if (!submoduleName) {
       state[moduleName][stateName] = merge
@@ -197,6 +182,34 @@ export default {
       state[moduleName][submoduleName][stateName] = merge
         ? {
           ...state[moduleName][submoduleName][stateName],
+          ...value
+        }
+        : value
+    }
+  },
+  /**
+   * 设置详情数据（后期可能正式更名为setState）
+   * @param state {Object}
+   * @param value {Object[]}
+   * @param moduleName {string}
+   * @param submoduleName {string}
+   * @param stateName {string} 需要设置的字段，默认 state.details
+   * @param merge {boolean} 是否需要将新值与旧值合并，默认false
+   */
+  setDetails(state, {
+    value, moduleName, submoduleName, stateName, merge
+  }) {
+    if (!submoduleName) {
+      state[moduleName][stateName || 'details'] = merge
+        ? {
+          ...state[moduleName][stateName || 'details'],
+          ...value
+        }
+        : value
+    } else {
+      state[moduleName][submoduleName][stateName || 'details'] = merge
+        ? {
+          ...state[moduleName][submoduleName][stateName || 'details'],
           ...value
         }
         : value

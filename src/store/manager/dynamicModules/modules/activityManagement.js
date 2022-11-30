@@ -1,5 +1,4 @@
 import { createStoreModule } from '@/store/template'
-import apis from '@/apis'
 import { omit } from 'lodash'
 
 export default commitRootInModule =>

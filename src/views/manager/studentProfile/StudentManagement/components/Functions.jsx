@@ -71,7 +71,7 @@ export default {
         message.error(' 请选择学校！')
       } else if (!curGradeId) {
         this.codeBatchVisible = false
-        message.error(' 请选择班级！')
+        message.error(' 请选择年级！')
       } else {
         this.codeBatchVisible = false
         const res = await this.$store.dispatch('getList', {

@@ -27,13 +27,13 @@ export default Form.create({})({
   computed: {
     ...mapGetters({ getState: 'getState' }),
     details() {
-      return this.getState('details', this.moduleName)
+      return this.$store.state[this.moduleName].details
     },
     yearList() {
       return this.getState('yearList', this.moduleName)?.list ?? null
     },
     activeSchoolList() {
-      return this.getState('activeSchoolList', this.moduleName)?.list ?? []
+      return this.getState('activeSchoolList', this.moduleName)
     },
     itemList() {
       return this.getState('itemList', this.moduleName)?.list ?? null
@@ -49,6 +49,11 @@ export default Form.create({})({
       const ids = this.details?.peItemIds?.split(',') ?? []
 
       return ids.map(item => { return item })
+    },
+    organIdList() {
+      const organIds = this.details?.organIds?.split(',') || []
+
+      return organIds.map(item => { return item })
     },
     attributes() {
       return {
@@ -95,16 +100,12 @@ export default Form.create({})({
     onChangeSelect(value, label) {
       this.organNames = label.join()
     },
-    async getDetails() {
-      if (!this.currentItem.id) return
-
-      await this.$store.dispatch('getDetails', {
-        moduleName: this.moduleName,
-        stateName: 'details',
-        customApiName: 'getDetailsOfActivityManagement',
-        payload: { id: this.currentItem.id }
+    async sss() {
+      await this.$store.dispatch('setModalVisible', {
+        statusField: 'visibleOfSchoolList',
+        statusValue: true,
+        moduleName: 'activityManagement'
       })
-
     },
     // 点击获取体检项目
     onChangePeItemName(e) {
@@ -123,15 +124,6 @@ export default Form.create({})({
     // 删除学校
     async deleteSchool(id) {
       await dispatch(this.moduleName, 'del_item', id)
-
-      if (this.details) {
-        this.$watch(
-          () => {
-            this.modalProps.okButtonProps.props.disabled = false
-          }
-        )
-      }
-
     },
     customDataHandler(values) {
       const data = { ...values }
@@ -139,32 +131,47 @@ export default Form.create({})({
       const startTime = data.startTime.replace(/[^\d]/g, '')
 
       data.peItemIds = data.peItemIds?.toString() ?? ''
-      data.peItems = this.itemNames.toString() ?? ''
-      data.endTime = Number(endTime)
-      data.startTime = Number(startTime)
+      data.peItems = this.itemNames?.toString() ?? this.details?.peItems ?? ''
+      data.endTime = Number(endTime) ?? this.details?.endTime ?? ''
+      data.startTime = Number(startTime) ?? this.details?.startTime ?? ''
       data.organIds = data.organIds?.join() ?? ''
-      data.organNames = this.organNames ?? ''
+      data.organNames = this.organNames ?? this.details?.organNames ?? ''
       data.schoolIds = this.rightSchool ?? ''
-      data.unitNum = this.itemNames.length ?? 0
+      data.unitNum = this.itemNames?.length ?? this.details?.unitNum ?? 0
 
       return data
     }
 
   },
   watch: {
-    'modalProps.visible'(value) {
-      if (value) {
-        this.getActivityYearList()
-        this.getGetOrgansTree()
-        this.getDetails()
+    visible: {
+      immediate: true,
+      async handler(value) {
+        if (value) {
+          this.getActivityYearList()
+          this.getGetOrgansTree()
+        }
+
+        if (value && this.currentItem.id && !this.currentItem.functionInfoList?.length) {
+
+          await this.$store.dispatch('getDetails', {
+            moduleName: this.moduleName,
+            payload: { id: this.currentItem.id }
+          })
+        } else {
+          this.$store.commit('setDetails', {
+            value: {},
+            moduleName: 'activityManagement'
+          })
+        }
       }
     },
     details: {
       deep: true,
       async handler(value) {
-        if (value) {
-          const arr = []
-          const schoolIds = this.details?.schoolIds?.split(',') || []
+        if (value && value?.id) {
+          const schoolArr = []
+          const schoolIds = value?.schoolIds?.split(',') || []
           const status = await this.$store.dispatch('getListWithLoadingStatus', {
             moduleName: this.moduleName,
             stateName: 'activeSchoolList',
@@ -173,23 +180,32 @@ export default Form.create({})({
 
           if (status) {
             schoolIds.forEach(item => {
-              this.activeSchoolList.filter(item2 => {
+              this.activeSchoolList.list.filter(item2 => {
                 if (item2.id === item) {
-                  arr.push(item2)
+                  schoolArr.push(item2)
                 }
               })
             })
 
-            this.rightSchool = arr
+            this.rightSchool = schoolArr
           }
+        } else {
+          this.rightSchool = []
         }
       }
     },
-    // rightSchool(value) {
-    //   if (value) {
-
-    //   }
-    // }
+    rightSchool: {
+      deep: true,
+      async handler(value) {
+        if (value) {
+          this.$watch(
+            () => {
+              this.modalProps.okButtonProps.props.disabled = false
+            }
+          )
+        }
+      }
+    }
   },
   render() {
     return (
@@ -317,7 +333,10 @@ export default Form.create({})({
                 }
               )(
                 <div class="activity-management-school">
-                  <List grid={{ gutter: 10, column: 3 }} dataSource={this.rightSchool}
+                  <List
+                    loading={this.activeSchoolList.loading}
+                    grid={{ gutter: 10, column: 3 }}
+                    dataSource={this.rightSchool}
                     {...{
                       scopedSlots: {
                         renderItem: item => (
@@ -339,7 +358,7 @@ export default Form.create({})({
 
                   <Button
                     type="primary"
-                    onClick={() => this._setVisibleOfModal({ curActivitieId: this.curActivitieId }, 'visibleOfSchoolList')}
+                    onClick={() => this.sss()}
                   >点击选择</Button>
                 </div>
               )
@@ -350,7 +369,7 @@ export default Form.create({})({
               this.form.getFieldDecorator(
                 'organIds',
                 {
-                  initialValue: this.currentItem.organIds
+                  initialValue: this.organIdList
                 }
               )(
                 <TreeSelect
@@ -377,7 +396,7 @@ export default Form.create({})({
               {
                 this.form.getFieldDecorator('startTime',
                   {
-                    initialValue: this.currentItem.startTimeStr
+                    initialValue: this.details.startTimeStr
                   }
                 )(
                   <DatePicker
@@ -404,7 +423,7 @@ export default Form.create({})({
               {
                 this.form.getFieldDecorator('endTime',
                   {
-                    initialValue: this.currentItem.endTimeStr
+                    initialValue: this.details.endTimeStr
                   }
                 )(
                   <DatePicker
@@ -431,7 +450,7 @@ export default Form.create({})({
           <Form.Item label="备注">
             {
               this.form.getFieldDecorator('remark', {
-                initialValue: this.currentItem.remark
+                initialValue: this.details.remark
               })(
                 <Input
                   placeholder="请输入"
@@ -443,7 +462,7 @@ export default Form.create({})({
           <Form.Item label="排序">
             {
               this.form.getFieldDecorator('sortIndex', {
-                initialValue: this.currentItem.sortIndex || 0,
+                initialValue: this.details.sortIndex || 0,
                 rules: [
                   {
                     required: true,
@@ -454,6 +473,7 @@ export default Form.create({})({
                 ]
               })(
                 <InputNumber
+                  style={{ width: '100%' }}
                   placeholder="请输入"
                   allowClear
                 />
@@ -463,7 +483,7 @@ export default Form.create({})({
           <Form.Item label="状态">
             {
               this.form.getFieldDecorator('status', {
-                initialValue: this.currentItem.status === 1,
+                initialValue: this.details.status === 1,
                 valuePropName: 'checked'
               })(
                 <Switch />

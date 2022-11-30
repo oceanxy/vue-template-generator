@@ -1,5 +1,5 @@
 import '../assets/styles/index.scss'
-import { Form, Icon, message, Checkbox, List, Space, Switch, Button } from 'ant-design-vue'
+import { Icon, message, Checkbox, List, Space, Switch, Button } from 'ant-design-vue'
 import forModal from '@/mixins/forModal'
 import DragModal from '@/components/DragModal'
 import { mapGetters } from 'vuex'
@@ -30,10 +30,10 @@ export default ({
   computed: {
     ...mapGetters({ getState: 'getState' }),
     search() {
-      return this.getState('search', this.moduleName)
+      return this.getState('search', 'activityManagement')
     },
     activeSchoolList() {
-      return this.getState('activeSchoolList', this.moduleName)
+      return this.getState('activeSchoolList', 'activityManagement')
     },
     primarySchool() {
       return this.activeSchoolList.list?.filter(item => item.schoolType === 211) ?? 0
@@ -56,12 +56,12 @@ export default ({
     // 根据allKeys显示右侧的学校
     rightSchool: {
       get() {
-        return this.getState('rightSchool', this.moduleName)
+        return this.getState('rightSchool', 'activityManagement')
       },
       set(value) {
         this.$store.commit('setState', {
           value: value,
-          moduleName: this.moduleName,
+          moduleName: 'activityManagement',
           stateName: 'rightSchool'
         })
       }
@@ -130,7 +130,7 @@ export default ({
       })
 
       if (arr) {
-        await dispatch(this.moduleName, 'add_item', arr)
+        await dispatch('activityManagement', 'add_item', arr)
       }
 
     },
@@ -150,13 +150,13 @@ export default ({
         })
 
         if (arr) {
-          await dispatch(this.moduleName, 'add_item', arr)
+          await dispatch('activityManagement', 'add_item', arr)
         }
       }
     },
     // 删除学校
     async deleteSchool(id) {
-      await dispatch(this.moduleName, 'del_item', id)
+      await dispatch('activityManagement', 'del_item', id)
     },
     // 确认学校
     async onSubmit() {
@@ -164,7 +164,7 @@ export default ({
         await this.$store.dispatch('setModalVisible', {
           statusField: 'visibleOfSchoolList',
           statusValue: false,
-          moduleName: this.moduleName
+          moduleName: 'activityManagement'
         })
       } else {
         return message.error('请选择学校')
@@ -176,7 +176,7 @@ export default ({
       if (value) {
         if (this.activeSchoolList.list.length === 0) {
           const status = await this.$store.dispatch('getListWithLoadingStatus', {
-            moduleName: this.moduleName,
+            moduleName: 'activityManagement',
             stateName: 'activeSchoolList',
             customApiName: 'getListBySearch'
           })
@@ -202,90 +202,88 @@ export default ({
   render() {
     return (
       <DragModal {...this.attributes} class={'bnm-school-modal'}>
-        <Form>
-          <div class="school" >
-            <div class="item left">
-              <div class="school-header">
-                <h2><Icon class="icon" component={ICON_SCHOOL_LEFT} />学校列表</h2>
-                <p>学校共<strong> {this.activeSchoolList.list.length} </strong><Space size={10}>所 <span>小学</span></Space>
-                  <strong>{this.primarySchool.length}</strong> / 中学
-                  <strong>{this.middleSchool.length}</strong> / 职高
-                  <strong>{this.vocationalHighSchool.length}</strong>
-                </p>
-              </div>
-              <InquirySchoolModal />
-              <div class="school-center">
-                <Space class="select-all">全选
-                  <Switch
-                    checked={this.checkAll}
-                    onChange={this.SwitchCheckAll}
-                  />
-                </Space>
-                <Checkbox.Group style={{ width: '100%' }} value={this.allKeys} onChange={this.onChange}>
-                  <List
-                    loading={this.activeSchoolList.loading}
-                    grid={{ gutter: 10, column: 1 }}
-                    dataSource={this.activeSchoolList.list}
-                    {...{
-                      scopedSlots: {
-                        renderItem: item => (
-                          <label>
-                            <List.Item
-                              class={`activity-management-school-item ${this.allKeys?.some(d => { return d === item.id }) ? 'active' : ''}`}>
-
-                              {
-                                this.item?.schoolBadge ? <img src={item.schoolBadge} /> : <Icon class="icon" component={SCHOOL_LEFT} />
-                              }
-                              <div>
-                                <div class="title">{item.fullName}</div>
-                                <p>{item.fullNamePinyin}</p>
-                              </div>
-                              <Checkbox value={item.id} onChange={this.delChange}></Checkbox>
-                            </List.Item>
-                          </label>
-                        )
-                      }
-                    }}
-                  />
-                </Checkbox.Group>
-              </div>
+        <div class="school" >
+          <div class="item left">
+            <div class="school-header">
+              <h2><Icon class="icon" component={ICON_SCHOOL_LEFT} />学校列表</h2>
+              <p>学校共<strong> {this.activeSchoolList.list.length} </strong><Space size={10}>所 <span>小学</span></Space>
+                <strong>{this.primarySchool.length}</strong> / 中学
+                <strong>{this.middleSchool.length}</strong> / 职高
+                <strong>{this.vocationalHighSchool.length}</strong>
+              </p>
             </div>
-            <div class="item right">
-              <div class="school-header">
-                <h2><Icon class="icon" component={ICON_SCHOOL_RIGHT} />已选学校</h2>
-                <p>学校共<strong> {this.rightSchool.length} </strong><Space size={10}>所 <span>小学</span></Space>
-                  <strong>{this.rightPrimarySchool.length}</strong>
-                  / 中学<strong>{this.rightPrimarySchool.length}</strong>
-                  / 职高<strong>{this.rightVocationalHighSchool.length}</strong>
-                </p>
-              </div>
-              <div class="school-center">
-
-                <List grid={{ gutter: 10, column: 1 }} dataSource={this.rightSchool}
+            <InquirySchoolModal />
+            <div class="school-center">
+              <Space class="select-all">全选
+                <Switch
+                  checked={this.checkAll}
+                  onChange={this.SwitchCheckAll}
+                />
+              </Space>
+              <Checkbox.Group style={{ width: '100%' }} value={this.allKeys} onChange={this.onChange}>
+                <List
+                  loading={this.activeSchoolList.loading}
+                  grid={{ gutter: 10, column: 1 }}
+                  dataSource={this.activeSchoolList.list}
                   {...{
                     scopedSlots: {
                       renderItem: item => (
-                        <List.Item class="activity-management-school-item hover">
-                          {
-                            this.item?.schoolBadge ? <img src={item.schoolBadge} /> : <Icon class="icon" component={SCHOOL_RIGHT} />
-                          }
-                          <div>
-                            <div class="title">{item.fullName}</div>
-                            <p>{item.fullNamePinyin}</p>
-                          </div>
-                          <span onClick={() => this.deleteSchool(item.id)} >
-                            <Icon class="close" type="close-circle" />
-                          </span>
+                        <label>
+                          <List.Item
+                            class={`activity-management-school-item ${this.allKeys?.some(d => { return d === item.id }) ? 'active' : ''}`}>
 
-                        </List.Item>
+                            {
+                              this.item?.schoolBadge ? <img src={item.schoolBadge} /> : <Icon class="icon" component={SCHOOL_LEFT} />
+                            }
+                            <div>
+                              <div class="title">{item.fullName}</div>
+                              <p>{item.fullNamePinyin}</p>
+                            </div>
+                            <Checkbox value={item.id} onChange={this.delChange}></Checkbox>
+                          </List.Item>
+                        </label>
                       )
                     }
                   }}
                 />
-              </div>
+              </Checkbox.Group>
             </div>
           </div>
-        </Form>
+          <div class="item right">
+            <div class="school-header">
+              <h2><Icon class="icon" component={ICON_SCHOOL_RIGHT} />已选学校</h2>
+              <p>学校共<strong> {this.rightSchool.length} </strong><Space size={10}>所 <span>小学</span></Space>
+                <strong>{this.rightPrimarySchool.length}</strong>
+                / 中学<strong>{this.rightPrimarySchool.length}</strong>
+                / 职高<strong>{this.rightVocationalHighSchool.length}</strong>
+              </p>
+            </div>
+            <div class="school-center">
+
+              <List grid={{ gutter: 10, column: 1 }} dataSource={this.rightSchool}
+                {...{
+                  scopedSlots: {
+                    renderItem: item => (
+                      <List.Item class="activity-management-school-item hover">
+                        {
+                          this.item?.schoolBadge ? <img src={item.schoolBadge} /> : <Icon class="icon" component={SCHOOL_RIGHT} />
+                        }
+                        <div>
+                          <div class="title">{item.fullName}</div>
+                          <p>{item.fullNamePinyin}</p>
+                        </div>
+                        <span onClick={() => this.deleteSchool(item.id)} >
+                          <Icon class="close" type="close-circle" />
+                        </span>
+
+                      </List.Item>
+                    )
+                  }
+                }}
+              />
+            </div>
+          </div>
+        </div>
       </DragModal >
     )
   }

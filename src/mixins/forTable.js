@@ -19,10 +19,7 @@ import { cloneDeep, omit } from 'lodash'
  * @returns {Object}
  */
 export default ({
-  isInject = true,
-  isFetchList = true,
-  stateName = 'list',
-  customApiName
+  isInject = true, isFetchList = true, stateName = 'list', customApiName
 } = {}) => {
   const _stateName = stateName
   const _customApiName = customApiName
@@ -257,7 +254,7 @@ export default ({
           stateName: stateName !== 'list' ? stateName : '',
           payload: {
             [idKey]: record[this.tableProps.rowKey || 'id'],
-            [customFieldName]: checked ? 1 : 0
+            [customFieldName]: checked ? 1 : 2
           }
         })
 
@@ -265,7 +262,7 @@ export default ({
         const _dataSource = cloneDeep((state[this.submoduleName] ?? state)[stateName])
         // _dataSource.list 取值是为了适配 store.state 中定义为 “{ loading: false, list: [] }” 结构的数据类型。
         // 如果遇到新的数据结构，可能需要另外的逻辑来适配，这里为了避免报错，赋值为空数组。
-        const dataSource = Array.isArray(_dataSource) ? _dataSource : (_dataSource.list || [])
+        const dataSource = Array.isArray(_dataSource) ? _dataSource : _dataSource.list || []
         const index = dataSource.findIndex(item => item[idKey] === record[idKey])
 
         if (status) {
@@ -277,20 +274,16 @@ export default ({
             name = record[nameKey]
           }
 
-          message.success([
-            <span style={{ color: '#16b364' }}>
-              {name}
-            </span>, ' 的状态已更新！'
-          ])
+          message.success([<span style={{ color: '#16b364' }}>{name}</span>, ' 的状态已更新！'])
         }
 
         if (optimisticUpdate) {
           if (status) {
             // 更新当前行受控Switch组件的值
-            dataSource[index][actualFieldName] = checked ? 1 : 0
+            dataSource[index][actualFieldName] = checked ? 1 : 2
           } else {
             // 调用接口失败时，还原值
-            dataSource[index][actualFieldName] = checked ? 0 : 1
+            dataSource[index][actualFieldName] = checked ? 2 : 1
           }
 
           this.$store.commit('setState', {
@@ -355,10 +348,7 @@ export default ({
             })
 
             if (status) {
-              message.success([
-                <span style={{ color: 'blue' }}>{record.fullName}</span>,
-                ' 已成功删除！'
-              ])
+              message.success([<span style={{ color: 'blue' }}>{record.fullName}</span>, ' 已成功删除！'])
             }
 
             close()
@@ -416,12 +406,7 @@ export default ({
         await this.$store.dispatch('setSearch', {
           moduleName: this.moduleName,
           submoduleName: this.submoduleName,
-          payload: {
-            orderBy: sorter.column.sortCode.replace(
-              /\$\{orderby}/,
-              sorter.order.substring(0, sorter.order.length - 3)
-            )
-          },
+          payload: {orderBy: sorter.column.sortCode.replace(/\$\{orderby}/, sorter.order.substring(0, sorter.order.length - 3))},
           isResetSelectedRows: true // 注意此参数要设置为 true。因为排序变了，序号也重新计算了，所以需要清空已选择的行数据
         })
       },

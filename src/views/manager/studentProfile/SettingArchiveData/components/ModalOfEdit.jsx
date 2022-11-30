@@ -77,7 +77,7 @@ export default Form.create({})({
     },
     customDataHandler(values) {
       const data = { ...values }
-      const editSchoolName = this.currentItem?.schoolList.map(item => {
+      const editSchoolName = this.currentItem?.schoolList?.map(item => {
         return item.schoolName
       })
 

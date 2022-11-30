@@ -171,6 +171,7 @@ export default Form.create({})({
                 ]
               })(
                 <InputNumber
+                  style={{ width: '100%' }}
                   placeholder="请输入"
                   allowClear
                 />

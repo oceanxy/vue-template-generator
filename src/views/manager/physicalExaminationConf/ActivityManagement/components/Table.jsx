@@ -64,6 +64,11 @@ export default {
       }
     }
   },
+  methods: {
+    toPeProgress(record) {
+      this.$router.push({ name: 'PEProgress', query: { activityId: record.id } })
+    }
+  },
   render() {
     return (
       <Table
@@ -85,7 +90,7 @@ export default {
                 <Button
                   type="link"
                   size="small"
-                // onClick={() => this.onEditClick(record)}
+                  onClick={() => this.toPeProgress(record)}
                 >
                   查看进度
                 </Button>
