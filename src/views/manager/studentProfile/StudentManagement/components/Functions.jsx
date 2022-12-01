@@ -84,8 +84,6 @@ export default {
             classNumber: this.curClassNumber
           }
         })
-        // this.$nextTick(function () {
-
 
         if (res) {
           const url = this.codeBatchUrl
@@ -112,13 +110,8 @@ export default {
         } else {
           message.error('暂无数据！')
         }
-        // })
-
-
       }
-
     }
-
   },
   render() {
     return (

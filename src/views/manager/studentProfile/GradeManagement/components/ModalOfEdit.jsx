@@ -224,7 +224,6 @@ export default Form.create({})({
                   min={0}
                   style={{ width: '100%' }}
                   placeholder="请输入"
-                  style={{ width: '100%' }}
                 />
               )
             }

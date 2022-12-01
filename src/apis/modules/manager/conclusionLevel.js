@@ -68,5 +68,31 @@ export default {
       method: 'post',
       data: qs.stringify(data)
     })
+  },
+  /**
+   * 根据体检项目获取指标集合
+   * @param [request]
+   * @param data
+   * @returns {*}
+   */
+  getListByItemId(request, data) {
+    return request({
+      url: '/examine/examineItemKpi/getListByItemId',
+      method: 'post',
+      data: qs.stringify(data)
+    })
+  },
+  /**
+   *  根据指标ID获取参数集合
+   * @param [request]
+   * @param data
+   * @returns {*}
+   */
+  getListByKpiId(request, data) {
+    return request({
+      url: '/examine/examineItemKpi/getListByKpiId',
+      method: 'post',
+      data: qs.stringify(data)
+    })
   }
 }

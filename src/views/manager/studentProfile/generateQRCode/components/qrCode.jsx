@@ -7,13 +7,14 @@ export default ({
   data() {
     return {
       codeValue: '',
-      codeBatchVisible: false
+      codeBatchVisible: false,
+      loading: false
     }
   },
   computed: {
     ...mapGetters({ getState: 'getState' }),
     qrCode() {
-      return this.getState('codeBatchUrl', this.moduleName)?.list ?? null
+      return this.getState('qrCode', 'generateQRCode')
     },
   },
   methods: {
@@ -25,6 +26,7 @@ export default ({
       }
     },
     async generateCode() {
+      this.loading = true
       const res = await this.$store.dispatch('getList', {
         moduleName: 'generateQRCode',
         stateName: 'qrCode',
@@ -34,22 +36,22 @@ export default ({
         }
       })
 
-
       this.codeBatchVisible = !this.codeBatchVisible
 
       if (res) {
-        const url = this.qrCode
-        const fileName = this.curSchool[0].fullName + this.curGrade[0].gradeName
+        const url = this.qrCode.list
 
+        this.loading = false
+        this.codeValue = ''
         Modal.confirm({
           title: 'PDF文件下载',
-          content: `${fileName}'已经生成,是否下载'`,
+          content: '学生二维码已经生成,是否下载',
           okText: '下载',
           cancelText: '取消',
           onOk() {
             const link = document.createElement('a') // 创建a标签
 
-            link.download = fileName // a标签添加属性
+            link.download = '学生二维码' // a标签添加属性
             link.style.display = 'none'
             link.target = '_blank'
             link.href = url
@@ -59,8 +61,6 @@ export default ({
           },
           onCancel() { },
         })
-      } else {
-        message.error('暂无数据！')
       }
     }
   },
@@ -91,16 +91,21 @@ export default ({
         </Space>
         <Modal
           centered
-          // title="确认提示"
           width={360}
           visible={this.codeBatchVisible}
-          onCancel={() => this.codeBatchVisible = !this.codeBatchVisible}
-          onOk={() => this.generateCode()}
         >
           <div class="Tips">
             <Icon type="question-circle" style={{ fontSize: '64px', color: '#0BA5EC' }} theme="filled" />
             <p>现在生成二维码吗？</p>
           </div>
+          <template slot="footer">
+            <Button key="back" onClick={() => this.codeBatchVisible = !this.codeBatchVisible}>
+              取消
+            </Button>
+            <Button key="submit" type="primary" loading={this.loading} onClick={() => this.generateCode()}>
+              确认
+            </Button>
+          </template>
         </Modal>
       </div>
     )

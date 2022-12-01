@@ -55,7 +55,7 @@ export default Form.create({})({
           </Form.Item>
           <Form.Item label={'名称'}>
             {
-              this.form.getFieldDecorator('itemName')(
+              this.form.getFieldDecorator('conclusionLevelName')(
                 <Input placeholder={'项目名称'} />
               )
             }
