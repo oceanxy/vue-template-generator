@@ -65,7 +65,8 @@ export default Form.create({})({
       operationType: '',
       itemKpiName: '',
       itemName: '',
-      detailsStatus: false
+      detailsStatus: false,
+      itemKpiVal: ''
     }
   },
   computed: {
@@ -105,12 +106,8 @@ export default Form.create({})({
 
       if (res.status) {
         this.itemKpiList = res.data
-        this.infoList?.map(item => {
-          item.paramCode = ''
-        })
+        this.itemKpiVal = this.itemKpiList?.[0]?.id
       }
-
-
     },
     // 获取参数
     async getListByKpiId(kpiId) {
@@ -145,15 +142,38 @@ export default Form.create({})({
 
       if (res.status) {
         this.parameterList = res.data
+        this.autoJudge()
       }
+    },
+    // 自动修改判断条件
+    autoJudge() {
+      this.infoList?.map(item => {
+        if (this.parameterList) {
+          item.paramCode = this.parameterList?.[0]?.paramCode
+        } else {
+          item.paramCode = ''
+        }
+      })
     },
     // 选择项目获取指标
     async onChangeItemn(e) {
-      this.getListByItemId(e)
-      this.form.setFieldsValue({ itemKpiId: this.itemKpiList?.[0]?.id })
+      await this.getListByItemId(e)
+
+      if (this.itemKpiList) {
+        this.form.setFieldsValue({ itemKpiId: this.itemKpiVal })
+      } else {
+        this.form.setFieldsValue({ itemKpiId: '' })
+
+      }
+
+      this.infoList.map(item => {
+        item.paramCode = ''
+      })
+
     },
     // 选择项目获取指标
     onChangeKpi(e) {
+      this.itemKpiVal = e
       this.getListByKpiId(e)
     },
     // 设置 infiList  operationType 满足条件
@@ -236,27 +256,25 @@ export default Form.create({})({
             this.getListByItemId(itemId)
             this.getListByKpiId(kpiId)
             this.detailsStatus = true
-            const status = await this.$store.dispatch('getDetails', {
+            const res = await this.$store.dispatch('getDetails', {
               moduleName: 'conclusionLevel',
               payload: { id: this.currentItem.id }
             })
 
-            if (status) {
+            if (res['status']) {
               this.detailsStatus = false
-              this.infoList = this.details.infoList
+              this.infoList = res.data.infoList
             }
           } else {
             const itemId = this.levelList?.[0]?.id
 
             await this.getListByItemId(itemId)
+            // if (this.itemKpiList && this.itemKpiList.length > 0) {
 
-            if (this.itemKpiList && this.itemKpiList.length > 0) {
+            //   const kpiId = this.itemKpiList?.[0]?.id
 
-              const kpiId = this.itemKpiList?.[0]?.id
-
-              await this.getListByKpiId(kpiId)
-            }
-
+            //   await this.getListByKpiId(kpiId)
+            // }
             this.$store.commit('setDetails', {
               value: {},
               moduleName: 'conclusionLevel'
@@ -278,7 +296,15 @@ export default Form.create({})({
           )
         }
       }
-    }
+    },
+    itemKpiVal: {
+      deep: true,
+      handler(value) {
+        if (value) {
+          this.onChangeKpi(value)
+        }
+      }
+    },
 
   },
   render() {
