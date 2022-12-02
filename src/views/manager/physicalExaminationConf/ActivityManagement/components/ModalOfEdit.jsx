@@ -152,7 +152,7 @@ export default Form.create({})({
           this.getGetOrgansTree()
         }
 
-        if (value && this.currentItem.id && !this.currentItem.functionInfoList?.length) {
+        if (value && this.currentItem.id) {
 
           await this.$store.dispatch('getDetails', {
             moduleName: this.moduleName,
@@ -196,7 +196,7 @@ export default Form.create({})({
     },
     rightSchool: {
       deep: true,
-      async handler(value) {
+      handler(value) {
         if (value) {
           this.$watch(
             () => {

@@ -150,6 +150,11 @@ export default Form.create({})({
 
       this.isStreet = isStreet
     },
+    filterOption(input, option) {
+      return (
+        option.componentOptions.children[0].text.toLowerCase().indexOf(input.toLowerCase()) >= 0
+      )
+    },
     onChangeGlassesType(value) {
       if (value === 1) {
         this.glassesTypeSelect = false
@@ -334,7 +339,7 @@ export default Form.create({})({
                     <Select
                       showSearch
                       placeholder={'输入学校名称'}
-                      filterOption={false}
+                      filterOption={this.filterOption}
                       mode={'default'}
                     >
                       {
@@ -368,7 +373,7 @@ export default Form.create({})({
                     <Select
                       showSearch
                       placeholder={'输入学校名称'}
-                      filterOption={false}
+                      filterOption={this.filterOption}
                       mode={'default'}
                       onChange={this.onChangeSchoolId}
                     >

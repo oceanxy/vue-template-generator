@@ -25,7 +25,7 @@ export default {
     return request({
       url: '/examine/itemConclusionLevel/update',
       method: 'post',
-      data: qs.stringify(data)
+      data
     })
   },
 
@@ -38,6 +38,20 @@ export default {
   addConclusionLevel(request, data) {
     return request({
       url: '/examine/itemConclusionLevel/add',
+      method: 'post',
+      data
+    })
+  },
+
+  /**
+   * 修改结论等级状态
+   * @param request
+   * @param data
+   * @returns {*}
+   */
+  updateConclusionLevelStatus(request, data) {
+    return request({
+      url: '/examine/examineCatalog/updateStatus',
       method: 'post',
       data: qs.stringify(data)
     })
@@ -52,6 +66,20 @@ export default {
   deleteConclusionLevel(request, data) {
     return request({
       url: '/examine/itemConclusionLevel/delete',
+      method: 'post',
+      data: qs.stringify(data)
+    })
+  },
+
+  /**
+   * 获取活动详情
+   * @param request
+   * @param data
+   * @returns {*}
+   */
+  getDetailsOfConclusionLevel(request, data) {
+    return request({
+      url: '/examine/itemConclusionLevel/getItemConclusionLevel',
       method: 'post',
       data: qs.stringify(data)
     })
