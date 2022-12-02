@@ -1,21 +1,25 @@
 import './assets/styles/index.scss'
 import BNContainer from '@/components/TGModule'
-import Charts from './Charts'
-import Cards from './Cards'
-import BMIChart from './BMIChart'
+import BarChart from '../BarChart'
+import PieChart from '../PieChart'
 
 export default {
+  props: {
+    type: {
+      type: Number,
+      required: true
+    }
+  },
   render() {
     return (
       <BNContainer
         width={'100%'}
         class={'pe-console-overview'}
         contentClass={'pe-console-overview-content'}
-        modalTitle={'身高体重数据总览'}
+        modalTitle={this.type === 1 ? '学生生长发育数据总览' : '视力数据总览'}
       >
-        <BMIChart />
-        <Charts />
-        <Cards />
+        <BarChart type={this.type} />
+        <PieChart type={this.type} />
       </BNContainer>
     )
   }

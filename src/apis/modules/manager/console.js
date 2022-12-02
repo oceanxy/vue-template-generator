@@ -1,28 +1,42 @@
 import qs from 'qs'
+import { omit } from 'lodash'
 
 export default {
   /**
-   * 获取园区实时状态列表
+   * 获取控制台数据集合
    * @param [request]
    * @param data
    * @returns {*}
    */
-  getParkStatus(request, data) {
+  getConsole(request, data) {
     return request({
-      url: '/basic/parkRealStatus/getRoomPageList',
+      url: '/home/getHomeData',
       method: 'post',
       data: qs.stringify(data)
     })
   },
-  /**
-   * 根据楼栋ID获取楼层集合
-   * @param request
-   * @param data
-   * @returns {*}
-   */
-  getFloorsByBuilding(request, data) {
+  getOthersData(request, data) {
+    let url
+
+    switch (data.othersType) {
+      case 2:
+        url = '/home/getTrachomaMorbidity'
+        break
+      case 3:
+        url = '/home/getHypertensionMorbidity'
+        break
+      case 4:
+        url = '/home/getLungQualifiedData'
+        break
+      default:
+        url = '/home/getCariesmMorbidity'
+        break
+    }
+
+    data = omit(data, 'othersType')
+
     return request({
-      url: '/basic/build/getFloorList',
+      url,
       method: 'post',
       data: qs.stringify(data)
     })

@@ -95,32 +95,30 @@ export default {
           rowKey="id"
           tableLayout={'fixed'}
           size={'middle'}
-          {...{
-            scopedSlots: {
-              fnUrl: (text, record) => (
-                <Input
-                  vModel={record.fnUrl}
-                  placeholder="请输入功能地址"
-                  disabled={this.disabled}
-                  onChange={debounce(this.emit, 300)}
-                />
-              ),
-              fnInfoDescribe: (text, record) => (
-                <Input
-                  vModel={record.fnInfoDescribe}
-                  placeholder="请输入描述"
-                  disabled={this.disabled}
-                  onChange={debounce(this.emit, 300)}
-                />
-              ),
-              operation: (text, record, index) => (
-                <Button
-                  icon="delete"
-                  onClick={() => this.onDelClick(record.id, index)}
-                  disabled={this.disabled}
-                />
-              )
-            }
+          scopedSlots={{
+            fnUrl: (text, record) => (
+              <Input
+                vModel={record.fnUrl}
+                placeholder="请输入功能地址"
+                disabled={this.disabled}
+                onChange={debounce(this.emit, 300)}
+              />
+            ),
+            fnInfoDescribe: (text, record) => (
+              <Input
+                vModel={record.fnInfoDescribe}
+                placeholder="请输入描述"
+                disabled={this.disabled}
+                onChange={debounce(this.emit, 300)}
+              />
+            ),
+            operation: (text, record, index) => (
+              <Button
+                icon="delete"
+                onClick={() => this.onDelClick(record.id, index)}
+                disabled={this.disabled}
+              />
+            )
           }}
         />
       </div>
