@@ -83,3 +83,19 @@ export function getFieldNameForMedicallyAdmin(treeHierarchy) {
       return 'parentId'
   }
 }
+
+/**
+ * 格式化年级显示
+ * @param grade
+ */
+export function getGradeStr(grade) {
+  if (grade <= 9) {
+    return ['一', '二', '三', '四', '五', '六'][grade - 4] + '年级'
+  } else if (grade > 9 && grade <= 12) {
+    return ['初一', '初二', '初三'][grade - 10]
+  } else if (grade > 12 && grade <= 15) {
+    return ['高一', '高二', '高三'][grade - 13]
+  } else {
+    return '-'
+  }
+}

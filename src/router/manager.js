@@ -34,19 +34,7 @@ function createConstRoutes() {
         requiresAuth: true,
         icon: () => import('@/layouts/components/TGMenu/assets/images/console.svg')
       },
-      children: [
-        {
-          path: '',
-          name: 'console',
-          component: () => import('@/views/manager/Home'),
-          meta: {
-            title: '控制台',
-            keepAlive: false,
-            requiresAuth: true,
-            hideBreadCrumb: true
-          }
-        }
-      ]
+      children: []
     },
     {
       path: '/404',

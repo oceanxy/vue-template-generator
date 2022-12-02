@@ -1,7 +1,7 @@
 import '../assets/styles/index.scss'
 import { Button, DatePicker, Empty, Form, Icon, Input, InputNumber, Select, Space, Spin } from 'ant-design-vue'
 import forInquiry from '@/mixins/forInquiry'
-import ICON from '../assets/images/icon-mark.svg'
+import ICON from '@/assets/activity-mark-icon.svg'
 import forInquiryAboutActivity from '@/mixins/forInquiry/forInquiryAboutActivity'
 
 export default Form.create({})({
