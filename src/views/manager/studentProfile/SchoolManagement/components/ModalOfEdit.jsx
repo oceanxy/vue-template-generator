@@ -1,5 +1,5 @@
 import '../assets/styles/index.scss'
-import { Col, Form, Input, Row, Select, Switch, Cascader } from 'ant-design-vue'
+import { Col, Form, Input, Row, Select, Switch, Cascader, InputNumber } from 'ant-design-vue'
 import forFormModal from '@/mixins/forModal/forFormModal'
 import DragModal from '@/components/DragModal'
 import BNUploadPictures from '@/components/BNUploadPictures'
@@ -547,7 +547,8 @@ export default Form.create({})({
                         }
                       ]
                     })(
-                      <Input
+                      <InputNumber
+                        style={{ width: '100%' }}
                         placeholder="请输入"
                         allowClear
                       />

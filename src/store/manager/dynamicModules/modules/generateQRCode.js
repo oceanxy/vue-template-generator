@@ -5,11 +5,18 @@ export default commitRootInModule =>
   omit(
     createStoreModule({
       state: {
-        levelList: {
-          list: [],
+        qrCode: {
+          list: '',
           loading: false
         }
       }
     }),
-    ['state.details']
+    [
+      'state.details',
+      'state.visibleOfEdit',
+      'state.selectedRowKeys',
+      'state.selectedRows',
+      'state.currentItem',
+      'state.pagination'
+    ]
   )

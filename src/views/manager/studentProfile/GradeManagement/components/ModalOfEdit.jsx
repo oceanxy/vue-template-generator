@@ -57,6 +57,11 @@ export default Form.create({})({
     onChange(value) {
       this.schoolId = value
     },
+    filterOption(input, option) {
+      return (
+        option.componentOptions.children[0].text.toLowerCase().indexOf(input.toLowerCase()) >= 0
+      )
+    },
     customDataHandler(values) {
       const data = { ...values }
 
@@ -87,9 +92,11 @@ export default Form.create({})({
                 initialValue: this.currentItem.schoolName,
               })(
                 <Select
+                  allowClear
                   showSearch
+                  filterOption={this.filterOption}
                   placeholder={'输入学校名称'}
-                  filterOption={false}
+                  // filterOption={false}
                   disabled={this.schoolName}
                   mode={'default'}
                   onChange={this.onChange}
@@ -222,8 +229,8 @@ export default Form.create({})({
               })(
                 <InputNumber
                   min={0}
-                  placeholder="请输入"
                   style={{ width: '100%' }}
+                  placeholder="请输入"
                 />
               )
             }

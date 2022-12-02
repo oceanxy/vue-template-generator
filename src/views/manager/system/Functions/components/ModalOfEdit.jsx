@@ -1,4 +1,4 @@
-import { Form, Input, InputNumber } from 'ant-design-vue'
+import { Button, Col, Form, Input, Row, Table } from 'ant-design-vue'
 import forFormModal from '@/mixins/forModal/forFormModal'
 import DragModal from '@/components/DragModal'
 import MultiInput from './MultiInput'
@@ -75,68 +75,104 @@ export default Form.create({})({
   render() {
     return (
       <DragModal {...this.attributes}>
-        <Form class="tg-form-grid" colon={false}>
-          <Form.Item label="功能名称" class={'half'}>
-            {
-              this.form.getFieldDecorator('fnName', {
-                initialValue: this.currentItem.fnName,
-                rules: [
-                  {
-                    required: true,
-                    message: '请输入功能名称!',
-                    trigger: 'blur'
-                  }
-                ]
-              })(
-                <Input placeholder="请输入功能名称" allowClear />
-              )
-            }
-          </Form.Item>
-          <Form.Item label="排序" class={'half'}>
-            {
-              this.form.getFieldDecorator('sortIndex', {
-                initialValue: this.currentItem.sortIndex ?? 0,
-                rules: [
-                  {
-                    required: true,
-                    type: 'number',
-                    message: '请输入排序值!',
-                    trigger: 'blur'
-                  }
-                ]
-              })(
-                <InputNumber
-                  placeholder="数值越大排在越前"
-                  allowClear
-                  style={{ width: '100%' }}
-                />
-              )
-            }
-          </Form.Item>
-          <Form.Item label="功能描述">
-            {
-              this.form.getFieldDecorator('fnDescribe', { initialValue: this.currentItem.fnDescribe })(
-                <Input.TextArea placeholder="请输入描述内容" allowClear />
-              )
-            }
-          </Form.Item>
-          <Form.Item>
-            {
-              this.form.getFieldDecorator('functionInfoList', {
-                initialValue: this.currentItem.functionInfoList || [],
-                rules: [
-                  {
-                    required: true,
-                    type: 'array',
-                    message: '请补全功能信息!',
-                    trigger: 'change'
-                  }
-                ]
-              })(
-                <MultiInput />
-              )
-            }
-          </Form.Item>
+        <Form
+          class=""
+          colon={false}
+        >
+          <Row gutter={10}>
+            <Col span={12}>
+              <Form.Item label="名称">
+                {
+                  this.form.getFieldDecorator('fnName', {
+                    initialValue: this.currentItem.fnName,
+                    rules: [
+                      {
+                        required: true, message: '请输入名称!', trigger: 'blur'
+                      }
+                    ]
+                  })(
+                    <Input
+                      placeholder="请输入名称"
+                      allowClear
+                    />
+                  )
+                }
+              </Form.Item>
+            </Col>
+            <Col span={12}>
+              <Form.Item label="排序">
+                {
+                  this.form.getFieldDecorator('sortIndex', {
+                    initialValue: `${this.currentItem.sortIndex || ''}` || undefined,
+                    rules: [
+                      {
+                        required: true,
+                        message: '请输入排序!',
+                        trigger: 'blur'
+                      }
+                    ]
+                  })(
+                    <Input
+                      placeholder="越大排在越前"
+                      allowClear
+                    />
+                  )
+                }
+              </Form.Item>
+            </Col>
+
+            <Col span={24}>
+              <p
+                class=""
+                style={{ 'text-align': 'right' }}
+              >
+                <Button onclick={this.onAddRow}>+添加</Button>
+              </p>
+              <Table
+                {...{ props: this.tableProps }}
+                scopedSlots={{
+                  fnUrl: (text, record, index) => (
+                    <Form.Item
+                      label=""
+                      style={{ 'margin-bottom': '0' }}
+                    >
+                      {
+                        this.form.getFieldDecorator(`fnUrl${index}`, { initialValue: record.fnUrl })(
+                          <Input
+                            placeholder="请输入"
+                            allowClear
+                          />
+                        )
+                      }
+                    </Form.Item>
+                  ),
+                  fnInfoDescribe: (text, record, index) => (
+                    <Form.Item
+                      label=""
+                      style={{ 'margin-bottom': '0' }}
+                    >
+                      {
+                        this.form.getFieldDecorator(`fnInfoDescribe${index}`, { initialValue: record.fnInfoDescribe })(
+                          <Input
+                            placeholder="请输入"
+                            allowClear
+                          />
+                        )
+                      }
+                    </Form.Item>
+                  ),
+                  operation: (text, record, index) => (
+                    <Button
+                      size="small"
+                      type="danger"
+                      icon="delete"
+                      onclick={() => this.onDeleteRow(index)}
+                    />
+                  )
+                }}
+              />
+            </Col>
+          </Row>
         </Form>
       </DragModal>
     )

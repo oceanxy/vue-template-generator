@@ -1,4 +1,5 @@
 import '../assets/styles/index.scss'
+
 import { Form, Input, Switch, TreeSelect } from 'ant-design-vue'
 import forFormModal from '@/mixins/forModal/forFormModal'
 import DragModal from '@/components/DragModal'

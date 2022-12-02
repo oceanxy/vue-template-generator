@@ -1,0 +1,9 @@
+.icon-hover-style {
+  i {
+    color: #b9c0d4;
+    transition: all 0.3s;
+    &:hover {
+      color: #16b364;
+    }
+  }
+}

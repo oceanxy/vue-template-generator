@@ -53,6 +53,12 @@ export default {
           {
             title: '判断条件',
             align: 'center',
+            scopedSlots: { customRender: 'JudgmentConditions' }
+          },
+          {
+            title: '操作',
+            align: 'center',
+            width: 80,
             scopedSlots: { customRender: 'operation' }
           }
         ]
@@ -75,14 +81,23 @@ export default {
                 />
               )
             },
+            JudgmentConditions: (text, record) => (
+              <Button
+                type="link"
+                size="small"
+              // onClick={() => this.onEditClick(record)}
+              >
+                点击查看
+              </Button>
+            ),
             operation: (text, record) => (
               <Space>
                 <Button
                   type="link"
                   size="small"
-                // onClick={() => this.onEditClick(record)}
+                  onClick={() => this.onEditClick(record)}
                 >
-                  点击查看
+                  修改
                 </Button>
               </Space>
             )

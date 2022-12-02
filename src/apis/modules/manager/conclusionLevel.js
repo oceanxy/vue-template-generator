@@ -25,7 +25,7 @@ export default {
     return request({
       url: '/examine/itemConclusionLevel/update',
       method: 'post',
-      data: qs.stringify(data)
+      data
     })
   },
 
@@ -38,6 +38,20 @@ export default {
   addConclusionLevel(request, data) {
     return request({
       url: '/examine/itemConclusionLevel/add',
+      method: 'post',
+      data
+    })
+  },
+
+  /**
+   * 修改结论等级状态
+   * @param request
+   * @param data
+   * @returns {*}
+   */
+  updateConclusionLevelStatus(request, data) {
+    return request({
+      url: '/examine/examineCatalog/updateStatus',
       method: 'post',
       data: qs.stringify(data)
     })
@@ -56,6 +70,20 @@ export default {
       data: qs.stringify(data)
     })
   },
+
+  /**
+   * 获取活动详情
+   * @param request
+   * @param data
+   * @returns {*}
+   */
+  getDetailsOfConclusionLevel(request, data) {
+    return request({
+      url: '/examine/itemConclusionLevel/getItemConclusionLevel',
+      method: 'post',
+      data: qs.stringify(data)
+    })
+  },
   /**
    * 获取项目集合
    * @param [request]
@@ -65,6 +93,32 @@ export default {
   getLevelList(request, data) {
     return request({
       url: '/examine/examineItem/getLevelList',
+      method: 'post',
+      data: qs.stringify(data)
+    })
+  },
+  /**
+   * 根据体检项目获取指标集合
+   * @param [request]
+   * @param data
+   * @returns {*}
+   */
+  getListByItemId(request, data) {
+    return request({
+      url: '/examine/examineItemKpi/getListByItemId',
+      method: 'post',
+      data: qs.stringify(data)
+    })
+  },
+  /**
+   *  根据指标ID获取参数集合
+   * @param [request]
+   * @param data
+   * @returns {*}
+   */
+  getListByKpiId(request, data) {
+    return request({
+      url: '/examine/examineItemKpi/getListByKpiId',
       method: 'post',
       data: qs.stringify(data)
     })

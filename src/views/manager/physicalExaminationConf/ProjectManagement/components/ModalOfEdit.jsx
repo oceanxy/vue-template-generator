@@ -1,5 +1,5 @@
 import '../assets/styles/index.scss'
-import { Form, Input, Switch } from 'ant-design-vue'
+import { Form, Input, Switch, InputNumber } from 'ant-design-vue'
 import forFormModal from '@/mixins/forModal/forFormModal'
 import DragModal from '@/components/DragModal'
 import { mapGetters } from 'vuex'
@@ -141,7 +141,8 @@ export default Form.create({})({
                   }
                 ]
               })(
-                <Input
+                <InputNumber
+                  style={{ width: '100%' }}
                   placeholder="请输入"
                   allowClear
                 />

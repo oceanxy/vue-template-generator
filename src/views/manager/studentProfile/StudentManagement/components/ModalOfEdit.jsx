@@ -1,5 +1,5 @@
 import '../assets/styles/index.scss'
-import { Col, Form, Input, Row, Select, Switch, Cascader, DatePicker } from 'ant-design-vue'
+import { Col, Form, Input, Row, Select, Switch, Cascader, DatePicker, InputNumber } from 'ant-design-vue'
 import forFormModal from '@/mixins/forModal/forFormModal'
 import DragModal from '@/components/DragModal'
 import BNUploadPictures from '@/components/BNUploadPictures'
@@ -18,7 +18,8 @@ export default Form.create({})({
       classNumber: '',
       classList: [],
       isStreet: '',
-      glassesTypeSelect: true
+      glassesTypeSelect: true,
+      isSchool: []
     }
   },
   computed: {
@@ -49,7 +50,7 @@ export default Form.create({})({
     },
     streetIdNumber() {
       if (this.currentItem.streetId) {
-        return Number(this.currentItem.streetId)
+        return this.currentItem.streetId
       } else {
         return undefined
       }
@@ -72,7 +73,7 @@ export default Form.create({})({
       this.curSchool(value)
     },
     curSchool(value) {
-      this.isSchool = this.schoolList?.filter(item => {
+      this.isSchool = this.schoolAllList?.filter(item => {
         if (item.id === value) {
           return item
         }
@@ -114,8 +115,6 @@ export default Form.create({})({
     },
     customDataHandler(values) {
       const data = { ...values }
-
-      console.log('data', data)
       const str = data.birthDate.replaceAll('-', '')
 
       data.birthDate = Number(str)
@@ -123,9 +122,13 @@ export default Form.create({})({
       data.cityName = this.currentItem?.cityName ?? this.city?.[1]?.name ?? ''
       data.provinceName = this.currentItem?.provinceName ?? this.city?.[0]?.name ?? ''
       data.streetName = this.currentItem?.streetName ?? this.isStreet[0]?.fullName ?? ''
-      data.streetId = this.currentItem?.streetId ?? data?.streetId ?? this.isStreet?.id ?? ''
+      data.streetId = this.currentItem?.streetId ?? data?.streetId.toString() ?? this.isStreet?.id ?? ''
       data.countyName = this.currentItem?.countyName ?? this.city?.[2]?.name ?? ''
-      data.schoolName = this.isSchool[0]?.fullName ?? this.currentItem?.schoolName ?? ''
+      data.schoolName = this.isSchool?.[0]?.fullName ?? this.currentItem?.schoolName ?? ''
+      data.isWearGlasses = data.isWearGlasses.toString() ?? this.currentItem?.isWearGlasses ?? ''
+      data.leftGlassesValue = Number(data.leftGlassesValue) ?? this.currentItem?.leftGlassesValue ?? ''
+      data.rightGlassesValue = Number(data.rightGlassesValue) ?? this.currentItem?.rightGlassesValue ?? ''
+      data.status = data.status.toString() ?? this.currentItem?.status.toString() ?? ''
 
       return data
     },
@@ -146,6 +149,11 @@ export default Form.create({})({
       })
 
       this.isStreet = isStreet
+    },
+    filterOption(input, option) {
+      return (
+        option.componentOptions.children[0].text.toLowerCase().indexOf(input.toLowerCase()) >= 0
+      )
     },
     onChangeGlassesType(value) {
       if (value === 1) {
@@ -331,7 +339,7 @@ export default Form.create({})({
                     <Select
                       showSearch
                       placeholder={'输入学校名称'}
-                      filterOption={false}
+                      filterOption={this.filterOption}
                       mode={'default'}
                     >
                       {
@@ -365,7 +373,7 @@ export default Form.create({})({
                     <Select
                       showSearch
                       placeholder={'输入学校名称'}
-                      filterOption={false}
+                      filterOption={this.filterOption}
                       mode={'default'}
                       onChange={this.onChangeSchoolId}
                     >
@@ -502,7 +510,8 @@ export default Form.create({})({
                   this.form.getFieldDecorator('leftGlassesValue', {
                     initialValue: this.currentItem.leftGlassesValue
                   })(
-                    <Input
+                    <InputNumber
+                      style={{ width: '100%' }}
                       placeholder="请输入"
                       allowClear
                     />
@@ -517,7 +526,8 @@ export default Form.create({})({
                   this.form.getFieldDecorator('rightGlassesValue', {
                     initialValue: this.currentItem.rightGlassesValue
                   })(
-                    <Input
+                    <InputNumber
+                      style={{ width: '100%' }}
                       placeholder="请输入"
                       allowClear
                     />
