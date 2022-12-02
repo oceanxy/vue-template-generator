@@ -38,7 +38,7 @@ export default {
               }
             },
             center: ['50%', '100%'],
-            radius: ['160%', '200%'],
+            radius: ['150%', '190%'],
             startAngle: 180,
             // 初始化样式
             data: [
@@ -60,28 +60,34 @@ export default {
   computed: {
     dataSource() {
       return this.$store.state[this.moduleName].list.endDataVO
+    },
+    totalEndPercent() {
+      return this.dataSource.totalEndPercent || '0%'
+    },
+    endStudentNum() {
+      return this.dataSource.endStudentNum || 0
     }
   },
   watch: {
     dataSource() {
-      const ratio = +this.dataSource.totalEndPercent.replace('%', '') / 100
-      const total = this.dataSource.endStudentNum / ratio
+      const ratio = +this.totalEndPercent.replace('%', '') / 100
+      const total = this.endStudentNum / ratio
 
       this.option.series[0].data = [
         {
-          name: this.dataSource.totalEndPercent,
-          value: this.dataSource.endStudentNum,
+          name: this.totalEndPercent,
+          value: total ? this.endStudentNum : 0,
           itemStyle: { color: '#16b364' }
         },
         {
-          name: this.dataSource.totalEndPercent,
-          value: total - this.dataSource.endStudentNum,
+          name: this.totalEndPercent,
+          value: total ? total - this.endStudentNum : 1,
           emphasis: { disabled: true },
           itemStyle: { color: '#d3f8df' }
         },
         {
-          name: this.dataSource.totalEndPercent,
-          value: total,
+          name: this.totalEndPercent,
+          value: total || 1,
           itemStyle: { color: 'transparent' }
         }
       ]

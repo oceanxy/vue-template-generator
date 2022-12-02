@@ -18,8 +18,7 @@ export default {
           },
           {
             title: '学校',
-            width: 120,
-            dataIndex: ''
+            dataIndex: 'schoolName'
           },
           {
             title: '完成人数',
