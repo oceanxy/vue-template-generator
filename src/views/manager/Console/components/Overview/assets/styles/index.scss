@@ -1,5 +1,4 @@
 .pe-console-overview {
-  flex: 1 1;
   min-height: 206px;
 
   .box-content.pe-console-overview-content {
@@ -7,9 +6,9 @@
     background: none;
     padding: 0;
     gap: 32px;
+    overflow: hidden;
 
     .tg-chart-container {
-      flex: 1;
       background: #ffffff;
     }
   }
