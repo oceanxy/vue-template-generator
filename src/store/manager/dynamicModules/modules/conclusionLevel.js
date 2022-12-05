@@ -5,6 +5,7 @@ export default commitRootInModule =>
   omit(
     createStoreModule({
       state: {
+        LevelModalOfTable: false,
         levelList: {
           list: [],
           loading: false

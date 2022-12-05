@@ -36,7 +36,6 @@ export default Form.create({})({
       return this.getState('streetList', this.moduleName)
     },
     fileList() {
-      console.log('this.currentItem.schoolBadgeStr', this.currentItem.schoolBadgeStr)
 
       return this.currentItem.schoolBadgeStr && this.currentItem.schoolBadge
         ? [

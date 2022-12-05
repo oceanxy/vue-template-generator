@@ -98,6 +98,32 @@ export default {
     })
   },
   /**
+   * 全局导入成功数据
+   * @param [request]
+   * @param data
+   * @returns {*}
+   */
+  importSuccessData(request, data) {
+    return request({
+      url: '/personnel/student/importSuccessData',
+      method: 'post',
+      data
+    })
+  },
+  /**
+   * 局部导入成功数据
+   * @param [request]
+   * @param data
+   * @returns {*}
+   */
+  importSuccessSingeData(request, data) {
+    return request({
+      url: '/personnel/student/importSuccessSingeData',
+      method: 'post',
+      data
+    })
+  },
+  /**
    * 批量生成二维码
    * @param request
    * @param data
@@ -108,6 +134,20 @@ export default {
       url: '/personnel/qrCode/getCode',
       method: 'post',
       data: qs.stringify(data)
+    })
+  },
+  /**
+   * 导出学生
+   * @param request
+   * @param params
+   * @returns {*}
+   */
+  exportStudentManagement(request, params) {
+    return request({
+      url: '/personnel/student/exportStudent',
+      method: 'get',
+      params,
+      responseType: 'blob'
     })
   }
 }

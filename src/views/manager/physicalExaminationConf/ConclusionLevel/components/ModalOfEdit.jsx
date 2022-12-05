@@ -40,27 +40,23 @@ export default Form.create({})({
       columns: [
         {
           title: '判断条件',
-          dataIndex: 'name',
           width: 180,
           scopedSlots: { customRender: 'judgeCondition' }
         },
         {
           title: '年龄',
-          dataIndex: 'age',
           width: 360,
           scopedSlots: { customRender: 'age' }
         },
         {
           title: '参数',
-          dataIndex: 'parameter',
           width: 440,
           scopedSlots: { customRender: 'parameter' }
         },
         {
           title: '操作',
-          dataIndex: 'operation',
           scopedSlots: { customRender: 'operation' },
-        },
+        }
       ],
       operationType: '',
       itemKpiName: '',
@@ -74,14 +70,17 @@ export default Form.create({})({
     levelList() {
       return this.getState('levelList', this.moduleName)?.list ?? null
     },
-    details() {
-      return this.$store.state['conclusionLevel'].details
-    },
     disabled() {
       if (this.itemKpiList && this.itemKpiList.length > 0) {
         return false
       } else {
         return true
+      }
+    },
+    // operationType回显
+    operationTypeEcho() {
+      if (this.infoList) {
+        return this.infoList?.[0]?.operationType ?? 1
       }
     },
     attributes() {
@@ -269,12 +268,6 @@ export default Form.create({})({
             const itemId = this.levelList?.[0]?.id
 
             await this.getListByItemId(itemId)
-            // if (this.itemKpiList && this.itemKpiList.length > 0) {
-
-            //   const kpiId = this.itemKpiList?.[0]?.id
-
-            //   await this.getListByKpiId(kpiId)
-            // }
             this.$store.commit('setDetails', {
               value: {},
               moduleName: 'conclusionLevel'
@@ -460,7 +453,7 @@ export default Form.create({})({
               <Form.Item label="满足条件">
                 {
                   this.form.getFieldDecorator('operationType', {
-                    initialValue: this.currentItem.operationType || 1,
+                    initialValue: this.operationTypeEcho,
                     rules: [
                       {
                         required: true,

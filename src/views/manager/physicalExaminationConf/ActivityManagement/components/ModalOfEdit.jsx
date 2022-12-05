@@ -100,7 +100,7 @@ export default Form.create({})({
     onChangeSelect(value, label) {
       this.organNames = label.join()
     },
-    async sss() {
+    async selectSchool() {
       await this.$store.dispatch('setModalVisible', {
         statusField: 'visibleOfSchoolList',
         statusValue: true,
@@ -358,7 +358,7 @@ export default Form.create({})({
 
                   <Button
                     type="primary"
-                    onClick={() => this.sss()}
+                    onClick={() => this.selectSchool()}
                   >点击选择</Button>
                 </div>
               )

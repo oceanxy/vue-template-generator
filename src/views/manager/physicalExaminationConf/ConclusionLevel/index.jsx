@@ -4,6 +4,7 @@ import Table from './components/Table'
 import Inquiry from './components/Inquiry'
 import TGPagination from '@/components/TGPagination'
 import ModalOfEdit from './components/ModalOfEdit'
+import ModalOfTable from './components/ModalOfTable'
 import dynamicState from '@/mixins/dynamicState'
 import TGContainer from '@/layouts/components/TGContainer'
 
@@ -19,6 +20,7 @@ export default {
         <TGPagination slot="pagination" />
         <template slot={'modals'}>
           <ModalOfEdit modalTitle={'{action}体检项目结论等级'} />
+          <ModalOfTable modalTitle={'结论等级详情'} />
         </template>
       </TGContainer>
     )

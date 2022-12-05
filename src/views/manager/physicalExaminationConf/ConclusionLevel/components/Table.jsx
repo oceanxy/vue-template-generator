@@ -1,5 +1,5 @@
 import '../assets/styles/index.scss'
-import { Table, Space, Button, Switch } from 'ant-design-vue'
+import { Table, Button, Switch } from 'ant-design-vue'
 import forTable from '@/mixins/forTable'
 
 export default {
@@ -65,6 +65,11 @@ export default {
       }
     }
   },
+  methods: {
+    onClick(record) {
+      console.log(record)
+    }
+  },
   render() {
     return (
       <Table
@@ -85,21 +90,19 @@ export default {
               <Button
                 type="link"
                 size="small"
-              // onClick={() => this.onEditClick(record)}
+                onClick={() => this._setVisibleOfModal(record, 'LevelModalOfTable')}
               >
                 点击查看
               </Button>
             ),
             operation: (text, record) => (
-              <Space>
-                <Button
-                  type="link"
-                  size="small"
-                  onClick={() => this.onEditClick(record)}
-                >
-                  修改
-                </Button>
-              </Space>
+              <Button
+                type="link"
+                size="small"
+                onClick={() => this.onEditClick(record)}
+              >
+                修改
+              </Button>
             )
           }
         }}

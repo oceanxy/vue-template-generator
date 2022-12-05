@@ -36,6 +36,14 @@ export default {
     }
   },
   methods: {
+
+    onExportBySchoolId() {
+      if (!this.schoolId) {
+        message.warn('请选择需要导出的学校！')
+      } else {
+        this.onExport('学生数据')
+      }
+    },
     async transferOut() {
       const ids = this.selectedRowKeys.join()
 
@@ -50,19 +58,6 @@ export default {
     async onCancel() {
       this.codeBatchVisible = !this.codeBatchVisible
     },
-    // downloadFile(url, fileName) {
-    //   if (!url) return
-
-    //   const link = document.createElement('a')
-
-    //   link.style.display = 'none'
-    //   link.href = url
-    //   link.setAttribute('download', fileName)
-    //   document.body.appendChild(link)
-    //   link.click()
-    //   document.body.removeChild(link)
-
-    // },
     async determine() {
       const curGradeId = this.curGrade?.[0]?.id ?? undefined
 
@@ -163,7 +158,9 @@ export default {
         </Button>
 
         <Button
+          onClick={this.onExportBySchoolId}
           icon="export"
+          disabled={this.exportButtonDisabled}
         >
           导出学生
         </Button>

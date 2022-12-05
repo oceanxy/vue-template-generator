@@ -38,7 +38,6 @@ export default Form.create({})({
       },
     }
   },
-
   computed: {
     ...mapGetters({ getState: 'getState' }),
     currentItem() {
@@ -87,20 +86,30 @@ export default Form.create({})({
     },
     // 打印二维码
     codePrint() {
-      // const print = document.getElementById('print')
-      // const bdHtml = window.document.body.innerHTML
-      // const printHtml = print.innerHTML
 
-      // console.log('print', print)
-      // console.log('printHtml', printHtml)
-      // window.document.body.innerHTML = printHtml
-      // window.print()
-      // window.document.body.innerHTML = bdHtml
-      // window.location.reload()
-      const print = document.getElementById('print').innerHTML
+      let iframe = document.getElementById('print-iframe')
 
-      window.print(print)
+      if (!iframe) {
+        const print = document.getElementById('print').innerHTML
 
+        iframe = document.createElement('iframe')
+        let doc = null
+
+        iframe.setAttribute('id', 'print-iframe')
+        iframe.setAttribute('style', 'position: absolute;width: 0px;height: 0px;left: -500px;top: -500px;')
+        document.body.appendChild(iframe)
+
+        doc = iframe.contentWindow.document
+        doc.write('<style media ="print">@page{size:auto;margin:0mm;}</style>')
+        doc.write('<div>' + print + '</div>')
+        iframe.contentWindow.focus()
+      }
+
+      setTimeout(() => { iframe.contentWindow.print() }, 50)
+
+      if (navigator.userAgent.indexOf('MSIE') > 0) {
+        document.body.removeChild(iframe)
+      }
 
     },
     async onCodeSelf() {
@@ -122,7 +131,7 @@ export default Form.create({})({
   render() {
     return (
       <DragModal {...this.attributes}>
-        <div id='print'>
+        <div id="print">
           <img class='imgCode' src={this.imgCodeUrl}></img>
         </div>
       </DragModal >
