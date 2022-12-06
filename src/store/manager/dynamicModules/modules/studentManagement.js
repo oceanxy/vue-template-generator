@@ -7,7 +7,7 @@ export default commitRootInModule =>
       state: {
         // 二维码弹窗
         visibleOfCode: false,
-
+        visibleOfImport: false,
         gradeList: {
           loading: false,
           list: []

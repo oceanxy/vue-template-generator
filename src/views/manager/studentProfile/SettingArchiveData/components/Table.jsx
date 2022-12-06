@@ -1,7 +1,8 @@
 import '../assets/styles/index.scss'
-import { Table, Space, Button, message } from 'ant-design-vue'
+import { Table, Space, Button } from 'ant-design-vue'
 import forTable from '@/mixins/forTable'
-import { verificationDialog } from '@/utils/message'
+import { verificationDialog, showMessage } from '@/utils/message'
+import apis from '@/apis'
 
 export default {
   mixins: [forTable()],
@@ -42,7 +43,6 @@ export default {
           },
           {
             title: '操作',
-            align: 'center',
             scopedSlots: { customRender: 'operation' }
           }
         ]
@@ -54,15 +54,7 @@ export default {
     onGenerateReport(record) {
       if (record.savaDataUrl) {
         verificationDialog(async () => {
-          const status = await this.$store.dispatch('getListWithLoadingStatus', {
-            moduleName: this.moduleName,
-            customApiName: 'createReport',
-            payload: {
-              id: record.id
-            }
-          })
-
-          console.log(status)
+          const { status } = await apis.createReport({ id: record.id })
 
           return status
         }, '已有报告，如再生成报告，则会覆盖，确认吗?')
@@ -71,20 +63,15 @@ export default {
       }
     },
     async createReport(record) {
-      await this.$store.dispatch('getListWithLoadingStatus', {
-        moduleName: this.moduleName,
-        customApiName: 'createReport',
-        payload: {
-          id: record.id
-        }
-      })
-    },
-    // 下载报告
-    // onClickDown(record) {
-    //   if (!record.urlStr) {
-    //     return message.error('请先生成报告，在下载！')
-    //   }
-    // }
+      console.log(record)
+      const res = await apis.createReport({ id: record.id })
+
+      if (res.status) {
+        showMessage(res)
+      } else {
+        showMessage(res)
+      }
+    }
   },
   render() {
     return (
@@ -106,10 +93,16 @@ export default {
                 <a
                   href={record.urlStr}
                   style={{ display: `${record.urlStr ? 'block' : 'none'}` }}
-                // onClick={() => this.onClickDown(record)}
                 >
                   下载报告
                 </a>
+                <Button
+                  type="link"
+                  size="small"
+                  onClick={() => this.onEditClick(record)}
+                >
+                  修改
+                </Button>
               </Space>
             )
           }

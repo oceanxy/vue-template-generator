@@ -2,6 +2,7 @@ import '../assets/styles/index.scss'
 import { Button, Modal, Space, Icon, message } from 'ant-design-vue'
 import forFunction from '@/mixins/forFunction'
 import { mapGetters } from 'vuex'
+import apis from '@/apis'
 
 export default {
   mixins: [forFunction()],
@@ -46,14 +47,20 @@ export default {
     },
     async transferOut() {
       const ids = this.selectedRowKeys.join()
+      const { status } = await apis.studentRollOut({ ids })
 
-      await this.$store.dispatch('getListWithLoadingStatus', {
-        moduleName: 'studentManagement',
-        customApiName: 'studentRollOut',
-        payload: {
-          ids
-        }
-      })
+      if (status) {
+        message.success('学生已转出')
+        await this.$store.dispatch('getList', {
+          moduleName: this.moduleName,
+          submoduleName: this.submoduleName,
+          customApiName: this.customApiName
+        })
+      } else {
+        message.error('转出失败！请重试')
+      }
+
+
     },
     async onCancel() {
       this.codeBatchVisible = !this.codeBatchVisible
@@ -141,12 +148,14 @@ export default {
 
         <Button
           icon="import"
+          onClick={() => this._setVisibleOfModal({ type: 'whole' }, 'visibleOfImport')}
         >
           全局导入
         </Button>
 
         <Button
           icon="import"
+          onClick={() => this._setVisibleOfModal({ type: 'local' }, 'visibleOfImport')}
         >
           局部导入
         </Button>

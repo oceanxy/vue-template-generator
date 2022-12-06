@@ -3,7 +3,7 @@ import { Col, Form, Input, Row, Select, Switch, Cascader, DatePicker, InputNumbe
 import forFormModal from '@/mixins/forModal/forFormModal'
 import DragModal from '@/components/DragModal'
 import BNUploadPictures from '@/components/BNUploadPictures'
-// import { dispatch } from '@/utils/store'
+import { dispatch } from '@/utils/store'
 import { mapGetters } from 'vuex'
 
 export default Form.create({})({
@@ -49,8 +49,8 @@ export default Form.create({})({
         ] : []
     },
     streetIdNumber() {
-      if (this.currentItem.streetId) {
-        return this.currentItem.streetId
+      if (this.currentItem && this.currentItem.streetId) {
+        return Number(this.currentItem.streetId)
       } else {
         return undefined
       }
@@ -64,6 +64,9 @@ export default Form.create({})({
         }
       }
     }
+  },
+  async created() {
+    await dispatch('common', 'getAdministrativeDivision')
   },
   methods: {
     onChangeSchoolId(value) {
@@ -128,6 +131,7 @@ export default Form.create({})({
       data.isWearGlasses = data.isWearGlasses.toString() ?? this.currentItem?.isWearGlasses ?? ''
       data.leftGlassesValue = Number(data.leftGlassesValue) ?? this.currentItem?.leftGlassesValue ?? ''
       data.rightGlassesValue = Number(data.rightGlassesValue) ?? this.currentItem?.rightGlassesValue ?? ''
+      data.gender = data.gender.toString() ?? this.currentItem?.gender.toString() ?? ''
       data.status = data.status.toString() ?? this.currentItem?.status.toString() ?? ''
 
       return data
@@ -160,6 +164,8 @@ export default Form.create({})({
         this.glassesTypeSelect = false
       } else {
         this.form.setFieldsValue({ glassesType: '' })
+        this.form.setFieldsValue({ leftGlassesValue: '' })
+        this.form.setFieldsValue({ rightGlassesValue: '' })
         this.glassesTypeSelect = true
       }
     }
@@ -170,16 +176,20 @@ export default Form.create({})({
         this.getGradeList()
       }
     },
-    'currentItem.countyId'(value) {
-      if (value) {
-        this.getStreetList(value)
+    currentItem: {
+      deep: true,
+      handler(value) {
+        if (value && value.countyId && value.schoolId) {
+          this.getStreetList(value.countyId)
+          this.curSchool(value.schoolId)
+          this.getGradeList(value.schoolId)
+
+          if (value.isWearGlasses === 1) {
+            this.glassesTypeSelect = false
+          }
+        }
       }
     },
-    'currentItem.schoolId'(value) {
-      if (value) {
-        this.curSchool(value)
-      }
-    }
   },
   render() {
     return (

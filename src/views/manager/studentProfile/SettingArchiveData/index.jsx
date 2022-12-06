@@ -1,7 +1,7 @@
 import './assets/styles/index.scss'
 import Functions from './components/Functions'
 import Table from './components/Table'
-import Inquiry from './components/Inquiry'
+// import Inquiry from './components/Inquiry'
 import ModalOfEdit from './components/ModalOfEdit'
 import ModalReport from './components/ModalReport'
 import TGPagination from '@/components/TGPagination'
@@ -15,7 +15,7 @@ export default {
     return (
       <TGContainer>
         <Functions slot="functions" />
-        <Inquiry slot="inquiry" />
+        {/* <Inquiry slot="inquiry" /> */}
         <Table slot="table" />
         <TGPagination slot="pagination" />
         <template slot={'modals'}>

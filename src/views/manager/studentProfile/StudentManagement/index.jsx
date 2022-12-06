@@ -6,6 +6,7 @@ import Inquiry from './components/Inquiry'
 import TGPagination from '@/components/TGPagination'
 import ModalOfEdit from './components/ModalOfEdit'
 import ModalCode from './components/ModalCode'
+import ModalImport from './components/ModalImport'
 import dynamicState from '@/mixins/dynamicState'
 import TGContainer from '@/layouts/components/TGContainer'
 import { getFileAdminForSchoolTreeId } from '@/utils/projectHelpers'
@@ -32,6 +33,7 @@ export default {
           <template slot={'modals'}>
             <ModalOfEdit modalTitle={'{action}学生'} />
             <ModalCode modalTitle={'体检二维码'} />
+            <ModalImport modalTitle={'学生{action}导入'} />
           </template>
         </TGContainer>
       </TGContainerWithTreeSider>

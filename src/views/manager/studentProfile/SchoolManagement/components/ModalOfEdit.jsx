@@ -36,7 +36,6 @@ export default Form.create({})({
       return this.getState('streetList', this.moduleName)
     },
     fileList() {
-
       return this.currentItem.schoolBadgeStr && this.currentItem.schoolBadge
         ? [
           {
@@ -49,6 +48,13 @@ export default Form.create({})({
         ] : []
     },
 
+    streetIdNumber() {
+      if (this.currentItem && this.currentItem.streetId) {
+        return Number(this.currentItem.streetId)
+      } else {
+        return undefined
+      }
+    },
   },
   async created() {
     await Promise.all([
@@ -433,7 +439,7 @@ export default Form.create({})({
                   this.form.getFieldDecorator(
                     'streetId',
                     {
-                      initialValue: this.currentItem.streetName,
+                      initialValue: this.streetIdNumber,
                       rules: [
                         {
                           required: true,

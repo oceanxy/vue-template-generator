@@ -48,6 +48,11 @@ export default {
             dataIndex: 'schoolName'
           },
           {
+            title: '年级',
+            width: 120,
+            dataIndex: 'gradeName'
+          },
+          {
             title: '班级',
             width: 60,
             align: 'center',

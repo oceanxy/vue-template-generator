@@ -29,6 +29,7 @@ export default {
         <Button
           onClick={() => this.onEditClick()}
           icon="edit"
+          disabled={this.deleteButtonDisabled}
         >
           修改
         </Button>
