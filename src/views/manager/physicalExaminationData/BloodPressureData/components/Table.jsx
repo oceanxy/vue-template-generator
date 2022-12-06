@@ -67,14 +67,14 @@ export default {
           },
           {
             title: '收缩压（mmHg）',
-            width: 100,
+            width: 110,
             align: 'center',
             dataIndex: 'systolicPressure'
           },
           {
             title: '舒张压（mmHg）',
             align: 'center',
-            width: 100,
+            width: 110,
             dataIndex: 'diastolicPressure'
           },
           {

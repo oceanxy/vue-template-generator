@@ -16,27 +16,28 @@ export default {
           },
           {
             title: '所属菜单',
-            width: 120,
+            width: 140,
             dataIndex: 'menuName'
           },
           {
             title: '名称',
-            width: 120,
+            width: 100,
+            align: 'center',
             dataIndex: 'fnName'
           },
           {
             title: '描述',
-            width: 250,
             dataIndex: 'fnDescribe'
           },
           {
             title: '排序',
-            // align: 'center',
+            width: 100,
+            align: 'center',
             dataIndex: 'sortIndex'
           },
           {
             title: '状态',
-            // align: 'center',
+            align: 'center',
             width: 80,
             fixed: 'right',
             scopedSlots: { customRender: 'status' }

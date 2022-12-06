@@ -19,7 +19,10 @@ import { cloneDeep, omit } from 'lodash'
  * @returns {Object}
  */
 export default ({
-  isInject = true, isFetchList = true, stateName = 'list', customApiName
+  isInject = true,
+  isFetchList = true,
+  stateName = 'list',
+  customApiName
 } = {}) => {
   const _stateName = stateName
   const _customApiName = customApiName
@@ -274,7 +277,11 @@ export default ({
             name = record[nameKey]
           }
 
-          message.success([<span style={{ color: '#16b364' }}>{name}</span>, ' 的状态已更新！'])
+          message.success([
+            <span style={{ color: '#16b364' }}>
+              {name}
+            </span>, ' 的状态已更新！'
+          ])
         }
 
         if (optimisticUpdate) {
@@ -348,7 +355,10 @@ export default ({
             })
 
             if (status) {
-              message.success([<span style={{ color: 'blue' }}>{record.fullName}</span>, ' 已成功删除！'])
+              message.success([
+                <span style={{ color: 'blue' }}>{record.fullName}</span>,
+                ' 已成功删除！'
+              ])
             }
 
             close()
