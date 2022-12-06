@@ -182,7 +182,7 @@ export default {
         moduleName: this.moduleName
       })
 
-      await this.$store.dispatch('activityVitalCapacityStatisticsByGrade/getList', {
+      await this.$store.dispatch('activityVitalCapacityStatisticsByHierarchy/getList', {
         moduleName: this.moduleName,
         stateName: 'listBySchoolId',
         customApiName: 'getActivityVitalCapacityByGrade',
@@ -197,7 +197,7 @@ export default {
         moduleName: this.moduleName
       })
 
-      await this.$store.dispatch('activityVitalCapacityStatisticsByGrade/getList', {
+      await this.$store.dispatch('activityVitalCapacityStatisticsByHierarchy/getList', {
         moduleName: this.moduleName,
         stateName: 'listByGradeId',
         customApiName: 'getActivityVitalCapacityByClass',

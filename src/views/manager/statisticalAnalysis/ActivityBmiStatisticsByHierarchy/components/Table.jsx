@@ -197,7 +197,7 @@ export default {
         moduleName: this.moduleName
       })
 
-      await this.$store.dispatch('activityBmiStatisticsByGrade/getList', {
+      await this.$store.dispatch('activityBmiStatisticsByHierarchy/getList', {
         moduleName: this.moduleName,
         stateName: 'listBySchoolId',
         customApiName: 'getActivityBmiByGrade',
@@ -212,7 +212,7 @@ export default {
         moduleName: this.moduleName
       })
 
-      await this.$store.dispatch('activityBmiStatisticsByGrade/getList', {
+      await this.$store.dispatch('activityBmiStatisticsByHierarchy/getList', {
         moduleName: this.moduleName,
         stateName: 'listByGradeId',
         customApiName: 'getActivityBmiByClass',

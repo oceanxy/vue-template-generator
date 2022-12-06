@@ -187,7 +187,7 @@ export default {
         moduleName: this.moduleName
       })
 
-      await this.$store.dispatch('activityVisionStatisticsByGrade/getList', {
+      await this.$store.dispatch('activityVisionStatisticsByHierarchy/getList', {
         moduleName: this.moduleName,
         stateName: 'listBySchoolId',
         customApiName: 'getActivityVisionByGrade',
@@ -202,7 +202,7 @@ export default {
         moduleName: this.moduleName
       })
 
-      await this.$store.dispatch('activityVisionStatisticsByGrade/getList', {
+      await this.$store.dispatch('activityVisionStatisticsByHierarchy/getList', {
         moduleName: this.moduleName,
         stateName: 'listByGradeId',
         customApiName: 'getActivityVisionByClass',

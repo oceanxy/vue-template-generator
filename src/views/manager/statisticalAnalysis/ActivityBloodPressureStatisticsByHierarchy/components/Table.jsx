@@ -180,7 +180,7 @@ export default {
         moduleName: this.moduleName
       })
 
-      await this.$store.dispatch('activityBloodPressureStatisticsByGrade/getList', {
+      await this.$store.dispatch('activityBloodPressureStatisticsByHierarchy/getList', {
         moduleName: this.moduleName,
         stateName: 'listBySchoolId',
         customApiName: 'getActivityBloodPressureByGrade',
@@ -195,7 +195,7 @@ export default {
         moduleName: this.moduleName
       })
 
-      await this.$store.dispatch('activityBloodPressureStatisticsByGrade/getList', {
+      await this.$store.dispatch('activityBloodPressureStatisticsByHierarchy/getList', {
         moduleName: this.moduleName,
         stateName: 'listByGradeId',
         customApiName: 'getActivityBloodPressureByClass',

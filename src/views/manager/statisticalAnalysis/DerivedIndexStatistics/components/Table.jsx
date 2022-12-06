@@ -35,13 +35,11 @@ export default {
           {
             title: '平均值',
             align: 'center',
-            width: 100,
             customRender: (text, record) => this.getLevelData(text, record, 0, 'param')
           },
           {
             title: '标准差',
             align: 'center',
-            width: 100,
             customRender: (text, record) => this.getLevelData(text, record, 0, 'paramOne')
           }
         ]
@@ -52,13 +50,11 @@ export default {
           {
             title: '平均值',
             align: 'center',
-            width: 100,
             customRender: (text, record) => this.getLevelData(text, record, 1, 'param')
           },
           {
             title: '标准差',
             align: 'center',
-            width: 100,
             customRender: (text, record) => this.getLevelData(text, record, 1, 'paramOne')
           }
         ]
@@ -69,13 +65,11 @@ export default {
           {
             title: '平均值',
             align: 'center',
-            width: 100,
             customRender: (text, record) => this.getLevelData(text, record, 2, 'param')
           },
           {
             title: '标准差',
             align: 'center',
-            width: 100,
             customRender: (text, record) => this.getLevelData(text, record, 2, 'paramOne')
           }
         ]
@@ -86,13 +80,11 @@ export default {
           {
             title: '平均值',
             align: 'center',
-            width: 100,
             customRender: (text, record) => this.getLevelData(text, record, 3, 'param')
           },
           {
             title: '标准差',
             align: 'center',
-            width: 100,
             customRender: (text, record) => this.getLevelData(text, record, 3, 'paramOne')
           }
         ]

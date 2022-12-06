@@ -24,8 +24,9 @@ export default {
           //格式化每一项内容
           formatter: name => {
             const data = this.dataSource.find(item => item.name === name)
+            const proportion = (data.value / this.total * 100 || 0).toFixed(2)
 
-            return `{name|${data.name}}：${data.value}人 {value|${`(${(data.value / this.total * 100).toFixed(2)}%)`}}`
+            return `{name|${data.name}}：${data.value}人 {value|${`(${proportion}%)`}}`
           },
           //使用富文本去定义样式
           textStyle: {
