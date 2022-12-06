@@ -18,7 +18,7 @@ export default {
         notNoneMode
         placeholder={'请输入学校名称'}
         contentClass="fe-p-e-progress-container"
-        getTreeIdField={getFieldNameForSchoolTreeId}
+        getFieldNameForTreeId={getFieldNameForSchoolTreeId}
         apiOptions={{
           apiName: 'getSchoolTree',
           stateName: 'schoolTree',
