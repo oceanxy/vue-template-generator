@@ -86,7 +86,7 @@ export function getFieldNameForMedicallyAdmin(treeHierarchy) {
 
 /**
  * 格式化年级显示
- * @param grade
+ * @param grade {number} 年级代号 4代表一年级，5代表二年级，以此类推
  */
 export function getGradeStr(grade) {
   if (grade <= 9) {

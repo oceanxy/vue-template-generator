@@ -29,14 +29,14 @@ export default {
           },
           {
             title: '学校名称',
-            width: 200,
+            width: 220,
             dataIndex: 'peObjOrgName'
           },
           {
             title: '年级',
-            width: 70,
+            width: 100,
             align: 'center',
-            dataIndex: 'grade'
+            dataIndex: 'gradeStr'
           },
           {
             title: '班级',
@@ -46,7 +46,7 @@ export default {
           },
           {
             title: '已检项目',
-            width: 240,
+            width: 260,
             scopedSlots: { customRender: 'peItemVOList' }
           },
           {
@@ -73,8 +73,10 @@ export default {
           {
             title: '签退时间',
             align: 'center',
+            width: 150,
             dataIndex: 'signTimeStr'
-          }
+          },
+          {}
         ],
         rowSelection: null
       },
