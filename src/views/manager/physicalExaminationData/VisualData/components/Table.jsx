@@ -96,6 +96,12 @@ export default {
             dataIndex: 'conclusionLevelName'
           },
           {
+            title: '是否边缘视力',
+            align: 'center',
+            width: 110,
+            dataIndex: 'isEdgeStr'
+          },
+          {
             title: '设备名称',
             align: 'center',
             width: 100,
