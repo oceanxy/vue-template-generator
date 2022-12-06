@@ -27,6 +27,7 @@ export default commitRootInModule =>
           loading: false,
           list: []
         },
+        details: null,
         // 选中的学校
         rightSchool: []
       },

@@ -4,6 +4,7 @@ import forFormModal from '@/mixins/forModal/forFormModal'
 import DragModal from '@/components/DragModal'
 import { mapGetters } from 'vuex'
 import { dispatch } from '@/utils/store'
+import apis from '@/apis'
 import SCHOOL_RIGHT from '../assets/images/school_right.svg'
 
 export default Form.create({})({
@@ -52,8 +53,30 @@ export default Form.create({})({
     },
     organIdList() {
       const organIds = this.details?.organIds?.split(',') || []
+      const arr = []
 
-      return organIds.map(item => { return item })
+      organIds.forEach(itm => {
+        this.organsTree.map(item => {
+          if (item.id === itm) {
+            if (item.children) {
+              item.children.map(item2 => {
+                if (item2.id === item) {
+                  arr.push(item2.id)
+                }
+              })
+            }
+
+            arr.push(item.id)
+          }
+
+        })
+      })
+
+      if (arr) {
+        return arr
+      } else {
+        return null
+      }
     },
     attributes() {
       return {
@@ -153,15 +176,18 @@ export default Form.create({})({
         }
 
         if (value && this.currentItem.id) {
+          const { data } = await apis.getDetailsOfActivityManagement({ id: this.currentItem.id })
 
-          await this.$store.dispatch('getDetails', {
-            moduleName: this.moduleName,
-            payload: { id: this.currentItem.id }
+          await this.$store.commit('setState', {
+            value: data,
+            stateName: 'details',
+            moduleName: this.moduleName
           })
         } else {
-          this.$store.commit('setDetails', {
-            value: {},
-            moduleName: 'activityManagement'
+          await this.$store.commit('setState', {
+            value: '',
+            stateName: 'details',
+            moduleName: this.moduleName
           })
         }
       }
@@ -369,7 +395,7 @@ export default Form.create({})({
               this.form.getFieldDecorator(
                 'organIds',
                 {
-                  initialValue: this.organIdList
+                  initialValue: this.organIdList ?? undefined
                 }
               )(
                 <TreeSelect

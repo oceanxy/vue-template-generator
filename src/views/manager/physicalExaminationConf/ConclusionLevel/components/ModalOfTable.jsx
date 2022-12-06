@@ -1,8 +1,9 @@
 import '../assets/styles/index.scss'
-import { Form, Table, Spin, Space } from 'ant-design-vue'
+import { Form, Table, Spin } from 'ant-design-vue'
 import forModal from '@/mixins/forModal'
 import DragModal from '@/components/DragModal'
 import { mapGetters } from 'vuex'
+import apis from '@/apis'
 
 export default Form.create({})({
   mixins: [forModal()],
@@ -52,20 +53,12 @@ export default Form.create({})({
           if (this.currentItem && this.currentItem.itemId) {
 
             this.detailsStatus = true
-            const res = await this.$store.dispatch('getDetails', {
-              moduleName: 'conclusionLevel',
-              payload: { id: this.currentItem.id }
-            })
+            const res = await apis.getDetailsOfConclusionLevel({ id: this.currentItem.id })
 
             if (res['status']) {
               this.detailsStatus = false
               this.infoList = res.data.infoList
             }
-          } else {
-            this.$store.commit('setDetails', {
-              value: {},
-              moduleName: 'conclusionLevel'
-            })
           }
         } else {
           this.infoList = []

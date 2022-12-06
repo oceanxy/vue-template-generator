@@ -255,10 +255,7 @@ export default Form.create({})({
             this.getListByItemId(itemId)
             this.getListByKpiId(kpiId)
             this.detailsStatus = true
-            const res = await this.$store.dispatch('getDetails', {
-              moduleName: 'conclusionLevel',
-              payload: { id: this.currentItem.id }
-            })
+            const res = await apis.getDetailsOfConclusionLevel({ id: this.currentItem.id })
 
             if (res['status']) {
               this.detailsStatus = false
@@ -268,10 +265,6 @@ export default Form.create({})({
             const itemId = this.levelList?.[0]?.id
 
             await this.getListByItemId(itemId)
-            this.$store.commit('setDetails', {
-              value: {},
-              moduleName: 'conclusionLevel'
-            })
           }
         } else {
           this.infoList = []
