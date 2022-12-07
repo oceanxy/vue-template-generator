@@ -1,3 +1,4 @@
+@import '@/assets/styles/theme.scss';
 .imgCode {
   margin: 0 auto;
   height: 224px;
@@ -10,16 +11,20 @@
     margin-top: 15px;
   }
 }
-.well {
-  background-color: #f3f7f6;
-  border-color: #dbe3ec;
-  border-radius: 0;
-  box-shadow: none;
-  padding: 15px;
-  p {
-    margin: 5px 0;
+.school-upload-file {
+  min-height: 360px;
+  .well {
+    background-color: #f3f7f6;
+    border-color: #dbe3ec;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 15px;
+    p {
+      margin: 5px 0;
+    }
   }
 }
+
 @page {
   size: auto; /* auto is the initial value */
   margin: 0mm; /* this affects the margin in the printer settings */

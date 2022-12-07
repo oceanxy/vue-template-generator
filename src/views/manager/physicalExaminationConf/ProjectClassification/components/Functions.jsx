@@ -14,13 +14,6 @@ export default {
           新增
         </Button>
         <Button
-          onClick={() => this.onEditClick()}
-          icon="edit"
-          disabled={this.deleteButtonDisabled}
-        >
-          修改
-        </Button>
-        <Button
           onClick={() => this.onDeleteClick()}
           icon="delete"
           disabled={this.deleteButtonDisabled}

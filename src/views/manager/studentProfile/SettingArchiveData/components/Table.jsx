@@ -1,7 +1,7 @@
 import '../assets/styles/index.scss'
-import { Table, Space, Button } from 'ant-design-vue'
+import { Table, Space, Button, Message } from 'ant-design-vue'
 import forTable from '@/mixins/forTable'
-import { verificationDialog, showMessage } from '@/utils/message'
+import { verificationDialog } from '@/utils/message'
 import apis from '@/apis'
 
 export default {
@@ -67,9 +67,9 @@ export default {
       const res = await apis.createReport({ id: record.id })
 
       if (res.status) {
-        showMessage(res)
+        Message.warning(res.message)
       } else {
-        showMessage(res)
+        Message.error(res.message)
       }
     }
   },
@@ -102,6 +102,13 @@ export default {
                   onClick={() => this.onEditClick(record)}
                 >
                   修改
+                </Button>
+                <Button
+                  type="link"
+                  size="small"
+                  onClick={() => this.onDeleteClick(record)}
+                >
+                  删除
                 </Button>
               </Space>
             )

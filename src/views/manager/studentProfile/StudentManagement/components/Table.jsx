@@ -95,7 +95,7 @@ export default {
             title: '操作',
             align: 'center',
             fixed: 'right',
-            width: 160,
+            width: 180,
             scopedSlots: { customRender: 'createQr' }
           }
         ]
@@ -128,6 +128,13 @@ export default {
                     onClick={() => this.onEditClick(record)}
                   >
                     修改
+                  </Button>
+                  <Button
+                    type="link"
+                    size="small"
+                    onClick={() => this.onDeleteClick(record)}
+                  >
+                    删除
                   </Button>
                 </Space>
               )

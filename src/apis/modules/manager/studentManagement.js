@@ -98,6 +98,19 @@ export default {
     })
   },
   /**
+   * 上传导入文件
+   * @param [request]
+   * @param data
+   * @returns {*}
+   */
+  studentImportFile(request, data) {
+    return request({
+      url: '/personnel/student/importFile',
+      method: 'post',
+      data: qs.stringify(data)
+    })
+  },
+  /**
    * 全局导入成功数据
    * @param [request]
    * @param data
@@ -134,6 +147,19 @@ export default {
       url: '/personnel/qrCode/getCode',
       method: 'post',
       data: qs.stringify(data)
+    })
+  },
+  /**
+   * 获取导入学生模板
+   * @param request
+   * @param data
+   * @returns {*}
+   */
+  getTemplateUrl(request, data) {
+    return request({
+      url: '/personnel/student/getTemplateUrl',
+      method: 'post',
+      data
     })
   },
   /**

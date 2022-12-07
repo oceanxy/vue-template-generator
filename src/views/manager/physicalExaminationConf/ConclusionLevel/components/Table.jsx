@@ -1,5 +1,5 @@
 import '../assets/styles/index.scss'
-import { Table, Button, Switch } from 'ant-design-vue'
+import { Table, Button, Switch, Space } from 'ant-design-vue'
 import forTable from '@/mixins/forTable'
 
 export default {
@@ -96,13 +96,23 @@ export default {
               </Button>
             ),
             operation: (text, record) => (
-              <Button
-                type="link"
-                size="small"
-                onClick={() => this.onEditClick(record)}
-              >
-                修改
-              </Button>
+              <Space>
+                <Button
+                  type="link"
+                  size="small"
+                  onClick={() => this.onEditClick(record)}
+                >
+                  修改
+                </Button>
+
+                <Button
+                  type="link"
+                  size="small"
+                  onClick={() => this.onDeleteClick(record)}
+                >
+                  删除
+                </Button>
+              </Space>
             )
           }
         }}

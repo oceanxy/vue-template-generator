@@ -75,6 +75,13 @@ export default {
                 >
                   修改
                 </Button>
+                <Button
+                  type="link"
+                  size="small"
+                  onClick={() => this.onDeleteClick(record)}
+                >
+                  删除
+                </Button>
               </Space>
             )
           }
