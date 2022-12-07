@@ -63,8 +63,8 @@ function createConstRoutes() {
       meta: {
         title: '后台',
         keepAlive: false,
-        requiresAuth: true,
-        icon: () => import('@/layouts/components/TGMenu/assets/images/console.svg')
+        requiresAuth: true
+        // icon: () => import('@/layouts/components/TGMenu/assets/images/console.svg')
       },
       children: [
         // 需要展示在menu菜单中的路由在这里面添加

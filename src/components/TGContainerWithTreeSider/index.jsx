@@ -2,14 +2,21 @@ import './assets/styles/index.scss'
 import { mapGetters } from 'vuex'
 import { Empty, Icon, Input, Spin, Tree } from 'ant-design-vue'
 import TGContainerWithSider from '@/components/TGContainerWithSider'
-import ICON_TREE_DISTRICT from './assets/images/tree-district.svg'
-import ICON_TREE_STREET from './assets/images/tree-street.svg'
-import ICON_TREE_SCHOOL from './assets/images/tree-school.svg'
 import { cloneDeep, debounce } from 'lodash'
 
 export default {
   inject: ['moduleName'],
   props: {
+    /**
+     * 获取自定义图标 {treeNode => Icon}
+     */
+    getCustomIcon: {
+      type: Function,
+      default: undefined
+    },
+    /**
+     * 内容区额外样式表名
+     */
     contentClass: {
       type: String,
       default: ''
@@ -168,19 +175,23 @@ export default {
     }
   },
   methods: {
+    /**
+     * 按条件筛选包含关键字的所有项（包含层级关系）
+     * @param dataSource {Array} 搜索源
+     * @param searchValue {string} 搜索关键字
+     * @returns {*[]}
+     */
     filter(dataSource, searchValue) {
       const temp = []
 
-      for (let i = 0; i < dataSource.length; i++) {
-        if (dataSource[i].isParent && dataSource[i].children?.length) {
-          dataSource[i].children = this.filter(dataSource[i].children, searchValue)
+      for (const item of dataSource) {
+        if (item.name.includes(searchValue)) {
+          temp.push(item)
+        } else if (item.isParent && item.children?.length) {
+          item.children = this.filter(item.children, searchValue)
 
-          if (dataSource[i].children.length) {
-            temp.push(dataSource[i])
-          }
-        } else {
-          if (dataSource[i].name.includes(searchValue)) {
-            temp.push(dataSource[i])
+          if (item.children.length) {
+            temp.push(item)
           }
         }
       }
@@ -229,6 +240,40 @@ export default {
         })
       }
     },
+    /**
+     * 高亮树节点名称中的搜索关键字
+     * @param treeNode {TreeNode} ant-design-vue TreeNode
+     * @returns {JSX.Element}
+     */
+    highlight(treeNode) {
+      const childrenNumber = treeNode.isParent ? `(${treeNode.children?.length ?? 0})` : ''
+
+      return this.searchValue
+        ? (
+          <span
+            slot={'title'}
+            title={treeNode.name + childrenNumber}
+            domPropsInnerHTML={
+              treeNode.name.replace(
+                this.searchValue,
+                `<span style="color: #16b364">${this.searchValue}</span>`
+              ) + childrenNumber
+            }
+          />
+        )
+        : (
+          <span slot={'title'} title={treeNode.name + childrenNumber}>
+            {treeNode.name + childrenNumber}
+          </span>
+        )
+    },
+    getIcon(treeNode) {
+      console.log(Object.prototype.toString.call(this.getCustomIcon))
+
+      return Object.prototype.toString.call(this.getCustomIcon) === '[object Function]'
+        ? this.getCustomIcon(treeNode)
+        : () => import(`@/layouts/components/TGMenu/assets/images/${treeNode.obj.menuIcon}.svg`)
+    },
     onSidebarSwitch() {
       this.tableRef?.$parent?.resize()
     },
@@ -270,40 +315,19 @@ export default {
                 >
                   {
                     this.treeDataSource.map(item => (
-                      <Tree.TreeNode
-                        key={item.id}
-                        title={`${item.name}（${item?.children?.length})`}
-                      >
-                        <Icon slot={'icon'} class={'icon'} component={ICON_TREE_DISTRICT} />
-                        <div slot={'title'}>{item.name}</div>
+                      <Tree.TreeNode key={item.id}>
+                        <Icon slot={'icon'} class={'icon'} component={this.getIcon(item)} />
+                        {this.highlight(item)}
                         {
                           item?.children?.map(subItem => (
-                            <Tree.TreeNode
-                              key={subItem.id}
-                              title={`${subItem.name}${subItem.children ? `(${subItem.children.length})` : ''}`}
-                            >
-                              <Icon slot={'icon'} class={'icon'} component={ICON_TREE_STREET} />
-                              <div slot={'title'}>{subItem.name}</div>
+                            <Tree.TreeNode key={subItem.id}>
+                              <Icon slot={'icon'} class={'icon'} component={this.getIcon(subItem)} />
+                              {this.highlight(subItem)}
                               {
                                 subItem?.children?.map(leafItem => (
                                   <Tree.TreeNode key={leafItem.id}>
-                                    <Icon slot={'icon'} class={'icon'} component={ICON_TREE_SCHOOL} />
-                                    {
-                                      this.searchValue
-                                        ? (
-                                          <span
-                                            slot={'title'}
-                                            title={leafItem.name}
-                                            domPropsInnerHTML={
-                                              leafItem.name.replace(
-                                                this.searchValue,
-                                                `<span style="color: #16b364">${this.searchValue}</span>`
-                                              )
-                                            }
-                                          />
-                                        )
-                                        : <span slot={'title'} title={leafItem.name}>{leafItem.name}</span>
-                                    }
+                                    <Icon slot={'icon'} class={'icon'} component={this.getIcon(leafItem)} />
+                                    {this.highlight(leafItem)}
                                   </Tree.TreeNode>
                                 )) ?? []
                               }

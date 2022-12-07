@@ -7,7 +7,7 @@ import Inquiry from './components/Inquiry'
 import Table from './components/Table'
 import TGPagination from '@/components/TGPagination'
 import ModalOfDetails from './components/ModalOfDetails'
-import { getFieldNameForSchoolTreeId } from '@/utils/projectHelpers'
+import { getFieldNameForSchoolTreeId, getSchoolTreeIcon } from '@/utils/projectHelpers'
 
 export default {
   name: 'PEProgress',
@@ -18,6 +18,7 @@ export default {
         notNoneMode
         placeholder={'请输入学校名称'}
         contentClass="fe-p-e-progress-container"
+        getCustomIcon={getSchoolTreeIcon}
         getFieldNameForTreeId={getFieldNameForSchoolTreeId}
         apiOptions={{
           apiName: 'getSchoolTree',

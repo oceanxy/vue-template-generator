@@ -7,7 +7,7 @@ import Inquiry from './components/Inquiry'
 import Table from './components/Table'
 import ModalOfExportByTime from './components/ModalOfExportByTime'
 import TGPagination from '@/components/TGPagination'
-import { getFieldNameForSchoolTreeId } from '@/utils/projectHelpers'
+import { getFieldNameForSchoolTreeId, getSchoolTreeIcon } from '@/utils/projectHelpers'
 
 export default {
   name: 'BasicData',
@@ -18,6 +18,7 @@ export default {
         notNoneMode
         placeholder={'请输入学校名称'}
         contentClass="fe-basic-data-container"
+        getCustomIcon={getSchoolTreeIcon}
         getFieldNameForTreeId={getFieldNameForSchoolTreeId}
         apiOptions={{
           apiName: 'getSchoolTree',

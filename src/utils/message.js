@@ -9,6 +9,9 @@ export function showMessage(option) {
     option.content = '发生未知错误，请稍后再试！'
   } else if (option.message.includes('Network Error') || option.message.includes('500')) {
     option.content = '请检查网络或服务是否异常，或稍后再试！'
+  } else if (option.message.includes('503')) {
+    option.content = '发生错误，请联系系统管理员！(错误码503)'
+    console.error(option.message)
   } else if (option.message.includes('403')) {
     option.content = '没有权限进入系统！(错误码403)'
   } else if (option.message.includes('404')) {
