@@ -6,7 +6,7 @@ import Functions from './components/Functions'
 import Inquiry from './components/Inquiry'
 import Table from './components/Table'
 import TGPagination from '@/components/TGPagination'
-import { getFieldNameForSchoolTreeId } from '@/utils/projectHelpers'
+import { getFieldNameForSchoolTreeId, getSchoolTreeIcon } from '@/utils/projectHelpers'
 
 export default {
   name: 'OptometryData',
@@ -17,6 +17,7 @@ export default {
         notNoneMode
         placeholder={'请输入学校名称'}
         contentClass="fe-optometry-data-container"
+        getCustomIcon={getSchoolTreeIcon}
         getFieldNameForTreeId={getFieldNameForSchoolTreeId}
         apiOptions={{
           apiName: 'getSchoolTree',

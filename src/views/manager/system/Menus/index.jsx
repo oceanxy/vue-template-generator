@@ -13,7 +13,6 @@ export default {
   render() {
     return (
       <TGContainerWithTreeSider
-        notNoneMode
         placeholder={'请输入菜单名称'}
         getFieldNameForTreeId={() => 'parentId'}
         apiOptions={{

@@ -99,3 +99,22 @@ export function getGradeStr(grade) {
     return '-'
   }
 }
+
+/**
+ * 获取学校树的定制图标
+ * @param treeNode
+ * @returns {(function(): Promise<*>)|(function(): Promise<*>)|(function(): Promise<*>)}
+ */
+export function getSchoolTreeIcon(treeNode) {
+  console.log(treeNode)
+
+  if (+treeNode.obj.parentId === 0) {
+    return () => import('@/components/TGContainerWithTreeSider/assets/images/tree-district.svg')
+  } else {
+    if (treeNode.isParent) {
+      return () => import('@/components/TGContainerWithTreeSider/assets/images/tree-street.svg')
+    } else {
+      return () => import('@/components/TGContainerWithTreeSider/assets/images/tree-school.svg')
+    }
+  }
+}
