@@ -4,12 +4,20 @@ export function generateRoute(menu) {
     children: []
   }
   const {
-    url,
     name,
     icon,
     children,
     obj: {
-      name: routeName, redirect, extend2, component, keepAlive, requiresAuth, hideBreadCrumb, hideChildren, hide
+      name: routeName,
+      seniorUrl: url,
+      redirect,
+      extend2,
+      component,
+      keepAlive,
+      requiresAuth,
+      hideBreadCrumb,
+      hideChildren,
+      hide
     }
   } = menu
 
@@ -114,7 +122,7 @@ export function downFile(blob, fileName) {
     console.log(urlObj)
     tmpa.href = urlObj
     tmpa.click() // 模拟点击实现下载
-    setTimeout(function () {
+    setTimeout(function() {
       // 延时释放
       URL.revokeObjectURL(urlObj)
     }, 1000)

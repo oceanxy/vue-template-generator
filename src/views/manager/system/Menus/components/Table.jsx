@@ -30,14 +30,14 @@ export default {
             dataIndex: 'name'
           },
           {
+            title: 'path',
+            width: 150,
+            dataIndex: 'seniorUrl'
+          },
+          {
             title: '重定向',
             width: 150,
             dataIndex: 'extend1'
-          },
-          {
-            title: 'path',
-            width: 150,
-            dataIndex: 'menuUrl'
           },
           {
             title: '是否隐藏(客户端控制)',
