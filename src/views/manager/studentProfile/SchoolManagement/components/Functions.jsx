@@ -14,8 +14,8 @@ export default {
           新增
         </Button>
         <Button
-          // onClick={() => this.onAddClick()}
           icon="import"
+          onClick={() => this._setVisibleOfModal({ type: '' }, 'visibleOfImportSchool')}
         >
           导入
         </Button>
