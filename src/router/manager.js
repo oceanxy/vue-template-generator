@@ -27,7 +27,6 @@ function createConstRoutes() {
       name: 'home',
       // 选择布局组件
       component: () => import('@/layouts/TGBackendSystem'),
-      redirect: { name: 'console' },
       meta: {
         title: '后台',
         keepAlive: false,
@@ -63,8 +62,8 @@ function createConstRoutes() {
       meta: {
         title: '后台',
         keepAlive: false,
-        requiresAuth: true
-        // icon: () => import('@/layouts/components/TGMenu/assets/images/console.svg')
+        requiresAuth: true,
+        icon: () => import('@/layouts/components/TGMenu/assets/images/console.svg')
       },
       children: [
         // 需要展示在menu菜单中的路由在这里面添加
@@ -274,7 +273,7 @@ function createConstRoutes() {
         {
           path: 'pe-conf',
           component: TGRouterView,
-          redirect: { name: 'classificationOfPEItems' },
+          redirect: { name: 'projectClassification' },
           meta: {
             title: '体检配置',
             keepAlive: false,
@@ -686,7 +685,7 @@ function createConstRoutes() {
               }
             },
             {
-              path: 'weightPercentile',
+              path: 'weight-percentile',
               name: 'weightPercentile',
               component: () => import('@/views/manager/percentileStatistics/WeightPercentile'),
               meta: {

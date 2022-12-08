@@ -36,7 +36,6 @@ export default {
      *  optionsOfGetList.apiName: API名称
      *  optionsOfGetList.moduleName: 存放树的数据的模块名
      *  optionsOfGetList.stateName: 存放树的数据的字段名
-     *  optionsOfGetList.isFetchList: 树初始化后是否触发所在页面列表请求数据，依赖 notNoneMode
      */
     optionsOfGetList: {
       type: Object,
@@ -53,7 +52,6 @@ export default {
     /**
      * 非空模式，默认关闭，不选中任何一级
      * 开启后，当树没有选中值时（即selectedKeys为空数组时），自动选中树的最顶层菜单，然后触发所在页面的列表获取数据。
-     *  如果树所在页面的列表请求数据接口需要其他必填参数，而树不能提供的，请设置 optionsOfGetList.isFetchList 为 false
      */
     notNoneMode: {
       type: Boolean,
@@ -130,7 +128,7 @@ export default {
        *  false：本组件不控制下层组件在组件创建阶段（created 生命周期）的数据请求，默认
        *  true：下层组件在创建阶段不请求数据
        */
-      notInitList: this.notNoneMode || !this.optionsOfGetList.isFetchList
+      notInitList: this.notNoneMode
     }
   },
   watch: {
@@ -153,10 +151,10 @@ export default {
       customApiName: this.apiOptions.apiName
     })
 
-    if (status && this.notNoneMode) {
+    if (status) {
       const treeIdField = this.getFieldNameForTreeId(1)
 
-      // 更新 store.state 里面用于树ID的键名（主要用于每一级树的所使用的键名不同时）
+      // 更新 store.state 里面用于树ID的键名（主要在每一级树所使用的键名不同时使用）
       this.$store.commit('setState', {
         value: treeIdField,
         moduleName: this.moduleName,
@@ -165,13 +163,14 @@ export default {
 
       this.oldTreeIdField = treeIdField
 
-      await this.$store.dispatch('setSearch', {
-        payload: { [this.treeIdField]: this.dataSource.list?.[0]?.id },
-        moduleName: this.moduleName,
-        isResetSelectedRows: true,
-        ...this.optionsOfGetList,
-        isFetchList: (!('isFetchList' in this.optionsOfGetList) || this.optionsOfGetList.isFetchList)
-      })
+      if (this.notNoneMode) {
+        await this.$store.dispatch('setSearch', {
+          payload: { [this.treeIdField]: this.dataSource.list?.[0]?.id },
+          moduleName: this.moduleName,
+          isResetSelectedRows: true,
+          ...this.optionsOfGetList
+        })
+      }
     }
   },
   methods: {
@@ -270,7 +269,9 @@ export default {
     getIcon(treeNode) {
       return Object.prototype.toString.call(this.getCustomIcon) === '[object Function]'
         ? this.getCustomIcon(treeNode)
-        : () => import(`@/layouts/components/TGMenu/assets/images/${treeNode.obj.menuIcon}.svg`)
+        : treeNode.obj.menuIcon
+          ? () => import(`@/layouts/components/TGMenu/assets/images/${treeNode.obj.menuIcon}.svg`)
+          : undefined // todo 此处设置为默认图标
     },
     onSidebarSwitch() {
       this.tableRef?.$parent?.resize()

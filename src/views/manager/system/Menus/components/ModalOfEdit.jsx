@@ -130,7 +130,7 @@ export default Form.create({})({
           </Form.Item>
           <Form.Item label="path(客户端)">
             {
-              this.form.getFieldDecorator('menuUrl', { initialValue: this.currentItem.menuUrl })(
+              this.form.getFieldDecorator('seniorUrl', { initialValue: this.currentItem.seniorUrl })(
                 <Input
                   placeholder="请输入 path"
                   allowClear

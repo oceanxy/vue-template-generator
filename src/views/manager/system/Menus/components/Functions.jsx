@@ -24,7 +24,7 @@ export default {
           新增
         </Button>
         <Button
-          type="primary"
+          type="danger"
           disabled={this.deleteButtonDisabled}
           onClick={() => this.onDeleteClick()}
           icon="delete"
