@@ -98,7 +98,7 @@ export default Form.create({})({
       }
     },
     async getStreets() {
-      if (this.currentItem.id) {
+      if (this.currentItem.id && this.currentItem.countyId) {
         await this.onDistrictChange([null, null, this.currentItem.countyId])
       }
     }
