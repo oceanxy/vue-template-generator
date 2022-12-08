@@ -106,8 +106,6 @@ export function getGradeStr(grade) {
  * @returns {(function(): Promise<*>)|(function(): Promise<*>)|(function(): Promise<*>)}
  */
 export function getSchoolTreeIcon(treeNode) {
-  console.log(treeNode)
-
   if (+treeNode.obj.parentId === 0) {
     return () => import('@/components/TGContainerWithTreeSider/assets/images/tree-district.svg')
   } else {
