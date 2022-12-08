@@ -1,5 +1,5 @@
 import '../assets/styles/index.scss'
-import { Form, Button, Space, message, Spin, Table } from 'ant-design-vue'
+import { Form, Button, Space, message, Spin, Table, Tag } from 'ant-design-vue'
 import forFormModal from '@/mixins/forModal/forFormModal'
 import DragModal from '@/components/DragModal'
 import { mapGetters } from 'vuex'
@@ -10,7 +10,7 @@ export default Form.create({})({
   mixins: [forFormModal()],
   data() {
     return {
-      visibleField: 'visibleOfImport',
+      visibleField: 'visibleOfImportSchool',
       modalProps: {
         width: 1300,
         footer: false,
@@ -20,50 +20,41 @@ export default Form.create({})({
       defaultPage: true,
       columns: [
         {
-          title: '姓名',
-          align: 'center',
+          title: '学校名称',
           dataIndex: 'fullName'
         },
         {
-          title: '身份证号',
-          dataIndex: 'idNumber'
+          title: '办学类型',
+          dataIndex: 'schoolType'
         },
         {
-          title: '就读学校',
-          dataIndex: 'schoolName'
+          title: '学校编号',
+          dataIndex: 'schoolNo'
         },
         {
-          title: '年级',
-          dataIndex: 'gradeId'
-        },
-        {
-          title: '班级',
+          title: '办别',
           align: 'center',
-          dataIndex: 'classNumber'
+          dataIndex: 'category'
         },
         {
-          title: '民族',
-          dataIndex: 'nation'
+          title: '城乡类型',
+          align: 'center',
+          dataIndex: 'urbanRuralType'
         },
         {
-          title: '籍贯',
-          dataIndex: 'nativePlace'
+          title: '是否寄宿制',
+          align: 'center',
+          dataIndex: 'isBoardingSchool'
         },
         {
-          title: '学籍号',
-          dataIndex: 'studentNumber'
+          title: '是否分校',
+          align: 'center',
+          dataIndex: 'isBranchSchool'
         },
         {
-          title: '学籍所在学校',
-          dataIndex: 'originalSchoolId'
-        },
-        {
-          title: '家长姓名',
-          dataIndex: 'parentName'
-        },
-        {
-          title: '家长电话',
-          dataIndex: 'parentPhone'
+          title: '是否校幼一体',
+          align: 'center',
+          dataIndex: 'isContainKindergarten'
         },
         {
           title: '失败信息',
@@ -117,7 +108,7 @@ export default Form.create({})({
       const formData = new FormData()
 
       formData.append('file', flie)
-      const { status, data } = await apis.studentImportFile(formData)
+      const { status, data } = await apis.schoolImportFile(formData)
 
       if (status) {
         this.tableData = data
@@ -137,13 +128,7 @@ export default Form.create({})({
     // 确认无误，提交
     onSubmit() {
       verificationDialog(async () => {
-        let status = false
-
-        if (this.currentItem && this.currentItem.type === 'whole') {
-          status = await apis.importSuccessData()
-        } else if (this.currentItem && this.currentItem.type === 'local') {
-          status = await apis.importSuccessSingeData()
-        }
+        const status = await apis.schoolImportSuccessData()
 
         if (status) {
           this.tablLoading = true
@@ -164,8 +149,8 @@ export default Form.create({})({
     async downloadErrorData() {
       const { status } = await this.$store.dispatch('export', {
         moduleName: this.moduleName,
-        fileName: '学生失败数据',
-        customApiName: 'exportDownErrorFailExcel'
+        fileName: '学校失败数据',
+        customApiName: 'schoolDownFailExcel'
       })
 
       if (status) {
@@ -174,7 +159,7 @@ export default Form.create({})({
     },
     // 下载模板
     async downloadTemplate() {
-      const { status, data } = await apis.getTemplateUrl()
+      const { status, data } = await apis.schoolGetTemplateUrl()
 
       if (status) {
         this.download(data, '学生数据导入模板V7')
@@ -198,9 +183,6 @@ export default Form.create({})({
     visible: {
       async handler(value) {
         if (value) {
-          this.modalProps.title = (this.$parent.$attrs.modalTitle || this.modalTitle).replace(
-            '{action}', this.currentItem.type === 'whole' ? '全局' : '局部'
-          )
           this.reUpload()
         }
       }
@@ -222,14 +204,6 @@ export default Form.create({})({
                 <p>2、上传的数据文件支持XLS、XLSX格式；</p>
                 <p>3、Excel文件中的数据请勿添加任何格式；</p>
                 <p>4、因数据文件需要验证，需持续一段时间，请耐心等待，不要关闭页面；</p>
-                {
-                  this.currentItem?.type === 'whole' ? (
-                    <p><span style="color: red">5、警告：此为全量导入！！会覆盖所有数据，请确认数据完整性与正确性，保证每个班级的学生信息完整，确认是整班导入，如有错误数据，请把错误数据改正后选择局部导入</span></p>
-                  ) : (
-                    <p><span style="color: red">5、此为局部导入：只用于局部学生信息变更和新增，上传修正后的错误数据等局部功能</span></p>
-                  )
-                }
-
               </div>
             </div>
           ) : (

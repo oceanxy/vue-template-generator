@@ -100,14 +100,15 @@ export default {
   /**
    * 上传导入文件
    * @param [request]
-   * @param data
+   * @param formData
    * @returns {*}
    */
-  studentImportFile(request, data) {
+
+  studentImportFile(request, formData) {
     return request({
       url: '/personnel/student/importFile',
       method: 'post',
-      data: qs.stringify(data)
+      data: formData
     })
   },
   /**
@@ -160,6 +161,20 @@ export default {
       url: '/personnel/student/getTemplateUrl',
       method: 'post',
       data
+    })
+  },
+  /**
+   * 下载失败数据
+   * @param request
+   * @param params
+   * @returns {*}
+   */
+  exportDownErrorFailExcel(request, params) {
+    return request({
+      url: '/personnel/student/downFailExcel',
+      method: 'get',
+      params,
+      responseType: 'blob'
     })
   },
   /**

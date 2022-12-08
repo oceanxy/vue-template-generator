@@ -1,6 +1,8 @@
 import '../assets/styles/index.scss'
 import { Table, Switch, Button, Space } from 'ant-design-vue'
 import forTable from '@/mixins/forTable'
+import apis from '@/apis'
+import { verificationDialog } from '@/utils/message'
 
 export default {
   mixins: [forTable()],
@@ -64,6 +66,28 @@ export default {
       }
     }
   },
+  methods: {
+    async onSetGraduation(record) {
+      verificationDialog(
+        async () => {
+          const { status } = await apis.setGraduation({ id: record.id })
+
+          if (status) {
+            await this.$store.dispatch('getList', {
+              moduleName: this.moduleName,
+              customApiName: this.customApiName
+            })
+          }
+
+          return status
+        },
+        (
+          <div>你确定把<span style={{ color: 'blue' }}>{record.schoolName}</span>设置毕业</div>
+        )
+      )
+
+    }
+  },
   render() {
     return (
       <Table
@@ -96,6 +120,13 @@ export default {
                   onClick={() => this.onDeleteClick(record)}
                 >
                   删除
+                </Button>
+                <Button
+                  type="link"
+                  size="small"
+                  onClick={() => this.onSetGraduation(record)}
+                >
+                  设置为毕业
                 </Button>
               </Space>
             )

@@ -7,8 +7,7 @@ import ModalOfEdit from './components/ModalOfEdit'
 import TGPagination from '@/components/TGPagination'
 import dynamicState from '@/mixins/dynamicState'
 import TGContainer from '@/layouts/components/TGContainer'
-import { getFileAdminForSchoolTreeId } from '@/utils/projectHelpers'
-// import DragModal from '@/components/DragModal'
+import { getFileAdminForSchoolTreeId, getSchoolTreeIcon } from '@/utils/projectHelpers'
 
 export default {
   name: 'GradeManagement',
@@ -17,6 +16,7 @@ export default {
     return (
       <TGContainerWithTreeSider
         notNoneMode
+        getCustomIcon={getSchoolTreeIcon}
         getFieldNameForTreeId={getFileAdminForSchoolTreeId}
         apiOptions={{
           apiName: 'getSchoolTree',
@@ -30,7 +30,6 @@ export default {
           <Table slot="table" />
           <TGPagination slot="pagination" />
           <template slot={'modals'}>
-            {/* <DragModal></DragModal> */}
             <ModalOfEdit modalTitle={'{action}年级'} />
           </template>
         </TGContainer>

@@ -5,6 +5,7 @@ export default commitRootInModule =>
   omit(
     createStoreModule({
       state: {
+        visibleOfImportSchool: false,
         streetList: {
           loading: false,
           list: []

@@ -95,5 +95,59 @@ export default {
       method: 'post',
       data: qs.stringify(data)
     })
+  },
+  /**
+   * 上传导入文件
+   * @param [request]
+   * @param formData
+   * @returns {*}
+   */
+
+  schoolImportFile(request, formData) {
+    return request({
+      url: '/personnel/school/importFile',
+      method: 'post',
+      data: formData
+    })
+  },
+  /**
+   * 导入成功数据
+   * @param [request]
+   * @param data
+   * @returns {*}
+   */
+  schoolImportSuccessData(request, data) {
+    return request({
+      url: '/personnel/school/importSuccessData',
+      method: 'post',
+      data
+    })
+  },
+  /**
+   * 下载失败数据
+   * @param request
+   * @param params
+   * @returns {*}
+   */
+  schoolDownFailExcel(request, params) {
+    return request({
+      url: '/personnel/school/downFailExcel',
+      method: 'get',
+      params,
+      responseType: 'blob'
+    })
+  },
+  /**
+   * 获取导入学校模板
+   * @param request
+   * @param data
+   * @returns {*}
+   */
+  schoolGetTemplateUrl(request, data) {
+    return request({
+      url: '/personnel/school/getTemplateUrl',
+      method: 'post',
+      data
+    })
   }
 }

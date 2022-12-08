@@ -268,8 +268,6 @@ export default {
         )
     },
     getIcon(treeNode) {
-      console.log(Object.prototype.toString.call(this.getCustomIcon))
-
       return Object.prototype.toString.call(this.getCustomIcon) === '[object Function]'
         ? this.getCustomIcon(treeNode)
         : () => import(`@/layouts/components/TGMenu/assets/images/${treeNode.obj.menuIcon}.svg`)

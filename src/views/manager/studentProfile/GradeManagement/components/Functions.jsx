@@ -26,16 +26,7 @@ export default {
         moduleName: 'gradeManagement',
         customApiName: 'getGradeManagement',
       })
-    },
-    async onSetGraduation() {
-      await this.$store.dispatch('getListWithLoadingStatus', {
-        moduleName: 'gradeManagement',
-        customApiName: 'setGraduation',
-        payload: {
-          id: this.selectedRows[0].id
-        }
-      })
-    },
+    }
   },
   render() {
     return (
@@ -59,13 +50,6 @@ export default {
           onClick={() => this.onRefresh()}
         >
           刷新年级人数
-        </Button>
-        <Button
-          icon="setting"
-          disabled={this.deleteButtonDisabled}
-          onClick={() => this.onSetGraduation()}
-        >
-          设置为毕业
         </Button>
       </Space>
     )
