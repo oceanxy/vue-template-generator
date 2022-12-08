@@ -81,17 +81,15 @@ module.exports = {
       })
 
       // 文件开启Gzip，也可以通过服务端(如：nginx)(https://github.com/webpack-contrib/compression-webpack-plugin)
-      config
-        .plugin('compressionPlugin')
-        .use(CompressionPlugin, [
-          {
-            filename: '[path].gz[query]',
-            algorithm: 'gzip',
-            test: new RegExp('\\.(' + ['js', 'css'].join('|') + ')$'),
-            threshold: 8192,
-            minRatio: 0.8
-          }
-        ])
+      config.plugin('compressionPlugin').use(CompressionPlugin, [
+        {
+          filename: '[path].gz[query]',
+          algorithm: 'gzip',
+          test: new RegExp('\\.(' + ['js', 'css'].join('|') + ')$'),
+          threshold: 8192,
+          minRatio: 0.8
+        }
+      ])
 
       //  Webpack包文件分析器(https://github.com/webpack-contrib/webpack-bundle-analyzer)
       // config

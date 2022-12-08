@@ -131,20 +131,6 @@ export default {
         >
           新增
         </Button>
-        <Button
-          onClick={() => this.onEditClick()}
-          disabled={this.deleteButtonDisabled}
-          icon="edit"
-        >
-          修改
-        </Button>
-        <Button
-          onClick={() => this.onDeleteClick()}
-          icon="delete"
-          disabled={this.deleteButtonDisabled}
-        >
-          删除
-        </Button>
 
         <Button
           icon="import"
@@ -172,6 +158,13 @@ export default {
           disabled={this.exportButtonDisabled}
         >
           导出学生
+        </Button>
+        <Button
+          onClick={() => this.onDeleteClick()}
+          icon="delete"
+          disabled={this.deleteButtonDisabled}
+        >
+          删除
         </Button>
         <Modal
           centered
