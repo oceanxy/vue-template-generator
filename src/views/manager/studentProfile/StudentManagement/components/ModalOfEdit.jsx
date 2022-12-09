@@ -5,6 +5,7 @@ import DragModal from '@/components/DragModal'
 import BNUploadPictures from '@/components/BNUploadPictures'
 import { dispatch } from '@/utils/store'
 import { mapGetters } from 'vuex'
+import { getStreetValueFromEvent, getStreetValueProps } from '@/utils/projectHelpers'
 
 export default Form.create({})({
   mixins: [forFormModal()],
@@ -92,13 +93,13 @@ export default Form.create({})({
         }
       })
     },
-    async getStreetList(countyId) {
+    async getStreetList(value) {
       await this.$store.dispatch('getListWithLoadingStatus', {
         moduleName: this.moduleName,
         stateName: 'streetList',
         customApiName: 'getStreetsByDistrictId',
         payload: {
-          countyId
+          countyId: value[2]
         }
       })
     },
@@ -122,11 +123,6 @@ export default Form.create({})({
 
       data.birthDate = Number(str)
       data.photo = data.photo[0]?.key ?? data.photo?.[0]?.response.data[0].key ?? ''
-      data.cityName = this.currentItem?.cityName ?? this.city?.[1]?.name ?? ''
-      data.provinceName = this.currentItem?.provinceName ?? this.city?.[0]?.name ?? ''
-      data.streetName = this.currentItem?.streetName ?? this.isStreet[0]?.fullName ?? ''
-      data.streetId = this.currentItem?.streetId ?? data?.streetId.toString() ?? this.isStreet?.id ?? ''
-      data.countyName = this.currentItem?.countyName ?? this.city?.[2]?.name ?? ''
       data.schoolName = this.isSchool?.[0]?.fullName ?? this.currentItem?.schoolName ?? ''
       data.isWearGlasses = data.isWearGlasses.toString() ?? this.currentItem?.isWearGlasses ?? ''
       data.leftGlassesValue = Number(data.leftGlassesValue) ?? this.currentItem?.leftGlassesValue ?? ''
@@ -136,15 +132,6 @@ export default Form.create({})({
 
       return data
     },
-    onChangeCity(value, selectedOptions) {
-
-      this.form.setFieldsValue({ streetId: '' })
-      this.city = selectedOptions
-      const countyId = selectedOptions[2]?.id ?? this.currentItem.countyId
-
-      this.getStreetList(countyId)
-    },
-
     onChangeStreetId(value) {
       const isStreet = this.streetList?.filter(item => {
         if (item.id === value) {
@@ -180,7 +167,7 @@ export default Form.create({})({
       deep: true,
       handler(value) {
         if (value && value.countyId && value.schoolId) {
-          this.getStreetList(value.countyId)
+          this.getStreetList([null, null, this.currentItem.countyId])
           this.curSchool(value.schoolId)
           this.getGradeList(value.schoolId)
 
@@ -594,14 +581,19 @@ export default Form.create({})({
             <Col span={6}>
               <Form.Item label="地址">
                 {
-                  this.form.getFieldDecorator('areaCode', {
+                  this.form.getFieldDecorator('districtList', {
+                    getValueFromEvent: (value, selectedOptions) => selectedOptions.map(item => ({
+                      id: item.id,
+                      name: item.name
+                    })),
+                    getValueProps: val => ({ value: val.map(i => isNaN(+i) ? i.id : i) }),
                     initialValue: this.currentItem.provinceId && this.currentItem.cityId && this.currentItem.countyId
                       ? [
                         this.currentItem.provinceId,
                         this.currentItem.cityId,
                         this.currentItem.countyId
                       ]
-                      : this.defaultAdministrativeDivision,
+                      : [],
                     rules: [
                       {
                         required: true, type: 'array', message: '请选择行政区划!', trigger: 'blur'
@@ -616,7 +608,7 @@ export default Form.create({})({
                       fieldNames={{
                         label: 'name', value: 'id', children: 'children'
                       }}
-                      onchange={this.onChangeCity}
+                      onchange={this.getStreetList}
                     />
                   )
                 }
@@ -626,20 +618,13 @@ export default Form.create({})({
             <Col span={6}>
               <Form.Item label="街道">
                 {
-                  this.form.getFieldDecorator(
-                    'streetId',
-                    {
-                      initialValue: this.streetIdNumber,
-                      rules: [
-                        {
-                          required: true,
-                          type: 'number',
-                          message: '请选择街道!',
-                          trigger: 'change'
-                        }
-                      ]
-                    }
-                  )(
+                  this.form.getFieldDecorator('street', {
+                    initialValue: this.currentItem.streetId
+                      ? { key: this.currentItem.streetId, label: this.currentItem.streetName }
+                      : undefined,
+                    getValueFromEvent: getStreetValueFromEvent,
+                    getValueProps: getStreetValueProps
+                  })(
                     <Select
                       onChange={this.onChangeStreetId}
                       placeholder="请选择">
