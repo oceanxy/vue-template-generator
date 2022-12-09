@@ -139,8 +139,6 @@ export function getOrganizationTreeIcon(treeNode) {
  * @returns {(function(): Promise<*>)|(function(): Promise<*>)|(function(): Promise<*>)}
  */
 export function getExaminedDisposeTreeIcon(treeNode) {
-  console.log(treeNode)
-
   if (+treeNode.obj.parentId === 0) {
     return () => import('@/components/TGContainerWithTreeSider/assets/images/tree-examination-item.svg')
   } else {
@@ -150,4 +148,33 @@ export function getExaminedDisposeTreeIcon(treeNode) {
       return () => import('@/components/TGContainerWithTreeSider/assets/images/tree-examination-five.svg')
     }
   }
+}
+
+/**
+ * 专用于选择街道下拉框的值的配置
+ * 参考 ant-design-vue this.form.getFieldDecorator(id, options) 和 v-decorator="[id, options]" 中的配置：
+ *  options.getValueProps 设置控件的值的格式
+ * @param value
+ * @returns {{value: {label: *, key: *}}|undefined}
+ */
+export function getStreetValueProps(value) {
+  return value
+    ? {
+      value: {
+        key: value.id || value.key,
+        label: value.name || value.label
+      }
+    }
+    : undefined
+}
+
+/**
+ * 专用于选择街道下拉框的返回值的配置
+ * 参考 ant-design-vue this.form.getFieldDecorator(id, options) 和 v-decorator="[id, options]" 中的配置：
+ *  options.getValueFromEvent 设置如何将 event 的值转换成控件的返回值
+ * @param value
+ * @returns {{name, id}}
+ */
+export function getStreetValueFromEvent(value) {
+  return { id: value.key, name: value.label }
 }

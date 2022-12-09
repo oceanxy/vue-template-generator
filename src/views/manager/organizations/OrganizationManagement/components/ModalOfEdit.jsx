@@ -3,6 +3,7 @@ import forFormModal from '@/mixins/forModal/forFormModal'
 import DragModal from '@/components/DragModal'
 import { dispatch } from '@/utils/store'
 import { cloneDeep } from 'lodash'
+import { getStreetValueFromEvent, getStreetValueProps } from '@/utils/projectHelpers'
 
 export default Form.create({})({
   mixins: [forFormModal()],
@@ -225,8 +226,8 @@ export default Form.create({})({
                 initialValue: this.currentItem.streetId
                   ? { key: this.currentItem.streetId, label: this.currentItem.streetName }
                   : undefined,
-                getValueFromEvent: value => ({ id: value.key, name: value.label }),
-                getValueProps: value => value ? { value: { key: value.id, label: value.name } } : undefined
+                getValueFromEvent: getStreetValueFromEvent,
+                getValueProps: getStreetValueProps
               })(
                 <Select
                   disabled={!this.form.getFieldValue('districtList')?.[2]?.id}

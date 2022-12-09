@@ -24,21 +24,34 @@ export default ({ isFetchList = true } = {}) => {
         // 为了缓存 onSubmit 的参数
         params: {},
         // 为了缓存 onSubmit 的参数
-        options: {}
+        options: {},
+        // 搜索表单初始化值
+        initialValues: {}
+      }
+    },
+    computed: {
+      search: {
+        get() {
+          return this.$store.state[this.moduleName].search
+        },
+        set(value) {
+          if (Object.keys(value || {}).length) {
+            this.$store.commit('setState', {
+              value: value,
+              moduleName: this.moduleName,
+              submoduleName: this.submoduleName,
+              stateName: 'search',
+              merge: true
+            })
+          }
+        }
       }
     },
     created() {
-      // 如果存在初始值，将初始值保存到 store.state.search 中，
-      // 根据初始值的来源，可自行选择在混入组件的 computed 或 data 中定义 initialValue 对象
-      if (Object.keys(this.initialValue || {}).length) {
-        this.$store.commit('setState', {
-          value: this.initialValue,
-          moduleName: this.moduleName,
-          submoduleName: this.submoduleName,
-          stateName: 'search',
-          merge: true
-        })
-      }
+      // 同步 store.state.search 与 混入组件中定义的 initialValues，
+      // 根据初始值的来源，可自行选择在混入组件的 computed 或 data 中定义 initialValues 对象
+      this.initialValues = { ...this.initialValues, ...cloneDeep(this.search) }
+      this.search = this.initialValues
     },
     methods: {
       /**
@@ -68,10 +81,6 @@ export default ({ isFetchList = true } = {}) => {
           temp.appointmentDateEndMonth = temp.monthRange[1] ? moment(temp.monthRange[1]).format('YYYYMM') : ''
 
           temp = omit(temp, 'monthRange')
-        }
-
-        if ('billMonth' in temp) {
-          temp.billMonth = temp.billMonth ? moment(temp.billMonth).format('YYYYMM') : ''
         }
 
         return temp
