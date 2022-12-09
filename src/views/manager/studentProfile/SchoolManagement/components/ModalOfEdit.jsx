@@ -5,6 +5,7 @@ import DragModal from '@/components/DragModal'
 import BNUploadPictures from '@/components/BNUploadPictures'
 import { dispatch } from '@/utils/store'
 import { mapGetters } from 'vuex'
+import { getStreetValueFromEvent, getStreetValueProps } from '@/utils/projectHelpers'
 
 export default Form.create({})({
   mixins: [forFormModal()],
@@ -46,15 +47,7 @@ export default Form.create({})({
             name: this.currentItem.schoolBadgeStr?.substring(this.currentItem.schoolBadgeStr.lastIndexOf('/') ?? '')
           }
         ] : []
-    },
-
-    streetIdNumber() {
-      if (this.currentItem && this.currentItem.streetId) {
-        return Number(this.currentItem.streetId)
-      } else {
-        return undefined
-      }
-    },
+    }
   },
   async created() {
     await Promise.all([
@@ -66,48 +59,33 @@ export default Form.create({})({
       const data = { ...values }
 
       data.schoolBadge = data.schoolBadge?.[0]?.response.data[0]?.key ?? this.currentItem?.schoolBadgeStr ?? ''
-      // data.schoolBadge = this.currentItem?.schoolBadgeStr ?? data.schoolBadge?.[0]?.key ?? ''
-      data.cityName = this.currentItem?.cityName ?? this.city?.[1]?.name ?? ''
-      data.provinceName = this.currentItem?.provinceName ?? this.city?.[0]?.name ?? ''
-      data.streetName = this.currentItem?.streetName ?? this.isStreet[0]?.fullName ?? ''
-      data.streetId = this.currentItem?.streetId ?? data?.streetId ?? this.isStreet?.id ?? ''
-      data.countyName = this.currentItem?.countyName ?? this.city?.[2]?.name ?? ''
 
       return data
     },
-    async getStreetList(countyId) {
+    async getStreetList(value) {
+      console.log(value)
       await this.$store.dispatch('getListWithLoadingStatus', {
         moduleName: this.moduleName,
         stateName: 'streetList',
         customApiName: 'getStreetsByDistrictId',
         payload: {
-          countyId
+          countyId: value[2]
         }
       })
     },
-    onChange(value, selectedOptions) {
-
-      this.form.setFieldsValue({ streetId: '' })
-      this.city = selectedOptions
-      const countyId = selectedOptions[2].id
-
-      this.getStreetList(countyId)
-
-    },
-    onChangeStreetId(value) {
-      const isStreet = this.streetList.list.filter(item => {
-        if (item.id === value) {
-          return item
-        }
-      })
-
-      this.isStreet = isStreet
+    async getStreets() {
+      if (this.currentItem.id && this.currentItem.countyId) {
+        await this.getStreetList([null, null, this.currentItem.countyId])
+      }
     }
   },
   watch: {
-    'currentItem.countyId'(value) {
-      if (value) {
-        this.getStreetList(value)
+    visible: {
+      immediate: true,
+      async handler(value) {
+        if (value) {
+          this.getStreets()
+        }
       }
     }
   },
@@ -404,14 +382,19 @@ export default Form.create({})({
             <Col span={6}>
               <Form.Item label="地址">
                 {
-                  this.form.getFieldDecorator('areaCode', {
+                  this.form.getFieldDecorator('districtList', {
+                    getValueFromEvent: (value, selectedOptions) => selectedOptions.map(item => ({
+                      id: item.id,
+                      name: item.name
+                    })),
+                    getValueProps: val => ({ value: val.map(i => isNaN(+i) ? i.id : i) }),
                     initialValue: this.currentItem.provinceId && this.currentItem.cityId && this.currentItem.countyId
                       ? [
                         this.currentItem.provinceId,
                         this.currentItem.cityId,
                         this.currentItem.countyId
                       ]
-                      : this.defaultAdministrativeDivision,
+                      : [],
                     rules: [
                       {
                         required: true, type: 'array', message: '请选择行政区划!', trigger: 'blur'
@@ -422,11 +405,11 @@ export default Form.create({})({
                       placeholder="请选择省市区"
                       expandTrigger={'hover'}
                       allowClear
-                      options={this.administrativeDivision}
                       fieldNames={{
                         label: 'name', value: 'id', children: 'children'
                       }}
-                      onchange={this.onChange}
+                      options={this.administrativeDivision}
+                      onchange={this.getStreetList}
                     />
                   )
                 }
@@ -436,26 +419,20 @@ export default Form.create({})({
             <Col span={6}>
               <Form.Item label="选择街道">
                 {
-                  this.form.getFieldDecorator(
-                    'streetId',
-                    {
-                      initialValue: this.streetIdNumber,
-                      rules: [
-                        {
-                          required: true,
-                          type: 'number',
-                          message: '请选择街道!',
-                          trigger: 'change'
-                        }
-                      ]
-                    }
-                  )(
+                  this.form.getFieldDecorator('street', {
+                    initialValue: this.currentItem.streetId
+                      ? { key: this.currentItem.streetId, label: this.currentItem.streetName }
+                      : undefined,
+                    getValueFromEvent: getStreetValueFromEvent,
+                    getValueProps: getStreetValueProps
+                  })(
                     <Select
-                      onChange={this.onChangeStreetId}
+                      disabled={!this.form.getFieldValue('districtList')?.[2]?.id}
+                      labelInValue
                       placeholder="请选择">
                       {
                         this.streetList.list?.map(item => (
-                          <Select.Option value={item.id} >{item.fullName}</Select.Option>
+                          <Select.Option value={item.id + ''} >{item.fullName}</Select.Option>
                         ))
                       }
                     </Select>
