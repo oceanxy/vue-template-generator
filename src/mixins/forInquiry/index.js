@@ -5,7 +5,7 @@
  * @Date: 2022-03-14 周一 15:33:20
  */
 
-import { omit } from 'lodash'
+import { cloneDeep, omit } from 'lodash'
 import moment from 'moment'
 
 /**
@@ -47,7 +47,7 @@ export default ({ isFetchList = true } = {}) => {
        * @returns {{}}
        */
       transformValue(values) {
-        let temp = { ...values }
+        let temp = cloneDeep(values)
 
         if ('dateRange' in temp) {
           temp.startTime = temp.dateRange[0] ? moment(temp.dateRange[0]).format('YYYYMMDD') : ''
@@ -78,7 +78,7 @@ export default ({ isFetchList = true } = {}) => {
       },
       async onClear() {
         this.form.resetFields()
-        await this.onSubmit(this.params, this.options)
+        await this.onSubmit(null, this.params, this.options)
       },
       async onSearch(payload, options) {
         await this.$store.dispatch('setSearch', {

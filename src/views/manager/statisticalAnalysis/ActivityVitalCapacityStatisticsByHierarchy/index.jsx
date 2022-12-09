@@ -1,7 +1,7 @@
 import dynamicState from '@/mixins/dynamicState'
 import TGContainerWithTreeSider from '@/components/TGContainerWithTreeSider'
 import TGContainer from '@/layouts/components/TGContainer'
-import Inquiry from '../components/InquiryByGrade'
+import Inquiry from '../components/InquiryByHierarchy'
 import Table from './components/Table'
 import Functions from './components/Functions'
 import { getFieldNameForSchoolGroupType } from '@/utils/projectHelpers'

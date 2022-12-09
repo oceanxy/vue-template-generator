@@ -9,6 +9,7 @@ import forModal from '@/mixins/forModal'
 import { cloneDeep, omit } from 'lodash'
 import moment from 'moment'
 import { message } from '@/utils/message'
+import { value } from 'lodash/seq'
 
 export default () => {
   return {
@@ -73,20 +74,6 @@ export default () => {
           temp = omit(temp, 'dateRange')
         }
 
-        if ('areaCode' in temp) {
-          if (Array.isArray(temp.areaCode)) {
-            temp.provinceId = temp.areaCode[0]
-            temp.cityId = temp.areaCode[1]
-            temp.countyId = temp.areaCode[2]
-          } else {
-            temp.provinceId = ''
-            temp.cityId = ''
-            temp.countyId = ''
-          }
-
-          temp = omit(temp, 'areaCode')
-        }
-
         return temp
       },
       /**
@@ -112,6 +99,7 @@ export default () => {
         done
       } = {}) {
         this.form.validateFieldsAndScroll(async (err, values) => {
+          console.log(values)
           let validation = true
 
           if (typeof customValidation === 'function') {

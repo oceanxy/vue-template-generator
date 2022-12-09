@@ -6,6 +6,7 @@ import Inquiry from './components/Inquiry'
 import Table from './components/Table'
 import ModalOfEdit from './components/ModalOfEdit'
 import TGPagination from '@/components/TGPagination'
+import { getOrganizationTreeIcon } from '@/utils/projectHelpers'
 
 export default {
   name: 'OrganizationManagement',
@@ -15,7 +16,7 @@ export default {
       <TGContainerWithTreeSider
         notNoneMode
         placeholder={'请输入组织机构名称'}
-        // contentClass="fe-basic-data-container"
+        getCustomIcon={getOrganizationTreeIcon}
         getFieldNameForTreeId={() => 'parentId'}
         apiOptions={{
           apiName: 'getOrganizationTree',

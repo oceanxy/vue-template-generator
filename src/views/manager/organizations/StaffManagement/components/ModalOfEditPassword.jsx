@@ -15,7 +15,7 @@ export default Form.create({})({
       return {
         attrs: this.modalProps,
         on: {
-          cancel: () => this.onCancel(),
+          cancel: () => this.onCancel('visibleOfEditPassword'),
           ok: () => this.onSubmit({
             customApiName: 'updatePasswordOfStaff',
             customDataHandler: value => {

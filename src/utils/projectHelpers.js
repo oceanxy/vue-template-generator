@@ -101,18 +101,34 @@ export function getGradeStr(grade) {
 }
 
 /**
- * 获取学校树的定制图标
+ * 获取学校树的自定义图标
  * @param treeNode
  * @returns {(function(): Promise<*>)|(function(): Promise<*>)|(function(): Promise<*>)}
  */
 export function getSchoolTreeIcon(treeNode) {
+  // 父ID为0为树的最顶级（区县一级）
   if (+treeNode.obj.parentId === 0) {
     return () => import('@/components/TGContainerWithTreeSider/assets/images/tree-district.svg')
   } else {
+    // 排除父ID为0的所有父级为树的第二级（街道一级），不是父级的为叶子节点（学校一级）
     if (treeNode.isParent) {
       return () => import('@/components/TGContainerWithTreeSider/assets/images/tree-street.svg')
     } else {
       return () => import('@/components/TGContainerWithTreeSider/assets/images/tree-school.svg')
     }
+  }
+}
+
+/**
+ * 获取组织树的自定义图标
+ * @param treeNode
+ * @returns {(function(): Promise<*>)|(function(): Promise<*>)|(function(): Promise<*>)}
+ */
+export function getOrganizationTreeIcon(treeNode) {
+  // 排除父ID为0的所有父级为树的第二级（街道一级），不是父级的为叶子节点（学校一级）
+  if (treeNode.isParent) {
+    return () => import('@/layouts/components/TGMenu/assets/images/organization.svg')
+  } else {
+    return () => import('@/layouts/components/TGMenu/assets/images/organizationItem.svg')
   }
 }

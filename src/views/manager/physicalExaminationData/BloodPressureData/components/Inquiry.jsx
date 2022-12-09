@@ -133,7 +133,7 @@ export default Form.create({})({
           </Form.Item>
           <Form.Item label={'是否有效'}>
             {
-              this.form.getFieldDecorator('grade', { initialValue: '' })(
+              this.form.getFieldDecorator('isEffective', { initialValue: '' })(
                 <Select>
                   <Select.Option value={''}>全部</Select.Option>
                   <Select.Option value={1}>有效</Select.Option>

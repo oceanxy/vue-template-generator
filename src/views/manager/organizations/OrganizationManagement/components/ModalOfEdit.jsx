@@ -190,7 +190,12 @@ export default Form.create({})({
           </Form.Item>
           <Form.Item label="地址" class={'half'}>
             {
-              this.form.getFieldDecorator('areaCode', {
+              this.form.getFieldDecorator('districtList', {
+                getValueFromEvent: (value, selectedOptions) => selectedOptions.map(item => ({
+                  id: item.id,
+                  name: item.name
+                })),
+                getValueProps: val => ({ value: val.map(i => isNaN(+i) ? i.id : i) }),
                 initialValue: this.currentItem.provinceId && this.currentItem.cityId && this.currentItem.countyId
                   ? [
                     this.currentItem.provinceId,
@@ -200,7 +205,7 @@ export default Form.create({})({
                   : []
               })(
                 <Cascader
-                  placeholder="请选择省市区"
+                  placeholder="请选择省、市和区"
                   expandTrigger={'hover'}
                   allowClear
                   fieldNames={{
@@ -216,9 +221,16 @@ export default Form.create({})({
           </Form.Item>
           <Form.Item label="选择街道" class={'half'}>
             {
-              this.form.getFieldDecorator('streetId', { initialValue: this.currentItem.streetId || undefined })(
+              this.form.getFieldDecorator('street', {
+                initialValue: this.currentItem.streetId
+                  ? { key: this.currentItem.streetId, label: this.currentItem.streetName }
+                  : undefined,
+                getValueFromEvent: value => ({ id: value.key, name: value.label }),
+                getValueProps: value => value ? { value: { key: value.id, label: value.name } } : undefined
+              })(
                 <Select
-                  disabled={!this.form.getFieldValue('areaCode')[2]}
+                  disabled={!this.form.getFieldValue('districtList')?.[2]?.id}
+                  labelInValue
                   placeholder="请选择街道"
                 >
                   {

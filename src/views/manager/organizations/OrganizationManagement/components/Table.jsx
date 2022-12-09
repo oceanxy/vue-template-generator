@@ -44,7 +44,7 @@ export default {
           },
           {
             title: '街道',
-            width: 80,
+            width: 150,
             align: 'center',
             dataIndex: 'streetName'
           },

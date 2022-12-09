@@ -82,8 +82,10 @@ export default Form.create({})({
 
       await this.getTownOrSubDistrictsForSelectByActivityId(activityId)
     },
-    async onChange() {
-      await this.setSearch()
+    onChange() {
+      // 在 onChange 里面触发表单验证或提交有滞后性，表单项值的改变慢与表单的验证，
+      // 导致传递给接口的参数不是改变后的值，用 nextTick 规避此问题。
+      this.$nextTick(async () => await this.setSearch())
     },
     emit() {
       this.$emit('exportParamsChange', {
@@ -129,10 +131,7 @@ export default Form.create({})({
             数据来源：<span>{this.currentActivity.activityName || '-'}</span>
           </p>
         </div>
-        <Form
-          onSubmit={this.onSubmit}
-          class={'row-inquiry'}
-        >
+        <Form class={'row-inquiry'}>
           <Form.Item class={'activity'} label={'数据来源'}>
             <Spin spinning={this.activities.loading}>
               {
@@ -163,24 +162,24 @@ export default Form.create({})({
             </Spin>
           </Form.Item>
           <Form.Item label={'镇街范围'}>
-            {
-              this.form.getFieldDecorator(
-                'range',
-                { initialValue: this.townOrSubDistricts.list.map(item => item.streetId) }
-              )(
-                <Checkbox.Group onChange={this.onChange}>
-                  <Spin spinning={this.townOrSubDistricts.loading}>
+            <Spin spinning={this.townOrSubDistricts.loading}>
+              {
+                this.form.getFieldDecorator(
+                  'range',
+                  { initialValue: this.townOrSubDistricts.list.map(item => item.streetId) }
+                )(
+                  <Checkbox.Group onChange={this.onChange}>
                     {
                       this.townOrSubDistricts.list?.length
                         ? this.townOrSubDistricts.list.map(item => (
                           <Checkbox value={item.streetId}>{item.streetName}</Checkbox>
                         ))
-                        : '暂无数据'
+                        : '暂无数据（选择活动后显示）'
                     }
-                  </Spin>
-                </Checkbox.Group>
-              )
-            }
+                  </Checkbox.Group>
+                )
+              }
+            </Spin>
           </Form.Item>
           <Form.Item label={'类型范围'}>
             {
