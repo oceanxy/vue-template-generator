@@ -14,18 +14,14 @@ export default {
             title: '序号',
             width: 60,
             align: 'center',
-            fixed: true,
             scopedSlots: { customRender: 'serialNumber' }
           },
           {
             title: '年级名称',
-            width: 150,
-            fixed: true,
             dataIndex: 'gradeName'
           },
           {
             title: '学校名称',
-            // width: 200,
             dataIndex: 'schoolName'
           },
           {
@@ -42,24 +38,23 @@ export default {
           },
           {
             title: '班级数量',
+            align: 'center',
             dataIndex: 'classNum'
           },
           {
             title: '年级人数',
+            align: 'center',
             dataIndex: 'studentNum'
           },
           {
             title: '状态',
             align: 'center',
-            fixed: 'right',
-            width: 100,
             scopedSlots: { customRender: 'status' }
           },
           {
             title: '操作',
             align: 'center',
-            fixed: 'right',
-            width: 120,
+            width: 180,
             scopedSlots: { customRender: 'operation' }
           }
         ]

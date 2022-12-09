@@ -106,8 +106,6 @@ export function getGradeStr(grade) {
  * @returns {(function(): Promise<*>)|(function(): Promise<*>)|(function(): Promise<*>)}
  */
 export function getSchoolTreeIcon(treeNode) {
-  console.log(treeNode)
-
   if (+treeNode.obj.parentId === 0) {
     return () => import('@/components/TGContainerWithTreeSider/assets/images/tree-district.svg')
   } else {
@@ -115,6 +113,25 @@ export function getSchoolTreeIcon(treeNode) {
       return () => import('@/components/TGContainerWithTreeSider/assets/images/tree-street.svg')
     } else {
       return () => import('@/components/TGContainerWithTreeSider/assets/images/tree-school.svg')
+    }
+  }
+}
+
+/**
+ * 获取体检配置树的定制图标
+ * @param treeNode
+ * @returns {(function(): Promise<*>)|(function(): Promise<*>)|(function(): Promise<*>)}
+ */
+export function getExaminedDisposeTreeIcon(treeNode) {
+  console.log(treeNode)
+
+  if (+treeNode.obj.parentId === 0) {
+    return () => import('@/components/TGContainerWithTreeSider/assets/images/tree-examination-item.svg')
+  } else {
+    if (!treeNode.isParent && treeNode.name === '内科') {
+      return () => import('@/components/TGContainerWithTreeSider/assets/images/tree-examination-malady.svg')
+    } else if (!treeNode.isParent && treeNode.name === '五官') {
+      return () => import('@/components/TGContainerWithTreeSider/assets/images/tree-examination-five.svg')
     }
   }
 }

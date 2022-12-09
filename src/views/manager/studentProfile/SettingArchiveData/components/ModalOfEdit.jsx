@@ -170,17 +170,8 @@ export default Form.create({})({
                 'schoolIds',
                 {
                   initialValue: this.currentItem.schoolList?.map(item => item.schoolId)
-                  // rules: [
-                  //   {
-                  //     required: true,
-                  //     message: '请选择活动!',
-                  //     trigger: 'change'
-                  //   }
-                  // ]
                 }
               )(
-                // <Row gutter={10}>
-                // <Col span={20}>
                 <TreeSelect
                   style="width: 100%"
                   treeData={this.schoolList.list}
@@ -198,15 +189,6 @@ export default Form.create({})({
                   onFocus={this.focus}
                   onChange={this.onChangeSelect}
                 ></TreeSelect>
-                // </Col>
-                /* <Col span={4}>
-                  <Button
-                    type="primary"
-                    onClick={() => this.selectSchoolTree()}
-                    onClick={() => this._setVisibleOfModal({ curActivitieId: this.curActivitieId }, 'visibleOfSchoolTre')}
-                  >选择</Button>
-                </Col> */
-                /* </Row> */
               )
             }
           </Form.Item>
