@@ -53,30 +53,8 @@ export default Form.create({})({
     },
     organIdList() {
       const organIds = this.details?.organIds?.split(',') || []
-      const arr = []
 
-      organIds.forEach(itm => {
-        this.organsTree.map(item => {
-          if (item.id === itm) {
-            if (item.children) {
-              item.children.map(item2 => {
-                if (item2.id === item) {
-                  arr.push(item2.id)
-                }
-              })
-            }
-
-            arr.push(item.id)
-          }
-
-        })
-      })
-
-      if (arr) {
-        return arr
-      } else {
-        return null
-      }
+      return organIds.map(item => { return item })
     },
     attributes() {
       return {
@@ -115,7 +93,7 @@ export default Form.create({})({
       await this.$store.dispatch('getListWithLoadingStatus', {
         moduleName: this.moduleName,
         stateName: 'organsTree',
-        customApiName: 'getGetOrgansTree'
+        customApiName: 'getGetAllOrgans'
       })
     },
 
@@ -395,7 +373,7 @@ export default Form.create({})({
               this.form.getFieldDecorator(
                 'organIds',
                 {
-                  initialValue: this.organIdList ?? undefined
+                  initialValue: this.organIdList
                 }
               )(
                 <TreeSelect

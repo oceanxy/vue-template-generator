@@ -56,7 +56,7 @@ export default {
           },
           {
             title: '是否分校',
-            width: 120,
+            width: 90,
             align: 'center',
             scopedSlots: { customRender: 'isBranchSchool' }
           },
