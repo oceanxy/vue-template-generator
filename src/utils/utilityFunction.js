@@ -42,7 +42,7 @@ export function generateRoute(menu) {
   }
 
   if (icon) {
-    route.meta.icon = () => import('@/layouts/components/TGMenu/assets/images/' + icon)
+    route.meta.icon = () => import('@/layouts/components/TGMenu/assets/images/' + icon + '.svg')
   }
 
   if (redirect) {
