@@ -508,6 +508,7 @@ export default Form.create({})({
                     initialValue: this.currentItem.leftGlassesValue
                   })(
                     <InputNumber
+                      disabled={this.glassesTypeSelect}
                       style={{ width: '100%' }}
                       placeholder="请输入"
                       allowClear
@@ -524,6 +525,7 @@ export default Form.create({})({
                     initialValue: this.currentItem.rightGlassesValue
                   })(
                     <InputNumber
+                      disabled={this.glassesTypeSelect}
                       style={{ width: '100%' }}
                       placeholder="请输入"
                       allowClear
@@ -586,12 +588,12 @@ export default Form.create({})({
                       id: item.id,
                       name: item.name
                     })),
-                    getValueProps: val => ({ value: val.map(i => isNaN(+i) ? i.id : i) }),
+                    getValueProps: val => ({ value: val.map(i => i.id) }),
                     initialValue: this.currentItem.provinceId && this.currentItem.cityId && this.currentItem.countyId
                       ? [
-                        this.currentItem.provinceId,
-                        this.currentItem.cityId,
-                        this.currentItem.countyId
+                        { id: this.currentItem.provinceId, name: this.currentItem.provinceName },
+                        { id: this.currentItem.cityId, name: this.currentItem.cityName },
+                        { id: this.currentItem.countyId, name: this.currentItem.countyName }
                       ]
                       : [],
                     rules: [
@@ -627,10 +629,11 @@ export default Form.create({})({
                   })(
                     <Select
                       onChange={this.onChangeStreetId}
-                      placeholder="请选择">
+                      labelInValue
+                      placeholder="请选择街道">
                       {
                         this.streetList?.map(item => (
-                          <Select.Option value={item.id} >{item.fullName}</Select.Option>
+                          <Select.Option value={item.id + ''} >{item.fullName}</Select.Option>
                         ))
                       }
                     </Select>

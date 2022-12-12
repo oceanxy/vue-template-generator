@@ -5,7 +5,11 @@ import { mapGetters } from 'vuex'
 
 export default Form.create({})({
   mixins: [forInquiry()],
-
+  data: () => ({
+    initialValues: {
+      itemId: ''
+    }
+  }),
   computed: {
     ...mapGetters({ getState: 'getState' }),
     levelList() {
@@ -30,7 +34,7 @@ export default Form.create({})({
         <div class={'row-down'}>
           <Form.Item label="状态">
             {
-              this.form.getFieldDecorator('status', { initialValue: '' })(
+              this.form.getFieldDecorator('status', { initialValue: this.initialValues.status })(
                 <Select>
                   <Select.Option value={''}>全部</Select.Option>
                   <Select.Option value={1}>启用</Select.Option>
@@ -41,7 +45,7 @@ export default Form.create({})({
           </Form.Item>
           <Form.Item label="项目">
             {
-              this.form.getFieldDecorator('itemId', { initialValue: '' })(
+              this.form.getFieldDecorator('itemId', { initialValue: this.initialValues.itemId })(
                 <Select>
                   <Select.Option value={''}>全部</Select.Option>
                   {
@@ -55,7 +59,7 @@ export default Form.create({})({
           </Form.Item>
           <Form.Item label={'名称'}>
             {
-              this.form.getFieldDecorator('conclusionLevelName')(
+              this.form.getFieldDecorator('conclusionLevelName', { initialValue: this.initialValues.conclusionLevelName })(
                 <Input placeholder={'项目名称'} />
               )
             }

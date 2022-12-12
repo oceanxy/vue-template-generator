@@ -124,7 +124,7 @@ export default Form.create({})({
     },
     // 删除学校
     async deleteSchool(id) {
-      await dispatch(this.moduleName, 'del_item', id)
+      await dispatch(this.moduleName, 'delSchoolItem', id)
     },
     customDataHandler(values) {
       const data = { ...values }

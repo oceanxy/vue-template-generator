@@ -32,12 +32,12 @@ export default commitRootInModule =>
         rightSchool: []
       },
       mutations: {
-        AddSchoolList(state, item) {
+        setAddSchoolList(state, item) {
           item.map(itm => {
             state.rightSchool.push(itm)
           })
         },
-        DelSchoolList(state, id) {
+        setDelSchoolList(state, id) {
           const index = state.rightSchool.findIndex(itm => {
             if (itm.id === id) {
               return true
@@ -48,14 +48,14 @@ export default commitRootInModule =>
         }
       },
       actions: {
-        add_item({ commit }, item) {
+        addSchoolItem({ commit }, item) {
           if (item) {
-            commit('AddSchoolList', item)
+            commit('setAddSchoolList', item)
           }
         },
-        del_item({ commit }, id) {
+        delSchoolItem({ commit }, id) {
           console.log(id)
-          commit('DelSchoolList', id)
+          commit('setDelSchoolList', id)
         }
       }
     })

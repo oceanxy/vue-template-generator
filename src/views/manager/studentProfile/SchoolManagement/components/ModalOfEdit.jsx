@@ -59,6 +59,7 @@ export default Form.create({})({
       const data = { ...values }
 
       data.schoolBadge = data.schoolBadge?.[0]?.response.data[0]?.key ?? this.currentItem?.schoolBadgeStr ?? ''
+      data.status = Number(data.status) ?? Number(this.currentItem?.isContainKindergarten) ?? ''
 
       return data
     },
@@ -387,12 +388,12 @@ export default Form.create({})({
                       id: item.id,
                       name: item.name
                     })),
-                    getValueProps: val => ({ value: val.map(i => isNaN(+i) ? i.id : i) }),
+                    getValueProps: val => ({ value: val.map(i => i.id) }),
                     initialValue: this.currentItem.provinceId && this.currentItem.cityId && this.currentItem.countyId
                       ? [
-                        this.currentItem.provinceId,
-                        this.currentItem.cityId,
-                        this.currentItem.countyId
+                        { id: this.currentItem.provinceId, name: this.currentItem.provinceName },
+                        { id: this.currentItem.cityId, name: this.currentItem.cityName },
+                        { id: this.currentItem.countyId, name: this.currentItem.countyName }
                       ]
                       : [],
                     rules: [
@@ -461,7 +462,8 @@ export default Form.create({})({
                   this.form.getFieldDecorator('longitude', {
                     initialValue: this.currentItem.longitude
                   })(
-                    <Input
+                    <InputNumber
+                      style={{ width: '100%' }}
                       placeholder="请输入"
                       allowClear
                     />
@@ -475,7 +477,8 @@ export default Form.create({})({
                   this.form.getFieldDecorator('latitude', {
                     initialValue: this.currentItem.latitude
                   })(
-                    <Input
+                    <InputNumber
+                      style={{ width: '100%' }}
                       placeholder="请输入"
                       allowClear
                     />

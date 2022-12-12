@@ -150,13 +150,13 @@ export default ({
         })
 
         if (arr) {
-          await dispatch('activityManagement', 'add_item', arr)
+          await dispatch('activityManagement', 'addSchoolItem', arr)
         }
       }
     },
     // 删除学校
     async deleteSchool(id) {
-      await dispatch('activityManagement', 'del_item', id)
+      await dispatch('activityManagement', 'delSchoolItem', id)
     },
     // 确认学校
     async onSubmit() {
