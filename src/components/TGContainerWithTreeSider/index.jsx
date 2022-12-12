@@ -273,6 +273,24 @@ export default {
           ? () => import(`@/layouts/components/TGMenu/assets/images/${treeNode.obj.menuIcon}.svg`)
           : undefined // todo 此处设置为默认图标
     },
+    /**
+     * 获取树节点集合（注意此处有递归）
+     * @param dataSource {Array} 生成树节点的数据源
+     * @returns {*|*[]}
+     */
+    getTreeNode(dataSource) {
+      return dataSource?.map(item => (
+        <Tree.TreeNode key={item.id}>
+          <Icon slot={'icon'} class={'icon'} component={this.getIcon(item)} />
+          {this.highlight(item)}
+          {
+            Array.isArray(item?.children)
+              ? this.getTreeNode(item.children)
+              : null
+          }
+        </Tree.TreeNode>
+      )) ?? []
+    },
     onSidebarSwitch() {
       this.tableRef?.$parent?.resize()
     },
@@ -312,30 +330,7 @@ export default {
                   expandedKeys={this.expandedKeys}
                   onExpand={this.onExpand}
                 >
-                  {
-                    this.treeDataSource.map(item => (
-                      <Tree.TreeNode key={item.id}>
-                        <Icon slot={'icon'} class={'icon'} component={this.getIcon(item)} />
-                        {this.highlight(item)}
-                        {
-                          item?.children?.map(subItem => (
-                            <Tree.TreeNode key={subItem.id}>
-                              <Icon slot={'icon'} class={'icon'} component={this.getIcon(subItem)} />
-                              {this.highlight(subItem)}
-                              {
-                                subItem?.children?.map(leafItem => (
-                                  <Tree.TreeNode key={leafItem.id}>
-                                    <Icon slot={'icon'} class={'icon'} component={this.getIcon(leafItem)} />
-                                    {this.highlight(leafItem)}
-                                  </Tree.TreeNode>
-                                )) ?? []
-                              }
-                            </Tree.TreeNode>
-                          )) ?? []
-                        }
-                      </Tree.TreeNode>
-                    ))
-                  }
+                  {this.getTreeNode(this.treeDataSource)}
                 </Tree>
               ) : <Empty />
             }

@@ -106,11 +106,11 @@ export function getGradeStr(grade) {
  * @returns {(function(): Promise<*>)|(function(): Promise<*>)|(function(): Promise<*>)}
  */
 export function getSchoolTreeIcon(treeNode) {
-  // 父ID为0为树的最顶级（区县一级）
-  if (+treeNode.obj.parentId === 0) {
+  // 父ID为500001为树的最顶级（区县一级）
+  if (+treeNode.obj.pid === 500001) {
     return () => import('@/components/TGContainerWithTreeSider/assets/images/tree-district.svg')
   } else {
-    // 排除父ID为0的所有父级为树的第二级（街道一级），不是父级的为叶子节点（学校一级）
+    // 排除父ID为500001的所有父级为树的第二级（街道一级），不是父级的为叶子节点（学校一级）
     if (treeNode.isParent) {
       return () => import('@/components/TGContainerWithTreeSider/assets/images/tree-street.svg')
     } else {
@@ -125,7 +125,6 @@ export function getSchoolTreeIcon(treeNode) {
  * @returns {(function(): Promise<*>)|(function(): Promise<*>)|(function(): Promise<*>)}
  */
 export function getOrganizationTreeIcon(treeNode) {
-  // 排除父ID为0的所有父级为树的第二级（街道一级），不是父级的为叶子节点（学校一级）
   if (treeNode.isParent) {
     return () => import('@/layouts/components/TGMenu/assets/images/organization.svg')
   } else {
