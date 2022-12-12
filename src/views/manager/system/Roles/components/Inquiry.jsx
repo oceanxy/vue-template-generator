@@ -14,7 +14,7 @@ export default Form.create({})({
         <Space>
           <Form.Item label={'角色名称'}>
             {
-              this.form.getFieldDecorator('fullName')(
+              this.form.getFieldDecorator('fullName', { initialValue: this.initialValues.fullName })(
                 <Input placeholder="请输入名称" allowClear />
               )
             }

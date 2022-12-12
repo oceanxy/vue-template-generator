@@ -3,7 +3,7 @@ import forInquiry from '@/mixins/forInquiry'
 
 export default Form.create({})({
   mixins: [forInquiry()],
-  data: () => ({ initialValue: { allLeaf: 1 } }),
+  data: () => ({ initialValues: { allLeaf: 1 } }),
   render() {
     return (
       <Form
@@ -15,7 +15,7 @@ export default Form.create({})({
         <Space>
           <Form.Item label={'包含子级'}>
             {
-              this.form.getFieldDecorator('allLeaf', { initialValue: this.initialValue.allLeaf })(
+              this.form.getFieldDecorator('allLeaf', { initialValue: this.initialValues.allLeaf })(
                 <Select>
                   <Select.Option value={1}>是</Select.Option>
                   <Select.Option value={0}>否</Select.Option>
@@ -25,7 +25,7 @@ export default Form.create({})({
           </Form.Item>
           <Form.Item label={'状态'}>
             {
-              this.form.getFieldDecorator('status', { initialValue: this.initialValue.status })(
+              this.form.getFieldDecorator('status', { initialValue: this.initialValues.status })(
                 <Select>
                   <Select.Option value={''}>全部</Select.Option>
                   <Select.Option value={1}>启用</Select.Option>
@@ -36,7 +36,7 @@ export default Form.create({})({
           </Form.Item>
           <Form.Item label={'姓名'}>
             {
-              this.form.getFieldDecorator('fullName')(
+              this.form.getFieldDecorator('fullName', { initialValue: this.initialValues.fullName })(
                 <Input
                   placeholder="请输入职员姓名"
                   allowClear

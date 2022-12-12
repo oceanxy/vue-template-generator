@@ -99,7 +99,6 @@ export default () => {
         done
       } = {}) {
         this.form.validateFieldsAndScroll(async (err, values) => {
-          console.log(values)
           let validation = true
 
           if (typeof customValidation === 'function') {

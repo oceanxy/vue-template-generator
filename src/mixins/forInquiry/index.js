@@ -9,11 +9,17 @@ import { cloneDeep, omit } from 'lodash'
 import moment from 'moment'
 
 /**
- * @param isFetchList {boolean} 是否通过本组件的搜索按钮来请求数据，默认true。
+ * 生成用于表格搜索的混合
+ * @param isFetchList {boolean} 是否通过本组件的搜索按钮来请求数据，默认 true。
+ *  在一些特殊场景，搜索按钮只负责改变 store 内的值，例如：
  *  如果其他组件（如左侧树、页面列表等）有请求数据的逻辑，此处请设置为 false，搜索按钮仅仅用来控制 store.state.search 的值
+ * @param isInitializeFromStore {boolean} 在组件加载成功时，是否把 store 内对应本组件的模块的搜索参数映射到 Form 组件内，默认 false
  * @returns {Object}
  */
-export default ({ isFetchList = true } = {}) => {
+export default ({
+  isFetchList = true,
+  isInitializeFromStore = false
+} = {}) => {
   return {
     inject: {
       moduleName: { default: '' },
@@ -50,8 +56,16 @@ export default ({ isFetchList = true } = {}) => {
     created() {
       // 同步 store.state.search 与 混入组件中定义的 initialValues，
       // 根据初始值的来源，可自行选择在混入组件的 computed 或 data 中定义 initialValues 对象
-      this.initialValues = { ...this.initialValues, ...cloneDeep(this.search) }
+      if (isInitializeFromStore) {
+        this.initialValues = { ...this.initialValues, ...cloneDeep(this.search) }
+      }
+
       this.search = this.initialValues
+    },
+    mounted() {
+      if (!isInitializeFromStore) {
+        this.search = cloneDeep(this.form.getFieldsValue())
+      }
     },
     methods: {
       /**

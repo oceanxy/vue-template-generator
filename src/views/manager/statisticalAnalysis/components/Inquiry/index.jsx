@@ -30,7 +30,13 @@ export default Form.create({})({
       required: true
     }
   },
-  data: () => ({ currentActivity: {} }),
+  data: () => ({
+    currentActivity: {},
+    initialValues: {
+      schoolTypes: [111, 211, 241, 311, 341, 365, 411],
+      gender: 1
+    }
+  }),
   computed: {
     ...mapGetters({ getState: 'getState' }),
     activities() {
@@ -183,7 +189,7 @@ export default Form.create({})({
           </Form.Item>
           <Form.Item label={'类型范围'}>
             {
-              this.form.getFieldDecorator('schoolTypes', { initialValue: [111, 211, 241, 311, 341, 365, 411] })(
+              this.form.getFieldDecorator('schoolTypes', { initialValue: this.initialValues.schoolTypes })(
                 <Checkbox.Group onChange={this.onChange}>
                   <Checkbox value={111}>幼儿园</Checkbox>
                   <Checkbox value={211}>小学</Checkbox>
@@ -198,7 +204,7 @@ export default Form.create({})({
           </Form.Item>
           <Form.Item label={'性别范围'}>
             {
-              this.form.getFieldDecorator('gender', { initialValue: 1 })(
+              this.form.getFieldDecorator('gender', { initialValue: this.initialValues.gender })(
                 <Radio.Group onChange={this.onChange}>
                   <Radio value={1}>男生</Radio>
                   <Radio value={2}>女生</Radio>

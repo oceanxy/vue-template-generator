@@ -14,7 +14,7 @@ export default Form.create({})({
         <Space>
           <Form.Item label={'菜单名称'}>
             {
-              this.form.getFieldDecorator('fnName')(
+              this.form.getFieldDecorator('fnName', { initialValue: this.initialValues.fnName })(
                 <Input placeholder="请输入菜单名称" allowClear />
               )
             }

@@ -6,6 +6,15 @@ import forInquiryAboutActivity from '@/mixins/forInquiry/forInquiryAboutActivity
 
 export default Form.create({})({
   mixins: [forInquiry(), forInquiryAboutActivity()],
+  data: () => ({
+    initialValues: {
+      activityOrgId: '',
+      grade: '',
+      notEndId: '',
+      isSignOut: '',
+      dateRange: []
+    }
+  }),
   async created() {
     this.activityId = this.$route.query.activityId
 
@@ -26,7 +35,9 @@ export default Form.create({})({
           <Form.Item class={'activity'}>
             <Spin spinning={this.activities.loading}>
               {
-                this.form.getFieldDecorator('activityId', { initialValue: this.activityId ?? this.activities.list[0]?.id ?? undefined })(
+                this.form.getFieldDecorator('activityId', {
+                  initialValue: this.activityId ?? this.activities.list[0]?.id ?? undefined
+                })(
                   <Select
                     suffixIcon={<Icon type="caret-down" />}
                     notFoundContent={<Empty />}
@@ -57,7 +68,7 @@ export default Form.create({})({
         <div class={'row-down'}>
           <Form.Item label="组织">
             {
-              this.form.getFieldDecorator('activityOrgId', { initialValue: '' })(
+              this.form.getFieldDecorator('activityOrgId', { initialValue: this.initialValues.activityOrgId })(
                 <Select notFoundContent={this.organizations.loading ? <Spin /> : undefined}>
                   {
                     [
@@ -75,7 +86,7 @@ export default Form.create({})({
           </Form.Item>
           <Form.Item label={'年级'}>
             {
-              this.form.getFieldDecorator('grade', { initialValue: '' })(
+              this.form.getFieldDecorator('grade', { initialValue: this.initialValues.grade })(
                 <Select>
                   <Select.Option value={''}>全部</Select.Option>
                   <Select.Option value={4}>一年级</Select.Option>
@@ -96,7 +107,7 @@ export default Form.create({})({
           </Form.Item>
           <Form.Item label={'班级'}>
             {
-              this.form.getFieldDecorator('classNumber', { initialValue: undefined })(
+              this.form.getFieldDecorator('classNumber', { initialValue: this.initialValues.classNumber })(
                 <InputNumber
                   min={1}
                   max={100}
@@ -110,7 +121,7 @@ export default Form.create({})({
           <Form.Item label={'体检完成数量'}>
             <Input.Group>
               {
-                this.form.getFieldDecorator('sNumber', { initialValue: undefined })(
+                this.form.getFieldDecorator('sNumber', { initialValue: this.initialValues.sNumber })(
                   <InputNumber
                     min={0}
                     max={6}
@@ -122,7 +133,7 @@ export default Form.create({})({
               }
               ~
               {
-                this.form.getFieldDecorator('eNumber', { initialValue: undefined })(
+                this.form.getFieldDecorator('eNumber', { initialValue: this.initialValues.eNumber })(
                   <InputNumber
                     min={0}
                     max={6}
@@ -151,7 +162,7 @@ export default Form.create({})({
           </Form.Item>
           <Form.Item label={'是否签退'}>
             {
-              this.form.getFieldDecorator('isSignOut', { initialValue: '' })(
+              this.form.getFieldDecorator('isSignOut', { initialValue: this.initialValues.isSignOut })(
                 <Select>
                   <Select.Option value={''}>全部</Select.Option>
                   <Select.Option value={1}>已签退</Select.Option>
@@ -162,7 +173,7 @@ export default Form.create({})({
           </Form.Item>
           <Form.Item label="签退时间" class={'span-2'}>
             {
-              this.form.getFieldDecorator('dateRange', { initialValue: [] })(
+              this.form.getFieldDecorator('dateRange', { initialValue: this.initialValues.dateRange })(
                 <DatePicker.RangePicker
                   placeholder={['开始时间', '结束时间']}
                   valueFormat={'YYYY-MM-DD'}
@@ -173,14 +184,14 @@ export default Form.create({})({
           </Form.Item>
           <Form.Item label={'姓名'}>
             {
-              this.form.getFieldDecorator('fullName')(
+              this.form.getFieldDecorator('fullName', { initialValue: this.initialValues.fullName })(
                 <Input placeholder={'请输入姓名'} />
               )
             }
           </Form.Item>
           <Form.Item label={'身份证号'}>
             {
-              this.form.getFieldDecorator('idNumber')(
+              this.form.getFieldDecorator('idNumber', { initialValue: this.initialValues.idNumber })(
                 <Input placeholder={'请输入身份证号'} allowClear />
               )
             }
