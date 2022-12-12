@@ -65,6 +65,7 @@ export default Form.create({})({
         }
       }
     },
+
     // 学校列表
     rightSchool: {
       get() {
@@ -75,6 +76,18 @@ export default Form.create({})({
           value: value,
           moduleName: this.moduleName,
           stateName: 'rightSchool'
+        })
+      }
+    },
+    checkSchool: {
+      get() {
+        return this.getState('checkSchool', this.moduleName)
+      },
+      set(value) {
+        this.$store.commit('setState', {
+          value: value,
+          moduleName: this.moduleName,
+          stateName: 'checkSchool'
         })
       }
     },
@@ -137,7 +150,7 @@ export default Form.create({})({
       data.startTime = Number(startTime) ?? this.details?.startTime ?? ''
       data.organIds = data.organIds?.join() ?? ''
       data.organNames = this.organNames ?? this.details?.organNames ?? ''
-      data.schoolIds = this.rightSchool ?? ''
+      data.schoolIds = this.checkSchool ?? ''
       data.unitNum = this.itemNames?.length ?? this.details?.unitNum ?? 0
 
       return data
@@ -191,14 +204,14 @@ export default Form.create({})({
               })
             })
 
-            this.rightSchool = schoolArr
+            this.checkSchool = this.rightSchool = schoolArr
           }
         } else {
-          this.rightSchool = []
+          this.checkSchool = []
         }
       }
     },
-    rightSchool: {
+    checkSchool: {
       deep: true,
       handler(value) {
         if (value) {
@@ -333,14 +346,14 @@ export default Form.create({})({
             {
               this.form.getFieldDecorator('schoolIds',
                 {
-                  initialValue: this.rightSchool
+                  initialValue: this.checkSchool
                 }
               )(
                 <div class="activity-management-school">
                   <List
                     loading={this.activeSchoolList.loading}
                     grid={{ gutter: 10, column: 3 }}
-                    dataSource={this.rightSchool}
+                    dataSource={this.checkSchool}
                     {...{
                       scopedSlots: {
                         renderItem: item => (

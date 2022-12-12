@@ -160,6 +160,11 @@ export default ({
     // 确认学校
     async onSubmit() {
       if (this.rightSchool && this.rightSchool.length > 0) {
+        await this.$store.commit('setState', {
+          value: this.rightSchool,
+          stateName: 'checkSchool',
+          moduleName: this.moduleName
+        })
         await this.$store.dispatch('setModalVisible', {
           statusField: 'visibleOfSchoolList',
           statusValue: false,

@@ -24,8 +24,10 @@ export default commitRootInModule =>
           list: []
         },
         details: null,
+        // 右侧的学校
+        rightSchool: [],
         // 选中的学校
-        rightSchool: []
+        checkSchool: []
       },
       mutations: {
         setAddSchoolList(state, item) {
