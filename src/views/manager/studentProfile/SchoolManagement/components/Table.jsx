@@ -17,18 +17,18 @@ export default {
           },
           {
             title: '学校名称',
-            width: 260,
+            width: 240,
             fixed: true,
             dataIndex: 'fullName'
           },
           {
             title: '学校简称',
-            width: 280,
+            width: 240,
             dataIndex: 'shortName'
           },
           {
             title: '街道',
-            width: 250,
+            width: 200,
             dataIndex: 'streetName'
           },
           {
@@ -39,24 +39,24 @@ export default {
           {
             title: '办别',
             align: 'center',
-            width: 100,
+            width: 110,
             scopedSlots: { customRender: 'category' }
           },
           {
             title: '城乡类型',
-            width: 100,
+            width: 110,
             align: 'center',
             scopedSlots: { customRender: 'urbanRuralType' }
           },
           {
             title: '是否寄宿制',
             align: 'center',
-            width: 100,
+            width: 110,
             scopedSlots: { customRender: 'isBoardingSchool' }
           },
           {
             title: '是否分校',
-            width: 90,
+            width: 110,
             align: 'center',
             scopedSlots: { customRender: 'isBranchSchool' }
           },
@@ -69,7 +69,7 @@ export default {
           {
             title: '校长',
             align: 'center',
-            width: 100,
+            width: 110,
             dataIndex: 'principal'
           },
           {
@@ -86,7 +86,7 @@ export default {
             title: '状态',
             align: 'center',
             fixed: 'right',
-            width: 80,
+            width: 100,
             scopedSlots: { customRender: 'status' }
           },
           {

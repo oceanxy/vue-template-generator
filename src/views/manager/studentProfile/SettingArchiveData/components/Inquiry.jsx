@@ -4,6 +4,9 @@ import forInquiry from '@/mixins/forInquiry'
 
 export default Form.create({})({
   mixins: [forInquiry()],
+  data: () => ({
+    initialValues: {}
+  }),
   render() {
     return (
       <Form
@@ -15,7 +18,7 @@ export default Form.create({})({
         <div class={'row-down'}>
           <Form.Item label={'姓名'}>
             {
-              this.form.getFieldDecorator('creatorName')(
+              this.form.getFieldDecorator('creatorName', { initialValue: this.initialValues.creatorName })(
                 <Input placeholder={'请输入创建人姓名'} />
               )
             }

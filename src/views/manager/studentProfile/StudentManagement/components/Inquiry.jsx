@@ -5,12 +5,15 @@ import forInquiry from '@/mixins/forInquiry'
 
 export default Form.create({})({
   mixins: [forInquiry()],
-  data() {
-    return {
-      classNumber: [],
-      classList: []
+  data: () => ({
+    classNumber: [],
+    classList: [],
+    initialValues: {
+      gradeName: '',
+      originalSchoolName: '',
+      classNumber: ''
     }
-  },
+  }),
   computed: {
     ...mapGetters({ getState: 'getState' }),
     gradeList() {
@@ -69,6 +72,11 @@ export default Form.create({})({
         }
       })
     },
+    filterOption(input, option) {
+      return (
+        option.componentOptions.children[0].text.toLowerCase().indexOf(input.toLowerCase()) >= 0
+      )
+    },
     onChange(value) {
       if (value) {
         this.classList = []
@@ -109,7 +117,7 @@ export default Form.create({})({
         <div class={'row-down'}>
           <Form.Item label="状态">
             {
-              this.form.getFieldDecorator('status', { initialValue: '' })(
+              this.form.getFieldDecorator('status', { initialValue: this.initialValues.status })(
                 <Select>
                   <Select.Option value={''}>全部</Select.Option>
                   <Select.Option value={1}>启用</Select.Option>
@@ -120,7 +128,7 @@ export default Form.create({})({
           </Form.Item>
           <Form.Item label="性别">
             {
-              this.form.getFieldDecorator('gender', { initialValue: '' })(
+              this.form.getFieldDecorator('gender', { initialValue: this.initialValues.gender })(
                 <Select>
                   <Select.Option value={''}>全部</Select.Option>
                   <Select.Option value={1}>男</Select.Option>
@@ -132,7 +140,7 @@ export default Form.create({})({
           </Form.Item>
           <Form.Item label="年级">
             {
-              this.form.getFieldDecorator('gradeName', { initialValue: '' })(
+              this.form.getFieldDecorator('gradeName', { initialValue: this.initialValues.gradeName })(
                 <Select onChange={this.onChange}>
                   <Select.Option value={''}>全部</Select.Option>
                   {
@@ -148,7 +156,7 @@ export default Form.create({})({
           </Form.Item>
           <Form.Item label="班级">
             {
-              this.form.getFieldDecorator('classNumber', { initialValue: '' })(
+              this.form.getFieldDecorator('classNumber', { initialValue: this.initialValues.classNumber })(
                 <Select onChange={this.onChangeClass}>
                   <Select.Option value={''}>全部</Select.Option>
                   {
@@ -162,7 +170,7 @@ export default Form.create({})({
           </Form.Item>
           <Form.Item label="是否戴镜">
             {
-              this.form.getFieldDecorator('isWearGlasses', { initialValue: '' })(
+              this.form.getFieldDecorator('isWearGlasses', { initialValue: this.initialValues.isWearGlasses })(
                 <Select>
                   <Select.Option value={''}>全部</Select.Option>
                   <Select.Option value={1}>是</Select.Option>
@@ -186,12 +194,12 @@ export default Form.create({})({
 
           <Form.Item label="学籍所属学校">
             {
-              this.form.getFieldDecorator('originalSchoolName', { initialValue: '' })(
+              this.form.getFieldDecorator('originalSchoolName', { initialValue: this.initialValues.originalSchoolName })(
 
                 <Select
                   showSearch
                   placeholder={'输入学校名称'}
-                  filterOption={false}
+                  filterOption={this.filterOption}
                   mode={'default'}
                 >
                   {
@@ -210,28 +218,28 @@ export default Form.create({})({
           </Form.Item>
           <Form.Item label={'民族'}>
             {
-              this.form.getFieldDecorator('nation')(
+              this.form.getFieldDecorator('nation', { initialValue: this.initialValues.nation })(
                 <Input placeholder={'请输入民族'} />
               )
             }
           </Form.Item>
           <Form.Item label={'姓名'}>
             {
-              this.form.getFieldDecorator('fullName')(
+              this.form.getFieldDecorator('fullName', { initialValue: this.initialValues.fullName })(
                 <Input placeholder={'请输入学生姓名'} />
               )
             }
           </Form.Item>
           <Form.Item label={'身份证号'}>
             {
-              this.form.getFieldDecorator('idNumber')(
+              this.form.getFieldDecorator('idNumber', { initialValue: this.initialValues.idNumber })(
                 <Input placeholder={'请输入身份证号码'} />
               )
             }
           </Form.Item>
           <Form.Item label={'学籍号'}>
             {
-              this.form.getFieldDecorator('studentNumber')(
+              this.form.getFieldDecorator('studentNumber', { initialValue: this.initialValues.studentNumber })(
                 <Input placeholder={'请输入学籍号'} />
               )
             }

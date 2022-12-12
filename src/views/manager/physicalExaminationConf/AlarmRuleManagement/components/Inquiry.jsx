@@ -5,11 +5,13 @@ import { mapGetters } from 'vuex'
 
 export default Form.create({})({
   mixins: [forInquiry()],
-  data() {
-    return {
-      param: []
+  data: () => ({
+    param: [],
+    initialValues: {
+      monitorItemKpiId: '',
+      monitorItemId: ''
     }
-  },
+  }),
   computed: {
     ...mapGetters({ getState: 'getState' }),
     KpiAndParam() {
@@ -58,7 +60,7 @@ export default Form.create({})({
           </Form.Item>
           <Form.Item label="监测项目">
             {
-              this.form.getFieldDecorator('monitorItemKpiId', { initialValue: '' })(
+              this.form.getFieldDecorator('monitorItemKpiId', { initialValue: this.initialValues.monitorItemKpiId })(
                 <Select onchange={this.onChangeKpi}>
                   <Select.Option value={''}>全部</Select.Option>
                   {
@@ -73,7 +75,7 @@ export default Form.create({})({
           </Form.Item>
           <Form.Item label="监测参数">
             {
-              this.form.getFieldDecorator('monitorItemId', { initialValue: '' })(
+              this.form.getFieldDecorator('monitorItemId', { initialValue: this.initialValues.monitorItemId })(
                 <Select>
                   <Select.Option value={''}>全部</Select.Option>
                   {
@@ -88,7 +90,7 @@ export default Form.create({})({
           </Form.Item>
           <Form.Item label={'名称'}>
             {
-              this.form.getFieldDecorator('monitorName')(
+              this.form.getFieldDecorator('monitorName', { initialValue: this.initialValues.monitorName })(
                 <Input placeholder={'告警规则名称'} />
               )
             }

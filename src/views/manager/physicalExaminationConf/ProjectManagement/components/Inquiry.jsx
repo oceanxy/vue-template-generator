@@ -4,6 +4,9 @@ import forInquiry from '@/mixins/forInquiry'
 
 export default Form.create({})({
   mixins: [forInquiry()],
+  data: () => ({
+    initialValues: {}
+  }),
   render() {
     return (
       <Form
@@ -15,7 +18,7 @@ export default Form.create({})({
         <div class={'row-down'}>
           <Form.Item label="状态">
             {
-              this.form.getFieldDecorator('status', { initialValue: '' })(
+              this.form.getFieldDecorator('status', { initialValue: this.initialValues.status })(
                 <Select>
                   <Select.Option value={''}>全部</Select.Option>
                   <Select.Option value={1}>启用</Select.Option>
@@ -26,7 +29,7 @@ export default Form.create({})({
           </Form.Item>
           <Form.Item label={'名称'}>
             {
-              this.form.getFieldDecorator('itemName')(
+              this.form.getFieldDecorator('itemName', { initialValue: this.initialValues.itemName })(
                 <Input placeholder={'分类名称'} />
               )
             }

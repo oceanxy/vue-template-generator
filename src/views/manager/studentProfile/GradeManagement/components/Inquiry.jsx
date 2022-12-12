@@ -5,6 +5,12 @@ import forInquiry from '@/mixins/forInquiry'
 
 export default Form.create({})({
   mixins: [forInquiry()],
+  data: () => ({
+    initialValues: {
+      gradeYear: '',
+      gradeTh: '',
+    }
+  }),
   computed: {
     ...mapGetters({ getState: 'getState' }),
     yearList() {
@@ -29,7 +35,7 @@ export default Form.create({})({
         <div class={'row-down'}>
           <Form.Item label="状态">
             {
-              this.form.getFieldDecorator('status', { initialValue: '' })(
+              this.form.getFieldDecorator('status', { initialValue: this.initialValues.status })(
                 <Select>
                   <Select.Option value={''}>全部</Select.Option>
                   <Select.Option value={1}>启用</Select.Option>
@@ -40,7 +46,7 @@ export default Form.create({})({
           </Form.Item>
           <Form.Item label="入学年份">
             {
-              this.form.getFieldDecorator('gradeYear', { initialValue: '' })(
+              this.form.getFieldDecorator('gradeYear', { initialValue: this.initialValues.gradeYear })(
                 <Select>
                   <Select.Option value={''}>全部</Select.Option>
                   {
@@ -54,7 +60,7 @@ export default Form.create({})({
           </Form.Item>
           <Form.Item label="届数">
             {
-              this.form.getFieldDecorator('gradeTh', { initialValue: '' })(
+              this.form.getFieldDecorator('gradeTh', { initialValue: this.initialValues.gradeTh })(
                 <Select>
                   <Select.Option value={''}>全部</Select.Option>
                   {
@@ -68,7 +74,7 @@ export default Form.create({})({
           </Form.Item>
           <Form.Item label="年级类型">
             {
-              this.form.getFieldDecorator('gradeType', { initialValue: '' })(
+              this.form.getFieldDecorator('gradeType', { initialValue: this.initialValues.gradeType })(
                 <Select>
                   <Select.Option value={''}>全部</Select.Option>
                   <Select.Option value={0}>幼儿园</Select.Option>
@@ -82,14 +88,14 @@ export default Form.create({})({
           </Form.Item>
           <Form.Item label={'年级名称'}>
             {
-              this.form.getFieldDecorator('gradeName')(
+              this.form.getFieldDecorator('gradeName', { initialValue: this.initialValues.gradeName })(
                 <Input placeholder={'请输入年级名称'} />
               )
             }
           </Form.Item>
           <Form.Item label={'学校名称'}>
             {
-              this.form.getFieldDecorator('schoolName')(
+              this.form.getFieldDecorator('schoolName', { initialValue: this.initialValues.schoolName })(
                 <Input placeholder={'请输入学校名称'} />
               )
             }
