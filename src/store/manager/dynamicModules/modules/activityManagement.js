@@ -19,10 +19,6 @@ export default commitRootInModule =>
           list: [],
           loading: false
         },
-        schoolStree: {
-          list: [],
-          loading: false
-        },
         organsTree: {
           loading: false,
           list: []
