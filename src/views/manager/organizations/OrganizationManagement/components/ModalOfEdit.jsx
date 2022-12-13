@@ -224,7 +224,7 @@ export default Form.create({})({
             {
               this.form.getFieldDecorator('street', {
                 initialValue: this.currentItem.streetId
-                  ? { key: this.currentItem.streetId, label: this.currentItem.streetName }
+                  ? { id: this.currentItem.streetId, name: this.currentItem.streetName }
                   : undefined,
                 getValueFromEvent: getStreetValueFromEvent,
                 getValueProps: getStreetValueProps
