@@ -13,7 +13,7 @@ export default Form.create({})({
       gender: '',
       gradeName: '',
       isWearGlasses: '',
-      originalSchoolName: '请选择学校',
+      originalSchoolName: '选择学校',
       classNumber: ''
     }
   }),
