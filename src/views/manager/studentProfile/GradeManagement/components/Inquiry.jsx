@@ -7,8 +7,10 @@ export default Form.create({})({
   mixins: [forInquiry()],
   data: () => ({
     initialValues: {
+      status: '',
       gradeYear: '',
       gradeTh: '',
+      gradeType: ''
     }
   }),
   computed: {

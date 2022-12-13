@@ -5,7 +5,14 @@ import forInquiry from '@/mixins/forInquiry'
 export default Form.create({})({
   mixins: [forInquiry()],
   data: () => ({
-    initialValues: {}
+    initialValues: {
+      status: '',
+      schoolType: '',
+      category: '',
+      urbanRuralType: '',
+      isBoardingSchool: '',
+      isBranchSchool: ''
+    }
   }),
   render() {
     return (
