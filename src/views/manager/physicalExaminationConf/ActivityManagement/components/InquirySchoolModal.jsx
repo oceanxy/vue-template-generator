@@ -1,24 +1,28 @@
 import '../assets/styles/index.scss'
 import { Button, Form, Input, Select, Row, Col } from 'ant-design-vue'
-import { mapGetters } from 'vuex'
 import forInquiry from '@/mixins/forInquiry'
+import apis from '@/apis'
 
 export default Form.create({})({
   mixins: [forInquiry()],
-  computed: {
-    ...mapGetters({ getState: 'getState' }),
-    schoolStree() {
-      return this.getState('schoolStree', this.moduleName)
-    },
-  },
+  data: () => ({
+    schoolStreeList: [],
+    initialValues: {
+      streetId: ''
+    }
+  }),
   async created() {
-    await this.$store.dispatch('getListWithLoadingStatus', {
-      moduleName: this.moduleName,
-      stateName: 'schoolStree',
-      customApiName: 'getSchoolStreetList'
-    })
+    await this.getSchoolStreetList()
   },
   methods: {
+    async getSchoolStreetList() {
+      const { status, data } = await apis.getSchoolStreetList()
+
+      if (status) {
+        this.schoolStreeList = data
+        console.log(this.schoolStreeList)
+      }
+    },
     async onSearch(payload) {
       await this.$store.dispatch('setSearch', {
         moduleName: 'activityManagement',
@@ -39,11 +43,11 @@ export default Form.create({})({
           <Col span={12}>
             <Form.Item label="街道">
               {
-                this.form.getFieldDecorator('streetId', { initialValue: '' })(
+                this.form.getFieldDecorator('streetId', { initialValue: this.initialValues.streetId })(
                   <Select>
                     <Select.Option value={''}>全部</Select.Option>
                     {
-                      this.schoolStree?.list?.map(item => (
+                      this.schoolStreeList?.map(item => (
                         <Select.Option value={item.id}>{item.name}</Select.Option>
                       ))
                     }
@@ -55,7 +59,7 @@ export default Form.create({})({
           <Col span={12}>
             <Form.Item label="类型">
               {
-                this.form.getFieldDecorator('schoolType', { initialValue: '' })(
+                this.form.getFieldDecorator('schoolType', { initialValue: this.initialValues.schoolType })(
                   <Select>
                     <Select.Option value={''}>全部</Select.Option>
                     <Select.Option value={1}>幼儿园</Select.Option>

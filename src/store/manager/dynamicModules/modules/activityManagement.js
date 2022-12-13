@@ -19,17 +19,15 @@ export default commitRootInModule =>
           list: [],
           loading: false
         },
-        schoolStree: {
-          list: [],
-          loading: false
-        },
         organsTree: {
           loading: false,
           list: []
         },
         details: null,
+        // 右侧的学校
+        rightSchool: [],
         // 选中的学校
-        rightSchool: []
+        checkSchool: []
       },
       mutations: {
         setAddSchoolList(state, item) {

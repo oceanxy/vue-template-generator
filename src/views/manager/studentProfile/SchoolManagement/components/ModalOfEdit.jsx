@@ -58,7 +58,11 @@ export default Form.create({})({
     customDataHandler(values) {
       const data = { ...values }
 
-      data.schoolBadge = data.schoolBadge?.[0]?.response.data[0]?.key ?? this.currentItem?.schoolBadgeStr ?? ''
+      console.log(data.schoolBadge)
+      console.log(data)
+      data.schoolBadge = data.schoolBadge?.[0]?.key ?? data.schoolBadge?.[0]?.response.data[0]?.key ?? this.currentItem?.schoolBadge ?? ''
+
+
       data.status = Number(data.status) ?? Number(this.currentItem?.isContainKindergarten) ?? ''
 
       return data
@@ -405,7 +409,6 @@ export default Form.create({})({
                     <Cascader
                       placeholder="请选择省市区"
                       expandTrigger={'hover'}
-                      allowClear
                       fieldNames={{
                         label: 'name', value: 'id', children: 'children'
                       }}
@@ -422,10 +425,17 @@ export default Form.create({})({
                 {
                   this.form.getFieldDecorator('street', {
                     initialValue: this.currentItem.streetId
-                      ? { key: this.currentItem.streetId, label: this.currentItem.streetName }
+                      ? { id: this.currentItem.streetId, name: this.currentItem.streetName }
                       : undefined,
+
                     getValueFromEvent: getStreetValueFromEvent,
-                    getValueProps: getStreetValueProps
+                    getValueProps: getStreetValueProps,
+                    rules: [
+                      {
+                        required: true, type: 'object', message: '请选选择街道!', trigger: 'blur'
+                      }
+                    ]
+
                   })(
                     <Select
                       disabled={!this.form.getFieldValue('districtList')?.[2]?.id}

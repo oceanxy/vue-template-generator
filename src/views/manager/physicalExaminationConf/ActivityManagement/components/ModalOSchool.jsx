@@ -103,7 +103,6 @@ export default ({
         }
       } else {
         if (checked) {
-          console.log(this.allKeys)
           this.toRightData()
         } else {
           this.activeSchoolList.list.map(item => {
@@ -130,7 +129,7 @@ export default ({
       })
 
       if (arr) {
-        await dispatch('activityManagement', 'add_item', arr)
+        await dispatch('activityManagement', 'addSchoolItem', arr)
       }
 
     },
@@ -161,6 +160,11 @@ export default ({
     // 确认学校
     async onSubmit() {
       if (this.rightSchool && this.rightSchool.length > 0) {
+        await this.$store.commit('setState', {
+          value: this.rightSchool,
+          stateName: 'checkSchool',
+          moduleName: this.moduleName
+        })
         await this.$store.dispatch('setModalVisible', {
           statusField: 'visibleOfSchoolList',
           statusValue: false,
@@ -174,7 +178,7 @@ export default ({
   watch: {
     async 'modalProps.visible'(value) {
       if (value) {
-        if (this.activeSchoolList.list.length === 0) {
+        if (this.initSchoolNumber === 0) {
           const status = await this.$store.dispatch('getListWithLoadingStatus', {
             moduleName: 'activityManagement',
             stateName: 'activeSchoolList',
@@ -183,6 +187,7 @@ export default ({
 
           if (status) {
             this.initSchoolNumber = this.activeSchoolList.list.length
+            console.log(this.initSchoolNumber)
           }
         }
       }
@@ -254,7 +259,7 @@ export default ({
               <h2><Icon class="icon" component={ICON_SCHOOL_RIGHT} />已选学校</h2>
               <p>学校共<strong> {this.rightSchool.length} </strong><Space size={10}>所 <span>小学</span></Space>
                 <strong>{this.rightPrimarySchool.length}</strong>
-                / 中学<strong>{this.rightPrimarySchool.length}</strong>
+                / 中学<strong>{this.rightMiddleSchool.length}</strong>
                 / 职高<strong>{this.rightVocationalHighSchool.length}</strong>
               </p>
             </div>
