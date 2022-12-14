@@ -440,22 +440,26 @@ export default ({
             // 表格元素
             const table = tableRef.$el
             const TABLE_CONTAINER_HEIGHT = table.clientHeight
-            const HEADER_HEIGHT = table.querySelector('.ant-table-thead')?.clientHeight ?? 0
             const TABLE_BODY_WIDTH = table.querySelector('.ant-table-body')?.clientWidth ?? 0
-            const HTML_TABLE_WIDTH = table.querySelector('.ant-table-body > table')?.clientWidth ?? 0
-            const HTML_TABLE_HEIGHT = table.querySelector('.ant-table-body > table')?.clientHeight ?? 0
+            const HTML_TABLE_BODY_WIDTH = table.querySelector('.ant-table-body > table')?.clientWidth ?? 0
+            const HTML_TABLE_BODY_HEIGHT = table.querySelector('.ant-table-body .ant-table-tbody')?.clientHeight ?? 0
+            const HTML_TABLE_HEADER = table.querySelector('.ant-table-scroll .ant-table-header')
+            // ant-design-vue Table 组件的额内部结构会根据内容的多少而变化，以适应表格的内容区滚动，所以这里要分情况获取表格元素
+            const HTML_TABLE_HEADER_HEIGHT = HTML_TABLE_HEADER?.clientHeight ??
+              table.querySelector('.ant-table-scroll .ant-table-thead')?.clientHeight ??
+              0
             const FOOTER_HEIGHT = table.querySelector('.ant-table-footer')?.clientHeight ?? 0
             const scroll = { scrollToFirstRowOnChange: true }
 
             // 固定列时，需要设置 scroll.x
-            if (HTML_TABLE_WIDTH > TABLE_BODY_WIDTH) {
+            if (HTML_TABLE_BODY_WIDTH > TABLE_BODY_WIDTH) {
               scroll.x = TABLE_BODY_WIDTH
             }
 
             // 这里配合了css的flex布局实现
-            if (HTML_TABLE_HEIGHT > TABLE_CONTAINER_HEIGHT) {
-              // 多减去1像素是为了消除 '.ant-table-header.ant-table-hide-scrollbar' 元素上设置的 'margin: -6px;' 对布局的影响
-              scroll.y = TABLE_CONTAINER_HEIGHT - HEADER_HEIGHT - FOOTER_HEIGHT - 1
+            if (HTML_TABLE_BODY_HEIGHT + HTML_TABLE_HEADER_HEIGHT > TABLE_CONTAINER_HEIGHT) {
+              // 多减去6像素是为了消除 '.ant-table-header.ant-table-hide-scrollbar' 元素上设置的 'margin: -6px;' 对布局的影响
+              scroll.y = TABLE_CONTAINER_HEIGHT - HTML_TABLE_HEADER_HEIGHT - FOOTER_HEIGHT - 6
             }
 
             this.tableProps.scroll = scroll
