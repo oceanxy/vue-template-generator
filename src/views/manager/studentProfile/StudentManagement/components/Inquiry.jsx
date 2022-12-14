@@ -9,8 +9,11 @@ export default Form.create({})({
     classNumber: [],
     classList: [],
     initialValues: {
+      status: '',
+      gender: '',
       gradeName: '',
-      originalSchoolName: '',
+      isWearGlasses: '',
+      originalSchoolName: '选择学校',
       classNumber: ''
     }
   }),

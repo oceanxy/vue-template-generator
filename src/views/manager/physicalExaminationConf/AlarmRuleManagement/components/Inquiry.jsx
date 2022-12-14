@@ -8,6 +8,7 @@ export default Form.create({})({
   data: () => ({
     param: [],
     initialValues: {
+      status: '',
       monitorItemKpiId: '',
       monitorItemId: ''
     }

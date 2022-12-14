@@ -8,7 +8,8 @@ export default Form.create({})({
   data: () => ({
     schoolStreeList: [],
     initialValues: {
-      streetId: ''
+      streetId: '',
+      schoolType: ''
     }
   }),
   async created() {

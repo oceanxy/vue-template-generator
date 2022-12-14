@@ -7,6 +7,7 @@ export default Form.create({})({
   mixins: [forInquiry()],
   data: () => ({
     initialValues: {
+      status: '',
       itemId: ''
     }
   }),
