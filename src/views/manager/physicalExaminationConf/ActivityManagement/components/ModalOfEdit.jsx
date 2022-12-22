@@ -148,7 +148,7 @@ export default Form.create({})({
       data.peItems = this.itemNames?.toString() ?? this.details?.peItems ?? ''
       data.endTime = Number(endTime) ?? this.details?.endTime ?? ''
       data.startTime = Number(startTime) ?? this.details?.startTime ?? ''
-      data.organIds = data.organIds?.join() ?? ''
+      data.organIds = data.organIds?.join() ?? this.details?.organIds ?? ''
       data.organNames = this.organNames ?? this.details?.organNames ?? ''
       data.schoolIds = this.checkSchool ?? ''
       data.unitNum = this.itemNames?.length ?? this.details?.unitNum ?? 0
@@ -386,7 +386,15 @@ export default Form.create({})({
               this.form.getFieldDecorator(
                 'organIds',
                 {
-                  initialValue: this.organIdList
+                  initialValue: this.organIdList,
+                  rules: [
+                    {
+                      required: true,
+                      type: 'array',
+                      message: '请选择组织!',
+                      trigger: 'blur'
+                    }
+                  ]
                 }
               )(
                 <TreeSelect
@@ -408,12 +416,19 @@ export default Form.create({})({
               )
             }
           </Form.Item>
-          <Form.Item label="选择时间" style="margin-bottom:0;">
+          <Form.Item label="选择时间" style="margin-bottom:0;" required={true}>
             <Form.Item style={{ display: 'inline-block', width: 'calc(50% - 6px)', marginRight: '12px' }}>
               {
                 this.form.getFieldDecorator('startTime',
                   {
-                    initialValue: this.details.startTimeStr
+                    initialValue: this.details.startTimeStr,
+                    rules: [
+                      {
+                        required: true,
+                        message: '请选择开始时间!',
+                        trigger: 'change'
+                      }
+                    ]
                   }
                 )(
                   <DatePicker
@@ -440,7 +455,14 @@ export default Form.create({})({
               {
                 this.form.getFieldDecorator('endTime',
                   {
-                    initialValue: this.details.endTimeStr
+                    initialValue: this.details.endTimeStr,
+                    rules: [
+                      {
+                        required: true,
+                        message: '请选择结束时间!',
+                        trigger: 'change'
+                      }
+                    ]
                   }
                 )(
                   <DatePicker
