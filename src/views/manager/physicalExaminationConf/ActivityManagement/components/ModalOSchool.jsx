@@ -35,6 +35,9 @@ export default ({
     activeSchoolList() {
       return this.getState('activeSchoolList', 'activityManagement')
     },
+    nurserySchool() {
+      return this.activeSchoolList.list?.filter(item => item.schoolType === 111) ?? 0
+    },
     primarySchool() {
       return this.activeSchoolList.list?.filter(item => item.schoolType === 211) ?? 0
     },
@@ -44,6 +47,12 @@ export default ({
     vocationalHighSchool() {
       return this.activeSchoolList.list?.filter(item => item.schoolType === 365) ?? 0
     },
+    universitySchool() {
+      return this.activeSchoolList.list?.filter(item => item.schoolType === 411) ?? 0
+    },
+    rightNurserySchool() {
+      return this.rightSchool?.filter(item => item.schoolType === 111) ?? 0
+    },
     rightPrimarySchool() {
       return this.rightSchool?.filter(item => item.schoolType === 211) ?? 0
     },
@@ -52,6 +61,9 @@ export default ({
     },
     rightVocationalHighSchool() {
       return this.rightSchool?.filter(item => item.schoolType === 365) ?? 0
+    },
+    rightUniversitySchool() {
+      return this.rightSchool?.filter(item => item.schoolType === 411) ?? 0
     },
     // 根据allKeys显示右侧的学校
     rightSchool: {
@@ -211,10 +223,12 @@ export default ({
           <div class="item left">
             <div class="school-header">
               <h2><Icon class="icon" component={ICON_SCHOOL_LEFT} />学校列表</h2>
-              <p>学校共<strong> {this.activeSchoolList.list.length} </strong><Space size={10}>所 <span>小学</span></Space>
+              <p>学校共<strong> {this.activeSchoolList.list.length} </strong><Space size={10}>所 <span>幼儿园</span></Space>
+                <strong>{this.nurserySchool.length}</strong> / 小学
                 <strong>{this.primarySchool.length}</strong> / 中学
                 <strong>{this.middleSchool.length}</strong> / 职高
-                <strong>{this.vocationalHighSchool.length}</strong>
+                <strong>{this.vocationalHighSchool.length}</strong>/ 大学
+                <strong>{this.universitySchool.length}</strong>
               </p>
             </div>
             <InquirySchoolModal />
@@ -257,10 +271,12 @@ export default ({
           <div class="item right">
             <div class="school-header">
               <h2><Icon class="icon" component={ICON_SCHOOL_RIGHT} />已选学校</h2>
-              <p>学校共<strong> {this.rightSchool.length} </strong><Space size={10}>所 <span>小学</span></Space>
-                <strong>{this.rightPrimarySchool.length}</strong>
+              <p>学校共<strong> {this.rightSchool.length} </strong><Space size={10}>所 <span>幼儿园</span></Space>
+                <strong>{this.rightNurserySchool.length}</strong>
+                / 小学<strong>{this.rightPrimarySchool.length}</strong>
                 / 中学<strong>{this.rightMiddleSchool.length}</strong>
                 / 职高<strong>{this.rightVocationalHighSchool.length}</strong>
+                / 大学<strong>{this.rightUniversitySchool.length}</strong>
               </p>
             </div>
             <div class="school-center">
