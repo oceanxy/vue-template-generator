@@ -173,6 +173,14 @@ export default {
       }
     }
   },
+  async beforeDestroy() {
+    // 退出页面前先清空搜索参数，避免下次进页面时参数错乱
+    await this.$store.dispatch('setSearch', {
+      payload: { [this.treeIdField]: '' },
+      moduleName: this.moduleName,
+      isFetchList: false
+    })
+  },
   methods: {
     /**
      * 按条件筛选包含关键字的所有项（包含层级关系）
