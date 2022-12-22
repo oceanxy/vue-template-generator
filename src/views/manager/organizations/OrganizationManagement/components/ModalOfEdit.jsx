@@ -76,12 +76,11 @@ export default Form.create({})({
   },
   methods: {
     async onDistrictChange(value) {
-      await this.$store.dispatch('getListWithLoadingStatus', {
-        customApiName: 'getStreetsByDistrictId',
-        moduleName: this.moduleName,
-        stateName: 'streets',
-        payload: { countyId: value[2] }
-      })
+      this.form.setFieldsValue({ street: undefined })
+
+      if (value[2]) {
+        await this.getStreetsByDistrictId(value[2])
+      }
     },
     async getSchoolsByOrganizationId() {
       // 编辑模式
@@ -100,8 +99,16 @@ export default Form.create({})({
     },
     async getStreets() {
       if (this.currentItem.id && this.currentItem.countyId) {
-        await this.onDistrictChange([null, null, this.currentItem.countyId])
+        await this.getStreetsByDistrictId(this.currentItem.countyId)
       }
+    },
+    async getStreetsByDistrictId(value) {
+      await this.$store.dispatch('getListWithLoadingStatus', {
+        customApiName: 'getStreetsByDistrictId',
+        moduleName: this.moduleName,
+        stateName: 'streets',
+        payload: { countyId: value }
+      })
     }
   },
   render() {
@@ -192,7 +199,7 @@ export default Form.create({})({
           <Form.Item label="地址" class={'half'}>
             {
               this.form.getFieldDecorator('districtList', {
-                getValueFromEvent: (value, selectedOptions) => selectedOptions.map(item => ({
+                getValueFromEvent: (value, selectedOptions) => (selectedOptions || []).map(item => ({
                   id: item.id,
                   name: item.name
                 })),
@@ -274,10 +281,7 @@ export default Form.create({})({
               )
             }
           </Form.Item>
-          <Form.Item
-            label="状态"
-            class={'half'}
-          >
+          <Form.Item label="状态" class={'half'}>
             {
               this.form.getFieldDecorator('status', {
                 initialValue: !isNaN(this.currentItem.status) ? this.currentItem.status === 1 : true,

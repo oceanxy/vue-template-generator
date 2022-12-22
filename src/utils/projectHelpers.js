@@ -157,14 +157,14 @@ export function getExaminedDisposeTreeIcon(treeNode) {
  * @returns {{value: {label: *, key: *}}|undefined}
  */
 export function getStreetValueProps(value) {
-  return value
-    ? {
-      value: {
+  return {
+    value: value
+      ? {
         key: value.id || value.key,
         label: value.name || value.label
       }
-    }
-    : undefined
+      : undefined
+  }
 }
 
 /**

@@ -9,7 +9,6 @@ import forModal from '@/mixins/forModal'
 import { cloneDeep, omit } from 'lodash'
 import moment from 'moment'
 import { message } from '@/utils/message'
-import { value } from 'lodash/seq'
 
 export default () => {
   return {
