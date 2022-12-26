@@ -234,15 +234,23 @@ export default {
      */
     async onSelect(selectedKeys, e) {
       const payload = {}
-      const treeIdField = this.getFieldNameForTreeId(e.node.pos.split('-').length - 1)
+      let treeIdField
+
+      if (e.selected) {
+        treeIdField = this.getFieldNameForTreeId(e.node.pos.split('-').length - 1)
+      } else {
+        treeIdField = this.notNoneMode ? this.getFieldNameForTreeId(1) : ''
+      }
 
       if (this.oldTreeIdField !== treeIdField) {
         // 清空search内上一次树操作的键与值
-        this.$store.commit('setSearch', {
-          payload: { [this.oldTreeIdField]: undefined },
-          moduleName: this.moduleName,
-          ...this.optionsOfGetList
-        })
+        if (this.oldTreeIdField) {
+          this.$store.commit('setSearch', {
+            payload: { [this.oldTreeIdField]: undefined },
+            moduleName: this.moduleName,
+            ...this.optionsOfGetList
+          })
+        }
 
         // 更新对应 store 模块内 treeIdField 字段的值
         this.$store.commit('setState', {
@@ -257,10 +265,12 @@ export default {
       if (e.selected) {
         payload[this.treeIdField] = selectedKeys[0]
       } else {
-        payload[this.treeIdField] = this.notNoneMode ? this.dataSource.list?.[0]?.id : ''
+        if (this.treeIdField) {
+          payload[this.treeIdField] = this.notNoneMode ? this.dataSource.list?.[0]?.id : ''
+        }
       }
 
-      if (payload[this.treeIdField] !== this.treeId[0]) {
+      if (this.treeIdField && payload[this.treeIdField] !== this.treeId[0]) {
         await this.$store.dispatch('setSearch', {
           payload,
           moduleName: this.moduleName,
