@@ -134,14 +134,14 @@ export default {
 
         <Button
           icon="import"
-          onClick={() => this._setVisibleOfModal({ type: 'whole' }, 'visibleOfImport')}
+          onClick={() => this._setVisibilityOfModal({ type: 'whole' }, 'visibilityOfImport')}
         >
           全局导入
         </Button>
 
         <Button
           icon="import"
-          onClick={() => this._setVisibleOfModal({ type: 'local' }, 'visibleOfImport')}
+          onClick={() => this._setVisibilityOfModal({ type: 'local' }, 'visibilityOfImport')}
         >
           局部导入
         </Button>

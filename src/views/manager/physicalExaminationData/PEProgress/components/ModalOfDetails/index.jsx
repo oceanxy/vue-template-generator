@@ -12,7 +12,7 @@ export default {
   data() {
     return {
       modalProps: { destroyOnClose: true },
-      visibleField: 'visibleOfDetails',
+      visibleField: 'visibilityOfDetails',
       activeKey: null
     }
   },

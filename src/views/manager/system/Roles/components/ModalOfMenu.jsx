@@ -7,7 +7,7 @@ export default Form.create({})({
   mixins: [forFormModal()],
   data() {
     return {
-      visibleField: 'visibleOfMenu',
+      visibleField: 'visibilityOfMenu',
       modalProps: {
         width: 500,
         destroyOnClose: true

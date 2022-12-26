@@ -15,7 +15,7 @@ export default {
         </Button>
         <Button
           icon="import"
-          onClick={() => this._setVisibleOfModal({ type: '' }, 'visibleOfImportSchool')}
+          onClick={() => this._setVisibilityOfModal({ type: '' }, 'visibilityOfImportSchool')}
         >
           导入
         </Button>

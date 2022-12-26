@@ -86,7 +86,7 @@ export default {
             {
               record.peItemVOList?.map(item => (
                 <Button
-                  onClick={() => this._setVisibleOfModal({ ...record, peItem: item }, 'visibleOfDetails')}
+                  onClick={() => this._setVisibilityOfModal({ ...record, peItem: item }, 'visibilityOfDetails')}
                   type="primary"
                   style={{
                     backgroundColor: 'rgba(22, 179, 100, 0.6)',

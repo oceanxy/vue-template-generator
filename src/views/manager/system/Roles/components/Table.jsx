@@ -71,7 +71,7 @@ export default {
             <Button
               type="link"
               size="small"
-              onClick={() => this._setVisibleOfModal(record, 'visibleOfMenu')}
+              onClick={() => this._setVisibilityOfModal(record, 'visibilityOfMenu')}
             >
               设置权限
             </Button>

@@ -12,8 +12,8 @@ export default commitRootInModule =>
         loading: false,
         list: []
       },
-      visibleOfSchools: false,
-      visibleOfStudents: false
+      visibilityOfSchools: false,
+      visibilityOfStudents: false
     },
     modules: {
       schools: {
@@ -45,7 +45,7 @@ export default commitRootInModule =>
     }
   }), [
     'state.details',
-    'state.visibleOfEdit',
+    'state.visibilityOfEdit',
     'state.selectedRowKeys',
     'state.selectedRows',
     'state.currentItem',

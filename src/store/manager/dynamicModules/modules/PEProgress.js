@@ -3,7 +3,7 @@ import { omit } from 'lodash'
 
 export default commitRootInModule => omit(createStoreModule({
   state: {
-    visibleOfDetails: false,
+    visibilityOfDetails: false,
     activities: {
       list: [],
       loading: false
@@ -23,7 +23,7 @@ export default commitRootInModule => omit(createStoreModule({
   }
 }), [
   'state.details',
-  'state.visibleOfEdit',
+  'state.visibilityOfEdit',
   'state.selectedRowKeys',
   'state.selectedRows'
 ])

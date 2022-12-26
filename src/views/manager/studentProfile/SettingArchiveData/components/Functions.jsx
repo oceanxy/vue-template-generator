@@ -9,14 +9,14 @@ export default {
       <Space class="tg-function">
         <Button
           icon="cloud-download"
-          onClick={() => this._setVisibleOfModal({ type: 1 }, 'visibleOfReport')}
+          onClick={() => this._setVisibilityOfModal({ type: 1 }, 'visibilityOfReport')}
         >
           生成评价报告
         </Button>
 
         <Button
           icon="printer"
-          onClick={() => this._setVisibleOfModal({ type: 2 }, 'visibleOfReport')}
+          onClick={() => this._setVisibilityOfModal({ type: 2 }, 'visibilityOfReport')}
         >
           生成打印报告
         </Button>

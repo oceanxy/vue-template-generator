@@ -119,7 +119,7 @@ export default {
                 <Space>
 
                   <Button
-                    onClick={() => this._setVisibleOfModal(record, 'visibleOfCode')}
+                    onClick={() => this._setVisibilityOfModal(record, 'visibilityOfCode')}
                     type='link'
                   >生成二维码</Button>
                   <Button

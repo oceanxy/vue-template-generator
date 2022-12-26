@@ -73,7 +73,7 @@ export default customModuleName => {
     methods: {
       /**
        * 取消/关闭 弹窗
-       * @param [visibleField] {string} 对应store模块内控制该弹窗的字段名。默认为新增/编辑弹窗的字段名：visibleOfEdit
+       * @param [visibleField] {string} 对应store模块内控制该弹窗的字段名。默认为新增/编辑弹窗的字段名：visibilityOfEdit
        * @param [submoduleName] {string} 子模块名，必须通过参数传入（在需要时传入），否则会引起bug
        * @returns {Promise<void>}
        */

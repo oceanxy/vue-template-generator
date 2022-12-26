@@ -31,7 +31,7 @@ export default {
           导出
         </Button>
         <Button
-          onClick={() => this._setVisibleOfModal({}, 'visibleOfExportByTime')}
+          onClick={() => this._setVisibilityOfModal({}, 'visibilityOfExportByTime')}
           icon="export"
           disabled={this.exportButtonDisabled}
         >

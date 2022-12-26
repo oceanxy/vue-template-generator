@@ -107,7 +107,7 @@ export default {
             <Button
               type="link"
               size="small"
-              onClick={() => this._setVisibleOfModal(record, 'visibleOfEditPassword')}
+              onClick={() => this._setVisibilityOfModal(record, 'visibilityOfEditPassword')}
             >
               修改密码
             </Button>

@@ -24,7 +24,7 @@ export default () => {
     },
     data() {
       return {
-        visibleField: 'visibleOfEdit',
+        visibleField: 'visibilityOfEdit',
         modalProps: { okButtonProps: { props: { disabled: true } } }
       }
     },

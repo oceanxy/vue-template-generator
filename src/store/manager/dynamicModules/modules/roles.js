@@ -3,7 +3,7 @@ import { createStoreModule } from '@/store/template'
 export default commitRootInModule =>
   createStoreModule({
     state: {
-      visibleOfMenu: false,
+      visibilityOfMenu: false,
       // 配置菜单弹窗内的菜单数据
       menuTree: {
         loading: false,

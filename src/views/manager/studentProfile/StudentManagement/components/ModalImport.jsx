@@ -10,7 +10,7 @@ export default Form.create({})({
   mixins: [forFormModal()],
   data() {
     return {
-      visibleField: 'visibleOfImport',
+      visibleField: 'visibilityOfImport',
       modalProps: {
         width: 1300,
         footer: false,

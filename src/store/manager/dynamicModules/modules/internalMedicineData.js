@@ -18,7 +18,7 @@ export default commitRootInModule => omit(createStoreModule({
   }
 }), [
   'state.details',
-  'state.visibleOfEdit',
+  'state.visibilityOfEdit',
   'state.selectedRowKeys',
   'state.selectedRows',
   'state.currentItem'

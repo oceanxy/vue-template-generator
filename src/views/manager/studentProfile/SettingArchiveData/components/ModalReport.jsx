@@ -8,7 +8,7 @@ export default Form.create({})({
   mixins: [forFormModal()],
   data() {
     return {
-      visibleField: 'visibleOfReport',
+      visibleField: 'visibilityOfReport',
       modalProps: {
         width: 600,
         wrapClassName: 'bnm-modal-edit-user-form'

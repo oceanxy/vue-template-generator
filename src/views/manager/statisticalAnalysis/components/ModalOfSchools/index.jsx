@@ -18,7 +18,7 @@ export default {
           <Button onClick={() => this.onCancel(this.visibleField)}>关闭</Button>
         ]
       },
-      visibleField: 'visibleOfSchools'
+      visibleField: 'visibilityOfSchools'
     }
   },
   render() {

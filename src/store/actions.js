@@ -652,7 +652,7 @@ export default {
     submoduleName
   }) {
     commit('setModalVisible', {
-      field: statusField || 'visibleOfEdit',
+      field: statusField || 'visibilityOfEdit',
       value: statusValue,
       moduleName,
       submoduleName

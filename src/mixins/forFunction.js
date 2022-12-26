@@ -68,21 +68,21 @@ export default cb => ({
      * @returns {Promise<void>}
      */
     async onAddClick(initialValue = {}) {
-      await this._setVisibleOfModal({ ...initialValue })
+      await this._setVisibilityOfModal({ ...initialValue })
     },
     /**
      * 编辑
      * @returns {Promise<void>}
      */
     async onEditClick() {
-      await this._setVisibleOfModal(this.editedRow)
+      await this._setVisibilityOfModal(this.editedRow)
     },
     /**
      * 审核或相关意见填写的批量操作
      * @returns {Promise<void>}
      */
     async onAuditClick() {
-      await this._setVisibleOfModal({ ids: this.ids })
+      await this._setVisibilityOfModal({ ids: this.ids })
     },
     /**
      * 删除
@@ -116,7 +116,7 @@ export default cb => ({
      */
     async onBulkOperations(visibleField, params) {
       await verifySelected(this.selectedRowKeys, () => {
-        this._setVisibleOfModal(
+        this._setVisibilityOfModal(
           {
             ids: this.selectedRowKeys,
             ...params

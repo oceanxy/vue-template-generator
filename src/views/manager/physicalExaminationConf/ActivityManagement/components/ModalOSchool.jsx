@@ -14,7 +14,7 @@ export default ({
   mixins: [forModal()],
   data() {
     return {
-      visibleField: 'visibleOfSchoolList',
+      visibleField: 'visibilityOfSchoolList',
       modalProps: {
         width: 900,
         wrapClassName: 'bnm-modal-edit-user-form',
@@ -178,7 +178,7 @@ export default ({
           moduleName: this.moduleName
         })
         await this.$store.dispatch('setModalVisible', {
-          statusField: 'visibleOfSchoolList',
+          statusField: 'visibilityOfSchoolList',
           statusValue: false,
           moduleName: 'activityManagement'
         })

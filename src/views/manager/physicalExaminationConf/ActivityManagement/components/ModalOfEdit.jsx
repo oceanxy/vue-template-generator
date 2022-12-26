@@ -116,7 +116,7 @@ export default Form.create({})({
     },
     async selectSchool() {
       await this.$store.dispatch('setModalVisible', {
-        statusField: 'visibleOfSchoolList',
+        statusField: 'visibilityOfSchoolList',
         statusValue: true,
         moduleName: 'activityManagement'
       })

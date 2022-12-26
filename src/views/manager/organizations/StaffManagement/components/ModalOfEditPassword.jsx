@@ -7,7 +7,7 @@ export default Form.create({})({
   data() {
     return {
       modalProps: { width: 610 },
-      visibleField: 'visibleOfEditPassword'
+      visibleField: 'visibilityOfEditPassword'
     }
   },
   computed: {
@@ -15,7 +15,7 @@ export default Form.create({})({
       return {
         attrs: this.modalProps,
         on: {
-          cancel: () => this.onCancel('visibleOfEditPassword'),
+          cancel: () => this.onCancel('visibilityOfEditPassword'),
           ok: () => this.onSubmit({
             customApiName: 'updatePasswordOfStaff',
             customDataHandler: value => {

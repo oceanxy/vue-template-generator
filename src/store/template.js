@@ -27,7 +27,7 @@ export function createStoreModule(target = {}) {
       list: [],
       sortFieldList: [],
       details: {},
-      visibleOfEdit: false,
+      visibilityOfEdit: false,
       selectedRowKeys: [],
       selectedRows: [],
       ...target.state

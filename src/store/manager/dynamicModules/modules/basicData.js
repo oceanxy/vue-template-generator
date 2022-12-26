@@ -3,7 +3,7 @@ import { omit } from 'lodash'
 
 export default commitRootInModule => omit(createStoreModule({
   state: {
-    visibleOfExportByTime: false,
+    visibilityOfExportByTime: false,
     activities: {
       list: [],
       loading: false
@@ -15,7 +15,7 @@ export default commitRootInModule => omit(createStoreModule({
   }
 }), [
   'state.details',
-  'state.visibleOfEdit',
+  'state.visibilityOfEdit',
   'state.selectedRowKeys',
   'state.selectedRows',
   'state.currentItem'

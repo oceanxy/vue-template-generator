@@ -310,7 +310,7 @@ export default ({
        * @returns {Promise<void>}
        */
       async onAddClick(initialValue, parentId) {
-        await this._setVisibleOfModal({
+        await this._setVisibilityOfModal({
           parentId,
           ...omit(initialValue, 'id')
         })
@@ -321,7 +321,7 @@ export default ({
        * @returns {Promise<void>}
        */
       async onEditClick(record) {
-        await this._setVisibleOfModal(record)
+        await this._setVisibilityOfModal(record)
       },
       /**
        * 审核或相关意见填写
@@ -329,7 +329,7 @@ export default ({
        * @returns {Promise<void>}
        */
       async onAuditClick(ids) {
-        await this._setVisibleOfModal({ ids })
+        await this._setVisibilityOfModal({ ids })
       },
       /**
        * 删除

@@ -13,7 +13,7 @@ export default Form.create({})({
         destroyOnClose: true,
         okText: '导出'
       },
-      visibleField: 'visibleOfExportByTime'
+      visibleField: 'visibilityOfExportByTime'
     }
   },
   computed: {
@@ -31,7 +31,7 @@ export default Form.create({})({
       return {
         attrs: this.modalProps,
         on: {
-          cancel: () => this.onCancel('visibleOfExportByTime'),
+          cancel: () => this.onCancel('visibilityOfExportByTime'),
           ok: () => this.onSubmit({
             isFetchList: false,
             customApiName: 'exportBasicDataByTime',
@@ -76,6 +76,7 @@ export default Form.create({})({
             {
               this.form.getFieldDecorator('dateRange', { initialValue: [] })(
                 <DatePicker.RangePicker
+                  style={{ width: '100%' }}
                   placeholder={['开始时间', '结束时间']}
                   valueFormat={'YYYY-MM-DD'}
                   allowClear

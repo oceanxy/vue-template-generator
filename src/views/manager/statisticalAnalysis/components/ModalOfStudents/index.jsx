@@ -20,7 +20,7 @@ export default {
           <Button onClick={() => this.onCancel(this.visibleField)}>关闭</Button>
         ]
       },
-      visibleField: 'visibleOfStudents'
+      visibleField: 'visibilityOfStudents'
     }
   },
   render() {

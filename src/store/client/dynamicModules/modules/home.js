@@ -61,5 +61,5 @@ export default commitRootInModule =>
         }
       }
     }),
-    ['state.selectedRows', 'state.selectedRowKeys', 'state.visibleOfEdit', 'state.pagination', 'state.search']
+    ['state.selectedRows', 'state.selectedRowKeys', 'state.visibilityOfEdit', 'state.pagination', 'state.search']
   )

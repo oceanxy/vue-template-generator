@@ -122,14 +122,14 @@ export default Form.create({})({
             <span>{this.currentActivity.streetNum || '-'}</span>个镇街，
             <Button
               type={'link'}
-              onClick={() => this._setVisibleOfModal(this.currentActivity, 'visibleOfSchools')}
+              onClick={() => this._setVisibilityOfModal(this.currentActivity, 'visibilityOfSchools')}
             >
               {this.currentActivity.schoolNum || '-'}
             </Button>
             所学校，
             <Button
               type={'link'}
-              onClick={() => this._setVisibleOfModal(this.currentActivity, 'visibleOfStudents')}
+              onClick={() => this._setVisibilityOfModal(this.currentActivity, 'visibilityOfStudents')}
             >
               {this.currentActivity.dataNum || '-'}
             </Button>

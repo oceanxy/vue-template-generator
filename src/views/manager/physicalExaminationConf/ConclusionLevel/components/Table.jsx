@@ -90,7 +90,7 @@ export default {
               <Button
                 type="link"
                 size="small"
-                onClick={() => this._setVisibleOfModal(record, 'LevelModalOfTable')}
+                onClick={() => this._setVisibilityOfModal(record, 'LevelModalOfTable')}
               >
                 点击查看
               </Button>

@@ -6,8 +6,8 @@ export default commitRootInModule =>
     createStoreModule({
       state: {
         // 二维码弹窗
-        visibleOfCode: false,
-        visibleOfImport: false,
+        visibilityOfCode: false,
+        visibilityOfImport: false,
         gradeList: {
           loading: false,
           list: []
