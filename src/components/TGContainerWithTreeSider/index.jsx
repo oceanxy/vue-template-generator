@@ -70,6 +70,14 @@ export default {
     placeholder: {
       type: String,
       default: '请输入关键字搜索'
+    },
+    /**
+     * 用于触发树更新的 action 集合。
+     * 监听本组件所在页面的所有 action，当设定的 action 被触发时，则触发树更新。通常用在页面列表数据和树数据需要保持同步的场景。
+     */
+    actionsForUpdateTree: {
+      type: Array,
+      default: () => []
     }
   },
   data() {
@@ -145,11 +153,7 @@ export default {
     }
   },
   async created() {
-    const status = await this.$store.dispatch('getListWithLoadingStatus', {
-      moduleName: this.apiOptions.moduleName || this.moduleName,
-      stateName: this.apiOptions.stateName,
-      customApiName: this.apiOptions.apiName
-    })
+    const status = await this.getTree()
 
     if (status) {
       const treeIdField = this.getFieldNameForTreeId(1)
@@ -173,6 +177,17 @@ export default {
       }
     }
   },
+  mounted() {
+    if (this.actionsForUpdateTree.length) {
+      this.$store.subscribeAction({
+        after: async action => {
+          if (action.payload?.moduleName === this.moduleName && this.actionsForUpdateTree.includes(action.type)) {
+            await this.getTree()
+          }
+        }
+      })
+    }
+  },
   async beforeDestroy() {
     // 退出页面前先清空搜索参数，避免下次进页面时参数错乱
     await this.$store.dispatch('setSearch', {
@@ -182,6 +197,13 @@ export default {
     })
   },
   methods: {
+    async getTree() {
+      return await this.$store.dispatch('getListWithLoadingStatus', {
+        moduleName: this.apiOptions.moduleName || this.moduleName,
+        stateName: this.apiOptions.stateName,
+        customApiName: this.apiOptions.apiName
+      })
+    },
     /**
      * 按条件筛选包含关键字的所有项（包含层级关系）
      * @param dataSource {Array} 搜索源
