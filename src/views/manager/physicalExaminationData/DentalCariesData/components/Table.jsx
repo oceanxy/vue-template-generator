@@ -76,7 +76,7 @@ export default {
           {
             title: '病史异常项',
             align: 'center',
-            width: 100,
+            width: 110,
             dataIndex: 'medicalHistoryException'
           },
           {
@@ -106,7 +106,7 @@ export default {
           {
             title: '牙周疾病状态',
             align: 'center',
-            width: 120,
+            width: 130,
             dataIndex: 'periodontalStatus',
             scopedSlots: { customRender: 'periodontalStatus' }
           },
@@ -119,27 +119,27 @@ export default {
           {
             title: '沙眼状态',
             align: 'center',
-            width: 100,
+            width: 110,
             dataIndex: 'trachomaStatus',
             scopedSlots: { customRender: 'trachomaStatus' }
           },
           {
             title: '沙眼异常项',
             align: 'center',
-            width: 100,
+            width: 110,
             dataIndex: 'trachomaException'
           },
           {
             title: '结膜炎状态',
             align: 'center',
-            width: 100,
+            width: 110,
             dataIndex: 'conjunctivitisStatus',
             scopedSlots: { customRender: 'conjunctivitisStatus' }
           },
           {
             title: '结膜炎异常项',
             align: 'center',
-            width: 100,
+            width: 110,
             dataIndex: 'conjunctivitisException'
           },
           {
