@@ -32,7 +32,7 @@ export default {
         </Button>
         <Button
           onClick={() => this._setVisibleOfModal({}, 'visibleOfExportByTime')}
-          icon="delete"
+          icon="export"
           disabled={this.exportButtonDisabled}
         >
           按时间导出
