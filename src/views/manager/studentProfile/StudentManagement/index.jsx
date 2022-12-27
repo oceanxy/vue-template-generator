@@ -7,6 +7,7 @@ import TGPagination from '@/components/TGPagination'
 import ModalOfEdit from './components/ModalOfEdit'
 import ModalCode from './components/ModalCode'
 import ModalImport from './components/ModalImport'
+import ModalSetRooms from './components/ModalSetRooms'
 import dynamicState from '@/mixins/dynamicState'
 import TGContainer from '@/layouts/components/TGContainer'
 import { getFileAdminForSchoolTreeId, getSchoolTreeIcon } from '@/utils/projectHelpers'
@@ -35,6 +36,7 @@ export default {
             <ModalOfEdit modalTitle={'{action}学生'} />
             <ModalCode modalTitle={'体检二维码'} />
             <ModalImport modalTitle={'学生{action}导入'} />
+            <ModalSetRooms modalTitle={'设置学生宿舍'} />
           </template>
         </TGContainer>
       </TGContainerWithTreeSider>

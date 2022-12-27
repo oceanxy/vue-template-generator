@@ -159,6 +159,14 @@ export default {
         >
           导出学生
         </Button>
+
+        <Button
+          onClick={() => this._setVisibilityOfModal({}, 'visibilityOfSetRooms')}
+          icon="home"
+          disabled={this.deleteButtonDisabled}
+        >
+          设置学生宿舍
+        </Button>
         <Button
           onClick={() => this.onDeleteClick()}
           icon="delete"

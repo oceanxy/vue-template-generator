@@ -33,15 +33,14 @@ export default Form.create({})({
     }
   },
   methods: {
-    onChangeKpi(e) {
-      this.form.setFieldsValue({ monitorParamId: '' })
+    async onChangeKpi(e) {
       this.kpiItem = this.kpiAndParam.kpi.filter(item => {
         if (item.id === e) {
           return item
         }
       })
       this.paramList(e)
-
+      await this.form.setFieldsValue({ monitorParamId: this.param[0].id })
     },
     paramList(e) {
       const arr = []
@@ -164,7 +163,7 @@ export default Form.create({})({
                   <Select placeholder="参数" onchange={this.onChangeParam}>
                     {
                       this.param?.map(item => (
-                        <Select.Option value={item.id}>{item.paramName}</Select.Option>
+                        <Select.Option value={item.id} >{item.paramName}</Select.Option>
                       ))
                     }
                   </Select>

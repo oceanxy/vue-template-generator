@@ -64,6 +64,23 @@ export default {
             dataIndex: 'originalSchoolName'
           },
           {
+            title: '楼栋名称',
+            width: 140,
+            dataIndex: 'buildName'
+          },
+          {
+            title: '楼层',
+            width: 80,
+            align: 'center',
+            dataIndex: 'floorName'
+          },
+          {
+            title: '房间号',
+            width: 80,
+            align: 'center',
+            dataIndex: 'roomNo'
+          },
+          {
             title: '戴镜',
             width: 80,
             align: 'center',

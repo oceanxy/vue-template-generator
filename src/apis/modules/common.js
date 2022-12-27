@@ -56,5 +56,17 @@ export default {
       method: 'post',
       data: qs.stringify(data)
     })
+  },
+  /**
+   * 查询所有楼栋楼层房间
+   * @param request
+   * @returns {*}
+   */
+  getAllBuildList(request, data) {
+    return request({
+      url: '/morningNoon/build/getAllBuildList',
+      method: 'get',
+      data: qs.stringify(data)
+    })
   }
 }

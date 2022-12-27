@@ -37,6 +37,9 @@ export default Form.create({})({
     administrativeDivision() {
       return this.getState('administrativeDivision', 'common') || []
     },
+    allBuildList() {
+      return this.getState('allBuildList', 'common')
+    },
     fileList() {
       return this.currentItem.photoStr && this.currentItem.photo
         ? [
@@ -129,6 +132,10 @@ export default Form.create({})({
       data.rightGlassesValue = Number(data.rightGlassesValue) ?? this.currentItem?.rightGlassesValue ?? ''
       data.gender = data.gender.toString() ?? this.currentItem?.gender.toString() ?? ''
       data.status = data.status.toString() ?? this.currentItem?.status.toString() ?? ''
+      data.buildId = data.roomsData?.[0] ?? this.currentItem?.buildId ?? ''
+      data.floorId = data.roomsData?.[1] ?? this.currentItem?.floorId ?? ''
+      data.roomId = data.roomsData?.[2] ?? this.currentItem?.roomId ?? ''
+      delete data.roomsData
 
       return data
     },
@@ -177,6 +184,13 @@ export default Form.create({})({
         }
       }
     },
+    visible: {
+      async handler(value) {
+        if (value) {
+          await dispatch('common', 'getAllBuildList')
+        }
+      }
+    }
   },
   render() {
     return (
@@ -490,8 +504,10 @@ export default Form.create({})({
                   )(
                     <Select
                       disabled={this.glassesTypeSelect}
-                      placeholder="请选择眼镜类型">
-                      <Select.Option value={''}>全部</Select.Option>
+                      placeholder="请选择眼镜类型"
+                      defaultValue={''}
+                    >
+                      <Select.Option value={''} >全部</Select.Option>
                       <Select.Option value={1}>框架眼镜</Select.Option>
                       <Select.Option value={2}>夜戴角膜塑形镜</Select.Option>
                       <Select.Option value={3}>其他角膜接触镜</Select.Option>
@@ -581,10 +597,10 @@ export default Form.create({})({
             </Col>
 
             <Col span={6}>
-              <Form.Item label="地址">
+              <Form.Item label="选择地址">
                 {
                   this.form.getFieldDecorator('districtList', {
-                    getValueFromEvent: (value, selectedOptions) => selectedOptions.map(item => ({
+                    getValueFromEvent: (value, selectedOptions) => (selectedOptions || []).map(item => ({
                       id: item.id,
                       name: item.name
                     })),
@@ -618,7 +634,7 @@ export default Form.create({})({
             </Col>
 
             <Col span={6}>
-              <Form.Item label="街道">
+              <Form.Item label="选择街道">
                 {
                   this.form.getFieldDecorator('street', {
                     initialValue: this.currentItem.streetId
@@ -633,6 +649,7 @@ export default Form.create({})({
                     ]
                   })(
                     <Select
+                      disabled={!this.form.getFieldValue('districtList')?.[2]?.id}
                       onChange={this.onChangeStreetId}
                       labelInValue
                       placeholder="请选择街道">
@@ -661,7 +678,26 @@ export default Form.create({})({
                 }
               </Form.Item>
             </Col>
-            <Col span={12}>
+            <Col span={6}>
+              <Form.Item label="选择宿舍">
+                {
+                  this.form.getFieldDecorator('roomsData', {
+                    initialValue: [this.currentItem.buildId, this.currentItem.floorId, this.currentItem.roomId] || []
+                  })(
+                    <Cascader
+                      placeholder="请选择宿舍"
+                      expandTrigger={'hover'}
+                      allowClear
+                      options={this.allBuildList}
+                      fieldNames={{
+                        label: 'name', value: 'id', children: 'children'
+                      }}
+                    />
+                  )
+                }
+              </Form.Item>
+            </Col>
+            <Col span={6}>
               <Form.Item label="状态">
                 {
                   this.form.getFieldDecorator('status', {
