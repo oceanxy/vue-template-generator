@@ -178,6 +178,19 @@ export default {
     })
   },
   /**
+   * 设置学生宿舍
+   * @param request
+   * @param data
+   * @returns {*}
+   */
+  studentSetRooms(request, data) {
+    return request({
+      url: '/personnel/student/setRooms',
+      method: 'post',
+      data: qs.stringify(data)
+    })
+  },
+  /**
    * 导出学生
    * @param request
    * @param params

@@ -385,10 +385,10 @@ export default Form.create({})({
               </Form.Item>
             </Col>
             <Col span={6}>
-              <Form.Item label="地址">
+              <Form.Item label="选择地址">
                 {
                   this.form.getFieldDecorator('districtList', {
-                    getValueFromEvent: (value, selectedOptions) => selectedOptions.map(item => ({
+                    getValueFromEvent: (value, selectedOptions) => (selectedOptions || []).map(item => ({
                       id: item.id,
                       name: item.name
                     })),
