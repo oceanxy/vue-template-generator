@@ -775,6 +775,41 @@ function createConstRoutes() {
           ]
         },
         {
+          path: 'dormitories',
+          component: TGRouterView,
+          redirect: { name: 'buildings' },
+          meta: {
+            title: '宿舍管理',
+            keepAlive: false,
+            requiresAuth: true,
+            icon: () => import('@/layouts/components/TGMenu/assets/images/system.svg')
+          },
+          children: [
+            {
+              path: 'buildings',
+              name: 'buildings',
+              component: () => import('@/views/manager/dormitories/Buildings'),
+              meta: {
+                title: '楼栋管理',
+                keepAlive: false,
+                requiresAuth: true,
+                icon: () => import('@/layouts/components/TGMenu/assets/images/system-menus.svg')
+              }
+            },
+            {
+              path: 'rooms',
+              name: 'rooms',
+              component: () => import('@/views/manager/dormitories/Rooms'),
+              meta: {
+                title: '房间管理',
+                keepAlive: false,
+                requiresAuth: true,
+                icon: () => import('@/layouts/components/TGMenu/assets/images/system-functions.svg')
+              }
+            }
+          ]
+        },
+        {
           path: 'system',
           component: TGRouterView,
           redirect: { name: 'systemMenus' },

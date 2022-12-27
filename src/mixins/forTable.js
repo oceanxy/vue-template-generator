@@ -280,7 +280,8 @@ export default ({
           message.success([
             <span style={{ color: '#16b364' }}>
               {name}
-            </span>, ' 的状态已更新！'
+            </span>,
+            ' 的状态已更新！'
           ])
         }
 

@@ -58,7 +58,8 @@ export default () => {
     },
     methods: {
       // 此处仅处理共用字段。如 status, dateRange, datetimeRange 等。
-      // 组件内独有字段请在 forFormModal 的 customDataHandler 回调函数内处理
+      // 组件内独有字段请在 forFormModal 的 customDataHandler 回调函数内处理，
+      // 也可以在 form.getFieldDecorator 内使用 getValueFromEvent 和 getValueProps 结合来处理。
       transformValue(values) {
         let temp = cloneDeep(values)
 
