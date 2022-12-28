@@ -104,7 +104,9 @@ export default ({
     },
     watch: {
       selectedRowKeys(value) {
-        this.tableProps.rowSelection.selectedRowKeys = value
+        if (this.tableProps.rowSelection) {
+          this.tableProps.rowSelection.selectedRowKeys = value
+        }
       },
       /**
        * 监听排序集合，根据后端返回的值初始化表头
