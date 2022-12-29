@@ -1,5 +1,5 @@
 import '../assets/styles/index.scss'
-import { Form, Button } from 'ant-design-vue'
+import { Form, Button, Spin } from 'ant-design-vue'
 import forFormModal from '@/mixins/forModal/forFormModal'
 import DragModal from '@/components/DragModal'
 import { mapGetters } from 'vuex'
@@ -12,6 +12,7 @@ export default Form.create({})({
     return {
       visibilityFieldName: 'visibilityOfCode',
       imgCodeUrl: '',
+      showImgCode: false,
       modalProps: {
         width: 380,
         centered: true,
@@ -113,12 +114,14 @@ export default Form.create({})({
 
     },
     async onCodeSelf() {
+      this.showImgCode = true
       const studentId = this.currentItem.id
       const res = await apis.getCodeSelf({ studentId: studentId })
 
-      this.imgCodeUrl = URL.createObjectURL(res)
-
-
+      if (res.size) {
+        this.showImgCode = false
+        this.imgCodeUrl = URL.createObjectURL(res)
+      }
     }
   },
   watch: {
@@ -131,9 +134,11 @@ export default Form.create({})({
   render() {
     return (
       <DragModal {...this.attributes}>
-        <div id="print">
-          <img class='imgCode' src={this.imgCodeUrl}></img>
-        </div>
+        <Spin spinning={this.showImgCode}>
+          <div id="print">
+            <img class='imgCode' src={this.imgCodeUrl}></img>
+          </div>
+        </Spin>
       </DragModal >
     )
   }
