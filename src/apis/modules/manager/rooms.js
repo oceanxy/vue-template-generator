@@ -50,7 +50,7 @@ export default {
     return request({
       url: '/morningNoon/room/delete',
       method: 'post',
-      data: qs.stringify(data)
+      data: qs.stringify(data, { arrayFormat: 'comma' })
     })
   },
   /**
@@ -86,11 +86,24 @@ export default {
    * @param data
    * @returns {*}
    */
-  getStudentsByRoomId(request, data) {
+  getStudentInfoOfRooms(request, data) {
     return request({
       url: '/morningNoon/room/getStudentsByRoomId',
       method: 'post',
       data: qs.stringify(data)
+    })
+  },
+  /**
+   * 删除房间里的学生
+   * @param request
+   * @param data
+   * @returns {*}
+   */
+  deleteStudentInfoOfRooms(request, data) {
+    return request({
+      url: '/morningNoon/room/removeStudentForRoom',
+      method: 'post',
+      data: qs.stringify(data, { arrayFormat: 'comma' })
     })
   }
 }

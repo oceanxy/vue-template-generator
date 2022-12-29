@@ -50,7 +50,7 @@ export default {
     return request({
       url: '/morningNoon/build/delete',
       method: 'post',
-      data: qs.stringify(data)
+      data: qs.stringify(data, { arrayFormat: 'comma' })
     })
   },
   /**

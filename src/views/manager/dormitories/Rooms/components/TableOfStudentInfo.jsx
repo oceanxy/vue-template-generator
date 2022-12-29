@@ -2,9 +2,7 @@ import forTable from '@/mixins/forTable'
 import { Button } from 'ant-design-vue'
 
 export default {
-  mixins: [
-    forTable({ customApiName: 'getStudentsByRoomId' })
-  ],
+  mixins: [forTable()],
   data() {
     return {
       tableProps: {
@@ -60,7 +58,10 @@ export default {
           <Button
             type="link"
             size="small"
-            onClick={() => this.onDeleteClick(record)}
+            onClick={() => this.onDeleteClick(record, {
+              roomId: this.additionalQueryParameters.roomId,
+              studentIds: [record.id]
+            })}
           >
             删除
           </Button>

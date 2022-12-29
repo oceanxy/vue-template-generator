@@ -782,7 +782,7 @@ function createConstRoutes() {
             title: '宿舍管理',
             keepAlive: false,
             requiresAuth: true,
-            icon: () => import('@/layouts/components/TGMenu/assets/images/system.svg')
+            icon: () => import('@/layouts/components/TGMenu/assets/images/dormitories.svg')
           },
           children: [
             {
@@ -793,7 +793,7 @@ function createConstRoutes() {
                 title: '楼栋管理',
                 keepAlive: false,
                 requiresAuth: true,
-                icon: () => import('@/layouts/components/TGMenu/assets/images/system-menus.svg')
+                icon: () => import('@/layouts/components/TGMenu/assets/images/buildings.svg')
               }
             },
             {
@@ -804,7 +804,7 @@ function createConstRoutes() {
                 title: '房间管理',
                 keepAlive: false,
                 requiresAuth: true,
-                icon: () => import('@/layouts/components/TGMenu/assets/images/system-functions.svg')
+                icon: () => import('@/layouts/components/TGMenu/assets/images/rooms.svg')
               }
             }
           ]

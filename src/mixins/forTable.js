@@ -15,7 +15,8 @@ import { cloneDeep, omit } from 'lodash'
  * @param [isInject=true] {boolean} 是否从 inject 导入 moduleName 和 submoduleName，默认 true
  * @param [isFetchList=true] {boolean} 是否在组件初始化完成后立即获取列表数据，默认 true
  * @param [stateName='list'] {string} 表格数据在 store.state 里对应的名称
- * @param [customApiName] {string} 自定义请求接口名
+ * @param [customApiName] {string} 自定义请求接口名。
+ * TODO：一般在弹窗内使用；如果弹窗内的列表有增删改操作，目前未适配执行这些操作后的列表刷新，所以当存在这些操作时不要使用该参数。
  * @returns {Object}
  */
 export default ({
@@ -347,8 +348,9 @@ export default ({
       /**
        * 删除
        * @param record {Object} 列表数据对象
+       * @param [params] {Object} 删除参数，默认 { ids: [record.id] }
        */
-      onDeleteClick(record) {
+      onDeleteClick(record, params = {}) {
         Modal.confirm({
           title: '确认',
           content: '确定要删除吗？',
@@ -356,13 +358,17 @@ export default ({
           cancelText: '取消',
           onOk: async close => {
             const status = await this.$store.dispatch('delete', {
-              ids: [record.id],
+              payload: {
+                ...params,
+                ids: [record.id]
+              },
+              stateName,
               moduleName: this.moduleName,
               submoduleName: this.submoduleName,
               additionalQueryParameters: {
                 ...this.$route.query,
                 // 获取子模块数据需要的额外参数，在引用该混合的子模块内覆盖设置。
-                // 请根据参数的取值和性质自行决定在 data 内或 computed 内定义。
+                // 请根据参数的取值和性质自行决定在 data 或 computed 内定义。
                 ...(this.additionalQueryParameters || {})
               }
             })

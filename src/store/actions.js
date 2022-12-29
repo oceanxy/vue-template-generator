@@ -97,11 +97,11 @@ export default {
       if (customApiName) {
         api = customApiName
       } else {
-        api = `get${submoduleName ? `${
-          firstLetterToUppercase(submoduleName)
-        }Of` : ''}${
-          firstLetterToUppercase(moduleName)
-        }`
+        api = `get${
+          submoduleName
+            ? `${firstLetterToUppercase(submoduleName)}Of`
+            : ''
+        }${firstLetterToUppercase(moduleName)}`
       }
     }
 
@@ -503,8 +503,9 @@ export default {
    * @param commit
    * @param moduleName {string}
    * @param submoduleName {string}
-   * @param ids {Array}
-   * @param additionalQueryParameters {Object} 删除成功后刷新列表的参数（注意此参数非删除参数）
+   * @param [stateName='list'] {string} store中用于存放列表数据的字段名，默认 'list'
+   * @param payload {Object} 调用删除接口的参数
+   * @param additionalQueryParameters {Object} 删除成功后刷新列表的参数（注意此参数非调用删除接口的参数）
    * @returns {Promise<*>}
    */
   async delete({
@@ -514,31 +515,44 @@ export default {
   }, {
     moduleName,
     submoduleName,
-    ids,
-    additionalQueryParameters
+    stateName = 'list',
+    payload = {},
+    additionalQueryParameters = {}
   }) {
     let isBatchDeletion = false
-    const selectedRows = state[moduleName][submoduleName]?.selectedRows ?? state[moduleName].selectedRows
-    const selectedRowKeys = state[moduleName][submoduleName]?.selectedRowKeys ?? state[moduleName].selectedRowKeys
+    const module = state[moduleName][submoduleName] ?? state[moduleName]
+    const selectedRows = module.selectedRows
+    const selectedRowKeys = module.selectedRowKeys
     const newSelectedRows = []
     const newSelectedRowKeys = []
 
-    commit('setLoading', { value: true, moduleName })
+    commit('setLoading', {
+      value: true,
+      moduleName,
+      submoduleName
+    })
+    // 子模块内的列表操作后，除了要刷新当前列表，还要刷新父级模块的列表
+    // （TODO 目前不支持不刷新父级模块内列表的操作，后期如有需求再来适配）
+    submoduleName && commit('setLoading', { value: true, moduleName })
 
     // 通过 forFunction 混合调用时，一般为批量操作，即勾选了行选择框的操作，
     // 需要更新对应 store 模块内的 selectedRowKeys 和 selectedRows。
-    if (!ids?.length) {
-      ids = selectedRowKeys
+    if (!payload.ids?.length) {
+      payload.ids = selectedRowKeys
       isBatchDeletion = true
     }
 
-    const response = await apis[`delete${firstLetterToUppercase(moduleName)}`]({ ids: ids.join() })
+    const response = await apis[`delete${
+      submoduleName
+        ? `${firstLetterToUppercase(submoduleName)}Of`
+        : ''
+    }${firstLetterToUppercase(moduleName)}`](payload)
 
     if (response.status) {
       // 非批量操作时，只从选中行数组中移除被删除的行的key，
       // 批量操作时，直接清空选中行数组
       if (selectedRows?.length && !isBatchDeletion) {
-        const index = newSelectedRowKeys.findIndex(key => key === ids[0])
+        const index = newSelectedRowKeys.findIndex(key => key === payload.ids[0])
 
         if (index > 0) {
           newSelectedRowKeys.splice(index, 1)
@@ -556,18 +570,19 @@ export default {
       })
 
       // 删除数据后，刷新分页数据，避免请求不存在的页码
-      if (state[moduleName].list.length <= ids.length && state[moduleName].pagination.pageIndex > 0) {
-        const { pageIndex, pageSize } = state[moduleName].pagination
+      if (module[stateName].length <= payload.ids.length && module.pagination?.pageIndex) {
+        const { pageIndex, pageSize } = module.pagination
 
         commit('setPagination', {
           value: {
             pageIndex: pageIndex - (
-              ids.length % pageSize > state[moduleName].list.length
-                ? Math.ceil(ids.length / pageSize)
-                : Math.floor(ids.length / pageSize)
+              payload.ids.length % pageSize > module[stateName].length
+                ? Math.ceil(payload.ids.length / pageSize)
+                : Math.floor(payload.ids.length / pageSize)
             )
           },
-          moduleName
+          moduleName,
+          submoduleName
         })
       }
 
@@ -575,10 +590,22 @@ export default {
       dispatch('getList', {
         moduleName,
         submoduleName,
+        stateName,
+        additionalQueryParameters
+      })
+
+      submoduleName && dispatch('getList', {
+        moduleName,
+        stateName,
         additionalQueryParameters
       })
     } else {
-      commit('setLoading', { value: false, moduleName })
+      commit('setLoading', {
+        value: false,
+        moduleName,
+        submoduleName
+      })
+      submoduleName && commit('setLoading', { value: false, moduleName })
     }
 
     return response.status
