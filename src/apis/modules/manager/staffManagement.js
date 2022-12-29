@@ -24,7 +24,7 @@ export default {
     return request({
       url: '/system/employee/delete',
       method: 'post',
-      data: qs.stringify(data)
+      data: qs.stringify(data, { arrayFormat: 'comma' })
     })
   },
   /**

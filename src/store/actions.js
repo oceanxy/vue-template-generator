@@ -97,11 +97,11 @@ export default {
       if (customApiName) {
         api = customApiName
       } else {
-        api = `get${submoduleName ? `${
-          firstLetterToUppercase(submoduleName)
-        }Of` : ''}${
-          firstLetterToUppercase(moduleName)
-        }`
+        api = `get${
+          submoduleName
+            ? `${firstLetterToUppercase(submoduleName)}Of`
+            : ''
+        }${firstLetterToUppercase(moduleName)}`
       }
     }
 
@@ -217,7 +217,7 @@ export default {
    * @param dispatch
    * @param moduleName {string} 模块名
    * @param payload {Object} 参数
-   * @param visibleField {string} 控制弹窗显示的字段名
+   * @param visibilityFieldName {string} 控制弹窗显示的字段名
    * @param parametersOfGetListAction {...{
    *  moduleName: string;
    *  submoduleName: string;
@@ -230,14 +230,14 @@ export default {
   async add({ state, dispatch }, {
     moduleName,
     payload,
-    visibleField,
+    visibilityFieldName,
     ...parametersOfGetListAction
   }) {
     const response = await apis[`add${firstLetterToUppercase(moduleName)}`](payload)
 
     if (response.status) {
       dispatch('setModalVisible', {
-        statusField: visibleField,
+        statusField: visibilityFieldName,
         statusValue: false,
         moduleName
       })
@@ -260,7 +260,7 @@ export default {
    * @param dispatch
    * @param moduleName {string} 模块名
    * @param payload {Object} 参数
-   * @param visibleField {string} 控制弹窗显示的字段名
+   * @param visibilityFieldName {string} 控制弹窗显示的字段名
    * @param customApiName {string} 自定义请求API
    * @param isFetchList {boolean} 默认 false。当为 true 时，请特别注意参数问题（parametersOfGetListAction）
    * @param parametersOfGetListAction {...{
@@ -275,7 +275,7 @@ export default {
   async update({ state, dispatch }, {
     moduleName,
     payload,
-    visibleField,
+    visibilityFieldName,
     customApiName,
     isFetchList,
     ...parametersOfGetListAction
@@ -284,7 +284,7 @@ export default {
 
     if (response.status) {
       dispatch('setModalVisible', {
-        statusField: visibleField,
+        statusField: visibilityFieldName,
         statusValue: false,
         moduleName
       })
@@ -312,7 +312,7 @@ export default {
    * @param [stateName] {string} 用于接收接口返回值的 state 字段名称，在相应模块的 store.state 内定义
    * @param [moduleName] {string} 模块名
    * @param [submoduleName] {string} 子级模块名
-   * @param [visibleField] {string} 成功执行操作后要关闭的弹窗的控制字段（定义在对应模块的 store.state 内）
+   * @param [visibilityFieldName] {string} 成功执行操作后要关闭的弹窗的控制字段（定义在对应模块的 store.state 内）
    * @param [isFetchList] {boolean} 是否在成功提交后刷新本模块列表，默认false
    * @param parametersOfGetListAction {...{
    *  additionalQueryParameters: {};
@@ -332,16 +332,16 @@ export default {
     stateName,
     moduleName,
     submoduleName,
-    visibleField,
+    visibilityFieldName,
     isFetchList,
     ...parametersOfGetListAction
   }) {
     const response = await apis[customApiName](payload)
 
     if (response.status) {
-      if (visibleField) {
+      if (visibilityFieldName) {
         dispatch('setModalVisible', {
-          statusField: visibleField,
+          statusField: visibilityFieldName,
           statusValue: false,
           moduleName,
           submoduleName
@@ -503,8 +503,9 @@ export default {
    * @param commit
    * @param moduleName {string}
    * @param submoduleName {string}
-   * @param ids {Array}
-   * @param additionalQueryParameters {Object} 删除成功后刷新列表的参数（注意此参数非删除参数）
+   * @param [stateName='list'] {string} store中用于存放列表数据的字段名，默认 'list'
+   * @param payload {Object} 调用删除接口的参数
+   * @param additionalQueryParameters {Object} 删除成功后刷新列表的参数（注意此参数非调用删除接口的参数）
    * @returns {Promise<*>}
    */
   async delete({
@@ -514,31 +515,44 @@ export default {
   }, {
     moduleName,
     submoduleName,
-    ids,
-    additionalQueryParameters
+    stateName = 'list',
+    payload = {},
+    additionalQueryParameters = {}
   }) {
     let isBatchDeletion = false
-    const selectedRows = state[moduleName][submoduleName]?.selectedRows ?? state[moduleName].selectedRows
-    const selectedRowKeys = state[moduleName][submoduleName]?.selectedRowKeys ?? state[moduleName].selectedRowKeys
+    const module = state[moduleName][submoduleName] ?? state[moduleName]
+    const selectedRows = module.selectedRows
+    const selectedRowKeys = module.selectedRowKeys
     const newSelectedRows = []
     const newSelectedRowKeys = []
 
-    commit('setLoading', { value: true, moduleName })
+    commit('setLoading', {
+      value: true,
+      moduleName,
+      submoduleName
+    })
+    // 子模块内的列表操作后，除了要刷新当前列表，还要刷新父级模块的列表
+    // （TODO 目前不支持不刷新父级模块内列表的操作，后期如有需求再来适配）
+    submoduleName && commit('setLoading', { value: true, moduleName })
 
     // 通过 forFunction 混合调用时，一般为批量操作，即勾选了行选择框的操作，
     // 需要更新对应 store 模块内的 selectedRowKeys 和 selectedRows。
-    if (!ids?.length) {
-      ids = selectedRowKeys
+    if (!payload.ids?.length) {
+      payload.ids = selectedRowKeys
       isBatchDeletion = true
     }
 
-    const response = await apis[`delete${firstLetterToUppercase(moduleName)}`]({ ids: ids.join() })
+    const response = await apis[`delete${
+      submoduleName
+        ? `${firstLetterToUppercase(submoduleName)}Of`
+        : ''
+    }${firstLetterToUppercase(moduleName)}`](payload)
 
     if (response.status) {
       // 非批量操作时，只从选中行数组中移除被删除的行的key，
       // 批量操作时，直接清空选中行数组
       if (selectedRows?.length && !isBatchDeletion) {
-        const index = newSelectedRowKeys.findIndex(key => key === ids[0])
+        const index = newSelectedRowKeys.findIndex(key => key === payload.ids[0])
 
         if (index > 0) {
           newSelectedRowKeys.splice(index, 1)
@@ -556,18 +570,19 @@ export default {
       })
 
       // 删除数据后，刷新分页数据，避免请求不存在的页码
-      if (state[moduleName].list.length <= ids.length && state[moduleName].pagination.pageIndex > 0) {
-        const { pageIndex, pageSize } = state[moduleName].pagination
+      if (module[stateName].length <= payload.ids.length && module.pagination?.pageIndex) {
+        const { pageIndex, pageSize } = module.pagination
 
         commit('setPagination', {
           value: {
             pageIndex: pageIndex - (
-              ids.length % pageSize > state[moduleName].list.length
-                ? Math.ceil(ids.length / pageSize)
-                : Math.floor(ids.length / pageSize)
+              payload.ids.length % pageSize > module[stateName].length
+                ? Math.ceil(payload.ids.length / pageSize)
+                : Math.floor(payload.ids.length / pageSize)
             )
           },
-          moduleName
+          moduleName,
+          submoduleName
         })
       }
 
@@ -575,10 +590,22 @@ export default {
       dispatch('getList', {
         moduleName,
         submoduleName,
+        stateName,
+        additionalQueryParameters
+      })
+
+      submoduleName && dispatch('getList', {
+        moduleName,
+        stateName,
         additionalQueryParameters
       })
     } else {
-      commit('setLoading', { value: false, moduleName })
+      commit('setLoading', {
+        value: false,
+        moduleName,
+        submoduleName
+      })
+      submoduleName && commit('setLoading', { value: false, moduleName })
     }
 
     return response.status
@@ -593,7 +620,7 @@ export default {
    * @param additionalQueryParameters {Object} 附加参数。例如其他页面跳转带过来的参数
    * @param fileName {string} 不包含后缀名
    * @param [customApiName] {string} 自定义请求api的名字
-   * @param [visibleField] {string} 成功导出后要关闭的弹窗的控制字段（定义在对应模块的 store.state 内）
+   * @param [visibilityFieldName] {string} 成功导出后要关闭的弹窗的控制字段（定义在对应模块的 store.state 内）
    * @returns {Promise<*>}
    */
   async export({ state, dispatch }, {
@@ -603,7 +630,7 @@ export default {
     additionalQueryParameters,
     fileName,
     customApiName,
-    visibleField
+    visibilityFieldName
   }) {
     let api = 'export'
     const targetModuleName = state[moduleName][submoduleName] ?? state[moduleName]
@@ -626,9 +653,9 @@ export default {
 
     downFile(blob, `${fileName}.xlsx`)
 
-    if (visibleField) {
+    if (visibilityFieldName) {
       dispatch('setModalVisible', {
-        statusField: visibleField,
+        statusField: visibilityFieldName,
         statusValue: false,
         moduleName,
         submoduleName

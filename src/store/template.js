@@ -13,7 +13,7 @@
 export function createStoreModule(target = {}) {
   return {
     namespaced: true,
-    state: {
+    state: () => ({
       rowKey: 'id', // antd vue Table 组件的 rowKey 属性
       treeIdField: '', // 用于接收侧边树选中值的字段名，默认''，通过 @/components/TGContainerWithTreeSider 组件设置。
       loading: false,
@@ -31,7 +31,7 @@ export function createStoreModule(target = {}) {
       selectedRowKeys: [],
       selectedRows: [],
       ...target.state
-    },
+    }),
     mutations: { ...target.mutations },
     getters: { ...target.getters },
     actions: { ...target.actions },

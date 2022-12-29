@@ -15,7 +15,8 @@ import { cloneDeep, omit } from 'lodash'
  * @param [isInject=true] {boolean} 是否从 inject 导入 moduleName 和 submoduleName，默认 true
  * @param [isFetchList=true] {boolean} 是否在组件初始化完成后立即获取列表数据，默认 true
  * @param [stateName='list'] {string} 表格数据在 store.state 里对应的名称
- * @param [customApiName] {string} 自定义请求接口名
+ * @param [customApiName] {string} 自定义请求接口名。
+ * TODO：一般在弹窗内使用；如果弹窗内的列表有增删改操作，目前未适配执行这些操作后的列表刷新，所以当存在这些操作时不要使用该参数。
  * @returns {Object}
  */
 export default ({
@@ -25,7 +26,6 @@ export default ({
   customApiName
 } = {}) => {
   const _stateName = stateName
-  const _customApiName = customApiName
   const forTable = {
     mixins: [forIndex],
     inject: {
@@ -104,7 +104,9 @@ export default ({
     },
     watch: {
       selectedRowKeys(value) {
-        this.tableProps.rowSelection.selectedRowKeys = value
+        if (this.tableProps.rowSelection) {
+          this.tableProps.rowSelection.selectedRowKeys = value
+        }
       },
       /**
        * 监听排序集合，根据后端返回的值初始化表头
@@ -138,8 +140,19 @@ export default ({
           }
         )
 
-        if (isFetchList && !this.notInitList) {
-          await this.fetchList()
+        if (isFetchList) {
+          // this.notInitList: false 表示不在本 Table 组件内请求列表数据。
+          // （使用了 @/components/TGContainerWithTreeSider 组件时，为了避免重复请求，会在该组件内请求列表数据，而非本组件）
+          if (!this.notInitList) {
+            await this.fetchList()
+          } else {
+            console.warn([
+              `因 ${this.moduleName} 页面内 TGContainerWithTreeSider 组件的 notInitList 为假值，`,
+              '所以本次 Table 组件将不会请求数据。\r\n',
+              `如果在弹窗内使用 forTable 混合，请务必将该弹窗注册为 ${this.moduleName} 页面的子模块，`,
+              '以防止弹窗内的表格组件和当前页面的表格组件混淆。'
+            ].join(''))
+          }
         }
       } else {
         this.$watch(
@@ -152,11 +165,11 @@ export default ({
         )
 
         // 判断是否是弹窗内的子模块列表（适用于在弹窗组件直接 inject forTable 的组件）
-        if (this.visibleField) {
+        if (this.visibilityFieldName) {
           this.$watch(
-            () => this.$store.state[this.moduleName][this.visibleField],
-            async visibleField => {
-              if (visibleField && isFetchList) {
+            () => this.$store.state[this.moduleName][this.visibilityFieldName],
+            async visibilityFieldName => {
+              if (visibilityFieldName && isFetchList) {
                 await this.fetchList()
               }
             },
@@ -199,10 +212,10 @@ export default ({
        * @param [customApiName] {string} 自定义接口名
        * @returns {Promise<void>}
        */
-      async fetchList({ merge, customApiName } = {}) {
+      async fetchList({ merge, customApiName: apiName } = {}) {
         return await this.$store.dispatch('getList', {
           merge,
-          customApiName: customApiName || this.customApiName || _customApiName,
+          customApiName: apiName || this.customApiName || customApiName,
           moduleName: this.moduleName,
           submoduleName: this.submoduleName,
           /**
@@ -280,7 +293,8 @@ export default ({
           message.success([
             <span style={{ color: '#16b364' }}>
               {name}
-            </span>, ' 的状态已更新！'
+            </span>,
+            ' 的状态已更新！'
           ])
         }
 
@@ -334,8 +348,9 @@ export default ({
       /**
        * 删除
        * @param record {Object} 列表数据对象
+       * @param [params] {Object} 删除参数，默认 { ids: [record.id] }
        */
-      onDeleteClick(record) {
+      onDeleteClick(record, params = {}) {
         Modal.confirm({
           title: '确认',
           content: '确定要删除吗？',
@@ -343,13 +358,17 @@ export default ({
           cancelText: '取消',
           onOk: async close => {
             const status = await this.$store.dispatch('delete', {
-              ids: [record.id],
+              payload: {
+                ...params,
+                ids: [record.id]
+              },
+              stateName,
               moduleName: this.moduleName,
               submoduleName: this.submoduleName,
               additionalQueryParameters: {
                 ...this.$route.query,
                 // 获取子模块数据需要的额外参数，在引用该混合的子模块内覆盖设置。
-                // 请根据参数的取值和性质自行决定在 data 内或 computed 内定义。
+                // 请根据参数的取值和性质自行决定在 data 或 computed 内定义。
                 ...(this.additionalQueryParameters || {})
               }
             })
@@ -470,6 +489,8 @@ export default ({
     render() {
       return (
         <Table
+          // 如果同一子模块内有多个表格时，请为每个表格组件设置唯一的 tableName props。
+          // 如果子模块内有且仅有一个表格组件时， tableName props 不是必需的，此时组件会根据 submoduleName 自动生成 tableName props。
           ref={this.tableName || `${this.submoduleName ? `${this.submoduleName}Of` : ''}${this.moduleName}Table`}
           scopedSlots={this.scopedSlots}
           {...this.attributes}

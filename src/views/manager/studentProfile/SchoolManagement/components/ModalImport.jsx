@@ -10,7 +10,7 @@ export default Form.create({})({
   mixins: [forFormModal()],
   data() {
     return {
-      visibleField: 'visibilityOfImportSchool',
+      visibilityFieldName: 'visibilityOfImportSchool',
       modalProps: {
         width: 1300,
         footer: false,
@@ -77,7 +77,7 @@ export default Form.create({})({
       return {
         attrs: this.modalProps,
         on: {
-          cancel: () => this.onCancel(this.visibleField)
+          cancel: () => this.onCancel(this.visibilityFieldName)
         }
       }
     }
@@ -251,7 +251,7 @@ export default Form.create({})({
                     <Button type="link" onClick={() => this.downloadErrorData()}>下载失败数据{this.tableData.failSize}条</Button>
                     <br />
                     <br />
-                    <Button type="primary" ghost onClick={() => this.onCancel(this.visibleField)}>关闭</Button>
+                    <Button type="primary" ghost onClick={() => this.onCancel(this.visibilityFieldName)}>关闭</Button>
                   </div>
                 )
               }

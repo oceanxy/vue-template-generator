@@ -14,12 +14,12 @@ export default ({
   mixins: [forModal()],
   data() {
     return {
-      visibleField: 'visibilityOfSchoolList',
+      visibilityFieldName: 'visibilityOfSchoolList',
       modalProps: {
         width: 900,
         wrapClassName: 'bnm-modal-edit-user-form',
         footer: [
-          <Button onClick={() => this.onCancel(this.visibleField)}>取消</Button>,
+          <Button onClick={() => this.onCancel(this.visibilityFieldName)}>取消</Button>,
           <Button type="primary" onClick={() => this.onSubmit()}>确定</Button>
         ]
       },

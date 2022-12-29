@@ -19,7 +19,7 @@ export default () => {
             <Button
               type={'primary'}
               icon={'close'}
-              onClick={() => this.onCancel(this.visibleField)}
+              onClick={() => this.onCancel(this.visibilityFieldName)}
             >
               关闭
             </Button>
@@ -28,8 +28,8 @@ export default () => {
       }
     },
     created() {
-      if (!this.visibleField) {
-        console.error('请在表格弹窗的data中定义该弹窗对应的显示控制字段“visibleField”的值。')
+      if (!this.visibilityFieldName) {
+        console.error('请在表格弹窗的data中定义该弹窗对应的显示控制字段“visibilityFieldName”的值。')
       }
     },
     watch: {

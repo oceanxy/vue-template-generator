@@ -12,7 +12,7 @@ export default {
   data() {
     return {
       modalProps: { destroyOnClose: true },
-      visibleField: 'visibilityOfDetails',
+      visibilityFieldName: 'visibilityOfDetails',
       activeKey: null
     }
   },
@@ -20,7 +20,7 @@ export default {
     attributes() {
       return {
         attrs: this.modalProps,
-        on: { cancel: () => this.onCancel(this.visibleField) }
+        on: { cancel: () => this.onCancel(this.visibilityFieldName) }
       }
     }
   },

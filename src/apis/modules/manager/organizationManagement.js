@@ -37,7 +37,7 @@ export default {
     return request({
       url: '/system/organ/delete',
       method: 'post',
-      data: qs.stringify(data)
+      data: qs.stringify(data, { arrayFormat: 'comma' })
     })
   },
   /**

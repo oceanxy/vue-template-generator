@@ -111,17 +111,17 @@ export default cb => ({
     },
     /**
      * 批量操作之前的询问，并验证是否勾选了表格数据
-     * @param visibleField {string}
+     * @param visibilityFieldName {string}
      * @param [params] {Object}
      */
-    async onBulkOperations(visibleField, params) {
+    async onBulkOperations(visibilityFieldName, params) {
       await verifySelected(this.selectedRowKeys, () => {
         this._setVisibilityOfModal(
           {
             ids: this.selectedRowKeys,
             ...params
           },
-          visibleField
+          visibilityFieldName
         )
       })
     },

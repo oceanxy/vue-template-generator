@@ -6,7 +6,7 @@ export default {
   // mock请求延迟时间
   mockDelay: 400,
   // 动态路由（从后台获取权限菜单）
-  dynamicRouting: true,
+  dynamicRouting: false,
   // 系统名称
   systemName: '中小学校学生健康体检系统',
   systemNameEn: '',

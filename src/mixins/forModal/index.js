@@ -27,7 +27,7 @@ export default customModuleName => {
     },
     data() {
       return {
-        visibleField: '',
+        visibilityFieldName: '',
         modalProps: {
           visible: false,
           title: '',
@@ -48,13 +48,13 @@ export default customModuleName => {
         return this.getState('currentItem', this.moduleName)
       },
       visible() {
-        return this.getState(this.visibleField, this.moduleName) ??
-          this.getState(this.visibleField, this.moduleName, this.submoduleName)
+        return this.getState(this.visibilityFieldName, this.moduleName) ??
+          this.getState(this.visibilityFieldName, this.moduleName, this.submoduleName)
       },
       attributes() {
         return {
           attrs: this.modalProps,
-          on: { cancel: () => this.onCancel(this.visibleField) }
+          on: { cancel: () => this.onCancel(this.visibilityFieldName) }
         }
       }
     },
@@ -73,15 +73,15 @@ export default customModuleName => {
     methods: {
       /**
        * 取消/关闭 弹窗
-       * @param [visibleField] {string} 对应store模块内控制该弹窗的字段名。默认为新增/编辑弹窗的字段名：visibilityOfEdit
+       * @param [visibilityFieldName] {string} 对应store模块内控制该弹窗的字段名。默认为新增/编辑弹窗的字段名：visibilityOfEdit
        * @param [submoduleName] {string} 子模块名，必须通过参数传入（在需要时传入），否则会引起bug
        * @returns {Promise<void>}
        */
-      async onCancel(visibleField, submoduleName) {
+      async onCancel(visibilityFieldName, submoduleName) {
         await this._dispatch(
           'setModalVisible',
           {
-            statusField: visibleField,
+            statusField: visibilityFieldName,
             statusValue: false
           },
           {

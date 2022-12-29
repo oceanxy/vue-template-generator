@@ -51,7 +51,7 @@ export default {
     return request({
       url: '/examine/examineSaveLog/delete',
       method: 'post',
-      data: qs.stringify(data)
+      data: qs.stringify(data, { arrayFormat: 'comma' })
     })
   },
 

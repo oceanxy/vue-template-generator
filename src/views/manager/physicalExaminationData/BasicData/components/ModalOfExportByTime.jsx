@@ -13,7 +13,7 @@ export default Form.create({})({
         destroyOnClose: true,
         okText: '导出'
       },
-      visibleField: 'visibilityOfExportByTime'
+      visibilityFieldName: 'visibilityOfExportByTime'
     }
   },
   computed: {

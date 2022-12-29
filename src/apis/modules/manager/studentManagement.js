@@ -53,7 +53,7 @@ export default {
     return request({
       url: '/personnel/student/delete',
       method: 'post',
-      data: qs.stringify(data)
+      data: qs.stringify(data, { arrayFormat: 'comma' })
     })
   },
 

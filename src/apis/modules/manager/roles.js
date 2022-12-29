@@ -36,7 +36,7 @@ export default {
     return request({
       url: '/system/role/delete',
       method: 'post',
-      data: qs.stringify(data)
+      data: qs.stringify(data, { arrayFormat: 'comma' })
     })
   },
   /**

@@ -9,7 +9,7 @@ export default Form.create({})({
   mixins: [forModal()],
   data() {
     return {
-      visibleField: 'LevelModalOfTable',
+      visibilityFieldName: 'LevelModalOfTable',
       modalProps: {
         width: 700,
         wrapClassName: 'bnm-modal-edit-user-form',
