@@ -10,7 +10,7 @@ export default Form.create({})({
   mixins: [forFormModal()],
   data() {
     return {
-      visibleField: 'visibilityOfSetRooms',
+      visibilityFieldName: 'visibilityOfSetRooms',
       modalProps: {
         width: 500,
         wrapClassName: 'bnm-modal-edit-user-form'
@@ -29,7 +29,7 @@ export default Form.create({})({
       return {
         attrs: this.modalProps,
         on: {
-          cancel: () => this.onCancel(this.visibleField),
+          cancel: () => this.onCancel(this.visibilityFieldName),
           ok: () => this.onSubmit({
             isFetchList: false,
             customApiName: 'studentSetRooms',

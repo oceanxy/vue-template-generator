@@ -15,37 +15,36 @@ export default {
             scopedSlots: { customRender: 'serialNumber' }
           },
           {
-            title: '编号',
-            width: 170,
-            fixed: true,
-            dataIndex: 'buildNo'
-          },
-          {
             title: '学校',
             width: 200,
             dataIndex: 'schoolName'
           },
           {
-            title: '楼栋名称',
-            dataIndex: 'fullName'
+            title: '房号',
+            width: 170,
+            dataIndex: 'roomNo'
           },
           {
             title: '位置',
-            width: 100,
-            align: 'center',
-            scopedSlots: { customRender: 'pos' }
+            dataIndex: 'buildName'
           },
           {
-            title: '楼层数',
+            title: '面积（㎡）',
             width: 100,
             align: 'center',
-            dataIndex: 'floorNum'
+            dataIndex: 'roomArea'
           },
           {
-            title: '地下楼层数',
+            title: '床位数',
             width: 100,
             align: 'center',
-            dataIndex: 'undergroundNum'
+            dataIndex: 'bedNum'
+          },
+          {
+            title: '入住人数',
+            align: 'center',
+            width: 100,
+            scopedSlots: { customRender: 'checkInNum' }
           },
           {
             title: '状态',
@@ -62,15 +61,21 @@ export default {
         ]
       },
       scopedSlots: {
-        pos: (text, record) => `${record.latitude ?? '-'}, ${record.longitude ?? '-'}`,
-        status: (text, record) => {
-          return (
-            <Switch
-              checked={record.status === 1}
-              onChange={checked => this.onStatusChange({ checked, record })}
-            />
-          )
-        },
+        status: (text, record) => (
+          <Switch
+            disabled={!!record.checkInNum}
+            checked={record.status === 1}
+            onChange={checked => this.onStatusChange({ checked, record })}
+          />
+        ),
+        checkInNum: (text, record) => (
+          <Button
+            type="link"
+            onClick={() => this._setVisibilityOfModal(record, 'visibilityOfStudentInfo')}
+          >
+            {record.checkInNum}
+          </Button>
+        ),
         operation: (text, record) => (
           <Space>
             <Button
@@ -80,13 +85,19 @@ export default {
             >
               修改
             </Button>
-            <Button
-              type="link"
-              size="small"
-              onClick={() => this.onDeleteClick(record)}
-            >
-              删除
-            </Button>
+            {
+              !record.checkInNum
+                ? (
+                  <Button
+                    type="link"
+                    size="small"
+                    onClick={() => this.onDeleteClick(record)}
+                  >
+                    删除
+                  </Button>
+                )
+                : null
+            }
           </Space>
         )
       }

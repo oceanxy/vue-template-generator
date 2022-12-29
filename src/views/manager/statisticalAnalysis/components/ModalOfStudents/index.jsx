@@ -17,10 +17,10 @@ export default {
         width: 910,
         destroyOnClose: true,
         footer: [
-          <Button onClick={() => this.onCancel(this.visibleField)}>关闭</Button>
+          <Button onClick={() => this.onCancel(this.visibilityFieldName)}>关闭</Button>
         ]
       },
-      visibleField: 'visibilityOfStudents'
+      visibilityFieldName: 'visibilityOfStudents'
     }
   },
   render() {

@@ -8,7 +8,7 @@ export default Form.create({})({
   mixins: [forFormModal()],
   data() {
     return {
-      visibleField: 'visibilityOfReport',
+      visibilityFieldName: 'visibilityOfReport',
       modalProps: {
         width: 600,
         wrapClassName: 'bnm-modal-edit-user-form'
@@ -38,7 +38,7 @@ export default Form.create({})({
       return {
         attrs: this.modalProps,
         on: {
-          cancel: () => this.onCancel(this.visibleField),
+          cancel: () => this.onCancel(this.visibilityFieldName),
           ok: () => this.onSubmit({
             customDataHandler: this.customDataHandler,
             customApiName: this.customApiName

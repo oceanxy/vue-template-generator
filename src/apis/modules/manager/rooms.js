@@ -2,44 +2,95 @@ import qs from 'qs'
 
 export default {
   /**
-   * 获取体检基础数据列表
+   * 获取房间列表
    * @param [request]
    * @param data
    * @returns {*}
    */
-  getBasicData(request, data) {
+  getRooms(request, data) {
     return request({
-      url: '/examine/examineInfo/getExamineInfoList',
+      url: '/morningNoon/room/getRoomPageList',
       method: 'post',
       data: qs.stringify(data)
     })
   },
   /**
-   * 导出体检基础数据
+   * 新增房间
+   * @param request
+   * @param data
+   * @returns {*}
+   */
+  addRooms(request, data) {
+    return request({
+      url: '/morningNoon/room/add',
+      method: 'post',
+      data
+    })
+  },
+  /**
+   * 修改房间
+   * @param request
+   * @param data
+   * @returns {*}
+   */
+  updateRooms(request, data) {
+    return request({
+      url: '/morningNoon/room/update',
+      method: 'post',
+      data
+    })
+  },
+  /**
+   * 删除房间
+   * @param request
+   * @param data
+   * @returns {*}
+   */
+  deleteRooms(request, data) {
+    return request({
+      url: '/morningNoon/room/delete',
+      method: 'post',
+      data: qs.stringify(data)
+    })
+  },
+  /**
+   * 导出房间数据
    * @param request
    * @param params
    * @returns {*}
    */
-  exportBasicData(request, params) {
+  exportRooms(request, params) {
     return request({
-      url: '/examine/examineInfo/exportDataExcel',
+      url: '/morningNoon/room/exportExcel',
       method: 'get',
       params,
       responseType: 'blob'
     })
   },
   /**
-   * 导出体检基础数据（按时间）
+   * 修改房间状态
    * @param request
-   * @param params
+   * @param data
    * @returns {*}
    */
-  exportBasicDataByTime(request, params) {
+  updateRoomsStatus(request, data) {
     return request({
-      url: '/examine/examineInfo/exportDataExcelByDate',
-      method: 'get',
-      params,
-      responseType: 'blob'
+      url: '/morningNoon/room/updateStatus',
+      method: 'post',
+      data: qs.stringify(data)
+    })
+  },
+  /**
+   * 获取房间内的学生信息
+   * @param [request]
+   * @param data
+   * @returns {*}
+   */
+  getStudentsByRoomId(request, data) {
+    return request({
+      url: '/morningNoon/room/getStudentsByRoomId',
+      method: 'post',
+      data: qs.stringify(data)
     })
   }
 }

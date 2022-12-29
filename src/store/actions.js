@@ -217,7 +217,7 @@ export default {
    * @param dispatch
    * @param moduleName {string} 模块名
    * @param payload {Object} 参数
-   * @param visibleField {string} 控制弹窗显示的字段名
+   * @param visibilityFieldName {string} 控制弹窗显示的字段名
    * @param parametersOfGetListAction {...{
    *  moduleName: string;
    *  submoduleName: string;
@@ -230,14 +230,14 @@ export default {
   async add({ state, dispatch }, {
     moduleName,
     payload,
-    visibleField,
+    visibilityFieldName,
     ...parametersOfGetListAction
   }) {
     const response = await apis[`add${firstLetterToUppercase(moduleName)}`](payload)
 
     if (response.status) {
       dispatch('setModalVisible', {
-        statusField: visibleField,
+        statusField: visibilityFieldName,
         statusValue: false,
         moduleName
       })
@@ -260,7 +260,7 @@ export default {
    * @param dispatch
    * @param moduleName {string} 模块名
    * @param payload {Object} 参数
-   * @param visibleField {string} 控制弹窗显示的字段名
+   * @param visibilityFieldName {string} 控制弹窗显示的字段名
    * @param customApiName {string} 自定义请求API
    * @param isFetchList {boolean} 默认 false。当为 true 时，请特别注意参数问题（parametersOfGetListAction）
    * @param parametersOfGetListAction {...{
@@ -275,7 +275,7 @@ export default {
   async update({ state, dispatch }, {
     moduleName,
     payload,
-    visibleField,
+    visibilityFieldName,
     customApiName,
     isFetchList,
     ...parametersOfGetListAction
@@ -284,7 +284,7 @@ export default {
 
     if (response.status) {
       dispatch('setModalVisible', {
-        statusField: visibleField,
+        statusField: visibilityFieldName,
         statusValue: false,
         moduleName
       })
@@ -312,7 +312,7 @@ export default {
    * @param [stateName] {string} 用于接收接口返回值的 state 字段名称，在相应模块的 store.state 内定义
    * @param [moduleName] {string} 模块名
    * @param [submoduleName] {string} 子级模块名
-   * @param [visibleField] {string} 成功执行操作后要关闭的弹窗的控制字段（定义在对应模块的 store.state 内）
+   * @param [visibilityFieldName] {string} 成功执行操作后要关闭的弹窗的控制字段（定义在对应模块的 store.state 内）
    * @param [isFetchList] {boolean} 是否在成功提交后刷新本模块列表，默认false
    * @param parametersOfGetListAction {...{
    *  additionalQueryParameters: {};
@@ -332,16 +332,16 @@ export default {
     stateName,
     moduleName,
     submoduleName,
-    visibleField,
+    visibilityFieldName,
     isFetchList,
     ...parametersOfGetListAction
   }) {
     const response = await apis[customApiName](payload)
 
     if (response.status) {
-      if (visibleField) {
+      if (visibilityFieldName) {
         dispatch('setModalVisible', {
-          statusField: visibleField,
+          statusField: visibilityFieldName,
           statusValue: false,
           moduleName,
           submoduleName
@@ -593,7 +593,7 @@ export default {
    * @param additionalQueryParameters {Object} 附加参数。例如其他页面跳转带过来的参数
    * @param fileName {string} 不包含后缀名
    * @param [customApiName] {string} 自定义请求api的名字
-   * @param [visibleField] {string} 成功导出后要关闭的弹窗的控制字段（定义在对应模块的 store.state 内）
+   * @param [visibilityFieldName] {string} 成功导出后要关闭的弹窗的控制字段（定义在对应模块的 store.state 内）
    * @returns {Promise<*>}
    */
   async export({ state, dispatch }, {
@@ -603,7 +603,7 @@ export default {
     additionalQueryParameters,
     fileName,
     customApiName,
-    visibleField
+    visibilityFieldName
   }) {
     let api = 'export'
     const targetModuleName = state[moduleName][submoduleName] ?? state[moduleName]
@@ -626,9 +626,9 @@ export default {
 
     downFile(blob, `${fileName}.xlsx`)
 
-    if (visibleField) {
+    if (visibilityFieldName) {
       dispatch('setModalVisible', {
-        statusField: visibleField,
+        statusField: visibilityFieldName,
         statusValue: false,
         moduleName,
         submoduleName

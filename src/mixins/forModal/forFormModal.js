@@ -24,7 +24,7 @@ export default () => {
     },
     data() {
       return {
-        visibleField: 'visibilityOfEdit',
+        visibilityFieldName: 'visibilityOfEdit',
         modalProps: { okButtonProps: { props: { disabled: true } } }
       }
     },
@@ -134,7 +134,7 @@ export default () => {
 
             const status = await this.$store.dispatch(action, {
               moduleName: this.moduleName,
-              visibleField: this.visibleField,
+              visibilityFieldName: this.visibilityFieldName,
               isResetSelectedRows: isResetSelectedRows,
               isFetchList: isFetchList,
               customApiName: customApiName,

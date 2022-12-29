@@ -7,7 +7,7 @@ export default Form.create({})({
   data() {
     return {
       modalProps: { width: 610 },
-      visibleField: 'visibilityOfEditPassword'
+      visibilityFieldName: 'visibilityOfEditPassword'
     }
   },
   computed: {

@@ -7,7 +7,7 @@ export default Form.create({})({
   mixins: [forFormModal()],
   data() {
     return {
-      visibleField: 'visibilityOfMenu',
+      visibilityFieldName: 'visibilityOfMenu',
       modalProps: {
         width: 500,
         destroyOnClose: true
@@ -29,7 +29,7 @@ export default Form.create({})({
       return {
         attrs: this.modalProps,
         on: {
-          cancel: () => this.onCancel(this.visibleField),
+          cancel: () => this.onCancel(this.visibilityFieldName),
           ok: () => this.onSubmit({
             isFetchList: false,
             customApiName: 'setPermissionMenus',

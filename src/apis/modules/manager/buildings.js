@@ -79,5 +79,18 @@ export default {
       method: 'post',
       data: qs.stringify(data)
     })
+  },
+  /**
+   * 根据学校树获取楼层树
+   * @param request
+   * @param params
+   * @returns {*}
+   */
+  getFloorTreeBySchoolTree(request, params) {
+    return request({
+      url: '/morningNoon/build/getAllBuildFloorList',
+      method: 'get',
+      params
+    })
   }
 }

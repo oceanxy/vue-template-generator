@@ -10,7 +10,7 @@ export default Form.create({})({
   mixins: [forFormModal()],
   data() {
     return {
-      visibleField: 'visibilityOfCode',
+      visibilityFieldName: 'visibilityOfCode',
       imgCodeUrl: '',
       modalProps: {
         width: 380,
@@ -47,7 +47,7 @@ export default Form.create({})({
       return {
         attrs: this.modalProps,
         on: {
-          cancel: () => this.onCancel(this.visibleField)
+          cancel: () => this.onCancel(this.visibilityFieldName)
         }
       }
     }
