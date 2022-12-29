@@ -147,9 +147,10 @@ export default ({
             await this.fetchList()
           } else {
             console.warn([
-              `因 ${this.moduleName} 页面内 TGContainerWithTreeSider 组件的 notInitList 为假值，`,
-              '所以本次 Table 组件将不会请求数据。\r\n',
-              `如果在弹窗内使用 forTable 混合，请务必将该弹窗注册为 ${this.moduleName} 页面的子模块，`,
+              `因 ${this.moduleName} 页面内 TGContainerWithTreeSider 组件的 notInitList 为 true，`,
+              '所以本次 Table 组件将不会请求数据。解决方法：\r\n',
+              '1、如果不是在弹窗内的 Table 组件引用 forTable 混合，请保证 isFetchList = !notInitList，',
+              `2、如果是在弹窗内的 Table 组件引用 forTable 混合，请务必将该弹窗组件注册为 ${this.moduleName} 页面的子模块，`,
               '以防止弹窗内的表格组件和当前页面的表格组件混淆。'
             ].join(''))
           }
