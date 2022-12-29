@@ -1,11 +1,11 @@
-import { Button } from 'ant-design-vue'
+import { Button, Space } from 'ant-design-vue'
 import forFunction from '@/mixins/forFunction'
 
 export default {
   mixins: [forFunction()],
   render() {
     return (
-      <Button.Group class="tg-function">
+      <Space class="tg-function">
         <Button
           onClick={() => this.onExport('按年级纬度统计活动身高数据')}
           icon="export"
@@ -13,7 +13,7 @@ export default {
         >
           导出
         </Button>
-      </Button.Group>
+      </Space>
     )
   }
 }

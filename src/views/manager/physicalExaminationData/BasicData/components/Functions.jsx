@@ -1,5 +1,5 @@
 import '../assets/styles/index.scss'
-import { Button, message } from 'ant-design-vue'
+import { Button, message, Space } from 'ant-design-vue'
 import forFunction from '@/mixins/forFunction'
 import { mapGetters } from 'vuex'
 
@@ -22,7 +22,7 @@ export default {
   },
   render() {
     return (
-      <Button.Group class="tg-function">
+      <Space class="tg-function">
         <Button
           onClick={this.onExportBySchoolId}
           icon="export"
@@ -37,7 +37,7 @@ export default {
         >
           按时间导出
         </Button>
-      </Button.Group>
+      </Space>
     )
   }
 }

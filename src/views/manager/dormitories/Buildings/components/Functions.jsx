@@ -1,4 +1,4 @@
-import { Button, message } from 'ant-design-vue'
+import { Button, message, Space } from 'ant-design-vue'
 import forFunction from '@/mixins/forFunction'
 import { mapGetters } from 'vuex'
 
@@ -21,7 +21,7 @@ export default {
   },
   render() {
     return (
-      <Button.Group class="tg-function">
+      <Space class="tg-function">
         <Button
           onClick={this.onAddClick}
           icon="plus"
@@ -33,6 +33,7 @@ export default {
           onClick={this.onDeleteClick}
           icon="delete"
           disabled={this.deleteButtonDisabled}
+          type={'danger'}
         >
           删除
         </Button>
@@ -43,7 +44,7 @@ export default {
         >
           导出
         </Button>
-      </Button.Group>
+      </Space>
     )
   }
 }
