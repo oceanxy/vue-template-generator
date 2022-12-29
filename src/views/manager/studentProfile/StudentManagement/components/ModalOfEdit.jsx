@@ -499,13 +499,12 @@ export default Form.create({})({
                   this.form.getFieldDecorator(
                     'glassesType',
                     {
-                      initialValue: this.currentItem.glassesType
+                      initialValue: this.currentItem.glassesType || undefined
                     }
                   )(
                     <Select
                       disabled={this.glassesTypeSelect}
                       placeholder="请选择眼镜类型"
-                      defaultValue={''}
                     >
                       <Select.Option value={''} >全部</Select.Option>
                       <Select.Option value={1}>框架眼镜</Select.Option>
