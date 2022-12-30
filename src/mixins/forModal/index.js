@@ -1,5 +1,5 @@
 /**
- * 弹窗混合 依赖 forIndex
+ * 弹窗混合 依赖 forIndex。注意如果弹窗内存在列表，一定要将弹窗注册成为子模块，这是为了不和页面的主列表数据产生混淆
  * @Author: Omsber
  * @Email: xyzsyx@163.com
  * @Date: 2022-05-31 周二 17:39:54
@@ -27,6 +27,7 @@ export default customModuleName => {
     },
     data() {
       return {
+        inModal: true,
         visibilityFieldName: '',
         modalProps: {
           visible: false,
@@ -57,6 +58,10 @@ export default customModuleName => {
           on: { cancel: () => this.onCancel(this.visibilityFieldName) }
         }
       }
+    },
+    // 通知下层组件，当前处于弹窗中
+    provide() {
+      return { inModal: this.inModal }
     },
     watch: {
       visible: {

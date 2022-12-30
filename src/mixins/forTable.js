@@ -13,7 +13,8 @@ import { cloneDeep, omit } from 'lodash'
 /**
  * 用于 table 的混合
  * @param [isInject=true] {boolean} 是否从 inject 导入 moduleName 和 submoduleName，默认 true
- * @param [isFetchList=true] {boolean} 是否在组件初始化完成后立即获取列表数据，默认 true
+ * @param [isFetchList=true] {boolean} 是否在组件初始化完成后立即获取列表数据，默认 true；
+ * 如果 TGContainerWithTreeSider 组件向下级组件提供了 notInitList 属性，则该值将被重置为 !notInitList。
  * @param [stateName='list'] {string} 表格数据在 store.state 里对应的名称
  * @param [customApiName] {string} 自定义请求接口名。
  * TODO：一般在弹窗内使用；如果弹窗内的列表有增删改操作，目前未适配执行这些操作后的列表刷新，所以当存在这些操作时不要使用该参数。
@@ -32,7 +33,10 @@ export default ({
       // 通知组件在初始化阶段是否自动请求数据。
       // 该变量与 isFetchList 是相同的作用，区别在于 provide 和 inject 可以不限层级的传递数据。
       // 来自于 @/components/TGContainerWithTreeSider 组件。
-      notInitList: { default: false }
+      notInitList: { default: undefined },
+      // 通知组件是否是弹窗内组件。
+      // 来自于 @/mixins/forModal 混合。
+      inModal: { default: undefined }
     },
     data() {
       return {
@@ -129,11 +133,18 @@ export default ({
     beforeMount() {
       this.tableProps.rowKey = this.rowKey
     },
+    created() {
+      // this.notInitList: false 表示不在本 Table 组件内请求列表数据。
+      // （使用了 @/components/TGContainerWithTreeSider 组件时，为了避免重复请求，会在该组件内请求列表数据，而非本组件）
+      if (Object.prototype.toString.call(this.notInitList) === '[object Boolean]') {
+        isFetchList = !this.notInitList
+      }
+    },
     async mounted() {
       // 为 list 创建动态侦听器
       if (!this.submoduleName) {
         this.$watch(
-          () => this.$store.state[this.moduleName].list,
+          () => this.$store.state[this.moduleName][_stateName],
           async list => {
             this.tableProps.dataSource = list
             this.resize()
@@ -141,23 +152,18 @@ export default ({
         )
 
         if (isFetchList) {
-          // this.notInitList: false 表示不在本 Table 组件内请求列表数据。
-          // （使用了 @/components/TGContainerWithTreeSider 组件时，为了避免重复请求，会在该组件内请求列表数据，而非本组件）
-          if (!this.notInitList) {
-            await this.fetchList()
-          } else {
+          await this.fetchList()
+        } else {
+          if (this.inModal) {
             console.warn([
-              `因 ${this.moduleName} 页面内 TGContainerWithTreeSider 组件的 notInitList 为 true，`,
-              '所以本次 Table 组件将不会请求数据。解决方法：\r\n',
-              '1、如果不是在弹窗内的 Table 组件引用 forTable 混合，请保证 isFetchList = !notInitList，',
-              `2、如果是在弹窗内的 Table 组件引用 forTable 混合，请务必将该弹窗组件注册为 ${this.moduleName} 页面的子模块，`,
-              '以防止弹窗内的表格组件和当前页面的表格组件混淆。'
+              `如果在弹窗内的 Table 组件中引用了 forTable 混合，请务必将该弹窗组件注册为 ${this.moduleName} 页面的子模块，`,
+              '以防止弹窗内的表格组件和当前页面的表格组件的数据产生混淆。'
             ].join(''))
           }
         }
       } else {
         this.$watch(
-          () => this.$store.state[this.moduleName][this.submoduleName].list,
+          () => this.$store.state[this.moduleName][this.submoduleName][_stateName],
           async list => {
             this.tableProps.dataSource = list
             this.resize()
@@ -165,21 +171,10 @@ export default ({
           { immediate: true }
         )
 
-        // 判断是否是弹窗内的子模块列表（适用于在弹窗组件直接 inject forTable 的组件）
-        if (this.visibilityFieldName) {
-          this.$watch(
-            () => this.$store.state[this.moduleName][this.visibilityFieldName],
-            async visibilityFieldName => {
-              if (visibilityFieldName && isFetchList) {
-                await this.fetchList()
-              }
-            },
-            { immediate: true }
-          )
-        } else {
-          if (isFetchList) {
-            await this.fetchList()
-          }
+        // 判断是否在弹窗内或者子模块内。（注意如果弹窗内存在列表，一定要将弹窗注册成为子模块，这是为了不和页面的主列表数据产生混淆）
+        // 弹窗内 Table 组件或者子模块的 Table 组件在初始化阶段加载数据的逻辑，不受 TGContainerWithTreeSider 组件的 notInitList 属性影响。
+        if (this.inModal || isFetchList || Object.prototype.toString.call(this.notInitList) === '[object Boolean]') {
+          await this.fetchList()
         }
       }
 
@@ -363,7 +358,7 @@ export default ({
                 ...params,
                 ids: [record.id]
               },
-              stateName,
+              stateName: _stateName,
               moduleName: this.moduleName,
               submoduleName: this.submoduleName,
               additionalQueryParameters: {
