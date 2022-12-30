@@ -3,7 +3,7 @@ import { Table, Space, Switch, Button } from 'ant-design-vue'
 import forTable from '@/mixins/forTable'
 
 export default {
-  mixins: [forTable({ isFetchList: false })],
+  mixins: [forTable()],
   data() {
     return {
       tableProps: {

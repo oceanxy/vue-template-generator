@@ -5,7 +5,7 @@ import apis from '@/apis'
 import { verificationDialog } from '@/utils/message'
 
 export default {
-  mixins: [forTable({ isFetchList: false })],
+  mixins: [forTable()],
   data() {
     return {
       tableProps: {
