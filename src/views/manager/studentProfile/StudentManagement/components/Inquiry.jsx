@@ -204,6 +204,7 @@ export default Form.create({})({
                   placeholder={'输入学校名称'}
                   filterOption={this.filterOption}
                   mode={'default'}
+                  allowClear
                 >
                   {
                     this.schoolAllList?.map(item => (

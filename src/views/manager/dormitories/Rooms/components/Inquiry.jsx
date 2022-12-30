@@ -40,6 +40,7 @@ export default Form.create({})({
                 <TreeSelect
                   allowClear
                   treeNodeFilterProp={'title'}
+                  dropdownStyle={{ maxHeight: '300px' }}
                   dropdownClassName={'tg-select-dropdown'}
                   treeData={this.floorTree.list}
                   replaceFields={{
