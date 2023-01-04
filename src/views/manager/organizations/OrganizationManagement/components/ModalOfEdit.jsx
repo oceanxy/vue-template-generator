@@ -199,18 +199,18 @@ export default Form.create({})({
           <Form.Item label="地址" class={'half'}>
             {
               this.form.getFieldDecorator('districtList', {
-                getValueFromEvent: (value, selectedOptions) => (selectedOptions || []).map(item => ({
-                  id: item.id,
-                  name: item.name
-                })),
-                getValueProps: val => ({ value: val.map(i => i.id) }),
                 initialValue: this.currentItem.provinceId && this.currentItem.cityId && this.currentItem.countyId
                   ? [
                     { id: this.currentItem.provinceId, name: this.currentItem.provinceName },
                     { id: this.currentItem.cityId, name: this.currentItem.cityName },
                     { id: this.currentItem.countyId, name: this.currentItem.countyName }
                   ]
-                  : []
+                  : [],
+                getValueFromEvent: (value, selectedOptions) => (selectedOptions || []).map(item => ({
+                  id: item.id,
+                  name: item.name
+                })),
+                getValueProps: val => ({ value: val.map(i => i.id) })
               })(
                 <Cascader
                   placeholder="请选择省、市和区"

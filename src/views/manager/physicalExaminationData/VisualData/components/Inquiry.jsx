@@ -149,18 +149,18 @@ export default Form.create({})({
                 <Select>
                   <Select.Option value={''}>全部</Select.Option>
                   <Select.Option value={1}>是</Select.Option>
-                  <Select.Option value={2}>否</Select.Option>
+                  <Select.Option value={0}>否</Select.Option>
                 </Select>
               )
             }
           </Form.Item>
           <Form.Item label={'是否有效'}>
             {
-              this.form.getFieldDecorator('grade', { initialValue: this.initialValues.grade })(
+              this.form.getFieldDecorator('isEffective', { initialValue: this.initialValues.isEffective })(
                 <Select>
                   <Select.Option value={''}>全部</Select.Option>
                   <Select.Option value={1}>有效</Select.Option>
-                  <Select.Option value={2}>无效</Select.Option>
+                  <Select.Option value={0}>无效</Select.Option>
                 </Select>
               )
             }

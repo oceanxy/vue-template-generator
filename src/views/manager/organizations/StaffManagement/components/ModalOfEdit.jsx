@@ -3,7 +3,7 @@ import forFormModal from '@/mixins/forModal/forFormModal'
 import DragModal from '@/components/DragModal'
 import { cloneDeep } from 'lodash'
 
-export default Form.create({})({
+export default Form.create({ name: 'staffs' })({
   mixins: [forFormModal()],
   data() {
     return { modalProps: { width: 810 } }

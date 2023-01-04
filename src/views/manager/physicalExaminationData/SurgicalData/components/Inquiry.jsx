@@ -1,8 +1,9 @@
-import '../assets/styles/index.scss'
 import { Button, DatePicker, Empty, Form, Icon, Input, InputNumber, Select, Space, Spin } from 'ant-design-vue'
 import forInquiry from '@/mixins/forInquiry'
 import ICON from '@/assets/activity-mark-icon.svg'
 import forInquiryAboutActivity from '@/mixins/forInquiry/forInquiryAboutActivity'
+import { getGradeStr } from '@/utils/projectHelpers'
+import { range } from 'lodash'
 
 export default Form.create({})({
   mixins: [forInquiry(), forInquiryAboutActivity()],
@@ -78,18 +79,11 @@ export default Form.create({})({
               this.form.getFieldDecorator('grade', { initialValue: this.initialValues.grade })(
                 <Select>
                   <Select.Option value={''}>全部</Select.Option>
-                  <Select.Option value={4}>一年级</Select.Option>
-                  <Select.Option value={5}>二年级</Select.Option>
-                  <Select.Option value={6}>三年级</Select.Option>
-                  <Select.Option value={7}>四年级</Select.Option>
-                  <Select.Option value={8}>五年级</Select.Option>
-                  <Select.Option value={9}>六年级</Select.Option>
-                  <Select.Option value={10}>初一</Select.Option>
-                  <Select.Option value={11}>初二</Select.Option>
-                  <Select.Option value={12}>初三</Select.Option>
-                  <Select.Option value={13}>高一</Select.Option>
-                  <Select.Option value={14}>高二</Select.Option>
-                  <Select.Option value={15}>高三</Select.Option>
+                  {
+                    range(4, 16).map(number => (
+                      <Select.Option value={number}>{getGradeStr(number)}</Select.Option>
+                    ))
+                  }
                 </Select>
               )
             }

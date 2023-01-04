@@ -148,7 +148,7 @@ export default Form.create({})({
                 <Select>
                   <Select.Option value={''}>全部</Select.Option>
                   <Select.Option value={1}>有效</Select.Option>
-                  <Select.Option value={2}>无效</Select.Option>
+                  <Select.Option value={0}>无效</Select.Option>
                 </Select>
               )
             }

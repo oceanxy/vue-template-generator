@@ -14,7 +14,7 @@ export const routes = [
    */
   {
     path: '/auth',
-    component: () => import('@/layouts/BNLogin'),
+    component: () => import('@/views/manager/Login'),
     meta: {
       title: '',
       keepAlive: false,
