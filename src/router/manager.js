@@ -788,7 +788,7 @@ function createConstRoutes() {
             {
               path: 'report-overview',
               name: 'reportOverview',
-              component: () => import('@/views/manager/system/Menus'),
+              component: () => import('@/views/manager/reportMedicalExamination/ReportOverview'),
               meta: {
                 title: '上报概览',
                 keepAlive: false,
