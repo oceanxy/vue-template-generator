@@ -775,6 +775,192 @@ function createConstRoutes() {
           ]
         },
         {
+          path: 'report-medical-examination',
+          component: TGRouterView,
+          redirect: { name: 'reportOverview' },
+          meta: {
+            title: '晨午检上报',
+            keepAlive: false,
+            requiresAuth: true,
+            icon: () => import('@/layouts/components/TGMenu/assets/images/report-medical-examination.svg')
+          },
+          children: [
+            {
+              path: 'report-overview',
+              name: 'reportOverview',
+              component: () => import('@/views/manager/system/Menus'),
+              meta: {
+                title: '上报概览',
+                keepAlive: false,
+                requiresAuth: true,
+                icon: () => import('@/layouts/components/TGMenu/assets/images/report-overview.svg')
+              }
+            },
+            {
+              path: 'report-details',
+              name: 'reportDetails',
+              component: () => import('@/views/manager/system/Menus'),
+              meta: {
+                title: '上报详情',
+                keepAlive: false,
+                requiresAuth: true,
+                icon: () => import('@/layouts/components/TGMenu/assets/images/report-details.svg')
+              }
+            }
+          ]
+        },
+        {
+          path: 'fe-review',
+          component: TGRouterView,
+          redirect: { name: 'reportReview' },
+          meta: {
+            title: '晨午检审核',
+            keepAlive: false,
+            requiresAuth: true,
+            icon: () => import('@/layouts/components/TGMenu/assets/images/report-review.svg')
+          },
+          children: [
+            {
+              path: 'report-review',
+              name: 'reportReview',
+              component: () => import('@/views/manager/system/Menus'),
+              meta: {
+                title: '上报审核',
+                keepAlive: false,
+                requiresAuth: true,
+                icon: () => import('@/layouts/components/TGMenu/assets/images/report-review-sub.svg')
+              }
+            },
+            {
+              path: 'back-to-school-audit',
+              name: 'backToSchoolAudit',
+              component: () => import('@/views/manager/system/Menus'),
+              meta: {
+                title: '返校审核',
+                keepAlive: false,
+                requiresAuth: true,
+                icon: () => import('@/layouts/components/TGMenu/assets/images/report-review-sub.svg')
+              }
+            }
+          ]
+        },
+        {
+          path: 'epidemic-prevention-and-control',
+          component: TGRouterView,
+          redirect: { name: 'healthCredentials' },
+          meta: {
+            title: '疫情防控',
+            keepAlive: false,
+            requiresAuth: true,
+            icon: () => import('@/layouts/components/TGMenu/assets/images/epidemic-prevention-and-control.svg')
+          },
+          children: [
+            {
+              path: 'health-credentials',
+              name: 'healthCredentials',
+              component: () => import('@/views/manager/system/Menus'),
+              meta: {
+                title: '两码一报告',
+                keepAlive: false,
+                requiresAuth: true,
+                icon: () => import('@/layouts/components/TGMenu/assets/images/health-credentials.svg')
+              }
+            }
+          ]
+        },
+        {
+          path: 'statisticalReports',
+          component: TGRouterView,
+          redirect: { name: 'symptomMonitoringReports' },
+          meta: {
+            title: '统计报告',
+            keepAlive: false,
+            requiresAuth: true,
+            icon: () => import('@/layouts/components/TGMenu/assets/images/statistical-reports.svg')
+          },
+          children: [
+            {
+              path: 'symptom-monitoring-reports',
+              name: 'symptomMonitoringReports',
+              component: () => import('@/views/manager/system/Menus'),
+              meta: {
+                title: '症状监测报告',
+                keepAlive: false,
+                requiresAuth: true,
+                icon: () => import('@/layouts/components/TGMenu/assets/images/symptom-monitoring-reports.svg')
+              }
+            },
+            {
+              path: 'infectious-disease-statistics',
+              name: 'infectiousDiseaseStatistics',
+              component: () => import('@/views/manager/system/Menus'),
+              meta: {
+                title: '传染病统计表',
+                keepAlive: false,
+                requiresAuth: true,
+                icon: () => import('@/layouts/components/TGMenu/assets/images/infectious-disease-statistics.svg')
+              }
+            },
+            {
+              path: 'noncommunicable-disease-statistics',
+              name: 'noncommunicableDiseaseStatistics',
+              component: () => import('@/views/manager/system/Menus'),
+              meta: {
+                title: '非传染病统计表',
+                keepAlive: false,
+                requiresAuth: true,
+                icon: () => import('@/layouts/components/TGMenu/assets/images/noncommunicable-disease-statistics.svg')
+              }
+            },
+            {
+              path: 'infectious-disease-situation',
+              name: 'infectiousDiseaseSituation',
+              component: () => import('@/views/manager/system/Menus'),
+              meta: {
+                title: '传染病区域态势图',
+                keepAlive: false,
+                requiresAuth: true,
+                icon: () => import('@/layouts/components/TGMenu/assets/images/infectious-disease-situation.svg')
+              }
+            }
+          ]
+        },
+        {
+          path: 'early-warning-processing',
+          component: TGRouterView,
+          redirect: { name: 'earlyWarningInformation' },
+          meta: {
+            title: '晨午检预警处理',
+            keepAlive: false,
+            requiresAuth: true,
+            icon: () => import('@/layouts/components/TGMenu/assets/images/early-warning-processing.svg')
+          },
+          children: [
+            {
+              path: 'early-warning-information',
+              name: 'earlyWarningInformation',
+              component: () => import('@/views/manager/system/Menus'),
+              meta: {
+                title: '预警信息',
+                keepAlive: false,
+                requiresAuth: true,
+                icon: () => import('@/layouts/components/TGMenu/assets/images/early-warning-information.svg')
+              }
+            },
+            {
+              path: 'alert-parameter-settings',
+              name: 'alertParameterSettings',
+              component: () => import('@/views/manager/system/Menus'),
+              meta: {
+                title: '预警参数设置',
+                keepAlive: false,
+                requiresAuth: true,
+                icon: () => import('@/layouts/components/TGMenu/assets/images/alert-parameter-settings.svg')
+              }
+            }
+          ]
+        },
+        {
           path: 'dormitories',
           component: TGRouterView,
           redirect: { name: 'buildings' },
@@ -805,6 +991,54 @@ function createConstRoutes() {
                 keepAlive: false,
                 requiresAuth: true,
                 icon: () => import('@/layouts/components/TGMenu/assets/images/rooms.svg')
+              }
+            }
+          ]
+        },
+        {
+          path: 'holidays',
+          component: TGRouterView,
+          redirect: { name: 'holidaySettings' },
+          meta: {
+            title: '假期管理',
+            keepAlive: false,
+            requiresAuth: true,
+            icon: () => import('@/layouts/components/TGMenu/assets/images/holidays.svg')
+          },
+          children: [
+            {
+              path: 'holiday-settings',
+              name: 'holidaySettings',
+              component: () => import('@/views/manager/dormitories/Buildings'),
+              meta: {
+                title: '假期设置',
+                keepAlive: false,
+                requiresAuth: true,
+                icon: () => import('@/layouts/components/TGMenu/assets/images/holiday-settings.svg')
+              }
+            }
+          ]
+        },
+        {
+          path: 'canteen-hygiene',
+          component: TGRouterView,
+          redirect: { name: 'healthDaily' },
+          meta: {
+            title: '食堂卫生',
+            keepAlive: false,
+            requiresAuth: true,
+            icon: () => import('@/layouts/components/TGMenu/assets/images/canteen-hygiene.svg')
+          },
+          children: [
+            {
+              path: 'health-daily',
+              name: 'healthDaily',
+              component: () => import('@/views/manager/dormitories/Buildings'),
+              meta: {
+                title: '卫生日报',
+                keepAlive: false,
+                requiresAuth: true,
+                icon: () => import('@/layouts/components/TGMenu/assets/images/health-daily.svg')
               }
             }
           ]
