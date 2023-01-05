@@ -128,6 +128,20 @@ export default Form.create({})({
               )
             }
           </Form.Item>
+          <Form.Item label={'姓名'}>
+            {
+              this.form.getFieldDecorator('fullName', { initialValue: this.initialValues.fullName })(
+                <Input placeholder={'请输入姓名'} />
+              )
+            }
+          </Form.Item>
+          <Form.Item label={'身份证号'}>
+            {
+              this.form.getFieldDecorator('idNumber', { initialValue: this.initialValues.idNumber })(
+                <Input placeholder={'请输入身份证号'} allowClear />
+              )
+            }
+          </Form.Item>
           <Form.Item label={'参数筛选'}>
             {
               this.form.getFieldDecorator('paramName', { initialValue: this.initialValues.paramName })(
@@ -158,20 +172,6 @@ export default Form.create({})({
             {
               this.form.getFieldDecorator('numerical', { initialValue: this.initialValues.numerical })(
                 <Input placeholder={'请输入参数值'} />
-              )
-            }
-          </Form.Item>
-          <Form.Item label={'姓名'}>
-            {
-              this.form.getFieldDecorator('fullName', { initialValue: this.initialValues.fullName })(
-                <Input placeholder={'请输入姓名'} />
-              )
-            }
-          </Form.Item>
-          <Form.Item label={'身份证号'}>
-            {
-              this.form.getFieldDecorator('idNumber', { initialValue: this.initialValues.idNumber })(
-                <Input placeholder={'请输入身份证号'} allowClear />
               )
             }
           </Form.Item>

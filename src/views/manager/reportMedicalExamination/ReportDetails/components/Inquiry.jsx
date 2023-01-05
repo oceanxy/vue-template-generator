@@ -1,5 +1,5 @@
 import forInquiry from '@/mixins/forInquiry'
-import { Alert, Button, Form, InputNumber, Select, Space, TreeSelect } from 'ant-design-vue'
+import { Button, DatePicker, Form, Input, Select, Space, TreeSelect } from 'ant-design-vue'
 
 export default Form.create({})({
   mixins: [forInquiry()],
@@ -23,6 +23,17 @@ export default Form.create({})({
         class="tg-inquiry"
       >
         <div class={'row-down'}>
+          <Form.Item label="日期范围" class={'span-2'}>
+            {
+              this.form.getFieldDecorator('dateRange', { initialValue: this.initialValues.dateRange })(
+                <DatePicker.RangePicker
+                  placeholder={['开始日期', '结束日期']}
+                  valueFormat={'YYYY-MM-DD'}
+                  allowClear
+                />
+              )
+            }
+          </Form.Item>
           <Form.Item label="学校">
             {
               this.form.getFieldDecorator('schoolId', { initialValue: this.initialValues.schoolId })(
@@ -45,20 +56,7 @@ export default Form.create({})({
               )
             }
           </Form.Item>
-          <Form.Item label={'班级'}>
-            {
-              this.form.getFieldDecorator('classNumber', { initialValue: this.initialValues.classNumber })(
-                <InputNumber
-                  min={1}
-                  max={100}
-                  precision={0}
-                  placeholder={'请输入班级'}
-                  allowClear
-                />
-              )
-            }
-          </Form.Item>
-          <Form.Item label={'上报时段'}>
+          <Form.Item label={'登记类型'}>
             {
               this.form.getFieldDecorator('t', { initialValue: this.initialValues.time })(
                 <Select>
@@ -67,12 +65,35 @@ export default Form.create({})({
               )
             }
           </Form.Item>
-          <Form.Item label={'上报状态'}>
+          <Form.Item label={'病例类型'}>
+            {
+              this.form.getFieldDecorator('t2', { initialValue: this.initialValues.time })(
+                <Select>
+                  <Select.Option value={''}>全部</Select.Option>
+                </Select>
+              )
+            }
+          </Form.Item>
+          <Form.Item label={'学生症状'}>
             {
               this.form.getFieldDecorator('status', { initialValue: this.initialValues.status })(
                 <Select>
                   <Select.Option value={''}>全部</Select.Option>
                 </Select>
+              )
+            }
+          </Form.Item>
+          <Form.Item label={'姓名'}>
+            {
+              this.form.getFieldDecorator('fullName', { initialValue: this.initialValues.fullName })(
+                <Input placeholder={'请输入姓名'} />
+              )
+            }
+          </Form.Item>
+          <Form.Item label={'身份证号'}>
+            {
+              this.form.getFieldDecorator('idNumber', { initialValue: this.initialValues.idNumber })(
+                <Input placeholder={'请输入身份证号'} allowClear />
               )
             }
           </Form.Item>
@@ -88,16 +109,6 @@ export default Form.create({})({
             {/*<Button onClick={this.onClear} icon="reload">重置</Button>*/}
           </Space>
         </div>
-        <Alert
-          banner
-          type={'warning'}
-          message={
-            <Space>
-              <span>您有未到校学生待处理</span>
-              <Button size={'small'} type={'dashed'}>立即处理</Button>
-            </Space>
-          }
-        />
       </Form>
     )
   }

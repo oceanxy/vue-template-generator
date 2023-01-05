@@ -166,17 +166,6 @@ export default Form.create({})({
               )
             }
           </Form.Item>
-          <Form.Item label="签退时间" class={'span-2'}>
-            {
-              this.form.getFieldDecorator('dateRange', { initialValue: this.initialValues.dateRange })(
-                <DatePicker.RangePicker
-                  placeholder={['开始时间', '结束时间']}
-                  valueFormat={'YYYY-MM-DD'}
-                  allowClear
-                />
-              )
-            }
-          </Form.Item>
           <Form.Item label={'姓名'}>
             {
               this.form.getFieldDecorator('fullName', { initialValue: this.initialValues.fullName })(
@@ -188,6 +177,17 @@ export default Form.create({})({
             {
               this.form.getFieldDecorator('idNumber', { initialValue: this.initialValues.idNumber })(
                 <Input placeholder={'请输入身份证号'} allowClear />
+              )
+            }
+          </Form.Item>
+          <Form.Item label="签退时间" class={'span-2'}>
+            {
+              this.form.getFieldDecorator('dateRange', { initialValue: this.initialValues.dateRange })(
+                <DatePicker.RangePicker
+                  placeholder={['开始时间', '结束时间']}
+                  valueFormat={'YYYY-MM-DD'}
+                  allowClear
+                />
               )
             }
           </Form.Item>

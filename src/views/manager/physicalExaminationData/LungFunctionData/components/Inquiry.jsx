@@ -149,6 +149,20 @@ export default Form.create({})({
               )
             }
           </Form.Item>
+          <Form.Item label={'姓名'}>
+            {
+              this.form.getFieldDecorator('fullName', { initialValue: this.initialValues.fullName })(
+                <Input placeholder={'请输入姓名'} />
+              )
+            }
+          </Form.Item>
+          <Form.Item label={'身份证号'}>
+            {
+              this.form.getFieldDecorator('idNumber', { initialValue: this.initialValues.idNumber })(
+                <Input placeholder={'请输入身份证号'} allowClear />
+              )
+            }
+          </Form.Item>
           <Form.Item label="体检时间" class={'span-2'}>
             {
               this.form.getFieldDecorator('dateRange', { initialValue: this.initialValues.dateRange })(
@@ -199,20 +213,6 @@ export default Form.create({})({
                   <Select.Option value={1}>及格</Select.Option>
                   <Select.Option value={2}>不及格</Select.Option>
                 </Select>
-              )
-            }
-          </Form.Item>
-          <Form.Item label={'姓名'}>
-            {
-              this.form.getFieldDecorator('fullName', { initialValue: this.initialValues.fullName })(
-                <Input placeholder={'请输入姓名'} />
-              )
-            }
-          </Form.Item>
-          <Form.Item label={'身份证号'}>
-            {
-              this.form.getFieldDecorator('idNumber', { initialValue: this.initialValues.idNumber })(
-                <Input placeholder={'请输入身份证号'} allowClear />
               )
             }
           </Form.Item>

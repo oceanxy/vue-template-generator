@@ -92,6 +92,7 @@ export default {
     })
 
     let api = 'getList'
+    let response = {}
 
     if (!config.mock) {
       if (customApiName) {
@@ -105,16 +106,24 @@ export default {
       }
     }
 
-    const response = await apis[api](
-      omit(
-        {
-          ...targetModuleName.pagination,
-          ...targetModuleName.search,
-          ...additionalQueryParameters
-        },
-        'total'
+    if (apis[api]) {
+      response = await apis[api]?.(
+        omit(
+          {
+            ...targetModuleName.pagination,
+            ...targetModuleName.search,
+            ...additionalQueryParameters
+          },
+          'total'
+        )
       )
-    )
+    } else {
+      console.error(
+        `接口未定义：${moduleName} 页面${submoduleName
+          ? ` ${submoduleName} 模块`
+          : ''}的 ${api} 接口未定义！`
+      )
+    }
 
     if (response.status) {
       const data = response.data.paginationObj || response.data

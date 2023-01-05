@@ -2,6 +2,7 @@
   <a-layout-header class="tg-layout-header">
     <div class="tg-header manager">
       <a-button
+        v-if="page === 'normal'"
         class="btn menu-fold"
         :class="{reverse: collapsed}"
         :title="!collapsed ? '折叠菜单' : '展开菜单'"
@@ -42,6 +43,11 @@ export default {
       // 'manager' || 'client'
       type: String,
       default: 'client'
+    },
+    page: {
+      // 'normal' || 'not-found'
+      type: String,
+      default: 'normal'
     }
   },
   components: {
