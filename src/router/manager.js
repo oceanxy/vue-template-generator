@@ -823,7 +823,7 @@ function createConstRoutes() {
             {
               path: 'report-review',
               name: 'reportReview',
-              component: () => import('@/views/manager/system/Menus'),
+              component: () => import('@/views/manager/review/ReportReview'),
               meta: {
                 title: '上报审核',
                 keepAlive: false,

@@ -186,6 +186,8 @@ body {
     gap: 12px;
 
     .form-item-btn {
+      width: auto !important;
+
       .ant-form-item-control-wrapper {
         z-index: 11 !important;
       }
@@ -215,6 +217,7 @@ body {
     .ant-form-item-label {
       z-index: 1;
       flex: none;
+      overflow: initial;
 
       label {
         display: inline-block;

@@ -85,7 +85,7 @@ export default Form.create({})({
                 rules: [
                   {
                     required: true,
-                    message: '请输入楼栋名称!',
+                    message: '请输入楼栋名称！',
                     trigger: 'blur'
                   }
                 ]
@@ -104,7 +104,7 @@ export default Form.create({})({
                 rules: [
                   {
                     required: true,
-                    message: '请输入编号!',
+                    message: '请输入编号！',
                     trigger: 'blur'
                   }
                 ]
@@ -131,7 +131,7 @@ export default Form.create({})({
                         {
                           required: true,
                           type: 'number',
-                          message: '请输入楼层数!',
+                          message: '请输入楼层数！',
                           trigger: 'blur'
                         }
                       ]
@@ -168,7 +168,7 @@ export default Form.create({})({
                   {
                     required: this.form.getFieldValue('isUnderground') === 1,
                     type: 'number',
-                    message: '请输入地下楼层数!',
+                    message: '请输入地下楼层数！',
                     trigger: 'blur'
                   }
                 ]
@@ -218,7 +218,7 @@ export default Form.create({})({
                   {
                     required: true,
                     type: 'number',
-                    message: '请输入排序值!',
+                    message: '请输入排序值！',
                     trigger: 'blur'
                   }
                 ]
@@ -239,7 +239,7 @@ export default Form.create({})({
                   {
                     required: true,
                     type: 'boolean',
-                    message: '请选择状态!',
+                    message: '请选择状态！',
                     trigger: 'change'
                   }
                 ]
