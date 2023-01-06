@@ -8,7 +8,9 @@ export default {
   inject: ['moduleName'],
   props: {
     /**
-     * 获取自定义图标 {treeNode => Icon}
+     * 获取自定义图标
+     * @params treeNode {Tree.TreeNode} 树节点
+     * @returns Icon.component 控制如何渲染图标，通常是一个渲染根标签为 <svg> 的 Vue 组件，会使 type 属性失效
      */
     getCustomIcon: {
       type: Function,
@@ -58,11 +60,24 @@ export default {
       default: false
     },
     /**
-     * 选中树后用于搜索列表的字段名，默认 'treeId'
+     * 选中树后用于搜索列表的字段名，默认 'treeId'，后期改为 'parentId'
+     * @param hierarchy {number} 树节点层级
+     * @returns {string}
      */
     getFieldNameForTreeId: {
       type: Function,
-      default: () => 'treeId'
+      default: hierarchy => 'treeId'
+    },
+    /**
+     * 向树所在页面的 Table 组件注入搜索参数。注入到 store.state.search 对象。
+     * 一般的树不需要此操作，紧紧使用 getFieldNameForTreeId 参数即可，但是在某些特殊场景，
+     * 比如在操作树时需要传递多个字段给查询接口时，可以使用该字段来设置多余的参数。
+     * @param dataSource {Object} 用于渲染树节点的数据对象
+     * @returns {Object} 需要合并注入到 search 的对象
+     */
+    injectSearchParamsOfTable: {
+      type: Function,
+      default: dataSource => ({})
     },
     /**
      * 搜索框提示文本
@@ -169,7 +184,10 @@ export default {
 
       if (this.notNoneMode) {
         await this.$store.dispatch('setSearch', {
-          payload: { [this.treeIdField]: this.dataSource.list?.[0]?.id },
+          payload: {
+            ...this.injectSearchParamsOfTable(this.dataSource.list?.[0] ?? {}),
+            [this.treeIdField]: this.dataSource.list?.[0]?.id
+          },
           moduleName: this.moduleName,
           isResetSelectedRows: true,
           ...this.optionsOfGetList
@@ -191,7 +209,10 @@ export default {
   async beforeDestroy() {
     // 退出页面前先清空搜索参数，避免下次进页面时参数错乱
     await this.$store.dispatch('setSearch', {
-      payload: { [this.treeIdField]: '' },
+      payload: {
+        ...this.injectSearchParamsOfTable({}),
+        [this.treeIdField]: ''
+      },
       moduleName: this.moduleName,
       isFetchList: false
     })
@@ -233,7 +254,7 @@ export default {
      * @param e {Object} 当前是否有被选中的结点
      */
     async onSelect(selectedKeys, e) {
-      const payload = {}
+      let payload
       let treeIdField
 
       if (e.selected) {
@@ -246,7 +267,10 @@ export default {
         // 清空search内上一次树操作的键与值
         if (this.oldTreeIdField) {
           this.$store.commit('setSearch', {
-            payload: { [this.oldTreeIdField]: undefined },
+            payload: {
+              ...this.injectSearchParamsOfTable({}),
+              [this.oldTreeIdField]: undefined
+            },
             moduleName: this.moduleName,
             ...this.optionsOfGetList
           })
@@ -263,10 +287,16 @@ export default {
       }
 
       if (e.selected) {
-        payload[this.treeIdField] = selectedKeys[0]
+        payload = {
+          ...this.injectSearchParamsOfTable(e.node.$attrs.dataSource),
+          [this.treeIdField]: selectedKeys[0]
+        }
       } else {
         if (this.treeIdField) {
-          payload[this.treeIdField] = this.notNoneMode ? this.dataSource.list?.[0]?.id : ''
+          payload = {
+            ...this.injectSearchParamsOfTable(this.notNoneMode ? this.dataSource.list?.[0] : {}),
+            [this.treeIdField]: this.notNoneMode ? this.dataSource.list?.[0]?.id : ''
+          }
         }
       }
 
@@ -320,7 +350,7 @@ export default {
      */
     getTreeNode(dataSource) {
       return dataSource?.map(item => (
-        <Tree.TreeNode key={item.id}>
+        <Tree.TreeNode key={item.id} dataSource={item}>
           <Icon slot={'icon'} class={'icon'} component={this.getIcon(item)} />
           {this.highlight(item)}
           {
@@ -361,18 +391,20 @@ export default {
           />
           <Spin spinning={this.dataSource.loading}>
             {
-              this.treeDataSource?.length ? (
-                <Tree
-                  showLine
-                  showIcon
-                  selectedKeys={this.treeId}
-                  onSelect={this.onSelect}
-                  expandedKeys={this.expandedKeys}
-                  onExpand={this.onExpand}
-                >
-                  {this.getTreeNode(this.treeDataSource)}
-                </Tree>
-              ) : <Empty />
+              this.treeDataSource?.length
+                ? (
+                  <Tree
+                    showLine
+                    showIcon
+                    selectedKeys={this.treeId}
+                    onSelect={this.onSelect}
+                    expandedKeys={this.expandedKeys}
+                    onExpand={this.onExpand}
+                  >
+                    {this.getTreeNode(this.treeDataSource)}
+                  </Tree>
+                )
+                : <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
             }
           </Spin>
         </div>

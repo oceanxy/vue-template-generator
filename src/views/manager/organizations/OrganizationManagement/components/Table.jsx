@@ -90,6 +90,7 @@ export default {
             <Button
               type="link"
               size="small"
+              disabled={this.isFeatureDisabled}
               onClick={() => this.onEditClick(record)}
             >
               编辑
@@ -97,6 +98,7 @@ export default {
             <Button
               type="link"
               size="small"
+              disabled={this.isFeatureDisabled}
               onClick={() => this.onDeleteClick(record)}
             >
               删除
@@ -104,6 +106,15 @@ export default {
           </Space>
         )
       }
+    }
+  },
+  computed: {
+    // 学校及学校下级禁用新增、修改或删除等一切操作
+    isFeatureDisabled() {
+      const { type } = this.$store.state[this.moduleName].search
+
+      // 类型（1.区 2.职能部门 3.街道 4.学校顶级 5.学校 6.年级 7.班级）
+      return [4, 5, 6, 7].includes(type)
     }
   }
 }

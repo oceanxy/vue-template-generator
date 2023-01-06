@@ -22,18 +22,18 @@ export default Form.create({})({
     organizationTree() {
       return this.$store.state[this.moduleName].organizationTree
     },
-    schoolTree() {
-      return this.$store.state[this.moduleName].schoolTree
-    },
+    // schoolTree() {
+    //   return this.$store.state[this.moduleName].schoolTree
+    // },
     streets() {
       return this.$store.state[this.moduleName].streets
     },
-    selectedSchoolsForEditModal() {
-      return this.$store.state[this.moduleName].selectedSchoolsForEditModal
-    },
-    selectedSchools() {
-      return this.selectedSchoolsForEditModal.list.map(item => item.id)
-    },
+    // selectedSchoolsForEditModal() {
+    //   return this.$store.state[this.moduleName].selectedSchoolsForEditModal
+    // },
+    // selectedSchools() {
+    //   return this.selectedSchoolsForEditModal.list.map(item => item.id)
+    // },
     administrativeDivision() {
       return this.$store.state['common'].administrativeDivision
     },
@@ -61,13 +61,13 @@ export default Form.create({})({
       async handler(value) {
         if (value) {
           await Promise.all([
-            this.$store.dispatch('getListWithLoadingStatus', {
-              moduleName: this.moduleName,
-              stateName: 'schoolTree',
-              customApiName: 'getSchoolTree'
-            }),
+            // this.$store.dispatch('getListWithLoadingStatus', {
+            //   moduleName: this.moduleName,
+            //   stateName: 'schoolTree',
+            //   customApiName: 'getSchoolTree'
+            // }),
             dispatch('common', 'getAdministrativeDivision'),
-            this.getSchoolsByOrganizationId(),
+            // this.getSchoolsByOrganizationId(),
             this.getStreets()
           ])
         }
@@ -82,21 +82,21 @@ export default Form.create({})({
         await this.getStreetsByDistrictId(value[2])
       }
     },
-    async getSchoolsByOrganizationId() {
-      // 编辑模式
-      if (this.currentItem.id) {
-        const status = await this.$store.dispatch('getListWithLoadingStatus', {
-          moduleName: this.moduleName,
-          stateName: 'selectedSchoolsForEditModal',
-          customApiName: 'getSchoolsByOrganizationId',
-          payload: { organId: this.currentItem.id }
-        })
-
-        if (status) {
-          this.form.setFieldsValue({ schoolIds: this.selectedSchools })
-        }
-      }
-    },
+    // async getSchoolsByOrganizationId() {
+    //   // 编辑模式
+    //   if (this.currentItem.id) {
+    //     const status = await this.$store.dispatch('getListWithLoadingStatus', {
+    //       moduleName: this.moduleName,
+    //       stateName: 'selectedSchoolsForEditModal',
+    //       customApiName: 'getSchoolsByOrganizationId',
+    //       payload: { organId: this.currentItem.id }
+    //     })
+    //
+    //     if (status) {
+    //       this.form.setFieldsValue({ schoolIds: this.selectedSchools })
+    //     }
+    //   }
+    // },
     async getStreets() {
       if (this.currentItem.id && this.currentItem.countyId) {
         await this.getStreetsByDistrictId(this.currentItem.countyId)
@@ -163,42 +163,50 @@ export default Form.create({})({
               )
             }
           </Form.Item>
-          <Form.Item label="学校范围">
+          {/*<Form.Item label="学校范围">*/}
+          {/*  {*/}
+          {/*    this.form.getFieldDecorator('schoolIds', {*/}
+          {/*      initialValue: this.currentItem.schoolIds || [],*/}
+          {/*      rules: [*/}
+          {/*        {*/}
+          {/*          required: true,*/}
+          {/*          type: 'array',*/}
+          {/*          message: '请选择学校（可多选）！',*/}
+          {/*          trigger: 'change'*/}
+          {/*        }*/}
+          {/*      ]*/}
+          {/*    })(*/}
+          {/*      <TreeSelect*/}
+          {/*        showSearch*/}
+          {/*        allowClear*/}
+          {/*        multiple*/}
+          {/*        treeNodeFilterProp={'title'}*/}
+          {/*        dropdownClassName={'tg-select-dropdown'}*/}
+          {/*        treeData={this.schoolTree.list}*/}
+          {/*        replaceFields={{*/}
+          {/*          children: 'children',*/}
+          {/*          title: 'name',*/}
+          {/*          key: 'id',*/}
+          {/*          value: 'id'*/}
+          {/*        }}*/}
+          {/*        searchPlaceholder={'请输入学校名称搜索'}*/}
+          {/*        placeholder={'请选择学校（可多选）'}*/}
+          {/*        treeDefaultExpandedKeys={this.selectedSchools}*/}
+          {/*      />*/}
+          {/*    )*/}
+          {/*  }*/}
+          {/*</Form.Item>*/}
+          <Form.Item label="地址" class={'half'}>
             {
-              this.form.getFieldDecorator('schoolIds', {
-                initialValue: this.currentItem.schoolIds || [],
+              this.form.getFieldDecorator('districtList', {
                 rules: [
                   {
                     required: true,
                     type: 'array',
-                    message: '请选择学校（可多选）！',
+                    message: '请选择地址！',
                     trigger: 'change'
                   }
-                ]
-              })(
-                <TreeSelect
-                  showSearch
-                  allowClear
-                  multiple
-                  treeNodeFilterProp={'title'}
-                  dropdownClassName={'tg-select-dropdown'}
-                  treeData={this.schoolTree.list}
-                  replaceFields={{
-                    children: 'children',
-                    title: 'name',
-                    key: 'id',
-                    value: 'id'
-                  }}
-                  searchPlaceholder={'请输入学校名称搜索'}
-                  placeholder={'请选择学校（可多选）'}
-                  treeDefaultExpandedKeys={this.selectedSchools}
-                />
-              )
-            }
-          </Form.Item>
-          <Form.Item label="地址" class={'half'}>
-            {
-              this.form.getFieldDecorator('districtList', {
+                ],
                 initialValue: this.currentItem.provinceId && this.currentItem.cityId && this.currentItem.countyId
                   ? [
                     { id: this.currentItem.provinceId, name: this.currentItem.provinceName },
@@ -230,6 +238,13 @@ export default Form.create({})({
           <Form.Item label="选择街道" class={'half'}>
             {
               this.form.getFieldDecorator('street', {
+                rules: [
+                  {
+                    required: true,
+                    message: '请选择街道！',
+                    trigger: 'change'
+                  }
+                ],
                 initialValue: this.currentItem.streetId
                   ? { id: this.currentItem.streetId, name: this.currentItem.streetName }
                   : undefined,
