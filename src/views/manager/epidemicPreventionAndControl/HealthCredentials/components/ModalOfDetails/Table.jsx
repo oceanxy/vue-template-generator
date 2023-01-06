@@ -50,7 +50,6 @@ export default {
             <Button
               type="link"
               size="small"
-              disabled={this.isFeatureDisabled}
               onClick={() => this.onEditClick(record)}
             >
               查看
@@ -58,7 +57,6 @@ export default {
             <Button
               type="link"
               size="small"
-              disabled={this.isFeatureDisabled}
               onClick={() => this.onDeleteClick(record)}
             >
               删除
