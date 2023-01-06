@@ -832,9 +832,9 @@ function createConstRoutes() {
               }
             },
             {
-              path: 'back-to-school-audit',
-              name: 'backToSchoolAudit',
-              component: () => import('@/views/manager/system/Menus'),
+              path: 'back-to-school-audits',
+              name: 'backToSchoolAudits',
+              component: () => import('@/views/manager/review/BackToSchoolAudits'),
               meta: {
                 title: '返校审核',
                 keepAlive: false,
