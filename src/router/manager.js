@@ -869,7 +869,7 @@ function createConstRoutes() {
           ]
         },
         {
-          path: 'statisticalReports',
+          path: 'statistical-reports',
           component: TGRouterView,
           redirect: { name: 'symptomMonitoringReports' },
           meta: {
@@ -939,7 +939,7 @@ function createConstRoutes() {
             {
               path: 'early-warning-information',
               name: 'earlyWarningInformation',
-              component: () => import('@/views/manager/system/Menus'),
+              component: () => import('@/views/manager/earlyWarningProcessing/EarlyWarningInformation'),
               meta: {
                 title: '预警信息',
                 keepAlive: false,
