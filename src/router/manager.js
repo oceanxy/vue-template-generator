@@ -858,7 +858,7 @@ function createConstRoutes() {
             {
               path: 'health-credentials',
               name: 'healthCredentials',
-              component: () => import('@/views/manager/system/Menus'),
+              component: () => import('@/views/manager/epidemicPreventionAndControl/HealthCredentials'),
               meta: {
                 title: '两码一报告',
                 keepAlive: false,
