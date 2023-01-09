@@ -17,6 +17,13 @@ export default {
         }
         <div class="tg-container-content">
           {this.$slots.inquiry || this.$slots.others}
+          {
+            this.$slots.chart ? (
+              <div class={'tg-container-chart-container'}>
+                {this.$slots.chart}
+              </div>
+            ) : null
+          }
           <div class={'tg-container-table-container'}>
             {this.$slots.table}
             {this.$slots.pagination}

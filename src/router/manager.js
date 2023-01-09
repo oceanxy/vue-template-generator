@@ -882,7 +882,7 @@ function createConstRoutes() {
             {
               path: 'symptom-monitoring-reports',
               name: 'symptomMonitoringReports',
-              component: () => import('@/views/manager/system/Menus'),
+              component: () => import('@/views/manager/statisticalReports/SymptomMonitoringReports'),
               meta: {
                 title: '症状监测报告',
                 keepAlive: false,
