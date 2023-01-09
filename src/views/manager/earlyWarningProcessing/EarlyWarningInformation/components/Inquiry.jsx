@@ -14,7 +14,7 @@ export default Form.create({})({
         colon={false}
         class="tg-inquiry"
       >
-        <Space>
+        <div class={'row-down'}>
           <Form.Item label="时间范围" class={'span-2'}>
             {
               this.form.getFieldDecorator('dateRange', { initialValue: this.initialValues.dateRange })(
@@ -73,7 +73,7 @@ export default Form.create({})({
             </Button>
             {/*<Button onClick={this.onClear} icon="reload">重置</Button>*/}
           </Space>
-        </Space>
+        </div>
       </Form>
     )
   }
