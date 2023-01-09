@@ -1009,7 +1009,7 @@ function createConstRoutes() {
             {
               path: 'holiday-settings',
               name: 'holidaySettings',
-              component: () => import('@/views/manager/dormitories/Buildings'),
+              component: () => import('@/views/manager/holidays/HolidaySettings'),
               meta: {
                 title: '假期设置',
                 keepAlive: false,
@@ -1033,7 +1033,7 @@ function createConstRoutes() {
             {
               path: 'health-daily',
               name: 'healthDaily',
-              component: () => import('@/views/manager/dormitories/Buildings'),
+              component: () => import('@/views/manager/canteenHygiene/HealthDaily'),
               meta: {
                 title: '卫生日报',
                 keepAlive: false,
