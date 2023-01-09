@@ -950,7 +950,7 @@ function createConstRoutes() {
             {
               path: 'alert-parameter-settings',
               name: 'alertParameterSettings',
-              component: () => import('@/views/manager/system/Menus'),
+              component: () => import('@/views/manager/earlyWarningProcessing/AlertParameterSettings'),
               meta: {
                 title: '预警参数设置',
                 keepAlive: false,
