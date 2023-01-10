@@ -11,6 +11,10 @@ export default commitRootInModule => omit(createStoreModule({
     roleTree: {
       list: [],
       loading: false
+    },
+    dutyClassTree: {
+      list: [],
+      loading: false
     }
   }
 }), [

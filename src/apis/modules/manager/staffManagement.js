@@ -65,5 +65,18 @@ export default {
       method: 'post',
       data: qs.stringify(data)
     })
+  },
+  /**
+   * 获取责任班级数据
+   * @param [request]
+   * @param data
+   * @returns {*}
+   */
+  getDutyClassTree(request, data) {
+    return request({
+      url: '/system/organ/getSchoolClassTree',
+      method: 'post',
+      data: qs.stringify(data)
+    })
   }
 }

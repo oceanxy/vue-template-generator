@@ -9,6 +9,9 @@ export default Form.create({ name: 'staffs' })({
     return { modalProps: { width: 810 } }
   },
   computed: {
+    userInfo() {
+      return this.$store.state.login.userInfo
+    },
     search() {
       return this.$store.state[this.moduleName].search
     },
@@ -18,16 +21,20 @@ export default Form.create({ name: 'staffs' })({
     roleTree() {
       return this.$store.state[this.moduleName].roleTree
     },
+    dutyClassTree() {
+      return this.$store.state[this.moduleName].dutyClassTree
+    },
     attributes() {
       return {
         attrs: this.modalProps,
         on: {
           cancel: () => this.onCancel(),
           ok: () => this.onSubmit({
-            customDataHandler(value) {
+            customDataHandler: value => {
               const data = cloneDeep(value)
 
               data.roleIds = data.roleIds.join()
+              data.type = this.search.type
 
               return data
             }
@@ -41,12 +48,26 @@ export default Form.create({ name: 'staffs' })({
       immediate: true,
       async handler(value) {
         if (value) {
-          await this.$store.dispatch('getListWithLoadingStatus', {
-            moduleName: this.moduleName,
-            stateName: 'roleTree',
-            customApiName: 'getRoleTree'
-          })
+          await Promise.all([
+            this.$store.dispatch('getListWithLoadingStatus', {
+              moduleName: this.moduleName,
+              stateName: 'roleTree',
+              customApiName: 'getRoleTree'
+            }),
+            this.getDutyClassTree()
+          ])
         }
+      }
+    }
+  },
+  methods: {
+    async getDutyClassTree() {
+      if (this.userInfo.employeeType !== 1) {
+        await this.$store.dispatch('getListWithLoadingStatus', {
+          moduleName: this.moduleName,
+          stateName: 'dutyClassTree',
+          customApiName: 'getDutyClassTree'
+        })
       }
     }
   },
@@ -136,12 +157,52 @@ export default Form.create({ name: 'staffs' })({
                     value: 'id'
                   }}
                   searchPlaceholder={'请输入关键字以搜索'}
-                  placeholder={'请选择角色'}
+                  placeholder={'请选择角色（可多选）'}
                   treeDefaultExpandedKeys={this.currentItem.roleIds?.split(',') ?? []}
                 />
               )
             }
           </Form.Item>
+          {
+            this.userInfo.employeeType !== 1
+              ? (
+                <Form.Item label="责任班级">
+                  {
+                    this.form.getFieldDecorator('dutyClassIds', {
+                      initialValue: this.currentItem.dutyClassIds,
+                      rules: [
+                        {
+                          required: false,
+                          type: 'array',
+                          message: '请选择责任班级！',
+                          trigger: 'change'
+                        }
+                      ]
+                    })(
+                      <TreeSelect
+                        showSearch
+                        allowClear
+                        multiple
+                        treeCheckable
+                        treeNodeFilterProp={'title'}
+                        dropdownClassName={'tg-select-dropdown'}
+                        treeData={this.dutyClassTree.list}
+                        replaceFields={{
+                          children: 'children',
+                          title: 'name',
+                          key: 'id',
+                          value: 'id'
+                        }}
+                        searchPlaceholder={'请输入关键字以搜索'}
+                        placeholder={'请选择责任班级（可多选）'}
+                        treeDefaultExpandedKeys={this.currentItem.dutyClassIds || []}
+                      />
+                    )
+                  }
+                </Form.Item>
+              )
+              : null
+          }
           <Form.Item label="姓名" class={'half'}>
             {
               this.form.getFieldDecorator('fullName', {
