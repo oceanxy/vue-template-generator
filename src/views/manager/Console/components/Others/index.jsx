@@ -11,7 +11,15 @@ export default {
     return ({
       option: {
         color: ['#16b364'],
-        tooltip: { trigger: 'item' },
+        tooltip: {
+          trigger: 'item',
+          formatter: params => `
+            <div>
+              <b>${params.name}</b> <br/>
+              ${params.marker} ${params.data.value}% （${params.data.total}/${params.data.all}人）
+            </div>
+          `
+        },
         grid: {
           top: '5%',
           left: '2%',
@@ -23,13 +31,16 @@ export default {
           type: 'category',
           data: []
         },
-        yAxis: { type: 'value' },
+        yAxis: {
+          type: 'value',
+          axisLabel: { formatter: '{value}%' }
+        },
         series: [
           {
-            type: 'line',
+            type: 'bar',
             data: [],
-            smooth: true,
-            areaStyle: {
+            barWidth: '60%',
+            itemStyle: {
               color: {
                 x: 0,
                 y: 0,
@@ -38,16 +49,15 @@ export default {
                 colorStops: [
                   {
                     offset: 0,
-                    color: 'rgba(22,179,100,0.3)'
+                    color: 'rgba(22,179,100,0.4)'
                   },
                   {
                     offset: 1,
-                    color: 'rgba(22,179,100,0)'
+                    color: 'rgba(22,179,100,0.1)'
                   }
                 ]
               }
             }
-
           }
         ]
       }
@@ -74,7 +84,12 @@ export default {
 
       value.forEach(item => {
         xAxis.push(getGradeStr(item.grade))
-        data.push(item.totalNum)
+        data.push({
+          name: getGradeStr(item.grade),
+          value: item.percent,
+          total: item.totalNum,
+          all: item.allNum
+        })
       })
 
       this.option.xAxis.data = xAxis
