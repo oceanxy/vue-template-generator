@@ -2,6 +2,7 @@ import { Form, Input, InputNumber, Select, Switch, TreeSelect } from 'ant-design
 import forFormModal from '@/mixins/forModal/forFormModal'
 import DragModal from '@/components/DragModal'
 import { cloneDeep } from 'lodash'
+import { verifyMobileNumber } from '@/utils/validators'
 
 export default Form.create({ name: 'staffs' })({
   mixins: [forFormModal()],
@@ -304,16 +305,14 @@ export default Form.create({ name: 'staffs' })({
                 initialValue: this.details.mobile || this.currentItem.mobile,
                 rules: [
                   {
-                    required: true,
+                    required: false,
                     message: '请输入手机号码！',
                     trigger: 'blur'
-                  }
+                  },
+                  { validator: verifyMobileNumber }
                 ]
               })(
-                <Input
-                  placeholder="请输入手机号码"
-                  allowClear
-                />
+                <Input placeholder="请输入手机号码" allowClear />
               )
             }
           </Form.Item>
