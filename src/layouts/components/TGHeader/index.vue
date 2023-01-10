@@ -21,6 +21,7 @@
         <a-button
           class="btn edit-pwd"
           title="修改密码"
+          @click="onEditPassword()"
         />
         <a-button
           class="btn logout"
@@ -29,12 +30,14 @@
         />
       </div>
     </div>
+    <modal-of-edit-password modalTitle="修改密码" />
   </a-layout-header>
 </template>
 
 <script>
 import { Avatar, Badge, Divider, Dropdown, Icon, Layout, Menu, Tag } from 'ant-design-vue'
 import { mapActions, mapGetters } from 'vuex'
+import ModalOfEditPassword from '@/views/manager/organizations/StaffManagement/components/ModalOfEditPassword'
 
 export default {
   name: 'TGHeader',
@@ -60,7 +63,8 @@ export default {
     [Menu.SubMenu.name]: Menu.SubMenu,
     [Dropdown.name]: Dropdown,
     [Tag.name]: Tag,
-    [Divider.name]: Divider
+    [Divider.name]: Divider,
+    ModalOfEditPassword: ModalOfEditPassword
   },
   computed: {
     ...mapGetters({ getState: 'getState' }),
@@ -85,10 +89,23 @@ export default {
       return this.$route.matched.at(-2).meta.title
     }
   },
+  provide: { moduleName: 'login' },
   methods: {
     ...mapActions('login', { logout: 'logout' }),
     async onLogOut() {
       await this.logout()
+    },
+    async onEditPassword() {
+      await this.$store.dispatch('setCurrentItem', {
+        value: { id: this.userInfo.id },
+        moduleName: 'login'
+      })
+
+      await this.$store.dispatch('setModalVisible', {
+        statusField: 'visibilityOfEditPassword',
+        statusValue: true,
+        moduleName: 'login'
+      })
     },
     onMenuFold() {
       this.$store.commit('setState', {

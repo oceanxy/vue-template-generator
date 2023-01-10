@@ -1,4 +1,4 @@
-import { Form, Input } from 'ant-design-vue'
+import { Form, Input, message as Message } from 'ant-design-vue'
 import forFormModal from '@/mixins/forModal/forFormModal'
 import DragModal from '@/components/DragModal'
 
@@ -17,11 +17,17 @@ export default Form.create({})({
         on: {
           cancel: () => this.onCancel('visibilityOfEditPassword'),
           ok: () => this.onSubmit({
+            isFetchList: this.moduleName !== 'login',
             customApiName: 'updatePasswordOfStaff',
             customDataHandler: value => {
               value.ids = this.currentItem.id
 
               return value
+            },
+            done: async () => {
+              await this.$store.dispatch('login/logout')
+
+              Message.success('密码修改成功，请重新登录！')
             }
           })
         }

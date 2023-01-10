@@ -20,7 +20,9 @@ export default {
       fullName: '',
       id: ''
     },
-    parkList: []
+    parkList: [],
+    visibilityOfEditPassword: false,
+    currentItem: {}
   },
   mutations: {
     setLoading(state, payload) {
