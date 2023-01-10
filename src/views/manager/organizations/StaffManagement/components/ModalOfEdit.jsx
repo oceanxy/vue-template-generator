@@ -138,7 +138,7 @@ export default Form.create({ name: 'staffs' })({
               )(
                 <Select placeholder="请选择是否组织管理">
                   <Select.Option value={1}>是</Select.Option>
-                  <Select.Option value={2}>否</Select.Option>
+                  <Select.Option value={0}>否</Select.Option>
                 </Select>
               )
             }
