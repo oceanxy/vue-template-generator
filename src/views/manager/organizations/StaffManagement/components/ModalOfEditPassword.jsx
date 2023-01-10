@@ -11,6 +11,9 @@ export default Form.create({})({
     }
   },
   computed: {
+    userInfo() {
+      return this.$store.state['login'].userInfo
+    },
     attributes() {
       return {
         attrs: this.modalProps,
@@ -25,9 +28,11 @@ export default Form.create({})({
               return value
             },
             done: async () => {
-              await this.$store.dispatch('login/logout')
+              if (this.userInfo.id === this.currentItem.id) {
+                Message.success('密码修改成功，请重新登录！')
 
-              Message.success('密码修改成功，请重新登录！')
+                await this.$store.dispatch('login/logout')
+              }
             }
           })
         }
