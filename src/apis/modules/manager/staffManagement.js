@@ -15,6 +15,17 @@ export default {
     })
   },
   /**
+   * 获取职员详情
+   * @returns {*}
+   */
+  getDetailsOfStaffManagement(request, data) {
+    return request({
+      url: '/system/employee/getEmployee',
+      method: 'post',
+      data: qs.stringify(data)
+    })
+  },
+  /**
    * 删除职员
    * @param request
    * @param data

@@ -49,24 +49,37 @@ export default Form.create({ name: 'staffs' })({
       async handler(value) {
         if (value) {
           await Promise.all([
-            this.$store.dispatch('getListWithLoadingStatus', {
-              moduleName: this.moduleName,
-              stateName: 'roleTree',
-              customApiName: 'getRoleTree'
-            }),
-            this.getDutyClassTree()
+            this.getRoleTree(),
+            this.getDutyClassTree(),
+            this.getDetails()
           ])
         }
       }
     }
   },
   methods: {
+    async getRoleTree() {
+      await this.$store.dispatch('getListWithLoadingStatus', {
+        moduleName: this.moduleName,
+        stateName: 'roleTree',
+        customApiName: 'getRoleTree'
+      })
+    },
     async getDutyClassTree() {
       if (this.userInfo.employeeType !== 1) {
         await this.$store.dispatch('getListWithLoadingStatus', {
           moduleName: this.moduleName,
           stateName: 'dutyClassTree',
           customApiName: 'getDutyClassTree'
+        })
+      }
+    },
+    async getDetails() {
+      // 编辑模式获取用户最新信息
+      if (this.currentItem.id) {
+        await this.$store.dispatch('getDetails', {
+          moduleName: this.moduleName,
+          payload: { id: this.currentItem.id }
         })
       }
     }
@@ -78,7 +91,7 @@ export default Form.create({ name: 'staffs' })({
           <Form.Item label="所属组织" class={'half'}>
             {
               this.form.getFieldDecorator('orgId', {
-                initialValue: this.currentItem.orgId || this.search.orgId,
+                initialValue: this.details.orgId || this.currentItem.orgId || this.search.orgId,
                 rules: [
                   {
                     required: true,
@@ -102,7 +115,7 @@ export default Form.create({ name: 'staffs' })({
                   }}
                   searchPlaceholder={'请输入关键字以搜索'}
                   placeholder={'请选择所属组织'}
-                  treeDefaultExpandedKeys={[this.currentItem.orgId || this.search.orgId]}
+                  treeDefaultExpandedKeys={[this.details.orgId || this.currentItem.orgId || this.search.orgId]}
                 />
               )
             }
@@ -112,7 +125,7 @@ export default Form.create({ name: 'staffs' })({
               this.form.getFieldDecorator(
                 'isOrganLeader',
                 {
-                  initialValue: this.currentItem.isOrganLeader || 1,
+                  initialValue: this.details.isOrganLeader || this.currentItem.isOrganLeader || 1,
                   rules: [
                     {
                       required: true,
@@ -133,7 +146,7 @@ export default Form.create({ name: 'staffs' })({
           <Form.Item label="角色组">
             {
               this.form.getFieldDecorator('roleIds', {
-                initialValue: this.currentItem.roleIds?.split(',') ?? [],
+                initialValue: this.details.roleIds?.split(',') ?? this.currentItem.roleIds?.split(',') ?? [],
                 rules: [
                   {
                     required: true,
@@ -158,7 +171,11 @@ export default Form.create({ name: 'staffs' })({
                   }}
                   searchPlaceholder={'请输入关键字以搜索'}
                   placeholder={'请选择角色（可多选）'}
-                  treeDefaultExpandedKeys={this.currentItem.roleIds?.split(',') ?? []}
+                  treeDefaultExpandedKeys={
+                    this.details.roleIds?.split(',') ??
+                    this.currentItem.roleIds?.split(',') ??
+                    []
+                  }
                 />
               )
             }
@@ -169,7 +186,7 @@ export default Form.create({ name: 'staffs' })({
                 <Form.Item label="责任班级">
                   {
                     this.form.getFieldDecorator('dutyClassIds', {
-                      initialValue: this.currentItem.dutyClassIds,
+                      initialValue: this.details.dutyClassIds || this.currentItem.dutyClassIds,
                       rules: [
                         {
                           required: false,
@@ -195,7 +212,7 @@ export default Form.create({ name: 'staffs' })({
                         }}
                         searchPlaceholder={'请输入关键字以搜索'}
                         placeholder={'请选择责任班级（可多选）'}
-                        treeDefaultExpandedKeys={this.currentItem.dutyClassIds || []}
+                        treeDefaultExpandedKeys={this.details.dutyClassIds || this.currentItem.dutyClassIds || []}
                       />
                     )
                   }
@@ -206,7 +223,7 @@ export default Form.create({ name: 'staffs' })({
           <Form.Item label="姓名" class={'half'}>
             {
               this.form.getFieldDecorator('fullName', {
-                initialValue: this.currentItem.fullName,
+                initialValue: this.details.fullName || this.currentItem.fullName,
                 rules: [
                   {
                     required: true,
@@ -224,7 +241,7 @@ export default Form.create({ name: 'staffs' })({
               this.form.getFieldDecorator(
                 'gender',
                 {
-                  initialValue: this.currentItem.gender || 0,
+                  initialValue: this.details.gender || this.currentItem.gender || 0,
                   rules: [
                     {
                       required: true,
@@ -246,7 +263,7 @@ export default Form.create({ name: 'staffs' })({
           <Form.Item label="登录名" class={'half'}>
             {
               this.form.getFieldDecorator('loginName', {
-                initialValue: this.currentItem.loginName,
+                initialValue: this.details.loginName || this.currentItem.loginName,
                 rules: [
                   {
                     required: true,
@@ -265,7 +282,7 @@ export default Form.create({ name: 'staffs' })({
                 <Form.Item label="密码" class={'half'}>
                   {
                     this.form.getFieldDecorator('loginPwd', {
-                      initialValue: this.currentItem.loginPwd,
+                      initialValue: this.details.loginPwd || this.currentItem.loginPwd,
                       rules: [
                         {
                           required: true,
@@ -284,7 +301,7 @@ export default Form.create({ name: 'staffs' })({
           <Form.Item label="手机号码" class={'half'}>
             {
               this.form.getFieldDecorator('mobile', {
-                initialValue: this.currentItem.mobile,
+                initialValue: this.details.mobile || this.currentItem.mobile,
                 rules: [
                   {
                     required: true,
@@ -302,7 +319,10 @@ export default Form.create({ name: 'staffs' })({
           </Form.Item>
           <Form.Item label="职位" class={'half'}>
             {
-              this.form.getFieldDecorator('position', { initialValue: this.currentItem.position })(
+              this.form.getFieldDecorator(
+                'position',
+                { initialValue: this.details.position || this.currentItem.position }
+              )(
                 <Input
                   placeholder="请输入职位"
                   allowClear
@@ -312,7 +332,7 @@ export default Form.create({ name: 'staffs' })({
           </Form.Item>
           <Form.Item label="联系电话" class={'half'}>
             {
-              this.form.getFieldDecorator('phone', { initialValue: this.currentItem.phone })(
+              this.form.getFieldDecorator('phone', { initialValue: this.details.phone || this.currentItem.phone })(
                 <Input
                   placeholder="请输入联系电话"
                   allowClear
@@ -322,7 +342,7 @@ export default Form.create({ name: 'staffs' })({
           </Form.Item>
           <Form.Item label="邮箱" class={'half'}>
             {
-              this.form.getFieldDecorator('email', { initialValue: this.currentItem.email })(
+              this.form.getFieldDecorator('email', { initialValue: this.details.email || this.currentItem.email })(
                 <Input
                   placeholder="请输入邮箱"
                   allowClear
@@ -332,7 +352,7 @@ export default Form.create({ name: 'staffs' })({
           </Form.Item>
           <Form.Item label="QQ" class={'half'}>
             {
-              this.form.getFieldDecorator('qq', { initialValue: this.currentItem.qq })(
+              this.form.getFieldDecorator('qq', { initialValue: this.details.qq || this.currentItem.qq })(
                 <Input
                   placeholder="请输入QQ号码"
                   allowClear
@@ -343,7 +363,7 @@ export default Form.create({ name: 'staffs' })({
           <Form.Item label="排序" class={'half'}>
             {
               this.form.getFieldDecorator('sortIndex', {
-                initialValue: this.currentItem.sortIndex || 0,
+                initialValue: this.details.sortIndex || this.currentItem.sortIndex || 0,
                 rules: [
                   {
                     required: true,
@@ -353,17 +373,16 @@ export default Form.create({ name: 'staffs' })({
                   }
                 ]
               })(
-                <InputNumber
-                  style={{ width: '100%' }}
-                  placeholder="请输入排序"
-                />
+                <InputNumber style={{ width: '100%' }} placeholder="请输入排序" />
               )
             }
           </Form.Item>
           <Form.Item label="状态" class={'half'}>
             {
               this.form.getFieldDecorator('status', {
-                initialValue: !isNaN(this.currentItem.status) ? this.currentItem.status === 1 : true,
+                initialValue: !isNaN(this.details.status || this.currentItem.status)
+                  ? this.details.status === 1 || this.currentItem.status === 1
+                  : true,
                 valuePropName: 'checked'
               })(
                 <Switch />

@@ -48,6 +48,9 @@ export default customModuleName => {
       currentItem() {
         return this.getState('currentItem', this.moduleName)
       },
+      details() {
+        return this.getState('details', this.moduleName)
+      },
       visible() {
         return this.getState(this.visibilityFieldName, this.moduleName) ??
           this.getState(this.visibilityFieldName, this.moduleName, this.submoduleName)
