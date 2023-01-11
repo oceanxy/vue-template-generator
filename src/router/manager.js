@@ -893,7 +893,7 @@ function createConstRoutes() {
             {
               path: 'infectious-disease-statistics',
               name: 'infectiousDiseaseStatistics',
-              component: () => import('@/views/manager/system/Menus'),
+              component: () => import('@/views/manager/statisticalReports/InfectiousDiseaseStatistics'),
               meta: {
                 title: '传染病统计表',
                 keepAlive: false,
@@ -904,7 +904,7 @@ function createConstRoutes() {
             {
               path: 'noncommunicable-disease-statistics',
               name: 'noncommunicableDiseaseStatistics',
-              component: () => import('@/views/manager/system/Menus'),
+              component: () => import('@/views/manager/statisticalReports/NoncommunicableDiseaseStatistics'),
               meta: {
                 title: '非传染病统计表',
                 keepAlive: false,
@@ -915,7 +915,7 @@ function createConstRoutes() {
             {
               path: 'infectious-disease-situation',
               name: 'infectiousDiseaseSituation',
-              component: () => import('@/views/manager/system/Menus'),
+              component: () => import('@/views/manager/statisticalReports/InfectiousDiseaseSituation'),
               meta: {
                 title: '传染病区域态势图',
                 keepAlive: false,

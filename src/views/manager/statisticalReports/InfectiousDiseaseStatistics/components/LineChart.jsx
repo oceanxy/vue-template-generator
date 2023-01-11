@@ -4,6 +4,7 @@ export default {
   render() {
     return (
       <Chart
+        class={'line-chart'}
         style={{ height: '300px' }}
         option={{
           title: {

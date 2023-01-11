@@ -26,6 +26,10 @@
     .tg-container-chart-container {
       height: auto;
       padding: 24px;
+
+      &.no-table {
+        flex: auto;
+      }
     }
 
     .tg-container-table-container {
