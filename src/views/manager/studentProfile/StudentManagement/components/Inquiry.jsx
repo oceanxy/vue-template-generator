@@ -101,14 +101,11 @@ export default Form.create({})({
     }
   },
   watch: {
-    search: {
-      deep: true,
-      handler(value) {
-        if (value) {
-          this.getGradeList()
-          this.form.setFieldsValue({ gradeName: '' })
-          this.form.setFieldsValue({ classNumber: '' })
-        }
+    'search.orgId'(value) {
+      if (value) {
+        this.getGradeList()
+        this.form.setFieldsValue({ gradeName: '' })
+        this.form.setFieldsValue({ classNumber: '' })
       }
     }
   },
