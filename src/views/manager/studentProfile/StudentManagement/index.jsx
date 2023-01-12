@@ -10,7 +10,7 @@ import ModalImport from './components/ModalImport'
 import ModalSetRooms from './components/ModalSetRooms'
 import dynamicState from '@/mixins/dynamicState'
 import TGContainer from '@/layouts/components/TGContainer'
-import { getFileAdminForSchoolTreeId, getSchoolTreeIcon } from '@/utils/projectHelpers'
+import { getSchoolTreeIcon } from '@/utils/projectHelpers'
 
 export default {
   name: 'StudentManagement',
@@ -20,7 +20,8 @@ export default {
       <TGContainerWithTreeSider
         notNoneMode
         getCustomIcon={getSchoolTreeIcon}
-        getFieldNameForTreeId={getFileAdminForSchoolTreeId}
+        getFieldNameForTreeId={() => 'orgId'}
+        injectSearchParamsOfTable={dataSource => ({ orgType: dataSource.type })}
         apiOptions={{
           apiName: 'getSchoolTree',
           stateName: 'schoolTree',
