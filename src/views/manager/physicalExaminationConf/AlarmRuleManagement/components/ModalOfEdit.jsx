@@ -33,14 +33,14 @@ export default Form.create({})({
     }
   },
   methods: {
-    async onChangeKpi(e) {
+    onChangeKpi(e) {
       this.kpiItem = this.kpiAndParam.kpi.filter(item => {
         if (item.id === e) {
           return item
         }
       })
       this.paramList(e)
-      await this.form.setFieldsValue({ monitorParamId: this.param[0].id })
+      this.form.setFieldsValue({ monitorParamId: '' })
     },
     paramList(e) {
       const arr = []
@@ -51,13 +51,10 @@ export default Form.create({})({
         }
       })
       this.param = arr ?? []
+      console.log(this.param)
     },
     onChangeParam(e) {
-      this.paramItem = this.kpiAndParam.param.filter(item => {
-        if (item.id === e) {
-          return item
-        }
-      })
+      this.paramItem = e
     },
     // 历史差异值
     differenceValue(e) {
@@ -80,15 +77,18 @@ export default Form.create({})({
     customDataHandler(values) {
       const data = { ...values }
 
+      console.log(this.formItem)
+
       if (!this.formItem) {
-        data.historyDifferenceType = 0
+        data.historyDifferenceType = null
       }
 
       if (!this.formItemTow) {
-        data.absoluteDifferenceType = 0
+        data.absoluteDifferenceType = null
       }
 
-      data.monitorParamName = this.currentItem?.monitorParamName ?? this.paramItem?.[0]?.paramName ?? ''
+      data.monitorParamName = this.currentItem?.monitorParamName ?? this.paramItem?.label ?? ''
+      data.monitorParamId = this.currentItem?.monitorParamId ?? this.paramItem?.key ?? ''
       data.monitorItemKpiName = this.currentItem?.monitorItemKpiName ?? this.kpiItem?.[0]?.kpiName ?? ''
       data.monitorItemId = this.currentItem?.monitorItemId ?? this.kpiItem?.[0]?.itemId ?? ''
       data.isHistoryDifference = this.currentItem?.isHistoryDifference ?? this.formItem ? 1 : 0
@@ -100,13 +100,13 @@ export default Form.create({})({
 
   watch: {
     currentItem: {
-      deep: false,
+      deep: true,
       handler(value) {
-        if (value && value.historyDifferenceValue) {
+        if (value && value.isHistoryDifference === 1) {
           this.formItem = true
         }
 
-        if (value && value.absoluteDifferenceValue) {
+        if (value && value.isAbsoluteDifference === 1) {
           this.formItemTow = true
         }
 
@@ -114,7 +114,26 @@ export default Form.create({})({
           this.paramList(this.currentItem.monitorItemKpiId)
         }
       }
+    },
+    formItem(value) {
+      if (value === false) {
+        this.$watch(
+          () => {
+            this.modalProps.okButtonProps.props.disabled = false
+          }
+        )
+      }
+    },
+    formItemTow(value) {
+      if (value === false) {
+        this.$watch(
+          () => {
+            this.modalProps.okButtonProps.props.disabled = false
+          }
+        )
+      }
     }
+
   },
   render() {
     return (
@@ -158,9 +177,9 @@ export default Form.create({})({
               style={{ display: 'inline-block', width: 'calc(50% - 6px)' }}>
               {
                 this.form.getFieldDecorator('monitorParamId', {
-                  initialValue: this.currentItem.monitorParamId
+                  initialValue: this.currentItem.monitorParamId ? [{ key: this.currentItem.monitorParamId, label: this.currentItem.monitorParamName }] : []
                 })(
-                  <Select placeholder="参数" onchange={this.onChangeParam}>
+                  <Select placeholder="参数" labelInValue={true} onchange={this.onChangeParam}>
                     {
                       this.param?.map(item => (
                         <Select.Option value={item.id} >{item.paramName}</Select.Option>
@@ -235,7 +254,7 @@ export default Form.create({})({
                   style={{ display: 'inline-block', width: 'calc(50% - 6px)' }}>
                   {
                     this.form.getFieldDecorator('absoluteDifferenceValue', {
-                      initialValue: this.currentItem.absoluteDifferenceValue,
+                      initialValue: this.currentItem.absoluteDifferenceValue ?? '',
                       rules: [
                         {
                           required: this.formItemTow,

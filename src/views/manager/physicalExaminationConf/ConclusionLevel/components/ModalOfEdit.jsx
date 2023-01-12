@@ -252,8 +252,8 @@ export default Form.create({})({
             const itemId = this.currentItem.itemId
             const kpiId = this.currentItem.itemKpiId
 
-            this.getListByItemId(itemId)
-            this.getListByKpiId(kpiId)
+            await this.getListByItemId(itemId)
+            await this.getListByKpiId(kpiId)
             this.detailsStatus = true
             const res = await apis.getDetailsOfConclusionLevel({ id: this.currentItem.id })
 

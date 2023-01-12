@@ -249,7 +249,7 @@ function createConstRoutes() {
             {
               path: 'generate-q-r-code',
               name: 'generateQRCode',
-              component: () => import('@/views/manager/studentProfile/generateQRCode'),
+              component: () => import('@/views/manager/studentProfile/GenerateQRCode'),
               meta: {
                 title: '生成二维码',
                 keepAlive: false,

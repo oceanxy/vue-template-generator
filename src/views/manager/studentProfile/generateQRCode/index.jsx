@@ -1,6 +1,6 @@
 import './assets/styles/index.scss'
 import Functions from './components/Functions'
-import QrCode from './components/qrCode'
+import QrCode from './components/QrCode'
 import dynamicState from '@/mixins/dynamicState'
 import TGContainer from '@/layouts/components/TGContainer'
 
@@ -11,9 +11,9 @@ export default {
     return (
       <TGContainer class={'qr-code-container'}>
         <Functions slot="functions" />
-        <div slot="default">
+        <template slot="chart">
           <QrCode />
-        </div>
+        </template>
       </TGContainer>
     )
   }
