@@ -13,8 +13,11 @@ export default {
   },
   computed: {
     ...mapGetters({ getState: 'getState' }),
-    schoolId() {
-      return this.getState('search', this.moduleName)?.schoolId ?? null
+    search() {
+      return this.getState('search', this.moduleName)
+    },
+    treeIdField() {
+      return this.getState('treeIdField', this.moduleName)
     },
     curGrade() {
       return this.getState('grade', this.moduleName) ?? null
@@ -30,7 +33,7 @@ export default {
     },
     curSchool() {
       return this.schoolAllList.filter(item => {
-        if (item.id === this.schoolId) {
+        if (item.id === this.search[this.treeIdField]) {
           return item
         }
       })
@@ -39,7 +42,7 @@ export default {
   methods: {
 
     onExportBySchoolId() {
-      if (!this.schoolId) {
+      if (!this.search[this.treeIdField] || this.search.orgType !== 5) {
         message.warn('请选择需要导出的学校！')
       } else {
         this.onExport('学生数据')
@@ -68,7 +71,7 @@ export default {
     async determine() {
       const curGradeId = this.curGrade?.[0]?.id ?? undefined
 
-      if (!this.schoolId) {
+      if (!this.search[this.treeIdField]) {
         this.codeBatchVisible = false
         message.error(' 请选择学校！')
       } else if (!curGradeId) {
@@ -81,7 +84,7 @@ export default {
           stateName: 'codeBatchUrl',
           customApiName: 'getCodeBatch',
           additionalQueryParameters: {
-            schoolId: this.schoolId,
+            schoolId: this.search[this.treeIdField],
             gradeId: curGradeId,
             classNumber: this.curClassNumber
           }
