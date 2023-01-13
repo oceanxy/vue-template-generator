@@ -16,7 +16,7 @@ export default {
       if (!this.peObjOrgId) {
         message.warn('请选择需要导出的学校！')
       } else {
-        this.onExport('体检基础数据')
+        this.onExport('龋齿眼疾数据')
       }
     }
   },

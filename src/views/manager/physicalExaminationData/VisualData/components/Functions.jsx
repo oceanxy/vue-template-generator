@@ -19,7 +19,7 @@ export default {
       if (!this.search[this.treeIdField] || this.search.orgType !== 5) {
         message.warn('请选择需要导出的学校！')
       } else {
-        this.onExport('体检基础数据')
+        this.onExport('视力数据')
       }
     }
   },
