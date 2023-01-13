@@ -7,8 +7,11 @@ export default {
   mixins: [forFunction()],
   computed: {
     ...mapGetters({ getState: 'getState' }),
-    peObjOrgId() {
-      return this.getState('search', this.moduleName)?.peObjOrgId ?? null
+    search() {
+      return this.getState('search', this.moduleName)
+    },
+    treeIdField() {
+      return this.getState('treeIdField', this.moduleName)
     }
   },
   methods: {
