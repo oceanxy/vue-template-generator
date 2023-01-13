@@ -16,14 +16,17 @@ export default Form.create({})({
   },
   computed: {
     ...mapGetters({ getState: 'getState' }),
-    search() {
-      return this.getState('search', this.moduleName)
-    },
     examineCatalogTree() {
       return this.getState('examineCatalogTree', 'physical')?.list ?? null
     },
+    search() {
+      return this.getState('search', this.moduleName)
+    },
+    treeIdField() {
+      return this.getState('treeIdField', this.moduleName)
+    },
     examineCatalog() {
-      const parentId = this.search.parentId
+      const parentId = this.search[this.treeIdField]
 
       if (this.currentItem && this.currentItem.parentName) {
         return [{ name: this.currentItem.parentName }]
@@ -67,10 +70,9 @@ export default Form.create({})({
   },
   methods: {
     customDataHandler(values) {
-      console.log(this.examineCatalog)
       const data = { ...values }
 
-      data.parentId = this.currentItem?.parentId ?? this.search?.parentId ?? ''
+      data.parentId = this.currentItem?.parentId ?? this.search[this.treeIdField] ?? ''
 
       return data
     },

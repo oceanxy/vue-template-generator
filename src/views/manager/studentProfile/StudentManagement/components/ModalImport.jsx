@@ -177,22 +177,41 @@ export default Form.create({})({
       const { status, data } = await apis.getTemplateUrl()
 
       if (status) {
-        this.download(data, '学生数据导入模板V7')
+        const a = document.createElement('a')
+
+        a.href = data
+        a.download = '学生数据导入模板V7'
+        a.style.display = 'none'
+        document.body.appendChild(a)
+        a.click()
+        a.remove()
+        message.success('下载成功')
       }
-
-
     },
-    download(url, name) {
-      const a = document.createElement('a')
+    // async downloadTemplate() {
+    //   const { status, data } = await apis.getTemplateUrl()
 
-      a.href = url
-      a.download = name
-      a.style.display = 'none'
-      document.body.appendChild(a)
-      a.click()
-      a.remove()
-      message.success('下载成功')
-    }
+    //   if (status) {
+    //     const link = new XMLHttpRequest()
+
+    //     link.open('GET', data, true)
+    //     link.responseType = 'blob'
+    //     link.onload = function (e) {
+    //       const url = window.URL.createObjectURL(link.response)
+    //       const a = document.createElement('a')
+
+    //       a.href = url
+    //       a.download = '学生数据导入模板V7'
+    //       a.style.display = 'none'
+    //       document.body.appendChild(a)
+    //       a.click()
+    //       a.remove()
+    //       message.success('下载成功')
+
+    //     }
+    //     link.send()
+    //   }
+    // }
   },
   watch: {
     visible: {

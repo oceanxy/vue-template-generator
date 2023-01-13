@@ -19,12 +19,15 @@ export default Form.create({})({
     search() {
       return this.getState('search', this.moduleName)
     },
+    treeIdField() {
+      return this.getState('treeIdField', this.moduleName)
+    },
     examineCatalogTree() {
       return this.getState('examineCatalogTree', 'physical')?.list ?? null
     },
     examineCatalog() {
       const ecId = this.search.ecId
-      const parentId = this.search.parentId
+      const parentId = this.search[this.treeIdField]
 
       if (this.currentItem && this.currentItem.parentName) {
         return [{ name: this.currentItem.parentName }]
@@ -71,7 +74,7 @@ export default Form.create({})({
       console.log(this.examineCatalog)
       const data = { ...values }
 
-      data.ecId = this.currentItem?.ecId ?? this.search?.ecId ?? this.search?.parentId ?? ''
+      data.ecId = this.currentItem?.ecId ?? this.search?.ecId ?? this.search[this.treeIdField] ?? ''
 
       return data
     },

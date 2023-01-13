@@ -22,8 +22,8 @@ export default Form.create({})({
     gradeList() {
       return this.getState('gradeList', this.moduleName)
     },
-    schoolId() {
-      return this.getState('search', this.moduleName)?.schoolId ?? null
+    treeIdField() {
+      return this.getState('treeIdField', this.moduleName)
     },
     schoolAllList() {
       return this.getState('schoolAllList', this.moduleName)?.list ?? []
@@ -71,7 +71,7 @@ export default Form.create({})({
         stateName: 'gradeList',
         customApiName: 'getGradeListBySchoolId',
         payload: {
-          schoolId: this.schoolId
+          schoolId: this.search[this.treeIdField]
         }
       })
     },
@@ -101,7 +101,7 @@ export default Form.create({})({
     }
   },
   watch: {
-    schoolId(value) {
+    'search.orgId'(value) {
       if (value) {
         this.getGradeList()
         this.form.setFieldsValue({ gradeName: '' })
