@@ -20,6 +20,14 @@ export default commitRootInModule => omit(createStoreModule({
       loading: false,
       list: []
     }
+  },
+  modules: {
+    checkedItems: {
+      state: {
+        loading: false,
+        rowKey: 'id'
+      }
+    }
   }
 }), [
   'state.details',

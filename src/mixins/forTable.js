@@ -117,7 +117,7 @@ export default ({
        * @param value
        */
       sortFieldList(value) {
-        value.map(sortObj => {
+        value?.map(sortObj => {
           const index = this.tableProps.columns.findIndex(column => column.dataIndex === sortObj.fieldCode)
 
           if (index !== -1) {

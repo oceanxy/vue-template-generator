@@ -2,7 +2,7 @@ import forTable from '@/mixins/forTable'
 import { Switch, Tag } from 'ant-design-vue'
 
 export default {
-  mixins: [forTable({ isFetchList: false })],
+  mixins: [forTable()],
   props: {
     dataSource: {
       type: Object,
@@ -69,7 +69,10 @@ export default {
   },
   computed: {
     itemList() {
-      return this.getState(this.dataSource.itemId, this.moduleName)
+      return this.getState(this.dataSource.itemId, this.moduleName, this.submoduleName)
+    },
+    currentItemOfParent() {
+      return this.getState('currentItem', this.moduleName)
     },
     dynamicProperties() {
       if (this.dataSource.itemId === '1001') {
@@ -466,8 +469,8 @@ export default {
         props: {
           ...this.tableProps,
           size: 'small',
-          dataSource: this.itemList.list,
-          loading: this.itemList.loading,
+          dataSource: this.itemList,
+          loading: this.loading,
           columns: [
             ...this.tableProps.columns,
             ...this.dynamicProperties.columns
@@ -481,15 +484,12 @@ export default {
       deep: true,
       immediate: true,
       async handler() {
-        // 在 store.state 里初始化一个用于接收表格数据的字段。
+        // 在 store.state 里初始化一个用于接收动态Tab内表格数据的字段。
         this.$set(
-          this.$store.state[this.moduleName],
+          this.$store.state[this.moduleName][this.submoduleName],
           this.dataSource.itemId,
-          { list: [], loading: false }
+          []
         )
-
-        // 请求表格数据
-        await this.fetchList()
       }
     }
   },
@@ -501,17 +501,18 @@ export default {
         </Tag>
       )
     },
+    // 重写 forTable 的同名函数
     async fetchList() {
-      const status = await this.$store.dispatch('getListWithLoadingStatus', {
+      const status = await this.$store.dispatch('getList', {
         moduleName: this.moduleName,
         submoduleName: this.submoduleName,
         stateName: this.dataSource.itemId,
-        payload: {
-          activityId: this.currentItem.activityId,
-          activityOrgId: this.currentItem.activityOrgId,
-          peObjId: this.currentItem.peObjId
-        },
-        customApiName: this.dynamicProperties.apiToGetList
+        customApiName: this.dynamicProperties.apiToGetList,
+        additionalQueryParameters: {
+          activityId: this.currentItemOfParent.activityId,
+          activityOrgId: this.currentItemOfParent.activityOrgId,
+          peObjId: this.currentItemOfParent.peObjId
+        }
       })
 
       if (status) {

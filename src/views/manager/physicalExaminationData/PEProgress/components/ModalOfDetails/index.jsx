@@ -1,5 +1,6 @@
 import './index.scss'
 import forTableModal from '@/mixins/forModal/forTableModal'
+import forModuleName from '@/mixins/forModuleName'
 import DragModal from '@/components/DragModal'
 import Table from './Table'
 import { Alert, Empty, Icon, Tabs } from 'ant-design-vue'
@@ -8,7 +9,8 @@ import TREE_CLASS_SVG from '@/components/TGContainerWithTreeSider/assets/images/
 import AVATAR_SVG from '@/layouts/components/TGHeader/images/avatar.svg'
 
 export default {
-  mixins: [forTableModal()],
+  name: 'CheckedItems',
+  mixins: [forTableModal(), forModuleName(true)],
   data() {
     return {
       modalProps: { destroyOnClose: true },
