@@ -503,7 +503,7 @@ export default {
     },
     // 重写 forTable 的同名函数
     async fetchList() {
-      const status = await this.$store.dispatch('getList', {
+      await this.$store.dispatch('getList', {
         moduleName: this.moduleName,
         submoduleName: this.submoduleName,
         stateName: this.dataSource.itemId,
@@ -514,10 +514,6 @@ export default {
           peObjId: this.currentItemOfParent.peObjId
         }
       })
-
-      if (status) {
-        this.resize()
-      }
     }
   }
 }
