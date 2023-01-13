@@ -13,7 +13,7 @@ export default {
   },
   methods: {
     onExportBySchoolId() {
-      if (!this.peObjOrgId) {
+      if (!this.search[this.treeIdField] || this.search.orgType !== 5) {
         message.warn('请选择需要导出的学校！')
       } else {
         this.onExport('龋齿眼疾数据')
