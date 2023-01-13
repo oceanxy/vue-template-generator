@@ -38,7 +38,7 @@ export default {
       previewImage: '',
       previewVisible: false,
       name: 'files',
-      headers: { token: sessionStorage.getItem('token') }
+      headers: { token: localStorage.getItem('token') }
     }
   },
   watch: {

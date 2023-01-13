@@ -11,7 +11,7 @@ export default {
     return {token: ''}
   },
   created() {
-    this.token = this.$route.query.token || sessionStorage.getItem('token')
+    this.token = this.$route.query.token || localStorage.getItem('token')
 
     if (process.env.NODE_ENV === 'development' && !this.token) {
       // 开发模式下可直接向后端索取一个用于调试的token
@@ -20,7 +20,7 @@ export default {
   },
   mounted() {
     if (this.token) {
-      sessionStorage.setItem('token', this.token)
+      localStorage.setItem('token', this.token)
 
       this.$router.replace({ name: 'home' })
     }

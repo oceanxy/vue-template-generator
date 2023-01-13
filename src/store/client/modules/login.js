@@ -29,33 +29,33 @@ export default {
     },
     setAuthentication(state, payload) {
       if (payload) {
-        sessionStorage.setItem('token', payload)
+        localStorage.setItem('token', payload)
       } else {
-        sessionStorage.removeItem('token')
+        localStorage.removeItem('token')
       }
     },
     setCompanyId(state, payload) {
       if (payload) {
-        sessionStorage.setItem('companyId', payload)
+        localStorage.setItem('companyId', payload)
       } else {
-        sessionStorage.removeItem('companyId')
+        localStorage.removeItem('companyId')
       }
     },
     setCompanyList(state, payload) {
       if (payload) {
         state.companyList = payload
-        sessionStorage.setItem('companyList', JSON.stringify(payload))
+        localStorage.setItem('companyList', JSON.stringify(payload))
       } else {
-        sessionStorage.removeItem('companyList')
+        localStorage.removeItem('companyList')
       }
     },
     setSiteCache(state, payload) {
       if (payload) {
-        sessionStorage.setItem('defaultRoute', payload.defaultMenuUrl)
-        sessionStorage.setItem('menu', JSON.stringify(payload.menuList))
+        localStorage.setItem('defaultRoute', payload.defaultMenuUrl)
+        localStorage.setItem('menu', JSON.stringify(payload.menuList))
       } else {
-        sessionStorage.removeItem('defaultRoute')
-        sessionStorage.removeItem('menu')
+        localStorage.removeItem('defaultRoute')
+        localStorage.removeItem('menu')
       }
     }
   },
@@ -65,7 +65,7 @@ export default {
         return state.companyList
       }
 
-      const companyList = window.sessionStorage.getItem('companyList')
+      const companyList = window.localStorage.getItem('companyList')
 
       if (companyList) {
         const list = JSON.parse(companyList)

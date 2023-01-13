@@ -10,14 +10,14 @@ const service = axios.create({
 // request interceptor
 service.interceptors.request.use(
   async config => {
-    const token = sessionStorage.getItem('token')
+    const token = localStorage.getItem('token')
 
     if (token) {
       config.headers.token = token
     }
 
     if (process.env.VUE_APP_PROJECT === 'development-client' || process.env.VUE_APP_PROJECT === 'production-client') {
-      const companyId = sessionStorage.getItem('companyId')
+      const companyId = localStorage.getItem('companyId')
 
       if (companyId) {
         config.headers.companyId = companyId

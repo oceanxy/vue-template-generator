@@ -43,20 +43,20 @@ export default {
     },
     setAuthentication(state, payload) {
       if (payload) {
-        sessionStorage.setItem('token', payload)
+        localStorage.setItem('token', payload)
       } else {
-        sessionStorage.removeItem('token')
+        localStorage.removeItem('token')
       }
     },
     setSiteCache(state, payload) {
       if (payload) {
-        sessionStorage.setItem('defaultRoute', payload.defaultMenuUrl)
-        sessionStorage.setItem('menu', JSON.stringify(payload.menuList))
-        sessionStorage.setItem('parkList', JSON.stringify(payload.parkList))
+        localStorage.setItem('defaultRoute', payload.defaultMenuUrl)
+        localStorage.setItem('menu', JSON.stringify(payload.menuList))
+        localStorage.setItem('parkList', JSON.stringify(payload.parkList))
       } else {
-        sessionStorage.removeItem('defaultRoute')
-        sessionStorage.removeItem('menu')
-        sessionStorage.removeItem('parkList')
+        localStorage.removeItem('defaultRoute')
+        localStorage.removeItem('menu')
+        localStorage.removeItem('parkList')
       }
     }
   },

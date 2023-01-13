@@ -150,7 +150,7 @@ export default {
   },
   async created() {
     // 从缓存中取出openKeys，设置到菜单中
-    const openKeys = sessionStorage.getItem('openKeys')
+    const openKeys = localStorage.getItem('openKeys')
 
     if (openKeys) {
       this.openKeys = JSON.parse(openKeys)
@@ -164,7 +164,7 @@ export default {
   },
   methods: {
     getMenuRoutes() {
-      const tempMenu = JSON.parse(sessionStorage.getItem('menu'))[0]
+      const tempMenu = JSON.parse(localStorage.getItem('menu'))[0]
       const menu = generateRoute(tempMenu)
 
       const routes = menu.children
@@ -218,7 +218,7 @@ export default {
         .reverse()
 
       // 将当前打开的父级菜单存入缓存中
-      sessionStorage.setItem('openKeys', JSON.stringify(keyPath))
+      localStorage.setItem('openKeys', JSON.stringify(keyPath))
 
       // 等待菜单打开动画执行完成，在下一次渲染周期执行
       // 将当前菜单的pathKey赋值给openKeys，以实现只打开一个折叠菜单的功能

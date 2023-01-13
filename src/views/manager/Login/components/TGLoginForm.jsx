@@ -42,7 +42,7 @@ export default Form.create({ name: 'TGLoginForm' })({
           } else {
             this.hint = true
 
-            const tempMenu = JSON.parse(sessionStorage.getItem('menu'))[0]
+            const tempMenu = JSON.parse(localStorage.getItem('menu'))[0]
             const menu = generateRoute(tempMenu)
 
             // 生成动态路由

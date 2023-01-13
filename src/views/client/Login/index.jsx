@@ -43,7 +43,7 @@ export default {
       await this.$router.push({ name: 'logon' })
     },
     async onClickItem(data) {
-      const token = window.sessionStorage.getItem('token')
+      const token = window.localStorage.getItem('token')
 
       if (!token) {
         await this.$router.push({ name: 'login' })

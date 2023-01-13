@@ -79,7 +79,7 @@ export default {
       return this.layout !== 'client'
     },
     isLogin() {
-      return !!window.sessionStorage.getItem('token')
+      return !!window.localStorage.getItem('token')
     },
     parentRouteName() {
       if (this.$route.matched.length <= 2) {

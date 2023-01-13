@@ -1124,8 +1124,8 @@ router.beforeEach((to, from, next) => {
   document.title = title + config.systemName
 
   // 判断该路由是否需要登录权限
-  // 获取存储在sessionStorage内的token，防止刷新页面导致vuex被清空而跳转到登录页
-  const token = sessionStorage.getItem('token')
+  // 获取存储在localStorage内的token，防止刷新页面导致vuex被清空而跳转到登录页
+  const token = localStorage.getItem('token')
 
   if (to.meta.requiresAuth) {
     if (token) {
