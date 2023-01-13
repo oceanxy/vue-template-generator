@@ -56,6 +56,7 @@ export default {
         })
       }
 
+
       await dispatch('getList', {
         moduleName,
         submoduleName,

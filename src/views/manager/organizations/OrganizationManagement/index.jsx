@@ -18,7 +18,7 @@ export default {
         placeholder={'请输入组织机构名称'}
         getCustomIcon={getOrganizationTreeIcon}
         getFieldNameForTreeId={() => 'parentId'}
-        injectSearchParamsOfTable={node => ({ type: node.type })}
+        injectSearchParamsOfTable={dataSource => ({ type: dataSource.type })}
         apiOptions={{
           apiName: 'getOrganizationTree',
           stateName: 'organizationTree'

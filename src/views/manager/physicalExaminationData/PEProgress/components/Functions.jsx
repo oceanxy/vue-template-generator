@@ -7,13 +7,16 @@ export default {
   mixins: [forFunction()],
   computed: {
     ...mapGetters({ getState: 'getState' }),
-    peObjOrgId() {
-      return this.getState('search', this.moduleName)?.peObjOrgId ?? null
+    search() {
+      return this.getState('search', this.moduleName)
+    },
+    treeIdField() {
+      return this.getState('treeIdField', this.moduleName)
     }
   },
   methods: {
     onExportBySchoolId() {
-      if (!this.peObjOrgId) {
+      if (!this.search[this.treeIdField] || this.search.orgType !== 5) {
         message.warn('请选择需要导出的学校！')
       } else {
         this.onExport('体检进度')

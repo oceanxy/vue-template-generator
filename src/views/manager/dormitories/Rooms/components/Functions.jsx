@@ -6,13 +6,16 @@ export default {
   mixins: [forFunction()],
   computed: {
     ...mapGetters({ getState: 'getState' }),
-    schoolId() {
-      return this.getState('search', this.moduleName)?.schoolId ?? null
+    search() {
+      return this.getState('search', this.moduleName)
+    },
+    treeIdField() {
+      return this.getState('treeIdField', this.moduleName)
     }
   },
   methods: {
     onExportBySchoolId() {
-      if (!this.schoolId) {
+      if (!this.search[this.treeIdField] || this.search.orgType !== 5) {
         message.warn('请选择需要导出的学校！')
       } else {
         this.onExport('房间数据')

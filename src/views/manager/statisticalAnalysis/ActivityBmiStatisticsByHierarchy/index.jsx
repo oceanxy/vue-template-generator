@@ -4,7 +4,7 @@ import TGContainer from '@/layouts/components/TGContainer'
 import Inquiry from '../components/InquiryByHierarchy'
 import Table from './components/Table'
 import Functions from './components/Functions'
-import { getFieldNameForSchoolGroupType, getSchoolTreeIcon } from '@/utils/projectHelpers'
+import { getSchoolTreeIcon } from '@/utils/projectHelpers'
 
 export default {
   name: 'ActivityBmiStatisticsByHierarchy',
@@ -15,11 +15,9 @@ export default {
         notNoneMode
         placeholder={'请输入街道名称'}
         getCustomIcon={getSchoolTreeIcon}
-        getFieldNameForTreeId={getFieldNameForSchoolGroupType}
-        optionsOfGetList={{
-          customApiName: 'getActivityBmiBySchool',
-          isFetchList: false
-        }}
+        getFieldNameForTreeId={() => 'orgId'}
+        injectSearchParamsOfTable={dataSource => ({ orgType: dataSource.type })}
+        optionsOfGetList={{ customApiName: 'getActivityBmiBySchool' }}
         apiOptions={{
           apiName: 'getStreetTree',
           stateName: 'streetTree',

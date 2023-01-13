@@ -6,7 +6,7 @@ import Functions from './components/Functions'
 import Inquiry from './components/Inquiry'
 import Table from './components/Table'
 import TGPagination from '@/components/TGPagination'
-import { getFieldNameForSchoolTreeId, getSchoolTreeIcon } from '@/utils/projectHelpers'
+import { getSchoolTreeIcon } from '@/utils/projectHelpers'
 
 export default {
   name: 'BloodPressureData',
@@ -18,7 +18,8 @@ export default {
         placeholder={'请输入学校名称'}
         contentClass="fe-blood-pressure-data-container"
         getCustomIcon={getSchoolTreeIcon}
-        getFieldNameForTreeId={getFieldNameForSchoolTreeId}
+        getFieldNameForTreeId={() => 'orgId'}
+        injectSearchParamsOfTable={dataSource => ({ orgType: dataSource.type })}
         apiOptions={{
           apiName: 'getSchoolTree',
           stateName: 'schoolTree',

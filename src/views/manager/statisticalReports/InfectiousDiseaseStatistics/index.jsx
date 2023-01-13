@@ -7,7 +7,7 @@ import Inquiry from './components/Inquiry'
 import Table from './components/Table'
 import LineChart from './components/LineChart'
 import PieChart from './components/PieChart'
-import { getFieldNameForSchoolTreeId, getSchoolTreeIcon } from '@/utils/projectHelpers'
+import { getSchoolTreeIcon } from '@/utils/projectHelpers'
 import TGContainerWithSider from '@/components/TGContainerWithSider'
 
 export default {
@@ -19,7 +19,8 @@ export default {
         notNoneMode
         placeholder={'请输入学校名称'}
         getCustomIcon={getSchoolTreeIcon}
-        getFieldNameForTreeId={getFieldNameForSchoolTreeId}
+        getFieldNameForTreeId={() => 'orgId'}
+        injectSearchParamsOfTable={dataSource => ({ orgType: dataSource.type })}
         apiOptions={{
           apiName: 'getSchoolTree',
           stateName: 'schoolTree',

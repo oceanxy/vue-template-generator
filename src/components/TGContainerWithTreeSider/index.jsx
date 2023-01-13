@@ -35,6 +35,7 @@ export default {
     },
     /**
      * 获取侧边栏树所在页面的列表数据的相关配置（具体配置见 store.actions.getList）
+     * 非空模式（notNoneMode 为 true）下生效，所以务必配合 notNoneMode 使用。
      *  optionsOfGetList.apiName: API名称
      *  optionsOfGetList.moduleName: 存放树的数据的模块名
      *  optionsOfGetList.stateName: 存放树的数据的字段名
@@ -98,6 +99,7 @@ export default {
   data() {
     return {
       tableRef: undefined,
+      status: false,
       searchValue: '',
       treeDataSource: [],
       manualExpandedKeys: [],
@@ -147,8 +149,8 @@ export default {
         this.tableRef = ref
       },
       /**
-       * 通知下层组件在初始化阶段是否自动请求数据。依赖 this.notNoneMode
-       *  false：本组件不控制下层组件在组件创建阶段（created 生命周期）的数据请求，默认
+       * 通知下层组件在初始化阶段是否自动请求数据。依赖 this.notNoneMode。
+       *  false：本组件不控制下层组件在组件创建阶段（created 生命周期）的数据请求，默认;
        *  true：下层组件在创建阶段不请求数据
        */
       notInitList: this.notNoneMode
@@ -167,35 +169,10 @@ export default {
       this.treeDataSource = this.filter(newTreeDataSource, value)
     }
   },
-  async created() {
-    const status = await this.getTree()
+  async mounted() {
+    this.status = await this.getTree()
 
-    if (status) {
-      const treeIdField = this.getFieldNameForTreeId(1)
-
-      // 更新 store.state 里面用于树ID的键名（主要在每一级树所使用的键名不同时使用）
-      this.$store.commit('setState', {
-        value: treeIdField,
-        moduleName: this.moduleName,
-        stateName: 'treeIdField'
-      })
-
-      this.oldTreeIdField = treeIdField
-
-      if (this.notNoneMode) {
-        await this.$store.dispatch('setSearch', {
-          payload: {
-            ...this.injectSearchParamsOfTable(this.dataSource.list?.[0] ?? {}),
-            [this.treeIdField]: this.dataSource.list?.[0]?.id
-          },
-          moduleName: this.moduleName,
-          isResetSelectedRows: true,
-          ...this.optionsOfGetList
-        })
-      }
-    }
-  },
-  mounted() {
+    // 订阅指定的 actions。当本页面指定的 action 被触发后，更新树。
     if (this.actionsForUpdateTree.length) {
       this.$store.subscribeAction({
         after: async action => {
@@ -204,6 +181,37 @@ export default {
           }
         }
       })
+    }
+
+    if (this.status) {
+      const treeIdField = this.getFieldNameForTreeId(1)
+
+      // 更新 store.state 里面用于树ID的键名（主要适配每一级树所使用的键名不同的情况）
+      this.$store.commit('setState', {
+        value: treeIdField,
+        moduleName: this.moduleName,
+        stateName: 'treeIdField'
+      })
+
+      this.oldTreeIdField = treeIdField
+
+      // 非空模式下执行
+      if (this.notNoneMode) {
+        // 为了保证其他组件完成对 search 参数的注入（如果有，比如 inquiry 组件需要向 store.state.search 注入必传参数时），
+        // 尽量保证本组件触发页面列表数据查询的时间延后。
+        // （注意 VUE 的生命周期顺序：父级组件的 mounted 在所有子级组件 mounted 后才会执行）
+        this.$nextTick(async () => {
+          await this.$store.dispatch('setSearch', {
+            payload: {
+              ...this.injectSearchParamsOfTable(this.dataSource.list?.[0] ?? {}),
+              [this.treeIdField]: this.dataSource.list?.[0]?.id
+            },
+            moduleName: this.moduleName,
+            isResetSelectedRows: true,
+            ...this.optionsOfGetList
+          })
+        })
+      }
     }
   },
   async beforeDestroy() {

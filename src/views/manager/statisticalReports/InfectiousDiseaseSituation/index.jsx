@@ -5,7 +5,7 @@ import TGContainer from '@/layouts/components/TGContainer'
 import Functions from './components/Functions'
 import Inquiry from './components/Inquiry'
 import Chart from './components/Chart'
-import { getFieldNameForSchoolTreeId, getSchoolTreeIcon } from '@/utils/projectHelpers'
+import { getSchoolTreeIcon } from '@/utils/projectHelpers'
 
 export default {
   name: 'InfectiousDiseaseSituation',
@@ -16,7 +16,8 @@ export default {
         notNoneMode
         placeholder={'请输入学校名称'}
         getCustomIcon={getSchoolTreeIcon}
-        getFieldNameForTreeId={getFieldNameForSchoolTreeId}
+        getFieldNameForTreeId={() => 'orgId'}
+        injectSearchParamsOfTable={dataSource => ({ orgType: dataSource.type })}
         apiOptions={{
           apiName: 'getSchoolTree',
           stateName: 'schoolTree',

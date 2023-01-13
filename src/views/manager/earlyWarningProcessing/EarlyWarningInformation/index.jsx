@@ -6,7 +6,7 @@ import Inquiry from './components/Inquiry'
 import Table from './components/Table'
 import ModalOfDetails from './components/ModalOfDetails'
 import TGPagination from '@/components/TGPagination'
-import { getFieldNameForSchoolTreeId, getSchoolTreeIcon } from '@/utils/projectHelpers'
+import { getSchoolTreeIcon } from '@/utils/projectHelpers'
 
 export default {
   name: 'EarlyWarningInformation',
@@ -17,7 +17,8 @@ export default {
         notNoneMode
         placeholder={'请输入学校名称'}
         getCustomIcon={getSchoolTreeIcon}
-        getFieldNameForTreeId={getFieldNameForSchoolTreeId}
+        getFieldNameForTreeId={() => 'orgId'}
+        injectSearchParamsOfTable={dataSource => ({ orgType: dataSource.type })}
         apiOptions={{
           apiName: 'getSchoolTree',
           stateName: 'schoolTree',

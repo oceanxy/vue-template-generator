@@ -1,5 +1,5 @@
 import dynamicState from '@/mixins/dynamicState'
-import { getFileAdminForSchoolTreeId, getSchoolTreeIcon } from '@/utils/projectHelpers'
+import { getSchoolTreeIcon } from '@/utils/projectHelpers'
 import TGContainerWithTreeSider from '@/components/TGContainerWithTreeSider'
 import TGContainer from '@/layouts/components/TGContainer'
 import Functions from './components/Functions'
@@ -18,7 +18,8 @@ export default {
         notNoneMode
         placeholder={'请输入学校名称'}
         getCustomIcon={getSchoolTreeIcon}
-        getFieldNameForTreeId={getFileAdminForSchoolTreeId}
+        getFieldNameForTreeId={() => 'orgId'}
+        injectSearchParamsOfTable={dataSource => ({ orgType: dataSource.type })}
         apiOptions={{
           apiName: 'getSchoolTree',
           stateName: 'schoolTree',

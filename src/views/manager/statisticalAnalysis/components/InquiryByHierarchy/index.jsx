@@ -21,13 +21,15 @@ export default Form.create({})({
     }
   },
   async created() {
+    // 为列表的必传参数赋值，如果这里有多个必传参数，需在所有必传参数都获取成功后才能进行下一步，
+    // 建议使用 Promise.all()
+
     const status = await this.$store.dispatch('getListWithLoadingStatus', {
       moduleName: this.moduleName,
       stateName: 'activities',
       customApiName: 'getActivitiesForSelect'
     })
 
-    // 为列表的必传参数赋值
     if (status) {
       await this.$store.dispatch('setSearch', {
         moduleName: this.moduleName,
