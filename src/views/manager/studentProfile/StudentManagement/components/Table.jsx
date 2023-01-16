@@ -25,7 +25,7 @@ export default {
             title: '性别',
             width: 60,
             align: 'center',
-            dataIndex: 'genderStr'
+            scopedSlots: { customRender: 'gender' }
           },
           {
             title: '身份证号',
@@ -128,13 +128,15 @@ export default {
         {...{
           scopedSlots: {
             // serialNumber: this.getConsecutiveSerialNumber,
+            gender: (text, record) => {
+              return <Tag color={['', '#84adff', '#fea3b4'][+record.gender]}>{record.genderStr}</Tag>
+            },
             isWearGlasses: (text, record) => {
               return record.isWearGlasses === 1 ? <Tag color="green">是</Tag> : <Tag color="red">否</Tag>
             },
             createQr: (text, record) => {
               return (
                 <Space>
-
                   <Button
                     onClick={() => this._setVisibilityOfModal(record, 'visibilityOfCode')}
                     type='link'

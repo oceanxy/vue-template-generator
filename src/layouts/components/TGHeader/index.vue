@@ -14,6 +14,7 @@
           <a-avatar
             shape="circle"
             class="tg-avatar"
+            :class="{ man: userInfo.gender === 1 }"
           />
         </a-badge>
         <span class="tg-user-name">{{ userInfo.nickName || userInfo.fullName }}</span>
@@ -181,6 +182,10 @@ export default {
           //font-size: 14px;
           //background: linear-gradient(to bottom, #007aff, #0066ff);
           background: url('./images/avatar.png') no-repeat;
+
+          &.man {
+            background: url('./images/avatar-man.png') no-repeat;
+          }
         }
       }
 

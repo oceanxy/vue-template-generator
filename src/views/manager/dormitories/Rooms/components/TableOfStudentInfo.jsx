@@ -1,5 +1,5 @@
 import forTable from '@/mixins/forTable'
-import { Button } from 'ant-design-vue'
+import { Button, Tag } from 'ant-design-vue'
 
 export default {
   mixins: [forTable()],
@@ -50,9 +50,7 @@ export default {
       },
       scopedSlots: {
         gender: (text, record) => {
-          return (
-            <div>{['男', '女', '未知'][+record.gender - 1]}</div>
-          )
+          return <Tag color={['', '#84adff', '#fea3b4'][+record.gender]}>{record.genderStr}</Tag>
         },
         operation: (text, record) => (
           <Button

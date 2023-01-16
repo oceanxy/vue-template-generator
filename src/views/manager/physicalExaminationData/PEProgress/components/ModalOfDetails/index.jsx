@@ -7,6 +7,7 @@ import { Alert, Empty, Icon, Tabs } from 'ant-design-vue'
 import TREE_SCHOOL_SVG from '@/components/TGContainerWithTreeSider/assets/images/tree-school.svg'
 import TREE_CLASS_SVG from '@/components/TGContainerWithTreeSider/assets/images/tree-class.svg'
 import AVATAR_SVG from '@/layouts/components/TGHeader/images/avatar.svg'
+import AVATAR_MAN_SVG from '@/layouts/components/TGHeader/images/avatar-man.svg'
 
 export default {
   name: 'CheckedItems',
@@ -55,7 +56,11 @@ export default {
             style={{ '--bg': `url(${this.currentItem.photo})` }}
           >
             {
-              !this.currentItem.photo && <Icon component={AVATAR_SVG} />
+              !this.currentItem.photo && (
+                this.currentItem.gender === 1
+                  ? <Icon component={AVATAR_MAN_SVG} />
+                  : <Icon component={AVATAR_SVG} />
+              )
             }
           </div>
           <div class={'content'}>

@@ -33,7 +33,7 @@ export default {
             title: '性别',
             width: 80,
             align: 'center',
-            dataIndex: 'genderStr'
+            scopedSlots: { customRender: 'gender' }
           },
           {
             title: '登录名',
@@ -85,6 +85,9 @@ export default {
         ]
       },
       scopedSlots: {
+        gender: (text, record) => {
+          return <Tag color={['', '#84adff', '#fea3b4'][+record.gender]}>{record.genderStr}</Tag>
+        },
         status: (text, record) => {
           return record.status === 1 ? <Tag color="green">启用</Tag> : <Tag color="red">停用</Tag>
         },

@@ -1,8 +1,9 @@
 import '../assets/styles/index.scss'
 import forTable from '@/mixins/forTable'
+import { Tag } from 'ant-design-vue'
 
 export default {
-  mixins: [forTable({ isFetchList: false })],
+  mixins: [forTable()],
   data() {
     return {
       tableProps: {
@@ -57,7 +58,7 @@ export default {
             title: '性别',
             width: 70,
             align: 'center',
-            dataIndex: 'genderStr'
+            scopedSlots: { customRender: 'gender' }
           },
           {
             title: '年龄',
@@ -171,6 +172,9 @@ export default {
         rowSelection: null
       },
       scopedSlots: {
+        gender: (text, record) => {
+          return <Tag color={['', '#84adff', '#fea3b4'][+record.gender]}>{record.genderStr}</Tag>
+        },
         leftXy: (text, record) => `${record.leftOffsetX}, ${record.leftOffsetY}`,
         rightXy: (text, record) => `${record.rightOffsetX}, ${record.rightOffsetY}`
       }

@@ -1,5 +1,5 @@
 import '../assets/styles/index.scss'
-import { Form, Table, Spin } from 'ant-design-vue'
+import { Form, Spin, Table } from 'ant-design-vue'
 import forModal from '@/mixins/forModal'
 import DragModal from '@/components/DragModal'
 import { mapGetters } from 'vuex'
@@ -35,17 +35,14 @@ export default Form.create({})({
         {
           title: '参数判断条件',
           align: 'center',
-          scopedSlots: { customRender: 'paramsJudgmentConditions' },
+          scopedSlots: { customRender: 'paramsJudgmentConditions' }
         }
       ],
-      detailsStatus: false,
+      detailsStatus: false
     }
   },
-  computed: {
-    ...mapGetters({ getState: 'getState' }),
-  },
-  methods: {
-  },
+  computed: { ...mapGetters({ getState: 'getState' }) },
+  methods: {},
   watch: {
     visible: {
       async handler(value) {
@@ -114,7 +111,7 @@ export default Form.create({})({
             />
           </Spin>
         </Form>
-      </DragModal >
+      </DragModal>
     )
   }
 })
