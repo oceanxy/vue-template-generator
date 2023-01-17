@@ -112,7 +112,8 @@ export default Form.create({})({
 
     // 选择学校
     onChangeSelect(value, label) {
-      this.organNames = label.join()
+      // this.organNames = label.join()
+      console.log(value, label)
     },
     async selectSchool() {
       await this.$store.dispatch('setModalVisible', {
@@ -279,7 +280,7 @@ export default Form.create({})({
               this.form.getFieldDecorator(
                 'activityYear',
                 {
-                  initialValue: this.details?.activityYear ?? this.yearList?.[0]?.activityYear,
+                  initialValue: this.details?.activityYear || new Date().getFullYear(),
                   rules: [
                     {
                       required: true,
