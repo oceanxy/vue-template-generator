@@ -58,11 +58,7 @@ export default Form.create({})({
     customDataHandler(values) {
       const data = { ...values }
 
-      console.log(data.schoolBadge)
-      console.log(data)
       data.schoolBadge = data.schoolBadge?.[0]?.key ?? data.schoolBadge?.[0]?.response.data[0]?.key ?? this.currentItem?.schoolBadge ?? ''
-
-
       data.status = Number(data.status) ?? Number(this.currentItem?.isContainKindergarten) ?? ''
 
       return data

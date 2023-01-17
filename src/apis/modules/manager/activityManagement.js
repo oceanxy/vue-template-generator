@@ -112,13 +112,13 @@ export default {
   },
 
   /**
-   * 获取全量组织机构树
+   * 获取组织机构树
    * @param [request]
    * @returns {*}
    */
-  getGetAllOrgans(request, data) {
+  getOrganOnlyTree(request, data) {
     return request({
-      url: '/system/organ/getAllOrgans',
+      url: '/system/organ/getOrganOnlyTree',
       method: 'post',
       data
     })

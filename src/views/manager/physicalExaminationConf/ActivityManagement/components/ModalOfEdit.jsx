@@ -92,7 +92,6 @@ export default Form.create({})({
       }
     },
   },
-
   methods: {
     async getActivityYearList() {
       await this.$store.dispatch('getListWithLoadingStatus', {
@@ -106,13 +105,16 @@ export default Form.create({})({
       await this.$store.dispatch('getListWithLoadingStatus', {
         moduleName: this.moduleName,
         stateName: 'organsTree',
-        customApiName: 'getGetAllOrgans'
+        customApiName: 'getOrganOnlyTree',
+        payload: {
+          parentId: 0
+        }
       })
     },
 
     // 选择学校
     onChangeSelect(value, label) {
-      // this.organNames = label.join()
+      this.organNames = label.join()
       console.log(value, label)
     },
     async selectSchool() {
@@ -165,6 +167,9 @@ export default Form.create({})({
         if (value) {
           this.getActivityYearList()
           this.getGetOrgansTree()
+        } else {
+          this.checkSchool = []
+          this.rightSchool = []
         }
 
         if (value && this.currentItem.id) {
@@ -403,6 +408,7 @@ export default Form.create({})({
                   treeData={this.organsTree}
                   multiple
                   treeCheckable
+                  placeholder="请选择组织"
                   suffixIcon={<Icon type="caret-down" />}
                   treeNodeFilterProp={'title'}
                   dropdownStyle={{ maxHeight: '400px', overflow: 'auto' }}
