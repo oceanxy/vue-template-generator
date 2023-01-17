@@ -31,8 +31,9 @@ export default () => ({
 
     if (status) {
       await Promise.all([
-        this.setSearch(this.activities.list[0].id, !this.notInitList),
-        this.getOrganizations(this.activities.list[0].id)
+        // 检测是否从其他页面跳转过来并携带了 activityId，存在则把该 ID 设置为默认值，否则设置接口返回数据的第一项为默认值
+        this.setSearch(this.$route.query.activityId || this.activities.list[0].id, !this.notInitList),
+        this.getOrganizations(this.$route.query.activityId || this.activities.list[0].id)
       ])
     }
   },

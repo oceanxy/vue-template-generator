@@ -17,13 +17,6 @@ export default Form.create({})({
       dateRange: []
     }
   }),
-  async created() {
-    this.activityId = this.$route.query.activityId
-
-    if (this.activityId) {
-      setTimeout(this.onActivityChange(this.activityId), 600)
-    }
-  },
   render() {
     return (
       <Form
