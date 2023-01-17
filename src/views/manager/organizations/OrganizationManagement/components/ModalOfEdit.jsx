@@ -2,8 +2,8 @@ import { Cascader, Form, Input, InputNumber, Select, Switch, TreeSelect } from '
 import forFormModal from '@/mixins/forModal/forFormModal'
 import DragModal from '@/components/DragModal'
 import { dispatch } from '@/utils/store'
-import { cloneDeep } from 'lodash'
 import { getStreetValueFromEvent, getStreetValueProps } from '@/utils/projectHelpers'
+import { cloneDeep } from 'lodash'
 
 export default Form.create({})({
   mixins: [forFormModal()],
@@ -43,10 +43,10 @@ export default Form.create({})({
         on: {
           cancel: () => this.onCancel(),
           ok: () => this.onSubmit({
-            customDataHandler(value) {
+            customDataHandler: value => {
               const data = cloneDeep(value)
 
-              data.schoolIds = data.schoolIds.join()
+              data.type = this.search.type
 
               return data
             }
@@ -68,7 +68,8 @@ export default Form.create({})({
             // }),
             dispatch('common', 'getAdministrativeDivision'),
             // this.getSchoolsByOrganizationId(),
-            this.getStreets()
+            this.getStreets(),
+            this.getStreetsByDistrictId(this.currentItem.countyId || '500180')
           ])
         }
       }
@@ -213,7 +214,11 @@ export default Form.create({})({
                     { id: this.currentItem.cityId, name: this.currentItem.cityName },
                     { id: this.currentItem.countyId, name: this.currentItem.countyName }
                   ]
-                  : [],
+                  : [
+                    { id: '500000', name: '重庆' },
+                    { id: '500001', name: '重庆市' },
+                    { id: '500180', name: '北碚区' }
+                  ],
                 getValueFromEvent: (value, selectedOptions) => (selectedOptions || []).map(item => ({
                   id: item.id,
                   name: item.name
@@ -241,6 +246,7 @@ export default Form.create({})({
                 rules: [
                   {
                     required: true,
+                    type: 'object',
                     message: '请选择街道！',
                     trigger: 'change'
                   }
