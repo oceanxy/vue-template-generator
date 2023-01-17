@@ -52,7 +52,6 @@ export default commitRootInModule =>
           }
         },
         delSchoolItem({ commit }, id) {
-          console.log(id)
           commit('setDelSchoolList', id)
         }
       }

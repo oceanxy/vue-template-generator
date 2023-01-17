@@ -77,7 +77,7 @@ export default {
           return status
         },
         (
-          <div>你确定把<span style={{ color: 'blue' }}>{record.schoolName}</span>设置毕业</div>
+          <div>你确定把<span style={{ color: 'blue' }}>{record.schoolName}</span>设置毕业?</div>
         )
       )
 

@@ -12,7 +12,7 @@ export default Form.create({})({
   data() {
     return {
       modalProps: {
-        width: 1200,
+        width: 1000,
         wrapClassName: 'bnm-modal-edit-user-form'
       },
       city: [],
@@ -208,7 +208,7 @@ export default Form.create({})({
                 }
               </Form.Item>
             </Col>
-            <Col span={6}>
+            <Col span={8}>
               <Form.Item label="学籍号">
                 {
                   this.form.getFieldDecorator('studentNumber', {
@@ -229,7 +229,7 @@ export default Form.create({})({
                 }
               </Form.Item>
             </Col>
-            <Col span={6}>
+            <Col span={8}>
               <Form.Item label="学生姓名">
                 {
                   this.form.getFieldDecorator('fullName', {
@@ -250,7 +250,7 @@ export default Form.create({})({
                 }
               </Form.Item>
             </Col>
-            <Col span={6}>
+            <Col span={8}>
               <Form.Item label="性别">
                 {
                   this.form.getFieldDecorator(
@@ -276,7 +276,7 @@ export default Form.create({})({
                 }
               </Form.Item>
             </Col>
-            <Col span={6}>
+            <Col span={8}>
               <Form.Item label="身份证号">
                 {
                   this.form.getFieldDecorator('idNumber', {
@@ -297,7 +297,7 @@ export default Form.create({})({
                 }
               </Form.Item>
             </Col>
-            <Col span={6}>
+            <Col span={8}>
               <Form.Item label="出生日期">
                 {
                   this.form.getFieldDecorator('birthDate', {
@@ -320,7 +320,7 @@ export default Form.create({})({
                 }
               </Form.Item>
             </Col>
-            <Col span={6}>
+            <Col span={8}>
               <Form.Item label="民族">
                 {
                   this.form.getFieldDecorator('nation', {
@@ -334,7 +334,7 @@ export default Form.create({})({
                 }
               </Form.Item>
             </Col>
-            <Col span={6}>
+            <Col span={8}>
               <Form.Item label="学籍所属学校">
                 {
                   this.form.getFieldDecorator('originalSchoolId', {
@@ -368,7 +368,7 @@ export default Form.create({})({
                 }
               </Form.Item>
             </Col>
-            <Col span={6}>
+            <Col span={8}>
               <Form.Item label="就读学校名称">
                 {
                   this.form.getFieldDecorator('schoolId', {
@@ -403,7 +403,7 @@ export default Form.create({})({
                 }
               </Form.Item>
             </Col>
-            <Col span={6}>
+            <Col span={8}>
               <Form.Item label="年级">
                 {
                   this.form.getFieldDecorator(
@@ -435,7 +435,7 @@ export default Form.create({})({
                 }
               </Form.Item>
             </Col>
-            <Col span={6}>
+            <Col span={8}>
               <Form.Item label="班级">
                 {
                   this.form.getFieldDecorator(
@@ -465,7 +465,7 @@ export default Form.create({})({
                 }
               </Form.Item>
             </Col>
-            <Col span={6}>
+            <Col span={8}>
               <Form.Item label="是否戴镜">
                 {
                   this.form.getFieldDecorator(
@@ -493,7 +493,7 @@ export default Form.create({})({
                 }
               </Form.Item>
             </Col>
-            <Col span={6}>
+            <Col span={8}>
               <Form.Item label="眼镜类型">
                 {
                   this.form.getFieldDecorator(
@@ -516,7 +516,7 @@ export default Form.create({})({
               </Form.Item>
             </Col>
 
-            <Col span={6}>
+            <Col span={8}>
               <Form.Item label="左眼度数">
                 {
                   this.form.getFieldDecorator('leftGlassesValue', {
@@ -533,7 +533,7 @@ export default Form.create({})({
               </Form.Item>
             </Col>
 
-            <Col span={6}>
+            <Col span={8}>
               <Form.Item label="右眼度数">
                 {
                   this.form.getFieldDecorator('rightGlassesValue', {
@@ -550,7 +550,7 @@ export default Form.create({})({
               </Form.Item>
             </Col>
 
-            <Col span={6}>
+            <Col span={8}>
               <Form.Item label="籍贯">
                 {
                   this.form.getFieldDecorator('nativePlace', {
@@ -565,7 +565,7 @@ export default Form.create({})({
               </Form.Item>
             </Col>
 
-            <Col span={6}>
+            <Col span={8}>
               <Form.Item label="家长姓名">
                 {
                   this.form.getFieldDecorator('parentName', {
@@ -580,7 +580,7 @@ export default Form.create({})({
               </Form.Item>
             </Col>
 
-            <Col span={6}>
+            <Col span={8}>
               <Form.Item label="家长联系电话">
                 {
                   this.form.getFieldDecorator('parentPhone', {
@@ -595,7 +595,7 @@ export default Form.create({})({
               </Form.Item>
             </Col>
 
-            <Col span={6}>
+            <Col span={8}>
               <Form.Item label="选择地址">
                 {
                   this.form.getFieldDecorator('districtList', {
@@ -632,7 +632,7 @@ export default Form.create({})({
               </Form.Item>
             </Col>
 
-            <Col span={6}>
+            <Col span={8}>
               <Form.Item label="选择街道">
                 {
                   this.form.getFieldDecorator('street', {
@@ -663,7 +663,7 @@ export default Form.create({})({
 
               </Form.Item>
             </Col>
-            <Col span={6}>
+            <Col span={8}>
               <Form.Item label="详细地址">
                 {
                   this.form.getFieldDecorator('address', {
@@ -677,11 +677,11 @@ export default Form.create({})({
                 }
               </Form.Item>
             </Col>
-            <Col span={6}>
+            <Col span={8}>
               <Form.Item label="选择宿舍">
                 {
                   this.form.getFieldDecorator('roomsData', {
-                    initialValue: [this.currentItem.buildId, this.currentItem.floorId, this.currentItem.roomId] || []
+                    initialValue: this.currentItem.buildId && this.currentItem.floorId && this.currentItem.roomId
                   })(
                     <Cascader
                       placeholder="请选择宿舍"
@@ -696,7 +696,7 @@ export default Form.create({})({
                 }
               </Form.Item>
             </Col>
-            <Col span={6}>
+            <Col span={8}>
               <Form.Item label="状态">
                 {
                   this.form.getFieldDecorator('status', {

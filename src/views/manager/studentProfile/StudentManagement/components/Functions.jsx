@@ -3,6 +3,7 @@ import { Button, Modal, Space, Icon, message } from 'ant-design-vue'
 import forFunction from '@/mixins/forFunction'
 import { mapGetters } from 'vuex'
 import apis from '@/apis'
+import { verificationDialog } from '@/utils/message'
 
 export default {
   mixins: [forFunction()],
@@ -31,6 +32,18 @@ export default {
     codeBatchUrl() {
       return this.getState('codeBatchUrl', this.moduleName)?.list ?? null
     },
+    // selectedRows: {
+    //   get() {
+    //     return this.getState('selectedRows', this.moduleName)
+    //   },
+    //   Set(value) {
+    //     this.$store.commit('setState', {
+    //       value: value,
+    //       moduleName: this.moduleName,
+    //       stateName: 'selectedRows'
+    //     })
+    //   }
+    // },
     curSchool() {
       return this.schoolAllList.filter(item => {
         if (item.id === this.search[this.treeIdField]) {
@@ -49,20 +62,30 @@ export default {
       }
     },
     async transferOut() {
-      const ids = this.selectedRowKeys.join()
-      const { status } = await apis.studentRollOut({ ids })
+      const ids = this.selectedRows.map(item => item.id).join()
+      const names = this.selectedRows.map(item => item.fullName).join()
 
-      if (status) {
-        message.success('学生已转出')
-        await this.$store.dispatch('getList', {
-          moduleName: this.moduleName,
-          submoduleName: this.submoduleName,
-          customApiName: this.customApiName
-        })
-      } else {
-        message.error('转出失败！请重试')
-      }
+      verificationDialog(
+        async () => {
+          const { status } = await apis.studentRollOut({ ids })
 
+          if (status) {
+            message.success('学生转出成功')
+            await this.$store.dispatch('getList', {
+              moduleName: this.moduleName,
+              submoduleName: this.submoduleName,
+              customApiName: this.customApiName
+            })
+          } else {
+            message.error('转出失败！请重试')
+          }
+
+          return status
+        },
+        (
+          <div>你确定把<span style={{ color: 'blue' }}>{names}</span>转出？</div>
+        )
+      )
 
     },
     async onCancel() {

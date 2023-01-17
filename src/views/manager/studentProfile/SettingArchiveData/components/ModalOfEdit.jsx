@@ -2,6 +2,7 @@ import '../assets/styles/index.scss'
 import { Form, Input, Select, TreeSelect, message } from 'ant-design-vue'
 import forFormModal from '@/mixins/forModal/forFormModal'
 import DragModal from '@/components/DragModal'
+import apis from '@/apis'
 import { mapGetters } from 'vuex'
 
 export default Form.create({})({
@@ -12,7 +13,8 @@ export default Form.create({})({
         width: 600,
         wrapClassName: 'bnm-modal-edit-user-form'
       },
-      schoolLists: []
+      schoolLists: [],
+      fileDetailsSchoolList: []
     }
   },
   computed: {
@@ -61,6 +63,14 @@ export default Form.create({})({
         }
       })
     },
+    // 获取存档详情
+    async getExamineSaveLogDetails(id) {
+      const res = await apis.getExamineSaveLogDetails({ id })
+
+      if (res.status) {
+        this.fileDetailsSchoolList = res.data.schoolList
+      }
+    },
     // 选择学校
     onChangeSelect(value, label) {
       this.schoolNames = label.join()
@@ -83,7 +93,6 @@ export default Form.create({})({
 
       data.schoolIds = data.schoolIds?.join() ?? ''
       data.schoolNames = this.schoolNames ?? editSchoolName.join() ?? ''
-      console.log('data', data)
 
       return data
     }
@@ -96,7 +105,10 @@ export default Form.create({})({
 
         if (this.currentItem.objFromId) {
           this.getSchoolTreeByActivityId(this.currentItem.objFromId)
+          this.getExamineSaveLogDetails(this.currentItem.id)
         }
+      } else {
+        this.fileDetailsSchoolList = []
       }
     }
   },
@@ -113,7 +125,7 @@ export default Form.create({})({
               this.form.getFieldDecorator(
                 'saveTime',
                 {
-                  initialValue: this.currentItem.saveTime,
+                  initialValue: this.currentItem.saveTime || new Date().getFullYear(),
                   rules: [
                     {
                       required: true,
@@ -129,8 +141,8 @@ export default Form.create({})({
                     this.yearList?.map(item => (
                       <Select.Option value={item.activityYear}>{item.activityYearStr}</Select.Option>
                     ))
-                  }
 
+                  }
                 </Select>
               )
             }
@@ -169,7 +181,7 @@ export default Form.create({})({
               this.form.getFieldDecorator(
                 'schoolIds',
                 {
-                  initialValue: this.currentItem.schoolList?.map(item => item.schoolId)
+                  initialValue: this.fileDetailsSchoolList?.map(item => item.schoolId)
                 }
               )(
                 <TreeSelect
@@ -177,6 +189,7 @@ export default Form.create({})({
                   treeData={this.schoolList.list}
                   multiple
                   treeCheckable
+                  placeholder="请选择学校"
                   suffixIcon={<Icon type="caret-down" />}
                   treeNodeFilterProp={'title'}
                   dropdownStyle={{ maxHeight: '400px', overflow: 'auto' }}

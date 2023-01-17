@@ -109,5 +109,18 @@ export default {
       method: 'post',
       data: qs.stringify(data)
     })
+  },
+
+  /**
+   * 获取存档数据详情
+   * @param request
+   * @returns {*}
+   */
+  getExamineSaveLogDetails(request, data) {
+    return request({
+      url: '/examine/examineSaveLog/getExamineSaveLog',
+      method: 'post',
+      data: qs.stringify(data)
+    })
   }
 }

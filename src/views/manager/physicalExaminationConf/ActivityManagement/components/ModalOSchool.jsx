@@ -199,7 +199,6 @@ export default ({
 
           if (status) {
             this.initSchoolNumber = this.activeSchoolList.list.length
-            console.log(this.initSchoolNumber)
           }
         }
       }
