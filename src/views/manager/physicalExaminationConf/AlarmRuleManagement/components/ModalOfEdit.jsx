@@ -60,7 +60,7 @@ export default Form.create({})({
     differenceValue(e) {
       this.formItem = e.target.checked
 
-      if (!this.formItem) {
+      if (this.formItem === false) {
         this.form.setFieldsValue({ historyDifferenceType: 1 })
         this.form.setFieldsValue({ historyDifferenceValue: '' })
       }
@@ -69,7 +69,7 @@ export default Form.create({})({
     absoluteValue(e) {
       this.formItemTow = e.target.checked
 
-      if (!this.formItemTow) {
+      if (this.formItemTow === false) {
         this.form.setFieldsValue({ absoluteDifferenceType: 1 })
         this.form.setFieldsValue({ absoluteDifferenceValue: '' })
       }
@@ -91,8 +91,6 @@ export default Form.create({})({
       data.monitorParamId = this.currentItem?.monitorParamId ?? this.paramItem?.key ?? ''
       data.monitorItemKpiName = this.currentItem?.monitorItemKpiName ?? this.kpiItem?.[0]?.kpiName ?? ''
       data.monitorItemId = this.currentItem?.monitorItemId ?? this.kpiItem?.[0]?.itemId ?? ''
-      data.isHistoryDifference = this.currentItem?.isHistoryDifference ?? this.formItem ? 1 : 0
-      data.isAbsoluteDifference = this.currentItem?.isAbsoluteDifference ?? this.formItemTow ? 1 : 0
 
       return data
     }
@@ -132,7 +130,19 @@ export default Form.create({})({
           }
         )
       }
-    }
+    },
+    // visible: {
+    //   async handler(value) {
+    //     if (value) {
+
+    //       this.form.setFieldsValue({ historyDifferenceValue: '1' })
+    //       this.form.setFieldsValue({ absoluteDifferenceValue: '2' })
+    //     } else {
+    //       this.form.setFieldsValue({ historyDifferenceValue: '' })
+    //       this.form.setFieldsValue({ absoluteDifferenceValue: '' })
+    //     }
+    //   }
+    // }
 
   },
   render() {
@@ -192,8 +202,17 @@ export default Form.create({})({
           </Form.Item>
 
           <Form.Item label="条件与阈值" style="margin-bottom:0;">
-            <div class='level-display'>
-              <Checkbox checked={this.formItem} onchange={this.differenceValue}>历史数据差异</Checkbox>
+            <Form.Item class='level-display'>
+              {
+                this.form.getFieldDecorator('isHistoryDifference', {
+                  initialValue: this.currentItem.isHistoryDifference || 0,
+                  getValueFromEvent: e => +e.target.checked,
+                  getValueProps: val => ({ checked: !!val })
+                })(
+                  <Checkbox onchange={this.differenceValue}>历史数据差异</Checkbox>
+                )
+              }
+
               <div style={{ display: this.formItem ? 'block' : 'none' }}>
                 <Form.Item
                   style={{ display: 'inline-block', width: 'calc(50% - 6px)', marginRight: '12px' }}>
@@ -233,9 +252,19 @@ export default Form.create({})({
                   }
                 </Form.Item>
               </div>
-            </div>
-            <div class='level-display'>
-              <Checkbox checked={this.formItemTow} onchange={this.absoluteValue}>绝对值比较</Checkbox>
+            </Form.Item>
+            <Form.Item class='level-display'>
+              {
+                this.form.getFieldDecorator('isAbsoluteDifference', {
+                  initialValue: this.currentItem.isAbsoluteDifference || 0,
+                  getValueFromEvent: e => +e.target.checked,
+                  getValueProps: val => ({ checked: !!val })
+                })(
+                  <Checkbox onchange={this.absoluteValue}>绝对值比较</Checkbox>
+                )
+              }
+
+
               <div style={{ display: this.formItemTow ? 'block' : 'none' }}>
                 <Form.Item
                   style={{ display: 'inline-block', width: 'calc(50% - 6px)', marginRight: '12px' }}>
@@ -273,7 +302,7 @@ export default Form.create({})({
                   }
                 </Form.Item>
               </div>
-            </div>
+            </Form.Item>
             <p class='tips'>* 体检结果同时满足已勾选条件时，系统将提示数据异常！</p>
           </Form.Item>
           <Form.Item label="备注">
