@@ -1,6 +1,7 @@
 import '../assets/styles/index.scss'
 import { Button, Form, Input, Select, Space } from 'ant-design-vue'
 import { mapGetters } from 'vuex'
+import apis from '@/apis'
 import forInquiry from '@/mixins/forInquiry'
 
 export default Form.create({})({
@@ -15,18 +16,16 @@ export default Form.create({})({
       isWearGlasses: '',
       originalSchoolName: '选择学校',
       classNumber: ''
-    }
+    },
+    gradeList: []
   }),
   computed: {
     ...mapGetters({ getState: 'getState' }),
-    gradeList() {
-      return this.getState('gradeList', this.moduleName)
-    },
     treeIdField() {
       return this.getState('treeIdField', this.moduleName)
     },
-    schoolAllList() {
-      return this.getState('schoolAllList', this.moduleName)?.list ?? []
+    schoolListByThisUser() {
+      return this.getState('schoolListByThisUser', this.moduleName)?.list ?? []
     },
     curGrade: {
       get() {
@@ -55,25 +54,22 @@ export default Form.create({})({
   },
 
   created() {
-    this.getSchoolAllList()
+    this.getSchoolListByThisUser()
   },
   methods: {
-    async getSchoolAllList() {
+    async getSchoolListByThisUser() {
       await this.$store.dispatch('getListWithLoadingStatus', {
         moduleName: this.moduleName,
-        stateName: 'schoolAllList',
-        customApiName: 'getAllSchoolList'
+        stateName: 'schoolListByThisUser',
+        customApiName: 'getSchoolListByThisUser'
       })
     },
     async getGradeList() {
-      await this.$store.dispatch('getListWithLoadingStatus', {
-        moduleName: this.moduleName,
-        stateName: 'gradeList',
-        customApiName: 'getGradeListBySchoolId',
-        payload: {
-          schoolId: this.search[this.treeIdField]
-        }
-      })
+      const res = await apis.getGradeListBySchoolId({ schoolId: this.search[this.treeIdField] })
+
+      if (res.status) {
+        this.gradeList = res.data
+      }
     },
     filterOption(input, option) {
       return (
@@ -84,7 +80,7 @@ export default Form.create({})({
       if (value) {
         this.classList = []
         this.form.setFieldsValue({ classNumber: '' })
-        this.curGrade = this.gradeList.list.filter(item => {
+        this.curGrade = this.gradeList.filter(item => {
           if (item.id === value) {
             return item
           }
@@ -147,7 +143,7 @@ export default Form.create({})({
                 <Select onChange={this.onChange}>
                   <Select.Option value={''}>全部</Select.Option>
                   {
-                    this.gradeList.list?.map(item => (
+                    this.gradeList?.map(item => (
                       <Select.Option
                         value={item.id}
                       >{item.gradeName}</Select.Option>
@@ -207,7 +203,7 @@ export default Form.create({})({
                   allowClear
                 >
                   {
-                    this.schoolAllList?.map(item => (
+                    this.schoolListByThisUser?.map(item => (
                       <Select.Option
                         value={item.id}
                         title={item.fullName}

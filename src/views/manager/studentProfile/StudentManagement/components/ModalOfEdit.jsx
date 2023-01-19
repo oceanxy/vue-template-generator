@@ -5,6 +5,7 @@ import DragModal from '@/components/DragModal'
 import BNUploadPictures from '@/components/BNUploadPictures'
 import { dispatch } from '@/utils/store'
 import { mapGetters } from 'vuex'
+import apis from '@/apis'
 import { getStreetValueFromEvent, getStreetValueProps } from '@/utils/projectHelpers'
 
 export default Form.create({})({
@@ -20,16 +21,14 @@ export default Form.create({})({
       classList: [],
       isStreet: '',
       glassesTypeSelect: true,
-      isSchool: []
+      isSchool: [],
+      gradeList: []
     }
   },
   computed: {
     ...mapGetters({ getState: 'getState' }),
-    gradeList() {
-      return this.getState('gradeList', this.moduleName)
-    },
-    schoolAllList() {
-      return this.getState('schoolAllList', this.moduleName)?.list ?? []
+    schoolListByThisUser() {
+      return this.getState('schoolListByThisUser', this.moduleName)?.list ?? []
     },
     streetList() {
       return this.getState('streetList', this.moduleName)?.list ?? []
@@ -73,28 +72,39 @@ export default Form.create({})({
     await dispatch('common', 'getAdministrativeDivision')
   },
   methods: {
-    onChangeSchoolId(value) {
-      this.form.setFieldsValue({ gradeId: '' })
-      this.form.setFieldsValue({ classNumber: '' })
-      this.getGradeList(value)
+    async onChangeSchoolId(value) {
+      this.gradeList = []
+      this.classList = []
+      this.currentItem.gradeId = undefined
+      this.currentItem.classNumber = undefined
+      await this.getGradeList(value)
+
+      if (this.gradeList && this.gradeList.length > 0) {
+        this.onChangeClassNumber(this.gradeList[0].id)
+      }
+
       this.curSchool(value)
     },
     curSchool(value) {
-      this.isSchool = this.schoolAllList?.filter(item => {
+      this.isSchool = this.schoolListByThisUser?.filter(item => {
         if (item.id === value) {
           return item
         }
       })
     },
     async getGradeList(schoolId) {
-      await this.$store.dispatch('getListWithLoadingStatus', {
-        moduleName: this.moduleName,
-        stateName: 'gradeList',
-        customApiName: 'getGradeListBySchoolId',
-        payload: {
-          schoolId
-        }
-      })
+      const res = await apis.getGradeListBySchoolId({ schoolId })
+
+      if (res.status) {
+        this.gradeList = res.data
+      }
+    },
+    async getAllSchoolList() {
+      const res = await apis.getAllSchoolList()
+
+      if (res.status) {
+        this.allSchoolList = res.data
+      }
     },
     async getStreetList(value) {
       await this.$store.dispatch('getListWithLoadingStatus', {
@@ -108,15 +118,15 @@ export default Form.create({})({
     },
     onChangeClassNumber(value) {
       this.classList = []
-      this.form.setFieldsValue({ classNumber: '' })
-      const data = this.gradeList.list.filter(item => {
+      const data = this.gradeList?.find(item => {
         if (item.id === value) {
-          return item
+          return item.classNum
         }
       })
+      const classNumber = data?.classNum
 
-      this.classNumber = data[0].classNum
-      for (let i = 0; i < this.classNumber; i++) {
+      this.classNumber = classNumber
+      for (let i = 1; i < this.classNumber + 1; i++) {
         this.classList.push(i)
       }
     },
@@ -165,18 +175,16 @@ export default Form.create({})({
     }
   },
   watch: {
-    schoolId(value) {
-      if (value) {
-        this.getGradeList()
-      }
-    },
     currentItem: {
       deep: true,
-      handler(value) {
-        if (value && value.countyId && value.schoolId) {
-          this.getStreetList([null, null, this.currentItem.countyId])
+      async handler(value) {
+        if (value && value.schoolId) {
+          if (value.countyId) {
+            this.getStreetList([null, null, value.countyId])
+          }
+
           this.curSchool(value.schoolId)
-          this.getGradeList(value.schoolId)
+          await this.onChangeSchoolId(value.schoolId)
 
           if (value.isWearGlasses === 1) {
             this.glassesTypeSelect = false
@@ -187,7 +195,11 @@ export default Form.create({})({
     visible: {
       async handler(value) {
         if (value) {
+          await this.getAllSchoolList()
           await dispatch('common', 'getAllBuildList')
+        } else {
+          this.gradeList = []
+          this.classList = []
         }
       }
     }
@@ -354,7 +366,7 @@ export default Form.create({})({
                       mode={'default'}
                     >
                       {
-                        this.schoolAllList?.map(item => (
+                        this.allSchoolList?.map(item => (
                           <Select.Option
                             value={item.id}
                             title={item.fullName}
@@ -389,7 +401,7 @@ export default Form.create({})({
                       onChange={this.onChangeSchoolId}
                     >
                       {
-                        this.schoolAllList?.map(item => (
+                        this.schoolListByThisUser?.map(item => (
                           <Select.Option
                             value={item.id}
                             title={item.fullName}
@@ -409,7 +421,7 @@ export default Form.create({})({
                   this.form.getFieldDecorator(
                     'gradeId',
                     {
-                      initialValue: this.currentItem.gradeId,
+                      initialValue: this.currentItem.gradeId || this.gradeList?.[0]?.id,
                       rules: [
                         {
                           required: true,
@@ -422,9 +434,8 @@ export default Form.create({})({
                     <Select
                       placeholder="请选择年级"
                       onChange={this.onChangeClassNumber}>
-                      <Select.Option value={''}>全部</Select.Option>
                       {
-                        this.gradeList.list?.map(item => (
+                        this.gradeList?.map(item => (
                           <Select.Option
                             value={item.id}
                           >{item.gradeName}</Select.Option>
@@ -441,7 +452,7 @@ export default Form.create({})({
                   this.form.getFieldDecorator(
                     'classNumber',
                     {
-                      initialValue: this.currentItem.classNumber,
+                      initialValue: this.currentItem.classNumber || this.classList?.[0],
                       rules: [
                         {
                           required: true,
@@ -454,10 +465,9 @@ export default Form.create({})({
                   )(
                     <Select
                       placeholder="请选择班级">
-                      <Select.Option value={''}>全部</Select.Option>
                       {
                         this.classList?.map(item => (
-                          <Select.Option value={(item + 1)} >{(item + 1)}</Select.Option>
+                          <Select.Option value={(item)} >{(item)}</Select.Option>
                         ))
                       }
                     </Select>
@@ -596,6 +606,30 @@ export default Form.create({})({
             </Col>
 
             <Col span={8}>
+              <Form.Item label="选择宿舍">
+                {
+                  this.form.getFieldDecorator('roomsData', {
+                    initialValue: this.currentItem.buildId && this.currentItem.floorId && this.currentItem.roomId
+                      ? [
+                        this.currentItem.buildId,
+                        this.currentItem.floorId,
+                        this.currentItem.roomId
+                      ] : undefined
+                  })(
+                    <Cascader
+                      placeholder="请选择宿舍"
+                      expandTrigger={'hover'}
+                      allowClear
+                      options={this.allBuildList}
+                      fieldNames={{
+                        label: 'name', value: 'id', children: 'children'
+                      }}
+                    />
+                  )
+                }
+              </Form.Item>
+            </Col>
+            <Col span={8}>
               <Form.Item label="选择地址">
                 {
                   this.form.getFieldDecorator('districtList', {
@@ -672,25 +706,6 @@ export default Form.create({})({
                     <Input
                       placeholder="请输入详细地址"
                       allowClear
-                    />
-                  )
-                }
-              </Form.Item>
-            </Col>
-            <Col span={8}>
-              <Form.Item label="选择宿舍">
-                {
-                  this.form.getFieldDecorator('roomsData', {
-                    initialValue: this.currentItem.buildId && this.currentItem.floorId && this.currentItem.roomId
-                  })(
-                    <Cascader
-                      placeholder="请选择宿舍"
-                      expandTrigger={'hover'}
-                      allowClear
-                      options={this.allBuildList}
-                      fieldNames={{
-                        label: 'name', value: 'id', children: 'children'
-                      }}
                     />
                   )
                 }

@@ -9,7 +9,7 @@ export default commitRootInModule =>
           loading: false,
           list: []
         },
-        streetList: {
+        schoolListByThisUser: {
           loading: false,
           list: []
         }

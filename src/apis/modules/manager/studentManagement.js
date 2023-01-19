@@ -203,5 +203,18 @@ export default {
       params,
       responseType: 'blob'
     })
+  },
+  /**
+   * 根据当前用户获取所有学校集合
+   * @param [request]
+   * @param data
+   * @returns {*}
+   */
+  getSchoolListByThisUser(request, data) {
+    return request({
+      url: '/personnel/school/getSchoolListByThisUser',
+      method: 'post',
+      data: qs.stringify(data)
+    })
   }
 }

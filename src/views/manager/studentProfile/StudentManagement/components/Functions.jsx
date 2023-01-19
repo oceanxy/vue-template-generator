@@ -26,26 +26,14 @@ export default {
     curClassNumber() {
       return this.getState('classNumber', this.moduleName) ?? null
     },
-    schoolAllList() {
-      return this.getState('schoolAllList', this.moduleName)?.list ?? []
+    schoolListByThisUser() {
+      return this.getState('schoolListByThisUser', this.moduleName)?.list ?? []
     },
     codeBatchUrl() {
       return this.getState('codeBatchUrl', this.moduleName)?.list ?? null
     },
-    // selectedRows: {
-    //   get() {
-    //     return this.getState('selectedRows', this.moduleName)
-    //   },
-    //   Set(value) {
-    //     this.$store.commit('setState', {
-    //       value: value,
-    //       moduleName: this.moduleName,
-    //       stateName: 'selectedRows'
-    //     })
-    //   }
-    // },
     curSchool() {
-      return this.schoolAllList.filter(item => {
+      return this.schoolListByThisUser.filter(item => {
         if (item.id === this.search[this.treeIdField]) {
           return item
         }

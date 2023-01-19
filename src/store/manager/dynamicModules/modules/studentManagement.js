@@ -10,11 +10,7 @@ export default commitRootInModule =>
         visibilityOfImport: false,
         // 设置学生宿舍
         visibilityOfSetRooms: false,
-        gradeList: {
-          loading: false,
-          list: []
-        },
-        schoolAllList: {
+        schoolListByThisUser: {
           loading: false,
           list: []
         },

@@ -20,11 +20,8 @@ export default Form.create({})({
     yearList() {
       return this.getState('yearList', this.moduleName)
     },
-    streetList() {
-      return this.getState('streetList', this.moduleName)
-    },
-    search() {
-      return this.getState('search', this.moduleName)
+    schoolListByThisUser() {
+      return this.getState('schoolListByThisUser', this.moduleName)
     },
     schoolName() {
       if (this.currentItem.schoolName) {
@@ -47,11 +44,8 @@ export default Form.create({})({
     async getStreetList() {
       await this.$store.dispatch('getListWithLoadingStatus', {
         moduleName: this.moduleName,
-        stateName: 'streetList',
-        customApiName: 'getListByStreetId',
-        payload: {
-          streetId: this.search.schoolStreetId
-        }
+        stateName: 'schoolListByThisUser',
+        customApiName: 'getSchoolListByThisUser'
       })
     },
     onChange(value) {
@@ -102,7 +96,7 @@ export default Form.create({})({
                   onChange={this.onChange}
                 >
                   {
-                    this.streetList.list.map(item => (
+                    this.schoolListByThisUser.list.map(item => (
                       <Select.Option
                         value={item.id}
                         title={item.fullName}
