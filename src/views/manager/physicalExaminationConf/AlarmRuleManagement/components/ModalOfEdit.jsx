@@ -130,19 +130,7 @@ export default Form.create({})({
           }
         )
       }
-    },
-    // visible: {
-    //   async handler(value) {
-    //     if (value) {
-
-    //       this.form.setFieldsValue({ historyDifferenceValue: '1' })
-    //       this.form.setFieldsValue({ absoluteDifferenceValue: '2' })
-    //     } else {
-    //       this.form.setFieldsValue({ historyDifferenceValue: '' })
-    //       this.form.setFieldsValue({ absoluteDifferenceValue: '' })
-    //     }
-    //   }
-    // }
+    }
 
   },
   render() {
