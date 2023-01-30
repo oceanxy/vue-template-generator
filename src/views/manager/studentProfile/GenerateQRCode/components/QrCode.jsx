@@ -66,7 +66,7 @@ export default ({
   },
   render() {
     return (
-      <div class={'pe-summary-container'}>
+      <div>
         <Space direction="vertical" style={{ width: '100%' }} size="middle">
           <Alert
             message="输入多个身份证请用“ ，” 隔开"

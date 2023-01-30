@@ -5,7 +5,9 @@ export default {
   name: 'GenerateQRCode',
   render() {
     return (
-      <QrCode />
+      <div>
+        <QrCode />
+      </div>
     )
   }
 }
