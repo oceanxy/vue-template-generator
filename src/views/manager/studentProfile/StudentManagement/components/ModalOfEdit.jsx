@@ -111,9 +111,7 @@ export default Form.create({})({
         moduleName: this.moduleName,
         stateName: 'streetList',
         customApiName: 'getStreetsByDistrictId',
-        payload: {
-          countyId: value[2]
-        }
+        payload: { countyId: value[2] }
       })
     },
     onChangeClassNumber(value) {
@@ -335,9 +333,7 @@ export default Form.create({})({
             <Col span={8}>
               <Form.Item label="民族">
                 {
-                  this.form.getFieldDecorator('nation', {
-                    initialValue: this.currentItem.nation
-                  })(
+                  this.form.getFieldDecorator('nation', { initialValue: this.currentItem.nation })(
                     <Input
                       placeholder="请输入"
                       allowClear
@@ -508,9 +504,7 @@ export default Form.create({})({
                 {
                   this.form.getFieldDecorator(
                     'glassesType',
-                    {
-                      initialValue: this.currentItem.glassesType || undefined
-                    }
+                    { initialValue: this.currentItem.glassesType || undefined }
                   )(
                     <Select
                       disabled={this.glassesTypeSelect}
@@ -529,9 +523,7 @@ export default Form.create({})({
             <Col span={8}>
               <Form.Item label="左眼度数">
                 {
-                  this.form.getFieldDecorator('leftGlassesValue', {
-                    initialValue: this.currentItem.leftGlassesValue
-                  })(
+                  this.form.getFieldDecorator('leftGlassesValue', { initialValue: this.currentItem.leftGlassesValue })(
                     <InputNumber
                       disabled={this.glassesTypeSelect}
                       style={{ width: '100%' }}
@@ -546,9 +538,7 @@ export default Form.create({})({
             <Col span={8}>
               <Form.Item label="右眼度数">
                 {
-                  this.form.getFieldDecorator('rightGlassesValue', {
-                    initialValue: this.currentItem.rightGlassesValue
-                  })(
+                  this.form.getFieldDecorator('rightGlassesValue', { initialValue: this.currentItem.rightGlassesValue })(
                     <InputNumber
                       disabled={this.glassesTypeSelect}
                       style={{ width: '100%' }}
@@ -563,9 +553,7 @@ export default Form.create({})({
             <Col span={8}>
               <Form.Item label="籍贯">
                 {
-                  this.form.getFieldDecorator('nativePlace', {
-                    initialValue: this.currentItem.nativePlace
-                  })(
+                  this.form.getFieldDecorator('nativePlace', { initialValue: this.currentItem.nativePlace })(
                     <Input
                       placeholder="请输入"
                       allowClear
@@ -578,9 +566,7 @@ export default Form.create({})({
             <Col span={8}>
               <Form.Item label="家长姓名">
                 {
-                  this.form.getFieldDecorator('parentName', {
-                    initialValue: this.currentItem.parentName
-                  })(
+                  this.form.getFieldDecorator('parentName', { initialValue: this.currentItem.parentName })(
                     <Input
                       placeholder="请输入"
                       allowClear
@@ -593,9 +579,7 @@ export default Form.create({})({
             <Col span={8}>
               <Form.Item label="家长联系电话">
                 {
-                  this.form.getFieldDecorator('parentPhone', {
-                    initialValue: this.currentItem.parentPhone
-                  })(
+                  this.form.getFieldDecorator('parentPhone', { initialValue: this.currentItem.parentPhone })(
                     <Input
                       placeholder="请输入"
                       allowClear
@@ -700,9 +684,7 @@ export default Form.create({})({
             <Col span={8}>
               <Form.Item label="详细地址">
                 {
-                  this.form.getFieldDecorator('address', {
-                    initialValue: this.currentItem.address
-                  })(
+                  this.form.getFieldDecorator('address', { initialValue: this.currentItem.address })(
                     <Input
                       placeholder="请输入详细地址"
                       allowClear

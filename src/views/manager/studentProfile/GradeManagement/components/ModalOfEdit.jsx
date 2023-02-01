@@ -82,9 +82,7 @@ export default Form.create({})({
         >
           <Form.Item label="学校名称">
             {
-              this.form.getFieldDecorator('schoolName', {
-                initialValue: this.currentItem.schoolName,
-              })(
+              this.form.getFieldDecorator('schoolId', { initialValue: this.currentItem.schoolId })(
                 <Select
                   allowClear
                   showSearch

@@ -12,9 +12,7 @@ export default ({
       loading: false
     }
   },
-  computed: {
-    ...mapGetters({ getState: 'getState' }),
-  },
+  computed: { ...mapGetters({ getState: 'getState' }) },
   methods: {
     showModal() {
       if (this.codeValue) {

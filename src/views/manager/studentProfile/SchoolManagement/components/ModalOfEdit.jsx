@@ -69,9 +69,7 @@ export default Form.create({})({
         moduleName: this.moduleName,
         stateName: 'streetList',
         customApiName: 'getStreetsByDistrictId',
-        payload: {
-          countyId: value[2]
-        }
+        payload: { countyId: value[2] }
       })
     },
     async getStreets() {
@@ -172,9 +170,7 @@ export default Form.create({})({
             <Col span={6}>
               <Form.Item label="学校英文名">
                 {
-                  this.form.getFieldDecorator('nameEn', {
-                    initialValue: this.currentItem.nameEn
-                  })(
+                  this.form.getFieldDecorator('nameEn', { initialValue: this.currentItem.nameEn })(
                     <Input
                       placeholder="请输入"
                       allowClear
@@ -186,9 +182,7 @@ export default Form.create({})({
             <Col span={6}>
               <Form.Item label="英文简称">
                 {
-                  this.form.getFieldDecorator('shortNameEn', {
-                    initialValue: this.currentItem.shortNameEn
-                  })(
+                  this.form.getFieldDecorator('shortNameEn', { initialValue: this.currentItem.shortNameEn })(
                     <Input
                       placeholder="请输入"
                       allowClear
@@ -200,9 +194,7 @@ export default Form.create({})({
             <Col span={6}>
               <Form.Item label="校长">
                 {
-                  this.form.getFieldDecorator('principal', {
-                    initialValue: this.currentItem.principal
-                  })(
+                  this.form.getFieldDecorator('principal', { initialValue: this.currentItem.principal })(
                     <Input
                       placeholder="请输入"
                       allowClear
@@ -214,9 +206,7 @@ export default Form.create({})({
             <Col span={6}>
               <Form.Item label="学校网址">
                 {
-                  this.form.getFieldDecorator('schoolUrl', {
-                    initialValue: this.currentItem.schoolUrl
-                  })(
+                  this.form.getFieldDecorator('schoolUrl', { initialValue: this.currentItem.schoolUrl })(
                     <Input
                       placeholder="请输入"
                       allowClear
@@ -450,9 +440,7 @@ export default Form.create({})({
             <Col span={6}>
               <Form.Item label="详细地址">
                 {
-                  this.form.getFieldDecorator('address', {
-                    initialValue: this.currentItem.address
-                  })(
+                  this.form.getFieldDecorator('address', { initialValue: this.currentItem.address })(
                     <Input
                       placeholder="请输入详细地址"
                       allowClear
@@ -465,9 +453,7 @@ export default Form.create({})({
             <Col span={12}>
               <Form.Item label="经度">
                 {
-                  this.form.getFieldDecorator('longitude', {
-                    initialValue: this.currentItem.longitude
-                  })(
+                  this.form.getFieldDecorator('longitude', { initialValue: this.currentItem.longitude })(
                     <InputNumber
                       style={{ width: '100%' }}
                       placeholder="请输入"
@@ -480,9 +466,7 @@ export default Form.create({})({
             <Col span={12}>
               <Form.Item label="纬度">
                 {
-                  this.form.getFieldDecorator('latitude', {
-                    initialValue: this.currentItem.latitude
-                  })(
+                  this.form.getFieldDecorator('latitude', { initialValue: this.currentItem.latitude })(
                     <InputNumber
                       style={{ width: '100%' }}
                       placeholder="请输入"
@@ -495,9 +479,7 @@ export default Form.create({})({
             <Col span={12}>
               <Form.Item label="描述">
                 {
-                  this.form.getFieldDecorator('description', {
-                    initialValue: this.currentItem.description
-                  })(
+                  this.form.getFieldDecorator('description', { initialValue: this.currentItem.description })(
                     <Input.TextArea
                       placeholder="请输入"
                       autoSize={{ minRows: 4 }}
@@ -510,9 +492,7 @@ export default Form.create({})({
             <Col span={12}>
               <Form.Item label="备注">
                 {
-                  this.form.getFieldDecorator('remark', {
-                    initialValue: this.currentItem.remark
-                  })(
+                  this.form.getFieldDecorator('remark', { initialValue: this.currentItem.remark })(
                     <Input.TextArea
                       placeholder="请输入"
                       autoSize={{ minRows: 4 }}

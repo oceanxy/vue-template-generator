@@ -144,9 +144,7 @@ export default Form.create({})({
 
           <Form.Item label="名称">
             {
-              this.form.getFieldDecorator('monitorName', {
-                initialValue: this.currentItem.monitorName
-              })(
+              this.form.getFieldDecorator('monitorName', { initialValue: this.currentItem.monitorName })(
                 <Input
                   placeholder="请输入"
                   allowClear
@@ -257,9 +255,7 @@ export default Form.create({})({
                 <Form.Item
                   style={{ display: 'inline-block', width: 'calc(50% - 6px)', marginRight: '12px' }}>
                   {
-                    this.form.getFieldDecorator('absoluteDifferenceType', {
-                      initialValue: this.currentItem.absoluteDifferenceType ?? 1
-                    })(
+                    this.form.getFieldDecorator('absoluteDifferenceType', { initialValue: this.currentItem.absoluteDifferenceType ?? 1 })(
                       <Select>
                         <Select.Option value={1} defaultValue={1}>高于（数值）</Select.Option>
                         <Select.Option value={2}>低于（数值）</Select.Option>
@@ -295,9 +291,7 @@ export default Form.create({})({
           </Form.Item>
           <Form.Item label="备注">
             {
-              this.form.getFieldDecorator('remark', {
-                initialValue: this.currentItem.remark
-              })(
+              this.form.getFieldDecorator('remark', { initialValue: this.currentItem.remark })(
                 <Input
                   placeholder="请输入"
                   allowClear

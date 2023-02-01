@@ -174,9 +174,7 @@ export default Form.create({})({
             <Col span={12}>
               <Form.Item label="备注">
                 {
-                  this.form.getFieldDecorator('remark', {
-                    initialValue: this.currentItem.remark
-                  })(
+                  this.form.getFieldDecorator('remark', { initialValue: this.currentItem.remark })(
                     <Input
                       placeholder="请输入"
                       allowClear

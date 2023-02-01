@@ -53,9 +53,7 @@ export default Form.create({})({
         moduleName: this.moduleName,
         stateName: 'schoolListByActivity',
         customApiName: 'getSchoolTreeByActivityId',
-        payload: {
-          activityId: curActivitieId
-        }
+        payload: { activityId: curActivitieId }
       })
     },
     focus() {
@@ -119,9 +117,7 @@ export default Form.create({})({
             {
               this.form.getFieldDecorator(
                 'schoolIds',
-                {
-                  initialValue: this.currentItem?.schoolList ?? null
-                }
+                { initialValue: this.currentItem?.schoolList ?? null }
               )(
                 <TreeSelect
                   style="width: 100%"

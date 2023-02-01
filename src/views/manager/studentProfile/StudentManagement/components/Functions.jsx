@@ -8,9 +8,7 @@ import { verificationDialog } from '@/utils/message'
 export default {
   mixins: [forFunction()],
   data() {
-    return {
-      codeBatchVisible: false
-    }
+    return { codeBatchVisible: false }
   },
   computed: {
     ...mapGetters({ getState: 'getState' }),

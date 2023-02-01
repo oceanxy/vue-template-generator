@@ -39,7 +39,7 @@ export default Form.create({})({
       data.parentId = this.currentItem?.parentId ?? this.search.parentId ?? ''
 
       return data
-    },
+    }
   },
   render() {
     return (
@@ -89,9 +89,7 @@ export default Form.create({})({
           </Form.Item>
           <Form.Item label="备注">
             {
-              this.form.getFieldDecorator('remark', {
-                initialValue: this.currentItem.remark
-              })(
+              this.form.getFieldDecorator('remark', { initialValue: this.currentItem.remark })(
                 <Input
                   placeholder="请输入"
                   allowClear

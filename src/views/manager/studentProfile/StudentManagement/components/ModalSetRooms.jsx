@@ -14,7 +14,7 @@ export default Form.create({})({
       modalProps: {
         width: 500,
         wrapClassName: 'bnm-modal-edit-user-form'
-      },
+      }
     }
   },
   computed: {

@@ -91,7 +91,7 @@ export default ({
       }
 
       return bln
-    },
+    }
   },
   methods: {
     // 是否开启全选
@@ -147,7 +147,9 @@ export default ({
     },
     async delChange(e) {
       const id = e.target.value
-      const isKey = this.allKeys.some(item => { return item === id })
+      const isKey = this.allKeys.some(item => {
+        return item === id
+      })
 
       if (isKey === true) {
         this.deleteSchool(id)

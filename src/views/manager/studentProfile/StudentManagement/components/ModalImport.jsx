@@ -85,9 +85,7 @@ export default Form.create({})({
     attributes() {
       return {
         attrs: this.modalProps,
-        on: {
-          cancel: () => this.onCancel(this.visibilityFieldName)
-        }
+        on: { cancel: () => this.onCancel(this.visibilityFieldName) }
       }
     }
   },
@@ -187,7 +185,7 @@ export default Form.create({})({
         a.remove()
         message.success('下载成功')
       }
-    },
+    }
     // async downloadTemplate() {
     //   const { status, data } = await apis.getTemplateUrl()
 
@@ -233,7 +231,8 @@ export default Form.create({})({
             <div class='school-upload-file'>
               <Space>
                 <input type="file" ref="imFile" style="display: none" onChange={this.importFile} accept="xlsx" />
-                <Button type="primary" size="large" onClick={() => this.uploadFile()} loading={this.tablLoading}>上传数据文件</Button>
+                <Button type="primary" size="large" onClick={() => this.uploadFile()} loading={this.tablLoading}>
+                  上传数据文件</Button>
                 <Button type="primary" size="large" onClick={() => this.downloadTemplate()} ghost>下载模板文件</Button>
               </Space>
               <div class="well" style="margin-top: 40px;">
@@ -243,7 +242,8 @@ export default Form.create({})({
                 <p>4、因数据文件需要验证，需持续一段时间，请耐心等待，不要关闭页面；</p>
                 {
                   this.currentItem?.type === 'whole' ? (
-                    <p><span style="color: red">5、警告：此为全量导入！！会覆盖所有数据，请确认数据完整性与正确性，保证每个班级的学生信息完整，确认是整班导入，如有错误数据，请把错误数据改正后选择局部导入</span></p>
+                    <p><span style="color: red">5、警告：此为全量导入！！会覆盖所有数据，请确认数据完整性
+                      与正确性，保证每个班级的学生信息完整，确认是整班导入，如有错误数据，请把错误数据改正后选择局部导入</span></p>
                   ) : (
                     <p><span style="color: red">5、此为局部导入：只用于局部学生信息变更和新增，上传修正后的错误数据等局部功能</span></p>
                   )
@@ -284,7 +284,13 @@ export default Form.create({})({
                     <br />
                     <div style={{ 'text-align': 'right' }}>
                       <Space>
-                        <Button type="primary" size="large" disabled={this.tableData.successSize === 0} onClick={() => this.onSubmit()}>确认导入{this.tableData.successSize}条全部数据</Button>
+                        <Button
+                          type="primary"
+                          size="large"
+                          disabled={this.tableData.successSize === 0}
+                          onClick={() => this.onSubmit()}>
+                          确认导入{this.tableData.successSize}条全部数据
+                        </Button>
                         <Button type="primary" size="large" ghost onClick={this.reUpload}>重新上传</Button>
                       </Space>
                     </div>
@@ -293,7 +299,9 @@ export default Form.create({})({
                   <div class="import-succeeded">
                     <h2 style={{ 'margin-bottom': '10px' }}>数据正在导入，请耐心等待几分钟后查看</h2>
                     <p>我们建议您核实校验失败数据并修正后再次导入</p>
-                    <Button type="link" onClick={() => this.downloadErrorData()}>下载失败数据{this.tableData.failSize}条</Button>
+                    <Button type="link" onClick={() => this.downloadErrorData()}>
+                      下载失败数据{this.tableData.failSize}条
+                    </Button>
                     <br />
                     <br />
                     <Button type="primary" ghost onClick={() => this.onCancel(this.visibilityFieldName)}>关闭</Button>

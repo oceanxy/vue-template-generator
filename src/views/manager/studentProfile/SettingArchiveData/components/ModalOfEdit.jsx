@@ -58,9 +58,7 @@ export default Form.create({})({
         moduleName: this.moduleName,
         stateName: 'schoolListByActivity',
         customApiName: 'getSchoolTreeByActivityId',
-        payload: {
-          activityId: curActivitieId
-        }
+        payload: { activityId: curActivitieId }
       })
     },
     // 获取存档详情
@@ -180,9 +178,7 @@ export default Form.create({})({
             {
               this.form.getFieldDecorator(
                 'schoolIds',
-                {
-                  initialValue: this.fileDetailsSchoolList?.map(item => item.schoolId)
-                }
+                { initialValue: this.fileDetailsSchoolList?.map(item => item.schoolId) }
               )(
                 <TreeSelect
                   style="width: 100%"
@@ -207,9 +203,7 @@ export default Form.create({})({
           </Form.Item>
           <Form.Item label="备注">
             {
-              this.form.getFieldDecorator('remark', {
-                initialValue: this.currentItem.remark
-              })(
+              this.form.getFieldDecorator('remark', { initialValue: this.currentItem.remark })(
                 <Input
                   placeholder="请输入"
                   allowClear

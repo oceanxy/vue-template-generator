@@ -36,7 +36,7 @@ export default Form.create({})({
           </div>
         ),
         wrapClassName: 'bnm-modal-edit-user-form'
-      },
+      }
     }
   },
   computed: {
@@ -47,9 +47,7 @@ export default Form.create({})({
     attributes() {
       return {
         attrs: this.modalProps,
-        on: {
-          cancel: () => this.onCancel(this.visibilityFieldName)
-        }
+        on: { cancel: () => this.onCancel(this.visibilityFieldName) }
       }
     }
   },
@@ -106,7 +104,9 @@ export default Form.create({})({
         iframe.contentWindow.focus()
       }
 
-      setTimeout(() => { iframe.contentWindow.print() }, 50)
+      setTimeout(() => {
+        iframe.contentWindow.print()
+      }, 50)
 
       if (navigator.userAgent.indexOf('MSIE') > 0) {
         document.body.removeChild(iframe)

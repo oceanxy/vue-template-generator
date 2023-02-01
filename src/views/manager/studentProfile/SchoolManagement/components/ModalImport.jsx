@@ -1,5 +1,5 @@
 import '../assets/styles/index.scss'
-import { Form, Button, Space, message, Spin, Table, Tag } from 'ant-design-vue'
+import { Form, Button, Space, message, Spin, Table } from 'ant-design-vue'
 import forFormModal from '@/mixins/forModal/forFormModal'
 import DragModal from '@/components/DragModal'
 import { mapGetters } from 'vuex'
@@ -76,9 +76,7 @@ export default Form.create({})({
     attributes() {
       return {
         attrs: this.modalProps,
-        on: {
-          cancel: () => this.onCancel(this.visibilityFieldName)
-        }
+        on: { cancel: () => this.onCancel(this.visibilityFieldName) }
       }
     }
   },
@@ -196,7 +194,9 @@ export default Form.create({})({
             <div class='school-upload-file'>
               <Space>
                 <input type="file" ref="imFile" style="display: none" onChange={this.importFile} accept="xlsx" />
-                <Button type="primary" size="large" onClick={() => this.uploadFile()} loading={this.tablLoading}>上传数据文件</Button>
+                <Button type="primary" size="large" onClick={() => this.uploadFile()} loading={this.tablLoading}>
+                  上传数据文件
+                </Button>
                 <Button type="primary" size="large" onClick={() => this.downloadTemplate()} ghost>下载模板文件</Button>
               </Space>
               <div class="well" style="margin-top: 40px;">
@@ -239,7 +239,11 @@ export default Form.create({})({
                     <br />
                     <div style={{ 'text-align': 'right' }}>
                       <Space>
-                        <Button type="primary" size="large" disabled={this.tableData.successSize === 0} onClick={() => this.onSubmit()}>确认导入{this.tableData.successSize}条全部数据</Button>
+                        <Button
+                          type="primary"
+                          size="large"
+                          disabled={this.tableData.successSize === 0}
+                          onClick={() => this.onSubmit()}>确认导入{this.tableData.successSize}条全部数据</Button>
                         <Button type="primary" size="large" ghost onClick={this.reUpload}>重新上传</Button>
                       </Space>
                     </div>
@@ -248,7 +252,9 @@ export default Form.create({})({
                   <div class="import-succeeded">
                     <h2 style={{ 'margin-bottom': '10px' }}>数据正在导入，请耐心等待几分钟后查看</h2>
                     <p>我们建议您核实校验失败数据并修正后再次导入</p>
-                    <Button type="link" onClick={() => this.downloadErrorData()}>下载失败数据{this.tableData.failSize}条</Button>
+                    <Button type="link" onClick={() => this.downloadErrorData()}>
+                      下载失败数据{this.tableData.failSize}条
+                    </Button>
                     <br />
                     <br />
                     <Button type="primary" ghost onClick={() => this.onCancel(this.visibilityFieldName)}>关闭</Button>

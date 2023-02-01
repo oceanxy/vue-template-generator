@@ -4,9 +4,7 @@ import forInquiry from '@/mixins/forInquiry'
 
 export default Form.create({})({
   mixins: [forInquiry()],
-  data: () => ({
-    initialValues: {}
-  }),
+  data: () => ({ initialValues: {} }),
   render() {
     return (
       <Form

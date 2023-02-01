@@ -55,7 +55,7 @@ export default Form.create({})({
         },
         {
           title: '操作',
-          scopedSlots: { customRender: 'operation' },
+          scopedSlots: { customRender: 'operation' }
         }
       ],
       operationType: '',
@@ -91,7 +91,7 @@ export default Form.create({})({
           ok: () => this.onSubmit({ customDataHandler: this.customDataHandler })
         }
       }
-    },
+    }
   },
   methods: {
     // 获取指标
@@ -290,8 +290,7 @@ export default Form.create({})({
           this.onChangeKpi(value)
         }
       }
-    },
-
+    }
   },
   render() {
     return (
@@ -348,7 +347,11 @@ export default Form.create({})({
                     <Select placeholder="请选择指标名称" onChange={this.onChangeKpi}>
                       {
                         this.itemKpiList?.map(item => (
-                          <Select.Option value={item.id} defaultValue={this.itemKpiList?.[0]?.id}>{item.kpiName}</Select.Option>
+                          <Select.Option
+                            value={item.id}
+                            defaultValue={this.itemKpiList?.[0]?.id}>
+                            {item.kpiName}
+                          </Select.Option>
                         ))
                       }
                     </Select>
@@ -403,9 +406,7 @@ export default Form.create({})({
             <Col span={12}>
               <Form.Item label="防治建议">
                 {
-                  this.form.getFieldDecorator('proposal', {
-                    initialValue: this.currentItem.proposal
-                  })(
+                  this.form.getFieldDecorator('proposal', { initialValue: this.currentItem.proposal })(
                     <Input
                       placeholder="请输入"
                       allowClear
@@ -417,9 +418,7 @@ export default Form.create({})({
             <Col span={12}>
               <Form.Item label="备注">
                 {
-                  this.form.getFieldDecorator('remark', {
-                    initialValue: this.currentItem.remark
-                  })(
+                  this.form.getFieldDecorator('remark', { initialValue: this.currentItem.remark })(
                     <Input
                       placeholder="请输入"
                       allowClear
@@ -431,9 +430,7 @@ export default Form.create({})({
             <Col span={12}>
               <Form.Item label="排序">
                 {
-                  this.form.getFieldDecorator('sortIndex', {
-                    initialValue: this.currentItem.sortIndex || 0
-                  })(
+                  this.form.getFieldDecorator('sortIndex', { initialValue: this.currentItem.sortIndex || 0 })(
                     <Input
                       placeholder="请输入"
                       allowClear
@@ -492,7 +489,11 @@ export default Form.create({})({
                     return (
                       <Row gutter={6}>
                         <Col span={14}>
-                          <Select disabled={this.disabled} vModel={record.paramCode} placeholder="请选择" onChange={() => this.onChangeParamCode(record)}>
+                          <Select
+                            disabled={this.disabled}
+                            vModel={record.paramCode}
+                            placeholder="请选择"
+                            onChange={() => this.onChangeParamCode(record)}>
                             {
                               this.parameterList?.map(item => (
                                 <Select.Option value={item.paramCode}>{item.paramName}</Select.Option>

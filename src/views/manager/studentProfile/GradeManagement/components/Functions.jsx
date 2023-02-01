@@ -6,9 +6,7 @@ import { mapGetters } from 'vuex'
 export default {
   mixins: [forFunction()],
   data() {
-    return {
-      visible: true
-    }
+    return { visible: true }
   },
   computed: {
     ...mapGetters({ getState: 'getState' }),
@@ -24,7 +22,7 @@ export default {
     async onRefresh() {
       await this.$store.dispatch('getList', {
         moduleName: 'gradeManagement',
-        customApiName: 'getGradeManagement',
+        customApiName: 'getGradeManagement'
       })
     }
   },

@@ -49,12 +49,16 @@ export default Form.create({})({
     peItemId() {
       const ids = this.details?.peItemIds?.split(',') ?? []
 
-      return ids.map(item => { return item })
+      return ids.map(item => {
+        return item
+      })
     },
     organIdList() {
       const organIds = this.details?.organIds?.split(',') || []
 
-      return organIds.map(item => { return item })
+      return organIds.map(item => {
+        return item
+      })
     },
     attributes() {
       return {
@@ -90,7 +94,7 @@ export default Form.create({})({
           stateName: 'checkSchool'
         })
       }
-    },
+    }
   },
   methods: {
     async getActivityYearList() {
@@ -315,9 +319,7 @@ export default Form.create({})({
             {
               this.form.getFieldDecorator(
                 'activityFrequency',
-                {
-                  initialValue: this.details?.activityFrequency ?? 1
-                }
+                { initialValue: this.details?.activityFrequency ?? 1 }
               )(
                 <Select>
                   <Select.Option value={1} defaultValue={1}>1</Select.Option>
@@ -333,9 +335,7 @@ export default Form.create({})({
           <Form.Item label="体检项">
             {
               this.form.getFieldDecorator('peItemIds',
-                {
-                  initialValue: this.peItemId
-                }
+                { initialValue: this.peItemId }
               )(
                 <Checkbox.Group class="checkbox-wrapper-right" onChange={this.onChangePeItemName}>
                   {
@@ -351,9 +351,7 @@ export default Form.create({})({
           <Form.Item label="学校范围">
             {
               this.form.getFieldDecorator('schoolIds',
-                {
-                  initialValue: this.checkSchool
-                }
+                { initialValue: this.checkSchool }
               )(
                 <div class="activity-management-school">
                   <List
@@ -495,9 +493,7 @@ export default Form.create({})({
           </Form.Item>
           <Form.Item label="备注">
             {
-              this.form.getFieldDecorator('remark', {
-                initialValue: this.details.remark
-              })(
+              this.form.getFieldDecorator('remark', { initialValue: this.details.remark })(
                 <Input
                   placeholder="请输入"
                   allowClear
