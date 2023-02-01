@@ -14,7 +14,7 @@ export default Form.create({})({
       gender: '',
       gradeName: '',
       isWearGlasses: '',
-      originalSchoolId: '选择学校',
+      originalSchoolId: '',
       classNumber: ''
     },
     gradeList: []
@@ -202,6 +202,8 @@ export default Form.create({})({
                   mode={'default'}
                   allowClear
                 >
+
+                  <Select.Option value={''}>请选择学校</Select.Option>
                   {
                     this.schoolListByThisUser?.map(item => (
                       <Select.Option

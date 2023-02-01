@@ -2,6 +2,7 @@
 import '../assets/styles/index.scss'
 import { Button, Input, Space, Alert, Modal, Icon, message } from 'ant-design-vue'
 import { mapGetters } from 'vuex'
+import apis from '@/apis'
 
 export default ({
   data() {
@@ -13,9 +14,6 @@ export default ({
   },
   computed: {
     ...mapGetters({ getState: 'getState' }),
-    qrCode() {
-      return this.getState('qrCode', 'generateQRCode')
-    },
   },
   methods: {
     showModal() {
@@ -27,19 +25,12 @@ export default ({
     },
     async generateCode() {
       this.loading = true
-      const res = await this.$store.dispatch('getList', {
-        moduleName: 'generateQRCode',
-        stateName: 'qrCode',
-        customApiName: 'getCodeByIdNumbers',
-        additionalQueryParameters: {
-          idNumbers: this.codeValue
-        }
-      })
+      const res = await apis.getCodeByIdNumbers({ idNumbers: this.codeValue })
 
       this.codeBatchVisible = !this.codeBatchVisible
 
-      if (res) {
-        const url = this.qrCode.list
+      if (res.status) {
+        const url = res.data
 
         this.loading = false
         this.codeValue = ''
