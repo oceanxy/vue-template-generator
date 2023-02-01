@@ -18,9 +18,8 @@ export default {
       <TGContainerWithTreeSider
         notNoneMode
         getCustomIcon={getExaminedDisposeTreeIcon}
-        // getFieldNameForTreeId={getFieldNameForMedicallyAdmin}
-
-        getFieldNameForTreeId={() => 'orgId'}
+        getFieldNameForTreeId={getFieldNameForMedicallyAdmin}
+        // getFieldNameForTreeId={() => 'orgId'}
         injectSearchParamsOfTable={dataSource => ({ orgType: dataSource.type })}
         apiOptions={{
           apiName: 'getExamineCatalogTree',

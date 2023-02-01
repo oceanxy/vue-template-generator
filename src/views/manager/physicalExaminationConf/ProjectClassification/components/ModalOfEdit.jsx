@@ -1,5 +1,5 @@
 import '../assets/styles/index.scss'
-import { Form, Input, Switch, InputNumber } from 'ant-design-vue'
+import { Form, Input, Switch, InputNumber, TreeSelect } from 'ant-design-vue'
 import forFormModal from '@/mixins/forModal/forFormModal'
 import DragModal from '@/components/DragModal'
 import { mapGetters } from 'vuex'
@@ -22,42 +22,6 @@ export default Form.create({})({
     search() {
       return this.getState('search', this.moduleName)
     },
-    treeIdField() {
-      return this.getState('treeIdField', this.moduleName)
-    },
-    examineCatalog() {
-      const parentId = this.search[this.treeIdField]
-
-      if (this.currentItem && this.currentItem.parentName) {
-        return [{ name: this.currentItem.parentName }]
-      } else {
-        const arr = []
-
-        this.examineCatalogTree?.map(item => {
-          if (item.id === parentId) {
-            arr.push(item)
-          } else {
-            if (item.children) {
-              item.children.map(item2 => {
-                if (item2.id === parentId) {
-                  arr.push(item2)
-                } else {
-                  if (item2.children) {
-                    item2.children.map(item3 => {
-                      if (item3.id === parentId) {
-                        arr.push(item3)
-                      }
-                    })
-                  }
-                }
-              })
-            }
-          }
-        })
-
-        return arr
-      }
-    },
     attributes() {
       return {
         attrs: this.modalProps,
@@ -72,7 +36,7 @@ export default Form.create({})({
     customDataHandler(values) {
       const data = { ...values }
 
-      data.parentId = this.currentItem?.parentId ?? this.search[this.treeIdField] ?? ''
+      data.parentId = this.currentItem?.parentId ?? this.search.parentId ?? ''
 
       return data
     },
@@ -87,12 +51,19 @@ export default Form.create({})({
         >
           <Form.Item label="所属分类">
             {
-              this.form.getFieldDecorator('name', {
-                initialValue: this.examineCatalog?.[0]?.name ?? undefined
-              })(
-                <Input
-                  disabled={true}
-                  allowClear
+              this.form.getFieldDecorator('name', { initialValue: this.currentItem.ecId || this.search.parentId || this.search.ecId })(
+                <TreeSelect
+                  disabled
+                  treeNodeFilterProp={'title'}
+                  dropdownClassName={'tg-select-dropdown'}
+                  treeData={this.examineCatalogTree}
+                  replaceFields={{
+                    children: 'children',
+                    title: 'name',
+                    key: 'id',
+                    value: 'id'
+                  }}
+                  treeDefaultExpandedKeys={[this.currentItem.parentId]}
                 />
               )
             }
