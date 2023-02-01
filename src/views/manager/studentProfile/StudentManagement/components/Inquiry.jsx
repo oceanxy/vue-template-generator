@@ -14,7 +14,7 @@ export default Form.create({})({
       gender: '',
       gradeName: '',
       isWearGlasses: '',
-      originalSchoolName: '选择学校',
+      originalSchoolId: '选择学校',
       classNumber: ''
     },
     gradeList: []
@@ -193,7 +193,7 @@ export default Form.create({})({
 
           <Form.Item label="学籍所属学校">
             {
-              this.form.getFieldDecorator('originalSchoolName', { initialValue: this.initialValues.originalSchoolName })(
+              this.form.getFieldDecorator('originalSchoolId', { initialValue: this.initialValues.originalSchoolId })(
 
                 <Select
                   showSearch
