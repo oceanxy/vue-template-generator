@@ -35,7 +35,9 @@ export default Form.create({})({
     initialValues: {
       schoolTypes: [111, 211, 241, 311, 341, 365, 411],
       gender: 1
-    }
+    },
+    // 镇街范围筛选器： 全选/全不选 功能控制
+    checkAllTownOrSubDistricts: true
   }),
   computed: {
     ...mapGetters({ getState: 'getState' }),
@@ -44,6 +46,9 @@ export default Form.create({})({
     },
     townOrSubDistricts() {
       return this.getState('townOrSubDistricts', this.moduleName)
+    },
+    allTownOrSubDistricts() {
+      return this.townOrSubDistricts.list.map(item => item.streetId)
     }
   },
   watch: {
@@ -101,6 +106,18 @@ export default Form.create({})({
         streetNumber: this.currentActivity.streetNum,
         year: this.currentActivity.activityYear
       })
+    },
+    filterTownOrSubDistricts() {
+      if (this.form.getFieldValue('range').length === this.townOrSubDistricts.list.length) {
+        this.form.setFieldsValue({ 'range': [] })
+        this.checkAllTownOrSubDistricts = false
+      } else {
+        this.form.setFieldsValue({ 'range': this.allTownOrSubDistricts })
+        this.checkAllTownOrSubDistricts = true
+      }
+
+      // 通过 this.form.setFieldsValue 的方式更新表单值不会触发表单的 change 事件，所以这里手动调用，模拟一下
+      this.onChange()
     }
   },
   render() {
@@ -168,13 +185,25 @@ export default Form.create({})({
             </Spin>
           </Form.Item>
           <Form.Item label={'镇街范围'}>
-            <Spin spinning={this.townOrSubDistricts.loading}>
+            <Spin spinning={this.townOrSubDistricts.loading} class={'include-check-all'}>
               {
                 this.form.getFieldDecorator(
                   'range',
-                  { initialValue: this.townOrSubDistricts.list.map(item => item.streetId) }
+                  { initialValue: this.allTownOrSubDistricts }
                 )(
                   <Checkbox.Group onChange={this.onChange}>
+                    {
+                      this.townOrSubDistricts.list?.length
+                        ? (
+                          <div
+                            class={`check-all${this.checkAllTownOrSubDistricts ? ' checked' : ''}`}
+                            onClick={this.filterTownOrSubDistricts}
+                          >
+                            全选
+                          </div>
+                        )
+                        : null
+                    }
                     {
                       this.townOrSubDistricts.list?.length
                         ? this.townOrSubDistricts.list.map(item => (

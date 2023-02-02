@@ -64,11 +64,6 @@
         padding: 8px;
         flex-wrap: wrap;
 
-        .ant-radius-wrapper + .ant-radio-wrapper,
-        .ant-checkbox-wrapper + .ant-checkbox-wrapper {
-          margin-left: 0;
-        }
-
         .ant-checkbox-wrapper,
         .ant-radio-wrapper {
           background: #eff1f5;
@@ -95,6 +90,45 @@
             font-size: 14px;
             color: $primary-color;
             border-color: $primary-color;
+          }
+        }
+
+        .ant-radius-wrapper + .ant-radio-wrapper,
+        .ant-checkbox-wrapper + .ant-checkbox-wrapper {
+          margin-left: 0;
+        }
+      }
+
+      .include-check-all .ant-spin-container {
+        display: inline-flex;
+        justify-content: flex-start;
+        flex-wrap: nowrap;
+
+        .check-all {
+          display: inline-block;
+          height: 23px;
+          line-height: 23px;
+          padding: 0 8px;
+          cursor: pointer;
+          background: #eff1f5;
+          border-radius: 38px;
+          font-size: 14px;
+          color: #7d89b0;
+          border: 1px solid #eff1f5;
+          transition: all .3s;
+          user-select: none;
+          box-sizing: border-box;
+
+          &.checked {
+            background: $primary-shadow-color;
+            border-radius: 38px;
+            font-size: 14px;
+            color: $primary-color;
+            border-color: $primary-color;
+          }
+
+          &:hover {
+            border-color: $primary-shadow-normal;
           }
         }
       }
