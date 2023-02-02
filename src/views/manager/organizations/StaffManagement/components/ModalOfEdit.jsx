@@ -162,7 +162,6 @@ export default Form.create({ name: 'staffs' })({
                   allowClear
                   multiple
                   treeNodeFilterProp={'title'}
-                  dropdownClassName={'tg-select-dropdown'}
                   treeData={this.roleTree.list}
                   replaceFields={{
                     children: 'children',

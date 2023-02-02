@@ -17,6 +17,4 @@ export default commitRootInModule => omit(createStoreModule({
       loading: false
     }
   }
-}), [
-  'state.details'
-])
+})
