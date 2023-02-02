@@ -1,8 +1,7 @@
 import { createStoreModule } from '@/store/template'
-import { omit } from 'lodash'
 import apis from '@/apis'
 
-export default commitRootInModule => omit(createStoreModule({
+export default commitRootInModule => createStoreModule({
   state: {
     activities: {
       list: [],
@@ -45,10 +44,10 @@ export default commitRootInModule => omit(createStoreModule({
       })
     }
   }
-}), [
-  'state.details',
-  'state.visibilityOfEdit',
-  'state.selectedRowKeys',
-  'state.selectedRows',
-  'state.pagination'
+}, [
+  'details',
+  'visibilityOfEdit',
+  'selectedRowKeys',
+  'selectedRows',
+  'pagination'
 ])

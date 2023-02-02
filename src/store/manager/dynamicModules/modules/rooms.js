@@ -1,7 +1,6 @@
-import { omit } from 'lodash'
 import { createStoreModule } from '@/store/template'
 
-export default commitRootInModule => omit(createStoreModule({
+export default commitRootInModule => createStoreModule({
   state: {
     visibilityOfStudentInfo: false,
     schoolTree: {
@@ -26,4 +25,4 @@ export default commitRootInModule => omit(createStoreModule({
       }
     }
   }
-}), ['state.details'])
+}, ['details'])

@@ -5,15 +5,18 @@
  * @Date: 2022-06-22 周三 15:18:57
  */
 
+import { omit } from 'lodash'
+
 /**
  * 创建 Vuex store 模块
- * @param target 需要合并的 Vuex store 模块
- * @returns {Object} 合并后的 Vuex store 模块
+ * @param [module={}] {Object} 需要合并到 Store 的 Vuex.Module 模块
+ * @param [excludeFromState=[]] {string[]} 需要从 Vuex.Module.state 排除的字段集合
+ * @returns {Object} 处理后的用于合并到 Store 的 Vuex.Module
  */
-export function createStoreModule(target = {}) {
+export function createStoreModule(module = {}, excludeFromState = []) {
   return {
     namespaced: true,
-    state: () => ({
+    state: () => (omit({
       rowKey: 'id', // antd vue Table 组件的 rowKey 属性
       treeIdField: '', // 用于接收侧边树选中值的字段名，默认''，通过 @/components/TGContainerWithTreeSider 组件设置。
       loading: false,
@@ -30,11 +33,11 @@ export function createStoreModule(target = {}) {
       visibilityOfEdit: false,
       selectedRowKeys: [],
       selectedRows: [],
-      ...target.state
-    }),
-    mutations: { ...target.mutations },
-    getters: { ...target.getters },
-    actions: { ...target.actions },
-    modules: { ...target.modules }
+      ...module.state
+    }, excludeFromState)),
+    mutations: { ...module.mutations },
+    getters: { ...module.getters },
+    actions: { ...module.actions },
+    modules: { ...module.modules }
   }
 }

@@ -1,15 +1,13 @@
 import { createStoreModule } from '@/store/template'
-import { omit } from 'lodash'
 
-export default commitRootInModule =>
-  omit(
-    createStoreModule({
-      state: {
-        KpiAndParam: {
-          list: [],
-          loading: false
-        }
+export default commitRootInModule => createStoreModule(
+  {
+    state: {
+      KpiAndParam: {
+        list: [],
+        loading: false
       }
-    }),
-    ['state.details']
-  )
+    }
+  },
+  ['details']
+)

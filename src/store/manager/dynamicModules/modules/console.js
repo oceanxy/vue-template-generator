@@ -1,7 +1,6 @@
 import { createStoreModule } from '@/store/template'
-import { omit } from 'lodash'
 
-export default commitRootInModule => omit(createStoreModule({
+export default commitRootInModule => createStoreModule({
   state: {
     activities: {
       list: [],
@@ -20,13 +19,13 @@ export default commitRootInModule => omit(createStoreModule({
       list: []
     }
   }
-}), [
-  'state.pagination',
-  'state.treeIdField',
-  'state.sortFieldList',
-  'state.currentItem',
-  'state.details',
-  'state.visibilityOfEdit',
-  'state.selectedRowKeys',
-  'state.selectedRows'
+}, [
+  'pagination',
+  'treeIdField',
+  'sortFieldList',
+  'currentItem',
+  'details',
+  'visibilityOfEdit',
+  'selectedRowKeys',
+  'selectedRows'
 ])

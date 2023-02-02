@@ -1,7 +1,6 @@
 import { createStoreModule } from '@/store/template'
-import { omit } from 'lodash'
 
-export default commitRootInModule => omit(createStoreModule({
+export default commitRootInModule => createStoreModule({
   state: {
     visibilityOfExportByTime: false,
     activities: {
@@ -13,10 +12,10 @@ export default commitRootInModule => omit(createStoreModule({
       loading: false
     }
   }
-}), [
-  'state.details',
-  'state.visibilityOfEdit',
-  'state.selectedRowKeys',
-  'state.selectedRows',
-  'state.currentItem'
+}, [
+  'details',
+  'visibilityOfEdit',
+  'selectedRowKeys',
+  'selectedRows',
+  'currentItem'
 ])

@@ -1,8 +1,7 @@
 import { createStoreModule } from '@/store/template'
-import { omit } from 'lodash'
 
-export default commitRootInModule => omit(createStoreModule({
+export default commitRootInModule => createStoreModule({
   state: { visibilityOfReview: false }
-}), [
-  'state.visibilityOfEdit'
+}, [
+  'visibilityOfEdit'
 ])
