@@ -4,7 +4,7 @@
   height: 100%;
 }
 
-.ant-menu.menu-popup {
+.ant-menu-submenu.ant-menu-submenu-popup > .ant-menu {
   max-height: 100vh;
   overflow-y: auto;
 }
