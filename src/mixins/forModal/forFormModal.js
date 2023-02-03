@@ -10,7 +10,11 @@ import { cloneDeep, omit } from 'lodash'
 import moment from 'moment'
 import { message } from '@/utils/message'
 
-export default () => {
+/**
+ * @param [disableSubmitButton=true] {boolean} 加载表单后，在未修改表单内任一项的值之前，禁用提交按钮
+ * @returns {Object}
+ */
+export default ({ disableSubmitButton = true } = {}) => {
   return {
     mixins: [forModal()],
     props: {
@@ -47,7 +51,7 @@ export default () => {
     },
     created() {
       // 进入表单弹窗时，做任何修改之前禁用提交按钮
-      if (this.form) {
+      if (this.form && disableSubmitButton) {
         this.$watch(
           () => this.form?.isFieldsTouched(),
           () => {

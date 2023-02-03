@@ -1,19 +1,14 @@
 import forInquiry from '@/mixins/forInquiry'
-import { Alert, Button, Form, InputNumber, Select, Space, TreeSelect } from 'ant-design-vue'
+import { Button, Form, Select, Space } from 'ant-design-vue'
 
 export default Form.create({})({
   mixins: [forInquiry()],
   data: () => ({
     initialValues: {
-      time: '',
-      status: ''
+      reportTimePeriod: '',
+      reportStatus: ''
     }
   }),
-  computed: {
-    schoolTree() {
-      return this.$store.state[this.moduleName].schoolTree
-    }
-  },
   render() {
     return (
       <Form
@@ -23,55 +18,29 @@ export default Form.create({})({
         class="tg-inquiry"
       >
         <div class={'row-down'}>
-          <Form.Item label="学校">
-            {
-              this.form.getFieldDecorator('schoolId', { initialValue: this.initialValues.schoolId })(
-                <TreeSelect
-                  showSearch
-                  allowClear
-                  treeNodeFilterProp={'title'}
-                  dropdownClassName={'tg-select-dropdown'}
-                  treeData={this.schoolTree.list}
-                  replaceFields={{
-                    children: 'children',
-                    title: 'name',
-                    key: 'id',
-                    value: 'id'
-                  }}
-                  searchPlaceholder={'请输入学校名称搜索'}
-                  placeholder={'请选择学校'}
-                  // treeDefaultExpandedKeys={[this.currentItem.schoolId || this.search.schoolId]}
-                />
-              )
-            }
-          </Form.Item>
-          <Form.Item label={'班级'}>
-            {
-              this.form.getFieldDecorator('classNumber', { initialValue: this.initialValues.classNumber })(
-                <InputNumber
-                  min={1}
-                  max={100}
-                  precision={0}
-                  placeholder={'请输入班级'}
-                  allowClear
-                />
-              )
-            }
-          </Form.Item>
           <Form.Item label={'上报时段'}>
             {
-              this.form.getFieldDecorator('t', { initialValue: this.initialValues.time })(
-                <Select>
+              this.form.getFieldDecorator(
+                'reportTimePeriod',
+                { initialValue: this.initialValues.reportTimePeriod }
+              )(
+                <Select allowClear placeholder={'请选择上报时段'}>
                   <Select.Option value={''}>全部</Select.Option>
+                  <Select.Option value={1}>晨检</Select.Option>
+                  <Select.Option value={2}>午检</Select.Option>
                 </Select>
               )
             }
           </Form.Item>
           <Form.Item label={'上报状态'}>
             {
-              this.form.getFieldDecorator('status', { initialValue: this.initialValues.status })(
-                <Select>
+              this.form.getFieldDecorator('reportStatus', { initialValue: this.initialValues.reportStatus })(
+                <Select allowClear placeholder={'请选择上报状态'}>
                   <Select.Option value={''}>全部</Select.Option>
+                  <Select.Option value={1}>未上报</Select.Option>
+                  <Select.Option value={2}>待审核</Select.Option>
+                  <Select.Option value={3}>审核通过</Select.Option>
+                  <Select.Option value={4}>驳回</Select.Option>
                 </Select>
               )
             }
@@ -88,16 +57,6 @@ export default Form.create({})({
             {/*<Button onClick={this.onClear} icon="reload">重置</Button>*/}
           </Space>
         </div>
-        <Alert
-          banner
-          type={'warning'}
-          message={
-            <Space>
-              <span>您有未到校学生待处理</span>
-              <Button size={'small'} type={'dashed'}>立即处理</Button>
-            </Space>
-          }
-        />
       </Form>
     )
   }

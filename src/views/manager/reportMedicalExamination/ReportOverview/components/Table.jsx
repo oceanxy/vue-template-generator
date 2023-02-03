@@ -16,73 +16,98 @@ export default {
           },
           {
             title: '上报日期',
-            width: 120,
-            dataIndex: 'parentName'
+            dataIndex: 'reportTimeStr'
           },
           {
             title: '学校',
             width: 220,
-            dataIndex: 'fullName'
+            dataIndex: 'schoolName'
           },
           {
             title: '班级',
             width: 80,
             align: 'center',
-            dataIndex: 'provinceName'
+            dataIndex: 'classNumber'
+          },
+          // todo 添加学生人数
+          {
+            title: '班级人数',
+            width: 80,
+            align: 'center',
+            dataIndex: 'studentNumber'
           },
           {
             title: '异常人数',
             width: 80,
             align: 'center',
-            dataIndex: 'cityName'
+            scopedSlots: { customRender: 'abnormalNum' }
           },
           {
             title: '上报时段',
             width: 80,
             align: 'center',
-            dataIndex: 'countyName'
+            scopedSlots: { customRender: 'reportTimePeriod' }
           },
           {
             title: '上报状态',
-            width: 150,
+            width: 80,
             align: 'center',
-            dataIndex: 'streetName'
+            dataIndex: 'reportStatusStr'
           },
           {
             title: '上报人',
-            width: 200,
-            dataIndex: 'orgDescribe'
+            dataIndex: 'reportorName'
           },
           {
             title: '填报时间',
-            align: 'center',
-            width: 80,
-            dataIndex: 'sortIndex'
+            dataIndex: 'fillTimeStr'
           },
           {
             title: '操作',
             fixed: 'right',
             align: 'center',
-            width: 150,
+            width: 200,
             scopedSlots: { customRender: 'operation' }
           }
         ]
       },
       scopedSlots: {
+        abnormalNum: (text, record) => {
+          return record.reportStatus === 1
+            ? '-'
+            : record.abnormalNum ? <span style={'color: red'}>{record.abnormalNum}</span> : 0
+        },
+        reportTimePeriod: (text, record) => {
+          return ['晨检', '午检'][record.reportTimePeriod - 1]
+        },
         operation: (text, record) => (
           <Space>
-            <Button
-              type="link"
-              size="small"
-            >
-              查看
-            </Button>
-            <Button
-              type="link"
-              size="small"
-            >
-              添加上报
-            </Button>
+            {
+              record.reportStatus !== 1
+                ? [
+                  <Button
+                    type="link"
+                    size="small"
+                  >
+                    查看
+                  </Button>,
+                  <Button
+                    type="link"
+                    size="small"
+                  >
+                    添加异常
+                  </Button>
+                ]
+                : (
+                  <Button
+                    type="link"
+                    size="small"
+                    onClick={() => this._setVisibilityOfModal(record, 'visibilityOfOneClickReport')}
+                  >
+                    一键上报
+                  </Button>
+                )
+            }
           </Space>
         )
       }
