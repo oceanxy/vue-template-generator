@@ -29,12 +29,12 @@ export default {
           },
           {
             title: '身份证号',
-            width: 180,
+            width: 160,
             dataIndex: 'idNumber'
           },
           {
             title: '学籍号',
-            width: 180,
+            width: 160,
             dataIndex: 'studentNumber'
           },
           {
@@ -44,7 +44,7 @@ export default {
           },
           {
             title: '就读学校名称',
-            width: 240,
+            width: 200,
             dataIndex: 'schoolName'
           },
           {
@@ -60,7 +60,7 @@ export default {
           },
           {
             title: '学籍所属学校',
-            width: 240,
+            width: 200,
             dataIndex: 'originalSchoolName'
           },
           {
@@ -105,7 +105,7 @@ export default {
           },
           {
             title: '创建时间',
-            width: 160,
+            width: 140,
             dataIndex: 'createTimeStr'
           },
           {
