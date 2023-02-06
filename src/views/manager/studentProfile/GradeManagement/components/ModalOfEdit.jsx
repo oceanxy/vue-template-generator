@@ -12,7 +12,7 @@ export default Form.create({})({
         width: 700,
         wrapClassName: 'bnm-modal-edit-user-form'
       },
-      schoolId: ''
+      curSchool: ''
     }
   },
   computed: {
@@ -49,7 +49,7 @@ export default Form.create({})({
       })
     },
     onChange(value) {
-      this.schoolId = value
+      this.curSchool = value
     },
     filterOption(input, option) {
       return (
@@ -59,7 +59,8 @@ export default Form.create({})({
     customDataHandler(values) {
       const data = { ...values }
 
-      data.schoolId = this.currentItem?.schoolId ?? this.schoolId
+      data.schoolId = this.currentItem?.schoolId ?? this.curSchool.key
+      data.schoolName = this.currentItem?.schoolName ?? this.curSchool.label
 
       return data
     }
@@ -82,13 +83,18 @@ export default Form.create({})({
         >
           <Form.Item label="学校名称">
             {
-              this.form.getFieldDecorator('schoolId', { initialValue: this.currentItem.schoolId })(
+              this.form.getFieldDecorator('schoolId', {
+                initialValue: this.currentItem.schoolId
+                  ? { key: this.currentItem.schoolId, label: this.currentItem.schoolName }
+                  : undefined
+              })(
                 <Select
                   allowClear
                   showSearch
                   filterOption={this.filterOption}
                   placeholder={'输入学校名称'}
                   // filterOption={false}
+                  labelInValue
                   disabled={this.schoolName}
                   mode={'default'}
                   onChange={this.onChange}

@@ -64,7 +64,6 @@ export default Form.create({})({
       return data
     },
     async getStreetList(value) {
-      console.log(value)
       await this.$store.dispatch('getListWithLoadingStatus', {
         moduleName: this.moduleName,
         stateName: 'streetList',
