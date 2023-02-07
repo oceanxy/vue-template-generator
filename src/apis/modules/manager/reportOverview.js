@@ -24,18 +24,18 @@ export default {
     return request({
       url: '/morningNoon/checkReport/getPendingStudents',
       method: 'post',
-      data
+      data: qs.stringify(data)
     })
   },
   /**
-   * 新增晨午检上报
+   * 一键上报
    * @param request
    * @param data
    * @returns {*}
    */
-  addReportOverview(request, data) {
+  onClickReport(request, data) {
     return request({
-      url: '/system/function/add',
+      url: '/morningNoon/checkReport/oneKeyReport',
       method: 'post',
       data
     })
