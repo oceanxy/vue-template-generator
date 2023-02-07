@@ -29,7 +29,7 @@ export default ({ disableSubmitButton = true } = {}) => {
     data() {
       return {
         visibilityFieldName: 'visibilityOfEdit',
-        modalProps: { okButtonProps: { props: { disabled: true } } }
+        modalProps: { okButtonProps: { props: { disabled: disableSubmitButton } } }
       }
     },
     watch: {
@@ -37,6 +37,7 @@ export default ({ disableSubmitButton = true } = {}) => {
         immediate: true,
         handler(value) {
           if (value) {
+            this.modalProps.okButtonProps.props.disabled = disableSubmitButton
             this.modalProps.title = (this.$parent.$attrs.modalTitle || this.modalTitle).replace(
               '{action}',
               this.currentItem.id
