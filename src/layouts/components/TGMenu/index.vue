@@ -208,8 +208,21 @@ export default {
       }
     },
     titleClick(e) {
-      const { domEvent } = e
-      const subMenuDom = domEvent.path.filter(dom => dom.classList?.contains('ant-menu-submenu'))
+      /**
+       *  ---------------------- Event.path 的兼容处理 ---------------------------
+       *  从 chrome v108 升级到 v109 后发现 Event.path 的值为 undefined，
+       *  查阅文档发现 Chrome 在最近版本中删除了该属性！！！！
+       *  具体信息参考：https://bugs.chromium.org/p/chromium/issues/detail?id=1277431
+       */
+      let { path } = e.domEvent
+
+      if (!path) {
+        path = e.domEvent.composedPath()
+      }
+
+      // ------------------------------------------------------------------------
+
+      const subMenuDom = path.filter(dom => dom.classList?.contains('ant-menu-submenu'))
 
       // 获取当前点击的折叠菜单的keyPath
       const keyPath = subMenuDom
