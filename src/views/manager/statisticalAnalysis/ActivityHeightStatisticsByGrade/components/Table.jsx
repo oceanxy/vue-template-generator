@@ -16,10 +16,10 @@ export default {
           },
           {
             title: '年级',
-            width: 80,
+            width: 100,
             align: 'center',
             fixed: true,
-            dataIndex: 'grade'
+            dataIndex: 'gradeStr'
           },
           {
             title: '总人数',

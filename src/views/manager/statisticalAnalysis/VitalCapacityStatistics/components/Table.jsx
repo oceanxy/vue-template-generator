@@ -75,7 +75,7 @@ export default {
         title: '年级',
         width: 100,
         align: 'center',
-        dataIndex: 'grade'
+        dataIndex: 'gradeStr'
       })
     }
 
