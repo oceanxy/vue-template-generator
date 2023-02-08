@@ -10,6 +10,7 @@
   font-family: Source Han Sans SC, Source Han Sans SC-Medium, Microsoft YaHei UI, serif;
   font-weight: bolder;
   color: #344054;
+  overflow: hidden;
 
   &:hover {
     transform: rotate3d(-4, 5, -1, -10deg) scale(1.04);

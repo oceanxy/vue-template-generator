@@ -30,7 +30,7 @@ export default {
           {
             type: 'bar',
             data: [],
-            barWidth: '30%'
+            barWidth: 16
           }
         ]
       }
