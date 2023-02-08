@@ -25,16 +25,15 @@ export default {
           },
           {
             title: '班级',
-            width: 80,
+            width: 120,
             align: 'center',
-            dataIndex: 'classNumber'
+            dataIndex: 'gradeClassStr'
           },
-          // todo 添加学生人数
           {
             title: '班级人数',
             width: 80,
             align: 'center',
-            dataIndex: 'studentNumber'
+            dataIndex: 'classPeopleNum'
           },
           {
             title: '异常人数',
@@ -94,6 +93,7 @@ export default {
                   <Button
                     type="link"
                     size="small"
+                    onClick={() => this._setVisibilityOfModal(record)}
                   >
                     添加异常
                   </Button>

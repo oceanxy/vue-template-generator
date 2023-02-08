@@ -2,7 +2,6 @@ import dynamicState from '@/mixins/dynamicState'
 import { getOrganizationTreeIcon } from '@/utils/projectHelpers'
 import TGContainerWithTreeSider from '@/components/TGContainerWithTreeSider'
 import TGContainer from '@/layouts/components/TGContainer'
-import Functions from './components/Functions'
 import Inquiry from './components/Inquiry'
 import Table from './components/Table'
 import ModalOfEdit from './components/ModalOfEdit'
@@ -26,12 +25,11 @@ export default {
         }}
       >
         <TGContainer>
-          <Functions slot={'functions'} />
           <Inquiry slot={'others'} />
           <Table slot={'table'} />
           <TGPagination slot={'pagination'} />
           <template slot={'modals'}>
-            <ModalOfEdit modalTitle={'{action}上报'} />
+            <ModalOfEdit modalTitle={'新增上报'} />
             <ModalOfOneClickReport modalTitle={'一键上报'} />
           </template>
         </TGContainer>

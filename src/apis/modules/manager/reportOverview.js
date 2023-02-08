@@ -41,29 +41,55 @@ export default {
     })
   },
   /**
-   * 更新晨午检上报
+   * 根据学生姓名查询学生信息
+   * @param request
+   * @param data
+   * @returns {*}
+   */
+  getStudentsByName(request, data) {
+    return request({
+      url: '/morningNoon/checkReport/getStudentsByName',
+      method: 'post',
+      data: qs.stringify(data)
+    })
+  },
+  /**
+   * 根据名称获取症状信息
+   * @param request
+   * @param data
+   * @returns {*}
+   */
+  getSymptomsByName(request, data) {
+    return request({
+      url: '/morningNoon/checkReport/getSymptom',
+      method: 'post',
+      data: qs.stringify(data)
+    })
+  },
+  /**
+   * 根据名称获取诊断信息
+   * @param request
+   * @param data
+   * @returns {*}
+   */
+  getDiagnosesByName(request, data) {
+    return request({
+      url: '/morningNoon/checkReport/getDiagnose',
+      method: 'post',
+      data: qs.stringify(data)
+    })
+  },
+  /**
+   * 新增异常上报
    * @param request
    * @param data
    * @returns {*}
    */
   updateReportOverview(request, data) {
     return request({
-      url: '/system/function/update',
+      url: '/morningNoon/checkReport/add',
       method: 'post',
       data
-    })
-  },
-  /**
-   * 获取晨午检上报详情
-   * @param request
-   * @param data
-   * @returns {*}
-   */
-  getDetailsOfReportOverview(request, data) {
-    return request({
-      url: '/system/function/getFunctionInfoList',
-      method: 'post',
-      data: qs.stringify(data)
     })
   }
 }

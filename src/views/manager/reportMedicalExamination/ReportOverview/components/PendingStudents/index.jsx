@@ -46,7 +46,7 @@ export default {
             <Card class={'pending-student-card'}>
               <div class={'pending-student-info'}>
                 <p>{student.fullName}</p>
-                <p>{student.diseaseTypeStr}</p>
+                <p>{`${student.diseaseTypeStr || '疾病信息不详'}/${student.symptomName || '症状不详'}`}</p>
               </div>
               <Button
                 type={'primary'}
