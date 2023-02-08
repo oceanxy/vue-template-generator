@@ -39,7 +39,7 @@ export default {
           {
             type: 'bar',
             data: [],
-            barWidth: '60%',
+            barWidth: '40%',
             itemStyle: {
               color: {
                 x: 0,
