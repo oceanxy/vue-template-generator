@@ -2,7 +2,7 @@ import './index.scss'
 import { DatePicker, Empty, Form, Input, Radio, Select, Spin } from 'ant-design-vue'
 import forFormModal from '@/mixins/forModal/forFormModal'
 import DragModal from '@/components/DragModal'
-import { cloneDeep, debounce } from 'lodash'
+import { debounce } from 'lodash'
 
 export default Form.create({})({
   mixins: [forFormModal()],
@@ -34,11 +34,15 @@ export default Form.create({})({
           cancel: () => this.onCancel(),
           ok: () => this.onSubmit({
             customDataHandler: value => {
-              const { id, ...rest } = cloneDeep(value)
+              if (this.currentItem.id) {
+                return value
+              } else {
+                const { id, ...rest } = value
 
-              return {
-                id,
-                checkAbnormalAddRO: rest
+                return {
+                  id,
+                  checkAbnormalAddRO: rest
+                }
               }
             }
           })
@@ -51,23 +55,62 @@ export default Form.create({})({
       immediate: true,
       async handler(value) {
         if (value) {
-          // 初始化表单内的模糊查询结果
-          this.clear('students')
+          // 初始化表单内的模糊查询结果，编辑状态下用列表的值作为默认值
+          this.setState(
+            'students',
+            this.currentItem.id
+              ? [
+                {
+                  id: this.currentItem.studentId,
+                  fullName: this.currentItem.studentName,
+                  gradeName: this.currentItem.gradeName,
+                  classNumber: this.currentItem.classNumber
+                }
+              ]
+              : []
+          )
+          this.setState(
+            'symptoms',
+            this.currentItem.id
+              ? [
+                {
+                  id: this.currentItem.symptomId,
+                  symptomName: this.currentItem.symptomName
+                }
+              ]
+              : []
+          )
+          this.setState(
+            'diagnoses',
+            this.currentItem.id
+              ? [
+                {
+                  id: this.currentItem.diagnoseId,
+                  diagnoseName: this.currentItem.diagnoseName
+                }
+              ]
+              : []
+          )
         }
       }
     }
   },
   methods: {
-    clear(fieldName) {
+    /**
+     * 设置状态
+     * @param stateName {string} 状态名
+     * @param [value=[]] {any} 状态值，默认为空数组
+     */
+    setState(stateName, value = []) {
       this.$store.commit('setState', {
-        value: { loading: false, list: [] },
+        value: { loading: false, list: value },
         moduleName: this.moduleName,
-        stateName: fieldName
+        stateName
       })
     },
     async onSearchForStudent(studentName) {
       // 搜索前，先清空上一次搜索结果缓存
-      this.clear('students')
+      this.setState('students')
 
       if (studentName) {
         await this.$store.dispatch('getListWithLoadingStatus', {
@@ -84,7 +127,7 @@ export default Form.create({})({
     },
     async onSearchForSymptom(symptomName) {
       // 搜索前，先清空上一次搜索结果缓存
-      // this.clear('symptoms')
+      this.setState('symptoms')
 
       if (symptomName) {
         await this.$store.dispatch('getListWithLoadingStatus', {
@@ -97,7 +140,7 @@ export default Form.create({})({
     },
     async onSearchForDiagnosis(diagnosisName) {
       // 搜索前，先清空上一次搜索结果缓存
-      // this.clear('diagnoses')
+      this.setState('diagnoses')
 
       if (diagnosisName) {
         await this.$store.dispatch('getListWithLoadingStatus', {

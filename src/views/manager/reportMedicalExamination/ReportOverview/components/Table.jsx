@@ -87,6 +87,7 @@ export default {
                   <Button
                     type="link"
                     size="small"
+                    onClick={() => this.$router.push({ name: 'reportDetails', query: { reportId: record.id } })}
                   >
                     查看
                   </Button>,
