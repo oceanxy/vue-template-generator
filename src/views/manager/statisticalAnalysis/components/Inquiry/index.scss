@@ -20,9 +20,24 @@
   }
 
   .row-inquiry {
+    position: relative;
     background: #f9f9fb;
     padding: 18px 12px;
     flex: none;
+    overflow: hidden;
+    max-height: 250px;
+    transition: max-height .2s;
+
+    &.fold {
+      max-height: 66px;
+    }
+
+    .fold-btn {
+      position: absolute;
+      right: 10px;
+      top: 10px;
+      z-index: 1;
+    }
 
     .ant-form-item {
       margin-bottom: 0;

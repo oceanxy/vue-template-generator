@@ -61,7 +61,8 @@ export default ({
           }
         },
         scopedSlots: { serialNumber: this.getConsecutiveSerialNumber },
-        exportButtonDisabled: false
+        exportButtonDisabled: false,
+        observer: null
       }
     },
     computed: {
@@ -183,6 +184,33 @@ export default ({
 
       this.$on('hook:beforeDestroy', () => {
         window.removeEventListener('resize', this.resize)
+
+        if (this.observer) {
+          this.observer.disconnect()
+          this.observer.takeRecords()
+          this.observer = null
+        }
+      })
+
+      // row-inquiry 为可变高度的容器，这里监听一下该容器的高度变化，用来重置表格的高度
+      this.$nextTick(() => {
+        const element = document.querySelector('.row-inquiry')
+
+        if (element) {
+          const MutationObserver = window.MutationObserver ||
+            window.WebKitMutationObserver ||
+            window.MozMutationObserver
+
+          this.observer = new MutationObserver(() => {
+            // 这置延迟是因为 .row-inquiry 的 css过渡动画时间为200ms
+            setTimeout(this.resize, 200)
+          })
+
+          this.observer.observe(element, {
+            attributes: true,
+            attributeFilter: ['class']
+          })
+        }
       })
 
       // 为 /src/components/BNContainerWithSider 组件注入获取 table ref 的逻辑

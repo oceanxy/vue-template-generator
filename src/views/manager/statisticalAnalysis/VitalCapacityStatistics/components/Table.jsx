@@ -82,7 +82,8 @@ export default {
     return {
       tableProps: {
         columns,
-        rowSelection: null
+        rowSelection: null,
+        size: 'small'
       }
     }
   },

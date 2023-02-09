@@ -31,6 +31,7 @@ export default Form.create({})({
     }
   },
   data: () => ({
+    isFold: false,
     currentActivity: {},
     initialValues: {
       schoolTypes: [111, 211, 241, 311, 341, 365, 411],
@@ -118,6 +119,9 @@ export default Form.create({})({
 
       // 通过 this.form.setFieldsValue 的方式更新表单值不会触发表单的 change 事件，所以这里手动调用，模拟一下
       this.onChange()
+    },
+    onFold() {
+      this.isFold = !this.isFold
     }
   },
   render() {
@@ -154,7 +158,15 @@ export default Form.create({})({
             数据来源：<span>{this.currentActivity.activityName || '-'}</span>
           </p>
         </div>
-        <Form class={'row-inquiry'}>
+        <Form class={`row-inquiry${this.isFold ? ' fold' : ''}`}>
+          <Button
+            class={`fold-btn${this.isFold ? ' down' : ''}`}
+            size="small"
+            title={this.isFold ? '展开筛选' : '折叠筛选'}
+            onClick={this.onFold}
+          >
+            <Icon type={this.isFold ? 'filter' : 'up'} />
+          </Button>
           <Form.Item class={'activity'} label={'数据来源'}>
             <Spin spinning={this.activities.loading}>
               {
