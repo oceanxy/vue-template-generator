@@ -55,10 +55,10 @@ export default Form.create({})({
       immediate: true,
       async handler(value) {
         if (value) {
-          // 初始化表单内的模糊查询结果，编辑状态下用列表的值作为默认值
+          // 初始化表单内的模糊查询结果，编辑模式下用列表的值作为默认值
           this.setState(
             'students',
-            this.currentItem.id
+            this.currentItem._isEdit
               ? [
                 {
                   id: this.currentItem.studentId,
@@ -71,7 +71,7 @@ export default Form.create({})({
           )
           this.setState(
             'symptoms',
-            this.currentItem.id
+            this.currentItem._isEdit
               ? [
                 {
                   id: this.currentItem.symptomId,
@@ -82,7 +82,7 @@ export default Form.create({})({
           )
           this.setState(
             'diagnoses',
-            this.currentItem.id
+            this.currentItem._isEdit
               ? [
                 {
                   id: this.currentItem.diagnoseId,

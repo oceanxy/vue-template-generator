@@ -93,7 +93,7 @@ export default {
             <Button
               type="link"
               size="small"
-              onClick={() => this.onEditClick(record)}
+              onClick={() => this.onEditClick({ ...record, _isEdit: true })}
             >
               编辑
             </Button>
