@@ -203,8 +203,11 @@ export default {
         this.$nextTick(async () => {
           await this.$store.dispatch('setSearch', {
             payload: {
-              ...this.injectSearchParamsOfTable(this.dataSource.list?.[0] ?? {}),
-              [this.treeIdField]: this.dataSource.list?.[0]?.id
+              ...this.injectSearchParamsOfTable(this.dataSource.list?.[0] ?? {}), // 获取额外请求参数
+              [this.treeIdField]: this.dataSource.list?.[0]?.id, // 获取树ID
+              ...this.$route.query, // 获取地址栏的值
+              /* #1 （一个书签，与本组件 #2 书签配合） */
+              ...this.$route.params // 获取清空 query 后，通过 route.params 传递的参数。
             },
             moduleName: this.moduleName,
             isResetSelectedRows: true,
@@ -262,59 +265,71 @@ export default {
      * @param e {Object} 当前是否有被选中的结点
      */
     async onSelect(selectedKeys, e) {
-      let payload
-      let treeIdField
-
-      if (e.selected) {
-        treeIdField = this.getFieldNameForTreeId(e.node.pos.split('-').length - 1)
+      if (Object.keys(this.$route.query).length) {
+        /* #2 （一个书签，与本组件的 #1 配合） */
+        // 手动选择菜单后，清空地址栏的参数
+        await this.$router.push({
+          query: {},
+          params: {
+            ...this.injectSearchParamsOfTable(e.node.$attrs.dataSource), // 获取额外请求参数
+            [this.treeIdField]: selectedKeys[0] // 获取树ID
+          }
+        })
       } else {
-        treeIdField = this.notNoneMode ? this.getFieldNameForTreeId(1) : ''
-      }
+        let payload
+        let treeIdField
 
-      if (this.oldTreeIdField !== treeIdField) {
-        // 清空search内上一次树操作的键与值
-        if (this.oldTreeIdField) {
-          this.$store.commit('setSearch', {
-            payload: {
-              ...this.injectSearchParamsOfTable({}),
-              [this.oldTreeIdField]: undefined
-            },
+        if (e.selected) {
+          treeIdField = this.getFieldNameForTreeId(e.node.pos.split('-').length - 1)
+        } else {
+          treeIdField = this.notNoneMode ? this.getFieldNameForTreeId(1) : ''
+        }
+
+        if (this.oldTreeIdField !== treeIdField) {
+          // 清空search内上一次树操作的键与值
+          if (this.oldTreeIdField) {
+            this.$store.commit('setSearch', {
+              payload: {
+                ...this.injectSearchParamsOfTable({}),
+                [this.oldTreeIdField]: undefined
+              },
+              moduleName: this.moduleName,
+              ...this.optionsOfGetList
+            })
+          }
+
+          // 更新对应 store 模块内 treeIdField 字段的值
+          this.$store.commit('setState', {
+            value: treeIdField,
             moduleName: this.moduleName,
+            stateName: 'treeIdField'
+          })
+
+          this.oldTreeIdField = treeIdField
+        }
+
+        if (e.selected) {
+          payload = {
+            ...this.injectSearchParamsOfTable(e.node.$attrs.dataSource),
+            [this.treeIdField]: selectedKeys[0]
+          }
+        } else {
+          if (this.treeIdField) {
+            payload = {
+              ...this.injectSearchParamsOfTable(this.notNoneMode ? this.dataSource.list?.[0] : {}),
+              [this.treeIdField]: this.notNoneMode ? this.dataSource.list?.[0]?.id : ''
+            }
+          }
+        }
+
+        if (this.treeIdField && payload[this.treeIdField] !== this.treeId[0]) {
+          await this.$store.dispatch('setSearch', {
+            payload,
+            moduleName: this.moduleName,
+            isResetSelectedRows: true,
             ...this.optionsOfGetList
           })
         }
-
-        // 更新对应 store 模块内 treeIdField 字段的值
-        this.$store.commit('setState', {
-          value: treeIdField,
-          moduleName: this.moduleName,
-          stateName: 'treeIdField'
-        })
-
-        this.oldTreeIdField = treeIdField
-      }
-
-      if (e.selected) {
-        payload = {
-          ...this.injectSearchParamsOfTable(e.node.$attrs.dataSource),
-          [this.treeIdField]: selectedKeys[0]
-        }
-      } else {
-        if (this.treeIdField) {
-          payload = {
-            ...this.injectSearchParamsOfTable(this.notNoneMode ? this.dataSource.list?.[0] : {}),
-            [this.treeIdField]: this.notNoneMode ? this.dataSource.list?.[0]?.id : ''
-          }
-        }
-      }
-
-      if (this.treeIdField && payload[this.treeIdField] !== this.treeId[0]) {
-        await this.$store.dispatch('setSearch', {
-          payload,
-          moduleName: this.moduleName,
-          isResetSelectedRows: true,
-          ...this.optionsOfGetList
-        })
       }
     },
     /**
@@ -339,7 +354,10 @@ export default {
           />
         )
         : (
-          <span slot={'title'} title={treeNode.name + childrenNumber}>
+          <span
+            slot={'title'}
+            title={treeNode.name + childrenNumber}
+          >
             {treeNode.name + childrenNumber}
           </span>
         )
@@ -358,8 +376,15 @@ export default {
      */
     getTreeNode(dataSource) {
       return dataSource?.map(item => (
-        <Tree.TreeNode key={item.id} dataSource={item}>
-          <Icon slot={'icon'} class={'icon'} component={this.getIcon(item)} />
+        <Tree.TreeNode
+          key={item.id}
+          dataSource={item}
+        >
+          <Icon
+            slot={'icon'}
+            class={'icon'}
+            component={this.getIcon(item)}
+          />
           {this.highlight(item)}
           {
             Array.isArray(item?.children)
@@ -391,9 +416,15 @@ export default {
         onSidebarSwitch={this.onSidebarSwitch}
       >
         {this.$slots.default}
-        <div slot={'sider'} class="fe-tree-data">
+        <div
+          slot={'sider'}
+          class="fe-tree-data"
+        >
           <Input
-            prefix={<Icon type={'search'} style={{ fontSize: '16px' }} />}
+            prefix={<Icon
+              type={'search'}
+              style={{ fontSize: '16px' }}
+            />}
             placeholder={this.placeholder}
             onChange={debounce(this.onTreeSearch, 300)}
           />

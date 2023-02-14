@@ -87,7 +87,14 @@ export default {
                   <Button
                     type="link"
                     size="small"
-                    onClick={() => this.$router.push({ name: 'reportDetails', query: { reportId: record.id } })}
+                    onClick={() => this.$router.push({
+                      name: 'reportDetails',
+                      query: {
+                        reportId: record.id,
+                        orgId: this.search.orgId,
+                        orgType: this.search.orgType
+                      }
+                    })}
                   >
                     查看
                   </Button>,
@@ -112,6 +119,11 @@ export default {
           </Space>
         )
       }
+    }
+  },
+  computed: {
+    search() {
+      return this.$store.state[this.moduleName].search
     }
   }
 }
