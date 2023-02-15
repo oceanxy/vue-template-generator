@@ -364,11 +364,12 @@ export default ({
       },
       /**
        * 审核或相关意见填写
-       * @param ids {string}
+       * @param record {Object}
+       * @param visibilityFieldName {string}
        * @returns {Promise<void>}
        */
-      async onAuditClick(ids) {
-        await this._setVisibilityOfModal({ ids })
+      async onAuditClick(record, visibilityFieldName) {
+        await this._setVisibilityOfModal(record, visibilityFieldName)
       },
       /**
        * 删除

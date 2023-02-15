@@ -146,7 +146,11 @@ export default {
           if ('data' in state[moduleName][stateName]) {
             state[moduleName][stateName].data = value
           } else {
-            state[moduleName][stateName] = value
+            // 数据结构为自定义的结构，（即非 {loading: boolean, data: {}} 或 {loading: boolean, list: []} 的结构）
+            state[moduleName][stateName] = {
+              ...state[moduleName][stateName],
+              ...value
+            }
           }
         } else {
           state[moduleName][stateName].list = value
@@ -160,7 +164,11 @@ export default {
           if ('data' in state[moduleName][submoduleName][stateName]) {
             state[moduleName][submoduleName][stateName].data = value
           } else {
-            state[moduleName][submoduleName][stateName] = value
+            // 数据结构为自定义的结构，（即非 {loading: boolean, data: {}} 或 {loading: boolean, list: []} 的结构）
+            state[moduleName][submoduleName][stateName] = {
+              ...state[moduleName][submoduleName][stateName],
+              ...value
+            }
           }
         } else {
           state[moduleName][submoduleName][stateName].list = value
@@ -214,7 +222,10 @@ export default {
    * @param moduleName {string}
    */
   setModalVisible(state, {
-    field, value, moduleName, submoduleName = ''
+    field,
+    value,
+    moduleName,
+    submoduleName = ''
   }) {
     if (!submoduleName) {
       state[moduleName][field] = value

@@ -1,18 +1,35 @@
 import forInquiry from '@/mixins/forInquiry'
-import { Button, DatePicker, Form, Input, Select, Space, TreeSelect } from 'ant-design-vue'
+import { Button, DatePicker, Empty, Form, Input, Select, Space, Spin } from 'ant-design-vue'
+import { debounce } from 'lodash'
 
 export default Form.create({})({
   mixins: [forInquiry()],
-  data: () => ({
-    initialValues: {
-      time: '',
-      status: '',
-      isS: 0
+  data() {
+    return {
+      initialValues: {
+        registerType: '',
+        diseaseType: '',
+        auditStatus: '',
+        reportId: this.$route.query.reportId,
+        dateRange: []
+      }
     }
-  }),
+  },
   computed: {
-    schoolTree() {
-      return this.$store.state[this.moduleName].schoolTree
+    symptoms() {
+      return this.$store.state[this.moduleName].symptoms
+    }
+  },
+  methods: {
+    async onSearchForSymptom(symptomName) {
+      if (symptomName) {
+        await this.$store.dispatch('getListWithLoadingStatus', {
+          moduleName: this.moduleName,
+          stateName: 'symptoms',
+          customApiName: 'getSymptomsByName',
+          payload: { name: symptomName }
+        })
+      }
     }
   },
   render() {
@@ -24,95 +41,79 @@ export default Form.create({})({
         class="tg-inquiry"
       >
         <div class={'row-down'}>
-          <Form.Item label="日期范围" class={'span-2'}>
+          <Form.Item
+            label="日期范围"
+            class={'span-2'}
+          >
             {
               this.form.getFieldDecorator('dateRange', { initialValue: this.initialValues.dateRange })(
                 <DatePicker.RangePicker
                   placeholder={['开始日期', '结束日期']}
-                  valueFormat={'YYYY-MM-DD'}
+                  valueFormat={'YYYYMMDD'}
                   allowClear
-                />
-              )
-            }
-          </Form.Item>
-          <Form.Item label="学校">
-            {
-              this.form.getFieldDecorator('schoolId', { initialValue: this.initialValues.schoolId })(
-                <TreeSelect
-                  showSearch
-                  allowClear
-                  treeNodeFilterProp={'title'}
-                  dropdownClassName={'tg-select-dropdown'}
-                  treeData={this.schoolTree.list}
-                  replaceFields={{
-                    children: 'children',
-                    title: 'name',
-                    key: 'id',
-                    value: 'id'
-                  }}
-                  searchPlaceholder={'请输入学校名称搜索'}
-                  placeholder={'请选择学校'}
-                  // treeDefaultExpandedKeys={[this.currentItem.schoolId || this.search.schoolId]}
                 />
               )
             }
           </Form.Item>
           <Form.Item label={'登记类型'}>
             {
-              this.form.getFieldDecorator('t', { initialValue: this.initialValues.time })(
+              this.form.getFieldDecorator('registerType', { initialValue: this.initialValues.registerType })(
                 <Select>
                   <Select.Option value={''}>全部</Select.Option>
+                  <Select.Option value={1}>带病上课</Select.Option>
+                  <Select.Option value={2}>因病缺课</Select.Option>
+                  <Select.Option value={3}>因伤缺课</Select.Option>
+                  <Select.Option value={4}>其他原因缺课</Select.Option>
                 </Select>
               )
             }
           </Form.Item>
           <Form.Item label={'病例类型'}>
             {
-              this.form.getFieldDecorator('t2', { initialValue: this.initialValues.time })(
+              this.form.getFieldDecorator('diseaseType', { initialValue: this.initialValues.diseaseType })(
                 <Select>
                   <Select.Option value={''}>全部</Select.Option>
+                  <Select.Option value={1}>非传染病</Select.Option>
+                  <Select.Option value={2}>传染病</Select.Option>
+                  <Select.Option value={3}>伤害监测</Select.Option>
                 </Select>
               )
             }
           </Form.Item>
           <Form.Item label={'学生症状'}>
             {
-              this.form.getFieldDecorator('status', { initialValue: this.initialValues.status })(
-                <Select>
-                  <Select.Option value={''}>全部</Select.Option>
-                </Select>
-              )
-            }
-          </Form.Item>
-          <Form.Item label={'审核状态'}>
-            {
-              this.form.getFieldDecorator('status1', { initialValue: this.initialValues.status })(
-                <Select>
-                  <Select.Option value={''}>全部</Select.Option>
+              this.form.getFieldDecorator('symptomId', { initialValue: this.initialValues.symptomId })(
+                <Select
+                  placeholder="请输入症状搜索"
+                  showSearch
+                  onSearch={debounce(this.onSearchForSymptom, 300)}
+                  filterOption={false}
+                  notFoundContent={this.symptoms.loading ? <Spin /> : <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />}
+                >
+                  {
+                    this.symptoms.list.map(symptom => (
+                      <Select.Option value={symptom.id}>{symptom.symptomName}</Select.Option>
+                    ))
+                  }
                 </Select>
               )
             }
           </Form.Item>
           <Form.Item label={'姓名'}>
             {
-              this.form.getFieldDecorator('fullName', { initialValue: this.initialValues.fullName })(
+              this.form.getFieldDecorator('studentName', { initialValue: this.initialValues.studentName })(
                 <Input placeholder={'请输入姓名'} />
               )
             }
           </Form.Item>
-          <Form.Item label={'身份证号'}>
+          <Form.Item label={'审核状态'}>
             {
-              this.form.getFieldDecorator('idNumber', { initialValue: this.initialValues.idNumber })(
-                <Input placeholder={'请输入身份证号'} allowClear />
-              )
-            }
-          </Form.Item>
-          <Form.Item label={'只看追踪病例'}>
-            {
-              this.form.getFieldDecorator('isS', { initialValue: this.initialValues.isS })(
+              this.form.getFieldDecorator('auditStatus', { initialValue: this.initialValues.auditStatus })(
                 <Select>
-                  <Select.Option value={1}>是</Select.Option>
-                  <Select.Option value={0}>否</Select.Option>
+                  <Select.Option value={''}>全部</Select.Option>
+                  <Select.Option value={1}>待审核</Select.Option>
+                  <Select.Option value={2}>审核通过</Select.Option>
+                  <Select.Option value={3}>驳回</Select.Option>
                 </Select>
               )
             }

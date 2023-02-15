@@ -79,10 +79,11 @@ export default cb => ({
     },
     /**
      * 审核或相关意见填写的批量操作
+     * @param visibilityFieldName {string}
      * @returns {Promise<void>}
      */
-    async onAuditClick() {
-      await this._setVisibilityOfModal({ ids: this.ids })
+    async onAuditClick(visibilityFieldName) {
+      await this._setVisibilityOfModal({ ids: this.ids }, visibilityFieldName)
     },
     /**
      * 删除

@@ -2,7 +2,7 @@ import { createStoreModule } from '@/store/template'
 
 export default commitRootInModule => createStoreModule({
   state: {
-    organizationTree: {
+    dutyClassTree: {
       loading: false,
       list: []
     },

@@ -50,11 +50,13 @@ export default {
      * @returns {Promise<void>}
      */
     async _setVisibilityOfModal(record, visibilityFieldName, submoduleName, moduleName, merge) {
-      await this.$store.dispatch('setCurrentItem', {
-        value: record,
-        moduleName: this.moduleName,
-        merge
-      })
+      if (record) {
+        await this.$store.dispatch('setCurrentItem', {
+          value: record,
+          moduleName: this.moduleName,
+          merge
+        })
+      }
 
       await this.$store.dispatch('setModalVisible', {
         statusField: visibilityFieldName,

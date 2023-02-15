@@ -2,10 +2,25 @@ import { createStoreModule } from '@/store/template'
 
 export default commitRootInModule => createStoreModule({
   state: {
-    schoolTree: {
+    dutyClassTree: {
       loading: false,
       list: []
     },
+    studentsNeedToQuickReview: {
+      loading: false,
+      pendingGradeList: [],
+      reportTimeStr: '',
+      reportTimePeriodStr: ''
+    },
+    symptoms: {
+      loading: false,
+      list: []
+    },
+    diagnoses: {
+      loading: false,
+      list: []
+    },
+    visibilityOfQuickReview: false,
     visibilityOfReview: false,
     visibilityOfPotentiallyInfectedStudents: false
   },

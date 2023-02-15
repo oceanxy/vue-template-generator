@@ -195,8 +195,8 @@ export default {
 
       this.oldTreeIdField = treeIdField
 
-      // 非空模式下执行
-      if (this.notNoneMode) {
+      // 非空模式且至少存在一条可选择的数据下执行
+      if (this.notNoneMode && this.dataSource.list?.length) {
         // 为了保证其他组件完成对 search 参数的注入（如果有，比如 inquiry 组件需要向 store.state.search 注入必传参数时），
         // 尽量保证本组件触发页面列表数据查询的时间延后。
         // （注意 VUE 的生命周期顺序：父级组件的 mounted 在所有子级组件 mounted 后才会执行）
@@ -267,7 +267,7 @@ export default {
     async onSelect(selectedKeys, e) {
       if (Object.keys(this.$route.query).length) {
         /* #2 （一个书签，与本组件的 #1 配合） */
-        // 手动选择菜单后，清空地址栏的参数
+        // 手动选择树节点后，清空地址栏的参数
         await this.$router.push({
           query: {},
           params: {
@@ -425,6 +425,7 @@ export default {
               type={'search'}
               style={{ fontSize: '16px' }}
             />}
+            all
             placeholder={this.placeholder}
             onChange={debounce(this.onTreeSearch, 300)}
           />

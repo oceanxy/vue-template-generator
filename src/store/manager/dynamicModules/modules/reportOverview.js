@@ -3,7 +3,7 @@ import { createStoreModule } from '@/store/template'
 export default commitRootInModule => createStoreModule({
   state: {
     visibilityOfOneClickReport: false,
-    organizationTree: {
+    dutyClassTree: {
       loading: false,
       list: []
     },

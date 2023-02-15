@@ -18,6 +18,10 @@ export default {
     dataSource: {
       type: Array,
       default: () => []
+    },
+    showButton: {
+      type: Boolean,
+      default: true
     }
   },
   watch: {
@@ -45,17 +49,23 @@ export default {
           this.dataSource.map(student => (
             <Card class={'pending-student-card'}>
               <div class={'pending-student-info'}>
-                <p>{student.fullName}</p>
+                <p>{student.fullName || student.studentName}</p>
                 <p>{`${student.diseaseTypeStr || '疾病信息不详'}/${student.symptomName || '症状不详'}`}</p>
               </div>
-              <Button
-                type={'primary'}
-                size={'small'}
-                class={'pending-student-btn'}
-                onClick={() => this.onClick(student.id)}
-              >
-                已到校
-              </Button>
+              {
+                this.showButton
+                  ? (
+                    <Button
+                      type={'primary'}
+                      size={'small'}
+                      class={'pending-student-btn'}
+                      onClick={() => this.onClick(student.id)}
+                    >
+                      已到校
+                    </Button>
+                  )
+                  : null
+              }
             </Card>
           ))
         }

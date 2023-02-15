@@ -15,13 +15,13 @@ export default {
     return (
       <TGContainerWithTreeSider
         notNoneMode
-        placeholder={'请输入组织机构名称'}
+        placeholder={'请输入学校名称'}
         getCustomIcon={getOrganizationTreeIcon}
         getFieldNameForTreeId={() => 'orgId'}
         injectSearchParamsOfTable={dataSource => ({ orgType: dataSource.type })}
         apiOptions={{
-          apiName: 'getOrganizationTree',
-          stateName: 'organizationTree'
+          stateName: 'dutyClassTree',
+          apiName: 'getDutyClassTree'
         }}
       >
         <TGContainer>
