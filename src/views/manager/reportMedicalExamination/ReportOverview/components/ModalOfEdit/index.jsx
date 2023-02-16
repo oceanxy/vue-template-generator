@@ -34,7 +34,7 @@ export default Form.create({})({
           cancel: () => this.onCancel(),
           ok: () => this.onSubmit({
             customDataHandler: value => {
-              if (this.currentItem.id) {
+              if (this.currentItem._isEdit) {
                 return value
               } else {
                 const { id, ...rest } = value
