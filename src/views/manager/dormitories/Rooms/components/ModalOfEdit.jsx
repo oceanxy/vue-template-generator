@@ -63,11 +63,16 @@ export default Form.create({})({
     }
   },
   methods: {
-    async onSchoolChange(schoolId) {
+    async onSchoolChange(value, label, extra) {
+      const data = {
+        orgId: value,
+        orgType: extra.triggerNode.$vnode.data.props.type
+      }
+
       await this.$store.dispatch('getListWithLoadingStatus', {
         moduleName: this.moduleName,
         stateName: 'floorTreeInModal',
-        payload: { schoolId },
+        payload: data,
         customApiName: 'getFloorTreeBySchoolTree'
       })
     }
@@ -79,7 +84,7 @@ export default Form.create({})({
           <Form.Item label="所属学校" class={'half'}>
             {
               this.form.getFieldDecorator('schoolId', {
-                initialValue: this.currentItem.schoolId || this.search.schoolId,
+                initialValue: this.currentItem.schoolId,
                 rules: [
                   {
                     required: true,

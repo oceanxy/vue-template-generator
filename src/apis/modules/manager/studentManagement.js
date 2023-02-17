@@ -84,6 +84,19 @@ export default {
     })
   },
   /**
+   * 学生转出宿舍
+   * @param [request]
+   * @param data
+   * @returns {*}
+   */
+  outRooms(request, data) {
+    return request({
+      url: '/personnel/student/outRooms',
+      method: 'post',
+      data: qs.stringify(data)
+    })
+  },
+  /**
    * 根据学生ID生成二维码
    * @param [request]
    * @param params
