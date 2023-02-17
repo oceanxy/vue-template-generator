@@ -17,46 +17,48 @@ export default {
           {
             title: '姓名',
             width: 120,
-            dataIndex: 'parentName'
+            align: 'center',
+            dataIndex: 'fullName'
           },
           {
             title: '性别',
-            width: 220,
-            dataIndex: 'fullName'
+            width: 80,
+            align: 'center',
+            dataIndex: 'genderStr'
           },
           {
             title: '年龄',
             width: 80,
             align: 'center',
-            dataIndex: 'provinceName'
+            dataIndex: 'age'
           },
           {
             title: '班级',
-            width: 80,
+            width: 120,
             align: 'center',
-            dataIndex: 'provinceName2'
+            dataIndex: 'gradeClassStr'
           },
           {
             title: '宿舍',
-            width: 80,
+            width: 150,
             align: 'center',
-            dataIndex: 'cityName'
+            scopedSlots: { customRender: 'roomNo' }
           },
           {
             title: '症状',
-            width: 80,
-            align: 'center',
-            dataIndex: 'countyName'
+            width: 150,
+            dataIndex: 'symptomName'
           },
           {
             title: '诊断',
             width: 150,
-            align: 'center',
-            dataIndex: 'streetName4'
+            dataIndex: 'diagnoseName'
           }
-        ]
+        ],
+        rowSelection: null
       },
       scopedSlots: {
+        roomNo: (text, record) => `${record.floorName}${record.roomNo}`,
         operation: (text, record) => (
           <Space>
             <Button

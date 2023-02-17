@@ -1,7 +1,8 @@
 import DragModal from '@/components/DragModal'
 import { Button, DatePicker, Descriptions, Empty, Form, Input, Radio, Select, Spin } from 'ant-design-vue'
 import forFormModal from '@/mixins/forModal/forFormModal'
-import { cloneDeep, debounce } from 'lodash'
+import { debounce } from 'lodash'
+import ModalOfPotentiallyInfectedStudents from './ModalOfPotentiallyInfectedStudents'
 
 export default Form.create({})({
   mixins: [forFormModal()],
@@ -26,17 +27,7 @@ export default Form.create({})({
         attrs: this.modalProps,
         on: {
           cancel: () => this.onCancel(this.visibilityFieldName),
-          ok: () => this.onSubmit({
-            customApiName: 'reviewBySchoolDoctor',
-            // customDataHandler(data) {
-            //   const { isTrace, ...rest } = cloneDeep(data)
-            //
-            //   return {
-            //     isTrace,
-            //     inputObj: rest
-            //   }
-            // }
-          })
+          ok: () => this.onSubmit({ customApiName: 'reviewBySchoolDoctor' })
         }
       }
     }
@@ -87,32 +78,32 @@ export default Form.create({})({
         <Descriptions
           layout={'vertical'}
           bordered
-          column={4}
+          column={5}
           size={'small'}
         >
           <Descriptions.Item label={'姓名'}>{this.currentItem.studentName}</Descriptions.Item>
           <Descriptions.Item label={'性别'}>{this.currentItem.genderStr}</Descriptions.Item>
           <Descriptions.Item label={'年龄'}>{this.currentItem.age}</Descriptions.Item>
           <Descriptions.Item label={'班级'}>{this.currentItem.gradeClassStr}</Descriptions.Item>
+          <Descriptions.Item label={'登记类型'}>{this.currentItem.registerType}</Descriptions.Item>
           <Descriptions.Item label={'上报时段'}>{this.currentItem.reportTimePeriod}</Descriptions.Item>
           <Descriptions.Item label={'上报日期'}>{this.currentItem.reportTimeStr}</Descriptions.Item>
-          <Descriptions.Item label={'登记类型'}>{this.currentItem.registerType}</Descriptions.Item>
-          <Descriptions.Item label={'宿舍'}>
+          <Descriptions.Item
+            label={'宿舍'}
+            span={3}
+          >
             <span>{this.currentItem.buildName}{this.currentItem.roomName}</span>
-            {
-              this.form.getFieldValue('auditDiseaseType') === 1 && this.currentItem.roomId
-                ? (
-                  <Button
-                    size={'small'}
-                    type={'danger'}
-                    style={'margin-left: 1ic'}
-                    onClick={() => this._setVisibilityOfModal(undefined, 'visibilityOfPotentiallyInfectedStudents')}
-                  >
-                    摸排病例
-                  </Button>
-                )
-                : null
-            }
+            <Button
+              size={'small'}
+              type={'danger'}
+              style={`margin-left: 1ic; visibility: ${
+                this.form.getFieldValue('auditDiseaseType') === 1 && this.currentItem.roomId
+                  ? 'visible' : 'hidden'
+              }`}
+              onClick={() => this._setVisibilityOfModal(undefined, 'visibilityOfPotentiallyInfectedStudents')}
+            >
+              摸排病例
+            </Button>
           </Descriptions.Item>
         </Descriptions>
         <Form
@@ -276,6 +267,12 @@ export default Form.create({})({
             }
           </Form.Item>
         </Form>
+        {
+          this.form.getFieldValue('auditDiseaseType') === 1 && this.currentItem.roomId
+            ? <ModalOfPotentiallyInfectedStudents modalTitle={'摸排对象'} />
+            : null
+        }
+
       </DragModal>
     )
   }

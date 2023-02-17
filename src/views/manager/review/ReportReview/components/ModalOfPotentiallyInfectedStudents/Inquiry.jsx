@@ -2,17 +2,18 @@ import forInquiry from '@/mixins/forInquiry'
 import { Checkbox, Form, Space } from 'ant-design-vue'
 
 export default Form.create({})({
-  mixins: [forInquiry()],
+  mixins: [forInquiry({ isInitializeFromStore: true })],
   data: () => ({
-    initialValues: {
-      time: '',
-      status: '',
-      isS: 0
-    }
+    initialValues: {}
   }),
   computed: {
-    schoolTree() {
-      return this.$store.state[this.moduleName].schoolTree
+    number() {
+      return this.$store.state[this.moduleName][this.submoduleName].list.length || 0
+    }
+  },
+  methods: {
+    onChange() {
+      this.onSubmit()
     }
   },
   render() {
@@ -24,16 +25,18 @@ export default Form.create({})({
         class="tg-inquiry"
       >
         <Space>
-          <span>摸排结果：127人</span>
-          <Form.Item class={'activity'} style={'margin-left: 2ic'}>
+          <span>摸排结果：{this.number}人</span>
+          <Form.Item
+            class={'activity'}
+            style={'margin-left: 2ic'}
+          >
             {
-              this.form.getFieldDecorator('isS', {
-                initialValue: this.initialValues.isS,
-                getPropsFromEvent(e) {
-                  debugger
-                }
+              this.form.getFieldDecorator('type', {
+                initialValue: this.initialValues.type,
+                getValueFromEvent: e => e.target.checked ? 2 : 1,
+                getValueProps: val => ({ checked: val === 2 })
               })(
-                <Checkbox>同宿舍</Checkbox>
+                <Checkbox onChange={this.onChange}>仅看同宿舍</Checkbox>
               )
             }
           </Form.Item>

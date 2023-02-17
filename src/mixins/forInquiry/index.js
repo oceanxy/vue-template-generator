@@ -38,6 +38,10 @@ export default ({
     computed: {
       search: {
         get() {
+          if (this.submoduleName) {
+            return this.$store.state[this.moduleName][this.submoduleName].search
+          }
+
           return this.$store.state[this.moduleName].search
         },
         set(value) {
@@ -131,7 +135,7 @@ export default ({
         this.params = params
         this.options = options
 
-        this.form.validateFieldsAndScroll(async (err, values) => {
+        this.form.validateFields(async (err, values) => {
           if (!err) {
             const payload = this.transformValue(values)
 

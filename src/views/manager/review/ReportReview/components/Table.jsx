@@ -72,7 +72,6 @@ export default {
           },
           {
             title: '描述',
-            align: 'center',
             width: 200,
             dataIndex: 'description'
           },
@@ -83,7 +82,8 @@ export default {
             width: 100,
             scopedSlots: { customRender: 'operation' }
           }
-        ]
+        ],
+        rowSelection: null
       },
       scopedSlots: {
         operation: (text, record) => (

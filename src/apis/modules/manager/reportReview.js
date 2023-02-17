@@ -56,7 +56,7 @@ export default {
    * @param data
    * @returns {*}
    */
-  getStudentsInTheSameDormitory(request, data) {
+  getPotentiallyInfectedStudentsOfReportReview(request, data) {
     return request({
       url: '/morningNoon/checkAbnormal/getStudentListBySource',
       method: 'post',

@@ -15,6 +15,9 @@ export default Form.create({})({
     }
   },
   computed: {
+    search() {
+      return this.$store.state[this.moduleName].search
+    },
     studentsNeedToQuickReview() {
       return this.$store.state[this.moduleName].studentsNeedToQuickReview
     },
@@ -39,6 +42,24 @@ export default Form.create({})({
                 return ids
               }, [])
             })
+          })
+        }
+      }
+    }
+  },
+  watch: {
+    visible: {
+      immediate: true,
+      async handler(value) {
+        if (value) {
+          await this.$store.dispatch('getListWithLoadingStatus', {
+            moduleName: this.moduleName,
+            stateName: 'studentsNeedToQuickReview',
+            customApiName: 'getStudentsNeedToQuickReview',
+            payload: {
+              orgId: this.search.orgId,
+              orgType: this.search.orgType
+            }
           })
         }
       }

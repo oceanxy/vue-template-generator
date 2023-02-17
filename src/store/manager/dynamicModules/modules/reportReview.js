@@ -40,5 +40,8 @@ export default commitRootInModule => createStoreModule({
     }
   }
 }, [
-  'visibilityOfEdit'
+  'visibilityOfEdit',
+  'details',
+  'selectedRowKeys',
+  'selectedRows'
 ])

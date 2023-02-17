@@ -14,10 +14,11 @@ import { cloneDeep, omit } from 'lodash'
  * 用于 table 的混合
  * @param [isInject=true] {boolean} 是否从 inject 导入 moduleName 和 submoduleName，默认 true
  * @param [isFetchList=true] {boolean} 是否在组件初始化完成后立即获取列表数据，默认 true；
- * 如果 TGContainerWithTreeSider 组件向下级组件提供了 notInitList 属性，则该值将被重置为 !notInitList。
+ *  如果 TGContainerWithTreeSider 组件向下级组件提供了 notInitList 属性，则 isFetchList 将被重置为 !notInitList；
+ *  如果 forModal 混合向下级组件提供了 inModal=true 属性（即表示该表格存在于弹窗中），则 notInitList 失效，以 forTable.isFetchList 为准。
  * @param [stateName='list'] {string} 表格数据在 store.state 里对应的名称
  * @param [customApiName] {string} 自定义请求接口名。
- * TODO：一般在弹窗内使用；如果弹窗内的列表有增删改操作，目前未适配执行这些操作后的列表刷新，所以当存在这些操作时不要使用该参数。
+ *  TODO：一般在弹窗内使用；如果弹窗内的列表有增删改操作，目前未适配执行这些操作后的列表刷新，所以当存在这些操作时不要使用该参数。
  * @returns {Object}
  */
 export default ({
@@ -137,7 +138,7 @@ export default ({
     created() {
       // this.notInitList: false 表示不在本 Table 组件内请求列表数据。
       // （使用了 @/components/TGContainerWithTreeSider 组件时，为了避免重复请求，会在该组件内请求列表数据，而非本组件）
-      if (Object.prototype.toString.call(this.notInitList) === '[object Boolean]') {
+      if (Object.prototype.toString.call(this.notInitList) === '[object Boolean]' && !this.inModal) {
         isFetchList = !this.notInitList
       }
     },
@@ -151,10 +152,6 @@ export default ({
             this.resize()
           }
         )
-
-        if (isFetchList) {
-          await this.fetchList()
-        }
 
         // 检测弹窗内的表格是否注册成为子模块
         if (this.inModal) {
@@ -172,12 +169,19 @@ export default ({
           },
           { immediate: true }
         )
+      }
 
-        // 判断是否在弹窗内或者子模块内。（注意如果弹窗内存在列表，一定要将弹窗注册成为子模块，这是为了不和页面的主列表数据产生混淆）
-        // 弹窗内 Table 组件或者子模块的 Table 组件在初始化阶段加载数据的逻辑，不受 TGContainerWithTreeSider 组件的 notInitList 属性影响。
-        if (this.inModal || isFetchList || Object.prototype.toString.call(this.notInitList) === '[object Boolean]') {
-          await this.fetchList()
-        }
+      /**
+       * 是否在本混合混入的组件的初始化阶段请求表格数据：
+       *  · 不在弹窗或子模块内时的逻辑（submoduleName=false）：
+       *    1、是 TGContainerWithTreeSider 的子级，isFetchList 被重置为 !notInitList；
+       *    2、不是 TGContainerWithTreeSider 的子级，isFetchList 以传入本混合的值为准。
+       *  · 在弹窗或子模块内时的逻辑：
+       *    1、判断是否在弹窗内。（inModal=true，注意如果弹窗内存在列表，一定要将弹窗注册成为子模块，这是为了不和页面的主列表数据产生混淆）；
+       *    2、判断是否在子模块内。（inModal=false，注意此时的 isFetchList 已被重置为 !notInitList）
+       */
+      if (isFetchList) {
+        await this.fetchList()
       }
 
       window.addEventListener('resize', this.resize)
