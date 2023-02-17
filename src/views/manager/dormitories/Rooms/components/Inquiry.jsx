@@ -10,20 +10,20 @@ export default Form.create({})({
     },
     treeIdField() {
       return this.$store.state[this.moduleName].treeIdField
-    }
+    },
   },
   created() {
-    this.$watch(() => [this.search[this.treeIdField], this.treeIdField], async value => {
-      if (value) {
-        this.form.setFieldsValue({ 'floorId': undefined })
-        await this.$store.dispatch('getListWithLoadingStatus', {
-          moduleName: this.moduleName,
-          stateName: 'floorTree',
-          payload: { [this.treeIdField]: this.search[this.treeIdField] },
-          customApiName: 'getFloorTreeBySchoolTree'
-        })
-      }
-    })
+    // this.$watch(() => [this.search[this.treeIdField], this.treeIdField], async value => {
+    //   if (value) {
+    //     this.form.setFieldsValue({ 'floorId': undefined })
+    //     await this.$store.dispatch('getListWithLoadingStatus', {
+    //       moduleName: this.moduleName,
+    //       stateName: 'floorTree',
+    //       payload: { [this.treeIdField]: this.search[this.treeIdField], orgType: this.search.orgType },
+    //       customApiName: 'getFloorTreeBySchoolTree'
+    //     })
+    //   }
+    // })
   },
   render() {
     return (

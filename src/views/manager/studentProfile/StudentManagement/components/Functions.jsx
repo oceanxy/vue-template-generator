@@ -47,15 +47,22 @@ export default {
         this.onExport('学生数据')
       }
     },
-    async transferOut() {
+    async transferOut(isEooms) {
       const ids = this.selectedRows.map(item => item.id).join()
       const names = this.selectedRows.map(item => item.fullName).join()
 
       verificationDialog(
         async () => {
-          const { status } = await apis.studentRollOut({ ids })
+          let res
 
-          if (status) {
+          if (isEooms) {
+            res = await apis.outRooms({ ids })
+          } else {
+            res = await apis.studentRollOut({ ids })
+          }
+
+
+          if (res.status) {
             message.success('学生转出成功')
             await this.$store.dispatch('getList', {
               moduleName: this.moduleName,
@@ -66,10 +73,10 @@ export default {
             message.error('转出失败！请重试')
           }
 
-          return status
+          return res.status
         },
         (
-          <div>你确定把<span style={{ color: 'blue' }}>{names}</span>转出？</div>
+          <div>你确定把<span style={{ color: 'blue' }}>{names}</span>转出{isEooms ? '宿舍' : ''}？</div>
         )
       )
 
@@ -136,6 +143,13 @@ export default {
           icon="export"
         >
           转出学生
+        </Button>
+        <Button
+          onClick={() => this.transferOut({ isEooms: true })}
+          disabled={this.deleteButtonDisabled}
+          icon="user-delete"
+        >
+          学生转出宿舍
         </Button>
         <Button
           onClick={() => this.onAddClick()}
