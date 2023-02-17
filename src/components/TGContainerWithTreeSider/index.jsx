@@ -100,6 +100,7 @@ export default {
     return {
       tableRef: undefined,
       status: false,
+      defaultExpandedTreeIds: [],
       searchValue: '',
       treeDataSource: [],
       expandedKeysFormEvent: [],
@@ -129,9 +130,9 @@ export default {
         return this.getAllParentIds(this.treeDataSource)
       }
 
-      // 默认展开的树节点，如果未传递 defaultExpandedKeys 则默认展开所有层级的第一个子节点
-      return this.defaultExpandedKeys?.length
-        ? this.defaultExpandedKeys
+      // 默认展开的树节点，如果 defaultExpandedTreeIds 为空，则默认展开所有层级的第一个子节点
+      return this.defaultExpandedTreeIds?.length
+        ? this.defaultExpandedTreeIds
         : this.getAllParentIds(this.treeDataSource, true)
     }
   },
@@ -160,6 +161,13 @@ export default {
 
       this.treeDataSource = this.filter(newTreeDataSource, value)
     }
+  },
+  created() {
+    this.defaultExpandedTreeIds = [
+      ...this.defaultExpandedKeys,
+      this.$route.query[this.getFieldNameForTreeId()],
+      this.$route.params[this.getFieldNameForTreeId()]
+    ].filter(id => id !== undefined)
   },
   async mounted() {
     this.status = await this.getTree()
@@ -282,8 +290,11 @@ export default {
      */
     async onSelect(selectedKeys, e) {
       if (Object.keys(this.$route.query).length) {
-        /* #2 （一个书签，与本组件的 #1 配合） */
-        // 手动选择树节点后，清空地址栏的参数
+        /**
+         * #2 （一个书签，与本组件的 #1 配合）
+         * 手动选择树节点后，清空地址栏的参数,
+         * 改用 params 传递参数（params 参数在刷新页面后自动消失）
+         */
         await this.$router.push({
           query: {},
           params: {
