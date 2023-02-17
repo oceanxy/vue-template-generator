@@ -46,7 +46,7 @@ export default {
     },
     /**
      * 默认展开的树节点ID
-     * 初始值为：children[0].id 和 children[0].children[0].id
+     * 默认展开所有层级的第一个子节点
      */
     defaultExpandedKeys: {
       type: Array,
@@ -100,9 +100,10 @@ export default {
     return {
       tableRef: undefined,
       status: false,
+      defaultExpandedTreeIds: [],
       searchValue: '',
       treeDataSource: [],
-      manualExpandedKeys: [],
+      expandedKeysFormEvent: [],
       // 上一次设置的用于保存树选中值的字段名
       // （通常用于 this.treeIdField 会发生变化的时候。如点击树的不同层级，传递的字段名不一样的情况）
       oldTreeIdField: ''
@@ -120,27 +121,19 @@ export default {
       return [this.getState('search', this.moduleName)[this.treeIdField]]
     },
     expandedKeys() {
+      if (this.expandedKeysFormEvent.length) {
+        return this.expandedKeysFormEvent
+      }
+
+      // 展开所有搜索结果（一般在搜索树时使用，搜索树时会清空 expandedKeysFormEvent 数组）
       if (this.searchValue) {
-        if (!this.manualExpandedKeys.length) {
-          const firstLevelExpandedKeys = this.treeDataSource?.map(item => item.id) ?? []
-          const secondLevelExpandedKeys = this.treeDataSource?.[0]?.children?.map(item => item.id) ?? []
-
-          return [...firstLevelExpandedKeys, ...secondLevelExpandedKeys]
-        } else {
-          return this.manualExpandedKeys
-        }
+        return this.getAllParentIds(this.treeDataSource)
       }
 
-      if (this.manualExpandedKeys.length) {
-        return this.manualExpandedKeys
-      }
-
-      return [
-        this.treeDataSource?.[0]?.id,
-        this.treeDataSource?.[0]?.children?.[0]?.id,
-        ...this.defaultExpandedKeys,
-        ...this.manualExpandedKeys
-      ]
+      // 默认展开的树节点，如果 defaultExpandedTreeIds 为空，则默认展开所有层级的第一个子节点
+      return this.defaultExpandedTreeIds?.length
+        ? this.defaultExpandedTreeIds
+        : this.getAllParentIds(this.treeDataSource, true)
     }
   },
   provide() {
@@ -168,6 +161,13 @@ export default {
 
       this.treeDataSource = this.filter(newTreeDataSource, value)
     }
+  },
+  created() {
+    this.defaultExpandedTreeIds = [
+      ...this.defaultExpandedKeys,
+      this.$route.query[this.getFieldNameForTreeId()],
+      this.$route.params[this.getFieldNameForTreeId()]
+    ].filter(id => id !== undefined)
   },
   async mounted() {
     this.status = await this.getTree()
@@ -229,12 +229,36 @@ export default {
     })
   },
   methods: {
+    /**
+     * 获取树的渲染数据
+     * @returns {Promise<any>}
+     */
     async getTree() {
       return await this.$store.dispatch('getListWithLoadingStatus', {
         moduleName: this.apiOptions.moduleName || this.moduleName,
         stateName: this.apiOptions.stateName,
         customApiName: this.apiOptions.apiName
       })
+    },
+    /**
+     * 获取所有父节点的ID
+     * @param treeDataSource {Array}
+     * @param [onlyFirstParentNode=false] {boolean} 仅获取每个层级的第一个子节点的ID
+     * @returns {*[]}
+     */
+    getAllParentIds(treeDataSource, onlyFirstParentNode) {
+      let ids = []
+
+      for (const item of treeDataSource) {
+        if (item.isParent && item.children?.length) {
+          ids.push(item.id)
+          ids = ids.concat(this.getAllParentIds(item.children, onlyFirstParentNode))
+        }
+
+        if (onlyFirstParentNode) break
+      }
+
+      return ids
     },
     /**
      * 按条件筛选包含关键字的所有项（包含层级关系）
@@ -266,8 +290,11 @@ export default {
      */
     async onSelect(selectedKeys, e) {
       if (Object.keys(this.$route.query).length) {
-        /* #2 （一个书签，与本组件的 #1 配合） */
-        // 手动选择树节点后，清空地址栏的参数
+        /**
+         * #2 （一个书签，与本组件的 #1 配合）
+         * 手动选择树节点后，清空地址栏的参数,
+         * 改用 params 传递参数（params 参数在刷新页面后自动消失）
+         */
         await this.$router.push({
           query: {},
           params: {
@@ -362,6 +389,11 @@ export default {
           </span>
         )
     },
+    /**
+     * 设置树每一级的图标
+     * @param treeNode
+     * @returns {*|(function(): Promise<*>)|undefined}
+     */
     getIcon(treeNode) {
       return Object.prototype.toString.call(this.getCustomIcon) === '[object Function]'
         ? this.getCustomIcon(treeNode)
@@ -394,15 +426,26 @@ export default {
         </Tree.TreeNode>
       )) ?? []
     },
+    /**
+     * 收缩/展开树所在侧边栏时的回调函数
+     */
     onSidebarSwitch() {
       this.tableRef?.$parent?.resize()
     },
+    /**
+     * 搜索树
+     * @param e
+     */
     onTreeSearch(e) {
-      this.manualExpandedKeys = []
+      this.expandedKeysFormEvent = []
       this.searchValue = e.target.value
     },
+    /**
+     * 展开树
+     * @param expandedKeys
+     */
     onExpand(expandedKeys) {
-      this.manualExpandedKeys = expandedKeys
+      this.expandedKeysFormEvent = expandedKeys
     }
   },
   render() {
