@@ -37,6 +37,9 @@ export default {
     currentItem() {
       return this.$store.state[this.moduleName].currentItem
     },
+    details() {
+      return this.$store.state[this.moduleName].details
+    },
     attributes() {
       return {
         attrs: this.modalProps,
@@ -52,10 +55,10 @@ export default {
           // 初始化子模块的搜索值
           this.$store.commit('setState', {
             value: {
-              floorId: this.currentItem.floorId,
+              floorId: this.currentItem.floorId || this.details.floorId,
               studentId: this.currentItem.studentId,
               type: 1, // 同源类型：1 楼层 2宿舍
-              roomId: this.currentItem.roomId
+              roomId: this.currentItem.roomId || this.details.roomId
             },
             moduleName: this.moduleName,
             submoduleName: this.submoduleName,

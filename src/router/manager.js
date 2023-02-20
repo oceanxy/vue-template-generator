@@ -841,6 +841,17 @@ function createConstRoutes() {
                 requiresAuth: true,
                 icon: () => import('@/layouts/components/TGMenu/assets/images/report-review-sub.svg')
               }
+            },
+            {
+              path: 'tracking-cases',
+              name: 'trackingCases',
+              component: () => import('@/views/manager/review/TrackingCases'),
+              meta: {
+                title: '追踪病例',
+                keepAlive: false,
+                requiresAuth: true,
+                icon: () => import('@/layouts/components/TGMenu/assets/images/tracking-cases.svg')
+              }
             }
           ]
         },

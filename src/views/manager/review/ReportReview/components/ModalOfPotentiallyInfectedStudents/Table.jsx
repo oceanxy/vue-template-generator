@@ -51,7 +51,6 @@ export default {
           },
           {
             title: '诊断',
-            width: 150,
             dataIndex: 'diagnoseName'
           }
         ],

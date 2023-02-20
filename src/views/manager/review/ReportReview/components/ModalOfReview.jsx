@@ -1,7 +1,7 @@
 import DragModal from '@/components/DragModal'
 import { Button, DatePicker, Descriptions, Empty, Form, Input, Radio, Select, Spin } from 'ant-design-vue'
 import forFormModal from '@/mixins/forModal/forFormModal'
-import { debounce } from 'lodash'
+import { cloneDeep, debounce } from 'lodash'
 import ModalOfPotentiallyInfectedStudents from './ModalOfPotentiallyInfectedStudents'
 
 export default Form.create({})({
@@ -27,7 +27,16 @@ export default Form.create({})({
         attrs: this.modalProps,
         on: {
           cancel: () => this.onCancel(this.visibilityFieldName),
-          ok: () => this.onSubmit({ customApiName: 'reviewBySchoolDoctor' })
+          ok: () => this.onSubmit({
+            customDataHandler: value => {
+              const data = cloneDeep(value)
+
+              data.id = this.currentItem.id
+
+              return data
+            },
+            customApiName: 'reviewBySchoolDoctor'
+          })
         }
       }
     }
@@ -85,8 +94,8 @@ export default Form.create({})({
           <Descriptions.Item label={'性别'}>{this.currentItem.genderStr}</Descriptions.Item>
           <Descriptions.Item label={'年龄'}>{this.currentItem.age}</Descriptions.Item>
           <Descriptions.Item label={'班级'}>{this.currentItem.gradeClassStr}</Descriptions.Item>
-          <Descriptions.Item label={'登记类型'}>{this.currentItem.registerType}</Descriptions.Item>
-          <Descriptions.Item label={'上报时段'}>{this.currentItem.reportTimePeriod}</Descriptions.Item>
+          <Descriptions.Item label={'登记类型'}>{this.currentItem.registerTypeStr}</Descriptions.Item>
+          <Descriptions.Item label={'上报时段'}>{this.currentItem.reportTimePeriodStr}</Descriptions.Item>
           <Descriptions.Item label={'上报日期'}>{this.currentItem.reportTimeStr}</Descriptions.Item>
           <Descriptions.Item
             label={'宿舍'}

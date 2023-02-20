@@ -376,6 +376,14 @@ export default ({
         await this._setVisibilityOfModal(record, visibilityFieldName)
       },
       /**
+       * 查看详情
+       * @param record {Object}
+       * @returns {Promise<void>}
+       */
+      async onDetailsClick(record) {
+        await this._setVisibilityOfModal({ ...record, _disabled: true })
+      },
+      /**
        * 删除
        * @param record {Object} 列表数据对象
        * @param [params] {Object} 删除参数，默认 { ids: [record.id] }
