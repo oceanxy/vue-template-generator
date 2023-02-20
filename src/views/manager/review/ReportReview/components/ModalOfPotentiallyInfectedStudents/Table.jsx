@@ -16,7 +16,7 @@ export default {
           },
           {
             title: '姓名',
-            width: 120,
+            width: 80,
             align: 'center',
             dataIndex: 'fullName'
           },
@@ -58,23 +58,7 @@ export default {
         rowSelection: null
       },
       scopedSlots: {
-        roomNo: (text, record) => `${record.floorName}${record.roomNo}`,
-        operation: (text, record) => (
-          <Space>
-            <Button
-              type="link"
-              size="small"
-            >
-              查看
-            </Button>
-            <Button
-              type="link"
-              size="small"
-            >
-              添加上报
-            </Button>
-          </Space>
-        )
+        roomNo: (text, record) => `${record.floorName}${record.roomNo}`
       }
     }
   }

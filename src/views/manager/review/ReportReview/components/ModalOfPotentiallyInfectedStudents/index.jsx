@@ -13,7 +13,7 @@ export default {
     return {
       visibilityFieldName: 'visibilityOfPotentiallyInfectedStudents',
       modalProps: {
-        width: 910,
+        width: 980,
         destroyOnClose: true,
         footer: [
           <Button
@@ -49,6 +49,7 @@ export default {
       immediate: true,
       handler(value) {
         if (value) {
+          // 初始化子模块的搜索值
           this.$store.commit('setState', {
             value: {
               floorId: this.currentItem.floorId,
@@ -66,7 +67,7 @@ export default {
   },
   methods: {
     onExport() {
-      //
+      // todo 导出功能
     }
   },
   render() {

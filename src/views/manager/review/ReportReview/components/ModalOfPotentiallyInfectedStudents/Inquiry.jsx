@@ -13,7 +13,10 @@ export default Form.create({})({
   },
   methods: {
     onChange() {
-      this.onSubmit()
+      // 防止 Checkbox 的 onChange 事件先于 Form 的 getValueFromEvent 执行，导致传递给后端的参数错误
+      this.$nextTick(() => {
+        this.onSubmit()
+      })
     }
   },
   render() {
