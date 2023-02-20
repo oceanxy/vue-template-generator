@@ -1,7 +1,14 @@
 import { createStoreModule } from '@/store/template'
 
 export default commitRootInModule => createStoreModule({
-  state: { visibilityOfReview: false }
+  state: {
+    dutyClassTree: {
+      loading: false,
+      list: []
+    }
+  }
 }, [
-  'visibilityOfEdit'
+  'selectedRowKeys',
+  'selectedRows',
+  'details'
 ])

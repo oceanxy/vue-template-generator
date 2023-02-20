@@ -1,4 +1,6 @@
 import dynamicState from '@/mixins/dynamicState'
+import TGContainerWithTreeSider from '@/components/TGContainerWithTreeSider'
+import { getOrganizationTreeIcon } from '@/utils/projectHelpers'
 import TGContainer from '@/layouts/components/TGContainer'
 import Functions from './components/Functions'
 import Inquiry from './components/Inquiry'
@@ -11,15 +13,28 @@ export default {
   mixins: [dynamicState()],
   render() {
     return (
-      <TGContainer>
-        <Functions slot={'functions'} />
-        <Inquiry slot={'others'} />
-        <Table slot={'table'} />
-        <TGPagination slot={'pagination'} />
-        <template slot={'modals'}>
-          <ModalOfReview modalTitle={'返校审核'} />
-        </template>
-      </TGContainer>
+      <TGContainerWithTreeSider
+        notNoneMode
+        placeholder={'请输入学校名称'}
+        getCustomIcon={getOrganizationTreeIcon}
+        getFieldNameForTreeId={() => 'orgId'}
+        injectSearchParamsOfTable={dataSource => ({ orgType: dataSource.type })}
+        apiOptions={{
+          stateName: 'dutyClassTree',
+          apiName: 'getDutyClassTree'
+        }}
+      >
+        <TGContainer>
+          <Functions slot={'functions'} />
+          <Inquiry slot={'others'} />
+          <Table slot={'table'} />
+          <TGPagination slot={'pagination'} />
+          <ModalOfReview
+            slot={'modals'}
+            modalTitle={'返校审核'}
+          />
+        </TGContainer>
+      </TGContainerWithTreeSider>
     )
   }
 }

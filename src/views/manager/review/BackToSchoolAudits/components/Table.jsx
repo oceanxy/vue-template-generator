@@ -16,48 +16,46 @@ export default {
           },
           {
             title: '提交时间',
-            width: 120,
-            dataIndex: 'parentName'
+            width: 150,
+            dataIndex: 'createTimeStr'
           },
           {
             title: '班级',
-            width: 80,
-            align: 'center',
-            dataIndex: 'provinceName'
+            width: 120,
+            dataIndex: 'gradeClassStr'
           },
           {
             title: '学生',
-            width: 80,
+            width: 100,
             align: 'center',
-            dataIndex: 'provinceName2'
+            dataIndex: 'studentName'
           },
           {
             title: '申请返校日期',
-            width: 80,
-            align: 'center',
-            dataIndex: 'cityName'
+            width: 150,
+            dataIndex: 'applyForTimeStr'
           },
           {
             title: '审核状态',
-            width: 200,
-            dataIndex: 'orgDescribe'
+            width: 100,
+            align: 'center',
+            dataIndex: 'auditTypeStr'
           },
           {
             title: '审核结果',
-            width: 200,
-            dataIndex: 'result'
+            dataIndex: 'auditRemark'
           },
           {
             title: '操作人',
             align: 'center',
-            width: 80,
-            dataIndex: 'sortIndex'
+            width: 100,
+            dataIndex: 'auditOperatorName'
           },
           {
             title: '操作',
             fixed: 'right',
             align: 'center',
-            width: 150,
+            width: 100,
             scopedSlots: { customRender: 'operation' }
           }
         ]
@@ -65,12 +63,19 @@ export default {
       scopedSlots: {
         operation: (text, record) => (
           <Space>
-            <Button
-              type="link"
-              size="small"
-            >
-              审核
-            </Button>
+            {
+              record.auditType === 1
+                ? (
+                  <Button
+                    type="link"
+                    size="small"
+                    onClick={() => this.onAuditClick(record)}
+                  >
+                    审核
+                  </Button>
+                )
+                : null
+            }
           </Space>
         )
       }

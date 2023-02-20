@@ -8,6 +8,7 @@ export default {
       <Space class={'tg-function'}>
         <Button
           icon="export"
+          type={'primary'}
           disabled={this.exportButtonDisabled}
           onClick={() => this.onExport()}
         >

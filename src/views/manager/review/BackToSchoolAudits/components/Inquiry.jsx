@@ -5,9 +5,8 @@ export default Form.create({})({
   mixins: [forInquiry()],
   data: () => ({
     initialValues: {
-      time: '',
-      status: '',
-      isS: 0
+      dateRange: [],
+      auditType: ''
     }
   }),
   render() {
@@ -24,7 +23,7 @@ export default Form.create({})({
               this.form.getFieldDecorator('dateRange', { initialValue: this.initialValues.dateRange })(
                 <DatePicker.RangePicker
                   placeholder={['开始时间', '结束时间']}
-                  valueFormat={'YYYY-MM-DD'}
+                  valueFormat={'YYYYMMDD'}
                   allowClear
                 />
               )
@@ -32,24 +31,20 @@ export default Form.create({})({
           </Form.Item>
           <Form.Item label={'审核状态'}>
             {
-              this.form.getFieldDecorator('status1', { initialValue: this.initialValues.status })(
+              this.form.getFieldDecorator('auditType', { initialValue: this.initialValues.auditType })(
                 <Select>
                   <Select.Option value={''}>全部</Select.Option>
+                  <Select.Option value={1}>待审核</Select.Option>
+                  <Select.Option value={2}>审核通过</Select.Option>
+                  <Select.Option value={3}>审核驳回</Select.Option>
                 </Select>
               )
             }
           </Form.Item>
           <Form.Item label={'姓名'}>
             {
-              this.form.getFieldDecorator('fullName', { initialValue: this.initialValues.fullName })(
+              this.form.getFieldDecorator('studentName', { initialValue: this.initialValues.studentName })(
                 <Input placeholder={'请输入姓名'} />
-              )
-            }
-          </Form.Item>
-          <Form.Item label={'身份证号'}>
-            {
-              this.form.getFieldDecorator('idNumber', { initialValue: this.initialValues.idNumber })(
-                <Input placeholder={'请输入身份证号'} allowClear />
               )
             }
           </Form.Item>
