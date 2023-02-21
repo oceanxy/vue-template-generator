@@ -3,7 +3,6 @@ import { Form, Cascader } from 'ant-design-vue'
 import forFormModal from '@/mixins/forModal/forFormModal'
 import DragModal from '@/components/DragModal'
 import { mapGetters } from 'vuex'
-import { dispatch } from '@/utils/store'
 
 
 export default Form.create({})({
@@ -22,8 +21,11 @@ export default Form.create({})({
     selectedRowKeys() {
       return this.getState('selectedRowKeys', this.moduleName)
     },
+    search() {
+      return this.$store.state[this.moduleName].search
+    },
     allBuildList() {
-      return this.getState('allBuildList', 'common')
+      return this.getState('allBuildList', this.moduleName)?.list ?? []
     },
     attributes() {
       return {
@@ -64,7 +66,17 @@ export default Form.create({})({
     visible: {
       async handler(value) {
         if (value) {
-          await dispatch('common', 'getAllBuildList')
+          const data = {
+            orgId: this.search?.orgId,
+            orgType: this.search?.orgType
+          }
+
+          await this.$store.dispatch('getListWithLoadingStatus', {
+            moduleName: this.moduleName,
+            stateName: 'allBuildList',
+            payload: data,
+            customApiName: 'getAllBuildList'
+          })
         }
       }
     }

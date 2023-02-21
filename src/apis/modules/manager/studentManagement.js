@@ -229,5 +229,18 @@ export default {
       method: 'post',
       data: qs.stringify(data)
     })
+  },
+  /**
+   * 查询所有楼栋楼层房间
+   * @param request
+   * @param params
+   * @returns {*}
+   */
+  getAllBuildList(request, params) {
+    return request({
+      url: '/morningNoon/build/getAllBuildList',
+      method: 'get',
+      params
+    })
   }
 }

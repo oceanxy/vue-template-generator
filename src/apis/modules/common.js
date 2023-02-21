@@ -60,13 +60,14 @@ export default {
   /**
    * 查询所有楼栋楼层房间
    * @param request
+   * @param params
    * @returns {*}
    */
-  getAllBuildList(request, data) {
+  getAllBuildList(request, params) {
     return request({
       url: '/morningNoon/build/getAllBuildList',
       method: 'get',
-      data: qs.stringify(data)
+      params
     })
   }
 }

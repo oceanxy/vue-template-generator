@@ -37,7 +37,7 @@ export default Form.create({})({
       return this.getState('administrativeDivision', 'common') || []
     },
     allBuildList() {
-      return this.getState('allBuildList', 'common')
+      return this.getState('allBuildList', this.moduleName)?.list ?? []
     },
     fileList() {
       return this.currentItem.photoStr && this.currentItem.photo
@@ -72,12 +72,27 @@ export default Form.create({})({
     await dispatch('common', 'getAdministrativeDivision')
   },
   methods: {
+    async getAllBuildList(orgId, orgType) {
+      const data = {
+        orgId,
+        orgType
+      }
+
+      await this.$store.dispatch('getListWithLoadingStatus', {
+        moduleName: this.moduleName,
+        stateName: 'allBuildList',
+        payload: data,
+        customApiName: 'getAllBuildList'
+      })
+    },
     async onChangeSchoolId(value) {
       this.gradeList = []
       this.classList = []
       this.currentItem.gradeId = undefined
       this.currentItem.classNumber = undefined
       await this.getGradeList(value)
+      await this.getAllBuildList(value, 5)
+
 
       if (this.gradeList && this.gradeList.length > 0) {
         this.onChangeClassNumber(this.gradeList[0].id)
@@ -194,7 +209,6 @@ export default Form.create({})({
       async handler(value) {
         if (value) {
           await this.getAllSchoolList()
-          await dispatch('common', 'getAllBuildList')
         } else {
           this.gradeList = []
           this.classList = []
