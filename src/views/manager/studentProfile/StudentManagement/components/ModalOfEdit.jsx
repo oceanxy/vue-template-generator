@@ -22,7 +22,8 @@ export default Form.create({})({
       isStreet: '',
       glassesTypeSelect: true,
       isSchool: [],
-      gradeList: []
+      gradeList: [],
+      orgId: ''
     }
   },
   computed: {
@@ -86,6 +87,7 @@ export default Form.create({})({
       })
     },
     async onChangeSchoolId(value) {
+      this.orgId = value
       this.gradeList = []
       this.classList = []
       this.currentItem.gradeId = undefined
@@ -212,6 +214,7 @@ export default Form.create({})({
         } else {
           this.gradeList = []
           this.classList = []
+          await dispatch(this.moduleName, 'getAllBuildList', [])
         }
       }
     }

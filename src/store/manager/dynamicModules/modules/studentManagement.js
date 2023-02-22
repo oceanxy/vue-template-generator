@@ -27,5 +27,15 @@ export default commitRootInModule =>
         loading: false,
         list: []
       }
+    },
+    mutations: {
+      set_allBuildList(state, payload) {
+        state.allBuildList.list = payload
+      }
+    },
+    actions: {
+      getAllBuildList({ commit }, data) {
+        commit('set_allBuildList', data)
+      }
     }
   })
