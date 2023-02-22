@@ -55,10 +55,10 @@ export default {
           // 初始化子模块的搜索值
           this.$store.commit('setState', {
             value: {
-              floorId: this.currentItem.floorId || this.details.floorId,
+              floorId: this.currentItem.floorId || this.currentItem._floorId,
               studentId: this.currentItem.studentId,
               type: 1, // 同源类型：1 楼层 2宿舍
-              roomId: this.currentItem.roomId || this.details.roomId
+              roomId: this.currentItem.roomId || this.currentItem._roomId
             },
             moduleName: this.moduleName,
             submoduleName: this.submoduleName,

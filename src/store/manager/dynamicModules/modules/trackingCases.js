@@ -6,10 +6,19 @@ export default commitRootInModule => createStoreModule({
       loading: false,
       list: []
     },
+    dormitories: {
+      loading: false,
+      list: []
+    },
     symptoms: {
       loading: false,
       list: []
     },
+    diagnoses: {
+      loading: false,
+      list: []
+    },
+    visibilityOfAddTrace: false,
     visibilityOfPotentiallyInfectedStudents: false
   },
   modules: {

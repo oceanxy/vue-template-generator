@@ -12,7 +12,7 @@ module.exports = {
     open: false,
     proxy: {
       '/api': {
-        target: 'http://10.100.1.102:35930',
+        target: 'http://10.100.1.101:35930',
         // target: 'http://10.100.1.94:35930',
         changeOrigin: true,
         secure: false

@@ -56,7 +56,6 @@ export default {
         })
       }
 
-
       await dispatch('getList', {
         moduleName,
         submoduleName,
@@ -191,7 +190,8 @@ export default {
     commit('setLoading', {
       value: true,
       moduleName,
-      submoduleName
+      submoduleName,
+      stateName: 'loadingDetails'
     })
 
     let api = 'getDetails'
@@ -216,7 +216,8 @@ export default {
     commit('setLoading', {
       value: false,
       moduleName,
-      submoduleName
+      submoduleName,
+      stateName: 'loadingDetails'
     })
 
     return res
@@ -265,14 +266,14 @@ export default {
     return response.status
   },
   /**
-   * 更新数据
+   * 更新数据（仅做数据更新及刷新列表使用，如果需要保存返回的数据请使用 custom）
    * @param state
    * @param dispatch
    * @param moduleName {string} 模块名
-   * @param payload {Object} 参数
-   * @param visibilityFieldName {string} 控制弹窗显示的字段名
+   * @param [payload={}] {Object} 参数
+   * @param [visibilityFieldName='visibilityOfEdit'] {string} 控制弹窗显示的字段名
    * @param customApiName {string} 自定义请求API
-   * @param isFetchList {boolean} 默认 false。当为 true 时，请特别注意参数问题（parametersOfGetListAction）
+   * @param [isFetchList=false] {boolean} 默认 false。当为 true 时，请特别注意参数问题（parametersOfOtherAction）
    * @param parametersOfGetListAction {...{
    *  moduleName: string;
    *  submoduleName: string;
@@ -284,7 +285,7 @@ export default {
    */
   async update({ state, dispatch }, {
     moduleName,
-    payload,
+    payload = {},
     visibilityFieldName,
     customApiName,
     isFetchList,
@@ -310,20 +311,20 @@ export default {
     return response.status
   },
   /**
-   * 通常仅用于除“新增”和“更新”外的表单提交类数据接口。
-   * “新增”和“更新”请使用对应的 add 或 update 专用 action。
+   * 兼顾 add 和 update 的功能，通常仅用于除“新增”和“更新”外的表单提交类数据接口。
+   * “新增”和“更新”请优先使用对应的 add 或 update 专用 action。
    * 如有不适用于其他 action 的场景时，再考虑使用本 action。
    * @param state
    * @param dispatch
    * @param commit
-   * @param payload {Object} 参数
+   * @param moduleName {string} 模块名
    * @param customApiName {string} 自定义请求API
+   * @param [payload={}] {Object} 参数
+   * @param [isFetchList] {boolean} 是否在成功提交后刷新本模块列表，默认false
    * @param [isResetSelectedRows] {Boolean} 是否在成功执行后重置对应 store 内 selectedRows，默认false。一般在批量操作时使用
    * @param [stateName] {string} 用于接收接口返回值的 state 字段名称，在相应模块的 store.state 内定义
-   * @param [moduleName] {string} 模块名
    * @param [submoduleName] {string} 子级模块名
    * @param [visibilityFieldName] {string} 成功执行操作后要关闭的弹窗的控制字段（定义在对应模块的 store.state 内）
-   * @param [isFetchList] {boolean} 是否在成功提交后刷新本模块列表，默认false
    * @param parametersOfGetListAction {...{
    *  additionalQueryParameters: {};
    *  stateName: string;
@@ -336,14 +337,14 @@ export default {
     dispatch,
     commit
   }, {
-    payload,
     customApiName,
+    moduleName,
+    payload = {},
+    isFetchList,
+    visibilityFieldName,
+    submoduleName,
     isResetSelectedRows,
     stateName,
-    moduleName,
-    submoduleName,
-    visibilityFieldName,
-    isFetchList,
     ...parametersOfGetListAction
   }) {
     const response = await apis[customApiName](payload)
@@ -427,7 +428,7 @@ export default {
       value: true,
       moduleName,
       submoduleName,
-      customizeLoading: stateName
+      stateName: stateName
     })
 
     const response = await apis[customApiName](payload)
@@ -458,7 +459,7 @@ export default {
       value: false,
       moduleName,
       submoduleName,
-      customizeLoading: stateName
+      stateName: stateName
     })
 
     return response.status

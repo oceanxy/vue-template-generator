@@ -4,26 +4,27 @@ export default {
    * @param state {Object}
    * @param value {boolean}
    * @param moduleName {string}
-   * @param submoduleName {string}
-   * @param customizeLoading {string} 自定义loading字段名
+   * @param [submoduleName] {string}
+   * @param [stateName] {string | Object} 指定的加载状态字段名或一个带有 'loading' 字段的对象，如：
+   *    { loading: boolean, list: Array }
    */
   setLoading(state, {
     value,
     moduleName,
     submoduleName,
-    customizeLoading
+    stateName
   }) {
     if (submoduleName) {
-      if (Object.prototype.toString.call(state[moduleName][submoduleName][customizeLoading]) === '[object Object]') {
-        state[moduleName][submoduleName][customizeLoading].loading = value
+      if (Object.prototype.toString.call(state[moduleName][submoduleName][stateName]) === '[object Object]') {
+        state[moduleName][submoduleName][stateName].loading = value
       } else {
-        state[moduleName][submoduleName][customizeLoading || 'loading'] = value
+        state[moduleName][submoduleName][stateName || 'loading'] = value
       }
     } else {
-      if (Object.prototype.toString.call(state[moduleName][customizeLoading]) === '[object Object]') {
-        state[moduleName][customizeLoading].loading = value
+      if (Object.prototype.toString.call(state[moduleName][stateName]) === '[object Object]') {
+        state[moduleName][stateName].loading = value
       } else {
-        state[moduleName][customizeLoading || 'loading'] = value
+        state[moduleName][stateName || 'loading'] = value
       }
     }
   },

@@ -30,6 +30,7 @@ export function createStoreModule(module = {}, excludeFromState = []) {
       list: [],
       sortFieldList: [],
       details: {},
+      loadingDetails: false,
       visibilityOfEdit: false,
       selectedRowKeys: [],
       selectedRows: [],

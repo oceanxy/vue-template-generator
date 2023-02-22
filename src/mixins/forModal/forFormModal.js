@@ -89,7 +89,7 @@ export default ({ disableSubmitButton = true } = {}) => {
        * @param [isResetSelectedRows] {boolean} 是否在成功提交表单后重置列表的选中行数据，默认 false
        * @param [customApiName] {string} 自定义请求API
        * @param [customAction='custom'] {string} 自定义请求 action。默认 'custom'，依赖 customApiName。
-       *  (action 列表请在 /src/store/actions.js 内查看)
+       *    (action 列表请在 /src/store/actions.js 内查看，TODO 目前只适配了部分 action)
        * @param [customValidation] {() => boolean} 自定义验证函数
        * @param [customDataHandler] {(values) => Object} 自定义参数处理
        * @param [done] {() => void} 提交成功后的回调函数
@@ -140,18 +140,21 @@ export default ({ disableSubmitButton = true } = {}) => {
             const status = await this.$store.dispatch(action, {
               moduleName: this.moduleName,
               visibilityFieldName: this.visibilityFieldName,
-              isResetSelectedRows: isResetSelectedRows,
-              isFetchList: isFetchList,
-              customApiName: customApiName,
+              isFetchList,
+              customApiName,
               // 请求参数
               payload,
+
+              // action 为 'custom' 是可用。是否重置表格行选择框的选中内容。
+              isResetSelectedRows,
+              // action 为 'export' 时可用。
               // 请根据参数的取值和性质自行决定在混入组件的 data 内或 computed 内定义。
               fileName: this.fileName,
-              // 附加请求参数
+
+              // 附加请求参数，获取子模块数据需要的额外参数，在引用该混合的子模块内覆盖设置。
+              // 请根据参数的取值和性质自行决定在混入组件的 data 内或 computed 内定义。
               additionalQueryParameters: {
                 ...this.$route.query,
-                // 获取子模块数据需要的额外参数，在引用该混合的子模块内覆盖设置。
-                // 请根据参数的取值和性质自行决定在混入组件的 data 内或 computed 内定义。
                 ...(this.additionalQueryParameters || {})
               }
             })

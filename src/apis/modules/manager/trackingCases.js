@@ -29,7 +29,7 @@ export default {
     })
   },
   /**
-   * 新增追踪病例
+   * 更新追踪病例记录（新增）
    * @param request
    * @param data
    * @returns {*}
@@ -47,7 +47,7 @@ export default {
    * @param data
    * @returns {*}
    */
-  updateTrackingCases(request, data) {
+  stopFollowingUp(request, data) {
     return request({
       url: '/morningNoon/studentTrace/stopTrace',
       method: 'post',

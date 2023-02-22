@@ -19,10 +19,7 @@ export default {
         getCustomIcon={getOrganizationTreeIcon}
         getFieldNameForTreeId={() => 'orgId'}
         injectSearchParamsOfTable={dataSource => ({ orgType: dataSource.type })}
-        apiOptions={{
-          stateName: 'dutyClassTree',
-          apiName: 'getDutyClassTree'
-        }}
+        apiOptions={{ stateName: 'dutyClassTree', apiName: 'getDutyClassTree' }}
       >
         <TGContainer>
           <Functions slot={'functions'} />

@@ -105,5 +105,18 @@ export default {
       method: 'post',
       data: qs.stringify(data, { arrayFormat: 'comma' })
     })
+  },
+  /**
+   * 根据学生ID获取房间树（楼栋>楼层>房间）
+   * @param request
+   * @param params
+   * @returns {*}
+   */
+  getRoomTreeByStudentId(request, params) {
+    return request({
+      url: '/morningNoon/build/getBuildList',
+      method: 'get',
+      params
+    })
   }
 }

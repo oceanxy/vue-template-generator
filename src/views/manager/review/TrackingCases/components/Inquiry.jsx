@@ -49,6 +49,17 @@ export default Form.create({})({
               )
             }
           </Form.Item>
+          <Form.Item label={'追踪状态'}>
+            {
+              this.form.getFieldDecorator('traceStatus', { initialValue: this.initialValues.traceStatus })(
+                <Select>
+                  <Select.Option value={''}>全部</Select.Option>
+                  <Select.Option value={1}>跟进中</Select.Option>
+                  <Select.Option value={2}>已结束</Select.Option>
+                </Select>
+              )
+            }
+          </Form.Item>
           <Form.Item label={'登记类型'}>
             {
               this.form.getFieldDecorator('registerType', { initialValue: this.initialValues.registerType })(
@@ -89,17 +100,6 @@ export default Form.create({})({
                       <Select.Option value={symptom.id}>{symptom.symptomName}</Select.Option>
                     ))
                   }
-                </Select>
-              )
-            }
-          </Form.Item>
-          <Form.Item label={'追踪状态'}>
-            {
-              this.form.getFieldDecorator('traceStatus', { initialValue: this.initialValues.traceStatus })(
-                <Select>
-                  <Select.Option value={''}>全部</Select.Option>
-                  <Select.Option value={1}>跟进中</Select.Option>
-                  <Select.Option value={2}>已结束</Select.Option>
                 </Select>
               )
             }
