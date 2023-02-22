@@ -132,6 +132,13 @@ export default {
           message.error('暂无数据！')
         }
       }
+    },
+    onSetRooms() {
+      if (this.search.orgType !== 5) {
+        message.warn('请选择学校')
+      } else {
+        this._setVisibilityOfModal({}, 'visibilityOfSetRooms')
+      }
     }
   },
   render() {
@@ -187,9 +194,8 @@ export default {
         </Button>
 
         <Button
-          onClick={() => this._setVisibilityOfModal({}, 'visibilityOfSetRooms')}
+          onClick={this.onSetRooms}
           icon="home"
-          disabled={this.deleteButtonDisabled}
         >
           设置学生宿舍
         </Button>

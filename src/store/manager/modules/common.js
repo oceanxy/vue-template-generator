@@ -13,9 +13,7 @@ export default {
     // 行政区划
     administrativeDivision: [],
     // 默认行政区划
-    defaultAdministrativeDivision: [],
-    // 获取所有楼栋楼层房间
-    allBuildList: []
+    defaultAdministrativeDivision: []
   },
   mutations: {
     setAdministrativeDivision(state, payload) {
@@ -37,13 +35,6 @@ export default {
 
       if (response.status) {
         commit('setAdministrativeDivision', response.data)
-      }
-    },
-    async getAllBuildList({ commit }) {
-      const response = await apis.getAllBuildList()
-
-      if (response.status) {
-        commit('setAllBuildList', response.data)
       }
     }
   }
