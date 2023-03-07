@@ -11,7 +11,7 @@
     width: 70%;
     font-size: 32px;
     font-family: DOUYU, Arial, 'Hiragino Sans GB', 'Microsoft Yahei', 'Microsoft Sans Serif', 'WenQuanYi Micro Hei', sans-serif;
-    color: #ffffff;
+    color: #16b364;
     z-index: 100;
     text-align: center;
     margin-left: -7%;
@@ -26,7 +26,7 @@
     height: 100%;
     left: 0;
     top: 0;
-    background: #c9e5e5 url(../images/login-bg.png) no-repeat left 40% top 60% / 800px auto;
+    background: #cbdedc url(../images/login-bg.png) no-repeat left 40% top 60% / 1040px auto;
   }
 
   &:after {
@@ -89,7 +89,7 @@
         line-height: 48px;
         font-size: 14px;
         padding-left: 10px;
-        background: rgba(93,107,152,0.05);
+        background: rgba(93, 107, 152, 0.05);
         border: none;
         outline: none;
         box-sizing: border-box;
@@ -157,7 +157,7 @@
     width: 70%;
     font-size: 12px;
     text-align: center;
-    color: #bbbbbb;
+    color: #565656;
     justify-content: flex-end;
     bottom: 46px;
     align-self: flex-start;
