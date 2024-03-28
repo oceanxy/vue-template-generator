@@ -119,7 +119,7 @@ export default ({
       transformValue(values) {
         let temp = cloneDeep(values)
 
-        if ('status' in temp) {
+        if ('status' in temp && typeof temp.status === 'boolean') {
           temp.status = temp.status ? 1 : 2
         }
 
