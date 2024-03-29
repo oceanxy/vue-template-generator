@@ -148,7 +148,7 @@ function selectDynamicRoutes(menus, routes) {
     const _routes = []
 
     routes?.forEach(route => {
-      const _menu = menus.find(menu => menu.meta.title === route.meta.title && menu.path === route.path)
+      const _menu = menus.find(menu => menu.meta.title === route.meta.title && menu.path?.trim() === route.path)
 
       if (_menu) {
         if (_menu?.children?.length && route?.children?.length) {
@@ -160,7 +160,7 @@ function selectDynamicRoutes(menus, routes) {
         }
 
         if (_menu?.children?.length && !route?.children?.length) {
-          console.warn(`未找到ID为${_menu.id}的菜单数据，请确认后台返回的菜单数据是否与前端路由文件匹配！`)
+          console.warn(`未找到ID为${_menu.id}的菜单数据，请确认后台返回的菜单数据与前端路由文件是否匹配！`)
         }
 
         _routes.push(route)
