@@ -1,13 +1,11 @@
 /**
  * 连字符转驼峰
- * 例如：my-profile -> myProfile
+ * 例如：my-profile -> myProfile 或者 my_profile -> myProfile
  * @param name
  * @returns {*}
  */
 export function toHump(name) {
-  return name.replace(/-(\w)/g, (all, letter) => {
-    return letter.toUpperCase()
-  })
+  return name.replace(/[-_](\w)/g, (all, letter) => letter.toUpperCase())
 }
 
 /**
