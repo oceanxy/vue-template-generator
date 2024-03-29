@@ -48,9 +48,11 @@ export default {
       if (payload) {
         localStorage.setItem(`${appName}-defaultRoute`, payload.defaultMenuUrl || '')
         localStorage.setItem(`${appName}-menu`, JSON.stringify(payload.menuList))
+        localStorage.setItem(`${appName}-buttonPermissions`, JSON.stringify(payload.buttonPermissions))
       } else {
         localStorage.removeItem(`${appName}-defaultRoute`)
         localStorage.removeItem(`${appName}-menu`)
+        localStorage.removeItem(`${appName}-buttonPermissions`)
       }
     }
   },
@@ -163,9 +165,10 @@ export default {
           userInfo = userInfoResponseData.userInfo
           const menuList = userInfoResponseData.menuList
           const defaultMenuUrl = userInfoResponseData.defaultMenuUrl
+          const buttonPermissions = userInfoResponseData.buttonPermissions
 
           if (menuList) {
-            commit('setSiteCache', { menuList, defaultMenuUrl })
+            commit('setSiteCache', { menuList, defaultMenuUrl, buttonPermissions })
           }
         } else {
           userInfo = response.data
