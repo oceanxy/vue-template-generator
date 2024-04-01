@@ -7,8 +7,9 @@
 
 import forIndex from '@/mixins/forIndex'
 import { verificationDialog, verifySelected } from '@/utils/message'
-import { Button, message, Space } from 'ant-design-vue'
+import { message, Space } from 'ant-design-vue'
 import moment from 'moment'
+import TGPermissionsButton from '@/components/TGPermissionsButton'
 
 /**
  * 为表格功能按钮生成 mixin
@@ -195,13 +196,14 @@ export default ({ controlButtonPermissions, overrideDefaultButtons } = {}) => ({
         {
           !overrideDefaultButtons
             ? (
-              <Button
+              <TGPermissionsButton
                 type="primary"
+                identification={'ADD'}
                 onClick={() => this.onCustomAddClick()}
                 icon="plus"
               >
                 新增
-              </Button>
+              </TGPermissionsButton>
             )
             : null
         }

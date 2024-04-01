@@ -5,8 +5,9 @@
  */
 
 import { cloneDeep, isBoolean, omit } from 'lodash'
-import { Button, Form, Space } from 'ant-design-vue'
+import { Form, Space } from 'ant-design-vue'
 import moment from 'moment'
+import TGPermissionsButton from '@/components/TGPermissionsButton'
 
 /**
  * 用于表格搜索的混合
@@ -103,7 +104,8 @@ export default function forInquiry({
       operationButtons() {
         return (
           <Space class={'tg-inquiry-form-buttons'}>
-            <Button
+            <TGPermissionsButton
+              identification={'QUERY'}
               disabled={this.buttonDisabled}
               loading={this.loading}
               htmlType="submit"
@@ -111,10 +113,14 @@ export default function forInquiry({
               icon="search"
             >
               查询
-            </Button>
-            <Button onClick={this.onClear} icon="reload">
+            </TGPermissionsButton>
+            <TGPermissionsButton
+              onClick={this.onClear}
+              icon="reload"
+              identification={'QUERY'}
+            >
               重置并刷新
-            </Button>
+            </TGPermissionsButton>
           </Space>
         )
       },
