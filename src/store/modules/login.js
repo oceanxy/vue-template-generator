@@ -168,7 +168,11 @@ export default {
           const buttonPermissions = userInfoResponseData.buttonPermissions
 
           if (menuList) {
-            commit('setSiteCache', { menuList, defaultMenuUrl, buttonPermissions })
+            commit('setSiteCache', {
+              menuList,
+              defaultMenuUrl,
+              buttonPermissions
+            })
           }
         } else {
           userInfo = response.data
