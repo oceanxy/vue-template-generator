@@ -20,6 +20,8 @@ module.exports = {
   routeMode: 'history',
   // 动态路由（从后台获取权限菜单）
   dynamicRouting: false,
+  // 按钮级权限， 默认false。此功能需配合 src/components/TGPermissionsButton 组件使用。
+  buttonPermissions: false,
   // 默认首页（登录之后默认跳转的页面 route.name。这仅仅是一个默认值，如果启用了动态路由，优先以后台设置的数据为准）
   defaultRouteName: 'home',
   // 根路由（"/"）的访问权限。默认true，代表根路由需要权限才能访问。注意当后端返回的菜单数据中包含了根路由时，根路由的访问权限以后端返回的为准。
