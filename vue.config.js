@@ -318,6 +318,7 @@ module.exports = {
       if (appConfig[apn].prodEnvVar.configurable) {
         config.plugin('configurableEnvAndCreateZip').use(EnvProductionPlugin, [
           {
+            appName: apn,
             appConfig: appConfig[apn],
             subDir,
             callback: () => createZip(appConfig[apn].zipName || apn)
