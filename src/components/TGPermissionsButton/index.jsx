@@ -54,7 +54,12 @@ export default {
       return {
         identification,
         disabledType,
-        buttonProps
+        buttonProps: {
+          ...buttonProps,
+          // 按钮的 disabled 属性被本组件掌控，
+          // 优先取用后台返回的按钮权限，当优先值为 false 时，再取用组件传递的 disabled 值
+          disabled: this.innerDisabled || buttonProps.disabled
+        }
       }
     }
   },
