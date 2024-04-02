@@ -5,9 +5,9 @@
  */
 
 import { cloneDeep, isBoolean, omit } from 'lodash'
-import { Form, Space } from 'ant-design-vue'
+import { Button, Form, Space } from 'ant-design-vue'
 import moment from 'moment'
-import TGPermissionsButton from '@/components/TGPermissionsButton'
+import TGPermissionsButton, { disabledType } from '@/components/TGPermissionsButton'
 
 /**
  * 用于表格搜索的混合
@@ -18,6 +18,8 @@ import TGPermissionsButton from '@/components/TGPermissionsButton'
  * 如果其他组件（如左侧树、页面列表等）有请求数据的逻辑，此处请设置为 false，此时搜索按钮仅仅用来控制 store.state.search 的值，将发送请求的逻辑交由这些组件来完成。
  * @param {boolean} [isInitializeFromStore=false] 在组件加载成功时，是否把 store 内对应本组件的模块的搜索参数映射到 Form 组件内。
  * @param {()=>boolean} [buttonDisabledFn] 禁用查询按钮的方法。
+ * @param {boolean} [disabledButtonPermission] 在启用按钮级权限的情况下，是否关闭该模块的按钮权限验证。默认 false。
+ * @param {string} [buttonPermissionIdentification] 自定义按钮的权限标识，默认 'QUERY'
  * @param {()=>Object} [setParams] 调用查询接口时需要的额外请求参数。一般用于配置在子模块内的 inquiry 组件获取父模块参数等。
  * @param {()=>Object} [setOptions] 调用查询接口时需要的`全局Action(如：setSearch、getList等)`配置。一般用于自定义请求接口等配置。
  * @returns {Object<Vue.mixin>}
@@ -26,6 +28,8 @@ export default function forInquiry({
   isFetchList = true,
   isInitializeFromStore = false,
   buttonDisabledFn,
+  disabledButtonPermission = false,
+  buttonPermissionIdentification = 'QUERY',
   setParams,
   setOptions
 } = {}) {
@@ -104,23 +108,44 @@ export default function forInquiry({
       operationButtons() {
         return (
           <Space class={'tg-inquiry-form-buttons'}>
-            <TGPermissionsButton
-              identification={'QUERY'}
-              disabled={this.buttonDisabled}
-              loading={this.loading}
-              htmlType="submit"
-              type="primary"
-              icon="search"
-            >
-              查询
-            </TGPermissionsButton>
-            <TGPermissionsButton
-              onClick={this.onClear}
-              icon="reload"
-              identification={'QUERY'}
-            >
-              重置并刷新
-            </TGPermissionsButton>
+            {
+              this.$config.buttonPermissions && !disabledButtonPermission
+                ? [
+                  <TGPermissionsButton
+                    identification={buttonPermissionIdentification}
+                    disabledType={disabledType.DISABLE}
+                    disabled={this.buttonDisabled}
+                    loading={this.loading}
+                    htmlType="submit"
+                    type="primary"
+                    icon="search"
+                  >
+                    查询
+                  </TGPermissionsButton>,
+                  <TGPermissionsButton
+                    onClick={this.onClear}
+                    icon="reload"
+                    identification={buttonPermissionIdentification}
+                    disabledType={disabledType.DISABLE}
+                  >
+                    重置并刷新
+                  </TGPermissionsButton>
+                ]
+                : [
+                  <Button
+                    disabled={this.buttonDisabled}
+                    loading={this.loading}
+                    htmlType="submit"
+                    type="primary"
+                    icon="search"
+                  >
+                    查询
+                  </Button>,
+                  <Button onClick={this.onClear} icon="reload">
+                    重置并刷新
+                  </Button>
+                ]
+            }
           </Space>
         )
       },
