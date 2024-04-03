@@ -12,9 +12,7 @@ import config from '@/config'
  * @returns {Object}
  */
 export default () => {
-  if (!config.isWatermark) {
-    return {}
-  }
+  if (!config.isWatermark) return ({})
 
   return {
     data() {
@@ -26,6 +24,14 @@ export default () => {
     computed: {
       userInfo() {
         return this.$store.state['login'].userInfo
+      }
+    },
+    watch: {
+      'userInfo.nickName': {
+        immediate: true,
+        handler() {
+          this.watermarkLoad()
+        }
       }
     },
     beforeMount() {
@@ -64,8 +70,6 @@ export default () => {
           watermark_fontsize: 12,
           watermark_parent_node: this.$el
         })
-
-
       }
     }
   }
