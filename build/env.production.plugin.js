@@ -149,6 +149,9 @@ class EnvProductionPlugin {
     const envVariables = this.appConfig.prodEnvVar?.envVars ?? []
     const regex = /^\{([A-Z0-9_]+)}$/
 
+    // 添加必选属性
+    envVariables.unshift('VUE_APP_ENV')
+
     // 寻找要加载的第三方文件中使用了环境变量的文件
     this.appConfig.loadFiles.forEach(item => {
       if (regex.test(item.host)) {
