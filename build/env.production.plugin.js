@@ -36,7 +36,7 @@ class EnvProductionPlugin {
       .replace(/(\r?\n)+$/, '')
       .split(separator)
       .forEach(line => {
-        const keyValueArr = line.split('=')
+        const keyValueArr = line.split(/=(.*)/)
         const key = keyValueArr[0].trim()
 
         // 解析空行
@@ -107,7 +107,7 @@ class EnvProductionPlugin {
                 comments = []
               }
             } else {
-              comments.push(key)
+              comments.push(line)
             }
           }
         }
