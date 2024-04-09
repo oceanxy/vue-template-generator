@@ -477,7 +477,14 @@ export default ({
        * @config [done] {() => void} - 成功执行删除的回调
        * @config [nameKey='fullName'] {string} - 在删除提示中显示当条数据中的某个字段信息
        */
-      async onDeleteClick(record, options = { isBulkOperation: true, nameKey: 'fullName' }) {
+      async onDeleteClick(record, options) {
+        // 处理 options 的默认值
+        options = {
+          isBulkOperation: true,
+          nameKey: 'fullName',
+          ...options
+        }
+
         await verificationDialog(
           async () => {
             if (!('idFieldName' in options)) {
