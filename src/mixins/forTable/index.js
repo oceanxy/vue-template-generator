@@ -307,9 +307,8 @@ export default ({
        * 行内改变状态
        * @param checked {boolean} 要变更的状态值
        * @param record {Object|Object[]} 列表数据对象
-       * @param [customFieldName='status'] {string} 自定义保存状态值的字段名。默认 'status'
-       * @param [actualFieldName='status'] {string} 列表中实际用于保存该状态的字段名。当要修改的状态的字段名不为 'status' 时，调用接口后，用于更新本地数据。
-       *  当修改的状态的字段名不为 'status' 时必传。默认 'status'
+       * @param [customFieldName='status'] {string} 自定义传递状态值的参数名。默认 'status'
+       * @param [actualFieldName='status'] {string} 数据列表中实际用于保存该状态的字段名，用于乐观更新或还原本地数据。默认 'status'
        * @param [idKey='id'] {string} 自定义接口中传递ID的字段名称。`isBulkOperation=false`时默认为 'id'，为`true`时无默认值，需要手动传递。
        * @param [getIds=(record)=>record.id] {(Object) => string} 从数据中获取id值，默认取`record`的`id`字段。
        * @param [isBulkOperation] {boolean} 是否是批量操作，默认 'false'。传递给后端的id默认是传字符串，该值设为 true 后，id变为数组。
