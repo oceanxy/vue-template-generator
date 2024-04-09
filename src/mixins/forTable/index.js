@@ -467,7 +467,7 @@ export default ({
        *    _isFreshTree: boolean
        *  }
        *  ```
-       * @param options 其他配置
+       * @param [options] 其他配置
        * @config [isBulkOperation=true] {boolean} 是否批量操作，默认 true。该参数会改变 idFieldName 的默认行为。
        *  在没有显示的设置 idFieldName 的情况下：
        *  - 该值为 false 时，idFieldName 默认值为 'id'
