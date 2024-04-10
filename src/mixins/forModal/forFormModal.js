@@ -75,12 +75,17 @@ export default ({
               const express = 'express' in options ? options.express : !!this.currentItem.id
 
               if (express) {
-                await this.$store.dispatch('getDetails', {
+                const res = await this.$store.dispatch('getDetails', {
                   moduleName: this.moduleName,
                   payload: options.params,
                   stateName: 'currentItem',
                   merge: true
                 })
+
+                if (!res.status) {
+                  // 进入弹窗，当获取详情数据失败时，关闭弹窗。避免出现接口返回无权限的情况下跳转到无权限页面而导致弹窗未关闭的情况，影响体验。
+                  await this._hideVisibilityOfModal(this.visibilityFieldName, this.submoduleName)
+                }
               }
             }
           } else {
