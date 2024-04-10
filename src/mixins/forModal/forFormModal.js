@@ -12,12 +12,10 @@ import { message } from '@/utils/message'
 
 /**
  * @param [disableSubmitButton=true] {boolean} 加载表单后，在未修改表单内任一项的值之前，禁用提交按钮
- * @param [fetchDetailsFn] {() => ({[express]: boolean, params: Object}) } 请求本页列表某一项数据详细信息的配置函数。
- * 注意，可以在回调函数内使用 this 关键字，此时请不要使用箭头函数。
- * 请求得到的数据会被合并到本页面对应模块的 store.state.currentItem 对象内。
- *    express: 请求详细信息的条件表达式，当条件满足时才执行请求（比如判断该弹窗是“新增”还是“编辑”模式，默认表达式：!!this.currentItem.id）；
- *    params：请求详细信息接口的请求参数。
- * （一般用在编辑弹窗内，请求详细信息的接口请在 apis 文件夹下对应模块内定义，定义规则请参考 全局 action： getDetails）
+ * @param [fetchDetailsFn] {() => FetchDetailsFnReturn} 请求本页列表某一项数据详细信息的配置函数。<br>
+ * 注意，可以在回调函数内使用 this 关键字，此时请不要使用箭头函数。<br>
+ * 请求得到的数据会被合并到本页面对应模块的 store.state.currentItem 对象内。<br>
+ * 一般用在编辑弹窗内，请求详细信息的接口请在 apis 文件夹下对应模块内定义，定义规则请参考 全局 action： getDetails
  * @returns {Object}
  */
 export default ({
@@ -25,7 +23,7 @@ export default ({
   fetchDetailsFn
 } = {}) => {
   return {
-    mixins: [forModal()],
+    mixins: [forModal({ fetchDetailsFn })],
     inject: {
       /**
        * 判断本页面是否存在侧边树组件
@@ -69,25 +67,6 @@ export default ({
                 ? this.$parent.$attrs.candidateTitle?.[0] || this.candidateTitle[0]
                 : this.$parent.$attrs.candidateTitle?.[1] || this.candidateTitle[1]
             )
-
-            if (typeof fetchDetailsFn === 'function') {
-              const options = fetchDetailsFn.call(this)
-              const express = 'express' in options ? options.express : !!this.currentItem.id
-
-              if (express) {
-                const res = await this.$store.dispatch('getDetails', {
-                  moduleName: this.moduleName,
-                  payload: options.params,
-                  stateName: 'currentItem',
-                  merge: true
-                })
-
-                if (!res.status) {
-                  // 进入弹窗，当获取详情数据失败时，关闭弹窗。避免出现接口返回无权限的情况下跳转到无权限页面而导致弹窗未关闭的情况，影响体验。
-                  await this._hideVisibilityOfModal(this.visibilityFieldName, this.submoduleName)
-                }
-              }
-            }
           } else {
             this.form.resetFields()
           }
