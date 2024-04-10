@@ -230,14 +230,11 @@ export default {
   },
   /**
    * 设置modal的可见性
-   * @param state {Object}
-   * @param payload {{
-   *   field: string,
-   *   value: any,
-   *   moduleName: string,
-   *   submoduleName: string
-   * }} field: 对应modal的显示字段 value：要设置的值 moduleName:模块名称
-   * @param moduleName {string}
+   * @param state
+   * @param field {string} - 对应modal的显示字段
+   * @param value {any} - 要设置的值
+   * @param moduleName {string} - 模块名称
+   * @param [submoduleName] {string} - 子模块名称
    */
   setModalVisible(state, {
     field,
