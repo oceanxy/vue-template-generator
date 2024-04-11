@@ -6,8 +6,10 @@
  */
 import { Button } from 'ant-design-vue'
 import { getFirstLetterOfEachWordOfAppName } from '@/utils/utilityFunction'
+import config from '@/config'
 
 const appName = getFirstLetterOfEachWordOfAppName()
+const buttonPermissions = JSON.parse(localStorage.getItem(`${appName}-buttonPermissions`))
 
 /**
  * 枚举：权限按钮无效状态显示方式
@@ -17,6 +19,17 @@ const appName = getFirstLetterOfEachWordOfAppName()
 export const disabledType = {
   DISABLE: 1,
   HIDE: 2
+}
+
+/**
+ * 获取按钮或模块权限
+ * @global
+ * @param moduleName {string} - 要获取权限的目标所在模块名称
+ * @param identification {string} - 权限标识符
+ * @returns {boolean}
+ */
+export function getButtonPermission(moduleName, identification) {
+  return !config.buttonPermissions || !!buttonPermissions?.[moduleName]?.includes(identification)
 }
 
 export default {
@@ -40,7 +53,6 @@ export default {
       if (!this.$config.buttonPermissions) return false
 
       const { identification } = this._props
-      const buttonPermissions = JSON.parse(localStorage.getItem(`${appName}-buttonPermissions`))
 
       return !buttonPermissions?.[this.moduleName]?.includes(identification)
     },
