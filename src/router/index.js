@@ -251,7 +251,7 @@ const router = createRouter()
 router.onError(async error => {
   const pattern = /Loading chunk (\d)+ failed/g
   const isChunkLoadFailed = error.message.match(pattern)
-  const targetPath = router.history.pending.fullPath
+  const targetPath = router.history.pending?.fullPath
 
   if (isChunkLoadFailed) {
     await router.replace(targetPath)
