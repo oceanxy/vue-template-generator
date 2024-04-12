@@ -9,7 +9,13 @@ import { getFirstLetterOfEachWordOfAppName } from '@/utils/utilityFunction'
 import config from '@/config'
 
 const appName = getFirstLetterOfEachWordOfAppName()
-const buttonPermissions = JSON.parse(localStorage.getItem(`${appName}-buttonPermissions`))
+let buttonPermissions
+
+try {
+  buttonPermissions = JSON.parse(localStorage.getItem(`${appName}-buttonPermissions`))
+} catch (err) {
+  buttonPermissions = {}
+}
 
 /**
  * 枚举：权限按钮无效状态显示方式
