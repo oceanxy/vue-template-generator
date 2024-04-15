@@ -629,8 +629,8 @@ export default {
     additionalQueryParameters = {}
   }) {
     const module = state[moduleName][submoduleName] ?? state[moduleName]
-    const selectedRows = [...module.selectedRows]
-    const selectedRowKeys = [...module.selectedRowKeys]
+    const selectedRows = [...module.selectedRows ?? []]
+    const selectedRowKeys = [...module.selectedRowKeys ?? []]
 
     commit('setLoading', {
       value: true,
@@ -655,6 +655,7 @@ export default {
 
     // 通过 forFunction 混合调用时，一般为批量操作，即勾选了行选择框的操作，
     // 需要更新对应 store 模块内的 selectedRowKeys 和 selectedRows。
+    // 批量操作时，如果 payload 内传递了 id 值，则不再取 selectedRowKeys 的值
     if (isBulkOperation && !payload[idFieldName]?.length) {
       params[idFieldName] = selectedRowKeys
     }
