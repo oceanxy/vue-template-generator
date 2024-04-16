@@ -6,6 +6,11 @@
  */
 
 export default {
+  computed: {
+    pageTabs() {
+      return this.$store.state['common'].pageTabs || []
+    }
+  },
   methods: {
     /**
      * 打开弹窗操作
@@ -77,6 +82,19 @@ export default {
      */
     async _mergeCurrentItem(payload, visibilityFieldName, submoduleName, moduleName) {
       await this._setVisibilityOfModal(payload, visibilityFieldName, submoduleName, moduleName, true)
+    },
+    /**
+     * 关闭当前页面的 pageTab
+     * @private
+     */
+    _closePageTab() {
+      if (this.$config.enableTabPage) {
+        this.$store.commit('setState', {
+          value: this.pageTabs.filter(item => item.fullPath !== this.$route.fullPath),
+          moduleName: 'common',
+          stateName: 'pageTabs'
+        })
+      }
     }
   }
 }
