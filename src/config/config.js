@@ -90,22 +90,37 @@ module.exports = {
       // 重置密码
       resetPwd: {
         // 是否显示修改密码按钮，默认 false。此功能需要配合 src/extend 和子项目的 extend 使用
-        show: false
+        show: false,
+        // 按钮文本，默认“重置密码”
+        text: '重置密码'
       },
       // 消息
       news: {
         // 是否显示消息通知按钮，默认 false。
-        show: false
+        show: false,
+        // 按钮文本，默认“消息”
+        text: '消息'
+      },
+      // 注销
+      logout: {
+        // 是否显示消息通知按钮，默认 true。
+        show: true,
+        // 按钮文本，默认“注销”
+        text: '注销'
       },
       // 网站指引
       guide: {
         // 是否显示网站指引，默认 false。
-        show: false
+        show: false,
+        // 按钮文本，默认“网站指引”
+        text: '网站指引'
       },
       // 主题
       theme: {
         // 是否显示切换主题按钮，默认 true。
         show: true,
+        // 按钮文本，默认“切换主题”
+        text: '切换主题',
         // 默认主题文件名
         default: 'tech-blue',
         // 可用的主题文件 （位于 @/assets/styles/theme）

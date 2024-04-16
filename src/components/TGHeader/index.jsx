@@ -284,10 +284,22 @@ export default {
                           <Menu slot={'overlay'}>
                             {
                               this.$config.header?.buttons?.resetPwd?.show
-                                ? <Menu.Item onClick={this.resetPwd}>重置密码</Menu.Item>
+                                ? (
+                                  <Menu.Item onClick={this.resetPwd}>
+                                    {this.$config.header?.buttons?.resetPwd?.text}
+                                  </Menu.Item>
+                                )
                                 : null
                             }
-                            <Menu.Item onClick={this.onLogOut}>注销</Menu.Item>
+                            {
+                              this.$config.header?.buttons?.logout?.show
+                                ? (
+                                  <Menu.Item onClick={this.onLogOut}>
+                                    {this.$config.header?.buttons?.logout?.text}
+                                  </Menu.Item>
+                                )
+                                : null
+                            }
                           </Menu>
                         )
                     }
@@ -307,7 +319,12 @@ export default {
                             padding: '0'
                           }}
                         >
-                          <Button title={'通知'} shape="circle" type={'link'} class={'tg-header-icon'}>
+                          <Button
+                            title={this.$config.header.buttons.news?.text}
+                            shape="circle"
+                            type={'link'}
+                            class={'tg-header-icon'}
+                          >
                             <IconFont type={'icon-global-tz'} />
                           </Button>
                         </Badge>
@@ -324,35 +341,6 @@ export default {
                             ))
                           }
                         </Menu>
-                        {/* <div slot={'content'} class={'tg-header-news'}> */}
-                        {/*   <Tabs */}
-                        {/*     activeKey={this.activeKey} */}
-                        {/*     animated={true} */}
-                        {/*     size={'small'} */}
-                        {/*     onChange={this.onChange} */}
-                        {/*   > */}
-                        {/*     <Tabs.TabPane key={1} tab={<Badge count={99} offset={[12, 2]}>待办事项</Badge>}> */}
-                        {/*       <Menu> */}
-                        {/*         <Menu.Item> */}
-                        {/*           <div>陈思睿发起了新的审核任务，请及时处理</div> */}
-                        {/*           <div>2023-02-23 15:06:06</div> */}
-                        {/*         </Menu.Item> */}
-                        {/*         <Menu.Item> */}
-                        {/*           <div>陈思睿发起了新的审核任务，请及时处理</div> */}
-                        {/*           <div>2023-02-23 15:06:06</div> */}
-                        {/*         </Menu.Item> */}
-                        {/*       </Menu> */}
-                        {/*     </Tabs.TabPane> */}
-                        {/*     <Tabs.TabPane key={2} tab={<Badge count={99} offset={[12, 2]}>待阅消息</Badge>}> */}
-                        {/*       <Menu> */}
-                        {/*         <Menu.Item> */}
-                        {/*           <div>陈思睿发起了新的审核任务，请及时处理</div> */}
-                        {/*           <div>2023-02-23 15:06:06</div> */}
-                        {/*         </Menu.Item> */}
-                        {/*       </Menu> */}
-                        {/*     </Tabs.TabPane> */}
-                        {/*   </Tabs> */}
-                        {/* </div> */}
                       </Popover>
                     )
                     : null,
@@ -363,7 +351,7 @@ export default {
                         overlayClassName={'tg-header-themes-overlay'}
                       >
                         <Button
-                          title={'切换主题'}
+                          title={this.$config.header?.buttons?.theme?.text}
                           shape="circle"
                           type={'link'}
                           class={'tg-header-icon'}
@@ -385,9 +373,10 @@ export default {
                       </Dropdown>
                     )
                     : null,
-                  this.$config.header.buttons.guide?.show
+                  this.$config.header?.buttons?.guide?.show
                     ? (
                       <Button
+                        title={this.$config.header?.buttons?.guide?.text}
                         shape="circle"
                         type={'link'}
                         class={'tg-header-icon'}
