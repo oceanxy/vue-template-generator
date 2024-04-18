@@ -112,3 +112,128 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 除了递归遍历，例如`this.$children.xxx.$children.$refs[xxx]`的形式，可以借鉴`React`的`ref`，采用`callback`的形式。
 
 结合`vue`的`provided`和`inject`实现。具体例子见 */src/components/TGContainerWithSider* 组件与 */src/mixins/forTable* 的交互。
+
+## 使用模板快速创建一个无后台服务的新项目步骤：
+
+1. 在src/apps目录下新建项目目录：demo-project
+
+```shell
+cd ~
+mkdir "demo-project"
+```
+
+2. 创建入口文件：App.jsx。默认代码结构如下：
+
+  ```vue
+  import forApp from '@/layouts/TGBackendSystem/mixins'
+
+  export default {
+    name: 'DemoProjectApp',
+    mixins: [forApp]
+  }
+
+  ```
+
+3. 创建项目配置文件：config/index.js。必要配置项如下：
+
+```commonjs
+module.exports = {
+  // 所属项目组名称
+  appPrefix: 'demo',
+  // 项目前期一般没有后台服务（接口）的支持，所以可以开启该模式，以模拟数据。
+  mock: true,
+  // 项目名称
+  systemName: '演示项目',
+  // 默认跳转的页面路由名称（route.name）
+  defaultRouteName: 'console',
+
+  // 以下配置为非必须的，具体见：src/config 注释
+  header: {
+    buttons: {
+      theme: {
+        availableThemes: [
+          { name: '科技蓝', fileName: 'tech-blue' },
+          { name: '党政红', fileName: 'party-red' }
+        ]
+      }
+    }
+  },
+  enableTabPage: true,
+  hideBreadCrumb: true,
+  enableLoginVerification: false,
+  activeSuffixForMenuIcon: '{themeName}-active'
+}
+```
+
+4. 创建项目本地服务文件：config/devServer.js。代码如下：
+
+```commonjs
+module.exports = {
+	// 开发环境默认本地登录账号
+	account: 'tgadmin',
+	// 开发环境默认本地登录密码
+	password: '123456',
+	// 前端端口地址
+	// 是否自动在浏览器中打开系统
+	open: false,
+	// 接口代理
+	proxy: {
+		'/api': {
+			target: 'http://localhost:8080',
+			changeOrigin: true,
+			secure: false
+		}
+	}
+}
+```
+
+5. 创建页面目录：views
+
+6. 创建控制台（首页）页面文件：views/Console/index.jsx。代码如下:
+
+```
+export default {
+  name: 'Console',
+  render() {
+    return (
+      <div
+        style={{
+          lineHeight: '100px',
+          textAlign: 'center',
+          fontSize: '1.3rem'
+        }}
+      >
+        控制台
+      </div>
+    )
+  }
+}
+```
+
+7. 创建项目路由配置文件：router/routes.js。基础代码如下：
+
+```ecmascript6
+export default [{
+	path: 'console',
+    name: 'console',
+    component: resolve => require.ensure(
+    	[],
+        () => resolve(require('@/apps/demo-project/views/Console')),
+        'chunk-console'
+    ),
+    meta: {
+        title: '控制台',
+        keepAlive: false,
+        requiresAuth: true,
+        icon: 'icon-menu-sjkb'
+    }
+}]
+```
+
+8. 启动项目
+
+进入到项目文件夹`~/demo-project`启动命令行工具，输入以下命令皆可：
+
+```
+vue-cli-service serve --app-proj demo-project
+```

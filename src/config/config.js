@@ -12,9 +12,9 @@ module.exports = {
   layout: 'TGBackendSystem',
   // mock数据开关。开发模式下生效
   mock: false,
-  // 请求超时时间
+  // 请求超时时间，默认30秒
   timeout: 30000,
-  // mock请求延迟时间
+  // mock请求延迟时间，默认0.4秒
   mockDelay: 400,
   // 路由模式：hash 或者 history 模式，本框架默认 history 模式
   routeMode: 'history',
@@ -22,17 +22,17 @@ module.exports = {
   dynamicRouting: false,
   // 按钮级权限， 默认false。此功能需配合 src/components/TGPermissionsButton 组件使用。
   buttonPermissions: false,
-  // 默认首页（登录之后默认跳转的页面 route.name。这仅仅是一个默认值，如果启用了动态路由，优先以后台设置的数据为准）
-  defaultRouteName: 'home',
+  // 默认跳转的页面路由名称（route.name），默认null，即进入根路由（“/”）指定的页面。（如果启用了动态路由，则为登录后系统跳转的页面路由名称，优先以后台设置的数据为准）
+  defaultRouteName: null,
   // 根路由（"/"）的访问权限。默认true，代表根路由需要权限才能访问。注意当后端返回的菜单数据中包含了根路由时，根路由的访问权限以后端返回的为准。
   homePermissions: true,
   // VUE 的 KeepAlive 组件最大缓存数量，当缓存的数量超过该值时，会优先清空最久未被激活的页面，默认值：3
   keepAliveMaxCount: 3,
   // iconfont，为空时自动调用 src/assets/iconfont.js 或各子项目下的 assets/iconfont.js
-  iconFontSymbol: '',
+  iconFontSymbol: '//at.alicdn.com/t/c/font_4512342_quzlrwpnh8s.js',
   /**
-   * iconfont菜单图标在 active 状态下的后缀（该后缀会直接加到iconfont图标名称的最后，需在iconfont中预先定义好该图标；
-   * - 如果留空则自动根据主题色填充该图标在active状态下的颜色）；
+   * iconfont菜单图标在 active 状态下的后缀。该后缀会直接加到iconfont图标名称的最后，需在iconfont中预先定义好该图标；
+   * - 如果留空则自动根据主题色填充该图标在active状态下的颜色；
    * - 可根据主题色动态设置选中态的图标，'{themeName}'为当前主题色占位符；
    *   例如：'{themeName}-active'
    */
@@ -45,6 +45,7 @@ module.exports = {
   enableTabPage: false,
   // 面包屑分隔符，如：首页 / 首页
   breadCrumbSeparator: '/',
+  // todo 将如下配置写入项目配置，这些配置作为框架默认值不太合适
   // 统一上传地址
   uploadPath: '/mgapi/system/upload/upload',
   // 文件上传地址
@@ -214,6 +215,7 @@ module.exports = {
   maxMessageCount: 1,
   // 是开启水印 在需要加水印APP项目的app.jsx文件混淆全局的watermark
   isWatermark: false,
+  // todo 该配置需要写进项目配置
   // 账号密码加密key
   publicKey:
     'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCs7Iu8OPMKCt38fCWV5PdA7+TA+vxgNFnAiC+9xw8F4JifCKNRg07w3zxbSoUmW7dN3NMubM' +

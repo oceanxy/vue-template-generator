@@ -60,17 +60,22 @@ module.exports = {
   // https://github.com/neutrinojs/webpack-chain see https://github.com/vuejs/vue-cli/blob/dev/docs/webpack.md
   chainWebpack: config => {
     // 复制 public 内静态文件
-    config.plugin('copyWebpackPlugin').use(CopyWebpackPlugin, [
-      {
-        patterns: [
+    preloadResources(
+      `src/apps/${apn}/public`,
+      resource => {
+        config.plugin('copyWebpackPlugin').use(CopyWebpackPlugin, [
           {
-            force: true,
-            from: resolve(join(__dirname, `src/apps/${apn}/public`)),
-            to: resolve(join(__dirname, `dist${subDir ? `/${subDir}` : ''}`))
+            patterns: [
+              {
+                force: true,
+                from: resolve(join(__dirname, `src/apps/${apn}/public`)),
+                to: resolve(join(__dirname, `dist${subDir ? `/${subDir}` : ''}`))
+              }
+            ]
           }
-        ]
+        ])
       }
-    ])
+    )
 
     // 替换svg loader
     const svgRule = config.module.rule('svg')
@@ -87,9 +92,7 @@ module.exports = {
         ? resolve(join(__dirname, `src/apps/${apn}/App.jsx`))
         : resolve(join(__dirname, 'src/App.jsx')),
       // 预加载子项目路由
-      APP_ROUTES: resolve(join(__dirname, `src/apps/${apn}/router/routes.js`)),
-      // 预加载iconfont文件
-      APP_ICON_FONT: resolve(join(__dirname, `src/apps/${apn}/assets/iconfont.js`))
+      APP_ROUTES: resolve(join(__dirname, `src/apps/${apn}/router/routes.js`))
     }
 
     const DEFINE_PLUGIN_PAYLOAD = {
@@ -100,6 +103,25 @@ module.exports = {
       // 注入开发环境密码
       DEV_DEFAULT_PASSWORD: JSON.stringify(process.env.NODE_ENV === 'development' ? password : '')
     }
+
+    // 预加载 IconFont 文件
+    preloadResources(
+      `src/apps/${apn}/assets/iconfont.js`,
+      resource => {
+        PROVIDE_PLUGIN_PAYLOAD.APP_ICON_FONT = resource
+
+        console.info(apn, '开发环境编译信息：检测到自定义图标文件(iconFont.js)，已成功预加载。')
+      },
+      () => {
+        preloadResources(
+          'src/assets/iconfont.js',
+          resource => PROVIDE_PLUGIN_PAYLOAD.APP_ICON_FONT = resource,
+          () => {
+            DEFINE_PLUGIN_PAYLOAD.APP_ICON_FONT = undefined
+          }
+        )
+      }
+    )
 
     // 预加载接口映射器
     preloadResources(
