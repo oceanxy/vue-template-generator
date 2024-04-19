@@ -229,6 +229,14 @@ export default {
       localStorage.removeItem(`${appName}-openKeys`)
       localStorage.removeItem(`${appName}-selectedKey`)
 
+      if (config.enableTabPage) {
+        commit('setState', {
+          value: [],
+          stateName: 'pageTabs',
+          moduleName: 'common'
+        }, { root: true })
+      }
+
       if (config.header?.params?.show) {
         localStorage.removeItem(`${appName}-headerId`)
 
