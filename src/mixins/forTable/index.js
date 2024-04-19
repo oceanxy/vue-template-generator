@@ -476,6 +476,7 @@ export default ({
        * @config [params] {Object} - 其他删除参数。
        * @config [done] {() => void} - 成功执行删除的回调
        * @config [nameKey='fullName'] {string} - 在删除提示中显示当条数据中的某个字段信息
+       * @config [message] {string} - 自定义提示文案。
        */
       async onDeleteClick(record, options) {
         // 处理 options 的默认值
@@ -526,7 +527,7 @@ export default ({
 
             return status
           },
-          '确定要删除吗？',
+          options.message ? options.message : ' 确定要删除吗？',
           record[options.nameKey]
             ? [
               <span style={{ color: this.primaryColor }}>{record[options.nameKey]}</span>,
