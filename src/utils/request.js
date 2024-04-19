@@ -95,7 +95,7 @@ export default function getService(conf, router, store) {
       // 未登录或登录失效，需要重新登录
       if (+res.code === 30001) {
         if (localStorage.getItem(`${appName}-${config.tokenConfig.fieldName}`)) {
-          await store.dispatch('login/clear', true)
+          await store.dispatch('login/clear')
         }
 
         await router.replace({ name: 'login' })

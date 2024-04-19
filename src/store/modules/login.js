@@ -217,37 +217,33 @@ export default {
     /**
      * 清除 store 和本地存储的信息
      * @param commit
-     * @param [isPassive=false] {boolean} - 是否是被动清除，除主动点击“注销”外的其他退出都是被动的
      * @returns {Promise<boolean>}
      */
-    async clear({ commit }, isPassive) {
+    async clear({ commit }) {
       commit('setUserInfo', {})
       commit('setLastLogin', {})
       commit('setAuthentication', null)
       commit('setSiteCache', null)
+
       localStorage.setItem(`${appName}-theme`, config.header.buttons.theme.default)
+      localStorage.removeItem(`${appName}-openKeys`)
+      localStorage.removeItem(`${appName}-selectedKey`)
 
-      // 主动注销
-      if (!isPassive) {
-        localStorage.removeItem(`${appName}-openKeys`)
-        localStorage.removeItem(`${appName}-selectedKey`)
+      if (config.header?.params?.show) {
+        localStorage.removeItem(`${appName}-headerId`)
 
-        if (config.header?.params?.show) {
-          localStorage.removeItem(`${appName}-headerId`)
+        commit('setState', {
+          value: undefined,
+          stateName: 'headerId',
+          moduleName: 'common'
+        }, { root: true })
 
-          commit('setState', {
-            value: undefined,
-            stateName: 'headerId',
-            moduleName: 'common'
-          }, { root: true })
-
-          commit('setState', {
-            value: { list: [] },
-            stateName: 'organListForHeader',
-            moduleName: 'common',
-            merge: true
-          }, { root: true })
-        }
+        commit('setState', {
+          value: { list: [] },
+          stateName: 'organListForHeader',
+          moduleName: 'common',
+          merge: true
+        }, { root: true })
       }
 
       return Promise.resolve(true)
