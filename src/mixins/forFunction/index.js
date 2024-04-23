@@ -12,6 +12,18 @@ import moment from 'moment'
 import TGPermissionsButton from '@/components/TGPermissionsButton'
 
 /**
+ * 基本按钮枚举
+ * @global
+ * @readonly
+ * @enum {'ADD'|'EDIT'|'DELETE'}
+ */
+export const controlBarBaseButtons = {
+  ADD: 'ADD',
+  EDIT: 'EDIT',
+  DELETE: 'DELETE'
+}
+
+/**
  * 为表格功能按钮生成 mixin
  *
  * @param [controlButtonPermissions] {(selectedRows:Object[]) => ({[fieldName]: boolean})} 用于控制按钮禁用权限的回调函数，
@@ -19,10 +31,16 @@ import TGPermissionsButton from '@/components/TGPermissionsButton'
  *  接收一个参数 selectedRows。当前选中行数组。
  *  返回一个对象，对象的键（fieldName）为控制禁用权限的字段名（如： 'editButtonDisabled'），对象的值为布尔值。
  *  默认不传，相当于至少勾选了一行列表即解除禁用。
- * @param [overrideDefaultButtons] {boolean} 混入组件内 forRender 函数的返回值是否覆盖本混合内 render 函数的内容。默认 false
+ * @param [overrideDefaultButtons] {boolean} 混入组件内 forRender 函数的返回值是否覆盖本混合内 render 函数的内容。默认 false。
+ * @param [baseOperationButtons=[controlBarBaseButtons.ADD]] {controlBarBaseButtons[]} 要显示的按钮。
+ *  默认[controlBarBaseButtons.ADD]，当 overrideDefaultButtons 为 true 时该参数无效。
  * @returns {Object}
  */
-export default ({ controlButtonPermissions, overrideDefaultButtons } = {}) => ({
+export default ({
+  controlButtonPermissions,
+  overrideDefaultButtons,
+  baseOperationButtons = [controlBarBaseButtons.ADD]
+} = {}) => ({
   inject: {
     moduleName: { default: null },
     /**
@@ -192,19 +210,48 @@ export default ({ controlButtonPermissions, overrideDefaultButtons } = {}) => ({
   },
   render() {
     return (
-      <Space class={`tg-function ${this.align}`}>
+      <Space class={`tg-function${this.align ? ` ${this.align}` : ''}`}>
         {
           !overrideDefaultButtons
-            ? (
-              <TGPermissionsButton
-                type="primary"
-                identification={'ADD'}
-                onClick={() => this.onCustomAddClick()}
-                icon="plus"
-              >
-                新增
-              </TGPermissionsButton>
-            )
+            ? [
+              baseOperationButtons.includes(controlBarBaseButtons.ADD)
+                ? (
+                  <TGPermissionsButton
+                    type="primary"
+                    identification={'ADD'}
+                    onClick={() => this.onCustomAddClick()}
+                    icon="plus"
+                  >
+                    新增
+                  </TGPermissionsButton>
+                )
+                : null,
+              baseOperationButtons.includes(controlBarBaseButtons.DELETE)
+                ? (
+                  <TGPermissionsButton
+                    type="danger"
+                    identification={'DELETE'}
+                    disabled={this.deleteButtonDisabled}
+                    onClick={() => this.onCustomDeleteClick()}
+                    icon="delete"
+                  >
+                    删除
+                  </TGPermissionsButton>
+                )
+                : null,
+              baseOperationButtons.includes(controlBarBaseButtons.EDIT)
+                ? (
+                  <TGPermissionsButton
+                    identification={'UPDATE'}
+                    disabled={this.editButtonDisabled}
+                    onClick={() => this.onCustomEditClick()}
+                    icon="edit"
+                  >
+                    修改
+                  </TGPermissionsButton>
+                )
+                : null
+            ]
             : null
         }
         {this.forRender}
