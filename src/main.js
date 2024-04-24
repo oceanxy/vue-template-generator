@@ -58,7 +58,7 @@ if (config.loadFiles?.length) {
 
       if (host) {
         loadScript(`${host}${file.filePath}`, () => {
-          console.log(`${file.filename}文件加载完成！`)
+          console.info(`${file.filename}文件加载完成！`)
         })
       }
     }
