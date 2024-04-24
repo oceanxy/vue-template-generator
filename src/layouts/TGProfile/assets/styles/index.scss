@@ -41,7 +41,7 @@
     width: 210px;
     flex: none;
     background: #ffffff;
-    border-radius: 4px;
+    border-radius: $border-radius-base;
     font-size: $font-size-lg; // 全局默认字号+2px
     color: #262626;
     padding: 8px;

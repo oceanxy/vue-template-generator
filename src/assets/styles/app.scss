@@ -131,6 +131,7 @@ body {
   background: $white;
   overflow: auto;
   max-height: 11lh;
+  border-radius: $border-radius-base;
 
   &.ant-form-inline .ant-form-item-with-help {
     margin-bottom: 0;
@@ -239,7 +240,7 @@ body {
             align-items: center;
             gap: 5px;
             border: 1px solid #d9d9d9;
-            border-radius: 4px;
+            border-radius: $border-radius-base;
             transition: all 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
             top: 0;
 

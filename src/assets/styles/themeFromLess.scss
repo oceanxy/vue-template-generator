@@ -81,6 +81,6 @@ $scrollbar-thumb-color: rgba(185, 192, 212, 0.6);
 $scrollbar-thumb-hover-color: rgba(185, 192, 212, 1);
 $scrollbar-thumb-shadow-color: rgba(211, 211, 211, 0.3);
 
-@mixin container-border-radius($value: 4px) {
+@mixin container-border-radius($value: $border-radius-base) {
   border-radius: $value;
 }

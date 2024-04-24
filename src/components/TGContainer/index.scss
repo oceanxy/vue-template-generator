@@ -4,7 +4,7 @@
   overflow: hidden;
   width: var(--box-width);
   height: auto;
-  border-radius: 6px;
+  border-radius: $border-radius-base;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
@@ -62,7 +62,7 @@
       width: 2px;
       height: 1.6vh;
       background: #007aff;
-      border-radius: 0 2px 2px 0;
+      border-radius: 0 $border-radius-base $border-radius-base 0;
     }
 
     .ant-btn:not(.custom-button) {
@@ -79,7 +79,7 @@
     overflow: auto;
     height: 100%;
     position: relative;
-    border-radius: 6px;
+    border-radius: $border-radius-base;
 
     &.line {
       border-top: 1px solid #d9d9d9;
