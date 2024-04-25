@@ -400,7 +400,8 @@ body {
   .tg-container-custom-content {
     display: flex;
     flex: auto;
-    background: var(--white);
+    background: $white;
+    border-radius: $border-radius-base;
     padding: 12px;
     height: 0;
   }
@@ -410,7 +411,8 @@ body {
     display: flex;
     overflow-x: auto;
     padding: 12px;
-    background: var(--white);
+    background: $white;
+    border-radius: $border-radius-base;
   }
 }
 
