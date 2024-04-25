@@ -26,12 +26,13 @@
     color: #344054;
     flex: none;
     white-space: nowrap;
+    gap: 0.5ic;
 
     .box-title-label {
       white-space: nowrap;
     }
 
-    & > *:not(.box-title, .anticon) {
+    & > *:not(.box-title, .anticon, .ant-tag) {
       display: flex;
       flex: auto;
       align-items: center;
@@ -70,6 +71,10 @@
       border: none;
       background: none;
     }
+
+    &.line {
+      border-bottom: 1px solid $border-color-base;
+    }
   }
 
   .box-content {
@@ -80,10 +85,6 @@
     height: 100%;
     position: relative;
     border-radius: $border-radius-base;
-
-    &.line {
-      border-top: 1px solid #d9d9d9;
-    }
 
     &.flex {
       display: flex;

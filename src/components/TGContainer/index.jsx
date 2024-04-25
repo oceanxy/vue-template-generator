@@ -79,13 +79,15 @@ export default {
       )
     },
     _className() {
-      return `${this.contentClass ? `${this.contentClass} ` : ''}${this.showTitleLine ? 'line ' : ''}box-content`
+      return `${this.contentClass ? `${this.contentClass} ` : ''}box-content`
     },
     _titleClassName() {
-      return `${this.titleClass ? `${this.titleClass} ` : ''}${
-        this.showTitleShape
-          ? 'divider padding-left '
-          : ''
+      return `${
+        this.titleClass ? `${this.titleClass} ` : ''
+      }${
+        this.showTitleShape ? 'divider padding-left ' : ''
+      }${
+        this.showTitleLine ? 'line ' : ''
       }box-title`
     }
   },
