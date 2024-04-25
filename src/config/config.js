@@ -45,17 +45,16 @@ module.exports = {
   enableTabPage: false,
   // 面包屑分隔符，如：首页 / 首页
   breadCrumbSeparator: '/',
-  // todo 将如下配置写入项目配置，这些配置作为框架默认值不太合适
   // 统一上传地址
-  uploadPath: '/mgapi/system/upload/upload',
+  uploadPath: '',
   // 文件上传地址
-  fileUploadPath: '/mgapi/system/upload/fileUpload',
+  fileUploadPath: '',
   // 图片上传地址
-  imageUploadPath: '/mgapi/system/upload/imageUpload',
+  imageUploadPath: '',
   // 视频上传地址
-  videoUploadPath: '/mgapi/system/upload/videoUpload',
+  videoUploadPath: '',
   // 系统名称
-  systemName: '蓝桥后台管理系统快速启动模板',
+  systemName: '后台管理系统快速启动模板',
   systemNameEn: 'vue-template-generator',
   /**
    * 菜单样式配置，可选值：
@@ -215,9 +214,6 @@ module.exports = {
   maxMessageCount: 1,
   // 是开启水印 在需要加水印APP项目的app.jsx文件混淆全局的watermark
   isWatermark: false,
-  // todo 该配置需要写进项目配置
   // 账号密码加密key
-  publicKey:
-    'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCs7Iu8OPMKCt38fCWV5PdA7+TA+vxgNFnAiC+9xw8F4JifCKNRg07w3zxbSoUmW7dN3NMubM' +
-    'E9hQQizmx7IJk3hn91ieVg+CiYdA9MwpEThezYPsJ6+Oj9RsVPOCAsXa5+XRlc1lbmo7b21n5SVSkbog2OMqB2OlZK+SdwY+vrhQIDAQAB'
+  publicKey: ''
 }
