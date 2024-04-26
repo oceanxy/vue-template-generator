@@ -194,13 +194,16 @@ export default {
       // 缓存值
       this.fileListBackup = [..._fileList]
 
-      if (this.isError) {
-        // 只要存在错误，就清空回传的文件
-        this.$emit('change', [])
-      } else {
-        // 没有报错的文件，回传已经上传成功的文件
-        this.$emit('change', this.fileList.filter(item => item.status === 'done'))
-      }
+      // if (this.isError) {
+      //   // 只要存在错误，就清空回传的文件
+      //   this.$emit('change', [])
+      // } else {
+      //   // 没有报错的文件，回传已经上传成功的文件
+      //   this.$emit('change', this.fileList.filter(item => item.status === 'done'))
+      // }
+
+      // todo 为了解决部分项目bug，暂时回传已经上传成功的文件，后续有需求再来优化
+      this.$emit('change', this.fileList.filter(item => item.status === 'done'))
     }
   },
   render() {
