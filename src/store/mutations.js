@@ -195,7 +195,7 @@ export default {
   /**
    * 设置数据
    * @param state {Object}
-   * @param value {Array || Object} 设置的值
+   * @param value {Array | Object} 设置的值
    * @param moduleName {string} 模块名
    * @param [submoduleName] {string} 子模块名
    * @param stateName {string} 需要设置的字段，默认 state.details
