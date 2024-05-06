@@ -1,8 +1,8 @@
 /**
  * 连字符转驼峰
- * 例如：my-profile -> myProfile 或者 my_profile -> myProfile
- * @param name
- * @returns {*}
+ * @example `my-profile` => `myProfile` 或者 `my_profile` => `myProfile`
+ * @param {string} name - 目标字符
+ * @returns {string}
  */
 export function toHump(name) {
   return name.replace(/[-_](\w)/g, (all, letter) => letter.toUpperCase())
@@ -10,9 +10,9 @@ export function toHump(name) {
 
 /**
  * 驼峰转连字符
- * 例如：myProfile -> my-profile
- * @param field
- * @returns {*}
+ * @example `myProfile` => `my-profile`
+ * @param {string} field - 目标字段
+ * @returns {string}
  */
 export function toLowerCase(field) {
   return field.replace(/([A-Z])/g, '-$1').toLowerCase()
@@ -20,7 +20,7 @@ export function toLowerCase(field) {
 
 /**
  * 图片转base64
- * @param {File | Blob} file
+ * @param {File | Blob} file - Blob 文件或者 File 文件
  * @returns {Promise<string>}
  */
 export function getBase64(file) {
@@ -35,7 +35,7 @@ export function getBase64(file) {
 
 /**
  * 首字母大写
- * @param str {string}
+ * @param {string} str - 目标单词
  * @returns {string}
  */
 export function firstLetterToUppercase(str) {
@@ -44,8 +44,8 @@ export function firstLetterToUppercase(str) {
 
 /**
  * 下载文件
- * @param {*} blobOrUrl
- * @param {*} fileName
+ * @param {Blob | string} blobOrUrl - Blob 对象或者 文件路径
+ * @param {string} fileName - 文件名称
  */
 export function downloadFile(blobOrUrl, fileName) {
   if (blobOrUrl instanceof Blob && window.navigator.msSaveBlob) {
@@ -72,8 +72,8 @@ export function downloadFile(blobOrUrl, fileName) {
 
 /**
  * 获取应用名称每个单词的首字母组成的字符串
- * 比如 'create-a-new-projects' => 'canp'
- * @param [appName] {string} 默认当前项目名：PROJ_APP_NAME（src/apps 下的文件夹名），由 webpack 的 DefinePlugin 插件注入
+ * @example 'create-a-new-projects' => 'canp'
+ * @param {string} [appName] - 默认当前项目名：PROJ_APP_NAME（src/apps 下的文件夹名），由 webpack 的 DefinePlugin 插件注入
  * @returns {string}
  */
 export function getFirstLetterOfEachWordOfAppName(appName = PROJ_APP_NAME) {
@@ -85,8 +85,8 @@ export function getFirstLetterOfEachWordOfAppName(appName = PROJ_APP_NAME) {
 
 /**
  * 生成 UUID
- * @param [len=16] {number} 长度。默认16个字符
- * @param [radix=16] {number} 基数。默认16，即16进制数
+ * @param {number} [len=16] - 长度。默认16个字符
+ * @param {number} [radix=16] - 基数。默认16，即16进制数
  * @returns {string}
  */
 export function uuid(len = 16, radix = 16) {
@@ -122,7 +122,7 @@ export function uuid(len = 16, radix = 16) {
 
 /**
  * 删除 route.path 最后的 “/”（如果有）
- * @param path {string} - 需要处理的 path
+ * @param {string} path - 需要处理的 path
  * @return {string}
  */
 export function replacePath(path) {
@@ -131,8 +131,8 @@ export function replacePath(path) {
 
 /**
  * 显示 APP 级别的 loading 状态图标
- * @param activelyHide {boolean} 是否主动隐藏 loading 图标
- * @param callback {() => Promise} loading状态下需要做的事情
+ * @param {boolean} activelyHide - 是否主动隐藏 loading 图标
+ * @param {() => Promise} callback - loading状态下需要做的事情
  * @return {Promise<void>}
  */
 export async function showAppLoading(activelyHide, callback) {
@@ -148,7 +148,7 @@ export async function showAppLoading(activelyHide, callback) {
 
 /**
  * 睡眠函数
- * @param [time=200] {number} 睡眠时间，默认200毫秒
+ * @param {number} [time=200] - 睡眠时间，默认200毫秒
  * @return {Promise<unknown>}
  */
 export function sleep(time = 200) {
@@ -157,9 +157,9 @@ export function sleep(time = 200) {
 
 /**
  * 在一个对象中，用字符串形式的 key 来取值
- * @example `object['a.b.c']`解析为`object[a][b][c]`
- * @param stringKey {string} key
- * @param obj {Object} 取值对象
+ * @example `object['a.b.c']`解析为`object[a][b][c]`或者`object.a.b.c`
+ * @param {string} stringKey - key
+ * @param {Object} obj - 取值对象
  * @return {*}
  */
 export function getValueFromStringKey(stringKey, obj) {
