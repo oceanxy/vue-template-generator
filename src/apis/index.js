@@ -7,7 +7,7 @@ import { getApisFromFiles } from '@/utils/store'
 // 加载框架内的apis
 const modulesFiles = require.context('./modules', true, /\.js$/)
 // 加载app内的apis
-const dynamicModulesFiles = require.context('../apps', true, /apis\/modules\/[a-zA-Z0-9-]+\.js/)
+const dynamicModulesFiles = require.context('../apps', true, /apis\/[a-zA-Z0-9-]+\.js/)
 
 const commonApis = getApisFromFiles(modulesFiles)
 const appApis = getApisFromFiles(dynamicModulesFiles)
