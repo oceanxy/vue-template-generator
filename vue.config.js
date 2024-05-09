@@ -1,11 +1,20 @@
 // const VConsolePlugin = require('vconsole-webpack-plugin') // 引入 移动端模拟开发者工具 插件 （另：https://github.com/liriliri/eruda）
 const CompressionPlugin = require('compression-webpack-plugin') // Gzip
 const CopyWebpackPlugin = require('copy-webpack-plugin')
-const {resolve, join} = require('path')
-const {ProvidePlugin, DefinePlugin, ContextReplacementPlugin, IgnorePlugin} = require('webpack')
+const { resolve, join } = require('path')
+const {
+  ProvidePlugin,
+  DefinePlugin,
+  ContextReplacementPlugin,
+  IgnorePlugin
+} = require('webpack')
 const WebpackAssetsManifest = require('webpack-assets-manifest')
-const {getBuildConfig, getDevServer, preloadResources} = require('./build/webpackConfigs')
-const {config: webpackConfig, externalProjNames} = getBuildConfig()
+const {
+  getBuildConfig,
+  getDevServer,
+  preloadResources
+} = require('./build/webpackConfigs')
+const { config: webpackConfig, externalProjNames } = getBuildConfig()
 const EnvProductionPlugin = require('./build/env.production.plugin')
 const createZip = require('./build/zip')
 const {
@@ -33,25 +42,25 @@ module.exports = {
     requireModuleExtension: true,
     loaderOptions: {
       // 引入sass全局变量文件
-      sass: {sassOptions: {prependData: '@import "~@/assets/styles/themeFromLess.scss"'}}, // 未生效
+      sass: { sassOptions: { prependData: '@import "~@/assets/styles/themeFromLess.scss"' } }, // 未生效
       // 启用内联JavaScript。ant-design-vue使用less编写，且使用了内联写法，所以需要开启
-      less: {lessOptions: {javascriptEnabled: true, math: 'always'}}
+      less: { lessOptions: { javascriptEnabled: true, math: 'always' } }
     }
   },
-  configureWebpack: {
-    // externals: [
-    //   {
-    //     'vue': 'Vue',
-    //     'vue-router': 'VueRouter',
-    //     'vuex': 'Vuex',
-    //     'lodash': '_',
-    //     'axios': 'axios',
-    //     'moment': 'moment',
-    //     'echarts': 'echarts', // 成功（大体积）
-    //     'ant-design-vue': 'antd' // 未成功 受 babel.config.js 里按需使用antd组件配置的影响
-    //   }
-    // ]
-  },
+  // configureWebpack: {
+  // externals: [
+  //   {
+  //     'vue': 'Vue',
+  //     'vue-router': 'VueRouter',
+  //     'vuex': 'Vuex',
+  //     'lodash': '_',
+  //     'axios': 'axios',
+  //     'moment': 'moment',
+  //     'echarts': 'echarts', // 成功（大体积）
+  //     'ant-design-vue': 'antd' // 未成功 受 babel.config.js 里按需使用antd组件配置的影响
+  //   }
+  // ]
+  // },
   // 生产环境是否生成 sourceMap 文件。设置为 false 以加速生产环境构建。
   // 默认 true
   productionSourceMap: process.env.NODE_ENV !== 'production',
