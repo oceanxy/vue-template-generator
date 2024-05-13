@@ -1,4 +1,4 @@
-import forApp from '@/layouts/TGBackendSystem/mixins'
+import forApp from '@/mixins/forApp'
 
 export default {
   name: 'TGApp',
