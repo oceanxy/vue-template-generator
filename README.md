@@ -145,7 +145,7 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 ### 创建入口文件：App.jsx。默认代码结构如下：
 
   ```jsx
-  import forApp from '@/layouts/TGBackendSystem/mixins'
+  import forApp from '@/mixins/forApp'
 
 export default {
   name: 'DemoProjectApp',
