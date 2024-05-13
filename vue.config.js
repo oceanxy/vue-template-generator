@@ -96,10 +96,6 @@ module.exports = {
     const PROVIDE_PLUGIN_PAYLOAD = {
       // 预加载子项目配置文件
       APP_CONFIG: resolve(join(__dirname, `src/apps/${apn}/config/index.js`)),
-      // 预加载子项目入口组件，如果子项目内找不到则使用默认值
-      APP_COMPONENT: apn
-        ? resolve(join(__dirname, `src/apps/${apn}/App.jsx`))
-        : resolve(join(__dirname, 'src/App.jsx')),
       // 预加载子项目路由
       APP_ROUTES: resolve(join(__dirname, `src/apps/${apn}/router/routes.js`))
     }
@@ -112,6 +108,27 @@ module.exports = {
       // 注入开发环境密码
       DEV_DEFAULT_PASSWORD: JSON.stringify(process.env.NODE_ENV === 'development' ? password : '')
     }
+
+    // 预加载子项目入口组件，如果子项目内找不到则使用默认值
+    preloadResources(
+      `src/apps/${apn}/App.jsx`,
+      resource => {
+        PROVIDE_PLUGIN_PAYLOAD.APP_COMPONENT = resource
+
+        console.info(apn, '开发环境编译信息：检测到自定义入口(App.jsx)，已成功预加载。')
+      },
+      () => {
+        preloadResources(
+          'src/App.jsx',
+          resource => PROVIDE_PLUGIN_PAYLOAD.APP_COMPONENT = resource,
+          () => {
+            console.info(apn, `未检测到必要入口文件，模板启动失败。路径：src/apps/${apn}/App.jsx`)
+
+            process.exit()
+          }
+        )
+      }
+    )
 
     // 预加载 IconFont 文件
     preloadResources(
