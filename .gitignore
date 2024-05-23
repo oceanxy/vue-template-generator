@@ -3,6 +3,7 @@ node_modules
 /dist
 
 src/apps/*
+!src/apps/demo
 
 # local env files
 .env.local

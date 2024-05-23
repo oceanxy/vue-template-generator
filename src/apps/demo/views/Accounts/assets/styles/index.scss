@@ -1,0 +1,29 @@
+.cmp-modal-form-accounts {
+  .tg-form-grid {
+    .ant-form-item-label {
+      width: 70px;
+    }
+  }
+}
+
+.cmp-account-table-title-container {
+  display: flex;
+  width: 100%;
+  background: linear-gradient(to right, var(--primary-2), var(--primary-1));
+  padding: .4rem 1rem;
+  border-radius: 0 4px 4px 0;
+  border-left: 3px solid var(--primary-5);
+
+  .cmp-account-table-title {
+    font-size: calc(2px + var(--font-size-lg));
+    font-weight: bolder
+  }
+
+  .cmp-account-table-status {
+    color: #737373;
+  }
+
+  & > .ant-space-item:last-child {
+    margin-left: auto;
+  }
+}
