@@ -5,7 +5,7 @@
 module.exports = {
   // 当前要运行/打包的项目默认值，该值指向各个子项目配置文件的同名字段：src/apps/*/config/index.js 中的 appPrefix 字段值。
   // 执行编译时，会优先读取命令行中的 app-prefix 值，然后才会使用该默认值。
-  appPrefix: 'demo',
+  appPrefix: 'wuyouxing',
   // 打包后生成压缩包的名称（默认为子项目仓库名）
   zipName: '',
   // 要使用的布局组件名，位于 src/layouts。默认 TGBackendSystem 组件，后台管理系统。
