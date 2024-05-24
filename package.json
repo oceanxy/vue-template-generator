@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "dev-shm": "dotenv -e ./src/apps/student-health-management/config/.env.development -- vue-cli-service serve --app-proj student-health-management",
     "dev-demo": "vue-cli-service serve --app-proj demo",
     "dev": "node ./build --app-mode dev",
     "build": "node ./build",
