@@ -95,6 +95,96 @@ export default {
           stateName: 'pageTabs'
         })
       }
+    },
+    /**
+     * 处理 moduleName 和 subModuleName
+     * @param {'DISPATCH'|'COMMIT'} type - 处理数据的操作是 VUEX 的 DISPATCH 还是 COMMIT
+     * @param {string} actionOrMutation - vuex action 名称 或者 vuex mutation 名称
+     * @param {string} [moduleName] - 要执行 ACTION 的目标模块名
+     * @param {boolean} [isOwnSubmodule] - 是否是目标 STORE 模块的子模块，默认 undefined，即没有子模块信息
+     * @param {string} [submoduleName] - 子模块名称
+     * @returns {{moduleName, submoduleName}}
+     * @private
+     */
+    _injectModuleInfo(type, actionOrMutation, moduleName, isOwnSubmodule, submoduleName) {
+      let _moduleName
+      let _submoduleName
+
+      if (typeof isOwnSubmodule === 'boolean') {
+        if (isOwnSubmodule) {
+          if (!this.submoduleName) {
+            throw new Error(`${type}: ${actionOrMutation}，未检测到当前页面组件对应的数据模块的子模块，请确认！`)
+          }
+
+          _submoduleName = this.submoduleName
+          _moduleName = this.moduleName
+
+          if (submoduleName) {
+            console.info(`${type}: ${actionOrMutation}，根据传递的参数（isOwnSubmodule: true）` +
+              `可获取到本模块的子模块名称，传递的 ${submoduleName ? 'submoduleName' : ''} 参数将被忽略。`)
+          }
+
+          if (moduleName) {
+            console.info(`${type}: ${actionOrMutation}，根据传递的参数（isOwnSubmodule: true）` +
+              `可获取到本模块的名称，传递的 ${moduleName ? 'moduleName' : ''} 参数将被忽略。`)
+          }
+        } else {
+          _moduleName = moduleName
+          _submoduleName = submoduleName
+        }
+      } else {
+        // 未传递 isOwnSubmodule 参数的情况下（即 isOwnSubmodule 为 undefined 时），子模块需要明确定义才会生效，
+        // 以避免在获取非子模块数据（一般为在子模块内获取父模块数据）时被自动添加 “submoduleName” 属性。
+        _moduleName = moduleName || this.moduleName
+        _submoduleName = submoduleName
+      }
+
+      return { moduleName: _moduleName, submoduleName: _submoduleName }
+    },
+    /**
+     * 简易封装 this.$store.dispatch 函数，
+     * 以简化 moduleName 参数，现在在页面组件内获取对应模块内数据时，
+     * 所有的 DISPATCH 都不必再传递该属性，
+     * 但获取其他模块数据时，需要明确指定该属性。
+     * @param {string} action - vuex action
+     * @param {string} [moduleName] - 要执行 ACTION 的目标模块名
+     * @param {boolean} [isOwnSubmodule] - 是否是目标 STORE 模块的子模块，默认 undefined，即没有子模块信息
+     * @param {string} [submoduleName] - 子模块名称
+     * @param {Object} params - 其他调用该 ACTION 需要的参数
+     * @returns {Promise<any>}
+     */
+    async dispatch(action, {
+      moduleName,
+      isOwnSubmodule,
+      submoduleName,
+      ...params
+    }) {
+      return await this.$store.dispatch(action, {
+        ...this._injectModuleInfo('DISPATCH', action, moduleName, isOwnSubmodule, submoduleName),
+        ...params
+      })
+    },
+    /**
+     * 简易封装 this.$store.commit 函数，
+     * 以简化 moduleName 参数，现在在页面组件内获取对应模块内数据时，
+     * 所有的 COMMIT 都不必再传递该属性，
+     * 但获取其他模块数据时，需要明确指定该属性。
+     * @param {string} mutation - vuex mutation
+     * @param {string} [moduleName] - 要执行 MUTATION 的目标模块名
+     * @param {boolean} [isOwnSubmodule] - 是否是目标 STORE 模块的子模块，默认 undefined，即没有子模块信息
+     * @param {string} [submoduleName] - 子模块名称
+     * @param {Object} params - 其他调用该 MUTATION 需要的参数
+     */
+    commit(mutation, {
+      moduleName,
+      isOwnSubmodule,
+      submoduleName,
+      ...params
+    }) {
+      this.$store.commit(mutation, {
+        ...this._injectModuleInfo('COMMIT', mutation, moduleName, isOwnSubmodule, submoduleName),
+        ...params
+      })
     }
   }
 }
