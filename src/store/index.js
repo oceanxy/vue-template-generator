@@ -14,7 +14,7 @@ const modulesFiles = require.context('./modules', true, /\.js$/)
 // app通用模块
 const appModulesFiles = require.context('../apps', true, /store\/modules\/[a-zA-Z0-9-]+\.js$/)
 // app异步加载模块
-const dynamicModulesFiles = require.context('../apps', true, /store\/dynamicModules\/modules\/[a-zA-Z0-9-]+\.js/)
+const dynamicModulesFiles = require.context('../apps', true, /store\/dynamicModules\/[a-zA-Z0-9-]+\.js/)
 
 // 自动引入 './modules' 中的所有 vuex 模块
 const modules = getStoreModulesFromFiles(modulesFiles, apis, /^\.\/(.*)\.\w+$/)
