@@ -3,11 +3,11 @@ import { cloneDeep } from 'lodash'
 export default {
   /**
    * 设置数据列表的loading
-   * @param state {Object}
-   * @param value {boolean} 状态值
-   * @param moduleName {string} 模块名
-   * @param [submoduleName] {string} 子模块名称
-   * @param [stateName='loading'] {string | Object | Array} `loading`状态值的字段名。
+   * @param {Object} state
+   * @param {boolean} value - 状态值
+   * @param {string} moduleName - 模块名
+   * @param {string} [submoduleName] - 子模块名称
+   * @param {string | Object | Array} [stateName='loading'] - `loading`状态值的字段名。
    * - 该值指向一个对象时，`loading`状态值的取值为`[loadingFieldName].loading`，其结构一般为`{ loading: boolean, list: Array }`;
    * - 该值指向一个数组时，`loading`状态值的取值为`store.state`中`loadingFieldName`字段所在对象中的`loading`字段，
    *   其结构一般为`{ ..., loading: boolean, [loadingFieldName]: Array }`;
@@ -39,10 +39,10 @@ export default {
   },
   /**
    * 设置列表搜索参数（合并设置）
-   * @param state {Object}
-   * @param payload {Object}
-   * @param moduleName {string}
-   * @param submoduleName {string}
+   * @param {Object} state
+   * @param {Object} payload
+   * @param {string} moduleName
+   * @param {string} submoduleName
    */
   setSearch(state, {
     payload,
@@ -74,9 +74,9 @@ export default {
   /**
    * 设置当前的临时数据对象
    * currentItem: 当前页面正在操作的临时数据对象。如新增，编辑等需要临时保存数据的对象
-   * @param state {Object}
-   * @param value {Object}
-   * @param moduleName {string}
+   * @param {Object} state
+   * @param {Object} value
+   * @param {string} moduleName
    */
   setCurrentItem(state, { value, moduleName }) {
     state[moduleName].currentItem = { ...cloneDeep(value) }
@@ -84,10 +84,10 @@ export default {
   /**
    * 设置表格选中的行数据
    * @param state
-   * @param [selectedRowKeys] {string[]}
-   * @param [selectedRows] {Object[]}
-   * @param moduleName {string}
-   * @param [submoduleName] {string}
+   * @param {string[]} [selectedRowKeys]
+   * @param {Object[]} [selectedRows]
+   * @param {string} moduleName
+   * @param {string} [submoduleName]
    */
   setRowSelected(state, {
     payload: { selectedRowKeys, selectedRows },
@@ -111,10 +111,10 @@ export default {
   },
   /**
    * 设置分页信息
-   * @param state {Object}
-   * @param value: {Object}
-   * @param moduleName {string}
-   * @param submoduleName {string}
+   * @param {Object} state
+   * @param {Object} value
+   * @param {string} moduleName
+   * @param {string} submoduleName
    */
   setPagination(state, {
     value,
@@ -135,11 +135,11 @@ export default {
   },
   /**
    * 设置列表数据
-   * @param state {Object}
-   * @param value {Object[]}
-   * @param moduleName {string}
-   * @param submoduleName {string}
-   * @param stateName {string} 需要设置的字段，默认 state.list
+   * @param {Object} state
+   * @param {Object[]} value
+   * @param {string} moduleName
+   * @param {string} submoduleName
+   * @param {string} stateName - 需要设置的字段，默认 state.list
    */
   setList(state, {
     value = [],
@@ -194,12 +194,12 @@ export default {
   },
   /**
    * 设置数据
-   * @param state {Object}
-   * @param value {Array | Object} 设置的值
-   * @param moduleName {string} 模块名
-   * @param [submoduleName] {string} 子模块名
-   * @param stateName {string} 需要设置的字段，默认 state.details
-   * @param merge {boolean} 是否需要将新值与旧值合并（相同属性会被新值覆盖），默认false
+   * @param {Object} state
+   * @param {Array | Object} value - 设置的值
+   * @param {string} moduleName - 模块名
+   * @param {string} [submoduleName] - 子模块名
+   * @param {string} stateName - 需要设置的字段，默认 state.details
+   * @param {boolean} merge - 是否需要将新值与旧值合并（相同属性会被新值覆盖），默认false
    */
   setState(state, {
     value,
@@ -231,10 +231,10 @@ export default {
   /**
    * 设置modal的可见性
    * @param state
-   * @param field {string} - 对应modal的显示字段
-   * @param value {any} - 要设置的值
-   * @param moduleName {string} - 模块名称
-   * @param [submoduleName] {string} - 子模块名称
+   * @param {string} field - 对应modal的显示字段
+   * @param {any} value - 要设置的值
+   * @param {string} moduleName - 模块名称
+   * @param {string} [submoduleName] - 子模块名称
    */
   setModalVisible(state, {
     field,
