@@ -8,12 +8,12 @@ export default {
    * @param state
    * @param commit
    * @param dispatch
-   * @param moduleName {string}
-   * @param submoduleName {string}
-   * @param payload {Object} 数据列表的常驻查询对象，一般定义在Inquiry组件中
-   * @param [isFetchList=true] {boolean} 是否触发页面列表数据更新的请求，默认true
-   * @param [isResetSelectedRows] {boolean} 是否在成功执行后重置对应 store 内 selectedRows，默认false。一般在批量操作时使用。依赖 isFetchList
-   * @param [fetchListParams] {...fetchListParams} 传递给获取列表数据(actions.getList)的参数，详情见 actions.getList 参数。依赖 isFetchList
+   * @param {string} moduleName
+   * @param {string} submoduleName
+   * @param {Object} payload - 数据列表的常驻查询对象，一般定义在Inquiry组件中
+   * @param {boolean} [isFetchList=true] - 是否触发页面列表数据更新的请求，默认true
+   * @param {boolean} [isResetSelectedRows] - 是否在成功执行后重置对应 store 内 selectedRows，默认false。一般在批量操作时使用。依赖 isFetchList
+   * @param {...fetchListParams} [fetchListParams] - 传递给获取列表数据(actions.getList)的参数，详情见 actions.getList 参数。依赖 isFetchList
    */
   async setSearch({
     state,
@@ -66,13 +66,13 @@ export default {
    * 获取列表/表格数据
    * @param state
    * @param commit
-   * @param moduleName {string} 模块名
-   * @param [submoduleName] {string} 子模块名
-   * @param [additionalQueryParameters] {Object} 附加查询参数。例如自定义分页相关参数、其他页面跳转过来时携带的参数(如：ID)等非 state.search 固有的查询参数。
-   * @param [stateName] {string} 需要设置的字段，默认 state.list
-   * @param [customApiName] {string} 自定义请求api的名字
-   * @param [merge] {boolean} 是否合并数据，默认false，主要用于“加载更多”功能
-   * @param [raw] {boolean} 原样输出接口返回的数据结构到页面对应的store中。（专用于非增删改查的非列表页面，比如首页、控制台和统计等定制化页面）
+   * @param {string} moduleName - 模块名
+   * @param {string} [submoduleName] - 子模块名
+   * @param {Object} [additionalQueryParameters] - 附加查询参数。例如自定义分页相关参数、其他页面跳转过来时携带的参数(如：ID)等非 state.search 固有的查询参数。
+   * @param {string} [stateName] - 需要设置的字段，默认 state.list
+   * @param {string} [customApiName] - 自定义请求api的名字
+   * @param {boolean} [merge] - 是否合并数据，默认false，主要用于“加载更多”功能
+   * @param {boolean} [raw] - 原样输出接口返回的数据结构到页面对应的store中。（专用于非增删改查的非列表页面，比如首页、控制台和统计等定制化页面）
    * @returns {Promise<void>}
    */
   async getList({ state, commit }, {
@@ -193,13 +193,13 @@ export default {
    * 获取详情数据
    * @param state
    * @param commit
-   * @param moduleName {string} 模块名
-   * @param [submoduleName] {string} 子模块名
-   * @param [payload] {Object} 查询参数
-   * @param [stateName='details'] {string} 需要设置的字段，默认 store.state.details
-   * @param [loadingStateName] {string} 加载详情的 loading 状态字段，默认当前 store 模块的 loadingDetails
-   * @param [customApiName='loadingDetails'] {string} 自定义接口名称，默认根据 moduleName 和 submoduleName 生成
-   * @param [merge] {boolean} 如果 stateName 指定的字段存在旧数据，是否使用新值对其进行合并
+   * @param {string} moduleName - 模块名
+   * @param {string} [submoduleName] - 子模块名
+   * @param {Object} [payload] - 查询参数
+   * @param {string} [stateName='details'] - 需要设置的字段，默认 store.state.details
+   * @param {string} [loadingStateName] - 加载详情的 loading 状态字段，默认当前 store 模块的 loadingDetails
+   * @param {string} [customApiName='loadingDetails'] - 自定义接口名称，默认根据 moduleName 和 submoduleName 生成
+   * @param {boolean} [merge] - 如果 stateName 指定的字段存在旧数据，是否使用新值对其进行合并
    * @returns {Promise<void>}
    */
   async getDetails({ state, commit }, {
@@ -256,19 +256,19 @@ export default {
    * 新增数据
    * @param state
    * @param dispatch
-   * @param moduleName {string} 模块名
-   * @param payload {Object} 参数
-   * @param [customApiName] {string} 自定义请求API
-   * @param [visibilityFieldName] {string} 控制弹窗显示的字段名
-   * @param [inModal=true] {boolean} 是否处于对话框中，默认 true。
+   * @param {string} moduleName - 模块名
+   * @param {Object} payload - 参数
+   * @param {string} [customApiName] - 自定义请求API
+   * @param {string} [visibilityFieldName] - 控制弹窗显示的字段名
+   * @param {boolean} [inModal=true] - 是否处于对话框中，默认 true。
    *  处于对话框中的新增功能需要在操作成功后关闭对话框以及刷新列表。如果不处于对话框，请设置为false，避免执行无用逻辑。
-   * @param parametersOfGetListAction {{
+   * @param {{
    *  moduleName: string;
    *  submoduleName: string;
    *  additionalQueryParameters: {};
    *  stateName: string;
    *  customApiName: string
-   * }} 用于操作后刷新列表的参数
+   * }} parametersOfGetListAction - 用于操作后刷新列表的参数
    * @returns {Promise<*>}
    */
   async add({ state, dispatch }, {
@@ -305,21 +305,21 @@ export default {
    * @param state
    * @param dispatch
    * @param commit
-   * @param moduleName {string} 模块名
-   * @param [payload={}] {Object} 参数
-   * @param [visibilityFieldName='visibilityOfEdit'] {string} 控制弹窗显示的字段名
-   * @param [inModal=true] {boolean} 是否处于对话框中，默认 true。
+   * @param {string} moduleName - 模块名
+   * @param {Object} [payload={}] - 参数
+   * @param {string} [visibilityFieldName='visibilityOfEdit'] - 控制弹窗显示的字段名
+   * @param {boolean} [inModal=true] - 是否处于对话框中，默认 true。
    *  处于对话框中的编辑功能需要在操作成功后关闭对话框以及刷新列表。如果不处于对话框，请设置为false，避免执行无用逻辑。
-   * @param [customApiName] {string} 自定义请求API
-   * @param [isFetchList] {boolean} 默认 false。当为 true 时，请特别注意参数问题（parametersOfOtherAction）
-   * @param [isResetSelectedRows] {boolean} 默认false（批量操作默认true），是都在成功执行后清空已选中行（批量更新时很重要）
-   * @param parametersOfGetListAction {{
+   * @param {string} [customApiName] - 自定义请求API
+   * @param {boolean} [isFetchList] - 默认 false。当为 true 时，请特别注意参数问题（parametersOfOtherAction）
+   * @param {boolean} [isResetSelectedRows] - 默认false（批量操作默认true），是都在成功执行后清空已选中行（批量更新时很重要）
+   * @param {{
    *  moduleName: string;
    *  submoduleName: string;
    *  additionalQueryParameters: {};
    *  stateName: string;
    *  customApiName: string
-   * }} 用于操作后刷新列表的参数，依赖 isFetchList。parametersOfGetListAction.moduleName 默认为 moduleName
+   * }} parametersOfGetListAction - 用于操作后刷新列表的参数，依赖 isFetchList。parametersOfGetListAction.moduleName 默认为 moduleName
    * @returns {Promise<*>}
    */
   async update(
@@ -375,24 +375,24 @@ export default {
    * @param state
    * @param dispatch
    * @param commit
-   * @param moduleName {string} - 模块名
-   * @param customApiName {string} - 自定义请求API
-   * @param [payload={}] {Object} - 请求接口的参数
-   * @param [isFetchList=false] {boolean} - 是否在成功提交后刷新本模块列表，默认false
-   * @param [isFetchDetails=false] {boolean} - 是否在成功提交后刷新本模块详情数据，默认false
-   * @param [isResetSelectedRows=false] {Boolean} - 是否在成功执行后重置对应 store 内 selectedRows，默认false。一般在批量操作时使用
-   * @param [stateName=null] {string} - 用于接收接口返回值的 state 字段名称，该字段需要提前在相应模块的 store.state 内定义好
-   * @param [submoduleName=null] {string} - 子级模块名
-   * @param [visibilityFieldName=null] {string} - 成功执行操作后要关闭的弹窗的控制字段（定义在对应模块的 store.state 内）
-   * @param [parametersOfGetListAction] {Object} - 用于操作后刷新列表的参数，依赖 isFetchList
-   * @config [additionalQueryParameters] {Object} - 附加查询参数。例如自定义分页相关参数、其他页面跳转过来时携带的参数(如：ID)等非 state.search 固有的查询参数。
-   * @config [stateName] {string} - 用于接收列表数据的字段，默认 store.state.list
-   * @config [customApiName] {string} - 自定义请求api的名字
-   * @param [parametersOfGetDetailsAction] {Object} - 用于操作后刷新详情的参数，依赖 isFetchDetails
-   * @config [payload] {Object} - 查询参数
-   * @config [stateName] {string} - 用于接收详情数据的字段，默认 store.state.details
-   * @config [customApiName] {string} - 自定义请求api的名字
-   * @config [merge] {boolean} - 如果 stateName 指定的字段存在旧数据，是否使用新值对其进行合并
+   * @param {string} moduleName - 模块名
+   * @param {string} customApiName - 自定义请求API
+   * @param {Object} [payload={}] - 请求接口的参数
+   * @param {boolean} [isFetchList=false] - 是否在成功提交后刷新本模块列表，默认false
+   * @param {boolean} [isFetchDetails=false] - 是否在成功提交后刷新本模块详情数据，默认false
+   * @param {Boolean} [isResetSelectedRows=false] - 是否在成功执行后重置对应 store 内 selectedRows，默认false。一般在批量操作时使用
+   * @param {string} [stateName=null] - 用于接收接口返回值的 state 字段名称，该字段需要提前在相应模块的 store.state 内定义好
+   * @param {string} [submoduleName=null] - 子级模块名
+   * @param {string} [visibilityFieldName=null] - 成功执行操作后要关闭的弹窗的控制字段（定义在对应模块的 store.state 内）
+   * @param {Object} [parametersOfGetListAction] - 用于操作后刷新列表的参数，依赖 isFetchList
+   * @config {Object} [additionalQueryParameters] - 附加查询参数。例如自定义分页相关参数、其他页面跳转过来时携带的参数(如：ID)等非 state.search 固有的查询参数。
+   * @config {string} [stateName] - 用于接收列表数据的字段，默认 store.state.list
+   * @config {string} [customApiName] - 自定义请求api的名字
+   * @param {Object} [parametersOfGetDetailsAction] - 用于操作后刷新详情的参数，依赖 isFetchDetails
+   * @config {Object} [payload] - 查询参数
+   * @config {string} [stateName] - 用于接收详情数据的字段，默认 store.state.details
+   * @config {string} [customApiName] - 自定义请求api的名字
+   * @config {boolean} [merge] - 如果 stateName 指定的字段存在旧数据，是否使用新值对其进行合并
    * @returns {Promise<*>}
    */
   async custom({
@@ -476,11 +476,11 @@ export default {
    * @param state
    * @param dispatch
    * @param commit
-   * @param moduleName {string}
-   * @param submoduleName {string}
-   * @param stateName {string} 自定义 state 的名称
-   * @param payload {Object} 请求参数
-   * @param customApiName {string} 自定义请求数据 api 的名称
+   * @param {string} moduleName
+   * @param {string} submoduleName
+   * @param {string} stateName - 自定义 state 的名称
+   * @param {Object} - payload 请求参数
+   * @param {string} customApiName - 自定义请求数据 api 的名称
    * @returns {Promise<*>}
    */
   async getListWithLoadingStatus(
@@ -540,19 +540,19 @@ export default {
   /**
    * 更新状态
    * @param commit
-   * @param moduleName {string} 模块名
-   * @param [submoduleName] {string} 子模块名
-   * @param [loadingFieldName] {string} 请求接口时的 loading 状态值的字段名。该值有如下几种情况：
+   * @param {string} moduleName - 模块名
+   * @param {string} [submoduleName] - 子模块名
+   * @param {string} [loadingFieldName] - 请求接口时的 loading 状态值的字段名。该值有如下几种情况：
    * - 该值指向一个对象时，`loading`状态值的取值为`[loadingFieldName].loading`，其结构一般为`{ loading: boolean, list: Array }`;
    * - 该值指向一个数组时，`loading`状态值的取值为`store.state`中`loadingFieldName`字段所在对象中的`loading`字段，
    *   其结构一般为`{ ..., loading: boolean, [loadingFieldName]: Array }`;
    * - 非以上两种情况时，`loading`状态值的取值为`loadingFieldName`。
    * <br>
    * 该值更详细逻辑请参考全局 mutations 中的 setLoading 函数。
-   * @param [customApiName] {string} 自定义接口名。传递该值后，不会再动态生成接口函数名称，所以该值与`customFieldName`互斥。优先使用该值。
-   * @param [customFieldName='status'] {string} 自定义变更的字段名，默认 'status'。
+   * @param {string} [customApiName] - 自定义接口名。传递该值后，不会再动态生成接口函数名称，所以该值与`customFieldName`互斥。优先使用该值。
+   * @param {string} [customFieldName='status'] - 自定义变更的字段名，默认 'status'。
    *  该参数在`customApiName`未传递的情况下用于动态生成接口函数名称，请确保与`api`文件内的接口函数名称对应。
-   * @param payload {Object} 参数
+   * @param {Object} payload - 参数
    * @returns {Promise<*>}
    */
   async updateStatus({ commit }, {
@@ -606,13 +606,13 @@ export default {
    * @param state
    * @param dispatch
    * @param commit
-   * @param payload {Object} 调用删除接口的参数
-   * @param moduleName {string}
-   * @param [submoduleName] {string}
-   * @param [idFieldName='ids'] {string} 删除接口用于接收删除ID的字段名，默认 'ids'
-   * @param [isBulkOperation] {boolean} 是否批量操作，默认 true。
-   * @param [stateName='list'] {string} store中用于存放列表数据的字段名，默认 'list'
-   * @param [additionalQueryParameters] {Object} 删除成功后刷新列表的参数（注意此参数非调用删除接口的参数）
+   * @param {Object} payload - 调用删除接口的参数
+   * @param {string} moduleName
+   * @param {string} [submoduleName]
+   * @param {string} [idFieldName='ids'] - 删除接口用于接收删除ID的字段名，默认 'ids'
+   * @param {boolean} [isBulkOperation] - 是否批量操作，默认 true。
+   * @param {string} [stateName='list'] - store中用于存放列表数据的字段名，默认 'list'
+   * @param {Object} [additionalQueryParameters] - 删除成功后刷新列表的参数（注意此参数非调用删除接口的参数）
    * @returns {Promise<*>}
    */
   async delete({
@@ -747,15 +747,15 @@ export default {
    * 导出
    * @param state
    * @param dispatch
-   * @param moduleName {string}
-   * @param [submoduleName] {string}
-   * @param [payload] {Object} 参数，默认为 store.state.search 的值。
+   * @param {string} moduleName
+   * @param {string} [submoduleName]
+   * @param {Object} [payload] - 参数，默认为 store.state.search 的值。
    * 因为版本更迭原因，目前 payload 和 additionalQueryParameters 参数的功能基本一致了。
-   * @param [additionalQueryParameters] {Object} 附加参数。例如其他页面跳转带过来的参数。
+   * @param {Object} [additionalQueryParameters] - 附加参数。例如其他页面跳转带过来的参数。
    * 因为版本更迭原因，目前 payload 和 additionalQueryParameters 参数的功能基本一致了。
-   * @param [fileName] {string} 不包含后缀名
-   * @param [customApiName] {string} 自定义请求api的名字
-   * @param [visibilityFieldName] {string} 成功导出后要关闭的弹窗的控制字段（定义在对应模块的 store.state 内）
+   * @param {string} [fileName] - 不包含后缀名
+   * @param {string} [customApiName] - 自定义请求api的名字
+   * @param {string} [visibilityFieldName] - 成功导出后要关闭的弹窗的控制字段（定义在对应模块的 store.state 内）
    * @returns {Promise<*>}
    */
   async export({ state, dispatch }, {
@@ -807,10 +807,10 @@ export default {
   /**
    * 设置新增/编辑弹窗可见状态
    * @param commit
-   * @param [statusField] {string} 弹窗显示字段名称。需预先在对应的store模块中定义，默认 visibilityOfEdit（新增/编辑弹窗）
-   * @param statusValue {*} store里要设置的状态字段对应的值
-   * @param moduleName {string} 要设置的状态所在的store模块的名称
-   * @param submoduleName {string} 要设置的状态所在的store子模块的名称，依赖 moduleName
+   * @param {string} [statusField] - 弹窗显示字段名称。需预先在对应的store模块中定义，默认 visibilityOfEdit（新增/编辑弹窗）
+   * @param {*} statusValue - store里要设置的状态字段对应的值
+   * @param {string} moduleName - 要设置的状态所在的store模块的名称
+   * @param {string} submoduleName - 要设置的状态所在的store子模块的名称，依赖 moduleName
    */
   setModalVisible({ commit }, {
     statusField,
@@ -829,9 +829,9 @@ export default {
    * 设置当前正在操作的对象为一个新的副本
    * @param state
    * @param commit
-   * @param moduleName {string}
-   * @param value {Object}
-   * @param merge {boolean} 是否是合并操作
+   * @param {string} moduleName
+   * @param {Object} value
+   * @param {boolean} merge - 是否是合并操作
    */
   setCurrentItem({ state, commit }, {
     moduleName,
@@ -857,9 +857,9 @@ export default {
    * 设置选中的行（主要用于批量操作）
    * @param commit
    * @param state
-   * @param payload {{selectedRowKeys: string[], selectedRows: Object[]}}
-   * @param moduleName {string}
-   * @param [submoduleName] {string}
+   * @param {{selectedRowKeys: string[], selectedRows: Object[]}} payload
+   * @param {string} moduleName
+   * @param {string} [submoduleName]
    */
   setRowSelected({ commit, state }, {
     moduleName,
