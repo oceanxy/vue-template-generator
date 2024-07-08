@@ -128,7 +128,7 @@ export default {
         })
       } else {
         const data = response.data?.paginationObj ?? response.data
-        const sortFieldList = response.data?.sortFieldList ?? []
+        const sortFieldList = response.data?.tag ?? []
         let rows = data?.rows ?? data
 
         // 若指定字段不是可用的数据数组，则在 rows 对象内寻找数组作为结果返回，其他字段注入到该模块的 store 中
