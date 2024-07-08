@@ -145,13 +145,13 @@ export default ({
        */
       sortFieldList(value) {
         value?.map(sortObj => {
-          const index = this.tableProps.columns.findIndex(column => column.dataIndex === sortObj.fieldCode)
+          const index = this.tableProps.columns.findIndex(column => column.dataIndex === sortObj)
 
           if (index !== -1) {
             this.tableProps.columns.splice(index, 1, {
               ...this.tableProps.columns[index],
               sorter: true,
-              sortCode: sortObj.fieldSortCode
+              sortCode: sortObj
             })
           }
         })
@@ -598,8 +598,8 @@ export default ({
             //   /\$\{orderby}/,
             //   sorter.order.substring(0, sorter.order.length - 3)
             // ),
-            sortField: sorter.column.sortCode,
-            sortType: sorter.order.substring(0, sorter.order.length - 3)
+            sortField: sorter.column?.sortCode,
+            sortType: sorter.order?sorter.order.substring(0, sorter.order.length - 3):''
           },
           isResetSelectedRows: true // 注意此参数要设置为 true。因为排序变了，序号也重新计算了，所以需要清空已选择的行数据
         })
