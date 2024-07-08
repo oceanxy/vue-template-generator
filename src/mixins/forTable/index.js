@@ -594,10 +594,12 @@ export default ({
           moduleName: this.moduleName,
           submoduleName: this.submoduleName,
           payload: {
-            orderBy: sorter.column.sortCode.replace(
-              /\$\{orderby}/,
-              sorter.order.substring(0, sorter.order.length - 3)
-            )
+            // orderBy: sorter.column.sortCode.replace(
+            //   /\$\{orderby}/,
+            //   sorter.order.substring(0, sorter.order.length - 3)
+            // ),
+            sortField: sorter.column.sortCode,
+            sortType: sorter.order.substring(0, sorter.order.length - 3)
           },
           isResetSelectedRows: true // 注意此参数要设置为 true。因为排序变了，序号也重新计算了，所以需要清空已选择的行数据
         })
