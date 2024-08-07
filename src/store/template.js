@@ -18,14 +18,67 @@ export function createStoreModule(module = {}, excludeFromState = []) {
     namespaced: true,
     state: () => (omit({
       rowKey: 'id', // antd vue Table 组件的 rowKey 属性
-      treeIdField: '', // 用于接收侧边树选中值的字段名，默认''，通过 @/components/TGContainerWithTreeSider 组件设置。
+      /**
+       * 用于接收侧边树选中值的字段名，默认''，通过 @/components/TGContainerWithTreeSider 组件设置。
+       * @type {string}
+       */
+      treeIdField: '',
+      /**
+       * 加载状态
+       * @type {boolean}
+       */
       loading: false,
+      /**
+       * 搜索对象
+       * @type {Object}
+       */
       search: {},
+      /**
+       * 搜索请求对象名。默认null。
+       * 一般情况下为空，不为空时，在发送搜索请求时会将请求参数放到 searchRO 所设置值的对象中。
+       * @type {string | null}
+       * @example
+       * 如下设置：
+       * {
+       *  search: { id: 'id', name: 'test' },
+       *  searchRO: '' // 或者其他假值
+       * }
+       * 请求参数结构为：
+       * {
+       *  id: 'id',
+       *  name: 'test'
+       * }
+       *
+       * 如下设置：
+       * {
+       *  search: { id: 'id', name: 'test' },
+       *  searchRO: 'searchRO'
+       * }
+       * 请求参数结构为：
+       * {
+       *  searchRO: {
+       *    id: 'id',
+       *    name: 'test'
+       *  }
+       * }
+       */
+      searchRO: null,
+      /**
+       * 分页对象
+       * @type {Object}
+       * @property {number} pageIndex 页码
+       * @property {number} pageSize 每页数量
+       * @property {number} total 总数量
+       */
       pagination: {
         pageIndex: 0,
         pageSize: 10,
         total: 0
       },
+      /**
+       * 当前项
+       * @type {Object}
+       */
       currentItem: {},
       list: [],
       sortFieldList: [],

@@ -103,16 +103,30 @@ export default {
     }
 
     if (this.apis[api]) {
-      response = await this.apis[api]?.(
-        omit(
-          {
-            ...targetModuleName.pagination,
-            ...targetModuleName.search,
+      const {
+        searchRO,
+        pagination,
+        search
+      } = targetModuleName
+
+      const requestObject = omit(
+        searchRO
+          ? {
+            ...pagination,
+            [searchRO]: {
+              ...search,
+              ...additionalQueryParameters // 带有自定义的参数以及路由query内的参数
+            }
+          }
+          : {
+            ...pagination,
+            ...search,
             ...additionalQueryParameters // 带有自定义的参数以及路由query内的参数
           },
-          'total'
-        )
+        'total'
       )
+
+      response = await this.apis[api]?.(requestObject)
     } else {
       console.error(
         `接口未定义：${moduleName} 页面${submoduleName
