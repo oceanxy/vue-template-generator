@@ -10,7 +10,7 @@ import { message, Table } from 'ant-design-vue'
 import forIndex from '@/mixins/forIndex'
 import { cloneDeep, omit } from 'lodash'
 import { verificationDialog } from '@/utils/message'
-import scrollWheelMixins from '@/mixins/forTable/scrollWheelMixins'
+// import scrollWheelMixins from '@/mixins/forTable/scrollWheelMixins'
 import { getValueFromStringKey } from '@/utils/utilityFunction'
 
 /**
@@ -34,7 +34,8 @@ export default ({
 } = {}) => {
   const _stateName = stateName
   const forTable = {
-    mixins: [forIndex, scrollWheelMixins],
+    // mixins: [forIndex, scrollWheelMixins],
+    mixins: [forIndex],
     inject: {
       // 通知组件在初始化阶段是否自动请求数据。
       // 该变量与 isFetchList 是相同的作用，区别在于 provide 和 inject 可以不限层级的传递数据。
