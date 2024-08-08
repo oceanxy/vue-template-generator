@@ -76,6 +76,10 @@ export function createStoreModule(module = {}, excludeFromState = []) {
         total: 0
       },
       /**
+       * 执行查询时是否通过 params 传递分页参数，默认 false
+       */
+      paginationByParams: false,
+      /**
        * 当前项
        * @type {Object}
        */

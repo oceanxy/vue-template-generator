@@ -14,13 +14,22 @@ const appApis = getApisFromFiles(dynamicModulesFiles)
 
 /**
  * 注入axios后的api函数对象
- * @type {{[p: string]: (payload?: Object) => Promise}}
+ * @type {{[p: string]: (data?: Object, params?: Object) => Promise}}
  */
 const apis = {}
 
 // 动态注入参数
 Object.entries({ ...commonApis, ...appApis }).forEach(([apiName, api]) => {
-  apis[apiName] = parameter => api(getService(config, router, store), parameter)
+  apis[apiName] = (data, params) => {
+    if (
+      Object.prototype.toString.call(data) === '[object Object]' && !Object.keys(data).length &&
+      Object.prototype.toString.call(params) === '[object Object]' && Object.keys(params).length
+    ) {
+      [data, params] = [params, undefined]
+    }
+
+    return api(getService(config, router, store), data, params)
+  }
 })
 
 export default apis
