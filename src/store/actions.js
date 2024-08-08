@@ -106,27 +106,31 @@ export default {
       const {
         searchRO,
         pagination,
-        search
+        search,
+        paginationByParams
       } = targetModuleName
 
-      const requestObject = omit(
-        searchRO
-          ? {
-            ...pagination,
-            [searchRO]: {
-              ...search,
-              ...additionalQueryParameters // 带有自定义的参数以及路由query内的参数
-            }
-          }
-          : {
-            ...pagination,
-            ...search,
-            ...additionalQueryParameters // 带有自定义的参数以及路由query内的参数
-          },
-        'total'
-      )
+      const _pagination = {
+        pageSize: additionalQueryParameters?.pageSize ?? pagination?.pageSize,
+        pageIndex: additionalQueryParameters?.pageIndex ?? pagination?.pageIndex
+      }
+      const _additionalQueryParameters = omit(additionalQueryParameters, ['pageIndex', 'pageSize'])
 
-      response = await this.apis[api]?.(requestObject)
+      const requestObject = searchRO
+        ? {
+          ...(paginationByParams ? {} : _pagination),
+          [searchRO]: {
+            ...search,
+            ..._additionalQueryParameters // 带有自定义的参数以及路由query内的参数
+          }
+        }
+        : {
+          ...(paginationByParams ? {} : _pagination),
+          ...search,
+          ..._additionalQueryParameters // 带有自定义的参数以及路由query内的参数
+        }
+
+      response = await this.apis[api]?.(requestObject, paginationByParams ? _pagination : undefined)
     } else {
       console.error(
         `接口未定义：${moduleName} 页面${submoduleName
