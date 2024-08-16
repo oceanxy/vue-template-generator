@@ -421,6 +421,10 @@ body {
   flex: auto;
   overflow: hidden;
 
+  .ant-table-title {
+    border: none !important;
+  }
+
   &.not-set-x-scroll .ant-table {
     .ant-table-content {
       .ant-table-fixed-left,
@@ -465,9 +469,34 @@ body {
 
   .ant-table {
     color: $text-color;
+    height: 100%;
+    box-sizing: border-box;
 
     .ant-table-title {
       padding: 0 0 16px 0;
+    }
+
+    .ant-table-content {
+      .ant-table-scroll {
+        .ant-table-header.ant-table-hide-scrollbar {
+          // 重置修改滚动条宽度后表头错位的距离。
+          // 一般情况下浏览器默认滚动条宽度为17px，antd在这里的计算的默认值为也为-17px，
+          // 重置滚动条宽度后，这个值也要相应做修改，以保证表格头不错位
+          margin-right: -11px !important;
+        }
+
+        .ant-table-thead {
+          .ant-table-header-column {
+            // 避免表头内单元格的内容超出 table th 标签的范围
+            overflow: hidden;
+
+            .ant-table-column-title {
+              // 避免表头内单元格换行，导致tbody内的表格行错位问题
+              white-space: nowrap;
+            }
+          }
+        }
+      }
     }
 
     .table-row-background {

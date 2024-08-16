@@ -600,7 +600,7 @@ export default ({
             //   sorter.order.substring(0, sorter.order.length - 3)
             // ),
             sortField: sorter.column?.sortCode,
-            sortType: sorter.order?sorter.order.substring(0, sorter.order.length - 3):''
+            sortType: sorter.order ? sorter.order.substring(0, sorter.order.length - 3) : ''
           },
           isResetSelectedRows: true // 注意此参数要设置为 true。因为排序变了，序号也重新计算了，所以需要清空已选择的行数据
         })
@@ -640,7 +640,9 @@ export default ({
 
             // 这里配合了css的flex布局实现
             if (HTML_TABLE_BODY_HEIGHT + HTML_TABLE_HEADER_HEIGHT + TABLE_TITLE_HEIGHT > TABLE_CONTAINER_HEIGHT) {
-              scroll.y = TABLE_CONTAINER_HEIGHT - HTML_TABLE_HEADER_HEIGHT - FOOTER_HEIGHT - TABLE_TITLE_HEIGHT
+              // 抵消flex布局高度产生小数时，内层容器（ant-table-content）高度高于外层容器（ant-table-scroll）高度，
+              // 导致内层容器的内容初始加载时显示不全的问题
+              scroll.y = TABLE_CONTAINER_HEIGHT - HTML_TABLE_HEADER_HEIGHT - FOOTER_HEIGHT - TABLE_TITLE_HEIGHT - 1
             }
 
             this.tableProps.scroll = scroll
