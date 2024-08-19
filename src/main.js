@@ -21,10 +21,12 @@ function createVue() {
 }
 
 const appName = getFirstLetterOfEachWordOfAppName()
-const m = detectZoom()
+const zoom = 100 / Number(detectZoom())
 
 // 处理笔记本系统默认系统比例为125%、150%带来的布局影响
-document.body.style.zoom = 100 / Number(m)
+document.body.style.zoom = zoom
+// 处理表格表头错位问题
+document.body.style.setProperty('--zoom', -Math.floor(17 / zoom - 6) + 'px')
 
 useComponents(config)
 
