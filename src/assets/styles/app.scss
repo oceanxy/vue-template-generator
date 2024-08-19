@@ -472,6 +472,18 @@ body {
     height: 100%;
     box-sizing: border-box;
 
+    &.ant-table-bordered {
+      .ant-table-content {
+        .ant-table-scroll {
+          .ant-table-thead {
+            th:last-child {
+              border-right-color: $border-color-base !important;
+            }
+          }
+        }
+      }
+    }
+
     .ant-table-title {
       padding: 0 0 16px 0;
     }
@@ -505,6 +517,10 @@ body {
             }
           }
         }
+      }
+
+      .ant-table-tbody td {
+        overflow: hidden;
       }
     }
 
