@@ -616,26 +616,31 @@ export default ({
           : this.$refs[`${this.submoduleName ? `${this.submoduleName}Of` : ''}${this.moduleName}Table`]
 
         if (tableRef) {
+          // 等待表格数据渲染完成，以计算滚动区域大小
           this.$nextTick(() => {
             // 表格元素
             const table = tableRef.$el
             const TABLE_CONTAINER_HEIGHT = table.clientHeight
             const TABLE_TITLE_HEIGHT = table.querySelector('.ant-table-title')?.clientHeight ?? 0
 
-            const TABLE_BODY_WIDTH = table.querySelector('.ant-table-body')?.clientWidth ?? 0
+            const { clientWidth: _clientWidth = 0 } = table.querySelector('.ant-table-body')
             const HTML_TABLE_BODY_WIDTH = table.querySelector('.ant-table-body > table')?.clientWidth ?? 0
             const HTML_TABLE_BODY_HEIGHT = table.querySelector('.ant-table-body .ant-table-tbody')?.clientHeight ?? 0
-            const HTML_TABLE_HEADER = table.querySelector('.ant-table-scroll .ant-table-header')
+            let HTML_TABLE_HEADER = table.querySelector('.ant-table-scroll .ant-table-header')
             // ant-design-vue Table 组件的内部结构会根据内容的多少而变化，以适应表格的内容区滚动，所以这里要分情况获取表格元素
             const HTML_TABLE_HEADER_HEIGHT = HTML_TABLE_HEADER?.clientHeight ??
               table.querySelector('.ant-table-thead')?.clientHeight ??
               0
             const FOOTER_HEIGHT = table.querySelector('.ant-table-footer')?.clientHeight ?? 0
-            const scroll = { scrollToFirstRowOnChange: true }
+            const scroll = {
+              scrollToFirstRowOnChange: true,
+              x: HTML_TABLE_BODY_WIDTH,
+              y: TABLE_CONTAINER_HEIGHT
+            }
 
             // 固定列时，需要设置 scroll.x
-            if (HTML_TABLE_BODY_WIDTH > TABLE_BODY_WIDTH) {
-              scroll.x = TABLE_BODY_WIDTH
+            if (HTML_TABLE_BODY_WIDTH > _clientWidth) {
+              scroll.x = _clientWidth
             }
 
             // 这里配合了css的flex布局实现
@@ -646,6 +651,20 @@ export default ({
             }
 
             this.tableProps.scroll = scroll
+
+            // 等待表格重新渲染完成，修补滚动条可能造成的表格错位
+            this.$nextTick(() => {
+              HTML_TABLE_HEADER = table.querySelector('.ant-table-scroll .ant-table-header')
+
+              if (HTML_TABLE_HEADER) {
+                const { clientWidth = 0, offsetWidth = 0 } = table.querySelector('.ant-table-body')
+                const isFixed = offsetWidth !== clientWidth
+
+                if (isFixed) {
+                  HTML_TABLE_HEADER.style.marginRight = '6px'
+                }
+              }
+            })
           })
         }
       },
