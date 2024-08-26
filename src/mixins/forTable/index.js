@@ -58,6 +58,19 @@ export default ({
     data() {
       return {
         tableProps: {
+          /**
+           * 列配置
+           *
+           * @example 列最小宽度配置方法
+           * [
+           *  {
+           *    title: '列名称',
+           *    dataIndex: '列对应字段',
+           *    'RC_TABLE_INTERNAL_COL_DEFINE': { style: { minWidth: '100px' } }
+           *  },
+           *  ...
+           * ]
+           */
           columns: [],
           rowSelection: {
             selections: true,
@@ -622,7 +635,6 @@ export default ({
             const table = tableRef.$el
             const TABLE_CONTAINER_HEIGHT = table.clientHeight
             const TABLE_TITLE_HEIGHT = table.querySelector('.ant-table-title')?.clientHeight ?? 0
-
             const { clientWidth: _clientWidth = 0 } = table.querySelector('.ant-table-body')
             const HTML_TABLE_BODY_WIDTH = table.querySelector('.ant-table-body > table')?.clientWidth ?? 0
             const HTML_TABLE_BODY_HEIGHT = table.querySelector('.ant-table-body .ant-table-tbody')?.clientHeight ?? 0
@@ -657,11 +669,17 @@ export default ({
               HTML_TABLE_HEADER = table.querySelector('.ant-table-scroll .ant-table-header')
 
               if (HTML_TABLE_HEADER) {
-                const { clientWidth = 0, offsetWidth = 0 } = table.querySelector('.ant-table-body')
-                const isFixed = offsetWidth !== clientWidth
+                if (this.tableProps.dataSource.length && scroll.y !== TABLE_CONTAINER_HEIGHT) {
+                  const { clientWidth = 0, offsetWidth = 0 } = table.querySelector('.ant-table-body')
+                  const isFixed = offsetWidth !== clientWidth
 
-                if (isFixed) {
-                  HTML_TABLE_HEADER.style.marginRight = '6px'
+                  if (isFixed) {
+                    HTML_TABLE_HEADER.style.marginRight = '6px'
+                  } else {
+                    HTML_TABLE_HEADER.style.marginRight = '0'
+                  }
+                } else {
+                  HTML_TABLE_HEADER.style.marginRight = '0'
                 }
               }
             })

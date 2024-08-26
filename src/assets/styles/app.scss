@@ -488,6 +488,18 @@ body {
               border-right-color: $border-color-base !important;
             }
           }
+
+          .ant-table-header {
+            outline: unset;
+            border-right: 1px solid $border-color-base;
+            border-radius: 0 $border-radius-base 0 0;
+          }
+
+          .ant-table-body {
+            outline: unset;
+            border-right: 1px solid $border-color-base;
+            border-radius: 0 $border-radius-base 10px 0;
+          }
         }
       }
     }
@@ -589,6 +601,7 @@ body {
 .ant-spin-nested-loading,
 .ant-spin-container {
   height: 100%;
+  outline: unset;
 }
 
 /********************************* 弹出框 *************************************/
