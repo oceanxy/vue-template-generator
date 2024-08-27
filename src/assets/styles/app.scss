@@ -421,29 +421,6 @@ body {
   flex: auto;
   overflow: hidden;
 
-  .ant-table-title {
-    border: none !important;
-  }
-
-  &.not-set-x-scroll .ant-table {
-    .ant-table-content {
-      .ant-table-fixed-left,
-      .ant-table-fixed-right {
-        .ant-table-body-inner {
-          overflow-x: hidden;
-        }
-      }
-    }
-  }
-
-  .ant-table-header {
-    overflow-y: auto !important;
-  }
-
-  .ant-table-body {
-    overflow: auto !important;
-  }
-
   .tg-table-field-highlight {
     color: #13c2c2;
     font-size: $font-size-lg; // 全局默认字号+2px
@@ -465,13 +442,14 @@ body {
     }
   }
 
-  .ant-table.ant-table-small {
-    & > .ant-table-content > .ant-table-body > table > .ant-table-thead > tr > th {
-      background-color: $table-header-bg;
-      color: $text-color-secondary;
-      font-weight: bolder;
-      // font-size: 14px; // 全局默认字号为14号
-      border-color: $border-color-base;
+  &.not-set-x-scroll .ant-table {
+    .ant-table-content {
+      .ant-table-fixed-left,
+      .ant-table-fixed-right {
+        .ant-table-body-inner {
+          overflow-x: hidden;
+        }
+      }
     }
   }
 
@@ -480,36 +458,53 @@ body {
     height: 100%;
     box-sizing: border-box;
 
-    &.ant-table-bordered {
-      .ant-table-content {
-        .ant-table-scroll {
-          .ant-table-thead {
-            th:last-child {
-              border-right-color: $border-color-base !important;
-            }
-          }
-
-          .ant-table-header {
-            outline: unset;
-            border-right: 1px solid $border-color-base;
-            border-radius: 0 $border-radius-base 0 0;
-          }
-
-          .ant-table-body {
-            outline: unset;
-            border-right: 1px solid $border-color-base;
-            border-radius: 0 $border-radius-base 10px 0;
-          }
-        }
+    &.ant-table-small {
+      & > .ant-table-content > .ant-table-body > table > .ant-table-thead > tr > th {
+        background-color: $table-header-bg;
+        color: $text-color-secondary;
+        border-color: $border-color-base;
+        font-weight: bolder;
       }
     }
 
     .ant-table-title {
+      border: none !important;
       padding: 0 0 16px 0;
+
+      & + .ant-table-content {
+        .ant-table-fixed-left {
+          left: -1px;
+          top: -1px;
+        }
+
+        .ant-table-fixed-right {
+          top: -1px;
+        }
+      }
     }
 
+    /* ----------- 表格区域样式重置 ----------- */
+
     .ant-table-content {
+      .ant-table-footer,
+      .ant-table-thead > tr > th {
+        font-weight: bolder;
+        background: $table-header-bg;
+
+        .unit-text {
+          color: $text-color-secondary;
+        }
+      }
+
       .ant-table-scroll {
+        .ant-table-header {
+          overflow-y: auto !important;
+        }
+
+        .ant-table-body {
+          overflow: auto !important;
+        }
+
         .ant-table-thead {
           .ant-table-header-column {
             // 避免表头内单元格的内容超出 table th 标签的范围
@@ -521,16 +516,56 @@ body {
             }
           }
         }
+
+        .ant-table-tbody > tr > th {
+          border-right: 1px solid $border-color-base;
+          border-bottom: 1px solid $border-color-base;
+        }
+
+        .ant-table-placeholder {
+          border: none;
+          margin-top: 0;
+        }
       }
 
-      .ant-table-tbody td {
+      .ant-table-scroll,
+      .ant-table-fixed-left,
+      .ant-table-fixed-right {
+        .ant-table-tbody {
+          tr.ant-table-row.table-row-background {
+            background-color: $table-header-bg;
+
+            td {
+              overflow: hidden;
+            }
+          }
+        }
+      }
+
+      .ant-table-fixed-right {
+        .ant-table-thead {
+          th:last-child {
+            border-right: none;
+          }
+        }
+      }
+    }
+
+    /* ----------- 表格边框相关的样式重置 ----------- */
+
+    &.ant-table-bordered {
+      .ant-table-content {
+        border: 1px solid $border-color-base;
+        border-radius: $border-radius-base;
         overflow: hidden;
+
+        .ant-table-scroll {
+          margin: -1px;
+        }
       }
     }
 
-    .table-row-background {
-      background-color: $table-header-bg;
-    }
+    /* ----------- 表格行 hover 效果 ----------- */
 
     .ant-table-thead > tr.ant-table-row-hover:not(.ant-table-expanded-row):not(.ant-table-row-selected) > td,
     .ant-table-tbody > tr.ant-table-row-hover:not(.ant-table-expanded-row):not(.ant-table-row-selected) > td,
@@ -539,29 +574,10 @@ body {
       background-color: $table-row-hover-bg;
     }
 
+    /* ----------- 表格内其他组件的样式重置 ----------- */
+
     .ant-form-item-required:before {
       font-weight: normal;
-    }
-
-    .ant-table-footer,
-    .ant-table-thead > tr > th {
-      font-weight: bolder;
-      background: $table-header-bg;
-
-      .unit-text {
-        color: $text-color-secondary;
-      }
-    }
-
-    .ant-table-tbody > tr > th {
-      border-right: 1px solid $border-color-base;
-      border-bottom: 1px solid $border-color-base;
-    }
-
-    &.ant-table-bordered .ant-table-thead {
-      & > tr > th {
-        box-sizing: border-box;
-      }
     }
 
     .tg-tags-group {

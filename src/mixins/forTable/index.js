@@ -633,53 +633,92 @@ export default ({
           this.$nextTick(() => {
             // 表格元素
             const table = tableRef.$el
-            const TABLE_CONTAINER_HEIGHT = table.clientHeight
-            const TABLE_TITLE_HEIGHT = table.querySelector('.ant-table-title')?.clientHeight ?? 0
-            const { clientWidth: _clientWidth = 0 } = table.querySelector('.ant-table-body')
-            const HTML_TABLE_BODY_WIDTH = table.querySelector('.ant-table-body > table')?.clientWidth ?? 0
-            const HTML_TABLE_BODY_HEIGHT = table.querySelector('.ant-table-body .ant-table-tbody')?.clientHeight ?? 0
-            let HTML_TABLE_HEADER = table.querySelector('.ant-table-scroll .ant-table-header')
-            // ant-design-vue Table 组件的内部结构会根据内容的多少而变化，以适应表格的内容区滚动，所以这里要分情况获取表格元素
-            const HTML_TABLE_HEADER_HEIGHT = HTML_TABLE_HEADER?.clientHeight ??
-              table.querySelector('.ant-table-thead')?.clientHeight ??
-              0
-            const FOOTER_HEIGHT = table.querySelector('.ant-table-footer')?.clientHeight ?? 0
+            const tableHeight = table.clientHeight
+            let mainTableHeader = table.querySelector('.ant-table-scroll .ant-table-header')
+
+            /**
+             * 获取表格各部分元素的宽度或高度
+             *
+             * ant-design-vue Table 组件的内部结构会根据内容的多少而变化，以适应表格的内容区滚动，
+             * 所以这里要分情况获取表格元素
+             */
+            const tableHeaderHeight = mainTableHeader?.clientHeight ??
+              table.querySelector('.ant-table-thead')?.clientHeight ?? 0
+            const { clientHeight: tableFooterHeight = 0 } = table.querySelector('.ant-table-footer') ?? {}
+            const { clientHeight: tableTitleHeight = 0 } = table.querySelector('.ant-table-title') ?? {}
+
+            // 获取表格body容器的高度和宽度
+            const { clientWidth: tableBodyContainerClientWidth = 0 } = table.querySelector('.ant-table-body') ?? {}
+            // 获取表格body内表格的实际高度和实际宽度（.ant-table-body 的 scrollWidth 和 scrollHeight）
+            const {
+              clientWidth: tableBodyClientWidth = 0,
+              clientHeight: tableBodyClientHeight = 0
+            } = table.querySelector('.ant-table-body > table') ?? {}
+
+            // 定义表格的滚动属性
             const scroll = {
               scrollToFirstRowOnChange: true,
-              x: HTML_TABLE_BODY_WIDTH,
-              y: TABLE_CONTAINER_HEIGHT
+              x: tableBodyClientWidth,
+              y: tableHeight
             }
 
+            /**
+             * 实际的表格容器高度
+             * @type {number}
+             * @private
+             * @note 不能直接取 .ant-table-body 的 clientHeight，而是通过计算得来。
+             * 经验证，实际取出的 .ant-table-body 的 clientHeight 包含了表头的高度和外边距值，误差较大。
+             */
+            const _tableBodyContainerClientHeight = tableHeight - tableHeaderHeight
+
             // 固定列时，需要设置 scroll.x
-            if (HTML_TABLE_BODY_WIDTH > _clientWidth) {
-              scroll.x = _clientWidth
+            if (tableBodyClientWidth > tableBodyContainerClientWidth) {
+              scroll.x = tableBodyContainerClientWidth
             }
 
             // 这里配合了css的flex布局实现
-            if (HTML_TABLE_BODY_HEIGHT + HTML_TABLE_HEADER_HEIGHT + TABLE_TITLE_HEIGHT > TABLE_CONTAINER_HEIGHT) {
-              // 抵消flex布局高度产生小数时，内层容器（ant-table-content）高度高于外层容器（ant-table-scroll）高度，
-              // 导致内层容器的内容初始加载时显示不全的问题
-              scroll.y = TABLE_CONTAINER_HEIGHT - HTML_TABLE_HEADER_HEIGHT - FOOTER_HEIGHT - TABLE_TITLE_HEIGHT - 1
+            if (tableBodyClientHeight + tableHeaderHeight + tableTitleHeight > tableHeight) {
+              scroll.y = tableHeight - tableHeaderHeight - tableFooterHeight - tableTitleHeight
             }
 
             this.tableProps.scroll = scroll
 
             // 等待表格重新渲染完成，修补滚动条可能造成的表格错位
             this.$nextTick(() => {
-              HTML_TABLE_HEADER = table.querySelector('.ant-table-scroll .ant-table-header')
+              mainTableHeader = table.querySelector('.ant-table-scroll .ant-table-header')
+              const leftFixedTable = table.querySelector('.ant-table-fixed-left .ant-table-body-inner')
+              const rightFixedTable = table.querySelector('.ant-table-fixed-right .ant-table-body-inner')
 
-              if (HTML_TABLE_HEADER) {
-                if (this.tableProps.dataSource.length && scroll.y !== TABLE_CONTAINER_HEIGHT) {
+              if (mainTableHeader) {
+                if (this.tableProps.dataSource.length && scroll.y !== tableHeight) {
                   const { clientWidth = 0, offsetWidth = 0 } = table.querySelector('.ant-table-body')
                   const isFixed = offsetWidth !== clientWidth
 
                   if (isFixed) {
-                    HTML_TABLE_HEADER.style.marginRight = '6px'
+                    mainTableHeader.style.marginRight = '6px'
                   } else {
-                    HTML_TABLE_HEADER.style.marginRight = '0'
+                    mainTableHeader.style.marginRight = '0'
                   }
                 } else {
-                  HTML_TABLE_HEADER.style.marginRight = '0'
+                  mainTableHeader.style.marginRight = '0'
+                }
+              }
+
+              if (leftFixedTable || rightFixedTable) {
+                if (tableBodyClientHeight > _tableBodyContainerClientHeight) {
+                  if (tableBodyClientWidth <= tableBodyContainerClientWidth) {
+                    if (leftFixedTable) {
+                      leftFixedTable.style.overflowX = 'hidden'
+                    } else {
+                      rightFixedTable.style.overflowX = 'hidden'
+                    }
+                  } else {
+                    if (leftFixedTable) {
+                      leftFixedTable.style.overflowX = 'scroll'
+                    } else {
+                      rightFixedTable.style.overflowX = 'scroll'
+                    }
+                  }
                 }
               }
             })
