@@ -17,7 +17,14 @@ export function createStoreModule(module = {}, excludeFromState = []) {
   return {
     namespaced: true,
     state: () => (omit({
-      rowKey: 'id', // antd vue Table 组件的 rowKey 属性
+      /**
+       * antd vue Table 组件的 rowKey 属性
+       */
+      rowKey: 'id',
+      /**
+       * 初始化列表搜索参数（store.state.search）的任务队列
+       */
+      taskQueues: [],
       /**
        * 用于接收侧边树选中值的字段名，默认''，通过 @/components/TGContainerWithTreeSider 组件设置。
        * @type {string}

@@ -4,10 +4,20 @@
  * @Date: 2022-03-14 周一 15:33:20
  */
 
+/**
+ * 必需入参的枚举配置
+ * @typedef SearchParamEnum
+ * @property {string} stateName - 保存枚举的名称，位于相应模块的 store.state 中
+ * @property {Function} getParam - 枚举加载成功后的取值逻辑
+ * @property {string} customApiName - 请求该枚举的接口名称
+ * @property {boolean} [isRequired] - 是否是请求列表数据的必传参数
+ */
+
 import { cloneDeep, isBoolean, omit } from 'lodash'
-import { Button, Form, Space } from 'ant-design-vue'
+import { Button, Form, message, Space } from 'ant-design-vue'
 import moment from 'moment'
 import TGPermissionsButton, { disabledType } from '@/components/TGPermissionsButton'
+import { sleep } from '@/utils/utilityFunction'
 
 /**
  * 用于表格搜索的混合
@@ -30,6 +40,11 @@ import TGPermissionsButton, { disabledType } from '@/components/TGPermissionsBut
  * @param {string} [buttonPermissionIdentification] 自定义按钮的权限标识，默认 'QUERY'
  * @param {()=>Object} [setParams] 调用查询接口时需要的额外请求参数。一般用于配置在子模块内的 inquiry 组件获取父模块参数等。
  * @param {()=>Object} [setOptions] 调用查询接口时需要的`全局Action(如：setSearch、getList等)`配置。一般用于自定义请求接口等配置。
+ * @param {SearchParamEnum[]} [searchParamEnums] - 必需入参的枚举配置。
+ * @param {() => Object} [beforeRequiredEnumsLoaded] - 必需入参的枚举加载前回调，依赖 searchParamEnums。注意：因为此回调会在混入
+ * 组件的 created 生命周期之前执行，所以如有需要提前注入 search 的参数，请在此回调的返回值中配置。
+ * @param {(isFetchList: boolean) => Promise<Object>|undefined} [afterRequiredEnumsLoaded] 必需入参的枚举加载后回调，
+ * 依赖 searchParamEnums。
  * @returns {Object<Vue.mixin>}
  */
 export default function forInquiry({
@@ -39,7 +54,10 @@ export default function forInquiry({
   disabledButtonPermission = false,
   buttonPermissionIdentification = 'QUERY',
   setParams,
-  setOptions
+  setOptions,
+  searchParamEnums,
+  beforeRequiredEnumsLoaded,
+  afterRequiredEnumsLoaded
 } = {}) {
   return {
     inject: {
@@ -54,7 +72,10 @@ export default function forInquiry({
        * 注入弹窗标识：判断当前组件是否在弹窗内
        * 来自于 @/mixins/forModal
        */
-      inModal: { default: false }
+      inModal: { default: false },
+      // 通知组件在初始化阶段是否自动请求数据。
+      // 来自于 @/components/TGContainerWithTreeSider 组件。
+      notInitList: { default: false }
     },
     data() {
       return {
@@ -64,6 +85,10 @@ export default function forInquiry({
         options: {},
         // 搜索表单初始化值
         initialValues: {},
+        /**
+         * 搜索表单内的初始化必填参数（如果有）的枚举是否已经就绪（已经全部加载到store的search对象内）
+         */
+        isRequiredEnumsLoaded: false,
         // 按钮禁用状态
         buttonDisabled: false
       }
@@ -196,7 +221,7 @@ export default function forInquiry({
         return content
       }
     },
-    created() {
+    async created() {
       if (typeof buttonDisabledFn === 'function') {
         this.$watch(
           () => this.form?.getFieldsValue(),
@@ -232,6 +257,61 @@ export default function forInquiry({
       )
 
       this.search = this.initialValues
+
+      // ------- 处理枚举 --------
+
+      try {
+        await this._beforeRequiredEnumsLoaded()
+
+        if (searchParamEnums) {
+          // 初始化枚举
+          const dispatches = searchParamEnums.reduce((
+            result,
+            {
+              stateName,
+              customApiName,
+              isRequired,
+              paramName,
+              getParam
+            }
+          ) => {
+            if (isRequired) {
+              result.required.push(
+                this.$store.dispatch('getListWithLoadingStatus', {
+                  moduleName: this.moduleName,
+                  stateName,
+                  customApiName,
+                  injectToSearch: {
+                    paramName,
+                    getParam: getParam.bind(this)
+                  }
+                })
+              )
+            } else {
+              result.notRequired.push(
+                this.$store.dispatch('getListWithLoadingStatus', {
+                  moduleName: this.moduleName,
+                  stateName,
+                  customApiName
+                })
+              )
+            }
+
+            return result
+          }, { required: [], notRequired: [] })
+
+          await Promise.all(dispatches.required)
+
+          // 捕获到必填字段的 promise 异常会阻断此处代码继续往下执行
+          this.isRequiredEnumsLoaded = true
+
+          if (dispatches.notRequired.length) {
+            await Promise.all(dispatches.notRequired)
+          }
+        }
+      } catch (error) {
+        message.error(error)
+      }
     },
     mounted() {
       if (!isInitializeFromStore) {
@@ -239,6 +319,35 @@ export default function forInquiry({
       }
     },
     methods: {
+      /**
+       * 初始化异步请求参数的枚举
+       * @returns {Promise<void>}
+       * @private
+       */
+      async _beforeRequiredEnumsLoaded() {
+        // 将异步参数加入任务队列，防止在左侧树组件未初始化完成的情况下请求列表数据
+        this.$store.commit('setState', {
+          moduleName: this.moduleName,
+          stateName: 'taskQueues',
+          merge: true,
+          value: this._afterRequiredEnumsLoaded()
+        })
+
+        if (typeof beforeRequiredEnumsLoaded === 'function') {
+          await beforeRequiredEnumsLoaded.call(this)
+        }
+      },
+      async _afterRequiredEnumsLoaded() {
+        while (!this.isRequiredEnumsLoaded) {
+          await sleep()
+        }
+
+        if (typeof afterRequiredEnumsLoaded === 'function') {
+          await afterRequiredEnumsLoaded.call(this)
+        }
+
+        return Promise.resolve({})
+      },
       convertBoolean(value) {
         const temp = {}
 
