@@ -40,7 +40,7 @@ import { sleep } from '@/utils/utilityFunction'
  * @param {string} [buttonPermissionIdentification] 自定义按钮的权限标识，默认 'QUERY'
  * @param {()=>Object} [setParams] 调用查询接口时需要的额外请求参数。一般用于配置在子模块内的 inquiry 组件获取父模块参数等。
  * @param {()=>Object} [setOptions] 调用查询接口时需要的`全局Action(如：setSearch、getList等)`配置。一般用于自定义请求接口等配置。
- * @param {SearchParamEnum[]} [searchParamEnums] - 必需入参的枚举配置。
+ * @param {SearchParamEnum[]} [searchParamEnums] - 入参的枚举配置。
  * @param {() => Object} [beforeRequiredEnumsLoaded] - 必需入参的枚举加载前回调，依赖 searchParamEnums。注意：因为此回调会在混入
  * 组件的 created 生命周期之前执行，所以如有需要提前注入 search 的参数，请在此回调的返回值中配置。
  * @param {(isFetchList: boolean) => Promise<Object>|undefined} [afterRequiredEnumsLoaded] 必需入参的枚举加载后回调，
@@ -261,8 +261,6 @@ export default function forInquiry({
       // ------- 处理枚举 --------
 
       try {
-        await this._beforeRequiredEnumsLoaded()
-
         if (searchParamEnums) {
           // 初始化枚举
           const dispatches = searchParamEnums.reduce((
@@ -299,6 +297,10 @@ export default function forInquiry({
 
             return result
           }, { required: [], notRequired: [] })
+
+          if (dispatches.required.length) {
+            await this._beforeRequiredEnumsLoaded()
+          }
 
           await Promise.all(dispatches.required)
 
