@@ -7,14 +7,21 @@
 /**
  * 必需入参的枚举配置
  * @typedef SearchParamEnum
- * @property {string} stateName - 保存枚举的名称，位于相应模块的 store.state 中
- * @property {Function} getParam - 枚举加载成功后的取值逻辑
- * @property {string} customApiName - 请求该枚举的接口名称
- * @property {boolean} [isRequired] - 是否是请求列表数据的必传参数
+ * @property {string} stateName - 保存枚举的名称，位于相应模块的 store.state 中。
+ * @property {string} customApiName - 请求该枚举的接口名称。
+ * @property {(state: Object) => Object} [getRequestParams] - 枚举请求时的参数，默认为空对象。
+ * @property {boolean} [isRequired] - 是否是请求列表数据的必传参数。
+ * @property {boolean} [isDependentTreeNode] - 是否依赖本页面左侧的树的选中项。
+ * @property {Function} [onTreeNodeChange] - 树节点变更回调，依赖 isDependentTreeNode。
+ * @property {string} [paramName] - store.state.search 内对应选中枚举的参数名。当 isRequired 为 true 时可用。
+ * @property {(data: Object[]|Object) => any} [getParam] - 枚举加载成功后的取值逻辑。当 isRequired 为 true 时可用。
+ * - 参数 data 为接口请求的数据对象或数据数组；
+ * - 返回值将赋值给 store.state.search 对象内 paramName 指定的字段。
+ * @property {SearchParamEnum[]} [cascadingEnums] - 级联枚举配置（暂未实现）
  */
 
 import { cloneDeep, isBoolean, omit } from 'lodash'
-import { Button, Form, message, Space } from 'ant-design-vue'
+import { Button, Form, Space } from 'ant-design-vue'
 import moment from 'moment'
 import TGPermissionsButton, { disabledType } from '@/components/TGPermissionsButton'
 import { sleep } from '@/utils/utilityFunction'
@@ -85,10 +92,10 @@ export default function forInquiry({
         options: {},
         // 搜索表单初始化值
         initialValues: {},
-        /**
-         * 搜索表单内的初始化必填参数（如果有）的枚举是否已经就绪（已经全部加载到store的search对象内）
-         */
+        // 搜索表单内的初始化必填参数（如果有）的枚举是否已经就绪（已经全部加载到store的search对象内）
         isRequiredEnumsLoaded: false,
+        // 搜索表单内依赖于左侧树结点且必填的参数（如果有）的枚举是否已经就绪（已经全部加载到store的search对象内）
+        isRequiredAndDependentTreeNodeEnumsLoaded: false,
         // 按钮禁用状态
         buttonDisabled: false
       }
@@ -113,6 +120,9 @@ export default function forInquiry({
             })
           }
         }
+      },
+      treeIdField() {
+        return this.$store.state[this.moduleName].treeIdField
       },
       treeCollapsed: {
         get() {
@@ -258,62 +268,7 @@ export default function forInquiry({
 
       this.search = this.initialValues
 
-      // ------- 处理枚举 --------
-
-      try {
-        if (searchParamEnums) {
-          // 初始化枚举
-          const dispatches = searchParamEnums.reduce((
-            result,
-            {
-              stateName,
-              customApiName,
-              isRequired,
-              paramName,
-              getParam
-            }
-          ) => {
-            if (isRequired) {
-              result.required.push(
-                this.$store.dispatch('getListWithLoadingStatus', {
-                  moduleName: this.moduleName,
-                  stateName,
-                  customApiName,
-                  injectToSearch: {
-                    paramName,
-                    getParam: getParam.bind(this)
-                  }
-                })
-              )
-            } else {
-              result.notRequired.push(
-                this.$store.dispatch('getListWithLoadingStatus', {
-                  moduleName: this.moduleName,
-                  stateName,
-                  customApiName
-                })
-              )
-            }
-
-            return result
-          }, { required: [], notRequired: [] })
-
-          if (dispatches.required.length) {
-            await this._beforeRequiredEnumsLoaded()
-          }
-
-          await Promise.all(dispatches.required)
-
-          // 捕获到必填字段的 promise 异常会阻断此处代码继续往下执行
-          this.isRequiredEnumsLoaded = true
-
-          if (dispatches.notRequired.length) {
-            await Promise.all(dispatches.notRequired)
-          }
-        }
-      } catch (error) {
-        message.error(error)
-      }
+      await this.initEnums()
     },
     mounted() {
       if (!isInitializeFromStore) {
@@ -321,6 +276,108 @@ export default function forInquiry({
       }
     },
     methods: {
+      /**
+       * 处理枚举
+       * @returns {Promise<void>}
+       */
+      async initEnums() {
+        try {
+          if (searchParamEnums) {
+            // 初始化枚举
+            const dispatches = searchParamEnums.reduce((
+              result,
+              {
+                stateName,
+                customApiName,
+                isRequired,
+                paramName,
+                getParam,
+                getRequestParams,
+                isDependentTreeNode,
+                onTreeNodeChange
+              }
+            ) => {
+              if (isRequired) {
+                result[isDependentTreeNode ? 'requiredAndDependentTreeNode' : 'required'].push(
+                  async () => {
+                    if (typeof onTreeNodeChange === 'function') {
+                      onTreeNodeChange.call(this)
+                    }
+
+                    return await this.$store.dispatch('getListWithLoadingStatus', {
+                      moduleName: this.moduleName,
+                      stateName,
+                      customApiName,
+                      payload: getRequestParams?.bind(this),
+                      injectToSearch: {
+                        paramName,
+                        getParam: getParam?.bind(this)
+                      }
+                    })
+                  }
+                )
+              } else {
+                result[isDependentTreeNode ? 'notRequiredButDependentTreeNode' : 'notRequired'].push(
+                  async () => {
+                    if (typeof onTreeNodeChange === 'function') {
+                      onTreeNodeChange.call(this)
+                    }
+
+                    return await this.$store.dispatch('getListWithLoadingStatus', {
+                      moduleName: this.moduleName,
+                      stateName,
+                      customApiName,
+                      payload: getRequestParams?.bind(this)
+                    })
+                  }
+                )
+              }
+
+              return result
+            }, {
+              required: [],
+              notRequired: [],
+              requiredAndDependentTreeNode: [],
+              notRequiredButDependentTreeNode: []
+            })
+
+            if (dispatches.required.length || dispatches.requiredAndDependentTreeNode.length) {
+              await this._beforeRequiredEnumsLoaded()
+            }
+
+            await Promise.all(dispatches.required.map(cb => cb()))
+            // 捕获到必填字段的 promise 异常会阻断此处代码继续往下执行
+            this.isRequiredEnumsLoaded = true
+
+            if (dispatches.notRequired.length) {
+              await Promise.all(dispatches.notRequired.map(cb => cb()))
+            }
+
+            if (dispatches.requiredAndDependentTreeNode.length || dispatches.notRequiredButDependentTreeNode.length) {
+              this.$watch(
+                () => this.search,
+                async (newSearch, oldSearch) => {
+                  // 注意此处必须判断新值和旧值，不然会造成死循环
+                  if (newSearch[this.treeIdField] && newSearch[this.treeIdField] !== oldSearch[this.treeIdField]) {
+                    await Promise.all(dispatches.requiredAndDependentTreeNode.map(cb => cb()))
+                    this.isRequiredAndDependentTreeNodeEnumsLoaded = true
+
+                    if (dispatches.notRequiredButDependentTreeNode.length) {
+                      await Promise.all(dispatches.notRequiredButDependentTreeNode.map(cb => cb()))
+                    }
+                  }
+                },
+                { deep: true }
+              )
+            } else {
+              // 捕获到必填字段的 promise 异常会阻断此处代码继续往下执行
+              this.isRequiredAndDependentTreeNodeEnumsLoaded = true
+            }
+          }
+        } catch (error) {
+          throw new Error(error)
+        }
+      },
       /**
        * 初始化异步请求参数的枚举
        * @returns {Promise<void>}
@@ -340,7 +397,7 @@ export default function forInquiry({
         }
       },
       async _afterRequiredEnumsLoaded() {
-        while (!this.isRequiredEnumsLoaded) {
+        while (!this.isRequiredEnumsLoaded || !this.isRequiredAndDependentTreeNodeEnumsLoaded) {
           await sleep()
         }
 

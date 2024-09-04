@@ -497,7 +497,7 @@ export default {
    * @param {string} moduleName
    * @param {string} submoduleName
    * @param {string} stateName - 自定义 state 的名称
-   * @param {Object} payload - 请求参数
+   * @param {Object|Function} payload - 请求参数
    * @param {string} customApiName - 自定义请求数据 api 的名称
    * @param {{paramName: string, getParam: (list: []) => any}} [injectToSearch] - 数据请求成功后，按照 getParam 函数提供的
    * 取数逻辑，将数据注入到 store.state.search 的 “paramName” 字段。
@@ -524,6 +524,10 @@ export default {
       submoduleName,
       stateName
     })
+
+    if (typeof payload === 'function') {
+      payload = payload(submoduleName ? state[moduleName][submoduleName] : state[moduleName])
+    }
 
     const response = await this.apis[customApiName](payload)
 
