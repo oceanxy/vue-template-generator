@@ -6,7 +6,7 @@
 
 /**
  * 必需入参的枚举配置
- * @typedef SearchParamEnum
+ * @typedef EnumOptionOfSearchParam
  * @property {string} stateName - 保存枚举的名称，位于相应模块的 store.state 中。
  * @property {string} customApiName - 请求该枚举的接口名称。
  * @property {(state: Object) => Object} [getRequestParams] - 枚举请求时的参数，默认为空对象。
@@ -17,7 +17,7 @@
  * @property {(data: Object[]|Object) => any} [getParam] - 枚举加载成功后的取值逻辑。当 isRequired 为 true 时可用。
  * - 参数 data 为接口请求的数据对象或数据数组；
  * - 返回值将赋值给 store.state.search 对象内 paramName 指定的字段。
- * @property {SearchParamEnum[]} [cascadingEnums] - 级联枚举配置（暂未实现）
+ * @property {EnumOptionOfSearchParam[]} [cascadingEnums] - 级联枚举配置（暂未实现）
  */
 
 import { cloneDeep, isBoolean, omit } from 'lodash'
@@ -47,11 +47,11 @@ import { sleep } from '@/utils/utilityFunction'
  * @param {string} [buttonPermissionIdentification] 自定义按钮的权限标识，默认 'QUERY'
  * @param {()=>Object} [setParams] 调用查询接口时需要的额外请求参数。一般用于配置在子模块内的 inquiry 组件获取父模块参数等。
  * @param {()=>Object} [setOptions] 调用查询接口时需要的`全局Action(如：setSearch、getList等)`配置。一般用于自定义请求接口等配置。
- * @param {SearchParamEnum[]} [searchParamEnums] - 入参的枚举配置。
- * @param {() => Object} [beforeRequiredEnumsLoaded] - 必需入参的枚举加载前回调，依赖 searchParamEnums。注意：因为此回调会在混入
+ * @param {EnumOptionOfSearchParam[]} [enumOptionOfSearchParams] - 入参的枚举配置。
+ * @param {() => Object} [beforeRequiredEnumsLoaded] - 必需入参的枚举加载前回调，依赖 enumOptionOfSearchParams。注意：因为此回调会在混入
  * 组件的 created 生命周期之前执行，所以如有需要提前注入 search 的参数，请在此回调的返回值中配置。
  * @param {(isFetchList: boolean) => Promise<Object>|undefined} [afterRequiredEnumsLoaded] 必需入参的枚举加载后回调，
- * 依赖 searchParamEnums。
+ * 依赖 enumOptionOfSearchParams。
  * @returns {Object<Vue.mixin>}
  */
 export default function forInquiry({
@@ -62,7 +62,7 @@ export default function forInquiry({
   buttonPermissionIdentification = 'QUERY',
   setParams,
   setOptions,
-  searchParamEnums,
+  enumOptionOfSearchParams,
   beforeRequiredEnumsLoaded,
   afterRequiredEnumsLoaded
 } = {}) {
@@ -282,9 +282,9 @@ export default function forInquiry({
        */
       async initEnums() {
         try {
-          if (searchParamEnums) {
+          if (enumOptionOfSearchParams) {
             // 初始化枚举
-            const dispatches = searchParamEnums.reduce((
+            const dispatches = enumOptionOfSearchParams.reduce((
               result,
               {
                 stateName,
