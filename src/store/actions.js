@@ -164,7 +164,7 @@ export default {
           rows = []
         }
 
-        if ('pagination' in targetModuleName) {
+        if ('pagination' in targetModuleName && ('pageIndex' in data) && 'pageSize' in data) {
           commit('setPagination', {
             moduleName,
             submoduleName,
