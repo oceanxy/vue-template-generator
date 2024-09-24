@@ -185,12 +185,8 @@ export default {
   watch: {
     'dataSource.list': {
       deep: true,
-      handler(value, value2) {
-        if (value === value2) {
-          return
-        }
-
-        this.treeDataSource = value
+      handler(treeData) {
+        this.treeDataSource = treeData
       }
     },
     searchValue(value) {
@@ -200,15 +196,9 @@ export default {
     }
   },
   async created() {
-    this.defaultExpandedTreeIds = [
-      ...this.defaultExpandedKeys,
-      this.$route.query[this.getFieldNameForTreeId()],
-      this.$route.params[this.getFieldNameForTreeId()]
-    ].filter(id => id !== undefined)
-
     // 非空模式下会在获取到树的数据后自动请求列表数据
     if (this.notNoneMode) {
-      // 将异步参数加入任务队列
+      // 将初始化异步参数任务加入任务队列
       this.$store.commit('setState', {
         moduleName: this.moduleName,
         stateName: 'taskQueues',
@@ -216,19 +206,6 @@ export default {
         value: this.initSearchParams()
       })
     }
-
-    const treeIdField = this.getFieldNameForTreeId(1)
-
-    // 更新 store.state 里面用于树ID的键名（主要适配每一级树所使用的键名不同的情况）
-    this.$store.commit('setState', {
-      value: treeIdField,
-      moduleName: this.moduleName,
-      stateName: 'treeIdField'
-    })
-    this.oldTreeIdField = treeIdField
-
-    // 请求树的数据
-    this.status = await this.getTree()
 
     // 订阅指定的 actions。当本页面指定的 action 被触发后，更新树。
     if (this.actionsForUpdateTree.length) {
@@ -240,6 +217,24 @@ export default {
         }
       })
     }
+
+    this.defaultExpandedTreeIds = [
+      ...this.defaultExpandedKeys,
+      this.$route.query[this.getFieldNameForTreeId()],
+      this.$route.params[this.getFieldNameForTreeId()]
+    ].filter(id => id !== undefined)
+
+    const treeIdField = this.getFieldNameForTreeId(1)
+
+    // 更新 store.state 里面用于树ID的键名（主要适配每一级树所使用的键名不同的情况）
+    this.$store.commit('setState', {
+      value: treeIdField,
+      moduleName: this.moduleName,
+      stateName: 'treeIdField'
+    })
+    this.oldTreeIdField = treeIdField
+    // 请求树的数据
+    this.status = await this.getTree()
   },
   async beforeDestroy() {
     // 退出页面前先清空搜索参数，避免下次进页面时参数错乱
