@@ -330,7 +330,7 @@ export default {
    *  处于对话框中的编辑功能需要在操作成功后关闭对话框以及刷新列表。如果不处于对话框，请设置为false，避免执行无用逻辑。
    * @param {string} [customApiName] - 自定义请求API
    * @param {boolean} [isFetchList] - 默认 false。当为 true 时，请特别注意参数问题（parametersOfOtherAction）
-   * @param {boolean} [isResetSelectedRows] - 默认false（批量操作默认true），是都在成功执行后清空已选中行（批量更新时很重要）
+   * @param {boolean} [isResetSelectedRows] - 默认false（批量操作默认true），是否在成功执行后清空已选中行（批量更新时很重要）
    * @param {{
    *  moduleName: string;
    *  submoduleName: string;
