@@ -690,7 +690,7 @@ export default ({
               const rightFixedTable = table.querySelector('.ant-table-fixed-right .ant-table-body-inner')
 
               if (mainTableHeader) {
-                if (this.tableProps.dataSource.length && scroll.y !== tableHeight) {
+                if (this.tableProps.dataSource?.length && scroll.y !== tableHeight) {
                   const { clientWidth = 0, offsetWidth = 0 } = table.querySelector('.ant-table-body')
                   const isFixed = offsetWidth !== clientWidth
 
