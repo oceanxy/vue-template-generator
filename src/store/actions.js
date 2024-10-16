@@ -169,8 +169,8 @@ export default {
             moduleName,
             submoduleName,
             value: {
-              pageIndex: data.pageIndex,
-              pageSize: data.pageSize,
+              pageIndex: data.pageIndex || 0,
+              pageSize: data.pageSize || 0,
               total: data.totalNum
             }
           })
