@@ -534,7 +534,7 @@ export default ({
                 await this.refreshTree()
               }
 
-              if (typeof done === 'function') {
+              if (typeof options.done === 'function') {
                 options.done()
               }
             }
