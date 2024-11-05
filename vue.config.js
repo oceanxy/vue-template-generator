@@ -42,7 +42,7 @@ module.exports = {
     requireModuleExtension: true,
     loaderOptions: {
       // 引入sass全局变量文件
-      sass: { sassOptions: { prependData: '@import "~@/assets/styles/themeFromLess.scss"' } }, // 未生效
+      sass: { sassOptions: { prependData: '@use "~@/assets/styles/themeFromLess.scss" as *' } }, // 未生效
       // 启用内联JavaScript。ant-design-vue使用less编写，且使用了内联写法，所以需要开启
       less: { lessOptions: { javascriptEnabled: true, math: 'always' } }
     }

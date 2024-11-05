@@ -1,4 +1,4 @@
-@import '~@/assets/styles/themeFromLess.scss';
+@use '~@/assets/styles/themeFromLess.scss' as *;
 
 .t-g-menu-container.ant-menu {
   overflow-x: hidden;

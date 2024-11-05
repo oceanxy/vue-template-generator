@@ -1,4 +1,4 @@
-@import '~@/assets/styles/themeFromLess';
+@use '~@/assets/styles/themeFromLess' as *;
 
 .tg-scrolling-number-container {
   display: inline-flex;

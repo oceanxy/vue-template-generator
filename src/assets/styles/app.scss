@@ -1,4 +1,4 @@
-@import './themeFromLess.scss';
+@use './themeFromLess.scss' as *;
 
 html,
 body,
