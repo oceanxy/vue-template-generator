@@ -39,27 +39,27 @@ export default {
   methods: {
     // 获取表格数据
     async fetchTableData() {
-      if (this.showTree) {
-        try {
-          const result = await Promise.all(this.taskQueues)
+      // if (this.showTree) {
+      try {
+        const result = await Promise.all(this.taskQueues)
 
-          let payload = {}
+        let payload = {}
 
-          for (const _payload of result) {
-            payload = { ...payload, ..._payload }
-          }
-
-          await this.$store.dispatch('setSearch', {
-            moduleName: this.moduleName,
-            submoduleName: this.submoduleName,
-            payload,
-            isResetSelectedRows: true,
-            ...this.$attrs?.optionsOfGetList ?? {}
-          })
-        } catch (error) {
-          message.error(error)
+        for (const _payload of result) {
+          payload = { ...payload, ..._payload }
         }
+
+        await this.$store.dispatch('setSearch', {
+          moduleName: this.moduleName,
+          submoduleName: this.submoduleName,
+          payload,
+          isResetSelectedRows: true,
+          ...this.$attrs?.optionsOfGetList ?? {}
+        })
+      } catch (error) {
+        message.error(error)
       }
+      // }
     },
     filterSlots() {
       return [
