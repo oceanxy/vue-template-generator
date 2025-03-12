@@ -1,9 +1,10 @@
 import './assets/styles/index.scss'
 import TGContainerWithTreeSider from '@/components/TGContainerWithTreeSider'
-import { Space } from 'ant-design-vue'
+import { message, Space } from 'ant-design-vue'
 
 export default {
   name: 'TGContainerWithTable',
+  inject: ['moduleName'],
   props: {
     // 是否显示侧边树
     showTree: {
@@ -27,7 +28,39 @@ export default {
       return !!this.$slots.table
     }
   },
+  computed: {
+    taskQueues() {
+      return this.$store.state[this.moduleName].taskQueues ?? []
+    }
+  },
+  async mounted() {
+    await this.fetchTableData()
+  },
   methods: {
+    // 获取表格数据
+    async fetchTableData() {
+      // if (this.showTree) {
+      try {
+        const result = await Promise.all(this.taskQueues)
+
+        let payload = {}
+
+        for (const _payload of result) {
+          payload = { ...payload, ..._payload }
+        }
+
+        await this.$store.dispatch('setSearch', {
+          moduleName: this.moduleName,
+          submoduleName: this.submoduleName,
+          payload,
+          isResetSelectedRows: true,
+          ...this.$attrs?.optionsOfGetList ?? {}
+        })
+      } catch (error) {
+        message.error(error)
+      }
+      // }
+    },
     filterSlots() {
       return [
         this.$slots.inquiry || this.$slots.others,

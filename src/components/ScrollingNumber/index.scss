@@ -1,31 +1,49 @@
-@import '~@/assets/styles/themeFromLess';
+@use '~@/assets/styles/themeFromLess' as *;
 
 .tg-scrolling-number-container {
-  display: inline-flex;
+  display: flex;
   flex-direction: column;
   align-items: flex-start;
   height: 100%;
+  width: 100%;
   overflow: hidden;
 
   .tg-scrolling-number-text {
     flex: none;
-    font-size: $font-size-lg; // 全局默认字号+2px
-    white-space: nowrap;
+    width: 100%;
+    height: 32px;
+    display: flex;
+    align-items: baseline;
+    justify-content: flex-start;
+    font-size: 20px; // 全局默认字号+2px
     font-weight: 500;
-    text-align: left;
     color: #ffffff;
     font-family: Source Han Sans CN-Light, Microsoft YaHei, serif;
+
+    .tg-scrolling-number-unit {
+      font-size: $font-size-lg;
+      padding-left: .4ic;
+    }
   }
 
   .tg-scrolling-number-value {
-    flex: auto;
+    flex: none;
     display: flex;
     font-size: 40px;
     font-family: DINPro-Bold, Microsoft YaHei, serif;
     font-weight: 500;
-    text-align: LEFT;
+    align-items: center;
+    justify-content: center;
     color: #ffffff;
     overflow: hidden;
+    width: 100%;
+  }
+
+  .tg-scrolling-number-sub-value {
+    flex: none;
+    width: 100%;
+    display: flex;
+    justify-content: center;
   }
 }
 

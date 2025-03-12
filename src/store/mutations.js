@@ -49,25 +49,16 @@ export default {
     moduleName,
     submoduleName
   }) {
-    if (!submoduleName) {
-      if ('pagination' in state[moduleName]) {
-        state[moduleName].pagination.pageIndex = 0
-      }
+    const targetModule = submoduleName ? state[moduleName][submoduleName] : state[moduleName]
 
-      state[moduleName].search = {
-        ...state[moduleName].search,
+    if ('pagination' in targetModule) {
+      targetModule.pagination.pageIndex = 0
+    }
+
+    if ('search' in targetModule) {
+      targetModule.search = {
+        ...targetModule.search,
         ...payload
-      }
-    } else {
-      if ('pagination' in state[moduleName][submoduleName]) {
-        state[moduleName][submoduleName].pagination.pageIndex = 0
-      }
-
-      if ('search' in state[moduleName][submoduleName]) {
-        state[moduleName][submoduleName].search = {
-          ...state[moduleName][submoduleName].search,
-          ...payload
-        }
       }
     }
   },

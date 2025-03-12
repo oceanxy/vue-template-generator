@@ -1,4 +1,4 @@
-@import '~@/assets/styles/themeFromLess.scss';
+@use '~@/assets/styles/themeFromLess.scss' as *;
 
 .tg-pagination {
   flex: none;

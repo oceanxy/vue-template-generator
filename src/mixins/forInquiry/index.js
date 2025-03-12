@@ -4,10 +4,27 @@
  * @Date: 2022-03-14 周一 15:33:20
  */
 
+/**
+ * 必需入参的枚举配置
+ * @typedef EnumOptionOfSearchParam
+ * @property {string} stateName - 保存枚举的名称，位于相应模块的 store.state 中。
+ * @property {string} customApiName - 请求该枚举的接口名称。
+ * @property {(state: Object) => Object} [getRequestParams] - 枚举请求时的参数，默认为空对象。
+ * @property {boolean} [isRequired] - 是否是请求列表数据的必传参数。
+ * @property {boolean} [isDependentTreeNode] - 是否依赖本页面左侧的树的选中项。
+ * @property {Function} [onTreeNodeChange] - 树节点变更回调，依赖 isDependentTreeNode。
+ * @property {string} [paramName] - store.state.search 内对应选中枚举的参数名。当 isRequired 为 true 时可用。
+ * @property {(data: Object[]|Object) => any} [getParam] - 枚举加载成功后的取值逻辑。当 isRequired 为 true 时可用。
+ * - 参数 data 为接口请求的数据对象或数据数组；
+ * - 返回值将赋值给 store.state.search 对象内 paramName 指定的字段。
+ * @property {EnumOptionOfSearchParam[]} [cascadingEnums] - 级联枚举配置（暂未实现）
+ */
+
 import { cloneDeep, isBoolean, omit } from 'lodash'
 import { Button, Form, Space } from 'ant-design-vue'
 import moment from 'moment'
 import TGPermissionsButton, { disabledType } from '@/components/TGPermissionsButton'
+import { sleep } from '@/utils/utilityFunction'
 
 /**
  * 用于表格搜索的混合
@@ -30,6 +47,11 @@ import TGPermissionsButton, { disabledType } from '@/components/TGPermissionsBut
  * @param {string} [buttonPermissionIdentification] 自定义按钮的权限标识，默认 'QUERY'
  * @param {()=>Object} [setParams] 调用查询接口时需要的额外请求参数。一般用于配置在子模块内的 inquiry 组件获取父模块参数等。
  * @param {()=>Object} [setOptions] 调用查询接口时需要的`全局Action(如：setSearch、getList等)`配置。一般用于自定义请求接口等配置。
+ * @param {EnumOptionOfSearchParam[]} [enumOptionOfSearchParams] - 入参的枚举配置。
+ * @param {() => Object} [beforeRequiredEnumsLoaded] - 必需入参的枚举加载前回调，依赖 enumOptionOfSearchParams。注意：因为此回调会在混入
+ * 组件的 created 生命周期之前执行，所以如有需要提前注入 search 的参数，请在此回调的返回值中配置。
+ * @param {(isFetchList: boolean) => Promise<Object>|undefined} [afterRequiredEnumsLoaded] 必需入参的枚举加载后回调，
+ * 依赖 enumOptionOfSearchParams。
  * @returns {Object<Vue.mixin>}
  */
 export default function forInquiry({
@@ -39,7 +61,10 @@ export default function forInquiry({
   disabledButtonPermission = false,
   buttonPermissionIdentification = 'QUERY',
   setParams,
-  setOptions
+  setOptions,
+  enumOptionOfSearchParams,
+  beforeRequiredEnumsLoaded,
+  afterRequiredEnumsLoaded
 } = {}) {
   return {
     inject: {
@@ -54,7 +79,10 @@ export default function forInquiry({
        * 注入弹窗标识：判断当前组件是否在弹窗内
        * 来自于 @/mixins/forModal
        */
-      inModal: { default: false }
+      inModal: { default: false },
+      // 通知组件在初始化阶段是否自动请求数据。
+      // 来自于 @/components/TGContainerWithTreeSider 组件。
+      notInitList: { default: false }
     },
     data() {
       return {
@@ -64,6 +92,10 @@ export default function forInquiry({
         options: {},
         // 搜索表单初始化值
         initialValues: {},
+        // 搜索表单内的初始化必填参数（如果有）的枚举是否已经就绪（已经全部加载到store的search对象内）
+        isRequiredEnumsLoaded: false,
+        // 搜索表单内依赖于左侧树结点且必填的参数（如果有）的枚举是否已经就绪（已经全部加载到store的search对象内）
+        isRequiredAndDependentTreeNodeEnumsLoaded: false,
         // 按钮禁用状态
         buttonDisabled: false
       }
@@ -88,6 +120,9 @@ export default function forInquiry({
             })
           }
         }
+      },
+      treeIdField() {
+        return this.$store.state[this.moduleName].treeIdField
       },
       treeCollapsed: {
         get() {
@@ -196,7 +231,7 @@ export default function forInquiry({
         return content
       }
     },
-    created() {
+    async created() {
       if (typeof buttonDisabledFn === 'function') {
         this.$watch(
           () => this.form?.getFieldsValue(),
@@ -232,6 +267,8 @@ export default function forInquiry({
       )
 
       this.search = this.initialValues
+
+      await this.initEnums()
     },
     mounted() {
       if (!isInitializeFromStore) {
@@ -239,6 +276,137 @@ export default function forInquiry({
       }
     },
     methods: {
+      /**
+       * 处理枚举
+       * @returns {Promise<void>}
+       */
+      async initEnums() {
+        try {
+          if (enumOptionOfSearchParams) {
+            // 初始化枚举
+            const dispatches = enumOptionOfSearchParams.reduce((
+              result,
+              {
+                stateName,
+                customApiName,
+                isRequired,
+                paramName,
+                getParam,
+                getRequestParams,
+                isDependentTreeNode,
+                onTreeNodeChange
+              }
+            ) => {
+              if (isRequired) {
+                result[isDependentTreeNode ? 'requiredAndDependentTreeNode' : 'required'].push(
+                  async () => {
+                    if (typeof onTreeNodeChange === 'function') {
+                      onTreeNodeChange.call(this)
+                    }
+
+                    return await this.$store.dispatch('getListWithLoadingStatus', {
+                      moduleName: this.moduleName,
+                      stateName,
+                      customApiName,
+                      payload: getRequestParams?.bind(this),
+                      injectToSearch: {
+                        paramName,
+                        getParam: getParam?.bind(this)
+                      }
+                    })
+                  }
+                )
+              } else {
+                result[isDependentTreeNode ? 'notRequiredButDependentTreeNode' : 'notRequired'].push(
+                  async () => {
+                    if (typeof onTreeNodeChange === 'function') {
+                      onTreeNodeChange.call(this)
+                    }
+
+                    return await this.$store.dispatch('getListWithLoadingStatus', {
+                      moduleName: this.moduleName,
+                      stateName,
+                      customApiName,
+                      payload: getRequestParams?.bind(this)
+                    })
+                  }
+                )
+              }
+
+              return result
+            }, {
+              required: [],
+              notRequired: [],
+              requiredAndDependentTreeNode: [],
+              notRequiredButDependentTreeNode: []
+            })
+
+            if (dispatches.required.length || dispatches.requiredAndDependentTreeNode.length) {
+              await this._beforeRequiredEnumsLoaded()
+            }
+
+            await Promise.all(dispatches.required.map(cb => cb()))
+            // 捕获到必填字段的 promise 异常会阻断此处代码继续往下执行
+            this.isRequiredEnumsLoaded = true
+
+            if (dispatches.notRequired.length) {
+              await Promise.all(dispatches.notRequired.map(cb => cb()))
+            }
+
+            if (dispatches.requiredAndDependentTreeNode.length || dispatches.notRequiredButDependentTreeNode.length) {
+              this.$watch(
+                () => this.search,
+                async (newSearch, oldSearch) => {
+                  // 注意此处必须判断新值和旧值，不然会造成死循环
+                  if (newSearch[this.treeIdField] && newSearch[this.treeIdField] !== oldSearch[this.treeIdField]) {
+                    await Promise.all(dispatches.requiredAndDependentTreeNode.map(cb => cb()))
+                    this.isRequiredAndDependentTreeNodeEnumsLoaded = true
+
+                    if (dispatches.notRequiredButDependentTreeNode.length) {
+                      await Promise.all(dispatches.notRequiredButDependentTreeNode.map(cb => cb()))
+                    }
+                  }
+                },
+                { deep: true }
+              )
+            } else {
+              // 捕获到必填字段的 promise 异常会阻断此处代码继续往下执行
+              this.isRequiredAndDependentTreeNodeEnumsLoaded = true
+            }
+          }
+        } catch (error) {
+          throw new Error(error)
+        }
+      },
+      /**
+       * 初始化异步请求参数的枚举
+       * @returns {Promise<void>}
+       * @private
+       */
+      async _beforeRequiredEnumsLoaded() {
+        // 将异步参数加入任务队列，防止在左侧树组件未初始化完成的情况下请求列表数据
+        this.$store.commit('setState', {
+          moduleName: this.moduleName,
+          stateName: 'taskQueues',
+          merge: true,
+          value: this._afterRequiredEnumsLoaded()
+        })
+
+        if (typeof beforeRequiredEnumsLoaded === 'function') {
+          await beforeRequiredEnumsLoaded.call(this)
+        }
+      },
+      async _afterRequiredEnumsLoaded() {
+        while (!this.isRequiredEnumsLoaded || !this.isRequiredAndDependentTreeNodeEnumsLoaded) {
+          await sleep()
+        }
+
+        if (typeof afterRequiredEnumsLoaded === 'function') {
+          await afterRequiredEnumsLoaded.call(this)
+        }
+
+        return Promise.resolve({})
+      },
       convertBoolean(value) {
         const temp = {}
 

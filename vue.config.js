@@ -42,7 +42,7 @@ module.exports = {
     requireModuleExtension: true,
     loaderOptions: {
       // 引入sass全局变量文件
-      sass: { sassOptions: { prependData: '@import "~@/assets/styles/themeFromLess.scss"' } }, // 未生效
+      sass: { sassOptions: { prependData: '@use "~@/assets/styles/themeFromLess.scss" as *' } }, // 未生效
       // 启用内联JavaScript。ant-design-vue使用less编写，且使用了内联写法，所以需要开启
       less: { lessOptions: { javascriptEnabled: true, math: 'always' } }
     }
@@ -90,7 +90,20 @@ module.exports = {
     const svgRule = config.module.rule('svg')
 
     svgRule.uses.clear()
-    svgRule.use('vue-svg-loader').loader('vue-svg-loader')
+    svgRule
+      .exclude.add(resolve(join(__dirname, `src/apps/${apn}/views/Console/components/Map/images`)))
+      .end()
+      .use('vue-svg-loader')
+      .loader('vue-svg-loader')
+      .end()
+
+    config.module.rule('svg-url')
+      .test(/\.svg$/)
+      .include.add(resolve(join(__dirname, `src/apps/${apn}/views/Console/components/Map/images`)))
+      .end()
+      .use('svg-url-loader')
+      .loader('svg-url-loader')
+      .tap(options => ({ limit: 10000 }))
 
     // 使用 ProvidePlugin 预加载的文件集合
     const PROVIDE_PLUGIN_PAYLOAD = {

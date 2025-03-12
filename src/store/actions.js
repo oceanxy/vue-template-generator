@@ -164,13 +164,13 @@ export default {
           rows = []
         }
 
-        if ('pagination' in targetModuleName) {
+        if ('pagination' in targetModuleName && ('pageIndex' in data) && 'pageSize' in data) {
           commit('setPagination', {
             moduleName,
             submoduleName,
             value: {
-              pageIndex: data.pageIndex,
-              pageSize: data.pageSize,
+              pageIndex: data.pageIndex || 0,
+              pageSize: data.pageSize || 0,
               total: data.totalNum
             }
           })
@@ -330,7 +330,7 @@ export default {
    *  处于对话框中的编辑功能需要在操作成功后关闭对话框以及刷新列表。如果不处于对话框，请设置为false，避免执行无用逻辑。
    * @param {string} [customApiName] - 自定义请求API
    * @param {boolean} [isFetchList] - 默认 false。当为 true 时，请特别注意参数问题（parametersOfOtherAction）
-   * @param {boolean} [isResetSelectedRows] - 默认false（批量操作默认true），是都在成功执行后清空已选中行（批量更新时很重要）
+   * @param {boolean} [isResetSelectedRows] - 默认false（批量操作默认true），是否在成功执行后清空已选中行（批量更新时很重要）
    * @param {{
    *  moduleName: string;
    *  submoduleName: string;
@@ -497,8 +497,10 @@ export default {
    * @param {string} moduleName
    * @param {string} submoduleName
    * @param {string} stateName - 自定义 state 的名称
-   * @param {Object} - payload 请求参数
+   * @param {Object|Function} payload - 请求参数
    * @param {string} customApiName - 自定义请求数据 api 的名称
+   * @param {{paramName: string, getParam: (list: []) => any}} [injectToSearch] - 数据请求成功后，按照 getParam 函数提供的
+   * 取数逻辑，将数据注入到 store.state.search 的 “paramName” 字段。
    * @returns {Promise<*>}
    */
   async getListWithLoadingStatus(
@@ -512,7 +514,8 @@ export default {
       submoduleName,
       stateName,
       payload,
-      customApiName
+      customApiName,
+      injectToSearch
     }
   ) {
     commit('setLoading', {
@@ -521,6 +524,10 @@ export default {
       submoduleName,
       stateName
     })
+
+    if (typeof payload === 'function') {
+      payload = payload(submoduleName ? state[moduleName][submoduleName] : state[moduleName])
+    }
 
     const response = await this.apis[customApiName](payload)
 
@@ -544,6 +551,16 @@ export default {
         submoduleName,
         stateName
       })
+
+      if (injectToSearch?.paramName && typeof injectToSearch?.getParam === 'function') {
+        commit('setState', {
+          value: { [injectToSearch.paramName]: injectToSearch?.getParam(result) },
+          moduleName,
+          submoduleName,
+          stateName: 'search',
+          merge: true
+        })
+      }
     }
 
     commit('setLoading', {

@@ -1,6 +1,6 @@
 import './assets/styles/index.scss'
 import { Empty, Icon, Input, Spin, Tree } from 'ant-design-vue'
-import { getFirstLetterOfEachWordOfAppName } from '@/utils/utilityFunction'
+import { getFirstLetterOfEachWordOfAppName, sleep } from '@/utils/utilityFunction'
 import TGContainerWithSider from '@/components/TGContainerWithSider'
 import { cloneDeep, debounce } from 'lodash'
 
@@ -185,12 +185,8 @@ export default {
   watch: {
     'dataSource.list': {
       deep: true,
-      handler(value, value2) {
-        if (value === value2) {
-          return
-        }
-
-        this.treeDataSource = value
+      handler(treeData) {
+        this.treeDataSource = treeData
       }
     },
     searchValue(value) {
@@ -199,15 +195,17 @@ export default {
       this.treeDataSource = this.filter(newTreeDataSource, value)
     }
   },
-  created() {
-    this.defaultExpandedTreeIds = [
-      ...this.defaultExpandedKeys,
-      this.$route.query[this.getFieldNameForTreeId()],
-      this.$route.params[this.getFieldNameForTreeId()]
-    ].filter(id => id !== undefined)
-  },
-  async mounted() {
-    this.status = await this.getTree()
+  async created() {
+    // 非空模式下会在获取到树的数据后自动请求列表数据
+    if (this.notNoneMode) {
+      // 将初始化异步参数任务加入任务队列
+      this.$store.commit('setState', {
+        moduleName: this.moduleName,
+        stateName: 'taskQueues',
+        merge: true,
+        value: this.initSearchParams()
+      })
+    }
 
     // 订阅指定的 actions。当本页面指定的 action 被触发后，更新树。
     if (this.actionsForUpdateTree.length) {
@@ -220,39 +218,23 @@ export default {
       })
     }
 
-    if (this.status) {
-      const treeIdField = this.getFieldNameForTreeId(1)
+    this.defaultExpandedTreeIds = [
+      ...this.defaultExpandedKeys,
+      this.$route.query[this.getFieldNameForTreeId()],
+      this.$route.params[this.getFieldNameForTreeId()]
+    ].filter(id => id !== undefined)
 
-      // 更新 store.state 里面用于树ID的键名（主要适配每一级树所使用的键名不同的情况）
-      this.$store.commit('setState', {
-        value: treeIdField,
-        moduleName: this.moduleName,
-        stateName: 'treeIdField'
-      })
+    const treeIdField = this.getFieldNameForTreeId(1)
 
-      this.oldTreeIdField = treeIdField
-
-      // 非空模式且至少存在一条可选择的数据下执行
-      if (this.notNoneMode && this.dataSource.list?.length) {
-        // 为了保证其他组件完成对 search 参数的注入（如果有，比如 inquiry 组件需要向 store.state.search 注入必传参数时），
-        // 尽量保证本组件触发页面列表数据查询的时间延后。
-        // （注意 VUE 的生命周期顺序：父级组件的 mounted 在所有子级组件 mounted 后才会执行）
-        this.$nextTick(async () => {
-          await this.$store.dispatch('setSearch', {
-            payload: {
-              ...this.injectSearchParamsOfTable(this.dataSource.list?.[0] ?? {}), // 获取额外请求参数
-              [this.treeIdField]: this.dataSource.list?.[0]?.[this.replaceFields.value], // 获取树ID
-              ...this.$route.query, // 获取地址栏的值
-              /* #1 （一个书签，与本组件 #2 书签配合） */
-              ...this.$route.params // 获取清空 query 后，通过 route.params 传递的参数。
-            },
-            moduleName: this.moduleName,
-            isResetSelectedRows: true,
-            ...this.optionsOfGetList
-          })
-        })
-      }
-    }
+    // 更新 store.state 里面用于树ID的键名（主要适配每一级树所使用的键名不同的情况）
+    this.$store.commit('setState', {
+      value: treeIdField,
+      moduleName: this.moduleName,
+      stateName: 'treeIdField'
+    })
+    this.oldTreeIdField = treeIdField
+    // 请求树的数据
+    this.status = await this.getTree()
   },
   async beforeDestroy() {
     // 退出页面前先清空搜索参数，避免下次进页面时参数错乱
@@ -266,6 +248,23 @@ export default {
     })
   },
   methods: {
+    async initSearchParams() {
+      while (!this.status) {
+        await sleep(100)
+      }
+
+      if (this.dataSource.list?.length) {
+        return Promise.resolve({
+          ...this.injectSearchParamsOfTable(this.dataSource.list?.[0] ?? {}), // 获取额外请求参数
+          [this.treeIdField]: this.dataSource.list?.[0]?.[this.replaceFields.value], // 获取树ID
+          ...this.$route.query, // 获取地址栏的值
+          /* #1 （一个书签，与本组件 #2 书签配合） */
+          ...this.$route.params // 获取清空 query 后，通过 route.params 传递的参数。
+        })
+      } else {
+        return Promise.reject('未获取到树数据')
+      }
+    },
     /**
      * 获取树的渲染数据
      * @returns {Promise<any>}
@@ -507,7 +506,7 @@ export default {
      * 展开树
      * @param expandedKeys
      */
-    onExpand(expandedKeys, {expanded}) {
+    onExpand(expandedKeys, { expanded }) {
       this.isCollapsedManually = !expanded
       this.expandedKeysFormEvent = expandedKeys
     }
@@ -525,7 +524,7 @@ export default {
         {this.$slots.default}
         <div slot={'sider'} class="tg-tree-data">
           <Input
-            prefix={<Icon type={'search'} style={{fontSize: '14px'}} />}
+            prefix={<Icon type={'search'} style={{ fontSize: '14px' }} />}
             allowClear
             placeholder={this.placeholder}
             onChange={debounce(this.onTreeSearch, 300)}
